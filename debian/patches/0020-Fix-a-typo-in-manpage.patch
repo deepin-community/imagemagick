@@ -1,0 +1,163 @@
+From 2cb9cd8373ef81071c7963bb3f65c093fc3e400e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bastien=20Roucari=C3=A8s?= <rouca@debian.org>
+Date: Mon, 27 Jul 2020 10:44:26 +0200
+Subject: Fix a typo in manpage
+
+debian-bug: 953279
+---
+ utilities/animate.1.in   | 2 +-
+ utilities/compare.1.in   | 2 +-
+ utilities/composite.1.in | 2 +-
+ utilities/conjure.1.in   | 2 +-
+ utilities/convert.1.in   | 2 +-
+ utilities/display.1.in   | 2 +-
+ utilities/identify.1.in  | 2 +-
+ utilities/import.1.in    | 2 +-
+ utilities/mogrify.1.in   | 2 +-
+ utilities/montage.1.in   | 2 +-
+ utilities/stream.1.in    | 2 +-
+ 11 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/utilities/animate.1.in b/utilities/animate.1.in
+index eaf7609979..5e5b683584 100644
+--- a/utilities/animate.1.in
++++ b/utilities/animate.1.in
+@@ -94,7 +94,7 @@ By default, the image format of `file' is determined by its magic number.  To sp
+ Buttons: 
+   1    press to map or unmap the Command widget
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/compare.1.in b/utilities/compare.1.in
+index 286dac302e..a5073a0e8e 100644
+--- a/utilities/compare.1.in
++++ b/utilities/compare.1.in
+@@ -96,7 +96,7 @@ Two images are considered similar if their difference according to the specified
+ 
+ The compare program returns 2 on error, 0 if the images are similar, or a value between 0 and 1 if they are not similar.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/composite.1.in b/utilities/composite.1.in
+index 4212b23b0b..b9b1ce3fbb 100644
+--- a/utilities/composite.1.in
++++ b/utilities/composite.1.in
+@@ -109,7 +109,7 @@ Miscellaneous Options:
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/conjure.1.in b/utilities/conjure.1.in
+index 1416f5545d..65e4e0adf6 100644
+--- a/utilities/conjure.1.in
++++ b/utilities/conjure.1.in
+@@ -27,7 +27,7 @@ In additiion, define any key value pairs required by your script.  For example,
+ 
+     conjure \-size 100x100 \-color blue \-foo bar script.msl
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/convert.1.in b/utilities/convert.1.in
+index 1eb437ea01..c36255dd8a 100644
+--- a/utilities/convert.1.in
++++ b/utilities/convert.1.in
+@@ -317,7 +317,7 @@ Use any setting or operator as an \fIoutput-option\fP.  Only a limited number of
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/display.1.in b/utilities/display.1.in
+index 8a5aaad708..4b625e7e3f 100644
+--- a/utilities/display.1.in
++++ b/utilities/display.1.in
+@@ -132,7 +132,7 @@ The display program defaults to the X screen resolution.  To display vector form
+ 
+   display -density 72 drawing.svg
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/identify.1.in b/utilities/identify.1.in
+index 392806fc93..300a840321 100644
+--- a/utilities/identify.1.in
++++ b/utilities/identify.1.in
+@@ -73,7 +73,7 @@ By default, the image format of `file' is determined by its magic number.  To sp
+ Although some options appear to modify the file to be identified, the identify command is strictly \fBread only\fP. For instance, the crop option crops the in-memory image and then describes the result.
+ 
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/import.1.in b/utilities/import.1.in
+index 395db5cb38..936817c637 100644
+--- a/utilities/import.1.in
++++ b/utilities/import.1.in
+@@ -92,7 +92,7 @@ Miscellaneous Options:
+ 
+ By default, 'file' is written in the Postscript image format.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/mogrify.1.in b/utilities/mogrify.1.in
+index 30c09e328f..551235e9de 100644
+--- a/utilities/mogrify.1.in
++++ b/utilities/mogrify.1.in
+@@ -320,7 +320,7 @@ Miscellaneous Options:
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/montage.1.in b/utilities/montage.1.in
+index 0f49b01931..4591096569 100644
+--- a/utilities/montage.1.in
++++ b/utilities/montage.1.in
+@@ -142,7 +142,7 @@ In addition to those listed above, you can specify these standard X resources as
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/stream.1.in b/utilities/stream.1.in
+index 6cba1d3009..ef00a7a369 100644
+--- a/utilities/stream.1.in
++++ b/utilities/stream.1.in
+@@ -52,7 +52,7 @@ Miscellaneous Options:
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
