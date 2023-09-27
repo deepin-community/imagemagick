@@ -1,0 +1,63 @@
+Backport of
+
+From d77c01e560e973177feed4915ffd7dd1a45fd763 Mon Sep 17 00:00:00 2001
+From: Cristy <urban-warrior@imagemagick.org>
+Date: Fri, 3 Feb 2023 09:33:01 -0500
+Subject: [PATCH] move `-set profile` handler to CLI
+
+--- imagemagick-6.9.11.60+dfsg.orig/magick/property.c
++++ imagemagick-6.9.11.60+dfsg/magick/property.c
+@@ -4399,26 +4399,6 @@ MagickExport MagickBooleanType SetImageP
+           geometry=DestroyString(geometry);
+           break;
+         }
+-      if (LocaleCompare("profile",property) == 0)
+-        {
+-          ImageInfo
+-            *image_info;
+-
+-          StringInfo
+-            *profile;
+-
+-          image_info=AcquireImageInfo();
+-          (void) CopyMagickString(image_info->filename,value,MaxTextExtent);
+-          (void) SetImageInfo(image_info,1,exception);
+-          profile=FileToStringInfo(image_info->filename,~0UL,exception);
+-          if (profile != (StringInfo *) NULL)
+-            {
+-              status=SetImageProfile(image,image_info->magick,profile);
+-              profile=DestroyStringInfo(profile);
+-            }
+-          image_info=DestroyImageInfo(image_info);
+-          break;
+-        }
+       status=AddValueToSplayTree((SplayTreeInfo *) image->properties,
+         ConstantString(property),ConstantString(value));
+       break;
+--- imagemagick-6.9.11.60+dfsg.orig/wand/mogrify.c
++++ imagemagick-6.9.11.60+dfsg/wand/mogrify.c
+@@ -2840,7 +2840,23 @@ WandExport MagickBooleanType MogrifyImag
+                   (void) SetImageArtifact(*image,argv[i+1]+7,value);
+                 }
+               else
+-                (void) SetImageProperty(*image,argv[i+1],value);
++                if (LocaleCompare(argv[i+1],"profile") == 0)
++                  {
++                    StringInfo
++                      *profile = (StringInfo *) NULL;
++
++                    (void) CopyMagickString(image_info->filename,value,MaxTextExtent);
++                    (void) SetImageInfo(image_info,1,exception);
++                    if (LocaleCompare(image_info->filename,"-") != 0)
++                      profile=FileToStringInfo(image_info->filename,~0UL,exception);
++                    if (profile != (StringInfo *) NULL)
++                      {
++                        status=SetImageProfile(image,image_info->magick,profile);
++                        profile=DestroyStringInfo(profile);
++                      }
++                  }
++                else
++                  (void) SetImageProperty(*image,argv[i+1],value);
+             value=DestroyString(value);
+             break;
+           }

@@ -1,0 +1,39 @@
+From 1012523f76edd9c46ea5a9dff6062fefffb51a40 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bastien=20ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
+Date: Tue, 15 Sep 2015 22:01:13 +0200
+Subject: Use modern idiom for autoconf
+
+Forwarded: yes, https://github.com/ImageMagick/ImageMagick/issues/305
+---
+ configure.ac | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 7963576e31..37ed00c988 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -208,9 +208,9 @@ AC_SUBST([SBIN_DIR])
+ eval "eval LIBEXEC_DIR=$libexecdir"
+ AC_SUBST([LIBEXEC_DIR])
+ eval "eval DATA_DIR=$datadir"
+-AC_SUBST([DATA_DIR])
+-eval "eval DOC_DIR=$datadir/doc"
+-AC_SUBST([DOC_DIR])
++AC_SUBST(DATA_DIR)
++eval "eval DOC_DIR=$docdir"
++AC_SUBST(DOC_DIR)
+ eval "eval SYSCONF_DIR=$sysconfdir"
+ AC_SUBST([SYSCONF_DIR])
+ eval "eval SHAREDSTATE_DIR=$sharedstatedir"
+@@ -3048,9 +3048,8 @@ AC_SUBST([FILTER_PATH])
+ 
+ #
+ # Path to ImageMagick documentation files
+-DOCUMENTATION_RELATIVE_PATH="${PACKAGE_NAME}-${MAGICK_MAJOR_VERSION}"
+-DOCUMENTATION_PATH="${DOC_DIR}/${DOCUMENTATION_RELATIVE_PATH}"
+-DEFINE_DOCUMENTATION_PATH="${DOC_DIR}/${DOCUMENTATION_RELATIVE_PATH}/"
++DOCUMENTATION_PATH="${DOC_DIR}"
++DEFINE_DOCUMENTATION_PATH="${DOC_DIR}"
+ case "${build_os}" in
+   mingw* )
+     DEFINE_DOCUMENTATION_PATH=`$WinPathScript "$DEFINE_DOCUMENTATION_PATH" 1`

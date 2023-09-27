@@ -1,0 +1,24 @@
+Author: Steve Beattie <steve.beattie@canonical.com>
+Subject: disable ghostscript handled formats based on -SAFER insecurity
+
+Based on Tavis Ormandy's Recommendations
+updated: 2019-11-11
+
+---
+ config/policy.xml |    5 +++++
+ 1 file changed, 5 insertions(+)
+
+--- a/config/policy.xml
++++ b/config/policy.xml
+@@ -86,4 +86,11 @@
+   <policy domain="delegate" rights="none" pattern="HTTP" />
+   <!-- in order to avoid to get image with password text -->
+   <policy domain="path" rights="none" pattern="@*"/>
++  <!-- disable ghostscript format types -->
++  <policy domain="coder" rights="none" pattern="PS" />
++  <policy domain="coder" rights="none" pattern="PS2" />
++  <policy domain="coder" rights="none" pattern="PS3" />
++  <policy domain="coder" rights="none" pattern="EPS" />
++  <policy domain="coder" rights="none" pattern="PDF" />
++  <policy domain="coder" rights="none" pattern="XPS" />
+ </policymap>
