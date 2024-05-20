@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -193,11 +193,11 @@ static Image *ReadTEXTImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -221,10 +221,11 @@ static Image *ReadTEXTImage(const ImageInfo *image_info,
         flags;
 
       flags=ParseGeometry(PSDensityGeometry,&geometry_info);
-      image->x_resolution=geometry_info.rho;
-      image->y_resolution=geometry_info.sigma;
-      if ((flags & SigmaValue) == 0)
-        image->y_resolution=image->x_resolution;
+      if ((flags & RhoValue) != 0)
+        image->x_resolution=geometry_info.rho;
+      image->y_resolution=image->x_resolution;
+      if ((flags & SigmaValue) != 0)
+        image->y_resolution=geometry_info.sigma;
     }
   page.width=612;
   page.height=792;
@@ -350,7 +351,7 @@ static Image *ReadTEXTImage(const ImageInfo *image_info,
     }
   (void) AnnotateImage(image,draw_info);
   if (texture != (Image *) NULL)
-    texture=DestroyImage(texture);
+    texture=DestroyImageList(texture);
   draw_info=DestroyDrawInfo(draw_info);
   (void) CloseBlob(image);
   if (status == MagickFalse)
@@ -432,11 +433,11 @@ static Image *ReadTXTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -463,7 +464,7 @@ static Image *ReadTXTImage(const ImageInfo *image_info,ExceptionInfo *exception)
       ThrowReaderException(CorruptImageError,"ImproperImageHeader");
     image->columns=width;
     image->rows=height;
-    if ((max_value == 0.0) || (max_value > 18446744073709551615.0))
+    if ((max_value == 0.0) || (max_value >= 18446744073709551615.0))
       ThrowReaderException(CorruptImageError,"ImproperImageHeader");
     for (depth=1; ((double) GetQuantumRange(depth)+1) < max_value; depth++) ;
     image->depth=depth;
@@ -560,31 +561,23 @@ static Image *ReadTXTImage(const ImageInfo *image_info,ExceptionInfo *exception)
             break;
           }
         }
-        if (strchr(text,'%') != (char *) NULL)
-          {
-            red*=0.01*range;
-            green*=0.01*range;
-            blue*=0.01*range;
-            index*=0.01*range;
-            opacity*=0.01*range;
-          }
         if (image->colorspace == LabColorspace)
           {
             green+=(range+1)/2.0;
             blue+=(range+1)/2.0;
           }
-        pixel.red=(MagickRealType) ScaleAnyToQuantum((QuantumAny)
-          MagickMax(red+0.5,0.0),range);
-        pixel.green=(MagickRealType) ScaleAnyToQuantum((QuantumAny)
-          MagickMax(green+0.5,0.0),range);
-        pixel.blue=(MagickRealType) ScaleAnyToQuantum((QuantumAny)
-          MagickMax(blue+0.5,0.0),range);
-        pixel.index=(MagickRealType) ScaleAnyToQuantum((QuantumAny)
-          MagickMax(index+0.5,0.0),range);
-        pixel.opacity=(MagickRealType) ScaleAnyToQuantum((QuantumAny)
-          MagickMax(opacity+0.5,0.0),range);
-        q=GetAuthenticPixels(image,CastDoubleToLong(x_offset),
-          CastDoubleToLong(y_offset),1,1,exception);
+        pixel.red=(MagickRealType) ScaleAnyToQuantum(CastDoubleToQuantumAny(
+          red),range);
+        pixel.green=(MagickRealType) ScaleAnyToQuantum(CastDoubleToQuantumAny(
+          green),range);
+        pixel.blue=(MagickRealType) ScaleAnyToQuantum(CastDoubleToQuantumAny(
+          blue),range);
+        pixel.index=(MagickRealType) ScaleAnyToQuantum(CastDoubleToQuantumAny(
+          index),range);
+        pixel.opacity=(MagickRealType) ScaleAnyToQuantum(CastDoubleToQuantumAny(
+          opacity),range);
+        q=GetAuthenticPixels(image,CastDoubleToLong(x_offset),CastDoubleToLong(
+          y_offset),1,1,exception);
         if (q == (PixelPacket *) NULL)
           {
             status=MagickFalse;
@@ -631,7 +624,7 @@ static Image *ReadTXTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   } while (LocaleNCompare((char *) text,MagickID,strlen(MagickID)) == 0);
   (void) CloseBlob(image);
   if (q == (PixelPacket *) NULL)
-    return(DestroyImage(image));
+    return(DestroyImageList(image));
   return(GetFirstImageInList(image));
 }
 
@@ -745,6 +738,12 @@ static MagickBooleanType WriteTXTImage(const ImageInfo *image_info,Image *image)
     colorspace[MaxTextExtent],
     tuple[MaxTextExtent];
 
+  const IndexPacket
+    *indexes;
+
+  const PixelPacket
+    *p;
+
   MagickBooleanType
     status;
 
@@ -754,19 +753,11 @@ static MagickBooleanType WriteTXTImage(const ImageInfo *image_info,Image *image)
   MagickPixelPacket
     pixel;
 
-  const IndexPacket
-    *indexes;
-
-  const PixelPacket
-    *p;
-
-  ssize_t
-    x;
-
   size_t
-    imageListLength;
+    number_scenes;
 
   ssize_t
+    x,
     y;
 
   /*
@@ -776,13 +767,13 @@ static MagickBooleanType WriteTXTImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     ComplianceType
@@ -819,7 +810,8 @@ static MagickBooleanType WriteTXTImage(const ImageInfo *image_info,Image *image)
       indexes=GetVirtualIndexQueue(image);
       for (x=0; x < (ssize_t) image->columns; x++)
       {
-        SetMagickPixelPacket(image,p,indexes+x,&pixel);
+        SetMagickPixelPacket(image,p,indexes == (IndexPacket *) NULL ? NULL :
+          indexes+x,&pixel);
         if (LocaleCompare(image_info->magick,"SPARSE-COLOR") == 0)
           {
             /*
@@ -878,7 +870,7 @@ static MagickBooleanType WriteTXTImage(const ImageInfo *image_info,Image *image)
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);

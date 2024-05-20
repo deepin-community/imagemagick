@@ -15,7 +15,7 @@
 %                                February 2008                                %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -231,6 +231,8 @@ static MagickBooleanType WriteBRAILLEImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (LocaleCompare(image_info->magick,"UBRL") == 0)
     unicode=1;
   else
@@ -250,8 +252,6 @@ static MagickBooleanType WriteBRAILLEImage(const ImageInfo *image_info,
         }
       else
         cell_height=3;
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
@@ -288,7 +288,7 @@ static MagickBooleanType WriteBRAILLEImage(const ImageInfo *image_info,
   if (image->storage_class == PseudoClass)
     {
       polarity=(IndexPacket) (GetPixelLuma(image,&image->colormap[0]) >=
-        (QuantumRange/2.0));
+        ((MagickRealType) QuantumRange/2.0));
       if (image->colors == 2)
         polarity=(IndexPacket) (GetPixelLuma(image,&image->colormap[0]) >=
           GetPixelLuma(image,&image->colormap[1]));

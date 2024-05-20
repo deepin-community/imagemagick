@@ -17,7 +17,7 @@
 %                                 March 2000                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -58,6 +58,7 @@
 #include "magick/image.h"
 #include "magick/image-private.h"
 #include "magick/layer.h"
+#include "magick/locale_.h"
 #include "magick/mime-private.h"
 #include "magick/memory_.h"
 #include "magick/memory-private.h"
@@ -89,11 +90,10 @@
 #include "CLPerfMarker.h"
 #endif
 
-
 #if defined(MAGICKCORE_OPENCL_SUPPORT)
 
-#ifdef MAGICKCORE_HAVE_OPENCL_CL_H
-#define MAGICKCORE_OPENCL_MACOSX  1
+#if defined(MAGICKCORE_LTDL_DELEGATE)
+#include "ltdl.h"
 #endif
 
 #define NUM_CL_RAND_GENERATORS 1024  /* number of random number generators running in parallel */
@@ -254,9 +254,13 @@ void DumpProfileData()
   for (i = 0; i < KERNEL_COUNT; ++i) {
     char buf[4096];
     char indent[160];
-    strcpy(indent, "                              ");
+    (void) CopyMagickString(indent,"                              ",
+      sizeof(indent);
     strncpy(indent, kernelNames[i], min(strlen(kernelNames[i]), strlen(indent) - 1));
-    sprintf(buf, "%s%d\t(%d calls)   \t%d -> %d", indent, profileRecords[i].count > 0 ? (profileRecords[i].total / profileRecords[i].count) : 0, profileRecords[i].count, profileRecords[i].min, profileRecords[i].max);
+    (void) FormatLocaleString(buf,sizeof(buf),"%s%d\t(%d calls)   \t%d -> %d",
+      indent, profileRecords[i].count > 0 ? (profileRecords[i].total /
+      profileRecords[i].count) : 0, profileRecords[i].count,
+      profileRecords[i].min, profileRecords[i].max);
     /*
       printf("%s%d\t(%d calls)   \t%d -> %d\n", indent, profileRecords[i].count > 0 ? (profileRecords[i].total / profileRecords[i].count) : 0, profileRecords[i].count, profileRecords[i].min, profileRecords[i].max);
     */
@@ -395,7 +399,7 @@ SemaphoreInfo* OpenCLLibLock;
 
 static MagickBooleanType bindOpenCLFunctions(void* library)
 {
-#ifdef MAGICKCORE_OPENCL_MACOSX
+#ifdef MAGICKCORE_HAVE_OPENCL_CL_H
 #define BIND(X) OpenCLLib->X= &X;
 #else
 #define BIND(X)\
@@ -1100,7 +1104,8 @@ static MagickBooleanType CompileOpenCLKernels(MagickCLEnv clEnv, ExceptionInfo* 
 
   /* get all the OpenCL program strings here */
   accelerateKernelsBuffer = (char*) AcquireQuantumMemory(1,strlen(accelerateKernels)+strlen(accelerateKernels2)+1);
-  sprintf(accelerateKernelsBuffer,"%s%s",accelerateKernels,accelerateKernels2);
+  FormatLocaleString(accelerateKernelsBuffer,strlen(accelerateKernels)+
+    strlen(accelerateKernels2)+1,"%s%s",accelerateKernels,accelerateKernels2);
   MagickOpenCLProgramStrings[MAGICK_OPENCL_ACCELERATE] = accelerateKernelsBuffer;
 
   for (i = 0; i < MAGICK_OPENCL_NUM_PROGRAMS; i++)
@@ -1210,18 +1215,19 @@ static MagickBooleanType InitOpenCLPlatformDevice(MagickCLEnv clEnv, ExceptionIn
 
   /* check if there's an environment variable overriding the device selection */
   MAGICK_OCL_DEVICE = getenv("MAGICK_OCL_DEVICE");
-  if (MAGICK_OCL_DEVICE != NULL)
-  {
-    if (strcmp(MAGICK_OCL_DEVICE, "CPU") == 0)
-      clEnv->deviceType = CL_DEVICE_TYPE_CPU;
-    else if (strcmp(MAGICK_OCL_DEVICE, "GPU") == 0)
-      clEnv->deviceType = CL_DEVICE_TYPE_GPU;
-    else if (IsStringNotFalse(MAGICK_OCL_DEVICE) == MagickFalse)
-      goto cleanup;
-  }
-  else if (clEnv->deviceType == 0) {
-    clEnv->deviceType = CL_DEVICE_TYPE_ALL;
-  }
+  if (MAGICK_OCL_DEVICE == (char *) NULL)
+    return(MagickFalse);
+  if (strcmp(MAGICK_OCL_DEVICE, "CPU") == 0)
+    clEnv->deviceType = CL_DEVICE_TYPE_CPU;
+  else if (strcmp(MAGICK_OCL_DEVICE, "GPU") == 0)
+    clEnv->deviceType = CL_DEVICE_TYPE_GPU;
+  else if (IsStringTrue(MAGICK_OCL_DEVICE) != MagickFalse)
+    {
+      if (clEnv->deviceType == 0)
+        clEnv->deviceType = CL_DEVICE_TYPE_ALL;
+    }
+  else
+    return(MagickFalse);
 
   if (clEnv->device != NULL)
   {
@@ -1467,7 +1473,7 @@ MagickExport
 MagickBooleanType InitOpenCLEnv(MagickCLEnv clEnv, ExceptionInfo* exception) {
   MagickBooleanType status = MagickFalse;
 
-  if (clEnv == NULL)
+  if ((clEnv == NULL) || (getenv("MAGICK_OCL_DEVICE") == (const char *) NULL))
     return MagickFalse;
 
 #ifdef MAGICKCORE_CLPERFMARKER
@@ -1476,8 +1482,7 @@ MagickBooleanType InitOpenCLEnv(MagickCLEnv clEnv, ExceptionInfo* exception) {
 
   LockSemaphoreInfo(clEnv->lock);
   if (clEnv->OpenCLInitialized == MagickFalse) {
-    if (clEnv->device==NULL
-        && clEnv->OpenCLDisabled == MagickFalse)
+    if (clEnv->device==NULL && clEnv->OpenCLDisabled == MagickFalse)
       status = autoSelectDevice(clEnv, exception);
     else
       status = InitOpenCLEnvInternal(clEnv, exception);
@@ -2039,12 +2044,14 @@ static ds_status writeProfileToFile(ds_profile* profile, ds_score_serializer ser
           fwrite(DS_TAG_DEVICE_DRIVER_VERSION_END, sizeof(char), strlen(DS_TAG_DEVICE_DRIVER_VERSION_END), profileFile);
 
           fwrite(DS_TAG_DEVICE_MAX_COMPUTE_UNITS, sizeof(char), strlen(DS_TAG_DEVICE_MAX_COMPUTE_UNITS), profileFile);
-          sprintf(tmp,"%d",profile->devices[i].oclMaxComputeUnits);
+          (void) FormatLocaleString(tmp,sizeof(tmp),"%d",
+            profile->devices[i].oclMaxComputeUnits);
           fwrite(tmp,sizeof(char),strlen(tmp), profileFile);
           fwrite(DS_TAG_DEVICE_MAX_COMPUTE_UNITS_END, sizeof(char), strlen(DS_TAG_DEVICE_MAX_COMPUTE_UNITS_END), profileFile);
 
           fwrite(DS_TAG_DEVICE_MAX_CLOCK_FREQ, sizeof(char), strlen(DS_TAG_DEVICE_MAX_CLOCK_FREQ), profileFile);
-          sprintf(tmp,"%d",profile->devices[i].oclMaxClockFrequency);
+          (void) FormatLocaleString(tmp,sizeof(tmp),"%d",
+            profile->devices[i].oclMaxClockFrequency);
           fwrite(tmp,sizeof(char),strlen(tmp), profileFile);
           fwrite(DS_TAG_DEVICE_MAX_CLOCK_FREQ_END, sizeof(char), strlen(DS_TAG_DEVICE_MAX_CLOCK_FREQ_END), profileFile);
         }
@@ -2525,7 +2532,8 @@ ds_status AccelerateScoreSerializer(ds_device* device, void** serializedScore, u
      && device->score) {
     /* generate a string from the score */
     char* s = (char*) AcquireQuantumMemory(256,sizeof(char));
-    sprintf(s,"%.4f",*((AccelerateScoreType*)device->score));
+    (void) FormatLocaleString(s,256,"%.4f",*((AccelerateScoreType*)
+      device->score));
     *serializedScore = (void*)s;
     *serializedScoreSize = (unsigned int) strlen(s);
     return DS_SUCCESS;

@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -110,11 +110,11 @@ static inline MagickSizeType GetQuantumRange(const size_t depth)
 static inline float HalfToSinglePrecision(const unsigned short half)
 {
 #define ExponentBias  (127-15)
-#define ExponentMask  0x7c00
+#define ExponentMask  (0x7c00U)
 #define ExponentShift  23
 #define SignBitShift  31
 #define SignificandShift  13
-#define SignificandMask  0x00000400
+#define SignificandMask  (0x00000400U)
 
   typedef union _SinglePrecision
   {
@@ -331,11 +331,11 @@ static inline QuantumAny ScaleQuantumToAny(const Quantum quantum,
 #if !defined(MAGICKCORE_HDRI_SUPPORT)
   return((QuantumAny) ((MagickRealType) range*quantum/QuantumRange));
 #else
-  if ((IsNaN(quantum) != 0) || (quantum <= 0.0))
+  if ((IsNaN(quantum) != 0) || (quantum <= 0.0f))
     return((QuantumAny) 0UL);
-  if (((MagickRealType) range*quantum/QuantumRange) >= 18446744073709551615.0)
+  if ((range*(MagickRealType) quantum/(MagickRealType) QuantumRange) >= 18446744073709551615.0)
     return((QuantumAny) MagickULLConstant(18446744073709551615));
-  return((QuantumAny) ((MagickRealType) range*quantum/QuantumRange+0.5));
+  return((QuantumAny) (range*(MagickRealType) quantum/(MagickRealType) QuantumRange+0.5));
 #endif
 }
 
@@ -451,11 +451,11 @@ static inline unsigned int ScaleQuantumToLong(const Quantum quantum)
 #if !defined(MAGICKCORE_HDRI_SUPPORT)
   return((unsigned int) (65537UL*quantum));
 #else
-  if ((IsNaN(quantum) != 0) || (quantum <= 0.0))
+  if ((IsNaN(quantum) != 0) || (quantum <= 0.0f))
     return(0U);
-  if ((65537.0*quantum) >= 4294967295.0)
+  if ((65537.0f*quantum) >= 4294967295.0f)
     return(4294967295U);
-  return((unsigned int) (65537.0*quantum+0.5));
+  return((unsigned int) (65537.0f*quantum+0.5f));
 #endif
 }
 
@@ -466,9 +466,9 @@ static inline unsigned int ScaleQuantumToMap(const Quantum quantum)
 #if !defined(MAGICKCORE_HDRI_SUPPORT)
   return((unsigned int) quantum);
 #else
-  if ((IsNaN(quantum) != 0) || (quantum <= 0.0))
+  if ((IsNaN(quantum) != 0) || (quantum <= 0.0f))
     return(0U);
-  return((unsigned int) (quantum+0.5));
+  return((unsigned int) (quantum+0.5f));
 #endif
 }
 
@@ -477,11 +477,11 @@ static inline unsigned short ScaleQuantumToShort(const Quantum quantum)
 #if !defined(MAGICKCORE_HDRI_SUPPORT)
   return((unsigned short) quantum);
 #else
-  if ((IsNaN(quantum) != 0) || (quantum <= 0.0))
+  if ((IsNaN(quantum) != 0) || (quantum <= 0.0f))
     return(0);
-  if (quantum >= 65535.0)
+  if (quantum >= 65535.0f)
     return(65535);
-  return((unsigned short) (quantum+0.5));
+  return((unsigned short) (quantum+0.5f));
 #endif
 }
 
@@ -511,9 +511,9 @@ static inline Quantum ScaleMapToQuantum(const MagickRealType value)
   if (value >= (Quantum) MaxMap)
     return(QuantumRange);
 #if !defined(MAGICKCORE_HDRI_SUPPORT)
-  return((Quantum) (65537.0*value+0.5));
+  return((Quantum) (65537.0f*value+0.5f));
 #else
-  return((Quantum) (65537.0*value));
+  return((Quantum) (65537.0f*value));
 #endif
 }
 
@@ -659,7 +659,7 @@ static inline unsigned short SinglePrecisionToHalf(const float value)
         return((unsigned short) sign_bit);
       significand=significand | 0x00800000;
       shift=(int) (14-exponent);
-      significand=(unsigned int) ((significand+((1 << (shift-1))-1)+
+      significand=(unsigned int) ((significand+((1U << (shift-1))-1)+
         ((significand >> shift) & 0x01)) >> shift);
       return((unsigned short) (sign_bit | significand));
     }
@@ -698,7 +698,7 @@ static inline unsigned short SinglePrecisionToHalf(const float value)
         alpha*=alpha;
       return((unsigned short) (sign_bit | ExponentMask));
     }
-  half=(unsigned short) (sign_bit | (exponent << 10) |
+  half=(unsigned short) (sign_bit | ((unsigned int) exponent << 10) |
     (significand >> SignificandShift));
   return(half);
 }

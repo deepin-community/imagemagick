@@ -1,46 +1,28 @@
-From 239f4d987de41a153050e4f695cbeb36ddbdda1c Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Bastien=20ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
+From: =?utf-8?q?Bastien_ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
 Date: Wed, 14 Dec 2016 15:23:11 +0100
 Subject: Fix www/api/mophologie.html
 
 Forwarded: Yes, https://github.com/ImageMagick/ImageMagick/issues/304
 ---
- www/api/morphology.html | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ www/api/morphology.html | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/www/api/morphology.html b/www/api/morphology.html
-index 734665c274..184fe8ddeb 100644
+index 1ea7f7f..1bd389c 100644
 --- a/www/api/morphology.html
 +++ b/www/api/morphology.html
-@@ -321,7 +321,7 @@ void ScaleGeometryKernelInfo(KernelInfo *kernel,
-        "-set option:convolve:scale {geometry}" setting.
- </pre>
+@@ -333,7 +333,7 @@
+ <pre class="bg-light text-dark mx-4"><samp>       "-set option:convolve:scale {geometry}" setting.
+ </samp></pre>
  
 -<p></dd>
 +<dd></dd>
  </dl>
  <h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="ScaleKernelInfo">ScaleKernelInfo</a></h2>
  
-@@ -368,14 +368,14 @@ void ScaleKernelInfo(KernelInfo *kernel, const double scaling_factor,
-        zero.  If the kernel is normalized regardless of any flags.
- </pre>
- 
--<p>o normalize_flags: </dd>
-+<dd>o normalize_flags: </dd>
- 
- <pre class="text">
-        specifically: NormalizeValue, CorrelateNormalizeValue,
-                      and/or PercentValue
- </pre>
- 
--<p></dd>
-+<dd></dd>
- </dl>
- <h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="ShowKernelInfo">ShowKernelInfo</a></h2>
- 
-@@ -427,7 +427,7 @@ void UnityAdditionKernelInfo(KernelInfo *kernel, const double scale )
-        the given kernel.
- </pre>
+@@ -433,7 +433,7 @@
+ <pre class="bg-light text-dark mx-4"><samp>       the given kernel.
+ </samp></pre>
  
 -<p></dd>
 +<dd></dd>

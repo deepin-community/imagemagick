@@ -18,7 +18,7 @@
 %                    Based on kmiya's sixel (2014-03-28)                      %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -48,6 +48,7 @@
 #include "magick/color.h"
 #include "magick/color-private.h"
 #include "magick/colormap.h"
+#include "magick/colormap-private.h"
 #include "magick/colorspace.h"
 #include "magick/colorspace-private.h"
 #include "magick/exception.h"
@@ -56,6 +57,7 @@
 #include "magick/image.h"
 #include "magick/image-private.h"
 #include "magick/list.h"
+#include "magick/locale_.h"
 #include "magick/magick.h"
 #include "magick/memory_.h"
 #include "magick/monitor.h"
@@ -83,7 +85,7 @@
 /*
   Macros
 */
-#define SIXEL_RGB(r, g, b) ((int) (((ssize_t) (r) << 16) + ((g) << 8) +  (b)))
+#define SIXEL_RGB(r, g, b) ((int) (((ssize_t) ((r) & 0xff) << 16) + (((g) & 0xff) << 8) +  ((b) & 0xff)))
 #define SIXEL_PALVAL(n,a,m) ((int) (((ssize_t) (n) * (a) + ((m) / 2)) / (m)))
 #define SIXEL_XRGB(r,g,b) SIXEL_RGB(SIXEL_PALVAL(r, 255, 100), SIXEL_PALVAL(g, 255, 100), SIXEL_PALVAL(b, 255, 100))
 
@@ -115,7 +117,7 @@ typedef struct sixel_output {
 
     Image *image;
     int pos;
-    unsigned char buffer[1];
+    unsigned char buffer[MagickMax(SIXEL_OUTPUT_PACKET_SIZE*2,MagickPathExtent)];
 
 } sixel_output_t;
 
@@ -157,13 +159,13 @@ static int hue_to_rgb(int n1, int n2, int hue)
     }
 
     if (hue < (HLSMAX / 6)) {
-        return (n1 + (((n2 - n1) * hue + (HLSMAX / 12)) / (HLSMAX / 6)));
+        return (n1 + (((ssize_t) (n2 - n1) * hue + (HLSMAX / 12)) / (HLSMAX / 6)));
     }
     if (hue < (HLSMAX / 2)) {
         return (n2);
     }
     if (hue < ((HLSMAX * 2) / 3)) {
-        return (n1 + (((n2 - n1) * (((HLSMAX * 2) / 3) - hue) + (HLSMAX / 12))/(HLSMAX / 6)));
+        return (n1 + (((ssize_t) (n2 - n1) * (((HLSMAX * 2) / 3) - hue) + (HLSMAX / 12))/(HLSMAX / 6)));
     }
     return (n1);
 }
@@ -183,11 +185,11 @@ static int hls_to_rgb(int hue, int lum, int sat)
         } else {
             Magic2 = (int) (lum + sat - (((ssize_t) lum * sat) + (HLSMAX / 2)) / HLSMAX);
         }
-        Magic1 = 2 * lum - Magic2;
+        Magic1 = (int) (2 * (ssize_t) lum) - Magic2;
 
-        R = (hue_to_rgb(Magic1, Magic2, hue + (HLSMAX / 3)) * RGBMAX + (HLSMAX / 2)) / HLSMAX;
-        G = (hue_to_rgb(Magic1, Magic2, hue) * RGBMAX + (HLSMAX / 2)) / HLSMAX;
-        B = (hue_to_rgb(Magic1, Magic2, hue - (HLSMAX / 3)) * RGBMAX + (HLSMAX/2)) / HLSMAX;
+        B = (hue_to_rgb(Magic1, Magic2, (ssize_t) hue + (HLSMAX / 3)) * (ssize_t) RGBMAX + (HLSMAX / 2)) / HLSMAX;
+        R = (hue_to_rgb(Magic1, Magic2, hue) * RGBMAX + (ssize_t) (HLSMAX / 2)) / HLSMAX;
+        G = (hue_to_rgb(Magic1, Magic2, (ssize_t) hue - (HLSMAX / 3)) * (ssize_t) RGBMAX + (HLSMAX/2)) / HLSMAX;
     }
     return SIXEL_RGB(R, G, B);
 }
@@ -577,7 +579,7 @@ sixel_output_t *sixel_output_create(Image *image)
 {
     sixel_output_t *output;
 
-    output = (sixel_output_t *) AcquireQuantumMemory(sizeof(sixel_output_t) + SIXEL_OUTPUT_PACKET_SIZE * 2, 1);
+    output = (sixel_output_t *) AcquireMagickMemory(sizeof(sixel_output_t));
     if (output == (sixel_output_t *) NULL)
       return((sixel_output_t *) NULL);
     output->has_8bit_control = 0;
@@ -620,7 +622,9 @@ static int sixel_put_flash(sixel_output_t *const context)
 
     if (context->save_count > 3) {
         /* DECGRI Graphics Repeat Introducer ! Pn Ch */
-        nwrite = sprintf((char *)context->buffer + context->pos, "!%d%c", context->save_count, context->save_pixel);
+        nwrite=FormatLocaleString((char *) context->buffer+context->pos,
+          sizeof(context->buffer),"!%d%c",context->save_count,
+          context->save_pixel);
         if (nwrite <= 0) {
             return (-1);
         }
@@ -685,8 +689,8 @@ static int sixel_put_node(sixel_output_t *const context, int x,
     if (ncolors != 2 || keycolor == -1) {
         /* designate palette index */
         if (context->active_palette != np->color) {
-            nwrite = sprintf((char *)context->buffer + context->pos,
-                             "#%d", np->color);
+            nwrite=FormatLocaleString((char *) context->buffer+context->pos,
+              sizeof(context->buffer),"#%d",np->color);
             sixel_advance(context, nwrite);
             context->active_palette = np->color;
         }
@@ -738,15 +742,18 @@ static MagickBooleanType sixel_encode_impl(unsigned char *pixels, size_t width,s
     (void) memset(map, 0, len);
 
     if (context->has_8bit_control) {
-        nwrite = sprintf((char *)context->buffer, "\x90" "0;0;0" "q");
+        nwrite=FormatLocaleString((char *) context->buffer,
+          sizeof(context->buffer),"\x90" "0;0;0" "q");
     } else {
-        nwrite = sprintf((char *)context->buffer, "\x1bP" "0;0;0" "q");
+        nwrite=FormatLocaleString((char *) context->buffer,
+          sizeof(context->buffer),"\x1bP" "0;0;0" "q");
     }
     if (nwrite <= 0) {
         return (MagickFalse);
     }
     sixel_advance(context, nwrite);
-    nwrite = sprintf((char *)context->buffer + context->pos, "\"1;1;%d;%d", (int) width, (int) height);
+    nwrite=FormatLocaleString((char *) context->buffer+context->pos,
+      sizeof(context->buffer),"\"1;1;%d;%d",(int) width,(int) height);
     if (nwrite <= 0) {
         RelinquishNodesAndMap;
         return (MagickFalse);
@@ -756,11 +763,11 @@ static MagickBooleanType sixel_encode_impl(unsigned char *pixels, size_t width,s
     if (ncolors != 2 || keycolor == -1) {
         for (n = 0; n < (ssize_t) ncolors; n++) {
             /* DECGCI Graphics Color Introducer  # Pc ; Pu; Px; Py; Pz */
-            nwrite = sprintf((char *)context->buffer + context->pos, "#%d;2;%d;%d;%d",
-                             n,
-                             (palette[n * 3 + 0] * 100 + 127) / 255,
-                             (palette[n * 3 + 1] * 100 + 127) / 255,
-                             (palette[n * 3 + 2] * 100 + 127) / 255);
+            nwrite=FormatLocaleString((char *) context->buffer+context->pos,
+              sizeof(context->buffer),"#%d;2;%d;%d;%d",n,
+              (palette[n * 3 + 0] * 100 + 127) / 255,
+              (palette[n * 3 + 1] * 100 + 127) / 255,
+              (palette[n * 3 + 2] * 100 + 127) / 255);
             if (nwrite <= 0) {
                 RelinquishNodesAndMap;
                 return (MagickFalse);
@@ -1012,11 +1019,11 @@ static Image *ReadSIXELImage(const ImageInfo *image_info,ExceptionInfo *exceptio
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -1034,28 +1041,34 @@ static Image *ReadSIXELImage(const ImageInfo *image_info,ExceptionInfo *exceptio
   if (sixel_buffer != (char *) NULL)
     while (ReadBlobString(image,p) != (char *) NULL)
     {
+      ssize_t
+        offset;
+
       if ((*p == '#') && ((p == sixel_buffer) || (*(p-1) == '\n')))
         continue;
       if ((*p == '}') && (*(p+1) == ';'))
         break;
       p+=strlen(p);
-      if ((size_t) (p-sixel_buffer+MaxTextExtent+1) < length)
+      offset=p-sixel_buffer;
+      if ((size_t) (offset+MaxTextExtent+1) < length)
         continue;
       length<<=1;
       sixel_buffer=(char *) ResizeQuantumMemory(sixel_buffer,length+
         MaxTextExtent+1,sizeof(*sixel_buffer));
       if (sixel_buffer == (char *) NULL)
         break;
-      p=sixel_buffer+strlen(sixel_buffer);
+      p=sixel_buffer+offset;
     }
   if (sixel_buffer == (char *) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
   sixel_buffer[length]='\0';
   /*
-    Decode SIXEL
+    Decode SIXEL.
   */
   sixel_pixels=(unsigned char *) NULL;
-  if (sixel_decode(image,(unsigned char *)sixel_buffer, &sixel_pixels, &image->columns, &image->rows, &sixel_palette, &image->colors) == MagickFalse)
+  status=sixel_decode(image,(unsigned char *) sixel_buffer,&sixel_pixels,
+    &image->columns,&image->rows,&sixel_palette,&image->colors);
+  if (status == MagickFalse)
     {
       sixel_buffer=(char *) RelinquishMagickMemory(sixel_buffer);
       if (sixel_pixels != (unsigned char *) NULL)
@@ -1079,12 +1092,12 @@ static Image *ReadSIXELImage(const ImageInfo *image_info,ExceptionInfo *exceptio
       sixel_palette=(unsigned char *) RelinquishMagickMemory(sixel_palette);
       ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
     }
-  for (i = 0; i < (ssize_t) image->colors; ++i) {
-    image->colormap[i].red   = ScaleCharToQuantum(sixel_palette[i * 4 + 0]);
-    image->colormap[i].green = ScaleCharToQuantum(sixel_palette[i * 4 + 1]);
-    image->colormap[i].blue  = ScaleCharToQuantum(sixel_palette[i * 4 + 2]);
+  for (i = 0; i < (ssize_t) image->colors; ++i)
+  {
+    image->colormap[i].red=ScaleCharToQuantum(sixel_palette[i * 4 + 0]);
+    image->colormap[i].green=ScaleCharToQuantum(sixel_palette[i * 4 + 1]);
+    image->colormap[i].blue=ScaleCharToQuantum(sixel_palette[i * 4 + 2]);
   }
-
   j=0;
   if (image_info->ping == MagickFalse)
     {
@@ -1100,7 +1113,9 @@ static Image *ReadSIXELImage(const ImageInfo *image_info,ExceptionInfo *exceptio
         for (x=0; x < (ssize_t) image->columns; x++)
         {
           j=(ssize_t) sixel_pixels[y * image->columns + x];
+          j=ConstrainColormapIndex(image,j);
           SetPixelIndex(indexes+x,j);
+          SetPixelRGBO(r,image->colormap+(ssize_t) j);
           r++;
         }
         if (SyncAuthenticPixels(image,exception) == MagickFalse)
@@ -1255,7 +1270,7 @@ static MagickBooleanType WriteSIXELImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);

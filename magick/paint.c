@@ -17,7 +17,7 @@
 %                                 July 1998                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -116,7 +116,13 @@ MagickExport MagickBooleanType FloodfillPaintImage(Image *image,
 #define PushSegmentStack(up,left,right,delta) \
 { \
   if (s >= (segment_stack+MaxStacksize)) \
-    ThrowBinaryException(DrawError,"SegmentStackOverflow",image->filename) \
+    { \
+      segment_info=RelinquishVirtualMemory(segment_info); \
+      image_view=DestroyCacheView(image_view); \
+      floodplane_view=DestroyCacheView(floodplane_view); \
+      floodplane_image=DestroyImage(floodplane_image); \
+      ThrowBinaryException(DrawError,"SegmentStackOverflow",image->filename) \
+    } \
   else \
     { \
       if ((((up)+(delta)) >= 0) && (((up)+(delta)) < (ssize_t) image->rows)) \
@@ -172,10 +178,10 @@ MagickExport MagickBooleanType FloodfillPaintImage(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(draw_info != (DrawInfo *) NULL);
   assert(draw_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if ((x_offset < 0) || (x_offset >= (ssize_t) image->columns))
     return(MagickFalse);
   if ((y_offset < 0) || (y_offset >= (ssize_t) image->rows))
@@ -210,12 +216,12 @@ MagickExport MagickBooleanType FloodfillPaintImage(Image *image,
   y=y_offset;
   start=0;
   s=segment_stack;
-  PushSegmentStack(y,x,x,1);
-  PushSegmentStack(y+1,x,x,-1);
   GetMagickPixelPacket(image,&fill);
   GetMagickPixelPacket(image,&pixel);
   image_view=AcquireVirtualCacheView(image,exception);
   floodplane_view=AcquireAuthenticCacheView(floodplane_image,exception);
+  PushSegmentStack(y,x,x,1);
+  PushSegmentStack(y+1,x,x,-1);
   while (s > segment_stack)
   {
     const IndexPacket
@@ -399,7 +405,7 @@ MagickExport MagickBooleanType FloodfillPaintImage(Image *image,
 %  vector from one color to another.
 %
 %  Note, the interface of this method will change in the future to support
-%  more than one transistion.
+%  more than one transition.
 %
 %  The format of the GradientImage method is:
 %
@@ -413,7 +419,7 @@ MagickExport MagickBooleanType FloodfillPaintImage(Image *image,
 %
 %    o type: the gradient type: linear or radial.
 %
-%    o spread: the gradient spread meathod: pad, reflect, or repeat.
+%    o spread: the gradient spread method: pad, reflect, or repeat.
 %
 %    o start_color: the start color.
 %
@@ -447,10 +453,10 @@ MagickExport MagickBooleanType GradientImage(Image *image,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(start_color != (const PixelPacket *) NULL);
   assert(stop_color != (const PixelPacket *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   draw_info=AcquireDrawInfo();
   gradient=(&draw_info->gradient);
   gradient->type=type;
@@ -677,7 +683,7 @@ MagickExport MagickBooleanType GradientImage(Image *image,
 %
 */
 
-static size_t **DestroyHistogramThreadSet(size_t **histogram)
+static size_t **DestroyHistogramTLS(size_t **histogram)
 {
   ssize_t
     i;
@@ -690,7 +696,7 @@ static size_t **DestroyHistogramThreadSet(size_t **histogram)
   return(histogram);
 }
 
-static size_t **AcquireHistogramThreadSet(const size_t count)
+static size_t **AcquireHistogramTLS(const size_t count)
 {
   ssize_t
     i;
@@ -710,7 +716,7 @@ static size_t **AcquireHistogramThreadSet(const size_t count)
     histogram[i]=(size_t *) AcquireQuantumMemory(count,
       sizeof(**histogram));
     if (histogram[i] == (size_t *) NULL)
-      return(DestroyHistogramThreadSet(histogram));
+      return(DestroyHistogramTLS(histogram));
   }
   return(histogram);
 }
@@ -747,10 +753,10 @@ MagickExport Image *OilPaintImage(const Image *image,const double radius,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   width=GetOptimalKernelWidth2D(radius,0.5);
   linear_image=CloneImage(image,0,0,MagickTrue,exception);
   paint_image=CloneImage(image,0,0,MagickTrue,exception);
@@ -769,7 +775,7 @@ MagickExport Image *OilPaintImage(const Image *image,const double radius,
       paint_image=DestroyImage(paint_image);
       return((Image *) NULL);
     }
-  histograms=AcquireHistogramThreadSet(NumberPaintBins);
+  histograms=AcquireHistogramTLS(NumberPaintBins);
   if (histograms == (size_t **) NULL)
     {
       linear_image=DestroyImage(linear_image);
@@ -881,7 +887,7 @@ MagickExport Image *OilPaintImage(const Image *image,const double radius,
   }
   paint_view=DestroyCacheView(paint_view);
   image_view=DestroyCacheView(image_view);
-  histograms=DestroyHistogramThreadSet(histograms);
+  histograms=DestroyHistogramTLS(histograms);
   linear_image=DestroyImage(linear_image);
   if (status == MagickFalse)
     paint_image=DestroyImage(paint_image);
@@ -968,7 +974,7 @@ MagickExport MagickBooleanType OpaquePaintImageChannel(Image *image,
   assert(image->signature == MagickCoreSignature);
   assert(target != (MagickPixelPacket *) NULL);
   assert(fill != (MagickPixelPacket *) NULL);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (SetImageStorageClass(image,DirectClass) == MagickFalse)
     return(MagickFalse);
@@ -1114,7 +1120,7 @@ MagickExport MagickBooleanType TransparentPaintImage(Image *image,
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
   assert(target != (MagickPixelPacket *) NULL);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (SetImageStorageClass(image,DirectClass) == MagickFalse)
     return(MagickFalse);
@@ -1249,7 +1255,7 @@ MagickExport MagickBooleanType TransparentPaintImageChroma(Image *image,
   assert(image->signature == MagickCoreSignature);
   assert(high != (MagickPixelPacket *) NULL);
   assert(low != (MagickPixelPacket *) NULL);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (SetImageStorageClass(image,DirectClass) == MagickFalse)
     return(MagickFalse);

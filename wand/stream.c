@@ -17,7 +17,7 @@
 %                              July 1992                                      %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -181,7 +181,7 @@ WandExport MagickBooleanType StreamImageCommand(ImageInfo *image_info,
     *format;
 
   Image
-    *image;
+    *image = (Image *) NULL;
 
   ImageStack
     image_stack[MaxImageStackDepth+1];
@@ -209,9 +209,9 @@ WandExport MagickBooleanType StreamImageCommand(ImageInfo *image_info,
   */
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   (void) metadata;
   if (argc == 2)
     {
@@ -224,7 +224,12 @@ WandExport MagickBooleanType StreamImageCommand(ImageInfo *image_info,
         }
     }
   if (argc < 3)
-    return(StreamUsage());
+    {
+      (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+        "MissingArgument","%s","");
+      (void) StreamUsage();
+      return(MagickFalse);
+    }
   format="%w,%h,%m";
   (void) format;
   j=1;

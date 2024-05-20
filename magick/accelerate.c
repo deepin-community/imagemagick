@@ -21,7 +21,7 @@
 %                                 May 2016                                    %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -368,7 +368,7 @@ static Image *ComputeAddNoiseImage(const Image *image,
   option=GetImageArtifact(image,"attenuate");
   if (option != (char *) NULL)
     attenuate=StringToDouble(option,(char **) NULL);
-  random_info=AcquireRandomInfoThreadSet();
+  random_info=AcquireRandomInfoTLS();
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   key=GetRandomSecretKey(random_info[0]);
   (void) key;
@@ -1293,7 +1293,7 @@ MagickPrivate MagickBooleanType ComputeContrastStretchImageChannel(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
 
   /* exception=(&image->exception); */
@@ -2395,7 +2395,7 @@ MagickPrivate MagickBooleanType ComputeEqualizeImage(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
 
   /*
@@ -2866,7 +2866,7 @@ MagickBooleanType ComputeGrayscaleImage(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
 
   /*
@@ -3291,7 +3291,7 @@ MagickBooleanType ComputeModulateImage(Image *image,
 
   assert(image != (Image *)NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent, GetMagickModule(), "%s", image->filename);
 
   /*

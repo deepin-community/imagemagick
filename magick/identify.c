@@ -17,7 +17,7 @@
 %                            September 1994                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -48,6 +48,7 @@
 #include "magick/artifact.h"
 #include "magick/attribute.h"
 #include "magick/blob.h"
+#include "magick/blob-private.h"
 #include "magick/cache.h"
 #include "magick/client.h"
 #include "magick/coder.h"
@@ -143,7 +144,7 @@ static ChannelStatistics *GetLocationStatistics(const Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   length=CompositeChannels+1UL;
   channel_statistics=(ChannelStatistics *) AcquireQuantumMemory(length,
@@ -351,24 +352,24 @@ static ssize_t PrintChannelLocations(FILE *file,const Image *image,
       {
         case RedChannel:
         {
-          match=fabs((double) (p->red-target)) < 0.5 ? MagickTrue : MagickFalse;
+          match=fabs((double) p->red-target) < 0.5 ? MagickTrue : MagickFalse;
           break;
         }
         case GreenChannel:
         {
-          match=fabs((double) (p->green-target)) < 0.5 ? MagickTrue :
+          match=fabs((double) p->green-target) < 0.5 ? MagickTrue :
             MagickFalse;
           break;
         }
         case BlueChannel:
         {
-          match=fabs((double) (p->blue-target)) < 0.5 ? MagickTrue :
+          match=fabs((double) p->blue-target) < 0.5 ? MagickTrue :
             MagickFalse;
           break;
         }
         case AlphaChannel:
         {
-          match=fabs((double) (p->opacity-target)) < 0.5 ? MagickTrue :
+          match=fabs((double) p->opacity-target) < 0.5 ? MagickTrue :
             MagickFalse;
           break;
         }
@@ -524,20 +525,21 @@ MagickExport MagickBooleanType IdentifyImage(Image *image,FILE *file,
   MagickBooleanType
     ping;
 
-  ssize_t
-    i,
-    x;
-
   size_t
     depth,
     distance;
 
   ssize_t
+    i,
+    x,
     y;
+
+  struct stat
+    properties;
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (file == (FILE *) NULL)
     file=stdout;
@@ -722,6 +724,16 @@ MagickExport MagickBooleanType IdentifyImage(Image *image,FILE *file,
         GetPathComponent(image->magick_filename,TailPath,filename);
         (void) FormatLocaleFile(file,"  Base filename: %s\n",filename);
       }
+  properties=(*GetBlobProperties(image));
+  if (properties.st_mode != 0)
+    {
+      static const char *rwx[] =
+        { "---", "--x", "-w-", "-wx", "r--", "r-x", "rw-", "rwx"};
+      (void) FormatLocaleFile(file,"  Permissions: %s%s%s\n",
+        rwx[(properties.st_mode >> 6) & 0x07],
+        rwx[(properties.st_mode >> 3) & 0x07],
+        rwx[(properties.st_mode >> 0) & 0x07]);
+    }
   magick_info=GetMagickInfo(image->magick,exception);
   if ((magick_info == (const MagickInfo *) NULL) ||
       (GetMagickDescription(magick_info) == (const char *) NULL))
@@ -1111,15 +1123,18 @@ MagickExport MagickBooleanType IdentifyImage(Image *image,FILE *file,
         Display image chromaticity.
       */
       (void) FormatLocaleFile(file,"  Chromaticity:\n");
-      (void) FormatLocaleFile(file,"    red primary: (%g,%g)\n",
-        image->chromaticity.red_primary.x,image->chromaticity.red_primary.y);
-      (void) FormatLocaleFile(file,"    green primary: (%g,%g)\n",
-        image->chromaticity.green_primary.x,
-        image->chromaticity.green_primary.y);
-      (void) FormatLocaleFile(file,"    blue primary: (%g,%g)\n",
-        image->chromaticity.blue_primary.x,image->chromaticity.blue_primary.y);
-      (void) FormatLocaleFile(file,"    white point: (%g,%g)\n",
-        image->chromaticity.white_point.x,image->chromaticity.white_point.y);
+      (void) FormatLocaleFile(file,"    red primary: (%g,%g,%g)\n",
+        image->chromaticity.red_primary.x,image->chromaticity.red_primary.y,
+        image->chromaticity.red_primary.z);
+      (void) FormatLocaleFile(file,"    green primary: (%g,%g,%g)\n",
+        image->chromaticity.green_primary.x,image->chromaticity.green_primary.y,
+        image->chromaticity.green_primary.z);
+      (void) FormatLocaleFile(file,"    blue primary: (%g,%g,%g)\n",
+        image->chromaticity.blue_primary.x,image->chromaticity.blue_primary.y,
+        image->chromaticity.blue_primary.z);
+      (void) FormatLocaleFile(file,"    white point: (%g,%g,%g)\n",
+        image->chromaticity.white_point.x,image->chromaticity.white_point.y,
+        image->chromaticity.white_point.z);
     }
   if ((image->extract_info.width*image->extract_info.height) != 0)
     (void) FormatLocaleFile(file,"  Tile geometry: %.20gx%.20g%+.20g%+.20g\n",

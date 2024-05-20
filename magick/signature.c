@@ -16,7 +16,7 @@
 %                              December 1992                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -169,9 +169,10 @@ MagickExport SignatureInfo *AcquireSignatureInfo(void)
 */
 MagickExport SignatureInfo *DestroySignatureInfo(SignatureInfo *signature_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(signature_info != (SignatureInfo *) NULL);
   assert(signature_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   if (signature_info->accumulator != (unsigned int *) NULL)
     signature_info->accumulator=(unsigned int *) RelinquishMagickMemory(
       signature_info->accumulator);
@@ -230,9 +231,10 @@ MagickExport void FinalizeSignature(SignatureInfo *signature_info)
   /*
     Add padding and return the message accumulator.
   */
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(signature_info != (SignatureInfo *) NULL);
   assert(signature_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   low_order=signature_info->low_order;
   high_order=signature_info->high_order;
   extent=((low_order >> 3) & 0x3f);
@@ -295,9 +297,10 @@ MagickExport void FinalizeSignature(SignatureInfo *signature_info)
 MagickExport unsigned int GetSignatureBlocksize(
   const SignatureInfo *signature_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(signature_info != (SignatureInfo *) NULL);
   assert(signature_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   return(signature_info->blocksize);
 }
 
@@ -326,9 +329,10 @@ MagickExport unsigned int GetSignatureBlocksize(
 MagickExport const StringInfo *GetSignatureDigest(
   const SignatureInfo *signature_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(signature_info != (SignatureInfo *) NULL);
   assert(signature_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   return(signature_info->digest);
 }
 
@@ -357,9 +361,10 @@ MagickExport const StringInfo *GetSignatureDigest(
 MagickExport unsigned int GetSignatureDigestsize(
   const SignatureInfo *signature_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(signature_info != (SignatureInfo *) NULL);
   assert(signature_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   return(signature_info->digestsize);
 }
 
@@ -387,9 +392,10 @@ MagickExport unsigned int GetSignatureDigestsize(
 */
 MagickExport void InitializeSignature(SignatureInfo *signature_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(signature_info != (SignatureInfo *) NULL);
   assert(signature_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   signature_info->accumulator[0]=0x6a09e667U;
   signature_info->accumulator[1]=0xbb67ae85U;
   signature_info->accumulator[2]=0x3c6ef372U;
@@ -504,7 +510,7 @@ MagickExport MagickBooleanType SignatureImage(Image *image)
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
   quantum_info=AcquireQuantumInfo((const ImageInfo *) NULL,image);
@@ -611,7 +617,7 @@ static void TransformSignature(SignatureInfo *signature_info)
     };  /* 32-bit fractional part of the cube root of the first 64 primes */
 
   unsigned int
-    A,
+    A = 0,
     B,
     C,
     D,
@@ -720,7 +726,7 @@ RestoreMSCWarning
   T=0;
   T1=0;
   T2=0;
-  (void) memset(W,0,sizeof(W));
+  (void) ResetMagickMemory(W,0,sizeof(W));
 }
 
 /*

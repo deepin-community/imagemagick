@@ -20,7 +20,7 @@
 %                               October 2003                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -226,7 +226,7 @@ typedef struct CINInfo
 } CINInfo;
 
 /*
-  Forward declaractions.
+  Forward declarations.
 */
 static MagickBooleanType
   WriteCINImage(const ImageInfo *,Image *);
@@ -410,6 +410,7 @@ static Image *ReadCINImage(const ImageInfo *image_info,ExceptionInfo *exception)
     *q;
 
   size_t
+    extent,
     length;
 
   ssize_t
@@ -425,11 +426,11 @@ static Image *ReadCINImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -450,6 +451,8 @@ static Image *ReadCINImage(const ImageInfo *image_info,ExceptionInfo *exception)
   image->endian=(magick[0] == 0x80) && (magick[1] == 0x2a) &&
     (magick[2] == 0x5f) && (magick[3] == 0xd7) ? MSBEndian : LSBEndian;
   cin.file.image_offset=ReadBlobLong(image);
+  if (cin.file.image_offset < 712)
+    ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   offset+=4;
   cin.file.generic_length=ReadBlobLong(image);
   offset+=4;
@@ -683,7 +686,7 @@ static Image *ReadCINImage(const ImageInfo *image_info,ExceptionInfo *exception)
       offset+=4;
       if (IsFloatDefined(cin.film.frame_rate) != MagickFalse)
         (void) FormatImageProperty(image,"dpx:film.frame_rate","%g",
-          cin.film.frame_rate);
+          (double) cin.film.frame_rate);
       offset+=ReadBlob(image,sizeof(cin.film.frame_id),(unsigned char *)
         cin.film.frame_id);
       (void) CopyMagickString(property,cin.film.frame_id,
@@ -749,16 +752,18 @@ static Image *ReadCINImage(const ImageInfo *image_info,ExceptionInfo *exception)
   quantum_info=AcquireQuantumInfo(image_info,image);
   if (quantum_info == (QuantumInfo *) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-  quantum_info->quantum=32;
-  quantum_info->pack=MagickFalse;
+  SetQuantumQuantum(quantum_info,32);
+  SetQuantumPack(quantum_info,MagickFalse);
   quantum_type=RGBQuantum;
-  length=GetQuantumExtent(image,quantum_info,quantum_type);
+  extent=GetQuantumExtent(image,quantum_info,quantum_type);
+  (void) extent;
   length=GetBytesPerRow(image->columns,3,image->depth,MagickTrue);
   if (cin.image.number_channels == 1)
     {
       quantum_type=GrayQuantum;
       length=GetBytesPerRow(image->columns,1,image->depth,MagickTrue);
     }
+  status=SetQuantumPad(image,quantum_info,0);
   pixels=GetQuantumPixels(quantum_info);
   for (y=0; y < (ssize_t) image->rows; y++)
   {
@@ -948,7 +953,7 @@ static MagickBooleanType WriteCINImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)

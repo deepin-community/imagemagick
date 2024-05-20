@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -88,6 +88,7 @@
 #include "magick/segment.h"
 #include "magick/semaphore.h"
 #include "magick/signature-private.h"
+#include "magick/statistic-private.h"
 #include "magick/string_.h"
 #include "magick/thread-private.h"
 #include "magick/timer.h"
@@ -280,10 +281,10 @@ MagickExport Image *CannyEdgeImage(const Image *image,const double radius,
 
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   /*
     Filter out noise.
   */
@@ -617,16 +618,6 @@ MagickExport Image *CannyEdgeImage(const Image *image,const double radius,
 %    o exception: return any errors or warnings in this structure.
 %
 */
-
-static inline double MagickLog10(const double x)
-{
-#define Log10Epsilon  (1.0e-11)
-
- if (fabs(x) < Log10Epsilon)
-   return(log10(Log10Epsilon));
- return(log10(fabs(x)));
-}
-
 MagickExport ChannelFeatures *GetImageChannelFeatures(const Image *image,
   const size_t distance,ExceptionInfo *exception)
 {
@@ -680,7 +671,7 @@ MagickExport ChannelFeatures *GetImageChannelFeatures(const Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if ((image->columns < (distance+1)) || (image->rows < (distance+1)))
     return((ChannelFeatures *) NULL);
@@ -1713,17 +1704,17 @@ MagickExport ChannelFeatures *GetImageChannelFeatures(const Image *image,
       Future: return second largest eigenvalue of Q.
     */
     channel_features[RedChannel].maximum_correlation_coefficient[i]=
-      sqrt((double) -1.0);
+      sqrt(-1.0);
     channel_features[GreenChannel].maximum_correlation_coefficient[i]=
-      sqrt((double) -1.0);
+      sqrt(-1.0);
     channel_features[BlueChannel].maximum_correlation_coefficient[i]=
-      sqrt((double) -1.0);
+      sqrt(-1.0);
     if (image->colorspace == CMYKColorspace)
       channel_features[IndexChannel].maximum_correlation_coefficient[i]=
-        sqrt((double) -1.0);
+        sqrt(-1.0);
     if (image->matte != MagickFalse)
       channel_features[OpacityChannel].maximum_correlation_coefficient[i]=
-        sqrt((double) -1.0);
+        sqrt(-1.0);
   }
   /*
     Relinquish resources.
@@ -1906,10 +1897,10 @@ MagickExport Image *HoughLineImage(const Image *image,const size_t width,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   accumulator_width=180;
   hough_height=((sqrt(2.0)*(double) (image->rows > image->columns ?
     image->rows : image->columns))/2.0);
@@ -1949,7 +1940,7 @@ MagickExport Image *HoughLineImage(const Image *image,const size_t width,
       }
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      if (GetPixelIntensity(image,p) > (QuantumRange/2.0))
+      if (GetPixelIntensity(image,p) > ((MagickRealType) QuantumRange/2.0))
         {
           ssize_t
             i;
@@ -2206,10 +2197,10 @@ MagickExport Image *MeanShiftImage(const Image *image,const size_t width,
 
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   mean_image=CloneImage(image,0,0,MagickTrue,exception);
   if (mean_image == (Image *) NULL)
     return((Image *) NULL);
@@ -2274,7 +2265,7 @@ MagickExport Image *MeanShiftImage(const Image *image,const size_t width,
       {
         double
           distance,
-          gamma;
+          gamma = 1.0;
 
         MagickPixelPacket
           sum_pixel;
@@ -2307,23 +2298,29 @@ MagickExport Image *MeanShiftImage(const Image *image,const size_t width,
                 status=GetOneCacheViewVirtualPixel(pixel_view,(ssize_t)
                   MagickRound(mean_location.x+u),(ssize_t) MagickRound(
                   mean_location.y+v),&pixel,exception);
-                distance=(mean_pixel.red-pixel.red)*(mean_pixel.red-pixel.red)+
-                  (mean_pixel.green-pixel.green)*(mean_pixel.green-pixel.green)+
-                  (mean_pixel.blue-pixel.blue)*(mean_pixel.blue-pixel.blue);
+                distance=((MagickRealType) mean_pixel.red-(MagickRealType)
+                  pixel.red)*((MagickRealType) mean_pixel.red-(MagickRealType)
+                  pixel.red)+((MagickRealType) mean_pixel.green-
+                  (MagickRealType) pixel.green)*((MagickRealType)
+                  mean_pixel.green-(MagickRealType) pixel.green)+
+                  ((MagickRealType) mean_pixel.blue-(MagickRealType)
+                  pixel.blue)*((MagickRealType) mean_pixel.blue-
+                  (MagickRealType) pixel.blue);
                 if (distance <= (color_distance*color_distance))
                   {
                     sum_location.x+=mean_location.x+u;
                     sum_location.y+=mean_location.y+v;
-                    sum_pixel.red+=pixel.red;
-                    sum_pixel.green+=pixel.green;
-                    sum_pixel.blue+=pixel.blue;
-                    sum_pixel.opacity+=pixel.opacity;
+                    sum_pixel.red+=(MagickRealType) pixel.red;
+                    sum_pixel.green+=(MagickRealType) pixel.green;
+                    sum_pixel.blue+=(MagickRealType) pixel.blue;
+                    sum_pixel.opacity+=(MagickRealType) pixel.opacity;
                     count++;
                   }
               }
           }
         }
-        gamma=PerceptibleReciprocal(count);
+        if (count != 0)
+          gamma=PerceptibleReciprocal((double) count);
         mean_location.x=gamma*sum_location.x;
         mean_location.y=gamma*sum_location.y;
         mean_pixel.red=gamma*sum_pixel.red;

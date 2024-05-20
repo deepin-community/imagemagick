@@ -10,14 +10,14 @@
 %                             GGG   IIIII  F                                  %
 %                                                                             %
 %                                                                             %
-%            Read/Write Compuserv Graphics Interchange Format                 %
+%            Read/Write Compuserve Graphics Interchange Format                %
 %                                                                             %
 %                              Software Design                                %
 %                                   Cristy                                    %
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -58,6 +58,7 @@
 #include "magick/profile.h"
 #include "magick/magick.h"
 #include "magick/memory_.h"
+#include "magick/memory-private.h"
 #include "magick/monitor.h"
 #include "magick/monitor-private.h"
 #include "magick/option.h"
@@ -77,7 +78,7 @@
 #define MaximumLZWCode  (1UL << MaximumLZWBits)
 
 /*
-  Typdef declarations.
+  Typedef declarations.
 */
 typedef struct _LZWCodeInfo
 {
@@ -226,10 +227,8 @@ static LZWInfo *AcquireLZWInfo(Image *image,const size_t data_size)
       lzw_info=RelinquishLZWInfo(lzw_info);
       return((LZWInfo *) NULL);
     }
-  (void) memset(lzw_info->table[0],0,MaximumLZWCode*
-    sizeof(**lzw_info->table));
-  (void) memset(lzw_info->table[1],0,MaximumLZWCode*
-    sizeof(**lzw_info->table));
+  (void) memset(lzw_info->table[0],0,MaximumLZWCode*sizeof(**lzw_info->table));
+  (void) memset(lzw_info->table[1],0,MaximumLZWCode*sizeof(**lzw_info->table));
   for (i=0; i <= (ssize_t) lzw_info->maximum_data_value; i++)
   {
     lzw_info->table[0][i]=0;
@@ -419,7 +418,7 @@ static MagickBooleanType DecodeImage(Image *image,const ssize_t opacity)
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
   data_size=(unsigned char) ReadBlobByte(image);
@@ -564,7 +563,7 @@ static MagickBooleanType EncodeImage(const ImageInfo *image_info,Image *image,
       Add a character to current packet. \
     */ \
     packet[length++]=(unsigned char) (datum & 0xff); \
-    if (length >= 254) \
+    if (length == 255) \
       { \
         (void) WriteBlobByte(image,(unsigned char) length); \
         (void) WriteBlob(image,length,packet); \
@@ -800,7 +799,7 @@ static MagickBooleanType EncodeImage(const ImageInfo *image_info,Image *image,
         Add a character to current packet.
       */
       packet[length++]=(unsigned char) (datum & 0xff);
-      if (length >= 254)
+      if (length == 255)
         {
           (void) WriteBlobByte(image,(unsigned char) length);
           (void) WriteBlob(image,length,packet);
@@ -947,7 +946,7 @@ static MagickBooleanType PingGIFImage(Image *image)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (ReadBlob(image,1,&data_size) != 1)
     ThrowBinaryImageException(CorruptImageError,"CorruptImage",
@@ -1025,11 +1024,11 @@ static Image *ReadGIFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -1120,8 +1119,9 @@ static Image *ReadGIFImage(const ImageInfo *image_info,ExceptionInfo *exception)
               if (((ssize_t) (count+offset+MagickPathExtent)) >= (ssize_t) extent)
                 {
                   extent<<=1;
-                  comments=(char *) ResizeQuantumMemory(comments,extent+
-                    MagickPathExtent,sizeof(*comments));
+                  comments=(char *) ResizeQuantumMemory(comments,
+                    OverAllocateMemory(extent+MagickPathExtent),
+                    sizeof(*comments));
                   if (comments == (char *) NULL)
                     ThrowGIFException(ResourceLimitError,
                       "MemoryAllocationFailed");
@@ -1300,7 +1300,7 @@ static Image *ReadGIFImage(const ImageInfo *image_info,ExceptionInfo *exception)
     if ((image->columns == 0) || (image->rows == 0))
       ThrowGIFException(CorruptImageError,"NegativeOrZeroImageSize");
     /*
-      Inititialize colormap.
+      Initialize colormap.
     */
     if (AcquireImageColormap(image,image->colors) == MagickFalse)
       ThrowGIFException(ResourceLimitError,"MemoryAllocationFailed");
@@ -1529,11 +1529,11 @@ ModuleExport void UnregisterGIFImage(void)
 */
 static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
 {
-  int
-    c;
-
   ImageInfo
     *write_info;
+
+  int
+    c;
 
   MagickBooleanType
     status;
@@ -1544,26 +1544,22 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
   RectangleInfo
     page;
 
-  ssize_t
-    i;
-
-  unsigned char
-    *q;
-
   size_t
     bits_per_pixel,
     delay,
-    imageListLength,
     length,
+    number_scenes,
     one;
 
   ssize_t
+    i,
     j,
     opacity;
 
   unsigned char
     *colormap,
-    *global_colormap;
+    *global_colormap,
+    *q;
 
   /*
     Open output image file.
@@ -1572,7 +1568,7 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
@@ -1624,10 +1620,11 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
   */
   scene=0;
   one=1;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
-    (void) TransformImageColorspace(image,sRGBColorspace);
+    if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+      (void) TransformImageColorspace(image,sRGBColorspace);
     opacity=(-1);
     if (IsOpaqueImage(image,&image->exception) != MagickFalse)
       {
@@ -1654,9 +1651,9 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
                   continue;
                 }
               alpha=fabs((double) image->colormap[i].opacity-
-                TransparentOpacity);
+                (double) TransparentOpacity);
               beta=fabs((double) image->colormap[opacity].opacity-
-                TransparentOpacity);
+                (double) TransparentOpacity);
               if (alpha < beta)
                 opacity=i;
             }
@@ -1672,9 +1669,9 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
                       continue;
                     }
                   alpha=fabs((double) image->colormap[i].opacity-
-                    TransparentOpacity);
+                    (double) TransparentOpacity);
                   beta=fabs((double) image->colormap[opacity].opacity-
-                    TransparentOpacity);
+                    (double) TransparentOpacity);
                   if (alpha < beta)
                     opacity=i;
                 }
@@ -1730,6 +1727,25 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
         const char
           *value;
 
+        if ((GetPreviousImageInList(image) == (Image *) NULL) &&
+            (GetNextImageInList(image) != (Image *) NULL) &&
+            (image->iterations != 1))
+          {
+            /*
+              Write Netscape Loop extension.
+            */
+            (void) LogMagickEvent(CoderEvent,GetMagickModule(),
+               "  Writing GIF Extension %s","NETSCAPE2.0");
+            (void) WriteBlobByte(image,(unsigned char) 0x21);
+            (void) WriteBlobByte(image,(unsigned char) 0xff);
+            (void) WriteBlobByte(image,(unsigned char) 0x0b);
+            (void) WriteBlob(image,11,(unsigned char *) "NETSCAPE2.0");
+            (void) WriteBlobByte(image,(unsigned char) 0x03);
+            (void) WriteBlobByte(image,(unsigned char) 0x01);
+            (void) WriteBlobLSBShort(image,(unsigned short) (image->iterations ?
+              image->iterations-1 : 0));
+            (void) WriteBlobByte(image,(unsigned char) 0x00);
+          }
         /*
           Write graphics control extension.
         */
@@ -1746,6 +1762,29 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
         (void) WriteBlobByte(image,(unsigned char) (opacity >= 0 ? opacity :
           0));
         (void) WriteBlobByte(image,(unsigned char) 0x00);
+        if (fabs(image->gamma-1.0/2.2) > MagickEpsilon)
+          {
+            char
+              attributes[MaxTextExtent];
+
+            ssize_t
+              count;
+
+            /*
+              Write ImageMagick extension.
+            */
+            (void) LogMagickEvent(CoderEvent,GetMagickModule(),
+               "  Writing GIF Extension %s","ImageMagick");
+            (void) WriteBlobByte(image,(unsigned char) 0x21);
+            (void) WriteBlobByte(image,(unsigned char) 0xff);
+            (void) WriteBlobByte(image,(unsigned char) 0x0b);
+            (void) WriteBlob(image,11,(unsigned char *) "ImageMagick");
+            count=FormatLocaleString(attributes,MaxTextExtent,"gamma=%g",
+              image->gamma);
+            (void) WriteBlobByte(image,(unsigned char) count);
+            (void) WriteBlob(image,(size_t) count,(unsigned char *) attributes);
+            (void) WriteBlobByte(image,(unsigned char) 0x00);
+          }
         value=GetImageProperty(image,"comment");
         if (value != (const char *) NULL)
           {
@@ -1767,48 +1806,6 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
               for (i=0; i < (ssize_t) count; i++)
                 (void) WriteBlobByte(image,(unsigned char) *p++);
             }
-            (void) WriteBlobByte(image,(unsigned char) 0x00);
-          }
-        if ((GetPreviousImageInList(image) == (Image *) NULL) &&
-            (GetNextImageInList(image) != (Image *) NULL) &&
-            (image->iterations != 1))
-          {
-            /*
-              Write Netscape Loop extension.
-            */
-            (void) LogMagickEvent(CoderEvent,GetMagickModule(),
-               "  Writing GIF Extension %s","NETSCAPE2.0");
-            (void) WriteBlobByte(image,(unsigned char) 0x21);
-            (void) WriteBlobByte(image,(unsigned char) 0xff);
-            (void) WriteBlobByte(image,(unsigned char) 0x0b);
-            (void) WriteBlob(image,11,(unsigned char *) "NETSCAPE2.0");
-            (void) WriteBlobByte(image,(unsigned char) 0x03);
-            (void) WriteBlobByte(image,(unsigned char) 0x01);
-            (void) WriteBlobLSBShort(image,(unsigned short) (image->iterations ?
-              image->iterations-1 : 0));
-            (void) WriteBlobByte(image,(unsigned char) 0x00);
-          }
-        if ((image->gamma != 1.0f/2.2f))
-          {
-            char
-              attributes[MaxTextExtent];
-
-            ssize_t
-              count;
-
-            /*
-              Write ImageMagick extension.
-            */
-            (void) LogMagickEvent(CoderEvent,GetMagickModule(),
-               "  Writing GIF Extension %s","ImageMagick");
-            (void) WriteBlobByte(image,(unsigned char) 0x21);
-            (void) WriteBlobByte(image,(unsigned char) 0xff);
-            (void) WriteBlobByte(image,(unsigned char) 0x0b);
-            (void) WriteBlob(image,11,(unsigned char *) "ImageMagick");
-            count=FormatLocaleString(attributes,MaxTextExtent,"gamma=%g",
-              image->gamma);
-            (void) WriteBlobByte(image,(unsigned char) count);
-            (void) WriteBlob(image,(size_t) count,(unsigned char *) attributes);
             (void) WriteBlobByte(image,(unsigned char) 0x00);
           }
         ResetImageProfileIterator(image);
@@ -1885,6 +1882,7 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
                        /*
                          Write generic extension.
                        */
+                       (void) memset(extension,0,sizeof(extension));
                        (void) CopyMagickString(extension,name+4,
                          sizeof(extension));
                        (void) WriteBlob(image,11,(unsigned char *) extension);
@@ -1957,7 +1955,7 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image)
       break;
     image=SyncNextImageInList(image);
     scene++;
-    status=SetImageProgress(image,SaveImagesTag,scene,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene,number_scenes);
     if (status == MagickFalse)
       break;
   } while (write_info->adjoin != MagickFalse);

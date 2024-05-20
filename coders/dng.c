@@ -17,7 +17,7 @@
 %                                 July 1999                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -64,9 +64,11 @@
 #include "magick/resource_.h"
 #include "magick/static.h"
 #include "magick/string_.h"
+#include "magick/string-private.h"
 #include "magick/module.h"
 #include "magick/transform.h"
 #include "magick/utility.h"
+#include "magick/utility-private.h"
 #include "magick/xml-tree.h"
 #if defined(MAGICKCORE_RAW_R_DELEGATE)
 #include <libraw.h>
@@ -142,7 +144,6 @@ static void InitializeDcrawOpenCL(ExceptionInfo *exception)
     }
 }
 #else
-#if !defined(MAGICKCORE_RAW_R_DELEGATE)
 static void InitializeDcrawOpenCL(ExceptionInfo *magick_unused(exception))
 {
   magick_unreferenced(exception);
@@ -151,65 +152,307 @@ static void InitializeDcrawOpenCL(ExceptionInfo *magick_unused(exception))
 #endif
 }
 #endif
-#endif
 
 #if defined(MAGICKCORE_RAW_R_DELEGATE)
-static void SetDNGProperties(Image *image,const libraw_data_t *raw_info)
+static void SetDNGProperties(Image *image,const libraw_data_t *raw_info,
+  ExceptionInfo *exception)
 {
   char
-    property[MagickPathExtent],
-    timestamp[MagickPathExtent];
+    timestamp[MagickTimeExtent];
 
   (void) SetImageProperty(image,"dng:make",raw_info->idata.make);
   (void) SetImageProperty(image,"dng:camera.model.name",raw_info->idata.model);
-  (void) FormatMagickTime(raw_info->other.timestamp,MagickPathExtent,timestamp);
+  (void) FormatMagickTime(raw_info->other.timestamp,sizeof(timestamp),
+    timestamp);
   (void) SetImageProperty(image,"dng:create.date",timestamp);
-  (void) SetImageProperty(image,"dng:f.number",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%0.1f",
-    raw_info->other.iso_speed);
+  (void) FormatImageProperty(image,"dng:iso.setting","%.0g",
+    (double) raw_info->other.iso_speed);
 #if LIBRAW_COMPILE_CHECK_VERSION_NOTLESS(0,18)
   (void) SetImageProperty(image,"dng:software",raw_info->idata.software);
   if (*raw_info->shootinginfo.BodySerial != '\0')
     (void) SetImageProperty(image,"dng:serial.number",
       raw_info->shootinginfo.BodySerial);
-  (void) FormatLocaleString(property,MagickPathExtent,"1/%0.1f",
+  (void) FormatImageProperty(image,"dng:exposure.time","1/%.0f",
     PerceptibleReciprocal(raw_info->other.shutter));
-  (void) SetImageProperty(image,"dng:exposure.time",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%0.1f",
-    raw_info->other.aperture);
-  (void) SetImageProperty(image,"dng:iso.setting",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%0.1f",
-    raw_info->lens.EXIF_MaxAp);
-  (void) SetImageProperty(image,"dng:max.aperture.value",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%0.1f",
-    raw_info->other.focal_len);
-  (void) SetImageProperty(image,"dng:focal.length",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%f %f %f %f",
-    raw_info->color.cam_mul[0],raw_info->color.cam_mul[2],
-    raw_info->color.cam_mul[1],raw_info->color.cam_mul[3]);
-  (void) SetImageProperty(image,"dng:wb.rb.levels",property);
-  (void) FormatLocaleString(property,MagickPathExtent,
-    "%0.1f-%0.1fmm f/%0.1f-%0.1f",raw_info->lens.makernotes.MinFocal,
-    raw_info->lens.makernotes.MaxFocal,raw_info->lens.makernotes.MaxAp4MinFocal,
-    raw_info->lens.makernotes.MaxAp4MaxFocal);
-  (void) SetImageProperty(image,"dng:lens",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%0.2f",
-    raw_info->lens.makernotes.LensFStops);
-  (void) SetImageProperty(image,"dng:lens.f.stops",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%0.1f mm",
-    raw_info->lens.makernotes.MinFocal);
-  (void) SetImageProperty(image,"dng:min.focal.length",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%0.1f mm",
-    raw_info->lens.makernotes.MaxFocal);
-  (void) SetImageProperty(image,"dng:max.focal.length",property);
-  (void) SetImageProperty(image,"dng:max.aperture.at.min.focal",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%0.1f",
-    raw_info->lens.makernotes.MaxAp4MaxFocal);
-  (void) SetImageProperty(image,"dng:max.aperture.at.max.focal",property);
-  (void) FormatLocaleString(property,MagickPathExtent,"%d mm",
+  (void) FormatImageProperty(image,"dng:f.number","%0.1g",
+    (double) raw_info->other.aperture);
+  (void) FormatImageProperty(image,"dng:max.aperture.value","%0.1g",
+    (double) raw_info->lens.EXIF_MaxAp);
+  (void) FormatImageProperty(image,"dng:focal.length","%0.1g mm",
+    (double) raw_info->other.focal_len);
+  (void) FormatImageProperty(image,"dng:wb.rb.levels","%g %g %g %g",
+    (double) raw_info->color.cam_mul[0],(double) raw_info->color.cam_mul[2],
+    (double) raw_info->color.cam_mul[1],(double) raw_info->color.cam_mul[3]);
+  (void) SetImageProperty(image,"dng:lens.type",
+    raw_info->lens.makernotes.LensFeatures_suf);
+  (void) FormatImageProperty(image,"dng:lens","%0.1g-%0.1gmm f/%0.1g-%0.1g",
+    (double) raw_info->lens.makernotes.MinFocal,
+    (double) raw_info->lens.makernotes.MaxFocal,
+    (double) raw_info->lens.makernotes.MaxAp4MinFocal,
+    (double) raw_info->lens.makernotes.MaxAp4MaxFocal);
+  (void) FormatImageProperty(image,"dng:lens.f.stops","%0.2f",
+    (double) raw_info->lens.makernotes.LensFStops);
+  (void) FormatImageProperty(image,"dng:min.focal.length","%0.1f mm",
+    (double) raw_info->lens.makernotes.MinFocal);
+  (void) FormatImageProperty(image,"dng:max.focal.length","%0.1g mm",
+    (double) raw_info->lens.makernotes.MaxFocal);
+  (void) FormatImageProperty(image,"dng:max.aperture.at.min.focal","%0.1g",
+    (double) raw_info->lens.makernotes.MaxAp4MinFocal);
+  (void) FormatImageProperty(image,"dng:max.aperture.at.max.focal","%0.1g",
+    (double) raw_info->lens.makernotes.MaxAp4MaxFocal);
+  (void) FormatImageProperty(image,"dng:focal.length.in.35mm.format","%d mm",
     raw_info->lens.FocalLengthIn35mmFormat);
-  (void) SetImageProperty(image,"dng:focal.length.in.35mm.format",property);
 #endif
+#if LIBRAW_COMPILE_CHECK_VERSION_NOTLESS(0,20)
+  (void) FormatImageProperty(image,"dng:gps.latitude",
+    "%.0g deg %.0g' %.2g\" N",
+    (double) raw_info->other.parsed_gps.latitude[0],
+    (double) raw_info->other.parsed_gps.latitude[1],
+    (double) raw_info->other.parsed_gps.latitude[2]);
+  (void) FormatImageProperty(image,"dng:gps.longitude",
+    "%.0g deg %.0g' %.2g\" W",
+    (double) raw_info->other.parsed_gps.longitude[0],
+    (double) raw_info->other.parsed_gps.longitude[1],
+    (double) raw_info->other.parsed_gps.longitude[2]);
+  (void) FormatImageProperty(image,"dng:gps.altitude","%.1g m",
+    (double) raw_info->other.parsed_gps.altitude);
+#endif
+}
+#endif
+
+static Image *InvokeDNGDelegate(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
+{
+  ExceptionInfo
+    *sans_exception;
+
+  ImageInfo
+    *read_info;
+
+  /*
+    Convert DNG to PPM with delegate.
+  */
+  (void) DestroyImageList(image);
+  InitializeDcrawOpenCL(exception);
+  image=AcquireImage(image_info);
+  read_info=CloneImageInfo(image_info);
+  SetImageInfoBlob(read_info,(void *) NULL,0);
+  (void) InvokeDelegate(read_info,image,"dng:decode",(char *) NULL,exception);
+  image=DestroyImage(image);
+  (void) FormatLocaleString(read_info->filename,MagickPathExtent,"%s.png",
+    read_info->unique);
+  sans_exception=AcquireExceptionInfo();
+  image=ReadImage(read_info,sans_exception);
+  sans_exception=DestroyExceptionInfo(sans_exception);
+  if (image == (Image *) NULL)
+    {
+      (void) FormatLocaleString(read_info->filename,MagickPathExtent,"%s.ppm",
+        read_info->unique);
+      image=ReadImage(read_info,exception);
+    }
+  (void) RelinquishUniqueFileResource(read_info->filename);
+  if (image != (Image *) NULL)
+    {
+      char
+        filename[MagickPathExtent],
+        *xml;
+
+      ExceptionInfo
+        *sans;
+
+      (void) CopyMagickString(image->magick,read_info->magick,
+        MagickPathExtent);
+      (void) FormatLocaleString(filename,MagickPathExtent,"%s.ufraw",
+        read_info->unique);
+      sans=AcquireExceptionInfo();
+      xml=FileToString(filename,MagickPathExtent,sans);
+      (void) RelinquishUniqueFileResource(filename);
+      if (xml != (char *) NULL)
+        {
+          XMLTreeInfo
+            *ufraw;
+
+          /*
+            Inject.
+          */
+          ufraw=NewXMLTree(xml,sans);
+          if (ufraw != (XMLTreeInfo *) NULL)
+            {
+              char
+                *content,
+                property[MagickPathExtent];
+
+              const char
+                *tag;
+
+              XMLTreeInfo
+                *next;
+
+              if (image->properties == (void *) NULL)
+                image->properties=NewSplayTree(CompareSplayTreeString,
+                  RelinquishMagickMemory,RelinquishMagickMemory);
+              next=GetXMLTreeChild(ufraw,(const char *) NULL);
+              while (next != (XMLTreeInfo *) NULL)
+              {
+                tag=GetXMLTreeTag(next);
+                if (tag == (char *) NULL)
+                  tag="unknown";
+                (void) FormatLocaleString(property,MagickPathExtent,"dng:%s",
+                  tag);
+                content=ConstantString(GetXMLTreeContent(next));
+                (void) StripString(content);
+                if ((LocaleCompare(tag,"log") != 0) &&
+                    (LocaleCompare(tag,"InputFilename") != 0) &&
+                    (LocaleCompare(tag,"OutputFilename") != 0) &&
+                    (LocaleCompare(tag,"OutputType") != 0) &&
+                    (strlen(content) != 0))
+                  (void) AddValueToSplayTree((SplayTreeInfo *)
+                    image->properties,ConstantString(property),content);
+                next=GetXMLTreeSibling(next);
+              }
+              ufraw=DestroyXMLTree(ufraw);
+            }
+          xml=DestroyString(xml);
+        }
+      sans=DestroyExceptionInfo(sans);
+    }
+  read_info=DestroyImageInfo(read_info);
+  return(image);
+}
+
+#if defined(MAGICKCORE_RAW_R_DELEGATE)
+static void SetLibRawParams(const ImageInfo *image_info,Image *image,
+  libraw_data_t *raw_info)
+{
+  const char
+    *option;
+
+  raw_info->params.user_flip=0;
+  raw_info->params.output_bps=16;
+  raw_info->params.use_camera_wb=1;
+  option=GetImageOption(image_info,"dng:use-camera-wb");
+  if (option == (const char *) NULL)
+    option=GetImageOption(image_info,"dng:use_camera_wb");
+  if (option != (const char *) NULL)
+    raw_info->params.use_camera_wb=IsStringTrue(option) != MagickFalse ? 1 : 0;
+  option=GetImageOption(image_info,"dng:use-auto-wb");
+  if (option == (const char *) NULL)
+    option=GetImageOption(image_info,"dng:use_auto_wb");
+  if (option != (const char *) NULL)
+    raw_info->params.use_auto_wb=IsStringTrue(option) != MagickFalse ? 1 : 0;
+  option=GetImageOption(image_info,"dng:no-auto-bright");
+  if (option == (const char *) NULL)
+    option=GetImageOption(image_info,"dng:no_auto_bright");
+  if (option != (const char *) NULL)
+    raw_info->params.no_auto_bright=IsStringTrue(option) != MagickFalse ? 1 : 0;
+  option=GetImageOption(image_info,"dng:output-color");
+  if (option == (const char *) NULL)
+    option=GetImageOption(image_info,"dng:output_color");
+  if (option != (const char *) NULL)
+    {
+      raw_info->params.output_color=StringToInteger(option);
+      if (raw_info->params.output_color == 5)
+        image->colorspace=XYZColorspace;
+    }
+#if LIBRAW_COMPILE_CHECK_VERSION_NOTLESS(0,21)
+  option=GetImageOption(image_info,"dng:interpolation-quality");
+  if (option != (const char *) NULL)
+    {
+      int
+        value;
+
+      value=StringToInteger(option);
+      if (value == -1)
+        raw_info->params.no_interpolation=1;
+      else
+        raw_info->params.user_qual=value;
+    }
+#endif
+}
+
+static void LibRawDataError(void *data,const char *magick_unused(file),
+  const int offset)
+{
+  magick_unreferenced(file);
+  if (offset >= 0)
+    {
+      ExceptionInfo
+        *exception;
+
+      /*
+        Value below zero is an EOF and an exception is raised instead.
+      */
+      exception=(ExceptionInfo *) data;
+      (void) ThrowMagickException(exception,GetMagickModule(),
+        CorruptImageWarning,"Data corrupted at","`%d'",offset);
+  }
+}
+
+static void ReadLibRawThumbnail(const ImageInfo *image_info,Image *image,
+  libraw_data_t *raw_info,ExceptionInfo *exception)
+{
+  const char
+    *option;
+
+  int
+    errcode;
+
+  libraw_processed_image_t
+    *thumbnail;
+
+  option=GetImageOption(image_info,"dng:read-thumbnail");
+  if (IsStringTrue(option) == MagickFalse)
+    return;
+  errcode=libraw_unpack_thumb(raw_info);
+  if (errcode != LIBRAW_SUCCESS)
+    return;
+  thumbnail=libraw_dcraw_make_mem_thumb(raw_info,&errcode);
+  if (errcode == LIBRAW_SUCCESS)
+    {
+      StringInfo
+        *profile;
+
+      if (thumbnail->type == LIBRAW_IMAGE_JPEG)
+        SetImageProperty(image,"dng:thumbnail.type","jpeg");
+      else if (thumbnail->type == LIBRAW_IMAGE_BITMAP)
+        {
+          char
+            value[15];
+
+          SetImageProperty(image,"dng:thumbnail.type","bitmap");
+          (void) FormatLocaleString(value,sizeof(value),"%hu",thumbnail->bits);
+          SetImageProperty(image,"dng:thumbnail.bits",value);
+          (void) FormatLocaleString(value,sizeof(value),"%hu",
+            thumbnail->colors);
+          SetImageProperty(image,"dng:thumbnail.colors",value);
+          (void) FormatLocaleString(value,sizeof(value),"%hux%hu",
+            thumbnail->width,thumbnail->height);
+          SetImageProperty(image,"dng:thumbnail.geometry",value);
+        }
+      profile=BlobToStringInfo(thumbnail->data,thumbnail->data_size);
+      (void) SetImageProfile(image,"dng:thumbnail",profile);
+    }
+  if (thumbnail != (libraw_processed_image_t *) NULL)
+    libraw_dcraw_clear_mem(thumbnail);
+}
+
+static OrientationType LibRawFlipToOrientation(int flip)
+{
+  switch(flip)
+  {
+    case 5:
+    {
+      return(LeftBottomOrientation);
+    }
+    case 8:
+    {
+      return(LeftTopOrientation);
+    }
+    default:
+    {
+      return((OrientationType) flip);
+    }
+  }
 }
 #endif
 
@@ -226,11 +469,11 @@ static Image *ReadDNGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -239,6 +482,8 @@ static Image *ReadDNGImage(const ImageInfo *image_info,ExceptionInfo *exception)
       return((Image *) NULL);
     }
   (void) CloseBlob(image);
+  if (LocaleCompare(image_info->magick,"DCRAW") == 0)
+    return(InvokeDNGDelegate(image_info,image,exception));
 #if defined(MAGICKCORE_RAW_R_DELEGATE)
   {
     int
@@ -256,11 +501,18 @@ static Image *ReadDNGImage(const ImageInfo *image_info,ExceptionInfo *exception)
     StringInfo
       *profile;
 
+    unsigned int
+      flags;
+
     unsigned short
       *p;
 
-    errcode=0;
-    raw_info=libraw_init(0);
+    errcode=LIBRAW_UNSPECIFIED_ERROR;
+    flags=LIBRAW_OPIONS_NO_DATAERR_CALLBACK;
+#if LIBRAW_SHLIB_CURRENT < 23
+    flags|=LIBRAW_OPIONS_NO_MEMERR_CALLBACK;
+#endif
+    raw_info=libraw_init(flags);
     if (raw_info == (libraw_data_t *) NULL)
       {
         (void) ThrowMagickException(exception,GetMagickModule(),CoderError,
@@ -268,16 +520,18 @@ static Image *ReadDNGImage(const ImageInfo *image_info,ExceptionInfo *exception)
         libraw_close(raw_info);
         return(DestroyImageList(image));
       }
-    raw_info->params.use_camera_wb=IsStringTrue(GetImageOption(image_info,
-      "dng:use-camera-wb"));
+    libraw_set_dataerror_handler(raw_info,LibRawDataError,exception);
 #if defined(MAGICKCORE_WINDOWS_SUPPORT) && defined(_MSC_VER) && (_MSC_VER > 1310)
     {
       wchar_t
-        fileName[MagickPathExtent];
+        *path;
 
-      MultiByteToWideChar(CP_UTF8,0,image->filename,-1,fileName,
-        MagickPathExtent);
-      errcode=libraw_open_wfile(raw_info,fileName);
+      path=create_wchar_path(image->filename);
+      if (path != (wchar_t *) NULL)
+        {
+          errcode=libraw_open_wfile(raw_info,path);
+          path=(wchar_t *) RelinquishMagickMemory(path);
+        }
     }
 #else
     errcode=libraw_open_file(raw_info,image->filename);
@@ -295,6 +549,8 @@ static Image *ReadDNGImage(const ImageInfo *image_info,ExceptionInfo *exception)
     image->page.height=raw_info->sizes.raw_height;
     image->page.x=raw_info->sizes.left_margin;
     image->page.y=raw_info->sizes.top_margin;
+    image->orientation=LibRawFlipToOrientation(raw_info->sizes.flip);
+    ReadLibRawThumbnail(image_info,image,raw_info,exception);
     if (image_info->ping != MagickFalse)
       {
         libraw_close(raw_info);
@@ -314,7 +570,7 @@ static Image *ReadDNGImage(const ImageInfo *image_info,ExceptionInfo *exception)
         libraw_close(raw_info);
         return(DestroyImageList(image));
       }
-    raw_info->params.output_bps=16;
+    SetLibRawParams(image_info,image,raw_info);
     errcode=libraw_dcraw_process(raw_info);
     if (errcode != LIBRAW_SUCCESS)
       {
@@ -335,6 +591,11 @@ static Image *ReadDNGImage(const ImageInfo *image_info,ExceptionInfo *exception)
           libraw_strerror(errcode),"`%s'",image->filename);
         libraw_close(raw_info);
         return(DestroyImageList(image));
+      }
+    if (raw_image->colors < 3)
+      {
+        image->colorspace=GRAYColorspace;
+        image->type=raw_image->colors == 1 ? GrayscaleType : GrayscaleMatteType;
       }
     image->columns=raw_image->width;
     image->rows=raw_image->height;
@@ -407,109 +668,12 @@ static Image *ReadDNGImage(const ImageInfo *image_info,ExceptionInfo *exception)
           }
       }
 #endif
-    SetDNGProperties(image,raw_info);
+    SetDNGProperties(image,raw_info,exception);
     libraw_close(raw_info);
     return(image);
   }
 #else
-  {
-    ExceptionInfo
-      *sans_exception;
-
-    ImageInfo
-      *read_info;
-
-    /*
-      Convert DNG to PPM with delegate.
-    */
-    (void) DestroyImageList(image);
-    InitializeDcrawOpenCL(exception);
-    image=AcquireImage(image_info);
-    read_info=CloneImageInfo(image_info);
-    SetImageInfoBlob(read_info,(void *) NULL,0);
-    (void) InvokeDelegate(read_info,image,"dng:decode",(char *) NULL,exception);
-    image=DestroyImage(image);
-    (void) FormatLocaleString(read_info->filename,MaxTextExtent,"%s.png",
-      read_info->unique);
-    sans_exception=AcquireExceptionInfo();
-    image=ReadImage(read_info,sans_exception);
-    sans_exception=DestroyExceptionInfo(sans_exception);
-    if (image == (Image *) NULL)
-      {
-        (void) FormatLocaleString(read_info->filename,MaxTextExtent,"%s.ppm",
-          read_info->unique);
-        image=ReadImage(read_info,exception);
-      }
-    (void) RelinquishUniqueFileResource(read_info->filename);
-    if (image != (Image *) NULL)
-      {
-        char
-          filename[MaxTextExtent],
-          *xml;
-
-        ExceptionInfo
-          *sans;
-
-        (void) CopyMagickString(image->magick,read_info->magick,MaxTextExtent);
-        (void) FormatLocaleString(filename,MaxTextExtent,"%s.ufraw",
-          read_info->unique);
-        sans=AcquireExceptionInfo();
-        xml=FileToString(filename,MaxTextExtent,sans);
-        (void) RelinquishUniqueFileResource(filename);
-        if (xml != (char *) NULL)
-          {
-            XMLTreeInfo
-              *ufraw;
-
-            /*
-              Inject.
-            */
-            ufraw=NewXMLTree(xml,sans);
-            if (ufraw != (XMLTreeInfo *) NULL)
-              {
-                char
-                  *content,
-                  property[MaxTextExtent];
-
-                const char
-                  *tag;
-
-                XMLTreeInfo
-                  *next;
-
-                if (image->properties == (void *) NULL)
-                  ((Image *) image)->properties=NewSplayTree(
-                    CompareSplayTreeString,RelinquishMagickMemory,
-                    RelinquishMagickMemory);
-                next=GetXMLTreeChild(ufraw,(const char *) NULL);
-                while (next != (XMLTreeInfo *) NULL)
-                {
-                  tag=GetXMLTreeTag(next);
-                  if (tag == (char *) NULL)
-                    tag="unknown";
-                  (void) FormatLocaleString(property,MaxTextExtent,"dng:%s",
-                    tag);
-                  content=ConstantString(GetXMLTreeContent(next));
-                  StripString(content);
-                  if ((LocaleCompare(tag,"log") != 0) &&
-                      (LocaleCompare(tag,"InputFilename") != 0) &&
-                      (LocaleCompare(tag,"OutputFilename") != 0) &&
-                      (LocaleCompare(tag,"OutputType") != 0) &&
-                      (strlen(content) != 0))
-                    (void) AddValueToSplayTree((SplayTreeInfo *)
-                      ((Image *) image)->properties,ConstantString(property),
-                      content);
-                  next=GetXMLTreeSibling(next);
-                }
-                ufraw=DestroyXMLTree(ufraw);
-              }
-            xml=DestroyString(xml);
-          }
-        sans=DestroyExceptionInfo(sans);
-      }
-    read_info=DestroyImageInfo(read_info);
-    return(image);
-  }
+  return(InvokeDNGDelegate(image_info,image,exception));
 #endif
 }
 
@@ -602,6 +766,15 @@ ModuleExport size_t RegisterDNGImage(void)
   entry->seekable_stream=MagickTrue;
   entry->format_type=ExplicitFormatType;
   entry->description=ConstantString("Kodak Digital Camera Raw Image File");
+  entry->magick_module=ConstantString("DNG");
+  (void) RegisterMagickInfo(entry);
+  entry=SetMagickInfo("DCR");
+  entry->decoder=(DecodeImageHandler *) ReadDNGImage;
+  entry->seekable_stream=MagickTrue;
+  entry->blob_support=MagickFalse;
+  entry->seekable_stream=MagickTrue;
+  entry->format_type=ExplicitFormatType;
+  entry->description=ConstantString("Raw Photo Decoder (dcraw)");
   entry->magick_module=ConstantString("DNG");
   (void) RegisterMagickInfo(entry);
   entry=SetMagickInfo("ERF");
@@ -802,6 +975,7 @@ ModuleExport void UnregisterDNGImage(void)
   (void) UnregisterMagickInfo("CR3");
   (void) UnregisterMagickInfo("CR2");
   (void) UnregisterMagickInfo("DNG");
+  (void) UnregisterMagickInfo("DCRAW");
   (void) UnregisterMagickInfo("ARW");
   (void) UnregisterMagickInfo("3FR");
 }

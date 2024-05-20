@@ -1,3 +1,173 @@
+imagemagick (8:6.9.12.98+dfsg1-5) unstable; urgency=medium
+
+  * Bug fix: "please update Suggests: imagemagick-doc; to
+    imagemagick-6-doc", thanks to Vincent Lefevre
+    (Closes: #1059314).
+  * Bug fix: "missing Breaks+Replaces against the dropped imagemagick-doc
+    package, in order to force its removal", thanks to Vincent Lefevre
+    (Closes: #1059193).
+
+ -- Bastien Roucariès <rouca@debian.org>  Wed, 27 Dec 2023 10:29:58 +0000
+
+imagemagick (8:6.9.12.98+dfsg1-4) unstable; urgency=medium
+
+  * Replace ufraw-batch suggest by libraw-bin
+    (Closes: #1038637)
+  * Update changelog entry for CVE fixed.
+  * Move from gsfonts to fonts-urw-base35. Thanks to Vincent Lefevre
+    (Closes: #1020358, #1020355, #1020363, #1020370)
+  * Recommends fonts-tuffy (Closes: #1054580)
+  * Fix a typo in debian patch (Closes: #1054506)
+
+ -- Bastien Roucariès <rouca@debian.org>  Mon, 30 Oct 2023 09:26:06 +0000
+
+imagemagick (8:6.9.12.98+dfsg1-3) unstable; urgency=medium
+
+  * Bug fix: "imagemagick no longer sets
+    "PACKAGE_RELEASE_DATE", thanks to Håvard F. Aasen (Closes:
+    #1054462).
+  * Bug fix: "reproducible builds: Embeds different paths on usrmerge
+    system", thanks to Vagrant Cascadian (Closes: #983303).
+
+ -- Bastien Roucariès <rouca@debian.org>  Wed, 25 Oct 2023 23:30:18 +0000
+
+imagemagick (8:6.9.12.98+dfsg1-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 22 Oct 2023 15:35:30 +0000
+
+imagemagick (8:6.9.12.98+dfsg1-1) experimental; urgency=medium
+
+  * New upstream version
+  * Drop package imagemagick-doc and imagemagick-common
+  * Fix CVE-2023-3428: A heap-based buffer overflow vulnerability
+    was found in coders/tiff.c. This issue may allow a local attacker
+    to trick the user into opening a specially crafted file,
+    resulting in an application crash and denial of service.
+  * CVE-2023-3745: A heap-based buffer overflow issue
+    was found in ImageMagick's PushCharPixel() function
+    in quantum-private.h. This issue may allow a local
+    attacker to trick the user into opening a specially crafted file,
+    triggering an out-of-bounds read error and allowing an application
+    to crash, resulting in a denial of service.
+  * Import patch for upstream that avoid a FTBFS due to
+    SOURCE_DATE_EPOCH set
+  * Use a debian policy. Install other policies as user
+    convenience.
+  * Recompile means no depends on old libwmf
+    (Closes: #1005229)
+
+ -- Bastien Roucariès <rouca@debian.org>  Sat, 21 Oct 2023 14:40:53 +0000
+
+imagemagick (8:6.9.12.90+dfsg1-1) UNRELEASED; urgency=medium
+
+  [ Luciano Bello ]
+  * removing Luciano as uploader, as he is retiring
+
+  [ Pino Toscano ]
+  * Drop the XPM icon for display-im, as the Debian menu file that needed it
+    was removed in 8:6.9.2.10+dfsg-1.
+  * Tweak the sizes for which we generate PNG versions of the display-im
+    application icon:
+    - drop 8x8, and 42x42: they are not specified in hicolor, and thus cannot
+      be reliably used; also they are very niche sizes, and they can be
+      downscaled if needed
+    - add 512x512
+
+  [ Bastien Roucariès ]
+  * New upstream version
+  * Aknowledge NMU
+  * Fix CVE-2021-3610: A heap-based buffer overflow vulnerability
+    was found in ImageMagick in ReadTIFFImage() in coders/tiff.c.
+    This issue is due to an incorrect setting of the pixel array size,
+    which can lead to a crash and segmentation fault.
+    (Closes: #1037090).
+  * Fix CVE-2022-1115: A heap-buffer-overflow flaw was found in
+    ImageMagick’s PushShortPixel() function of quantum-private.h file.
+    This vulnerability is triggered when an attacker passes a specially
+    crafted TIFF image file to ImageMagick for conversion, potentially
+    leading to a denial of service.
+    (Closes: #1013282)
+  * Fix CVE-2022-3213: A heap buffer overflow issue was found in ImageMagick.
+    When an application processes a malformed TIFF file, it could lead to
+    undefined behavior or a crash causing a denial of service.
+    (Closes: #1021141).
+  * Fix CVE-2023-1289: A vulnerability was discovered in ImageMagick where
+    a specially created SVG file loads itself and causes a
+    segmentation fault.
+    This flaw allows a remote attacker to pass a specially crafted
+    SVG file that leads to a segmentation fault, generating many
+    trash files in "/tmp", resulting in a denial of service.
+    When ImageMagick crashes, it generates
+    a lot of trash files. These trash files can be large if the SVG file
+    contains many render actions.
+    (Closes: #1033254).
+  * Fix CVE-2023-1906: A heap-based buffer overflow issue was discovered
+    in ImageMagick's ImportMultiSpectralQuantum() function in
+    MagickCore/quantum-import.c. An attacker could pass specially
+    crafted file to convert, triggering an out-of-bounds read error,
+    allowing an application to crash, resulting in a denial of service.
+    (Closes: #1034373).
+  * Fix CVE-2023-2157: A heap-based buffer overflow vulnerability
+    was found in the ImageMagick package that can lead to the application
+    crashing. (Closes: #1036476).
+  * Fix CVE-2023-3195: A stack-based buffer overflow issue was found
+    in ImageMagick's coders/tiff.c. This flaw allows an attacker to trick
+    the user into opening a specially crafted malicious tiff file,
+    causing an application to crash, resulting in a denial of service.
+  * Fix CVE-2023-34151:  A vulnerability was found in ImageMagick.
+    This security flaw ouccers as an undefined behaviors of casting double
+    to size_t in svg, mvg and other coders.
+    (Closes: #1036999)
+  * Use libfreetype-dev instead of libfreetype6-dev
+
+ -- Bastien Roucariès <rouca@debian.org>  Sat, 29 Jul 2023 14:52:58 +0000
+
+imagemagick (8:6.9.12.20+dfsg1-1.2) experimental; urgency=medium
+
+  * Non-maintainer upload.
+  * Build with --with-fftw because fftw is disabled by default since 6.9.12.5
+    (Closes: #995290)
+
+ -- Johannes Schauer Marin Rodrigues <josch@debian.org>  Tue, 05 Oct 2021 15:08:20 +0200
+
+imagemagick (8:6.9.12.20+dfsg1-1.1) experimental; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix FTBFS when doing arch:any-only builds by creating font symlinks for
+    configure-indep as well as configure-arch targets
+
+ -- Johannes Schauer Marin Rodrigues <josch@debian.org>  Sat, 04 Sep 2021 19:37:54 +0200
+
+imagemagick (8:6.9.12.20+dfsg1-1) experimental; urgency=medium
+
+  * debian/copyright: use spaces rather than tabs to start continuation lines.
+  * Set field Upstream-Contact in debian/copyright.
+  * Remove obsolete field Contact from debian/upstream/metadata (already present
+    in machine-readable debian/copyright).
+  * Avoid explicitly specifying -Wl,--as-needed linker flag.
+  * Fix field name case in debian/control (Built-using => Built-Using).
+  * Bump debhelper from old 11 to 13.
+  * Set debhelper-compat version in Build-Depends.
+  * Update standards version to 4.5.1, no changes needed.
+  * Acknowledge NMU. Thanks Salvatore Bonaccorso
+  * New upstream version
+  * SO Bump from upstream due to structure incompatibility
+  * Clean up maintainer scripts
+  * Use fonts from fonts-tuffy
+  * Fix mime type. Do not quote %s (Closes: #987691) and fix extra dot
+    (Closes: #986471)
+  * Drop old config script. Use pkgconfig please.
+  * Depends on libraw-dev (Closes: #990028).
+  * Fix invalid policy.xml (Closes: #991289, #990757).
+  * Relax a little bit policy.xml (Closes: #860763, #941724).
+  * Update Repository in debian/upstream/metadata (Closes: #991288)
+  * Fix reproducible builds: Embeds date dependent on timezone
+    (Closes: #983302)
+
+ -- Bastien Roucariès <rouca@debian.org>  Fri, 27 Aug 2021 08:19:42 +0000
+
 imagemagick (8:6.9.11.60+dfsg-1.6) unstable; urgency=high
 
   * Non-maintainer upload
@@ -316,6 +486,7 @@ imagemagick (8:6.9.10.14+dfsg-1) unstable; urgency=medium
       in coders/bgr.c.
     + CVE-2018-18016: Fix a memory leak vulnerability in WritePCXImage
       in coders/pcx.c.
+    + CVE-2023-5341: Fix a corrupt image check in coders/bmp.c
 
  -- Bastien Roucariès <rouca@debian.org>  Mon, 29 Oct 2018 13:13:38 +0100
 

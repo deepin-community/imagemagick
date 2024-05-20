@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-#  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+#  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
 #  dedicated to making software imaging solutions freely available.
 #
 #  You may not use this file except in compliance with the License.  You may
@@ -193,7 +193,7 @@ print("Truevision Targa image file ...\n");
 testReadWrite( 'TGA:input.tga',
   'TGA:output.tga',
   q//,
-  'a698f2fe0c6c31f83d19554a6ec02bac79c961dd9a87e7ed217752e75eb615d7');
+  '0531145ece70e51693bbcff40af31e64c7ebc0d6625d4e6f3826e68931d8e462');
 
 print("Khoros Visualization image file ...\n");
 ++$test;

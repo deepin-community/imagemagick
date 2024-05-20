@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -301,9 +301,6 @@ extern MagickExport void
   GetPixelCacheTileSize(const Image *,size_t *,size_t *),
   GetPixelCacheMethods(CacheMethods *),
   SetPixelCacheMethods(Cache,CacheMethods *);
-
-extern MagickPrivate void
-  ResetPixelCacheEpoch(void);
 
 extern MagickPrivate MagickBooleanType
   SyncImagePixelCache(Image *,ExceptionInfo *);

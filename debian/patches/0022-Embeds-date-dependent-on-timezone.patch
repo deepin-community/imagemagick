@@ -1,0 +1,25 @@
+From: Vagrant Cascadian <vagrant@reproducible-builds.org>
+Date: Mon, 30 Aug 2021 20:08:47 +0000
+Subject: Embeds date dependent on timezone
+
+Use date -u and dpkg-parsechangelog
+
+Forwarded: https://github.com/ImageMagick/ImageMagick6/issues/166
+Bug-debian: https://bugs.debian.org/983303
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 233a11b..720bbed 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -38,7 +38,7 @@ m4_define([magick_git_revision],
+           ]))
+ m4_define([magick_release_date],
+           m4_esyscmd([
+-            d=$(git log -1 --format=%cd --date=format:%Y-%m-%d || date -u +%F -r ./m4/version.m4)
++            d=$(date -u -d "@$(dpkg-parsechangelog -Stimestamp)" "+%F")
+             printf %s "$d"
+           ]))
+ 

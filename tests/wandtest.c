@@ -23,13 +23,13 @@
 %                                 March 2003                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2007 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                           %
+%    https://imagemagick.org/script/license.php                               %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -58,6 +58,7 @@
 #include <sys\types.h>
 #endif
 #include <time.h>
+#include <locale.h>
 #include <wand/MagickWand.h>
 
 #define WandDelay   3
@@ -5211,6 +5212,8 @@ int main(int argc,char **argv)
   (void) argc;
   (void) argv;
   MagickWandGenesis();
+  (void) setlocale(LC_ALL,"");
+  (void) setlocale(LC_NUMERIC,"C");
   magick_wand=NewMagickWand();
   (void) MagickSetSize(magick_wand,640,480);
   (void) MagickGetSize(magick_wand,&columns,&rows);
@@ -5223,15 +5226,15 @@ int main(int argc,char **argv)
   {
     char
       *p,
-      path[MaxTextExtent];
+      path[MagickPathExtent];
 
     path[0]=0;
     p=getenv("SRCDIR");
     if (p != (char *) NULL)
       {
-        (void) strcpy(path,p);
+        (void) CopyMagickString(path,p,MagickPathExtent);
         if (path[strlen(path)-1] != '/')
-          (void) strcat(path,"/");
+          (void) ConcatenateMagickString(path,"/",MagickPathExtent);
       }
     (void) strcat(path,"sequence.miff");
     status=MagickReadImage(magick_wand,path);
@@ -5300,7 +5303,7 @@ int main(int argc,char **argv)
   (void) PixelSetColor(background,"green");
   (void) PixelSetColor(border,"black");
   status=MagickFloodfillPaintImage(magick_wand,CompositeChannels,background,
-    0.01*QuantumRange,border,0,0,MagickFalse);
+    0.01*(MagickRealType) QuantumRange,border,0,0,MagickFalse);
   if (status == MagickFalse)
     ThrowAPIException(magick_wand);
   background=DestroyPixelWand(background);
@@ -5369,7 +5372,7 @@ int main(int argc,char **argv)
   MagickResetIterator(magick_wand);
   (void) MagickSetIteratorIndex(magick_wand,4);
   (void) FormatLocaleFile(stdout,
-    "Utilitize pixel iterator to draw diagonal...\n");
+    "Utilize pixel iterator to draw diagonal...\n");
   iterator=NewPixelIterator(magick_wand);
   if (iterator == (PixelIterator *) NULL)
     ThrowAPIException(magick_wand);

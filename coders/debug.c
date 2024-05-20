@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -169,8 +169,11 @@ static MagickBooleanType WriteDEBUGImage(const ImageInfo *image_info,
     colorspace[MaxTextExtent],
     tuple[MaxTextExtent];
 
-  ssize_t
-    y;
+  const IndexPacket
+    *indexes;
+
+  const PixelPacket
+    *p;
 
   MagickBooleanType
     status;
@@ -181,17 +184,12 @@ static MagickBooleanType WriteDEBUGImage(const ImageInfo *image_info,
   MagickPixelPacket
     pixel;
 
-  const IndexPacket
-    *indexes;
-
-  const PixelPacket
-    *p;
+  size_t
+    number_scenes;
 
   ssize_t
-    x;
-
-  size_t
-    imageListLength;
+    x,
+    y;
 
   /*
     Open output image file.
@@ -200,13 +198,13 @@ static MagickBooleanType WriteDEBUGImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     (void) CopyMagickString(colorspace,CommandOptionToMnemonic(
@@ -250,7 +248,7 @@ static MagickBooleanType WriteDEBUGImage(const ImageInfo *image_info,
               alpha[MaxTextExtent];
 
             (void) FormatLocaleString(alpha,MaxTextExtent,",%.20g ",
-              (double) (QuantumRange-pixel.opacity));
+              (double) QuantumRange-pixel.opacity);
             (void) ConcatenateMagickString(tuple,alpha,MaxTextExtent);
           }
         (void) WriteBlobString(image,tuple);
@@ -265,7 +263,7 @@ static MagickBooleanType WriteDEBUGImage(const ImageInfo *image_info,
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);

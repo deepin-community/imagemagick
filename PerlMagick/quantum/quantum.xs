@@ -23,7 +23,7 @@
 %                             February 1997                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -1064,9 +1064,9 @@ static double SiPrefixToDoubleInterval(const char *string,const double interval)
   return(value);
 }
 
-static inline double StringToDouble(const char *string,char **sentinal)
+static inline double StringToDouble(const char *string,char **sentinel)
 {
-  return(InterpretLocaleValue(string,sentinal));
+  return(InterpretLocaleValue(string,sentinel));
 }
 
 static double StringToDoubleInterval(const char *string,const double interval)
@@ -4904,6 +4904,9 @@ Get(ref,...)
             {
               j=info ? info->image_info->endian : image ? image->endian :
                 UndefinedEndian;
+              if (info)
+                if (info->image_info->endian == UndefinedEndian)
+                  j=image->endian;
               s=newSViv(j);
               (void) sv_setpv(s,CommandOptionToMnemonic(MagickEndianOptions,j));
               SvIOK_on(s);
@@ -5167,6 +5170,9 @@ Get(ref,...)
             {
               j=info ? info->image_info->interlace : image ? image->interlace :
                 UndefinedInterlace;
+              if (info)
+                if (info->image_info->interlace == UndefinedInterlace)
+                  j=image->interlace;
               s=newSViv(j);
               (void) sv_setpv(s,CommandOptionToMnemonic(MagickInterlaceOptions,
                 j));
@@ -5321,6 +5327,9 @@ Get(ref,...)
             {
               j=info ? info->image_info->orientation : image ?
                 image->orientation : UndefinedOrientation;
+              if (info)
+                if (info->image_info->orientation == UndefinedOrientation)
+                  j=image->orientation;
               s=newSViv(j);
               (void) sv_setpv(s,CommandOptionToMnemonic(MagickOrientationOptions,
                 j));
@@ -5627,8 +5636,8 @@ Get(ref,...)
             {
               j=info ? info->image_info->units : image ? image->units :
                 UndefinedResolution;
-              if (info && (info->image_info->units == UndefinedResolution))
-                if (image)
+              if (info)
+                if (info->image_info->units == UndefinedResolution)
                   j=image->units;
               if (j == UndefinedResolution)
                 s=newSVpv("undefined units",0);
@@ -8588,13 +8597,11 @@ Mogrify(ref,...)
                   MagickBooleanType
                     sync;
 
-                  ssize_t
-                    x;
-
                   PixelPacket
                     *q;
 
                   ssize_t
+                    x,
                     y;
 
                   /*
@@ -8633,10 +8640,10 @@ Mogrify(ref,...)
             image->interpolate=(InterpolatePixelMethod)
               argument_list[12].integer_reference;
           if (attribute_flag[13] != 0)   /* "args=>" */
-            (void) SetImageArtifact(composite_image,"compose:args",
+            (void) SetImageArtifact(image,"compose:args",
               argument_list[13].string_reference);
           if (attribute_flag[14] != 0)   /* "blend=>"  depreciated */
-            (void) SetImageArtifact(composite_image,"compose:args",
+            (void) SetImageArtifact(image,"compose:args",
               argument_list[14].string_reference);
           /*
             Tiling Composition (with orthogonal rotate).
@@ -8681,7 +8688,7 @@ Mogrify(ref,...)
               break;
             }
           /*
-            Parameter Handling used used ONLY for normal composition.
+            Parameter Handling used ONLY for normal composition.
           */
           if (attribute_flag[5] != 0) /* gravity */
             image->gravity=(GravityType) argument_list[5].integer_reference;
@@ -9319,7 +9326,7 @@ Mogrify(ref,...)
           TextureImage(image,argument_list[0].image_reference);
           break;
         }
-        case 55:  /* Evalute */
+        case 55:  /* Evaluate */
         {
           MagickEvaluateOperator
             op;
@@ -10233,7 +10240,7 @@ Mogrify(ref,...)
           image=TransposeImage(image,exception);
           break;
         }
-        case 100:  /* Tranverse */
+        case 100:  /* Transverse */
         {
           image=TransverseImage(image,exception);
           break;
@@ -10834,7 +10841,7 @@ Mogrify(ref,...)
             channel=(ChannelType) argument_list[1].integer_reference;
           method=UndefinedMorphology;
           if (attribute_flag[2] != 0)
-            method=argument_list[2].integer_reference;
+            method=(MorphologyMethod) argument_list[2].integer_reference;
           iterations=1;
           if (attribute_flag[3] != 0)
             iterations=argument_list[3].integer_reference;

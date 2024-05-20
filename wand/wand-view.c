@@ -22,7 +22,7 @@
 %                                March 2003                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -171,7 +171,7 @@ WandExport WandView *CloneWandView(const WandView *wand_view)
 %
 */
 
-static PixelWand ***DestroyPixelsThreadSet(PixelWand ***pixel_wands,
+static PixelWand ***DestroyPixelsTLS(PixelWand ***pixel_wands,
   const size_t number_wands,const size_t number_threads)
 {
   ssize_t
@@ -189,7 +189,7 @@ WandExport WandView *DestroyWandView(WandView *wand_view)
 {
   assert(wand_view != (WandView *) NULL);
   assert(wand_view->signature == WandSignature);
-  wand_view->pixel_wands=DestroyPixelsThreadSet(wand_view->pixel_wands,
+  wand_view->pixel_wands=DestroyPixelsTLS(wand_view->pixel_wands,
     wand_view->extent.width,wand_view->number_threads);
   wand_view->view=DestroyCacheView(wand_view->view);
   wand_view->exception=DestroyExceptionInfo(wand_view->exception);
@@ -749,7 +749,7 @@ WandExport MagickBooleanType IsWandView(const WandView *wand_view)
 %
 */
 
-static PixelWand ***AcquirePixelsThreadSet(const size_t number_wands,
+static PixelWand ***AcquirePixelsTLS(const size_t number_wands,
   const size_t number_threads)
 {
   PixelWand
@@ -767,7 +767,7 @@ static PixelWand ***AcquirePixelsThreadSet(const size_t number_wands,
   {
     pixel_wands[i]=NewPixelWands(number_wands);
     if (pixel_wands[i] == (PixelWand **) NULL)
-      return(DestroyPixelsThreadSet(pixel_wands,number_wands,number_threads));
+      return(DestroyPixelsTLS(pixel_wands,number_wands,number_threads));
   }
   return(pixel_wands);
 }
@@ -792,7 +792,7 @@ WandExport WandView *NewWandView(MagickWand *wand)
   wand_view->extent.width=wand->images->columns;
   wand_view->extent.height=wand->images->rows;
   wand_view->number_threads=GetOpenMPMaximumThreads();
-  wand_view->pixel_wands=AcquirePixelsThreadSet(wand_view->extent.width,
+  wand_view->pixel_wands=AcquirePixelsTLS(wand_view->extent.width,
     wand_view->number_threads);
   if (wand_view->pixel_wands == (PixelWand ***) NULL)
     ThrowWandFatalException(ResourceLimitFatalError,"MemoryAllocationFailed",
@@ -852,7 +852,7 @@ WandExport WandView *NewWandViewExtent(MagickWand *wand,const ssize_t x,
   wand_view->extent.x=x;
   wand_view->extent.y=y;
   wand_view->number_threads=GetOpenMPMaximumThreads();
-  wand_view->pixel_wands=AcquirePixelsThreadSet(wand_view->extent.width,
+  wand_view->pixel_wands=AcquirePixelsTLS(wand_view->extent.width,
     wand_view->number_threads);
   if (wand_view->pixel_wands == (PixelWand ***) NULL)
     ThrowWandFatalException(ResourceLimitFatalError,"MemoryAllocationFailed",
@@ -908,7 +908,7 @@ MagickExport void SetWandViewDescription(WandView *wand_view,
 %  SetWandViewIterator() iterates over the wand view in parallel and calls
 %  your set method for each scanline of the view.  The pixel extent is
 %  confined to the image canvas-- that is no negative offsets or widths or
-%  heights that exceed the image dimension.  The pixels are initiallly
+%  heights that exceed the image dimension.  The pixels are initially
 %  undefined and any settings you make in the callback method are automagically
 %  synced back to your image.
 %

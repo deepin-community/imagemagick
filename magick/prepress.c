@@ -17,7 +17,7 @@
 %                                October 2001                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -98,9 +98,9 @@ MagickExport double GetImageTotalInkDensity(Image *image)
     y;
 
   assert(image != (Image *) NULL);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(image->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   if (image->colorspace != CMYKColorspace)
     {
       (void) ThrowMagickException(&image->exception,GetMagickModule(),
@@ -138,8 +138,8 @@ MagickExport double GetImageTotalInkDensity(Image *image)
     indexes=GetCacheViewVirtualIndexQueue(image_view);
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      density=(double) GetPixelRed(p)+GetPixelGreen(p)+
-        GetPixelBlue(p)+GetPixelIndex(indexes+x);
+      density=(double) GetPixelRed(p)+(double) GetPixelGreen(p)+
+        (double) GetPixelBlue(p)+(double) GetPixelIndex(indexes+x);
       if (density > total_ink_density)
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
         #pragma omp critical (MagickCore_GetImageTotalInkDensity)

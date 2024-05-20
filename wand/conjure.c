@@ -17,7 +17,7 @@
 %                               December 2001                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -163,11 +163,16 @@ WandExport MagickBooleanType ConjureImageCommand(ImageInfo *image_info,
   */
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   if (argc < 2)
-    return(ConjureUsage());
+    {
+      (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+        "MissingArgument","%s","");
+      (void) ConjureUsage();
+      return(MagickFalse);
+    }
   image=NewImageList();
   number_images=0;
   option=(char *) NULL;
@@ -267,10 +272,12 @@ WandExport MagickBooleanType ConjureImageCommand(ImageInfo *image_info,
           Persist key/value pair.
         */
         (void) DeleteImageOption(image_info,option+1);
-        status=SetImageOption(image_info,option+1,argv[i+1]);
+        i++;
+        if (i == argc)
+          ThrowConjureException(OptionError,"MissingArgument",option);
+        status=SetImageOption(image_info,option+1,argv[i]);
         if (status == MagickFalse)
           ThrowConjureException(ImageError,"UnableToPersistKey",option);
-        i++;
         continue;
       }
     /*

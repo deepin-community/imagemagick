@@ -17,7 +17,7 @@
 %                                September 2002                               %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -381,6 +381,40 @@ MagickExport void CloseMagickLog(void)
 %                                                                             %
 %                                                                             %
 %                                                                             %
+%   G e t L o g E v e n t M a s k                                             %
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  GetLogEventMask() returns the current log event mask.
+%
+%  The format of the GetLogEventMask method is:
+%
+%      const char *GetLogEventMask(void)
+%
+*/
+MagickExport LogEventType GetLogEventMask(void)
+{
+  ExceptionInfo
+    *exception;
+
+  LogInfo
+    *log_info;
+
+  exception=AcquireExceptionInfo();
+  log_info=GetLogInfo("*",exception);
+  exception=DestroyExceptionInfo(exception);
+  if (log_info == (const LogInfo *) NULL)
+    return(NoEvents);
+  return(log_info->event_mask);
+}
+
+/*
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                                                             %
+%                                                                             %
 +   G e t L o g I n f o                                                       %
 %                                                                             %
 %                                                                             %
@@ -497,8 +531,9 @@ MagickExport const LogInfo **GetLogInfoList(const char *pattern,
     Allocate log list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_preferences != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_preferences=0;
   p=GetLogInfo("*",exception);
   if (p == (const LogInfo *) NULL)
@@ -590,8 +625,9 @@ MagickExport char **GetLogList(const char *pattern,
     Allocate log list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_preferences != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_preferences=0;
   p=GetLogInfo("*",exception);
   if (p == (const LogInfo *) NULL)
@@ -638,7 +674,7 @@ MagickExport char **GetLogList(const char *pattern,
 %      const char *GetLogName(void)
 %
 */
-MagickExport const char *GetLogName(void)
+MagickExport char *GetLogName(void)
 {
   return(log_name);
 }
@@ -667,7 +703,7 @@ MagickExport const char *GetLogName(void)
 %
 */
 
-static inline void CheckEventLogging()
+static inline void CheckEventLogging(void)
 {
   /*
     Are we logging events?
@@ -1894,7 +1930,7 @@ MagickExport void SetLogMethod(MagickLogMethod method)
 %    o name: Specifies the new client name.
 %
 */
-MagickExport const char *SetLogName(const char *name)
+MagickExport char *SetLogName(const char *name)
 {
   if ((name != (char *) NULL) && (*name != '\0'))
     (void) CopyMagickString(log_name,name,MaxTextExtent);

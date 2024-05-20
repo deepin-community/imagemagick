@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -111,13 +111,13 @@ MagickExport MagickBooleanType AcquireImageColormap(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (colors > MaxColormapSize)
     {
       image->colors=0;
       image->storage_class=DirectClass;
-      ThrowBinaryImageException(ResourceLimitError,"MemoryAllocationFailed",
+      ThrowBinaryImageException(ResourceLimitError,"UnableToCreateColormap",
         image->filename);
     }
   image->colors=MagickMax(colors,1);
@@ -145,7 +145,8 @@ MagickExport MagickBooleanType AcquireImageColormap(Image *image,
     image->colormap[i].blue=(Quantum) pixel;
     image->colormap[i].opacity=OpaqueOpacity;
   }
-  return(SetImageStorageClass(image,PseudoClass));
+  image->storage_class=PseudoClass;
+  return(MagickTrue);
 }
 
 /*
@@ -191,7 +192,7 @@ MagickExport MagickBooleanType CycleColormapImage(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->storage_class == DirectClass)
     (void) SetImageType(image,PaletteType);
@@ -310,9 +311,9 @@ MagickExport MagickBooleanType SortColormapByIntensity(Image *image)
     *pixels;
 
   assert(image != (Image *) NULL);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(image->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   if (image->storage_class != PseudoClass)
     return(MagickTrue);
   exception=(&image->exception);

@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -137,11 +137,11 @@ static Image *ReadCMYKImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   if ((image->columns == 0) || (image->rows == 0))
     ThrowReaderException(OptionError,"MustSpecifyImageSize");
@@ -171,18 +171,18 @@ static Image *ReadCMYKImage(const ImageInfo *image_info,
     exception);
   if (canvas_image == (Image *) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
+  quantum_type=CMYKQuantum;
+  if (LocaleCompare(image_info->magick,"CMYKA") == 0)
+    {
+      quantum_type=CMYKAQuantum;
+      canvas_image->matte=MagickTrue;
+    }
   (void) SetImageVirtualPixelMethod(canvas_image,BlackVirtualPixelMethod);
   quantum_info=AcquireQuantumInfo(image_info,canvas_image);
   if (quantum_info == (QuantumInfo *) NULL)
     {
       canvas_image=DestroyImage(canvas_image);
       ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-    }
-  quantum_type=CMYKQuantum;
-  if (LocaleCompare(image_info->magick,"CMYKA") == 0)
-    {
-      quantum_type=CMYKAQuantum;
-      image->matte=MagickTrue;
     }
   pixels=GetQuantumPixels(quantum_info);
   if (image_info->number_scenes != 0)
@@ -210,6 +210,7 @@ static Image *ReadCMYKImage(const ImageInfo *image_info,
     /*
       Read pixels to virtual canvas image then push to image.
     */
+    image->matte=canvas_image->matte;
     if ((image_info->ping != MagickFalse) && (image_info->number_scenes != 0))
       if (image->scene >= (image_info->scene+image_info->number_scenes-1))
         break;
@@ -1265,8 +1266,8 @@ static MagickBooleanType WriteCMYKImage(const ImageInfo *image_info,
     y;
 
   size_t
-    imageListLength,
-    length;
+    length,
+    number_scenes;
 
   unsigned char
     *pixels;
@@ -1278,7 +1279,7 @@ static MagickBooleanType WriteCMYKImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image_info->interlace != PartitionInterlace)
     {
@@ -1296,7 +1297,7 @@ static MagickBooleanType WriteCMYKImage(const ImageInfo *image_info,
       image->matte=MagickTrue;
     }
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     /*
@@ -1666,7 +1667,7 @@ static MagickBooleanType WriteCMYKImage(const ImageInfo *image_info,
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);

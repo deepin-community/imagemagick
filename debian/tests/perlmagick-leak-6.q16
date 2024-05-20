@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e
+UCQUANTUMDEPTH=Q16
+(sed s/@UCQUANTUMDEPTH@/$UCQUANTUMDEPTH/ | tee test.pl) <<'EOF'
+my $maxloop = int($ARGV[0]);
+for (my $i = 0; $i < $maxloop; $i++) {
+    use Image::Magick::@UCQUANTUMDEPTH@;
+    use aliased 'Image::Magick::@UCQUANTUMDEPTH@' => 'im';
+    $image = im->new;
+    $image->Set(size=>'100x100');
+    $gc = $image->Draw(text => "0, 67, Hello world")
+}
+EOF
+exec 3>&1 4>&2
+SIZEONE=$(/usr/bin/time -f %M sh -c 'perl test.pl 1  1>&3 2>&4' 2>&1)
+SIZEHUNDRED=$(/usr/bin/time -f %M sh -c 'perl test.pl 100  1>&3 2>&4' 2>&1)
+exec 3>- 4>-
+echo "Loop one size $SIZEONE Loop 100 size $SIZEHUNDRED"
+if test $SIZEHUNDRED -ge $(($SIZEONE * 10)); then
+    echo "LEAK"
+    exit 1
+fi
+exit 0
+
+
+
+tee test.pl<<EOF
+    
+require 'rmagick'
+
+ARGV[0].to_i.times do |i|
+  img = Magick::Image.new(1000, 1000)
+
+  gc = Magick::Draw.new
+  gc.text(0, 67, "Hello world")
+  gc.draw(img)
+end

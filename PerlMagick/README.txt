@@ -23,8 +23,8 @@ Installation
 
     Get the PerlMagick distribution and type the following: 
 
-        gunzip ImageMagick-6.9.11-58.tar.gz
-        tar xvf ImageMagick-6.9.11
+        gunzip ImageMagick-6.9.12-0.tar.gz
+        tar xvf ImageMagick-6.9.12
 
     Follow the ImageMagick installation instructions in INSTALL-unix.txt
 		then type
@@ -40,7 +40,7 @@ Installation
     (often -R or -rpath) corresponding to the equivalent library search
     path option so that the library can be located at run-time.
 
-    To create and install the dymamically-loaded version of PerlMagick
+    To create and install the dynamically-loaded version of PerlMagick
     (the preferred way), execute
         
         perl Makefile.PL

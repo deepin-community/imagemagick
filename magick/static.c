@@ -17,7 +17,7 @@
 %                                 March 2000                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -237,9 +237,6 @@ static struct
   { "XCF", MagickFalse, RegisterXCFImage, UnregisterXCFImage },
   { "XPM", MagickFalse, RegisterXPMImage, UnregisterXPMImage },
   { "XPS", MagickFalse, RegisterXPSImage, UnregisterXPSImage },
-#if defined(MAGICKCORE_WINDOWS_SUPPORT)
-  { "XTRN", MagickFalse, RegisterXTRNImage, UnregisterXTRNImage },
-#endif
 #if defined(MAGICKCORE_X11_DELEGATE)
   { "XWD", MagickFalse, RegisterXWDImage, UnregisterXWDImage },
 #endif
@@ -291,7 +288,7 @@ MagickExport MagickBooleanType InvokeStaticImageFilter(const char *tag,
 
   assert(image != (Image **) NULL);
   assert((*image)->signature == MagickCoreSignature);
-  if ((*image)->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",(*image)->filename);
   rights=ReadPolicyRights;
   if (IsRightsAuthorized(FilterPolicyDomain,rights,tag) == MagickFalse)
@@ -326,12 +323,12 @@ MagickExport MagickBooleanType InvokeStaticImageFilter(const char *tag,
           signature;
 
         if ((*image)->debug != MagickFalse)
-          (void) LogMagickEvent(CoderEvent,GetMagickModule(),
+          (void) LogMagickEvent(TransformEvent,GetMagickModule(),
             "Invoking \"%s\" static image filter",tag);
         signature=image_filter(image,argc,argv,exception);
         if ((*image)->debug != MagickFalse)
-          (void) LogMagickEvent(CoderEvent,GetMagickModule(),"\"%s\" completes",
-            tag);
+          (void) LogMagickEvent(TransformEvent,GetMagickModule(),
+            "\"%s\" completes",tag);
         if (signature != MagickImageFilterSignature)
           {
             (void) ThrowMagickException(exception,GetMagickModule(),ModuleError,
@@ -395,17 +392,17 @@ MagickExport MagickBooleanType RegisterStaticModule(const char *module,
   */
   assert(module != (const char *) NULL);
   (void) CopyMagickString(module_name,module,MagickPathExtent);
-  rights=ReadPolicyRights;
-  if (IsRightsAuthorized(ModulePolicyDomain,rights,module) == MagickFalse)
+  p=GetCoderInfo(module,exception);
+  if (p != (CoderInfo *) NULL)
+    (void) CopyMagickString(module_name,p->name,MagickPathExtent);
+  rights=(PolicyRights) (ReadPolicyRights | WritePolicyRights);
+  if (IsRightsAuthorized(ModulePolicyDomain,rights,module_name) == MagickFalse)
     {
       errno=EPERM;
       (void) ThrowMagickException(exception,GetMagickModule(),PolicyError,
         "NotAuthorized","`%s'",module);
       return(MagickFalse);
     }
-  p=GetCoderInfo(module,exception);
-  if (p != (CoderInfo *) NULL)
-    (void) CopyMagickString(module_name,p->name,MagickPathExtent);
   extent=sizeof(MagickModules)/sizeof(MagickModules[0]);
   for (i=0; i < (ssize_t) extent; i++)
     if (LocaleCompare(MagickModules[i].module,module_name) == 0)
@@ -441,17 +438,23 @@ MagickExport MagickBooleanType RegisterStaticModule(const char *module,
 */
 MagickExport void RegisterStaticModules(void)
 {
+  PolicyRights
+    rights;
+
   size_t
     extent;
 
   ssize_t
     i;
 
+  rights=(PolicyRights) (ReadPolicyRights | WritePolicyRights);
   extent=sizeof(MagickModules)/sizeof(MagickModules[0]);
   for (i=0; i < (ssize_t) extent; i++)
   {
     if (MagickModules[i].registered == MagickFalse)
       {
+        if (IsRightsAuthorized(ModulePolicyDomain,rights,MagickModules[i].module) == MagickFalse)
+          continue;
         (void) (MagickModules[i].register_module)();
         MagickModules[i].registered=MagickTrue;
       }

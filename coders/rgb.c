@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -137,14 +137,20 @@ static Image *ReadRGBImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   if ((image->columns == 0) || (image->rows == 0))
     ThrowReaderException(OptionError,"MustSpecifyImageSize");
+  status=SetImageExtent(image,image->columns,image->rows);
+  if (status == MagickFalse)
+    {
+      InheritException(exception,&image->exception);
+      return(DestroyImageList(image));
+    }
   if (image_info->interlace != PartitionInterlace)
     {
       status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
@@ -164,23 +170,23 @@ static Image *ReadRGBImage(const ImageInfo *image_info,ExceptionInfo *exception)
     exception);
   if (canvas_image == (Image *) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
+  quantum_type=RGBQuantum;
+  if (LocaleCompare(image_info->magick,"RGBA") == 0)
+    {
+      quantum_type=RGBAQuantum;
+      canvas_image->matte=MagickTrue;
+    }
+  if (LocaleCompare(image_info->magick,"RGBO") == 0)
+    {
+      quantum_type=RGBOQuantum;
+      canvas_image->matte=MagickTrue;
+    }
   (void) SetImageVirtualPixelMethod(canvas_image,BlackVirtualPixelMethod);
   quantum_info=AcquireQuantumInfo(image_info,canvas_image);
   if (quantum_info == (QuantumInfo *) NULL)
     {
       canvas_image=DestroyImage(canvas_image);
       ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-    }
-  quantum_type=RGBQuantum;
-  if (LocaleCompare(image_info->magick,"RGBA") == 0)
-    {
-      quantum_type=RGBAQuantum;
-      image->matte=MagickTrue;
-    }
-  if (LocaleCompare(image_info->magick,"RGBO") == 0)
-    {
-      quantum_type=RGBOQuantum;
-      image->matte=MagickTrue;
     }
   pixels=GetQuantumPixels(quantum_info);
   if (image_info->number_scenes != 0)
@@ -208,6 +214,7 @@ static Image *ReadRGBImage(const ImageInfo *image_info,ExceptionInfo *exception)
     /*
       Read pixels to virtual canvas image then push to image.
     */
+    image->matte=canvas_image->matte;
     if ((image_info->ping != MagickFalse) && (image_info->number_scenes != 0))
       if (image->scene >= (image_info->scene+image_info->number_scenes-1))
         break;
@@ -1113,8 +1120,8 @@ static MagickBooleanType WriteRGBImage(const ImageInfo *image_info,Image *image)
     quantum_type;
 
   size_t
-    imageListLength,
-    length;
+    length,
+    number_scenes;
 
   ssize_t
     count,
@@ -1130,7 +1137,7 @@ static MagickBooleanType WriteRGBImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image_info->interlace != PartitionInterlace)
     {
@@ -1147,13 +1154,14 @@ static MagickBooleanType WriteRGBImage(const ImageInfo *image_info,Image *image)
   if (LocaleCompare(image_info->magick,"RGBO") == 0)
     quantum_type=RGBOQuantum;
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     /*
       Convert MIFF to RGB raster pixels.
     */
-    (void) TransformImageColorspace(image,sRGBColorspace);
+    if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+      (void) TransformImageColorspace(image,sRGBColorspace);
     if ((LocaleCompare(image_info->magick,"RGBA") == 0) &&
         (image->matte == MagickFalse))
       (void) SetImageAlphaChannel(image,ResetAlphaChannel);
@@ -1473,7 +1481,7 @@ static MagickBooleanType WriteRGBImage(const ImageInfo *image_info,Image *image)
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);

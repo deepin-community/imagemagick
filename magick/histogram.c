@@ -18,7 +18,7 @@
 %                                August 2009                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -50,6 +50,7 @@
 #include "magick/histogram.h"
 #include "magick/image.h"
 #include "magick/list.h"
+#include "magick/locale_.h"
 #include "magick/memory_.h"
 #include "magick/monitor-private.h"
 #include "magick/pixel-private.h"
@@ -182,12 +183,12 @@ static inline MagickBooleanType IsMagickColorMatch(const MagickPixelPacket *p,
     alpha,
     beta;
 
-  alpha=p->matte == MagickFalse ? OpaqueOpacity : p->opacity;
-  beta=q->matte == MagickFalse ? OpaqueOpacity : q->opacity;
+  alpha=p->matte == MagickFalse ? (MagickRealType) OpaqueOpacity : p->opacity;
+  beta=q->matte == MagickFalse ? (MagickRealType) OpaqueOpacity : q->opacity;
   if (AbsolutePixelValue(alpha-beta) >= MagickEpsilon)
     return(MagickFalse);
-  if ((AbsolutePixelValue(alpha-TransparentOpacity) < MagickEpsilon) ||
-      (AbsolutePixelValue(beta-TransparentOpacity) < MagickEpsilon))
+  if ((AbsolutePixelValue(alpha-(MagickRealType) TransparentOpacity) < MagickEpsilon) ||
+      (AbsolutePixelValue(beta-(MagickRealType) TransparentOpacity) < MagickEpsilon))
     return(MagickTrue);  /* no color component if pixel is transparent */
   if (AbsolutePixelValue(p->red-q->red) >= MagickEpsilon)
     return(MagickFalse);
@@ -248,7 +249,7 @@ static CubeInfo *ClassifyImageColors(const Image *image,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   cube_info=GetCubeInfo();
   if (cube_info == (CubeInfo *) NULL)
@@ -590,8 +591,8 @@ MagickExport ColorPacket *GetImageHistogram(const Image *image,
           root=histogram;
           DefineImageHistogram(image,cube_info->root,&root);
         }
+      cube_info=DestroyCubeInfo(image,cube_info);
     }
-  cube_info=DestroyCubeInfo(image,cube_info);
   return(histogram);
 }
 
@@ -732,6 +733,8 @@ static MagickBooleanType CheckImageColors(const Image *image,
     if (p == (const PixelPacket *) NULL)
       break;
     indexes=GetCacheViewVirtualIndexQueue(image_view);
+    if (indexes == (const IndexPacket *) NULL)
+      break;
     for (x=0; x < (ssize_t) image->columns; x++)
     {
       /*
@@ -773,7 +776,7 @@ static MagickBooleanType CheckImageColors(const Image *image,
           /*
             Add this unique color to the color list.
           */
-          if (node_info->number_unique == 0)
+          if (node_info->list == (ColorPacket *) NULL)
             node_info->list=(ColorPacket *) AcquireQuantumMemory(1,
               sizeof(*node_info->list));
           else
@@ -811,7 +814,7 @@ MagickExport MagickBooleanType IdentifyPaletteImage(const Image *image,
 {
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   return(CheckImageColors(image,exception,256));
 }
@@ -882,7 +885,7 @@ MagickExport MagickBooleanType IsHistogramImage(const Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if ((image->storage_class == PseudoClass) &&
       (image->colors <= MaximumUniqueColors))
@@ -1009,12 +1012,12 @@ MagickExport MagickBooleanType IsHistogramImage(const Image *image,
 %
 */
 MagickExport MagickBooleanType IsPaletteImage(const Image *image,
-  ExceptionInfo *exception)
+  ExceptionInfo *magick_unused(exception))
 {
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
   magick_unreferenced(exception);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->storage_class != PseudoClass)
     return(MagickFalse);
@@ -1040,7 +1043,7 @@ MagickExport MagickBooleanType IsPaletteImage(const Image *image,
 %  If the adjustment values are both zero this function is equivalent to a
 %  perfect normalization (or autolevel) of the image.
 %
-%  Each channel is stretched independantally of each other (producing color
+%  Each channel is stretched independently of each other (producing color
 %  distortion) unless the special 'SyncChannels' flag is also provided in the
 %  channels setting. If this flag is present the minimum and maximum point
 %  will be extracted from all the given channels, and those channels will be
@@ -1235,8 +1238,10 @@ MagickExport size_t GetNumberColors(const Image *image,FILE *file,
 
       cube_info=ClassifyImageColors(image,exception);
       if (cube_info != (CubeInfo *) NULL)
-        number_colors=cube_info->colors;
-      cube_info=DestroyCubeInfo(image,cube_info);
+        {
+          number_colors=cube_info->colors;
+          cube_info=DestroyCubeInfo(image,cube_info);
+        }
       return(number_colors);
     }
   histogram=GetImageHistogram(image,&number_colors,exception);
@@ -1269,7 +1274,8 @@ MagickExport size_t GetNumberColors(const Image *image,FILE *file,
     (void) ConcatenateMagickString(tuple,")",MaxTextExtent);
     (void) QueryMagickColorname(image,&pixel,SVGCompliance,color,exception);
     GetColorTuple(&pixel,MagickTrue,hex);
-    (void) sprintf(count,"%.20g:",(double) ((MagickOffsetType) p->count));
+    (void) FormatLocaleString(count,MagickPathExtent,"%10.20g:",(double)
+      ((MagickOffsetType) p->count));
     (void) FormatLocaleFile(file,"    %s %s %s %s\n",count,tuple,hex,color);
     if (image->progress_monitor != (MagickProgressMonitor) NULL)
       {

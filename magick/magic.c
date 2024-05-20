@@ -17,7 +17,7 @@
 %                                 July 2000                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -89,6 +89,7 @@ static const MagicMapInfo
     { "8BIMWTEXT", 0, MagicPattern("8\000B\000I\000M\000#") },
     { "8BIMTEXT", 0, MagicPattern("8BIM#") },
     { "8BIM", 0, MagicPattern("8BIM") },
+    { "AVIF", 4, MagicPattern("ftypavif") },
     { "BMP", 0, MagicPattern("BA") },
     { "BMP", 0, MagicPattern("BM") },
     { "BMP", 0, MagicPattern("CI") },
@@ -124,7 +125,6 @@ static const MagicMapInfo
     { "HDF", 1, MagicPattern("HDF") },
     { "HDR", 0, MagicPattern("#?RADIANCE") },
     { "HDR", 0, MagicPattern("#?RGBE") },
-    { "HEIC", 4, MagicPattern("ftypavif") },
     { "HEIC", 4, MagicPattern("ftypheic") },
     { "HEIC", 4, MagicPattern("ftypheix") },
     { "HEIC", 4, MagicPattern("ftypmif1") },
@@ -140,6 +140,8 @@ static const MagicMapInfo
     { "J2K", 0, MagicPattern("\xff\x4f\xff\x51") },
     { "JPC", 0, MagicPattern("\x0d\x0a\x87\x0a") },
     { "JP2", 0, MagicPattern("\x00\x00\x00\x0c\x6a\x50\x20\x20\x0d\x0a\x87\x0a") },
+    { "JXL", 0, MagicPattern("\xff\x0a") },
+    { "JXL", 0, MagicPattern("\x00\x00\x00\x0c\x4a\x58\x4c\x20\x0d\x0a\x87\x0a") },
     { "MAT", 0, MagicPattern("MATLAB 5.0 MAT-file,") },
     { "MIFF", 0, MagicPattern("Id=ImageMagick") },
     { "MIFF", 0, MagicPattern("id=ImageMagick") },
@@ -393,9 +395,23 @@ MagickExport const MagicInfo *GetMagicInfo(const unsigned char *magic,
     }
   while (p != (const MagicInfo *) NULL)
   {
+    const unsigned char
+      *q;
+
+    MagickOffsetType
+      remaining;
+
     assert(p->offset >= 0);
-    if (((size_t) (p->offset+p->length) <= length) &&
-        (memcmp(magic+p->offset,p->magic,p->length) == 0))
+    q=magic+p->offset;
+    remaining=(MagickOffsetType) length-p->offset;
+    if (LocaleCompare(p->name,"SVG") == 0)
+      while ((remaining > 0) && (isspace(*q) != 0))
+      {
+        q++;
+        remaining--;
+      }
+    if ((remaining >= (MagickOffsetType) p->length) &&
+        (memcmp(q,p->magic,p->length) == 0))
       break;
     p=(const MagicInfo *) GetNextValueInLinkedList(magic_cache);
   }
@@ -472,8 +488,9 @@ MagickExport const MagicInfo **GetMagicInfoList(const char *pattern,
     Allocate magic list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_aliases != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_aliases=0;
   p=GetMagicInfo((const unsigned char *) NULL,0,exception);
   if (p == (const MagicInfo *) NULL)
@@ -567,8 +584,9 @@ MagickExport char **GetMagicList(const char *pattern,size_t *number_aliases,
     Allocate configure list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_aliases != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_aliases=0;
   p=GetMagicInfo((const unsigned char *) NULL,0,exception);
   if (p == (const MagicInfo *) NULL)
@@ -618,9 +636,10 @@ MagickExport char **GetMagicList(const char *pattern,size_t *number_aliases,
 */
 MagickExport const char *GetMagicName(const MagicInfo *magic_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(magic_info != (MagicInfo *) NULL);
   assert(magic_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   return(magic_info->name);
 }
 

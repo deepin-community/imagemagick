@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -149,6 +149,13 @@ static inline unsigned int GetUTFOctets(const char *magick_restrict text)
   return(octets);
 }
 
+static inline MagickBooleanType IsNonBreakingUTFSpace(const int code)
+{
+  if (code == 0x00a0)
+    return(MagickTrue);
+  return(MagickFalse);
+}
+
 static inline MagickBooleanType IsUTFSpace(int code)
 {
   if (((code >= 0x0009) && (code <= 0x000d)) || (code == 0x0020) ||
@@ -160,7 +167,7 @@ static inline MagickBooleanType IsUTFSpace(int code)
   return(MagickFalse);
 }
 
-static inline MagickBooleanType IsUTFValid(int code)
+static inline MagickBooleanType IsUTFValid(const int code)
 {
   int
     mask;

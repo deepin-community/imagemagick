@@ -1,19 +1,18 @@
-From fa352d2950591ebc6104de7e64e1442355c4f0a2 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Bastien=20ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
+From: =?utf-8?q?Bastien_ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
 Date: Mon, 19 Mar 2018 22:08:25 +0100
 Subject: Fix another errors in html files
 
 Forwarded: yes
 ---
- www/api.html             | 224 ++++++++++++++++++
- www/binary-releases.html | 495 +++++++++++++++++++++++++++++++++++++++
+ www/api.html             | 224 +++++++++++++++++++++
+ www/binary-releases.html | 495 +++++++++++++++++++++++++++++++++++++++++++++++
  2 files changed, 719 insertions(+)
  create mode 100644 www/api.html
  create mode 100644 www/binary-releases.html
 
 diff --git a/www/api.html b/www/api.html
 new file mode 100644
-index 0000000000..6542f550f9
+index 0000000..6542f55
 --- /dev/null
 +++ b/www/api.html
 @@ -0,0 +1,224 @@
@@ -243,7 +242,7 @@ index 0000000000..6542f550f9
 +</html>
 diff --git a/www/binary-releases.html b/www/binary-releases.html
 new file mode 100644
-index 0000000000..b6e959a7ea
+index 0000000..b6e959a
 --- /dev/null
 +++ b/www/binary-releases.html
 @@ -0,0 +1,495 @@

@@ -1,0 +1,15 @@
+#!/usr/bin/perl
+# regression test for #1032998
+use GD::SecurityImage use_magick => 1;
+
+my $image = GD::SecurityImage->new(
+    width    => 200,
+    height   => 100,
+    lines    => 4,
+    gd_font  => 'Giant',
+    scramble => 1,
+    rndmax   => 10,
+);
+$image->random;
+$image->create( 'normal', 'default', "#403030", "#FF644B" );
+print $image->out( force => 'png' );

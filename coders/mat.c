@@ -207,12 +207,14 @@ static void InsertComplexDoubleRow(double *p,int y,Image *image,double MinVal,
   {
     if (*p > 0)
       {
-        f=(*p/MaxVal)*(Quantum) (QuantumRange-GetPixelRed(q));
-        if ((f+GetPixelRed(q)) >= QuantumRange)
+        f=(*p/MaxVal)*((MagickRealType) QuantumRange-(MagickRealType)
+          GetPixelRed(q));
+        if ((f+(MagickRealType) GetPixelRed(q)) >= (MagickRealType) QuantumRange)
           SetPixelRed(q,QuantumRange);
         else
-          SetPixelRed(q,GetPixelRed(q)+ClampToQuantum(f));
-        f=GetPixelGreen(q)-f/2.0;
+          SetPixelRed(q,(MagickRealType) GetPixelRed(q)+(MagickRealType)
+            ClampToQuantum(f));
+        f=(MagickRealType) GetPixelGreen(q)-f/2.0;
         if (f <= 0.0)
           {
             SetPixelGreen(q,0);
@@ -226,12 +228,14 @@ static void InsertComplexDoubleRow(double *p,int y,Image *image,double MinVal,
       }
     if (*p < 0)
       {
-        f=(*p/MinVal)*(Quantum) (QuantumRange-GetPixelBlue(q));
-        if ((f+GetPixelBlue(q)) >= QuantumRange)
+        f=(*p/MinVal)*((MagickRealType) QuantumRange-(MagickRealType)
+          GetPixelBlue(q));
+        if ((f+(MagickRealType) GetPixelBlue(q)) >= (MagickRealType) QuantumRange)
           SetPixelBlue(q,QuantumRange);
         else
-          SetPixelBlue(q,GetPixelBlue(q)+ClampToQuantum(f));
-        f=GetPixelGreen(q)-f/2.0;
+          SetPixelBlue(q,(MagickRealType) GetPixelBlue(q)+(MagickRealType)
+            ClampToQuantum(f));
+        f=(MagickRealType) GetPixelGreen(q)-f/2.0;
         if (f <= 0.0)
           {
             SetPixelRed(q,0);
@@ -275,13 +279,14 @@ static void InsertComplexFloatRow(float *p,int y,Image *image,double MinVal,
   {
     if (*p > 0)
       {
-        f=(*p/MaxVal)*(Quantum) (QuantumRange-GetPixelRed(q));
-        if ((f+GetPixelRed(q)) < QuantumRange)
+        f=((MagickRealType) *p/MaxVal)*((MagickRealType) QuantumRange-
+          (MagickRealType) GetPixelRed(q));
+        if ((f+(MagickRealType) GetPixelRed(q)) < (MagickRealType) QuantumRange)
           SetPixelRed(q,GetPixelRed(q)+ClampToQuantum(f));
         else
           SetPixelRed(q,QuantumRange);
         f/=2.0;
-        if (f < GetPixelGreen(q))
+        if (f < (MagickRealType) GetPixelGreen(q))
           {
             SetPixelBlue(q,GetPixelBlue(q)-ClampToQuantum(f));
             SetPixelGreen(q,GetPixelBlue(q));
@@ -294,13 +299,14 @@ static void InsertComplexFloatRow(float *p,int y,Image *image,double MinVal,
       }
     if (*p < 0)
       {
-        f=(*p/MaxVal)*(Quantum) (QuantumRange-GetPixelBlue(q));
-        if ((f+GetPixelBlue(q)) < QuantumRange)
+        f=((MagickRealType) *p/MaxVal)*((MagickRealType) QuantumRange-
+          (MagickRealType) GetPixelBlue(q));
+        if ((f+(MagickRealType) GetPixelBlue(q)) < (MagickRealType) QuantumRange)
           SetPixelBlue(q,GetPixelBlue(q)+ClampToQuantum(f));
         else
           SetPixelBlue(q,QuantumRange);
         f/=2.0;
-        if (f < GetPixelGreen(q))
+        if (f < (MagickRealType) GetPixelGreen(q))
           {
             SetPixelRed(q,GetPixelRed(q)-ClampToQuantum(f));
             SetPixelGreen(q,GetPixelRed(q));
@@ -369,10 +375,10 @@ static void ReadBlobDoublesMSB(Image * image, size_t len, double *data)
 }
 
 /* Calculate minimum and maximum from a given block of data */
-static void CalcMinMax(Image *image, int endian_indicator, int SizeX, int SizeY, size_t CellType, unsigned ldblk, void *BImgBuff, double *Min, double *Max)
+static void CalcMinMax(Image *image, int endian_indicator, ssize_t SizeX, ssize_t SizeY, size_t CellType, unsigned ldblk, void *BImgBuff, double *Min, double *Max)
 {
 MagickOffsetType filepos;
-int i, x;
+ssize_t i, x;
 void (*ReadBlobDoublesXXX)(Image * image, size_t len, double *data);
 void (*ReadBlobFloatsXXX)(Image * image, size_t len, float *data);
 double *dblrow;
@@ -419,9 +425,9 @@ float *fltrow;
       }
     for (x = 0; x < (ssize_t) SizeX; x++)
       {
-        if (*Min > *fltrow)
+        if (*Min > (MagickRealType) *fltrow)
           *Min = *fltrow;
-        if (*Max < *fltrow)
+        if (*Max < (MagickRealType) *fltrow)
           *Max = *fltrow;
         fltrow++;
       }
@@ -431,8 +437,11 @@ float *fltrow;
 }
 
 
-static void FixSignedValues(PixelPacket *q, int y)
+static void FixSignedValues(PixelPacket *q, ssize_t y)
 {
+  if (y == 0)
+    return;
+
   while(y-->0)
   {
      /* Please note that negative values will overflow
@@ -447,11 +456,14 @@ static void FixSignedValues(PixelPacket *q, int y)
 
 
 /** Fix whole row of logical/binary data. It means pack it. */
-static void FixLogical(unsigned char *Buff,int ldblk)
+static void FixLogical(unsigned char *Buff,ssize_t ldblk)
 {
 unsigned char mask=128;
 unsigned char *BuffL = Buff;
 unsigned char val = 0;
+
+  if (ldblk == 0)
+    return;
 
   while(ldblk-->0)
   {
@@ -531,6 +543,7 @@ ssize_t TotalSize = 0;
     return NULL;
   }
 
+  (void) memset(&zip_info,0,sizeof(zip_info));
   zip_info.zalloc=AcquireZIPMemory;
   zip_info.zfree=RelinquishZIPMemory;
   zip_info.opaque = (voidpf) NULL;
@@ -612,9 +625,6 @@ static Image *ReadMATImageV4(const ImageInfo *image_info,Image *image,
     unsigned int nameLen;
   } MAT4_HDR;
 
-  long
-    ldblk;
-
   EndianType
     endian;
 
@@ -634,10 +644,9 @@ static Image *ReadMATImageV4(const ImageInfo *image_info,Image *image,
     format_type;
 
   ssize_t
-    i;
-
-  ssize_t
     count,
+    i,
+    ldblk,
     y;
 
   unsigned char
@@ -814,8 +823,8 @@ static Image *ReadMATImageV4(const ImageInfo *image_info,Image *image,
         rotated_image->colors = image->colors;
         DestroyBlob(rotated_image);
         rotated_image->blob=ReferenceBlob(image->blob);
-        AppendImageToList(&image,rotated_image);
-        DeleteImageFromList(&image);
+        ReplaceImageInList(&image,rotated_image);
+        image=rotated_image;
       }
     /*
       Proceed to next image.
@@ -1211,7 +1220,7 @@ RestoreMSCWarning
     image->colors = GetQuantumRange(image->depth);
     if (image->columns == 0 || image->rows == 0)
       goto MATLAB_KO;
-    if((unsigned int)ldblk*MATLAB_HDR.SizeY > MATLAB_HDR.ObjectSize)
+    if((size_t)ldblk*MATLAB_HDR.SizeY > MATLAB_HDR.ObjectSize)
       goto MATLAB_KO;
       /* Image is gray when no complex flag is set and 2D Matrix */
     if ((MATLAB_HDR.DimFlag == 8) &&
@@ -1612,7 +1621,7 @@ static MagickBooleanType WriteMATImage(const ImageInfo *image_info,Image *image)
     scene;
 
   size_t
-    imageListLength;
+    number_scenes;
 
   struct tm
     utc_time;
@@ -1647,7 +1656,7 @@ static MagickBooleanType WriteMATImage(const ImageInfo *image_info,Image *image)
   MATLAB_HDR[0x7F]='M';
   (void) WriteBlob(image,sizeof(MATLAB_HDR),(unsigned char *) MATLAB_HDR);
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     char
@@ -1668,7 +1677,8 @@ static MagickBooleanType WriteMATImage(const ImageInfo *image_info,Image *image)
     unsigned int
       z;
 
-    (void) TransformImageColorspace(image,sRGBColorspace);
+    if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+      (void) TransformImageColorspace(image,sRGBColorspace);
     is_gray=SetImageGray(image,&image->exception);
     z=(is_gray != MagickFalse) ? 0 : 3;
 
@@ -1744,7 +1754,7 @@ static MagickBooleanType WriteMATImage(const ImageInfo *image_info,Image *image)
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);

@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -66,7 +66,7 @@
 #include "magick/module.h"
 
 /*
-  Typedef declaractions.
+  Typedef declarations.
 */
 typedef struct _SGIInfo
 {
@@ -301,11 +301,11 @@ static Image *ReadSGIImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -914,6 +914,9 @@ static MagickBooleanType WriteSGIImage(const ImageInfo *image_info,Image *image)
   const char
     *value;
 
+  const PixelPacket
+    *p;
+
   MagickBooleanType
     status;
 
@@ -929,26 +932,19 @@ static MagickBooleanType WriteSGIImage(const ImageInfo *image_info,Image *image)
   SGIInfo
     iris_info;
 
-  const PixelPacket
-    *p;
+  size_t
+    number_scenes;
 
   ssize_t
     i,
-    x;
-
-  unsigned char
-    *q;
-
-  size_t
-    imageListLength;
-
-  ssize_t
+    x,
     y,
     z;
 
   unsigned char
     *pixels,
-    *packets;
+    *packets,
+    *q;
 
   /*
     Open output image file.
@@ -957,13 +953,13 @@ static MagickBooleanType WriteSGIImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     /*
@@ -971,7 +967,8 @@ static MagickBooleanType WriteSGIImage(const ImageInfo *image_info,Image *image)
     */
     if ((image->columns > 65535UL) || (image->rows > 65535UL))
       ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
-    (void) TransformImageColorspace(image,sRGBColorspace);
+    if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+      (void) TransformImageColorspace(image,sRGBColorspace);
     (void) memset(&iris_info,0,sizeof(iris_info));
     iris_info.magic=0x01DA;
     compression=image->compression;
@@ -1189,7 +1186,7 @@ static MagickBooleanType WriteSGIImage(const ImageInfo *image_info,Image *image)
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);

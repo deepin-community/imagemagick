@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -43,6 +43,7 @@
 #include "magick/blob.h"
 #include "magick/blob-private.h"
 #include "magick/cache.h"
+#include "magick/colormap.h"
 #include "magick/colorspace.h"
 #include "magick/exception.h"
 #include "magick/exception-private.h"
@@ -104,6 +105,7 @@ static Image *ReadHALDImage(const ImageInfo *image_info,
 
   ssize_t
     i,
+    index,
     y;
 
   /*
@@ -111,11 +113,11 @@ static Image *ReadHALDImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   level=0;
   if (*image_info->filename != '\0')
@@ -128,21 +130,27 @@ static Image *ReadHALDImage(const ImageInfo *image_info,
   cube_size=level*level;
   image->columns=(size_t) (level*cube_size);
   image->rows=(size_t) (level*cube_size);
+  if (((MagickSizeType) image->columns*image->rows) <= MaxColormapSize)
+    (void) AcquireImageColormap(image,(size_t) (image->columns*image->rows));
   status=SetImageExtent(image,image->columns,image->rows);
   if (status == MagickFalse)
     {
       InheritException(exception,&image->exception);
       return(DestroyImageList(image));
     }
+  index=0;
   for (y=0; y < (ssize_t) image->rows; y+=(ssize_t) level)
   {
+    IndexPacket
+      *indexes;
+
+    PixelPacket
+      *magick_restrict q;
+
     ssize_t
       blue,
       green,
       red;
-
-    PixelPacket
-      *magick_restrict q;
 
     if (status == MagickFalse)
       continue;
@@ -152,18 +160,24 @@ static Image *ReadHALDImage(const ImageInfo *image_info,
         status=MagickFalse;
         continue;
       }
+    indexes=GetAuthenticIndexQueue(image);
     blue=y/(ssize_t) level;
     for (green=0; green < (ssize_t) cube_size; green++)
     {
       for (red=0; red < (ssize_t) cube_size; red++)
       {
         SetPixelRed(q,ClampToQuantum((MagickRealType)
-          (QuantumRange*red/(cube_size-1.0))));
+          QuantumRange*red/(cube_size-1.0)));
         SetPixelGreen(q,ClampToQuantum((MagickRealType)
-          (QuantumRange*green/(cube_size-1.0))));
+          QuantumRange*green/(cube_size-1.0)));
         SetPixelBlue(q,ClampToQuantum((MagickRealType)
-          (QuantumRange*blue/(cube_size-1.0))));
+          QuantumRange*blue/(cube_size-1.0)));
         SetPixelOpacity(q,OpaqueOpacity);
+        if (indexes != (IndexPacket *) NULL)
+          {
+            image->colormap[index]=(*q);
+            *indexes++=index++;
+          }
         q++;
       }
     }

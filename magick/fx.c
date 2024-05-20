@@ -17,7 +17,7 @@
 %                                 October 1996                                %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -89,9 +89,11 @@
 #include "magick/resource_.h"
 #include "magick/splay-tree.h"
 #include "magick/statistic.h"
+#include "magick/statistic-private.h"
 #include "magick/string_.h"
 #include "magick/string-private.h"
 #include "magick/thread-private.h"
+#include "magick/timer-private.h"
 #include "magick/threshold.h"
 #include "magick/token.h"
 #include "magick/transform.h"
@@ -145,6 +147,9 @@ struct _FxInfo
 
   RandomInfo
     *random_info;
+
+  MagickSizeType
+    cycles;
 
   ExceptionInfo
     *exception;
@@ -500,13 +505,16 @@ static inline MagickBooleanType IsFxFunction(const char *expression,
   return(MagickFalse);
 }
 
-static inline double FxGCD(const double alpha,const double beta)
+static inline double FxGCD(const double alpha,const double beta,
+  const size_t depth)
 {
+#define FxMaxFunctionDepth  200
+  
   if (alpha < beta) 
-    return(FxGCD(beta,alpha));
-  if (fabs(beta) < 0.001)
+    return(FxGCD(beta,alpha,depth+1));
+  if ((fabs(beta) < 0.001) || (depth >= FxMaxFunctionDepth))
     return(alpha); 
-  return(FxGCD(beta,alpha-beta*floor(alpha/beta)));
+  return(FxGCD(beta,alpha-beta*floor(alpha/beta),depth+1));
 }
 
 static inline const char *FxSubexpression(const char *expression,
@@ -1231,6 +1239,7 @@ static const char *FxOperatorPrecedence(const char *expression,
             expression+=2;  /* scientific notation */
             break;
           }
+        break;
       }
       case 'J':
       case 'j':
@@ -1911,6 +1920,8 @@ static double FxEvaluateSubexpression(FxInfo *fx_info,const ChannelType channel,
         {
           *beta=FxEvaluateSubexpression(fx_info,channel,x,y,++p,depth+1,beta,
             exception);
+          if (*p == '\0')
+            FxReturn(alpha);
           FxReturn(*beta);
         }
         default:
@@ -2155,6 +2166,10 @@ static double FxEvaluateSubexpression(FxInfo *fx_info,const ChannelType channel,
           FxParseConditional(subexpression,',',p,q);
           for (alpha=0.0; ; )
           {
+            if (((fx_info->cycles++ % 8192) == 0) && (GetMagickTTL() <= 0))
+              (void) ThrowMagickException(exception,GetMagickModule(),
+                ResourceLimitFatalError,"TimeLimitExceeded","`%s'",
+                fx_info->images->filename);
             alpha=FxEvaluateSubexpression(fx_info,channel,x,y,q+1,depth+1,beta,
               exception);
             gamma=FxEvaluateSubexpression(fx_info,channel,x,y,p,depth+1,&sans,
@@ -2168,7 +2183,7 @@ static double FxEvaluateSubexpression(FxInfo *fx_info,const ChannelType channel,
         {
           alpha=FxEvaluateSubexpression(fx_info,channel,x,y,expression+3,
             depth+1,beta,exception);
-          FxReturn((alpha/(*beta*(alpha-1.0)+1.0)));
+          FxReturn(alpha*PerceptibleReciprocal(*beta*(alpha-1.0)+1.0));
         }
       break;
     }
@@ -2226,6 +2241,10 @@ static double FxEvaluateSubexpression(FxInfo *fx_info,const ChannelType channel,
           FxParseConditional(subexpression,',',p,q);
           for (alpha=0.0; ; )
           {
+            if (((fx_info->cycles++ % 8192) == 0) && (GetMagickTTL() <= 0))
+              (void) ThrowMagickException(exception,GetMagickModule(),
+                ResourceLimitFatalError,"TimeLimitExceeded","`%s'",
+                fx_info->images->filename);
             gamma=FxEvaluateSubexpression(fx_info,channel,x,y,p,depth+1,&sans,
               exception);
             if (fabs(gamma) < MagickEpsilon)
@@ -2253,7 +2272,9 @@ static double FxEvaluateSubexpression(FxInfo *fx_info,const ChannelType channel,
 
           alpha=FxEvaluateSubexpression(fx_info,channel,x,y,expression+3,
             depth+1,beta,exception);
-          gcd=FxGCD(alpha,*beta);
+          if (IsNaN(alpha))
+            FxReturn(alpha);
+          gcd=FxGCD(alpha,*beta,0);
           FxReturn(gcd);
         }
       if (LocaleCompare(expression,"g") == 0)
@@ -2377,13 +2398,13 @@ static double FxEvaluateSubexpression(FxInfo *fx_info,const ChannelType channel,
         {
           alpha=FxEvaluateSubexpression(fx_info,channel,x,y,expression+6,
             depth+1,beta,exception);
-          FxReturn(log10(alpha)/log10(2.0));
+          FxReturn(MagickLog10(alpha)/log10(2.0));
         }
       if (IsFxFunction(expression,"log",3) != MagickFalse)
         {
           alpha=FxEvaluateSubexpression(fx_info,channel,x,y,expression+3,
             depth+1,beta,exception);
-          FxReturn(log10(alpha));
+          FxReturn(MagickLog10(alpha));
         }
       if (LocaleCompare(expression,"lightness") == 0)
         FxReturn(FxGetSymbol(fx_info,channel,x,y,expression,depth+1,exception));
@@ -2602,6 +2623,10 @@ static double FxEvaluateSubexpression(FxInfo *fx_info,const ChannelType channel,
           FxParseConditional(subexpression,',',p,q);
           for (alpha=0.0; ; )
           {
+            if (((fx_info->cycles++ % 8192) == 0) && (GetMagickTTL() <= 0))
+              (void) ThrowMagickException(exception,GetMagickModule(),
+                ResourceLimitFatalError,"TimeLimitExceeded","`%s'",
+                fx_info->images->filename);
             gamma=FxEvaluateSubexpression(fx_info,channel,x,y,p,depth+1,beta,
               exception);
             if (fabs(gamma) < MagickEpsilon)
@@ -2636,6 +2661,9 @@ static double FxEvaluateSubexpression(FxInfo *fx_info,const ChannelType channel,
   alpha=InterpretSiPrefixValue(expression,&q);
   if (q == expression)
     alpha=FxGetSymbol(fx_info,channel,x,y,expression,depth+1,exception);
+  if (*q == ')')
+    (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+      "UnbalancedParenthesis","`%s'",expression);
   FxReturn(alpha);
 }
 
@@ -2710,7 +2738,7 @@ MagickExport MagickBooleanType FxEvaluateChannelExpression(FxInfo *fx_info,
 %
 */
 
-static FxInfo **DestroyFxThreadSet(FxInfo **fx_info)
+static FxInfo **DestroyFxTLS(FxInfo **fx_info)
 {
   ssize_t
     i;
@@ -2723,7 +2751,7 @@ static FxInfo **DestroyFxThreadSet(FxInfo **fx_info)
   return(fx_info);
 }
 
-static FxInfo **AcquireFxThreadSet(const Image *image,const char *expression,
+static FxInfo **AcquireFxTLS(const Image *image,const char *expression,
   ExceptionInfo *exception)
 {
   char
@@ -2753,7 +2781,7 @@ static FxInfo **AcquireFxThreadSet(const Image *image,const char *expression,
   if (*expression != '@')
     fx_expression=ConstantString(expression);
   else
-    fx_expression=FileToString(expression+1,~0UL,exception);
+    fx_expression=FileToString(expression,~0UL,exception);
   for (i=0; i < (ssize_t) number_threads; i++)
   {
     MagickBooleanType
@@ -2768,7 +2796,7 @@ static FxInfo **AcquireFxThreadSet(const Image *image,const char *expression,
   }
   fx_expression=DestroyString(fx_expression);
   if (i < (ssize_t) number_threads)
-    fx_info=DestroyFxThreadSet(fx_info);
+    fx_info=DestroyFxTLS(fx_info);
   return(fx_info);
 }
 
@@ -2807,23 +2835,23 @@ MagickExport Image *FxImageChannel(const Image *image,const ChannelType channel,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (expression == (const char *) NULL)
     return(CloneImage(image,0,0,MagickTrue,exception));
-  fx_info=AcquireFxThreadSet(image,expression,exception);
+  fx_info=AcquireFxTLS(image,expression,exception);
   if (fx_info == (FxInfo **) NULL)
     return((Image *) NULL);
   fx_image=CloneImage(image,0,0,MagickTrue,exception);
   if (fx_image == (Image *) NULL)
     {
-      fx_info=DestroyFxThreadSet(fx_info);
+      fx_info=DestroyFxTLS(fx_info);
       return((Image *) NULL);
     }
   if (SetImageStorageClass(fx_image,DirectClass) == MagickFalse)
     {
       InheritException(exception,&fx_image->exception);
-      fx_info=DestroyFxThreadSet(fx_info);
+      fx_info=DestroyFxTLS(fx_info);
       fx_image=DestroyImage(fx_image);
       return((Image *) NULL);
     }
@@ -2836,7 +2864,7 @@ MagickExport Image *FxImageChannel(const Image *image,const ChannelType channel,
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(dynamic) shared(progress,status) \
     magick_number_threads(image,fx_image,fx_image->rows, \
-      GlobExpression(fx_info[0]->expression,"debug(",MagickTrue) == 0 ? 1 : 0)
+      GlobExpression(fx_info[0]->expression,"*debug(*",MagickTrue) == 0 ? 1 : 0)
 #endif
   for (y=0; y < (ssize_t) fx_image->rows; y++)
   {
@@ -2893,8 +2921,8 @@ MagickExport Image *FxImageChannel(const Image *image,const ChannelType channel,
             SetPixelOpacity(q,ClampToQuantum((MagickRealType) QuantumRange*
               alpha));
           else
-            SetPixelOpacity(q,ClampToQuantum((MagickRealType) (QuantumRange-
-              QuantumRange*alpha)));
+            SetPixelOpacity(q,ClampToQuantum((MagickRealType) QuantumRange-
+              (MagickRealType) QuantumRange*alpha));
         }
       if (((channel & IndexChannel) != 0) &&
           (fx_image->colorspace == CMYKColorspace))
@@ -2923,7 +2951,7 @@ MagickExport Image *FxImageChannel(const Image *image,const ChannelType channel,
       }
   }
   fx_view=DestroyCacheView(fx_view);
-  fx_info=DestroyFxThreadSet(fx_info);
+  fx_info=DestroyFxTLS(fx_info);
   if (status == MagickFalse)
     fx_image=DestroyImage(fx_image);
   return(fx_image);

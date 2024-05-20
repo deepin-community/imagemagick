@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -167,11 +167,11 @@ static Image *ReadSCTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -201,7 +201,7 @@ static Image *ReadSCTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   count=ReadBlob(image,174,buffer);
   count=ReadBlob(image,768,buffer);
   /*
-    Read paramter block.
+    Read parameter block.
   */
   units=1UL*ReadBlobByte(image);
   if (units == 0)
@@ -225,6 +225,8 @@ static Image *ReadSCTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if ((image->columns < 1) || (image->rows < 1) ||
       (width < MagickEpsilon) || (height < MagickEpsilon))
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
+  if (EOFBlob(image) != MagickFalse)
+    ThrowReaderException(CorruptImageError,"UnexpectedEndOfFile");
   image->x_resolution=1.0*image->columns/width;
   image->y_resolution=1.0*image->rows/height;
   if (image_info->ping != MagickFalse)

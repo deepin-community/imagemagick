@@ -2,11 +2,11 @@ Source: imagemagick
 Section: graphics
 Priority: optional
 Maintainer: ImageMagick Packaging Team <pkg-gmagick-im-team@lists.alioth.debian.org>
-Uploaders: Luciano Bello <luciano@debian.org>,
- Bastien Roucariès <rouca@debian.org>,
-Standards-Version: 4.3.0
+Uploaders: Bastien Roucariès <rouca@debian.org>
+Standards-Version: 4.5.1
 # for dbg-sym
-Build-Depends: debhelper (>= 11),
+Rules-Requires-Root: no
+Build-Depends: debhelper-compat (= 13),
 # for improving build
  dh-exec,
 # ABI dump
@@ -18,7 +18,7 @@ Build-Depends: debhelper (>= 11),
 # for special function
  libfftw3-dev, liblcms2-dev, liblqr-1-0-dev,
 # for fonts
- libfreetype6-dev, libfontconfig1-dev, gsfonts,
+ libfreetype-dev, libfontconfig-dev, fonts-urw-base35,
 # for compression
  zlib1g-dev, liblzma-dev, libbz2-dev,
 # for X
@@ -31,15 +31,20 @@ Build-Depends: debhelper (>= 11),
 # libgraphviz-dev, incompatible license against fftw
 # for converting svg
  libpango1.0-dev, librsvg2-bin, librsvg2-dev, libxml2-dev,
+# for libraw
+ libraw-dev,
 # for easy symbols of c++ lib
  pkg-kde-tools,
 # for libgomp symbols
- dpkg-dev (>= 1.17.6)
+ dpkg-dev (>= 1.17.6),
+# for perltest versioned due to name change
+ fonts-tuffy (>= 20120614-3~)
 # for documentation
 Build-Depends-Indep: doxygen, doxygen-latex, graphviz,
 		     libxml2-utils,
 		     xsltproc,
-		     jdupes
+		     jdupes,
+                     fonts-tuffy (>= 20120614-3~)
 Vcs-Browser: https://salsa.debian.org/debian/imagemagick
 Vcs-Git: https://salsa.debian.org/debian/imagemagick.git
 Homepage: https://www.imagemagick.org/
@@ -54,12 +59,9 @@ Breaks: libmagickcore-6.q16-4 (<< 8:6.9.8.9+dfsg-1~),
 	libmagickcore-6.q16hdri-4 (<< 8:6.9.8.9+dfsg-1~),
         libmagickcore-6.q16-3 (<< 8:6.9.6.8+dfsg-1~),
 	libmagickcore-6.q16-2 (<< 8:6.9.6.2+dfsg-3~),
-	imagemagick-common (<< 8:6.9.2.10+dfsg-1~)
-Provides: imagemagick-common
-# remove breaks/replaces after strech + 2 for imagemagick-common
-# remove breaks/replace after strech + 2 for libmagickcore-6.q16 (<< 8:6.9.6.2+dfsg-3)
-Replaces: imagemagick-common (<< 8:6.9.2.10+dfsg-1~),
- libmagickcore-6.q16 (<< 8:6.9.6.2+dfsg-3~)
+	imagemagick-common (<< 8:6.9.12.98+dfsg1-1~)
+Replaces: imagemagick-common (<< 8:6.9.12.98+dfsg1-1~)
+Provides: imagemagick-common (= ${source:Version})
 Description: image manipulation programs -- infrastructure
  imagemagick-common contains the filesystem infrastructure required for
  further installation of imagemagick in any configuration; it does not provide
@@ -80,12 +82,12 @@ Recommends: www-browser,
 	    libjs-bootstrap (>=3.3.5+dfsg-1),
 	    libjs-jquery-mousewheel,
 	    libjs-jquery-fancybox,
+            fonts-tuffy
 Suggests: imagemagick
-Provides: imagemagick-doc
-# remove breaks/replaces after strech + 2
-Replaces: imagemagick-doc (<< 8:6.9.2.10+dfsg-1~), imagemagick (<< 8:6.9.2.10+dfsg-1~)
-Breaks: imagemagick-doc (<< 8:6.9.2.10+dfsg-1~)
-Built-using: ${doxygen:Built-Using}
+Provides: imagemagick-doc (= ${source:Version})
+Breaks: imagemagick-doc (<< 8:6.9.12.98+dfsg1-1~)
+Replaces: imagemagick-doc (<< 8:6.9.12.98+dfsg1-1~)
+Built-Using: ${doxygen:Built-Using}
 Description: document files of ImageMagick
  This package contains the document files shipped with ImageMagick, a software
  suite to create, edit, and compose bitmap images.
@@ -155,10 +157,8 @@ Pre-Depends: dpkg (>= 1.15.7.2)
 Depends: ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends},
 	 libimage-magick-${DEFAULTQUANTUMDEPTH}-perl
 Provides: perlmagick
-# remove breaks/replaces after jessie +2
-Replaces: perlmagick (<< 8:6.8.3.10-1~)
-Breaks: perlmagick (<< 8:6.8.3.10-1~)
-Suggests: imagemagick-doc
+Suggests: imagemagick-${IMVERSION}-doc
+Recommends: fonts-tuffy 
 Description: Perl interface to the ImageMagick graphics routines
  PerlMagick is an objected-oriented Perl interface to ImageMagick.
  Use the module to read, manipulate, or write an image or image sequence from

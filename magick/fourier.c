@@ -19,7 +19,7 @@
 %                                 July 2009                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -63,6 +63,13 @@
 #include "magick/string-private.h"
 #include "magick/thread-private.h"
 #if defined(MAGICKCORE_FFTW_DELEGATE)
+#if defined(_MSC_VER)
+#define ENABLE_FFTW_DELEGATE
+#elif !defined(__cplusplus) && !defined(c_plusplus)
+#define ENABLE_FFTW_DELEGATE
+#endif
+#endif
+#if defined(ENABLE_FFTW_DELEGATE)
 #if defined(MAGICKCORE_HAVE_COMPLEX_H)
 #include <complex.h>
 #endif
@@ -173,10 +180,10 @@ MagickExport Image *ComplexImages(const Image *images,const ComplexOperator op,
 
   assert(images != (Image *) NULL);
   assert(images->signature == MagickCoreSignature);
-  if (images->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",images->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",images->filename);
   if (images->next == (Image *) NULL)
     {
       (void) ThrowMagickException(exception,GetMagickModule(),ImageError,
@@ -274,37 +281,59 @@ MagickExport Image *ComplexImages(const Image *images,const ComplexOperator op,
       }
     for (x=0; x < (ssize_t) columns; x++)
     {
+      QuantumPixelPacket
+        ai = { (Quantum) (QuantumScale*(MagickRealType) GetPixelRed(Ai)),
+               (Quantum) (QuantumScale*(MagickRealType) GetPixelGreen(Ai)),
+               (Quantum) (QuantumScale*(MagickRealType) GetPixelBlue(Ai)),
+               (Quantum) (image->matte != MagickFalse ? QuantumScale*
+               (MagickRealType) GetPixelOpacity(Ai) : (MagickRealType)
+               OpaqueOpacity), 0 },
+        ar = { (Quantum) (QuantumScale*(MagickRealType) GetPixelRed(Ar)),
+               (Quantum) (QuantumScale*(MagickRealType) GetPixelGreen(Ar)),
+               (Quantum) (QuantumScale*(MagickRealType) GetPixelBlue(Ar)),
+               (Quantum) (image->matte != MagickFalse ? QuantumScale*
+               (MagickRealType) GetPixelOpacity(Ar) : (MagickRealType)
+               OpaqueOpacity), 0 },
+        bi = { (Quantum) (QuantumScale*(MagickRealType) GetPixelRed(Bi)),
+               (Quantum) (QuantumScale*(MagickRealType) GetPixelGreen(Bi)),
+               (Quantum) (QuantumScale*(MagickRealType) GetPixelBlue(Bi)),
+               (Quantum) (image->matte != MagickFalse ? QuantumScale*
+               (MagickRealType) GetPixelOpacity(Bi) : (MagickRealType)
+               OpaqueOpacity), 0 },
+        br = { (Quantum) (QuantumScale*(MagickRealType) GetPixelRed(Br)),
+               (Quantum) (QuantumScale*(MagickRealType) GetPixelGreen(Br)),
+               (Quantum) (QuantumScale*(MagickRealType) GetPixelBlue(Br)),
+               (Quantum) (image->matte != MagickFalse ? QuantumScale*
+               (MagickRealType) GetPixelOpacity(Br) : (MagickRealType)
+               OpaqueOpacity), 0 },
+        ci,
+        cr;
+
       switch (op)
       {
         case AddComplexOperator:
         {
-          Cr->red=Ar->red+Br->red;
-          Ci->red=Ai->red+Bi->red;
-          Cr->green=Ar->green+Br->green;
-          Ci->green=Ai->green+Bi->green;
-          Cr->blue=Ar->blue+Br->blue;
-          Ci->blue=Ai->blue+Bi->blue;
-          if (images->matte != MagickFalse)
-            {
-              Cr->opacity=Ar->opacity+Br->opacity;
-              Ci->opacity=Ai->opacity+Bi->opacity;
-            }
+          cr.red=ar.red+br.red;
+          ci.red=ai.red+bi.red;
+          cr.green=ar.green+br.green;
+          ci.green=ai.green+bi.green;
+          cr.blue=ar.blue+br.blue;
+          ci.blue=ai.blue+bi.blue;
+          cr.opacity=ar.opacity+br.opacity;
+          ci.opacity=ai.opacity+bi.opacity;
           break;
         }
         case ConjugateComplexOperator:
         default:
         {
-          Cr->red=Ar->red;
-          Ci->red=(-Bi->red);
-          Cr->green=Ar->green;
-          Ci->green=(-Bi->green);
-          Cr->blue=Ar->blue;
-          Ci->blue=(-Bi->blue);
-          if (images->matte != MagickFalse)
-            {
-              Cr->opacity=Ar->opacity;
-              Ci->opacity=(-Bi->opacity);
-            }
+          cr.red=ar.red;
+          ci.red=(-ai.red);
+          cr.green=ar.green;
+          ci.green=(-ai.green);
+          cr.blue=ar.blue;
+          ci.blue=(-ai.blue);
+          cr.opacity=ar.opacity;
+          ci.opacity=(-ai.opacity);
           break;
         }
         case DivideComplexOperator:
@@ -312,110 +341,108 @@ MagickExport Image *ComplexImages(const Image *images,const ComplexOperator op,
           double
             gamma;
 
-          gamma=QuantumRange*PerceptibleReciprocal(QuantumScale*Br->red*Br->red+
-            QuantumScale*Bi->red*Bi->red+snr);
-          Cr->red=gamma*(QuantumScale*Ar->red*Br->red+QuantumScale*Ai->red*
-            Bi->red);
-          Ci->red=gamma*(QuantumScale*Ai->red*Br->red-QuantumScale*Ar->red*
-            Bi->red);
-          gamma=QuantumRange*PerceptibleReciprocal(QuantumScale*Br->green*
-            Br->green+QuantumScale*Bi->green*Bi->green+snr);
-          Cr->green=gamma*(QuantumScale*Ar->green*Br->green+QuantumScale*
-            Ai->green*Bi->green);
-          Ci->green=gamma*(QuantumScale*Ai->green*Br->green-QuantumScale*
-            Ar->green*Bi->green);
-          gamma=QuantumRange*PerceptibleReciprocal(QuantumScale*Br->blue*
-            Br->blue+QuantumScale*Bi->blue*Bi->blue+snr);
-          Cr->blue=gamma*(QuantumScale*Ar->blue*Br->blue+QuantumScale*
-            Ai->blue*Bi->blue);
-          Ci->blue=gamma*(QuantumScale*Ai->blue*Br->blue-QuantumScale*
-            Ar->blue*Bi->blue);
-          if (images->matte != MagickFalse)
-            {
-              gamma=QuantumRange*PerceptibleReciprocal(QuantumScale*Br->opacity*
-                Br->opacity+QuantumScale*Bi->opacity*Bi->opacity+snr);
-              Cr->opacity=gamma*(QuantumScale*Ar->opacity*Br->opacity+
-                QuantumScale*Ai->opacity*Bi->opacity);
-              Ci->opacity=gamma*(QuantumScale*Ai->opacity*Br->opacity-
-                QuantumScale*Ar->opacity*Bi->opacity);
-            }
+          gamma=PerceptibleReciprocal((double) br.red*(double) br.red+
+            (double) bi.red*(double) bi.red+snr);
+          cr.red=gamma*((double) ar.red*(double) br.red+(double) ai.red*
+            (double) bi.red);
+          ci.red=gamma*((double) ai.red*(double) br.red-(double) ar.red*
+             (double) bi.red);
+          gamma=PerceptibleReciprocal((double) br.green*(double) br.green+
+            (double) bi.green*(double) bi.green+snr);
+          cr.green=gamma*((double) ar.green*(double) br.green+
+            (double) ai.green*(double) bi.green);
+          ci.green=gamma*((double) ai.green*(double) br.green-
+            (double) ar.green*(double) bi.green);
+          gamma=PerceptibleReciprocal((double) br.blue*(double) br.blue+
+            (double) bi.blue*(double) bi.blue+snr);
+          cr.blue=gamma*((double) ar.blue*(double) br.blue+
+            (double) ai.blue*(double) bi.blue);
+          ci.blue=gamma*((double) ai.blue*(double) br.blue-
+            (double) ar.blue*(double) bi.blue);
+          gamma=PerceptibleReciprocal((double) br.opacity*(double) br.opacity+
+            (double) bi.opacity*(double) bi.opacity+snr);
+          cr.opacity=gamma*((double) ar.opacity*(double) br.opacity+
+           (double) ai.opacity*(double) bi.opacity);
+          ci.opacity=gamma*((double) ai.opacity*(double) br.opacity-
+            (double) ar.opacity*(double) bi.opacity);
           break;
         }
         case MagnitudePhaseComplexOperator:
         {
-          Cr->red=sqrt(QuantumScale*Ar->red*Ar->red+QuantumScale*
-            Ai->red*Ai->red);
-          Ci->red=atan2((double) Ai->red,(double) Ar->red)/(2.0*MagickPI)+0.5;
-          Cr->green=sqrt(QuantumScale*Ar->green*Ar->green+QuantumScale*
-            Ai->green*Ai->green);
-          Ci->green=atan2((double) Ai->green,(double) Ar->green)/
+          cr.red=sqrt((double) ar.red*(double) ar.red+(double) ai.red*
+            (double) ai.red);
+          ci.red=atan2((double) ai.red,(double) ar.red)/(2.0*MagickPI)+0.5;
+          cr.green=sqrt((double) ar.green*(double) ar.green+(double) ai.green*
+            (double) ai.green);
+          ci.green=atan2((double) ai.green,(double) ar.green)/(2.0*MagickPI)+
+            0.5;
+          cr.blue=sqrt((double) ar.blue*(double) ar.blue+(double) ai.blue*
+            (double) ai.blue);
+          ci.blue=atan2((double) ai.blue,(double) ar.blue)/(2.0*MagickPI)+0.5;
+          cr.opacity=sqrt((double) ar.opacity*(double) ar.opacity+
+            (double) ai.opacity*(double) ai.opacity);
+          ci.opacity=atan2((double) ai.opacity,(double) ar.opacity)/
             (2.0*MagickPI)+0.5;
-          Cr->blue=sqrt(QuantumScale*Ar->blue*Ar->blue+QuantumScale*
-            Ai->blue*Ai->blue);
-          Ci->blue=atan2(Ai->blue,Ar->blue)/(2.0*MagickPI)+0.5;
-          if (images->matte != MagickFalse)
-            {
-              Cr->opacity=sqrt(QuantumScale*Ar->opacity*Ar->opacity+
-                QuantumScale*Ai->opacity*Ai->opacity);
-              Ci->opacity=atan2((double) Ai->opacity,(double) Ar->opacity)/
-                (2.0*MagickPI)+0.5;
-            }
           break;
         }
         case MultiplyComplexOperator:
         {
-          Cr->red=(QuantumScale*Ar->red*Br->red-(double)
-            Ai->red*Bi->red);
-          Ci->red=(QuantumScale*Ai->red*Br->red+(double)
-            Ar->red*Bi->red);
-          Cr->green=(QuantumScale*Ar->green*Br->green-(double)
-            Ai->green*Bi->green);
-          Ci->green=(QuantumScale*Ai->green*Br->green+(double)
-            Ar->green*Bi->green);
-          Cr->blue=(QuantumScale*Ar->blue*Br->blue-(double)
-            Ai->blue*Bi->blue);
-          Ci->blue=(QuantumScale*Ai->blue*Br->blue+(double)
-            Ar->blue*Bi->blue);
-          if (images->matte != MagickFalse)
-            {
-              Cr->opacity=(QuantumScale*Ar->opacity*Br->opacity-
-                QuantumScale*Ai->opacity*Bi->opacity);
-              Ci->opacity=(QuantumScale*Ai->opacity*Br->opacity+
-                QuantumScale*Ar->opacity*Bi->opacity);
-            }
+          cr.red=((double) ar.red*(double) br.red-(double) ai.red*
+            (double) bi.red);
+          ci.red=((double) ai.red*(double) br.red+(double) ar.red*
+            (double) bi.red);
+          cr.green=((double) ar.green*(double) br.green-(double) ai.green*
+            (double) bi.green);
+          ci.green=((double) ai.green*(double) br.green+(double) ar.green*
+            (double) bi.green);
+          cr.blue=((double) ar.blue*(double) br.blue-(double) ai.blue*
+            (double) bi.blue);
+          ci.blue=((double) ai.blue*(double) br.blue+(double) ar.blue*
+            (double) bi.blue);
+          cr.opacity=((double) ar.opacity*(double) br.opacity-
+            (double) ai.opacity*(double) bi.opacity);
+          ci.opacity=((double) ai.opacity*(double) br.opacity+
+            (double) ar.opacity*(double) bi.opacity);
           break;
         }
         case RealImaginaryComplexOperator:
         {
-          Cr->red=Ar->red*cos(2.0*MagickPI*(Ai->red-0.5));
-          Ci->red=Ar->red*sin(2.0*MagickPI*(Ai->red-0.5));
-          Cr->green=Ar->green*cos(2.0*MagickPI*(Ai->green-0.5));
-          Ci->green=Ar->green*sin(2.0*MagickPI*(Ai->green-0.5));
-          Cr->blue=Ar->blue*cos(2.0*MagickPI*(Ai->blue-0.5));
-          Ci->blue=Ar->blue*sin(2.0*MagickPI*(Ai->blue-0.5));
-          if (images->matte != MagickFalse)
-            {
-               Cr->opacity=Ar->opacity*cos(2.0*MagickPI*(Ai->opacity-0.5));
-               Ci->opacity=Ar->opacity*sin(2.0*MagickPI*(Ai->opacity-0.5));
-            }
+          cr.red=(double) ar.red*cos(2.0*MagickPI*((double) ai.red-0.5));
+          ci.red=(double) ar.red*sin(2.0*MagickPI*((double) ai.red-0.5));
+          cr.green=(double) ar.green*cos(2.0*MagickPI*((double) ai.green-0.5));
+          ci.green=(double) ar.green*sin(2.0*MagickPI*((double) ai.green-0.5));
+          cr.blue=(double) ar.blue*cos(2.0*MagickPI*((double) ai.blue-0.5));
+          ci.blue=(double) ar.blue*sin(2.0*MagickPI*((double) ai.blue-0.5));
+          cr.opacity=(double) ar.opacity*cos(2.0*MagickPI*((double) ai.opacity-
+            0.5));
+          ci.opacity=(double) ar.opacity*sin(2.0*MagickPI*((double) ai.opacity-
+            0.5));
           break;
         }
         case SubtractComplexOperator:
         {
-          Cr->red=Ar->red-Br->red;
-          Ci->red=Ai->red-Bi->red;
-          Cr->green=Ar->green-Br->green;
-          Ci->green=Ai->green-Bi->green;
-          Cr->blue=Ar->blue-Br->blue;
-          Ci->blue=Ai->blue-Bi->blue;
-          if (Cr_image->matte != MagickFalse)
-            {
-              Cr->opacity=Ar->opacity-Br->opacity;
-              Ci->opacity=Ai->opacity-Bi->opacity;
-            }
+          cr.red=ar.red-br.red;
+          ci.red=ai.red-bi.red;
+          cr.green=ar.green-br.green;
+          ci.green=ai.green-bi.green;
+          cr.blue=ar.blue-br.blue;
+          ci.blue=ai.blue-bi.blue;
+          cr.opacity=ar.opacity-br.opacity;
+          ci.opacity=ai.opacity-bi.opacity;
           break;
         }
       }
+      Cr->red=(MagickRealType) QuantumRange*(MagickRealType) cr.red;
+      Ci->red=(MagickRealType) QuantumRange*(MagickRealType) ci.red;
+      Cr->green=(MagickRealType) QuantumRange*(MagickRealType) cr.green;
+      Ci->green=(MagickRealType) QuantumRange*(MagickRealType) ci.green;
+      Cr->blue=(MagickRealType) QuantumRange*(MagickRealType) cr.blue;
+      Ci->blue=(MagickRealType) QuantumRange*(MagickRealType) ci.blue;
+      if (images->matte != MagickFalse)
+        {
+          Cr->opacity=(MagickRealType) QuantumRange*(MagickRealType) cr.opacity;
+          Ci->opacity=(MagickRealType) QuantumRange*(MagickRealType) ci.opacity;
+        }
       Ar++;
       Ai++;
       Br++;
@@ -467,7 +494,7 @@ MagickExport Image *ComplexImages(const Image *images,const ComplexOperator op,
 %  (DFT) of the image either as a magnitude / phase or real / imaginary image
 %  pair.
 %
-%  The format of the ForwadFourierTransformImage method is:
+%  The format of the ForwardFourierTransformImage method is:
 %
 %      Image *ForwardFourierTransformImage(const Image *image,
 %        const MagickBooleanType modulus,ExceptionInfo *exception)
@@ -483,7 +510,7 @@ MagickExport Image *ComplexImages(const Image *images,const ComplexOperator op,
 %
 */
 
-#if defined(MAGICKCORE_FFTW_DELEGATE)
+#if defined(ENABLE_FFTW_DELEGATE)
 
 static MagickBooleanType RollFourier(const size_t width,const size_t height,
   const ssize_t x_offset,const ssize_t y_offset,double *roll_pixels)
@@ -496,11 +523,9 @@ static MagickBooleanType RollFourier(const size_t width,const size_t height,
 
   ssize_t
     i,
-    x;
-
-  ssize_t
     u,
     v,
+    x,
     y;
 
   /*
@@ -528,8 +553,7 @@ static MagickBooleanType RollFourier(const size_t width,const size_t height,
       source_pixels[v*width+u]=roll_pixels[i++];
     }
   }
-  (void) memcpy(roll_pixels,source_pixels,height*width*
-    sizeof(*source_pixels));
+  (void) memcpy(roll_pixels,source_pixels,height*width*sizeof(*source_pixels));
   source_info=RelinquishVirtualMemory(source_info);
   return(MagickTrue);
 }
@@ -541,10 +565,8 @@ static MagickBooleanType ForwardQuadrantSwap(const size_t width,
     status;
 
   ssize_t
-    x;
-
-  ssize_t
     center,
+    x,
     y;
 
   /*
@@ -571,9 +593,7 @@ static void CorrectPhaseLHS(const size_t width,const size_t height,
   double *fourier_pixels)
 {
   ssize_t
-    x;
-
-  ssize_t
+    x,
     y;
 
   for (y=0L; y < (ssize_t) height; y++)
@@ -610,10 +630,8 @@ static MagickBooleanType ForwardFourier(const FourierInfo *fourier_info,
     *q;
 
   ssize_t
-    x;
-
-  ssize_t
     i,
+    x,
     y;
 
   magnitude_image=GetFirstImageInList(image);
@@ -627,10 +645,10 @@ static MagickBooleanType ForwardFourier(const FourierInfo *fourier_info,
   /*
     Create "Fourier Transform" image from constituent arrays.
   */
-  magnitude_info=AcquireVirtualMemory((size_t) fourier_info->width,
-    fourier_info->height*sizeof(*magnitude_pixels));
-  phase_info=AcquireVirtualMemory((size_t) fourier_info->width,
-    fourier_info->height*sizeof(*phase_pixels));
+  magnitude_info=AcquireVirtualMemory(fourier_info->width,fourier_info->height*
+    sizeof(*magnitude_pixels));
+  phase_info=AcquireVirtualMemory(fourier_info->width,fourier_info->height*
+    sizeof(*phase_pixels));
   if ((magnitude_info == (MemoryInfo *) NULL) ||
       (phase_info == (MemoryInfo *) NULL))
     {
@@ -681,33 +699,33 @@ static MagickBooleanType ForwardFourier(const FourierInfo *fourier_info,
         case RedChannel:
         default:
         {
-          SetPixelRed(q,ClampToQuantum(QuantumRange*magnitude_pixels[i]));
+          SetPixelRed(q,ClampToQuantum((MagickRealType) QuantumRange*magnitude_pixels[i]));
           break;
         }
         case GreenChannel:
         {
-          SetPixelGreen(q,ClampToQuantum(QuantumRange*magnitude_pixels[i]));
+          SetPixelGreen(q,ClampToQuantum((MagickRealType) QuantumRange*magnitude_pixels[i]));
           break;
         }
         case BlueChannel:
         {
-          SetPixelBlue(q,ClampToQuantum(QuantumRange*magnitude_pixels[i]));
+          SetPixelBlue(q,ClampToQuantum((MagickRealType) QuantumRange*magnitude_pixels[i]));
           break;
         }
         case OpacityChannel:
         {
-          SetPixelOpacity(q,ClampToQuantum(QuantumRange*magnitude_pixels[i]));
+          SetPixelOpacity(q,ClampToQuantum((MagickRealType) QuantumRange*magnitude_pixels[i]));
           break;
         }
         case IndexChannel:
         {
-          SetPixelIndex(indexes+x,ClampToQuantum(QuantumRange*
+          SetPixelIndex(indexes+x,ClampToQuantum((MagickRealType) QuantumRange*
             magnitude_pixels[i]));
           break;
         }
         case GrayChannels:
         {
-          SetPixelGray(q,ClampToQuantum(QuantumRange*magnitude_pixels[i]));
+          SetPixelGray(q,ClampToQuantum((MagickRealType) QuantumRange*magnitude_pixels[i]));
           break;
         }
       }
@@ -735,32 +753,32 @@ static MagickBooleanType ForwardFourier(const FourierInfo *fourier_info,
         case RedChannel:
         default:
         {
-          SetPixelRed(q,ClampToQuantum(QuantumRange*phase_pixels[i]));
+          SetPixelRed(q,ClampToQuantum((MagickRealType) QuantumRange*phase_pixels[i]));
           break;
         }
         case GreenChannel:
         {
-          SetPixelGreen(q,ClampToQuantum(QuantumRange*phase_pixels[i]));
+          SetPixelGreen(q,ClampToQuantum((MagickRealType) QuantumRange*phase_pixels[i]));
           break;
         }
         case BlueChannel:
         {
-          SetPixelBlue(q,ClampToQuantum(QuantumRange*phase_pixels[i]));
+          SetPixelBlue(q,ClampToQuantum((MagickRealType) QuantumRange*phase_pixels[i]));
           break;
         }
         case OpacityChannel:
         {
-          SetPixelOpacity(q,ClampToQuantum(QuantumRange*phase_pixels[i]));
+          SetPixelOpacity(q,ClampToQuantum((MagickRealType) QuantumRange*phase_pixels[i]));
           break;
         }
         case IndexChannel:
         {
-          SetPixelIndex(indexes+x,ClampToQuantum(QuantumRange*phase_pixels[i]));
+          SetPixelIndex(indexes+x,ClampToQuantum((MagickRealType) QuantumRange*phase_pixels[i]));
           break;
         }
         case GrayChannels:
         {
-          SetPixelGray(q,ClampToQuantum(QuantumRange*phase_pixels[i]));
+          SetPixelGray(q,ClampToQuantum((MagickRealType) QuantumRange*phase_pixels[i]));
           break;
         }
       }
@@ -793,6 +811,7 @@ static MagickBooleanType ForwardFourierTransform(FourierInfo *fourier_info,
   fftw_complex
     *forward_pixels;
 
+    
   fftw_plan
     fftw_r2c_plan;
 
@@ -808,16 +827,20 @@ static MagickBooleanType ForwardFourierTransform(FourierInfo *fourier_info,
 
   ssize_t
     i,
-    x;
-
-  ssize_t
+    x,
     y;
 
   /*
     Generate the forward Fourier transform.
   */
-  source_info=AcquireVirtualMemory((size_t) fourier_info->width,
-    fourier_info->height*sizeof(*source_pixels));
+  if ((fourier_info->width >= INT_MAX) || (fourier_info->height >= INT_MAX))
+    {
+      (void) ThrowMagickException(exception,GetMagickModule(),ImageError,
+        "WidthOrHeightExceedsLimit","`%s'",image->filename);
+      return(MagickFalse);
+    }
+  source_info=AcquireVirtualMemory(fourier_info->width,fourier_info->height*
+    sizeof(*source_pixels));
   if (source_info == (MemoryInfo *) NULL)
     {
       (void) ThrowMagickException(exception,GetMagickModule(),
@@ -843,32 +866,33 @@ static MagickBooleanType ForwardFourierTransform(FourierInfo *fourier_info,
         case RedChannel:
         default:
         {
-          source_pixels[i]=QuantumScale*GetPixelRed(p);
+          source_pixels[i]=QuantumScale*(MagickRealType) GetPixelRed(p);
           break;
         }
         case GreenChannel:
         {
-          source_pixels[i]=QuantumScale*GetPixelGreen(p);
+          source_pixels[i]=QuantumScale*(MagickRealType) GetPixelGreen(p);
           break;
         }
         case BlueChannel:
         {
-          source_pixels[i]=QuantumScale*GetPixelBlue(p);
+          source_pixels[i]=QuantumScale*(MagickRealType) GetPixelBlue(p);
           break;
         }
         case OpacityChannel:
         {
-          source_pixels[i]=QuantumScale*GetPixelOpacity(p);
+          source_pixels[i]=QuantumScale*(MagickRealType) GetPixelOpacity(p);
           break;
         }
         case IndexChannel:
         {
-          source_pixels[i]=QuantumScale*GetPixelIndex(indexes+x);
+          source_pixels[i]=QuantumScale*(MagickRealType)
+            GetPixelIndex(indexes+x);
           break;
         }
         case GrayChannels:
         {
-          source_pixels[i]=QuantumScale*GetPixelGray(p);
+          source_pixels[i]=QuantumScale*(MagickRealType) GetPixelGray(p);
           break;
         }
       }
@@ -877,8 +901,8 @@ static MagickBooleanType ForwardFourierTransform(FourierInfo *fourier_info,
     }
   }
   image_view=DestroyCacheView(image_view);
-  forward_info=AcquireVirtualMemory((size_t) fourier_info->width,
-    (fourier_info->height/2+1)*sizeof(*forward_pixels));
+  forward_info=AcquireVirtualMemory(fourier_info->width,(fourier_info->height/2+
+    1)*sizeof(*forward_pixels));
   if (forward_info == (MemoryInfo *) NULL)
     {
       (void) ThrowMagickException(exception,GetMagickModule(),
@@ -890,13 +914,13 @@ static MagickBooleanType ForwardFourierTransform(FourierInfo *fourier_info,
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp critical (MagickCore_ForwardFourierTransform)
 #endif
-  fftw_r2c_plan=fftw_plan_dft_r2c_2d(fourier_info->width,fourier_info->height,
-    source_pixels,forward_pixels,FFTW_ESTIMATE);
+  fftw_r2c_plan=fftw_plan_dft_r2c_2d((int) fourier_info->width,
+    (int) fourier_info->height,source_pixels,forward_pixels,FFTW_ESTIMATE);
   fftw_execute_dft_r2c(fftw_r2c_plan,source_pixels,forward_pixels);
   fftw_destroy_plan(fftw_r2c_plan);
   source_info=(MemoryInfo *) RelinquishVirtualMemory(source_info);
   value=GetImageArtifact(image,"fourier:normalize");
-  if (LocaleCompare(value,"forward") == 0)
+  if ((value == (const char *) NULL) || (LocaleCompare(value,"forward") == 0))
     {
       double
         gamma;
@@ -973,10 +997,10 @@ static MagickBooleanType ForwardFourierTransformChannel(const Image *image,
   fourier_info.center=(ssize_t) (fourier_info.width/2L)+1L;
   fourier_info.channel=channel;
   fourier_info.modulus=modulus;
-  magnitude_info=AcquireVirtualMemory((size_t) fourier_info.width,
-    (fourier_info.height/2+1)*sizeof(*magnitude_pixels));
-  phase_info=AcquireVirtualMemory((size_t) fourier_info.width,
-    (fourier_info.height/2+1)*sizeof(*phase_pixels));
+  magnitude_info=AcquireVirtualMemory(fourier_info.width,(fourier_info.height/2+
+    1)*sizeof(*magnitude_pixels));
+  phase_info=AcquireVirtualMemory(fourier_info.width,(fourier_info.height/2+1)*
+    sizeof(*phase_pixels));
   if ((magnitude_info == (MemoryInfo *) NULL) ||
       (phase_info == (MemoryInfo *) NULL))
     {
@@ -1008,7 +1032,7 @@ MagickExport Image *ForwardFourierTransformImage(const Image *image,
     *fourier_image;
 
   fourier_image=NewImageList();
-#if !defined(MAGICKCORE_FFTW_DELEGATE)
+#if !defined(ENABLE_FFTW_DELEGATE)
   (void) modulus;
   (void) ThrowMagickException(exception,GetMagickModule(),
     MissingDelegateWarning,"DelegateLibrarySupportNotBuiltIn","`%s' (FFTW)",
@@ -1176,15 +1200,13 @@ MagickExport Image *ForwardFourierTransformImage(const Image *image,
 %
 */
 
-#if defined(MAGICKCORE_FFTW_DELEGATE)
+#if defined(ENABLE_FFTW_DELEGATE)
 static MagickBooleanType InverseQuadrantSwap(const size_t width,
   const size_t height,const double *source,double *destination)
 {
   ssize_t
-    x;
-
-  ssize_t
     center,
+    x,
     y;
 
   /*
@@ -1230,20 +1252,18 @@ static MagickBooleanType InverseFourier(FourierInfo *fourier_info,
 
   ssize_t
     i,
-    x;
-
-  ssize_t
+    x,
     y;
 
   /*
     Inverse Fourier - read image and break down into a double array.
   */
-  magnitude_info=AcquireVirtualMemory((size_t) fourier_info->width,
-    fourier_info->height*sizeof(*magnitude_pixels));
-  phase_info=AcquireVirtualMemory((size_t) fourier_info->width,
-    fourier_info->height*sizeof(*phase_pixels));
-  inverse_info=AcquireVirtualMemory((size_t) fourier_info->width,
-    (fourier_info->height/2+1)*sizeof(*inverse_pixels));
+  magnitude_info=AcquireVirtualMemory(fourier_info->width,fourier_info->height*
+    sizeof(*magnitude_pixels));
+  phase_info=AcquireVirtualMemory(fourier_info->width,fourier_info->height*
+    sizeof(*phase_pixels));
+  inverse_info=AcquireVirtualMemory(fourier_info->width,(fourier_info->height/
+    2+1)*sizeof(*inverse_pixels));
   if ((magnitude_info == (MemoryInfo *) NULL) ||
       (phase_info == (MemoryInfo *) NULL) ||
       (inverse_info == (MemoryInfo *) NULL))
@@ -1278,32 +1298,33 @@ static MagickBooleanType InverseFourier(FourierInfo *fourier_info,
         case RedChannel:
         default:
         {
-          magnitude_pixels[i]=QuantumScale*GetPixelRed(p);
+          magnitude_pixels[i]=QuantumScale*(MagickRealType) GetPixelRed(p);
           break;
         }
         case GreenChannel:
         {
-          magnitude_pixels[i]=QuantumScale*GetPixelGreen(p);
+          magnitude_pixels[i]=QuantumScale*(MagickRealType) GetPixelGreen(p);
           break;
         }
         case BlueChannel:
         {
-          magnitude_pixels[i]=QuantumScale*GetPixelBlue(p);
+          magnitude_pixels[i]=QuantumScale*(MagickRealType) GetPixelBlue(p);
           break;
         }
         case OpacityChannel:
         {
-          magnitude_pixels[i]=QuantumScale*GetPixelOpacity(p);
+          magnitude_pixels[i]=QuantumScale*(MagickRealType) GetPixelOpacity(p);
           break;
         }
         case IndexChannel:
         {
-          magnitude_pixels[i]=QuantumScale*GetPixelIndex(indexes+x);
+          magnitude_pixels[i]=QuantumScale*(MagickRealType)
+           GetPixelIndex(indexes+x);
           break;
         }
         case GrayChannels:
         {
-          magnitude_pixels[i]=QuantumScale*GetPixelGray(p);
+          magnitude_pixels[i]=QuantumScale*(MagickRealType) GetPixelGray(p);
           break;
         }
       }
@@ -1332,32 +1353,33 @@ static MagickBooleanType InverseFourier(FourierInfo *fourier_info,
         case RedChannel:
         default:
         {
-          phase_pixels[i]=QuantumScale*GetPixelRed(p);
+          phase_pixels[i]=QuantumScale*(MagickRealType) GetPixelRed(p);
           break;
         }
         case GreenChannel:
         {
-          phase_pixels[i]=QuantumScale*GetPixelGreen(p);
+          phase_pixels[i]=QuantumScale*(MagickRealType) GetPixelGreen(p);
           break;
         }
         case BlueChannel:
         {
-          phase_pixels[i]=QuantumScale*GetPixelBlue(p);
+          phase_pixels[i]=QuantumScale*(MagickRealType) GetPixelBlue(p);
           break;
         }
         case OpacityChannel:
         {
-          phase_pixels[i]=QuantumScale*GetPixelOpacity(p);
+          phase_pixels[i]=QuantumScale*(MagickRealType) GetPixelOpacity(p);
           break;
         }
         case IndexChannel:
         {
-          phase_pixels[i]=QuantumScale*GetPixelIndex(indexes+x);
+          phase_pixels[i]=QuantumScale*(MagickRealType)
+            GetPixelIndex(indexes+x);
           break;
         }
         case GrayChannels:
         {
-          phase_pixels[i]=QuantumScale*GetPixelGray(p);
+          phase_pixels[i]=QuantumScale*(MagickRealType) GetPixelGray(p);
           break;
         }
       }
@@ -1444,13 +1466,20 @@ static MagickBooleanType InverseFourierTransform(FourierInfo *fourier_info,
 
   ssize_t
     i,
-    x;
-
-  ssize_t
+    x,
     y;
 
-  source_info=AcquireVirtualMemory((size_t) fourier_info->width,
-    fourier_info->height*sizeof(*source_pixels));
+  /*
+    Generate the inverse Fourier transform.
+  */
+  if ((fourier_info->width >= INT_MAX) || (fourier_info->height >= INT_MAX))
+    {
+      (void) ThrowMagickException(exception,GetMagickModule(),ImageError,
+        "WidthOrHeightExceedsLimit","`%s'",image->filename);
+      return(MagickFalse);
+    }
+  source_info=AcquireVirtualMemory(fourier_info->width,fourier_info->height*
+    sizeof(*source_pixels));
   if (source_info == (MemoryInfo *) NULL)
     {
       (void) ThrowMagickException(exception,GetMagickModule(),
@@ -1485,8 +1514,8 @@ static MagickBooleanType InverseFourierTransform(FourierInfo *fourier_info,
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp critical (MagickCore_InverseFourierTransform)
 #endif
-  fftw_c2r_plan=fftw_plan_dft_c2r_2d(fourier_info->width,fourier_info->height,
-    fourier_pixels,source_pixels,FFTW_ESTIMATE);
+  fftw_c2r_plan=fftw_plan_dft_c2r_2d((int) fourier_info->width,
+    (int) fourier_info->height,fourier_pixels,source_pixels,FFTW_ESTIMATE);
   fftw_execute_dft_c2r(fftw_c2r_plan,fourier_pixels,source_pixels);
   fftw_destroy_plan(fftw_c2r_plan);
   i=0L;
@@ -1508,33 +1537,38 @@ static MagickBooleanType InverseFourierTransform(FourierInfo *fourier_info,
           case RedChannel:
           default:
           {
-            SetPixelRed(q,ClampToQuantum(QuantumRange*source_pixels[i]));
+            SetPixelRed(q,ClampToQuantum((MagickRealType) QuantumRange*
+              source_pixels[i]));
             break;
           }
           case GreenChannel:
           {
-            SetPixelGreen(q,ClampToQuantum(QuantumRange*source_pixels[i]));
+            SetPixelGreen(q,ClampToQuantum((MagickRealType) QuantumRange*
+              source_pixels[i]));
             break;
           }
           case BlueChannel:
           {
-            SetPixelBlue(q,ClampToQuantum(QuantumRange*source_pixels[i]));
+            SetPixelBlue(q,ClampToQuantum((MagickRealType) QuantumRange*
+              source_pixels[i]));
             break;
           }
           case OpacityChannel:
           {
-            SetPixelOpacity(q,ClampToQuantum(QuantumRange*source_pixels[i]));
+            SetPixelOpacity(q,ClampToQuantum((MagickRealType) QuantumRange*
+              source_pixels[i]));
             break;
           }
           case IndexChannel:
           {
-            SetPixelIndex(indexes+x,ClampToQuantum(QuantumRange*
-              source_pixels[i]));
+            SetPixelIndex(indexes+x,ClampToQuantum((MagickRealType)
+              QuantumRange*source_pixels[i]));
             break;
           }
           case GrayChannels:
           {
-            SetPixelGray(q,ClampToQuantum(QuantumRange*source_pixels[i]));
+            SetPixelGray(q,ClampToQuantum((MagickRealType) QuantumRange*
+              source_pixels[i]));
             break;
           }
         }
@@ -1580,8 +1614,8 @@ static MagickBooleanType InverseFourierTransformChannel(
   fourier_info.center=(ssize_t) (fourier_info.width/2L)+1L;
   fourier_info.channel=channel;
   fourier_info.modulus=modulus;
-  inverse_info=AcquireVirtualMemory((size_t) fourier_info.width,
-    (fourier_info.height/2+1)*sizeof(*inverse_pixels));
+  inverse_info=AcquireVirtualMemory(fourier_info.width,(fourier_info.height/2+
+    1)*sizeof(*inverse_pixels));
   if (inverse_info == (MemoryInfo *) NULL)
     {
       (void) ThrowMagickException(exception,GetMagickModule(),
@@ -1609,7 +1643,7 @@ MagickExport Image *InverseFourierTransformImage(const Image *magnitude_image,
 
   assert(magnitude_image != (Image *) NULL);
   assert(magnitude_image->signature == MagickCoreSignature);
-  if (magnitude_image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       magnitude_image->filename);
   if (phase_image == (Image *) NULL)
@@ -1618,7 +1652,7 @@ MagickExport Image *InverseFourierTransformImage(const Image *magnitude_image,
         "ImageSequenceRequired","`%s'",magnitude_image->filename);
       return((Image *) NULL);
     }
-#if !defined(MAGICKCORE_FFTW_DELEGATE)
+#if !defined(ENABLE_FFTW_DELEGATE)
   fourier_image=(Image *) NULL;
   (void) modulus;
   (void) ThrowMagickException(exception,GetMagickModule(),

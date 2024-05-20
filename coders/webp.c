@@ -17,7 +17,7 @@
 %                                 March 2011                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -50,6 +50,7 @@
 #include "magick/exception-private.h"
 #include "magick/image.h"
 #include "magick/image-private.h"
+#include "magick/layer.h"
 #include "magick/list.h"
 #include "magick/magick.h"
 #include "magick/monitor.h"
@@ -231,15 +232,15 @@ static int FillBasicWEBPInfo(Image *image,const uint8_t *stream,size_t length,
   return(webp_status);
 }
 
-static int ReadSingleWEBPImage(Image *image,const uint8_t *stream,
-  size_t length,WebPDecoderConfig *configure,ExceptionInfo *exception,
-  MagickBooleanType is_first)
+static int ReadSingleWEBPImage(const ImageInfo *image_info,Image *image,
+  const uint8_t *stream,size_t length,WebPDecoderConfig *configure,
+  ExceptionInfo *exception,MagickBooleanType is_first)
 {
   int
     webp_status;
 
-  unsigned char
-    *p;
+  MagickBooleanType
+    status;
 
   size_t
     canvas_width,
@@ -252,13 +253,14 @@ static int ReadSingleWEBPImage(Image *image,const uint8_t *stream,
     y_offset,
     y;
 
+  unsigned char
+    *p;
+
   WebPDecBuffer
-    *magick_restrict webp_image = &configure->output;
+    *magick_restrict webp_image;
 
-  MagickBooleanType
-    status;
-
-  if (is_first)
+  webp_image=&configure->output;
+  if (is_first != MagickFalse)
     {
       canvas_width=image->columns;
       canvas_height=image->rows;
@@ -269,6 +271,8 @@ static int ReadSingleWEBPImage(Image *image,const uint8_t *stream,
     }
   else
     {
+      canvas_width=0;
+      canvas_height=0;
       x_offset=0;
       y_offset=0;
     }
@@ -284,8 +288,11 @@ static int ReadSingleWEBPImage(Image *image,const uint8_t *stream,
   if (webp_status != VP8_STATUS_OK)
     return(webp_status);
 
-  if (IsWEBPImageLossless(stream,length) != MagickFalse)
+  if (IsWEBPImageLossless((unsigned char *) stream,length) != MagickFalse)
     image->quality=100;
+
+  if (image_info->ping != MagickFalse)
+    return(webp_status);
 
   webp_status=WebPDecode(stream,length,configure);
   if (webp_status != VP8_STATUS_OK)
@@ -315,10 +322,10 @@ static int ReadSingleWEBPImage(Image *image,const uint8_t *stream,
         }
       else
         {
-          SetPixelRed(q,0);
-          SetPixelGreen(q,0);
-          SetPixelBlue(q,0);
-          SetPixelAlpha(q,0);
+          SetPixelRed(q,(Quantum) 0);
+          SetPixelGreen(q,(Quantum) 0);
+          SetPixelBlue(q,(Quantum) 0);
+          SetPixelAlpha(q,(Quantum) 0);
         }
       q++;
     }
@@ -353,37 +360,41 @@ static int ReadSingleWEBPImage(Image *image,const uint8_t *stream,
     content.size=length;
     mux=WebPMuxCreate(&content,0);
     (void) memset(&chunk,0,sizeof(chunk));
-    WebPMuxGetFeatures(mux,&webp_flags);
-    if (webp_flags & ICCP_FLAG)
-      {
-        WebPMuxGetChunk(mux,"ICCP",&chunk);
-        profile=BlobToStringInfo(chunk.bytes,chunk.size);
-        if (profile != (StringInfo *) NULL)
-          {
-            SetImageProfile(image,"ICC",profile);
-            profile=DestroyStringInfo(profile);
-          }
-      }
-    if (webp_flags & EXIF_FLAG)
-      {
-        WebPMuxGetChunk(mux,"EXIF",&chunk);
-        profile=BlobToStringInfo(chunk.bytes,chunk.size);
-        if (profile != (StringInfo *) NULL)
-          {
-            SetImageProfile(image,"EXIF",profile);
-            profile=DestroyStringInfo(profile);
-          }
-      }
-    if (webp_flags & XMP_FLAG)
-      {
-        WebPMuxGetChunk(mux,"XMP",&chunk);
-        profile=BlobToStringInfo(chunk.bytes,chunk.size);
-        if (profile != (StringInfo *) NULL)
-          {
-            SetImageProfile(image,"XMP",profile);
-            profile=DestroyStringInfo(profile);
-          }
-      }
+    (void) WebPMuxGetFeatures(mux,&webp_flags);
+    if ((webp_flags & ICCP_FLAG) &&
+        (WebPMuxGetChunk(mux,"ICCP",&chunk) == WEBP_MUX_OK))
+      if (chunk.size != 0)
+        {
+          profile=BlobToStringInfo(chunk.bytes,chunk.size);
+          if (profile != (StringInfo *) NULL)
+            {
+              SetImageProfile(image,"ICC",profile);
+              profile=DestroyStringInfo(profile);
+            }
+        }
+    if ((webp_flags & EXIF_FLAG) &&
+        (WebPMuxGetChunk(mux,"EXIF",&chunk) == WEBP_MUX_OK))
+      if (chunk.size != 0)
+        {
+          profile=BlobToStringInfo(chunk.bytes,chunk.size);
+          if (profile != (StringInfo *) NULL)
+            {
+              (void) SetImageProfile(image,"EXIF",profile);
+              profile=DestroyStringInfo(profile);
+            }
+        }
+    if (((webp_flags & XMP_FLAG) &&
+         (WebPMuxGetChunk(mux,"XMP ",&chunk) == WEBP_MUX_OK)) ||
+         (WebPMuxGetChunk(mux,"XMP\0",&chunk) == WEBP_MUX_OK))
+      if (chunk.size != 0)
+        {
+          profile=BlobToStringInfo(chunk.bytes,chunk.size);
+          if (profile != (StringInfo *) NULL)
+            {
+              SetImageProfile(image,"XMP",profile);
+              profile=DestroyStringInfo(profile);
+            }
+        }
     WebPMuxDelete(mux);
   }
 #endif
@@ -436,45 +447,53 @@ static int ReadAnimatedWEBPImage(const ImageInfo *image_info,Image *image,
     mux=WebPMuxCreate(&data,0);
     status=WebPMuxGetAnimationParams(mux,&params);
     if (status >= 0)
-      image->iterations=params.loop_count;
+      image->iterations=(ssize_t) params.loop_count;
     WebPMuxDelete(mux);
   }
   demux=WebPDemux(&data);
-  if (WebPDemuxGetFrame(demux,1,&iter)) {
-    do {
-      if (image_count != 0)
-        {
-          AcquireNextImage(image_info,image);
-          if (GetNextImageInList(image) == (Image *) NULL)
-            break;
-          image=SyncNextImageInList(image);
-          CloneImageProperties(image, original_image);
-          image->page.x=iter.x_offset;
-          image->page.y=iter.y_offset;
-          webp_status=ReadSingleWEBPImage(image,iter.fragment.bytes,
-            iter.fragment.size,configure,exception,MagickFalse);
-        }
-      else
-        {
-          image->page.x=iter.x_offset;
-          image->page.y=iter.y_offset;
-          webp_status=ReadSingleWEBPImage(image,iter.fragment.bytes,
-            iter.fragment.size,configure,exception,MagickTrue);
-        }
-      if (webp_status != VP8_STATUS_OK)
-        break;
-
-      image->page.width=canvas_width;
-      image->page.height=canvas_height;
-      image->ticks_per_second=100;
-      image->delay=iter.duration/10;
-      image->dispose=NoneDispose;
-      if (iter.dispose_method == WEBP_MUX_DISPOSE_BACKGROUND)
-        image->dispose=BackgroundDispose;
-      image_count++;
-    } while (WebPDemuxNextFrame(&iter));
-    WebPDemuxReleaseIterator(&iter);
-  }
+  if (WebPDemuxGetFrame(demux,1,&iter))
+    {
+      do
+      {
+        if (image_count != 0)
+          {
+            AcquireNextImage(image_info,image);
+            if (GetNextImageInList(image) == (Image *) NULL)
+              break;
+            image=SyncNextImageInList(image);
+            CloneImageProperties(image,original_image);
+            image->page.x=(ssize_t) iter.x_offset;
+            image->page.y=(ssize_t) iter.y_offset;
+            webp_status=ReadSingleWEBPImage(image_info,image,
+              iter.fragment.bytes,iter.fragment.size,configure,exception,
+              MagickFalse);
+          }
+        else
+          {
+            image->page.x=(ssize_t) iter.x_offset;
+            image->page.y=(ssize_t) iter.y_offset;
+            webp_status=ReadSingleWEBPImage(image_info,image,
+              iter.fragment.bytes,iter.fragment.size,configure,exception,
+              MagickTrue);
+          }
+        if (webp_status != VP8_STATUS_OK)
+          break;
+        image->page.width=canvas_width;
+        image->page.height=canvas_height;
+        image->ticks_per_second=100;
+        image->delay=(size_t) iter.duration/10;
+        image->dispose=NoneDispose;
+        if (iter.dispose_method == WEBP_MUX_DISPOSE_BACKGROUND)
+          image->dispose=BackgroundDispose;
+        (void) SetImageProperty(image,"webp:mux-blend",
+          "AtopPreviousAlphaBlend");
+        if (iter.blend_method == WEBP_MUX_BLEND)
+          (void) SetImageProperty(image,"webp:mux-blend",
+            "AtopBackgroundAlphaBlend");
+        image_count++;
+      } while (WebPDemuxNextFrame(&iter));
+      WebPDemuxReleaseIterator(&iter);
+    }
   WebPDemuxDelete(demux);
   return(webp_status);
 }
@@ -522,11 +541,11 @@ static Image *ReadWEBPImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -541,13 +560,13 @@ static Image *ReadWEBPImage(const ImageInfo *image_info,
   count=ReadBlob(image,12,header);
   if (count != 12)
     ThrowWEBPException(CorruptImageError,"InsufficientImageDataInFile");
-  status=IsWEBP(header,count);
+  status=IsWEBP(header,(ssize_t) count);
   if (status == MagickFalse)
     ThrowWEBPException(CorruptImageError,"CorruptImage");
   length=(size_t) (ReadWebPLSBWord(header+4)+8);
   if (length < 12)
     ThrowWEBPException(CorruptImageError,"CorruptImage");
-  if (length > GetBlobSize(image))
+  if ((MagickSizeType) length > GetBlobSize(image))
     ThrowWEBPException(CorruptImageError,"InsufficientImageDataInFile");
   stream=(unsigned char *) AcquireQuantumMemory(length,sizeof(*stream));
   if (stream == (unsigned char *) NULL)
@@ -567,7 +586,8 @@ static Image *ReadWEBPImage(const ImageInfo *image_info,
       webp_status=VP8_STATUS_UNSUPPORTED_FEATURE;
 #endif
     } else {
-      webp_status=ReadSingleWEBPImage(image,stream,length,&configure,exception,MagickFalse);
+      webp_status=ReadSingleWEBPImage(image_info,image,stream,length,
+        &configure,exception,MagickFalse);
     }
   }
 
@@ -742,29 +762,46 @@ static int WebPEncodeProgress(int percent,const WebPPicture* picture)
 }
 #endif
 
-#if !defined(MAGICKCORE_WEBPMUX_DELEGATE)
-static int WebPEncodeWriter(const unsigned char *stream,size_t length,
-  const WebPPicture *const picture)
+static const char * WebPErrorCodeMessage(WebPEncodingError error_code)
 {
-  Image
-    *image;
-
-  image=(Image *) picture->custom_ptr;
-  return(length != 0 ? (WriteBlob(image,length,stream) == (ssize_t) length) : 1);
-}
+  switch (error_code)
+  {
+    case VP8_ENC_OK:
+      return "";
+    case VP8_ENC_ERROR_OUT_OF_MEMORY:
+      return "out of memory";
+    case VP8_ENC_ERROR_BITSTREAM_OUT_OF_MEMORY:
+      return "bitstream out of memory";
+    case VP8_ENC_ERROR_NULL_PARAMETER:
+      return "NULL parameter";
+    case VP8_ENC_ERROR_INVALID_CONFIGURATION:
+      return "invalid configuration";
+    case VP8_ENC_ERROR_BAD_DIMENSION:
+      return "bad dimension";
+    case VP8_ENC_ERROR_PARTITION0_OVERFLOW:
+      return "partition 0 overflow (> 512K)";
+    case VP8_ENC_ERROR_PARTITION_OVERFLOW:
+      return "partition overflow (> 16M)";
+    case VP8_ENC_ERROR_BAD_WRITE:
+      return "bad write";
+    case VP8_ENC_ERROR_FILE_TOO_BIG:
+      return "file too big (> 4GB)";
+#if WEBP_ENCODER_ABI_VERSION >= 0x0100
+    case VP8_ENC_ERROR_USER_ABORT:
+      return "user abort";
+    case VP8_ENC_ERROR_LAST:
+      return "error last";
 #endif
+  }
+  return "unknown exception";
+}
 
-typedef struct PictureMemory {
-  MemoryInfo *pixel_info;
-  struct PictureMemory *next;
-} PictureMemory;
-
-static MagickBooleanType WriteSingleWEBPImage(const ImageInfo *image_info,
-  Image *image,WebPPicture *picture,PictureMemory *picture_memory,
-  ExceptionInfo *exception)
+static MagickBooleanType WriteSingleWEBPPicture(const ImageInfo *image_info,
+  Image *image,const WebPConfig *configure,WebPPicture *picture,
+  MemoryInfo **memory_info,ExceptionInfo *exception)
 {
   MagickBooleanType
-    status = MagickFalse;
+    status;
 
   uint32_t
     *magick_restrict q;
@@ -784,16 +821,18 @@ static MagickBooleanType WriteSingleWEBPImage(const ImageInfo *image_info,
   /*
     Allocate memory for pixels.
   */
-  (void) TransformImageColorspace(image,sRGBColorspace);
-  picture_memory->pixel_info=AcquireVirtualMemory(image->columns,image->rows*
+  if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+    (void) TransformImageColorspace(image,sRGBColorspace);
+  *memory_info=AcquireVirtualMemory(image->columns,image->rows*
     sizeof(*(picture->argb)));
 
-  if (picture_memory->pixel_info == (MemoryInfo *) NULL)
+  if (*memory_info == (MemoryInfo *) NULL)
     ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
-  picture->argb=(uint32_t *) GetVirtualMemoryBlob(picture_memory->pixel_info);
+  picture->argb=(uint32_t *) GetVirtualMemoryBlob(*memory_info);
   /*
     Convert image to WebP raster pixels.
   */
+  status=MagickFalse;
   q=picture->argb;
   for (y=0; y < (ssize_t) image->rows; y++)
   {
@@ -820,35 +859,70 @@ static MagickBooleanType WriteSingleWEBPImage(const ImageInfo *image_info,
     if (status == MagickFalse)
       break;
   }
-  return status;
+
+  if (status != MagickFalse)
+    status=(MagickBooleanType) WebPEncode(configure,picture);
+
+  if (status == MagickFalse)
+    (void) ThrowMagickException(exception,GetMagickModule(),CorruptImageError,
+      WebPErrorCodeMessage(picture->error_code),"`%s'",image->filename);
+
+  return(status);
+}
+
+static MagickBooleanType WriteSingleWEBPImage(const ImageInfo *image_info,
+  Image *image,WebPConfig *configure,WebPMemoryWriter *writer,
+  ExceptionInfo *exception)
+{
+  MagickBooleanType
+    status;
+
+  WebPPicture
+    picture;
+
+  MemoryInfo
+    *memory_info;
+
+  if (WebPPictureInit(&picture) == 0)
+    ThrowWriterException(ResourceLimitError,"UnableToEncodeImageFile");
+
+  picture.writer=WebPMemoryWrite;
+  picture.custom_ptr=writer;
+
+  status=WriteSingleWEBPPicture(image_info,image,configure,&picture,
+    &memory_info,exception);
+  if (memory_info != (MemoryInfo *) NULL)
+    memory_info=RelinquishVirtualMemory(memory_info);
+  WebPPictureFree(&picture);
+
+  return(status);
 }
 
 #if defined(MAGICKCORE_WEBPMUX_DELEGATE)
-static void FreePictureMemoryList (PictureMemory* head) {
-  PictureMemory* next;
-  while(head != NULL) {
-    next = head->next;
-    if(head->pixel_info != NULL)
-      RelinquishVirtualMemory(head->pixel_info);
-    free(head);
-    head = next;
-  }
+static void *WebPDestroyMemoryInfo(void *memory_info)
+{
+  return((void *) RelinquishVirtualMemory((MemoryInfo *) memory_info));
 }
 
 static MagickBooleanType WriteAnimatedWEBPImage(const ImageInfo *image_info,
-  Image *image,WebPConfig *configure,WebPMemoryWriter *writer_info,
+  Image *image,const WebPConfig *configure,WebPData *webp_data,
   ExceptionInfo *exception)
 {
-  Image
-    *first_image;
+  int
+    webp_status;
 
-  PictureMemory
-    *current,
-    *head;
+  Image
+    *frame;
+
+  LinkedListInfo
+    *memory_info_list;
+
+  MemoryInfo
+    *memory_info;
 
   size_t
-    effective_delta = 0,
-    frame_timestamp = 0;
+    effective_delta,
+    frame_timestamp;
 
   WebPAnimEncoder
     *enc;
@@ -856,54 +930,191 @@ static MagickBooleanType WriteAnimatedWEBPImage(const ImageInfo *image_info,
   WebPAnimEncoderOptions
     enc_options;
 
-  WebPData
-    webp_data;
-
   WebPPicture
     picture;
 
-  WebPAnimEncoderOptionsInit(&enc_options);
-  if (image_info->verbose)
-    enc_options.verbose = 1;
+  (void) WebPAnimEncoderOptionsInit(&enc_options);
+  if (image_info->verbose != MagickFalse)
+    enc_options.verbose=1;
+  /*
+    Appropriate default kmin, kmax values for lossy and lossless.
+  */
+  enc_options.kmin = configure->lossless ? 9 : 3;
+  enc_options.kmax = configure->lossless ? 17 : 5;
+  enc=WebPAnimEncoderNew((int) image->columns,
+    (int) image->rows,&enc_options);
 
-  image=CoalesceImages(image, exception);
-  first_image=image;
-  enc=WebPAnimEncoderNew((int) image->page.width,(int) image->page.height,
-    &enc_options);
-
-  head=(PictureMemory *) calloc(sizeof(*head),1);
-  current=head;
-
-  while (image != NULL)
+  webp_status=1;
+  effective_delta=0;
+  frame_timestamp=0;
+  memory_info_list=NewLinkedList(GetImageListLength(image));
+  frame=image;
+  while (frame != NULL)
   {
-    if (WebPPictureInit(&picture) == 0)
-      ThrowWriterException(ResourceLimitError,"UnableToEncodeImageFile");
+    webp_status=WebPPictureInit(&picture);
+    if (webp_status == 0)
+      {
+        (void) ThrowMagickException(exception,GetMagickModule(),
+          ResourceLimitError,"UnableToEncodeImageFile","`%s'",image->filename);
+        break;
+      }
 
-    WriteSingleWEBPImage(image_info, image, &picture, current, exception);
+    webp_status=(int) WriteSingleWEBPPicture(image_info,frame,configure,
+      &picture,&memory_info,exception);
+    if (webp_status != 0)
+      webp_status=WebPAnimEncoderAdd(enc,&picture,(int) frame_timestamp,
+        configure);
+    if (memory_info != (MemoryInfo *) NULL)
+      (void) AppendValueToLinkedList(memory_info_list,memory_info);
+    WebPPictureFree(&picture);
+    if (webp_status == 0)
+      {
+        (void) ThrowMagickException(exception,GetMagickModule(),
+          CoderError,WebPAnimEncoderGetError(enc),"`%s'",image->filename);
+        break;
+      }
 
-    effective_delta = image->delay*1000/image->ticks_per_second;
+    effective_delta=frame->delay*1000*PerceptibleReciprocal(
+      frame->ticks_per_second);
     if (effective_delta < 10)
-      effective_delta = 100; /* Consistent with gif2webp */
+      effective_delta=100; /* Consistent with gif2webp */
     frame_timestamp+=effective_delta;
 
-    WebPAnimEncoderAdd(enc,&picture,(int) frame_timestamp,configure);
-
-    image = GetNextImageInList(image);
-    current->next=(PictureMemory *) calloc(sizeof(*head), 1);
-    current = current->next;
+    frame=GetNextImageInList(frame);
   }
-  webp_data.bytes=writer_info->mem;
-  webp_data.size=writer_info->size;
-  WebPAnimEncoderAssemble(enc, &webp_data);
-  WebPMemoryWriterClear(writer_info);
-  writer_info->size=webp_data.size;
-  writer_info->mem=(unsigned char *) webp_data.bytes;
+
+  if (webp_status != 0)
+    {
+      /* add last null frame and assemble picture. */
+      webp_status=WebPAnimEncoderAdd(enc,(WebPPicture *) NULL,
+        (int) frame_timestamp,configure);
+      if (webp_status != 0)
+        webp_status=WebPAnimEncoderAssemble(enc,webp_data);
+
+      if (webp_status == 0)
+          (void) ThrowMagickException(exception,GetMagickModule(),
+            CoderError,WebPAnimEncoderGetError(enc),"`%s'",image->filename);
+    }
+
+  memory_info_list=DestroyLinkedList(memory_info_list,WebPDestroyMemoryInfo);
   WebPAnimEncoderDelete(enc);
-  DestroyImageList(first_image);
-  FreePictureMemoryList(head);
+  return(webp_status != 0 ? MagickTrue : MagickFalse);
+}
+
+static MagickBooleanType WriteWEBPImageProfile(Image *image,
+  WebPData *webp_data,ExceptionInfo *exception)
+{
+  const StringInfo
+    *icc_profile,
+    *exif_profile,
+    *xmp_profile;
+ 
+  WebPData
+    chunk;
+ 
+  WebPMux
+    *mux;
+ 
+  WebPMuxError
+    mux_error;
+
+  WebPMuxAnimParams
+    new_params;
+ 
+  icc_profile=GetImageProfile(image,"ICC");
+  exif_profile=GetImageProfile(image,"EXIF");
+  xmp_profile=GetImageProfile(image,"XMP");
+
+  if (icc_profile == (StringInfo *) NULL 
+          && exif_profile == (StringInfo *) NULL 
+          && xmp_profile == (StringInfo *) NULL
+          && image->iterations == 0)
+    return(MagickTrue);
+
+  mux=WebPMuxCreate(webp_data, 1);
+  WebPDataClear(webp_data);
+
+  if (mux == NULL)
+      (void) ThrowMagickException(exception,GetMagickModule(),
+        ResourceLimitError,"UnableToEncodeImageFile","`%s'",image->filename);
+
+  /* Clean up returned data */
+  memset(webp_data, 0, sizeof(*webp_data));
+  mux_error=WEBP_MUX_OK;
+  if (image->iterations > 0)
+    {
+      mux_error=WebPMuxGetAnimationParams(mux, &new_params);
+      /*
+        If there is only 1 frame webp_data will be created by WriteSingleWEBPImage
+        and WebPMuxGetAnimationParams will return WEBP_MUX_NOT_FOUND
+      */
+      if (mux_error == WEBP_MUX_NOT_FOUND)
+        mux_error=WEBP_MUX_OK;
+      else
+        if (mux_error == WEBP_MUX_OK)
+          {
+            new_params.loop_count=MagickMin((int) image->iterations,65535);
+            mux_error=WebPMuxSetAnimationParams(mux, &new_params);
+          }
+    }
+  if ((icc_profile != (StringInfo *) NULL) && (mux_error == WEBP_MUX_OK))
+    {
+      chunk.bytes=GetStringInfoDatum(icc_profile);
+      chunk.size=GetStringInfoLength(icc_profile);
+      mux_error=WebPMuxSetChunk(mux,"ICCP",&chunk,0);
+    }
+  if ((exif_profile != (StringInfo *) NULL) && (mux_error == WEBP_MUX_OK))
+    {
+      chunk.bytes=GetStringInfoDatum(exif_profile);
+      chunk.size=GetStringInfoLength(exif_profile);
+      if ((chunk.size >= 6) &&
+          (chunk.bytes[0] == 'E') && (chunk.bytes[1] == 'x') &&
+          (chunk.bytes[2] == 'i') && (chunk.bytes[3] == 'f') &&
+          (chunk.bytes[4] == '\0') && (chunk.bytes[5] == '\0'))
+        {
+          chunk.bytes=GetStringInfoDatum(exif_profile)+6;
+          chunk.size-=6;
+        }
+      mux_error=WebPMuxSetChunk(mux,"EXIF",&chunk,0);
+    }
+  if ((xmp_profile != (StringInfo *) NULL) && (mux_error == WEBP_MUX_OK))
+    {
+      chunk.bytes=GetStringInfoDatum(xmp_profile);
+      chunk.size=GetStringInfoLength(xmp_profile);
+      mux_error=WebPMuxSetChunk(mux,"XMP ",&chunk,0);
+    }
+  if (mux_error == WEBP_MUX_OK)
+      mux_error=WebPMuxAssemble(mux,webp_data);
+  WebPMuxDelete(mux);
+
+  if (mux_error != WEBP_MUX_OK)
+    (void) ThrowMagickException(exception,GetMagickModule(),
+      ResourceLimitError,"UnableToEncodeImageFile","`%s'",image->filename);
   return(MagickTrue);
 }
 #endif
+
+static inline void SetBooleanOption(const ImageInfo *image_info,
+  const char *option,int *setting)
+{
+  const char
+    *value;
+
+  value=GetImageOption(image_info,option);
+  if (value != (char *) NULL)
+    *setting=(int) ParseCommandOption(MagickBooleanOptions,MagickFalse,value);
+}
+
+static inline void SetIntegerOption(const ImageInfo *image_info,
+  const char *option,int *setting)
+{
+  const char
+    *value;
+
+  value=GetImageOption(image_info,option);
+  if (value != (const char *) NULL)
+    *setting=StringToInteger(value);
+}
 
 static MagickBooleanType WriteWEBPImage(const ImageInfo *image_info,
   Image *image)
@@ -911,28 +1122,14 @@ static MagickBooleanType WriteWEBPImage(const ImageInfo *image_info,
   const char
     *value;
 
-  int
-    webp_status;
-
   MagickBooleanType
     status;
-
-  WebPAuxStats
-    statistics;
 
   WebPConfig
     configure;
 
-#if defined(MAGICKCORE_WEBPMUX_DELEGATE)
   WebPMemoryWriter
-    writer_info;
-#endif
-
-  WebPPicture
-    picture;
-
-  PictureMemory
-    memory = {0};
+    writer;
 
   /*
     Open output image file.
@@ -941,37 +1138,22 @@ static MagickBooleanType WriteWEBPImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  if ((image->columns > 16383UL) || (image->rows > 16383UL))
-    ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
+  if ((image->columns > 16383UL) || (image->rows > 16383UL))
+    ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
   if (WebPConfigInit(&configure) == 0)
     ThrowWriterException(ResourceLimitError,"UnableToEncodeImageFile");
-  if (WebPPictureInit(&picture) == 0)
-    ThrowWriterException(ResourceLimitError,"UnableToEncodeImageFile");
-#if !defined(MAGICKCORE_WEBPMUX_DELEGATE)
-  picture.writer=WebPEncodeWriter;
-  picture.custom_ptr=(void *) image;
-#else
-  WebPMemoryWriterInit(&writer_info);
-  picture.writer=WebPMemoryWrite;
-  picture.custom_ptr=(&writer_info);
-#endif
-  picture.stats=(&statistics);
   if (image->quality != UndefinedCompressionQuality)
-    configure.quality=(float) image->quality;
+#if WEBP_ENCODER_ABI_VERSION >= 0x020e
+      configure.near_lossless=(float) image->quality;
+#endif
   if (image->quality >= 100)
     configure.lossless=1;
-  value=GetImageOption(image_info,"webp:lossless");
-  if (value != (char *) NULL)
-    configure.lossless=(int) ParseCommandOption(MagickBooleanOptions,
-      MagickFalse,value);
-  value=GetImageOption(image_info,"webp:method");
-  if (value != (char *) NULL)
-    configure.method=StringToInteger(value);
+  SetBooleanOption(image_info,"webp:lossless",&configure.lossless);
   value=GetImageOption(image_info,"webp:image-hint");
   if (value != (char *) NULL)
     {
@@ -986,237 +1168,88 @@ static MagickBooleanType WriteWEBPImage(const ImageInfo *image_info,
         configure.image_hint=WEBP_HINT_GRAPH;
 #endif
     }
-  value=GetImageOption(image_info,"webp:target-size");
-  if (value != (char *) NULL)
-    configure.target_size=StringToInteger(value);
+  SetBooleanOption(image_info,"webp:auto-filter",&configure.autofilter);
   value=GetImageOption(image_info,"webp:target-psnr");
   if (value != (char *) NULL)
     configure.target_PSNR=(float) StringToDouble(value,(char **) NULL);
-  value=GetImageOption(image_info,"webp:segments");
-  if (value != (char *) NULL)
-    configure.segments=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:sns-strength");
-  if (value != (char *) NULL)
-    configure.sns_strength=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:filter-strength");
-  if (value != (char *) NULL)
-    configure.filter_strength=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:filter-sharpness");
-  if (value != (char *) NULL)
-    configure.filter_sharpness=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:filter-type");
-  if (value != (char *) NULL)
-    configure.filter_type=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:auto-filter");
-  if (value != (char *) NULL)
-    configure.autofilter=(int) ParseCommandOption(MagickBooleanOptions,
-      MagickFalse,value);
-  value=GetImageOption(image_info,"webp:alpha-compression");
-  if (value != (char *) NULL)
-    configure.alpha_compression=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:alpha-filtering");
-  if (value != (char *) NULL)
-    configure.alpha_filtering=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:alpha-quality");
-  if (value != (char *) NULL)
-    configure.alpha_quality=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:pass");
-  if (value != (char *) NULL)
-    configure.pass=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:show-compressed");
-  if (value != (char *) NULL)
-    configure.show_compressed=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:preprocessing");
-  if (value != (char *) NULL)
-    configure.preprocessing=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:partitions");
-  if (value != (char *) NULL)
-    configure.partitions=StringToInteger(value);
-  value=GetImageOption(image_info,"webp:partition-limit");
-  if (value != (char *) NULL)
-    configure.partition_limit=StringToInteger(value);
+  SetIntegerOption(image_info,"webp:alpha-compression",
+    &configure.alpha_compression);
+  SetIntegerOption(image_info,"webp:alpha-filtering",
+    &configure.alpha_filtering);
+  SetIntegerOption(image_info,"webp:alpha-quality",
+    &configure.alpha_quality);
+  SetIntegerOption(image_info,"webp:filter-strength",
+    &configure.filter_strength);
+  SetIntegerOption(image_info,"webp:filter-sharpness",
+    &configure.filter_sharpness);
+  SetIntegerOption(image_info,"webp:filter-type",&configure.filter_type);
+  SetIntegerOption(image_info,"webp:method",&configure.method);
+  SetIntegerOption(image_info,"webp:partitions",&configure.partitions);
+  SetIntegerOption(image_info,"webp:partition-limit",
+    &configure.partition_limit);
+  SetIntegerOption(image_info,"webp:pass",&configure.pass);
+  SetIntegerOption(image_info,"webp:preprocessing",&configure.preprocessing);
+  SetIntegerOption(image_info,"webp:segments",&configure.segments);
+  SetIntegerOption(image_info,"webp:show-compressed",
+    &configure.show_compressed);
+  SetIntegerOption(image_info,"webp:sns-strength",&configure.sns_strength);
+  SetIntegerOption(image_info,"webp:target-size",&configure.target_size);
 #if WEBP_ENCODER_ABI_VERSION >= 0x0201
-  value=GetImageOption(image_info,"webp:emulate-jpeg-size");
-  if (value != (char *) NULL)
-    configure.emulate_jpeg_size=(int) ParseCommandOption(MagickBooleanOptions,
-      MagickFalse,value);
-  value=GetImageOption(image_info,"webp:low-memory");
-  if (value != (char *) NULL)
-    configure.low_memory=(int) ParseCommandOption(MagickBooleanOptions,
-      MagickFalse,value);
-  value=GetImageOption(image_info,"webp:thread-level");
-  if (value != (char *) NULL)
-    configure.thread_level=StringToInteger(value);
+  SetBooleanOption(image_info,"webp:emulate-jpeg-size",
+    &configure.emulate_jpeg_size);
+  SetBooleanOption(image_info,"webp:low-memory",&configure.low_memory);
+  SetIntegerOption(image_info,"webp:thread-level",&configure.thread_level);
+#endif
+#if WEBP_ENCODER_ABI_VERSION >= 0x0209
+  SetBooleanOption(image_info,"webp:exact",&configure.exact);
 #endif
 #if WEBP_ENCODER_ABI_VERSION >= 0x020e
-  value=GetImageOption(image_info,"webp:use-sharp-yuv");
-  if (value != (char *) NULL)
-    configure.use_sharp_yuv=StringToInteger(value);
+  SetBooleanOption(image_info,"webp:use-sharp-yuv",&configure.use_sharp_yuv);
 #endif
+  if (((configure.target_size > 0) || (configure.target_PSNR > 0)) &&
+      (configure.pass == 1))
+    configure.pass=6;
   if (WebPValidateConfig(&configure) == 0)
     ThrowWriterException(ResourceLimitError,"UnableToEncodeImageFile");
-
-  WriteSingleWEBPImage(image_info,image,&picture,&memory,&image->exception);
-
-#if defined(MAGICKCORE_WEBPMUX_DELEGATE)
-  if ((image_info->adjoin != MagickFalse) &&
-      (GetPreviousImageInList(image) == (Image *) NULL) &&
-      (GetNextImageInList(image) != (Image *) NULL) &&
-      (image->iterations != 1))
-    WriteAnimatedWEBPImage(image_info,image,&configure,&writer_info,&image->exception);
-#endif
-
-  webp_status=WebPEncode(&configure,&picture);
-  if (webp_status == 0)
-    {
-      const char
-        *message;
-
-      switch (picture.error_code)
-      {
-        case VP8_ENC_ERROR_OUT_OF_MEMORY:
-        {
-          message="out of memory";
-          break;
-        }
-        case VP8_ENC_ERROR_BITSTREAM_OUT_OF_MEMORY:
-        {
-          message="bitstream out of memory";
-          break;
-        }
-        case VP8_ENC_ERROR_NULL_PARAMETER:
-        {
-          message="NULL parameter";
-          break;
-        }
-        case VP8_ENC_ERROR_INVALID_CONFIGURATION:
-        {
-          message="invalid configuration";
-          break;
-        }
-        case VP8_ENC_ERROR_BAD_DIMENSION:
-        {
-          message="bad dimension";
-          break;
-        }
-        case VP8_ENC_ERROR_PARTITION0_OVERFLOW:
-        {
-          message="partition 0 overflow (> 512K)";
-          break;
-        }
-        case VP8_ENC_ERROR_PARTITION_OVERFLOW:
-        {
-          message="partition overflow (> 16M)";
-          break;
-        }
-        case VP8_ENC_ERROR_BAD_WRITE:
-        {
-          message="bad write";
-          break;
-        }
-        case VP8_ENC_ERROR_FILE_TOO_BIG:
-        {
-          message="file too big (> 4GB)";
-          break;
-        }
-#if WEBP_ENCODER_ABI_VERSION >= 0x0100
-        case VP8_ENC_ERROR_USER_ABORT:
-        {
-          message="user abort";
-          break;
-        }
-#endif
-        default:
-        {
-          message="unknown exception";
-          break;
-        }
-      }
-      (void) ThrowMagickException(&image->exception,GetMagickModule(),CorruptImageError,
-        (char *) message,"`%s'",image->filename);
-    }
 #if defined(MAGICKCORE_WEBPMUX_DELEGATE)
   {
-    const StringInfo
-      *profile;
-
     WebPData
-      chunk,
-      image_chunk;
+      webp_data;
 
-    WebPMux
-      *mux;
-
-    WebPMuxError
-      mux_error;
-
-    /*
-      Set image profiles (if any).
-    */
-    image_chunk.bytes=writer_info.mem;
-    image_chunk.size=writer_info.size;
-    mux_error=WEBP_MUX_OK;
-    (void) memset(&chunk,0,sizeof(chunk));
-    mux=WebPMuxNew();
-    profile=GetImageProfile(image,"ICC");
-    if ((profile != (StringInfo *) NULL) && (mux_error == WEBP_MUX_OK))
+    memset(&webp_data,0,sizeof(webp_data));
+    if ((image_info->adjoin != MagickFalse) &&
+        (GetPreviousImageInList(image) == (Image *) NULL) &&
+        (GetNextImageInList(image) != (Image *) NULL))
+      status=WriteAnimatedWEBPImage(image_info,image,&configure,&webp_data,
+        &image->exception);
+    else
       {
-        chunk.bytes=GetStringInfoDatum(profile);
-        chunk.size=GetStringInfoLength(profile);
-        mux_error=WebPMuxSetChunk(mux,"ICCP",&chunk,0);
-      }
-    profile=GetImageProfile(image,"EXIF");
-    if ((profile != (StringInfo *) NULL) && (mux_error == WEBP_MUX_OK))
-      {
-        chunk.bytes=GetStringInfoDatum(profile);
-        chunk.size=GetStringInfoLength(profile);
-        if ((chunk.size >= 6) &&
-            (chunk.bytes[0] == 'E') && (chunk.bytes[1] == 'x') &&
-            (chunk.bytes[2] == 'i') && (chunk.bytes[3] == 'f') &&
-            (chunk.bytes[4] == '\0') && (chunk.bytes[5] == '\0'))
+        WebPMemoryWriterInit(&writer);
+        status=WriteSingleWEBPImage(image_info,image,&configure,&writer,
+          &image->exception);
+        if (status == MagickFalse)
+          WebPMemoryWriterClear(&writer);
+        else
           {
-            chunk.bytes=GetStringInfoDatum(profile)+6;
-            chunk.size-=6;
+            webp_data.bytes=writer.mem;
+            webp_data.size=writer.size;
           }
-        mux_error=WebPMuxSetChunk(mux,"EXIF",&chunk,0);
       }
-    profile=GetImageProfile(image,"XMP");
-    if ((profile != (StringInfo *) NULL) && (mux_error == WEBP_MUX_OK))
-      {
-        chunk.bytes=GetStringInfoDatum(profile);
-        chunk.size=GetStringInfoLength(profile);
-        mux_error=WebPMuxSetChunk(mux,"XMP",&chunk,0);
-      }
-    if (mux_error != WEBP_MUX_OK)
-      (void) ThrowMagickException(&image->exception,GetMagickModule(),
-        ResourceLimitError,"UnableToEncodeImageFile","`%s'",image->filename);
-    if (chunk.size != 0)
-      {
-        WebPData
-          picture_profiles;
-
-        /*
-          Replace original container with image profile (if any).
-        */
-        picture_profiles.bytes=writer_info.mem;
-        picture_profiles.size=writer_info.size;
-        WebPMuxSetImage(mux,&image_chunk,1);
-        mux_error=WebPMuxAssemble(mux,&picture_profiles);
-        WebPMemoryWriterClear(&writer_info);
-        writer_info.size=picture_profiles.size;
-        writer_info.mem=(unsigned char *) picture_profiles.bytes;
-      }
-    WebPMuxDelete(mux);
+    if (status != MagickFalse)
+      status=WriteWEBPImageProfile(image,&webp_data,&image->exception);
+    if (status != MagickFalse)
+      (void) WriteBlob(image,webp_data.size,webp_data.bytes);
+    WebPDataClear(&webp_data);
   }
-  (void) WriteBlob(image,writer_info.size,writer_info.mem);
-#endif
-  picture.argb=(uint32_t *) NULL;
-  WebPPictureFree(&picture);
-#if defined(MAGICKCORE_WEBPMUX_DELEGATE)
-  WebPMemoryWriterClear(&writer_info);
+#else
+  WebPMemoryWriterInit(&writer);
+  status=WriteSingleWEBPImage(image_info,image,&configure,&writer,
+    &image->exception);
+  if (status != MagickFalse)
+    (void) WriteBlob(image,writer.size,writer.mem);
+  WebPMemoryWriterClear(&writer);
 #endif
   (void) CloseBlob(image);
-  RelinquishVirtualMemory(memory.pixel_info);
-  return(webp_status == 0 ? MagickFalse : MagickTrue);
+  return(status);
 }
 #endif

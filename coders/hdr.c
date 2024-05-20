@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -177,11 +177,11 @@ static Image *ReadHDRImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -489,9 +489,12 @@ static Image *ReadHDRImage(const ImageInfo *image_info,ExceptionInfo *exception)
       if (pixel[3] != 0)
         {
           gamma=pow(2.0,pixel[3]-(128.0+8.0));
-          SetPixelRed(q,ClampToQuantum(QuantumRange*gamma*pixel[0]));
-          SetPixelGreen(q,ClampToQuantum(QuantumRange*gamma*pixel[1]));
-          SetPixelBlue(q,ClampToQuantum(QuantumRange*gamma*pixel[2]));
+          SetPixelRed(q,ClampToQuantum((MagickRealType) QuantumRange*gamma*
+            (MagickRealType) pixel[0]));
+          SetPixelGreen(q,ClampToQuantum((MagickRealType) QuantumRange*gamma*
+            (MagickRealType) pixel[1]));
+          SetPixelBlue(q,ClampToQuantum((MagickRealType) QuantumRange*gamma*
+            (MagickRealType) pixel[2]));
         }
       q++;
     }
@@ -582,7 +585,7 @@ ModuleExport void UnregisterHDRImage(void)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  WriteHDRImage() writes an image in the Radience RGBE image format.
+%  WriteHDRImage() writes an image in the Radiance RGBE image format.
 %
 %  The format of the WriteHDRImage method is:
 %
@@ -697,13 +700,14 @@ static MagickBooleanType WriteHDRImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
   if (IsRGBColorspace(image->colorspace) == MagickFalse)
-    (void) TransformImageColorspace(image,sRGBColorspace);
+    if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+      (void) TransformImageColorspace(image,sRGBColorspace);
   /*
     Write header.
   */
@@ -775,11 +779,11 @@ static MagickBooleanType WriteHDRImage(const ImageInfo *image_info,Image *image)
       pixel[1]=0;
       pixel[2]=0;
       pixel[3]=0;
-      gamma=QuantumScale*GetPixelRed(p);
-      if ((QuantumScale*GetPixelGreen(p)) > gamma)
-        gamma=QuantumScale*GetPixelGreen(p);
-      if ((QuantumScale*GetPixelBlue(p)) > gamma)
-        gamma=QuantumScale*GetPixelBlue(p);
+      gamma=QuantumScale*(MagickRealType) GetPixelRed(p);
+      if ((QuantumScale*(MagickRealType) GetPixelGreen(p)) > gamma)
+        gamma=QuantumScale*(MagickRealType) GetPixelGreen(p);
+      if ((QuantumScale*(MagickRealType) GetPixelBlue(p)) > gamma)
+        gamma=QuantumScale*(MagickRealType) GetPixelBlue(p);
       if (gamma > MagickEpsilon)
         {
           int
@@ -787,11 +791,14 @@ static MagickBooleanType WriteHDRImage(const ImageInfo *image_info,Image *image)
 
           gamma=frexp(gamma,&exponent)*256.0/gamma;
           if (GetPixelRed(p) > 0)
-            pixel[0]=(unsigned char) (gamma*QuantumScale*GetPixelRed(p));
+            pixel[0]=(unsigned char) (gamma*QuantumScale*(MagickRealType)
+              GetPixelRed(p));
           if (GetPixelGreen(p) > 0)
-            pixel[1]=(unsigned char) (gamma*QuantumScale*GetPixelGreen(p));
+            pixel[1]=(unsigned char) (gamma*QuantumScale*(MagickRealType)
+              GetPixelGreen(p));
           if (GetPixelBlue(p) > 0)
-            pixel[2]=(unsigned char) (gamma*QuantumScale*GetPixelBlue(p));
+            pixel[2]=(unsigned char) (gamma*QuantumScale*(MagickRealType)
+              GetPixelBlue(p));
           pixel[3]=(unsigned char) (exponent+128);
         }
       if ((image->columns >= 8) && (image->columns <= 0x7ffff))

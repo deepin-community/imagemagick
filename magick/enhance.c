@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -245,7 +245,7 @@ MagickExport MagickBooleanType AutoLevelImageChannel(Image *image,
 %
 %  BrightnessContrastImage() changes the brightness and/or contrast of an
 %  image.  It converts the brightness and contrast parameters into slope and
-%  intercept and calls a polynomical function to apply to the image.
+%  intercept and calls a polynomial function to apply to the image.
 %
 %  The format of the BrightnessContrastImage method is:
 %
@@ -281,10 +281,9 @@ MagickExport MagickBooleanType BrightnessContrastImage(Image *image,
 MagickExport MagickBooleanType BrightnessContrastImageChannel(Image *image,
   const ChannelType channel,const double brightness,const double contrast)
 {
-#define BrightnessContastImageTag  "BrightnessContast/Image"
+#define BrightnessContrastImageTag  "BrightnessContrast/Image"
 
   double
-    alpha,
     intercept,
     coefficients[2],
     slope;
@@ -297,13 +296,12 @@ MagickExport MagickBooleanType BrightnessContrastImageChannel(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  alpha=contrast;
-  slope=tan((double) (MagickPI*(alpha/100.0+1.0)/4.0));
-  if (slope < 0.0)
-    slope=0.0;
-  intercept=brightness/100.0+((100-brightness)/200.0)*(1.0-slope);
+  slope=100.0*PerceptibleReciprocal(100.0-contrast);
+  if (contrast < 0.0)
+    slope=0.01*contrast+1.0;
+  intercept=(0.01*brightness-0.5)*slope+0.5;
   coefficients[0]=slope;
   coefficients[1]=intercept;
   status=FunctionImageChannel(image,channel,PolynomialFunction,2,coefficients,
@@ -420,7 +418,7 @@ MagickExport MagickBooleanType ColorDecisionListImage(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (color_correction_collection == (const char *) NULL)
     return(MagickFalse);
@@ -617,15 +615,16 @@ MagickExport MagickBooleanType ColorDecisionListImage(Image *image,
         double
           luma;
 
-        luma=0.212656*image->colormap[i].red+0.715158*image->colormap[i].green+
-          0.072186*image->colormap[i].blue;
+        luma=0.212656*(double) image->colormap[i].red+0.715158*(double)
+          image->colormap[i].green+0.072186*(double) image->colormap[i].blue;
         image->colormap[i].red=ClampToQuantum(luma+color_correction.saturation*
-          cdl_map[ScaleQuantumToMap(image->colormap[i].red)].red-luma);
+          (double) cdl_map[ScaleQuantumToMap(image->colormap[i].red)].red-luma);
         image->colormap[i].green=ClampToQuantum(luma+
-          color_correction.saturation*cdl_map[ScaleQuantumToMap(
+          color_correction.saturation*(double) cdl_map[ScaleQuantumToMap(
           image->colormap[i].green)].green-luma);
         image->colormap[i].blue=ClampToQuantum(luma+color_correction.saturation*
-          cdl_map[ScaleQuantumToMap(image->colormap[i].blue)].blue-luma);
+          (double) cdl_map[ScaleQuantumToMap(image->colormap[i].blue)].blue-
+          luma);
       }
     }
   /*
@@ -659,14 +658,14 @@ MagickExport MagickBooleanType ColorDecisionListImage(Image *image,
       }
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      luma=0.212656*GetPixelRed(q)+0.715158*GetPixelGreen(q)+
-        0.072186*GetPixelBlue(q);
+      luma=0.212656*(double) GetPixelRed(q)+0.715158*(double) GetPixelGreen(q)+
+        0.072186*(double) GetPixelBlue(q);
       SetPixelRed(q,ClampToQuantum(luma+color_correction.saturation*
-        (cdl_map[ScaleQuantumToMap(GetPixelRed(q))].red-luma)));
+        ((double) cdl_map[ScaleQuantumToMap(GetPixelRed(q))].red-luma)));
       SetPixelGreen(q,ClampToQuantum(luma+color_correction.saturation*
-        (cdl_map[ScaleQuantumToMap(GetPixelGreen(q))].green-luma)));
+        ((double) cdl_map[ScaleQuantumToMap(GetPixelGreen(q))].green-luma)));
       SetPixelBlue(q,ClampToQuantum(luma+color_correction.saturation*
-        (cdl_map[ScaleQuantumToMap(GetPixelBlue(q))].blue-luma)));
+        ((double) cdl_map[ScaleQuantumToMap(GetPixelBlue(q))].blue-luma)));
       q++;
     }
     if (SyncCacheViewAuthenticPixels(image_view,exception) == MagickFalse)
@@ -705,7 +704,7 @@ MagickExport MagickBooleanType ColorDecisionListImage(Image *image,
 %  ClutImage() replaces each color value in the given image, by using it as an
 %  index to lookup a replacement color value in a Color Look UP Table in the
 %  form of an image.  The values are extracted along a diagonal of the CLUT
-%  image so either a horizontal or vertial gradient image can be used.
+%  image so either a horizontal or vertical gradient image can be used.
 %
 %  Typically this is used to either re-color a gray-scale image according to a
 %  color gradient in the CLUT image, or to perform a freeform histogram
@@ -713,7 +712,7 @@ MagickExport MagickBooleanType ColorDecisionListImage(Image *image,
 %  CLUT image.
 %
 %  When the 'channel' mask includes the matte/alpha transparency channel but
-%  one image has no such channel it is assumed that that image is a simple
+%  one image has no such channel it is assumed that image is a simple
 %  gray-scale image that will effect the alpha channel values, either for
 %  gray-scale coloring (with transparent or semi-transparent colors), or
 %  a histogram adjustment of existing alpha channel values.   If both images
@@ -771,10 +770,10 @@ MagickExport MagickBooleanType ClutImageChannel(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(clut_image != (Image *) NULL);
   assert(clut_image->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
   if (SetImageStorageClass(image,DirectClass) == MagickFalse)
     return(MagickFalse);
@@ -914,22 +913,17 @@ MagickExport MagickBooleanType ClutImageChannel(Image *image,
 %
 */
 
-static void Contrast(const int sign,Quantum *red,Quantum *green,Quantum *blue)
+static inline void Contrast(const int sign,Quantum *red,Quantum *green,
+  Quantum *blue)
 {
   double
-    brightness,
-    hue,
-    saturation;
+    brightness = 0.0,
+    hue = 0.0,
+    saturation = 0.0;
 
   /*
     Enhance contrast: dark color become darker, light color become lighter.
   */
-  assert(red != (Quantum *) NULL);
-  assert(green != (Quantum *) NULL);
-  assert(blue != (Quantum *) NULL);
-  hue=0.0;
-  saturation=0.0;
-  brightness=0.0;
   ConvertRGBToHSB(*red,*green,*blue,&hue,&saturation,&brightness);
   brightness+=0.5*sign*(0.5*(sin((double) (MagickPI*(brightness-0.5)))+1.0)-
     brightness);
@@ -968,7 +962,7 @@ MagickExport MagickBooleanType ContrastImage(Image *image,
     y;
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   sign=sharpen != MagickFalse ? 1 : -1;
   if (image->storage_class == PseudoClass)
@@ -1093,8 +1087,8 @@ MagickExport MagickBooleanType ContrastStretchImage(Image *image,
   const char *levels)
 {
   double
-    black_point,
-    white_point;
+    black_point = 0.0,
+    white_point = (double) image->columns*image->rows;
 
   GeometryInfo
     geometry_info;
@@ -1111,8 +1105,8 @@ MagickExport MagickBooleanType ContrastStretchImage(Image *image,
   if (levels == (char *) NULL)
     return(MagickFalse);
   flags=ParseGeometry(levels,&geometry_info);
-  black_point=geometry_info.rho;
-  white_point=(double) image->columns*image->rows;
+  if ((flags & RhoValue) != 0)
+    black_point=geometry_info.rho;
   if ((flags & SigmaValue) != 0)
     white_point=geometry_info.sigma;
   if ((flags & PercentValue) != 0)
@@ -1167,7 +1161,7 @@ MagickExport MagickBooleanType ContrastStretchImageChannel(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
 
@@ -1580,24 +1574,24 @@ MagickExport MagickBooleanType ContrastStretchImageChannel(Image *image,
 MagickExport Image *EnhanceImage(const Image *image,ExceptionInfo *exception)
 {
 #define EnhancePixel(weight) \
-  mean=QuantumScale*((double) GetPixelRed(r)+pixel.red)/2.0; \
-  distance=QuantumScale*((double) GetPixelRed(r)-pixel.red); \
+  mean=QuantumScale*((double) GetPixelRed(r)+(double) pixel.red)/2.0; \
+  distance=QuantumScale*((double) GetPixelRed(r)-(double) pixel.red); \
   distance_squared=(4.0+mean)*distance*distance; \
-  mean=QuantumScale*((double) GetPixelGreen(r)+pixel.green)/2.0; \
-  distance=QuantumScale*((double) GetPixelGreen(r)-pixel.green); \
+  mean=QuantumScale*((double) GetPixelGreen(r)+(double) pixel.green)/2.0; \
+  distance=QuantumScale*((double) GetPixelGreen(r)-(double) pixel.green); \
   distance_squared+=(7.0-mean)*distance*distance; \
-  mean=QuantumScale*((double) GetPixelBlue(r)+pixel.blue)/2.0; \
-  distance=QuantumScale*((double) GetPixelBlue(r)-pixel.blue); \
+  mean=QuantumScale*((double) GetPixelBlue(r)+(double) pixel.blue)/2.0; \
+  distance=QuantumScale*((double) GetPixelBlue(r)-(double) pixel.blue); \
   distance_squared+=(5.0-mean)*distance*distance; \
-  mean=QuantumScale*((double) GetPixelOpacity(r)+pixel.opacity)/2.0; \
-  distance=QuantumScale*((double) GetPixelOpacity(r)-pixel.opacity); \
+  mean=QuantumScale*((double) GetPixelOpacity(r)+(double) pixel.opacity)/2.0; \
+  distance=QuantumScale*((double) GetPixelOpacity(r)-(double) pixel.opacity); \
   distance_squared+=(5.0-mean)*distance*distance; \
   if (distance_squared < 0.069) \
     { \
-      aggregate.red+=(weight)*GetPixelRed(r); \
-      aggregate.green+=(weight)*GetPixelGreen(r); \
-      aggregate.blue+=(weight)*GetPixelBlue(r); \
-      aggregate.opacity+=(weight)*GetPixelOpacity(r); \
+      aggregate.red+=(weight)*(double) GetPixelRed(r); \
+      aggregate.green+=(weight)*(double) GetPixelGreen(r); \
+      aggregate.blue+=(weight)*(double) GetPixelBlue(r); \
+      aggregate.opacity+=(weight)*(double) GetPixelOpacity(r); \
       total_weight+=(weight); \
     } \
   r++;
@@ -1627,7 +1621,7 @@ MagickExport Image *EnhanceImage(const Image *image,ExceptionInfo *exception)
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
@@ -1818,7 +1812,7 @@ MagickExport MagickBooleanType EqualizeImageChannel(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
 
@@ -2137,18 +2131,20 @@ MagickExport MagickBooleanType GammaImage(Image *image,const char *level)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (level == (char *) NULL)
     return(MagickFalse);
+  gamma.red=0.0;
   flags=ParseGeometry(level,&geometry_info);
-  gamma.red=geometry_info.rho;
-  gamma.green=geometry_info.sigma;
-  if ((flags & SigmaValue) == 0)
-    gamma.green=gamma.red;
-  gamma.blue=geometry_info.xi;
-  if ((flags & XiValue) == 0)
-    gamma.blue=gamma.red;
+  if ((flags & RhoValue) != 0)
+    gamma.red=geometry_info.rho;
+  gamma.green=gamma.red;
+  if ((flags & SigmaValue) != 0)
+    gamma.green=geometry_info.sigma;
+  gamma.blue=gamma.red;
+  if ((flags & XiValue) != 0)
+    gamma.blue=geometry_info.xi;
   if ((gamma.red == 1.0) && (gamma.green == 1.0) && (gamma.blue == 1.0))
     return(MagickTrue);
   if ((gamma.red == gamma.green) && (gamma.green == gamma.blue))
@@ -2194,7 +2190,7 @@ MagickExport MagickBooleanType GammaImageChannel(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
   if (gamma == 1.0)
@@ -2238,23 +2234,24 @@ MagickExport MagickBooleanType GammaImageChannel(Image *image,
           }
 #else
         if ((channel & RedChannel) != 0)
-          image->colormap[i].red=QuantumRange*gamma_pow(QuantumScale*
-            image->colormap[i].red,PerceptibleReciprocal(gamma));
+          image->colormap[i].red=(double) QuantumRange*gamma_pow(QuantumScale*
+            (double) image->colormap[i].red,PerceptibleReciprocal(gamma));
         if ((channel & GreenChannel) != 0)
-          image->colormap[i].green=QuantumRange*gamma_pow(QuantumScale*
-            image->colormap[i].green,PerceptibleReciprocal(gamma));
+          image->colormap[i].green=(double) QuantumRange*gamma_pow(QuantumScale*
+            (double) image->colormap[i].green,PerceptibleReciprocal(gamma));
         if ((channel & BlueChannel) != 0)
-          image->colormap[i].blue=QuantumRange*gamma_pow(QuantumScale*
-            image->colormap[i].blue,PerceptibleReciprocal(gamma));
+          image->colormap[i].blue=(double) QuantumRange*gamma_pow(QuantumScale*
+            (double) image->colormap[i].blue,PerceptibleReciprocal(gamma));
         if ((channel & OpacityChannel) != 0)
           {
             if (image->matte == MagickFalse)
-              image->colormap[i].opacity=QuantumRange*gamma_pow(QuantumScale*
-                image->colormap[i].opacity,PerceptibleReciprocal(gamma));
+              image->colormap[i].opacity=(double) QuantumRange*
+                gamma_pow(QuantumScale*(double) image->colormap[i].opacity,
+                PerceptibleReciprocal(gamma));
             else
-              image->colormap[i].opacity=QuantumRange-QuantumRange*gamma_pow(
-                QuantumScale*(QuantumRange-image->colormap[i].opacity),1.0/
-                gamma);
+              image->colormap[i].opacity=(double) QuantumRange-(double)
+                QuantumRange*gamma_pow(QuantumScale*((double) QuantumRange-
+                (double) image->colormap[i].opacity),1.0/gamma);
           }
 #endif
       }
@@ -2319,32 +2316,32 @@ MagickExport MagickBooleanType GammaImageChannel(Image *image,
 #else
       if ((channel & SyncChannels) != 0)
         {
-          SetPixelRed(q,QuantumRange*gamma_pow(QuantumScale*GetPixelRed(q),
-            PerceptibleReciprocal(gamma)));
-          SetPixelGreen(q,QuantumRange*gamma_pow(QuantumScale*GetPixelGreen(q),
-            PerceptibleReciprocal(gamma)));
-          SetPixelBlue(q,QuantumRange*gamma_pow(QuantumScale*GetPixelBlue(q),
-            PerceptibleReciprocal(gamma)));
+          SetPixelRed(q,(double) QuantumRange*gamma_pow(QuantumScale*(double)
+            GetPixelRed(q),PerceptibleReciprocal(gamma)));
+          SetPixelGreen(q,(double) QuantumRange*gamma_pow(QuantumScale*(double)
+            GetPixelGreen(q),PerceptibleReciprocal(gamma)));
+          SetPixelBlue(q,(double) QuantumRange*gamma_pow(QuantumScale*(double)
+            GetPixelBlue(q),PerceptibleReciprocal(gamma)));
         }
       else
         {
           if ((channel & RedChannel) != 0)
-            SetPixelRed(q,QuantumRange*gamma_pow(QuantumScale*GetPixelRed(q),
-            PerceptibleReciprocal(gamma)));
+            SetPixelRed(q,(double) QuantumRange*gamma_pow(QuantumScale*
+              (double) GetPixelRed(q),PerceptibleReciprocal(gamma)));
           if ((channel & GreenChannel) != 0)
-            SetPixelGreen(q,QuantumRange*gamma_pow(QuantumScale*
-              GetPixelGreen(q),PerceptibleReciprocal(gamma)));
+            SetPixelGreen(q,(double) QuantumRange*gamma_pow(QuantumScale*
+              (double) GetPixelGreen(q),PerceptibleReciprocal(gamma)));
           if ((channel & BlueChannel) != 0)
-            SetPixelBlue(q,QuantumRange*gamma_pow(QuantumScale*GetPixelBlue(q),
-              PerceptibleReciprocal(gamma)));
+            SetPixelBlue(q,(double) QuantumRange*gamma_pow(QuantumScale*
+              (double) GetPixelBlue(q),PerceptibleReciprocal(gamma)));
           if ((channel & OpacityChannel) != 0)
             {
               if (image->matte == MagickFalse)
-                SetPixelOpacity(q,QuantumRange*gamma_pow(QuantumScale*
-                  GetPixelOpacity(q),PerceptibleReciprocal(gamma)));
+                SetPixelOpacity(q,(double) QuantumRange*gamma_pow(QuantumScale*
+                  (double) GetPixelOpacity(q),PerceptibleReciprocal(gamma)));
               else
-                SetPixelAlpha(q,QuantumRange*gamma_pow(QuantumScale*
-                  GetPixelAlpha(q),PerceptibleReciprocal(gamma)));
+                SetPixelAlpha(q,(double) QuantumRange*gamma_pow(QuantumScale*
+                  (double) GetPixelAlpha(q),PerceptibleReciprocal(gamma)));
             }
         }
 #endif
@@ -2425,7 +2422,7 @@ MagickExport MagickBooleanType GrayscaleImage(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->storage_class == PseudoClass)
     {
@@ -2507,8 +2504,9 @@ MagickExport MagickBooleanType GrayscaleImage(Image *image,
         }
         case MSPixelIntensityMethod:
         {
-          intensity=(MagickRealType) (((double) red*red+green*green+
-            blue*blue)/(3.0*QuantumRange));
+          intensity=(MagickRealType) (((double) red*(double) red+(double)
+            green*(double) green+(double) blue*(double) blue)/
+            (3.0*(double) QuantumRange));
           break;
         }
         case Rec601LumaPixelIntensityMethod:
@@ -2672,7 +2670,7 @@ MagickExport MagickBooleanType HaldClutImageChannel(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(hald_image != (Image *) NULL);
   assert(hald_image->signature == MagickCoreSignature);
@@ -2742,9 +2740,9 @@ MagickExport MagickBooleanType HaldClutImageChannel(Image *image,
     pixel4=zero;
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      point.x=QuantumScale*(level-1.0)*GetPixelRed(q);
-      point.y=QuantumScale*(level-1.0)*GetPixelGreen(q);
-      point.z=QuantumScale*(level-1.0)*GetPixelBlue(q);
+      point.x=QuantumScale*(level-1.0)*(double) GetPixelRed(q);
+      point.y=QuantumScale*(level-1.0)*(double) GetPixelGreen(q);
+      point.z=QuantumScale*(level-1.0)*(double) GetPixelBlue(q);
       offset=(double) (point.x+level*floor(point.y)+cube_size*floor(point.z));
       point.x-=floor(point.x);
       point.y-=floor(point.y);
@@ -2860,9 +2858,9 @@ MagickExport MagickBooleanType HaldClutImageChannel(Image *image,
 MagickExport MagickBooleanType LevelImage(Image *image,const char *levels)
 {
   double
-    black_point,
-    gamma,
-    white_point;
+    black_point = 0.0,
+    gamma = 1.0,
+    white_point = (double) QuantumRange;
 
   GeometryInfo
     geometry_info;
@@ -2879,11 +2877,10 @@ MagickExport MagickBooleanType LevelImage(Image *image,const char *levels)
   if (levels == (char *) NULL)
     return(MagickFalse);
   flags=ParseGeometry(levels,&geometry_info);
-  black_point=geometry_info.rho;
-  white_point=(double) QuantumRange;
+  if ((flags & RhoValue) != 0)
+    black_point=geometry_info.rho;
   if ((flags & SigmaValue) != 0)
     white_point=geometry_info.sigma;
-  gamma=1.0;
   if ((flags & XiValue) != 0)
     gamma=geometry_info.xi;
   if ((flags & PercentValue) != 0)
@@ -2952,8 +2949,8 @@ static inline double LevelPixel(const double black_point,
     scale;
 
   scale=PerceptibleReciprocal(white_point-black_point);
-  level_pixel=QuantumRange*gamma_pow(scale*((double) pixel-black_point),
-    PerceptibleReciprocal(gamma));
+  level_pixel=(double) QuantumRange*gamma_pow(scale*((double) pixel-
+    black_point),PerceptibleReciprocal(gamma));
   return(level_pixel);
 }
 
@@ -2986,7 +2983,7 @@ MagickExport MagickBooleanType LevelImageChannel(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->storage_class == PseudoClass)
     for (i=0; i < (ssize_t) image->colors; i++)
@@ -3142,7 +3139,8 @@ MagickExport MagickBooleanType LevelizeImageChannel(Image *image,
 {
 #define LevelizeImageTag  "Levelize/Image"
 #define LevelizeValue(x) ClampToQuantum(((MagickRealType) gamma_pow((double) \
-  (QuantumScale*(x)),gamma))*(white_point-black_point)+black_point)
+  (QuantumScale*(double) (x)),gamma))*((double) white_point-(double) \
+  black_point)+(double) black_point)
 
   CacheView
     *image_view;
@@ -3167,7 +3165,7 @@ MagickExport MagickBooleanType LevelizeImageChannel(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->storage_class == PseudoClass)
     for (i=0; i < (ssize_t) image->colors; i++)
@@ -3268,7 +3266,7 @@ MagickExport MagickBooleanType LevelizeImageChannel(Image *image,
 %  bases, as per LevelImage().  The given colors allows you to specify
 %  different level ranges for each of the color channels separately.
 %
-%  If the boolean 'invert' is set true the image values will modifyed in the
+%  If the boolean 'invert' is set true the image values will modified in the
 %  reverse direction. That is any existing "black" and "white" colors in the
 %  image will become the color values given, with all other values compressed
 %  appropriatally.  This effectivally maps a greyscale gradient into the given
@@ -3321,7 +3319,7 @@ MagickExport MagickBooleanType LevelColorsImageChannel(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if ((IsGrayColorspace(image->colorspace) != MagickFalse) &&
       ((IsGrayColorspace(black_color->colorspace) != MagickFalse) ||
@@ -3689,9 +3687,9 @@ MagickExport MagickBooleanType ModulateImage(Image *image,const char *modulate)
     *artifact;
 
   double
-    percent_brightness,
-    percent_hue,
-    percent_saturation;
+    percent_brightness = 100.0,
+    percent_hue = 100.0,
+    percent_saturation = 100.0;
 
   ExceptionInfo
     *exception;
@@ -3719,20 +3717,19 @@ MagickExport MagickBooleanType ModulateImage(Image *image,const char *modulate)
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (modulate == (char *) NULL)
     return(MagickFalse);
   if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
     (void) SetImageColorspace(image,sRGBColorspace);
   flags=ParseGeometry(modulate,&geometry_info);
-  percent_brightness=geometry_info.rho;
-  percent_saturation=geometry_info.sigma;
-  if ((flags & SigmaValue) == 0)
-    percent_saturation=100.0;
-  percent_hue=geometry_info.xi;
-  if ((flags & XiValue) == 0)
-    percent_hue=100.0;
+  if ((flags & RhoValue) != 0)
+    percent_brightness=geometry_info.rho;
+  if ((flags & SigmaValue) != 0)
+    percent_saturation=geometry_info.sigma;
+  if ((flags & XiValue) != 0)
+    percent_hue=geometry_info.xi;
   colorspace=UndefinedColorspace;
   artifact=GetImageArtifact(image,"modulate:colorspace");
   if (artifact != (const char *) NULL)
@@ -3881,6 +3878,12 @@ MagickExport MagickBooleanType ModulateImage(Image *image,const char *modulate)
             &red,&green,&blue);
           break;
         }
+        case HSIColorspace:
+        {
+          ModulateHSI(percent_hue,percent_saturation,percent_brightness,
+            &red,&green,&blue);
+          break;
+        }
         case HSLColorspace:
         default:
         {
@@ -4005,7 +4008,7 @@ MagickExport MagickBooleanType NegateImageChannel(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->storage_class == PseudoClass)
     {
@@ -4219,8 +4222,8 @@ MagickExport MagickBooleanType NormalizeImageChannel(Image *image,
     black_point,
     white_point;
 
-  black_point=(double) image->columns*image->rows*0.0015;
-  white_point=(double) image->columns*image->rows*0.9995;
+  black_point=0.02*image->columns*image->rows;
+  white_point=0.99*image->columns*image->rows;
   return(ContrastStretchImageChannel(image,channel,black_point,white_point));
 }
 
@@ -4365,9 +4368,9 @@ MagickExport MagickBooleanType SigmoidalContrastImage(Image *image,
 
   flags=ParseGeometry(levels,&geometry_info);
   if ((flags & SigmaValue) == 0)
-    geometry_info.sigma=1.0*QuantumRange/2.0;
+    geometry_info.sigma=1.0*(double) QuantumRange/2.0;
   if ((flags & PercentValue) != 0)
-    geometry_info.sigma=1.0*QuantumRange*geometry_info.sigma/100.0;
+    geometry_info.sigma=1.0*(double) QuantumRange*geometry_info.sigma/100.0;
   status=SigmoidalContrastImageChannel(image,DefaultChannels,sharpen,
     geometry_info.rho,geometry_info.sigma);
   return(status);
@@ -4411,7 +4414,7 @@ MagickExport MagickBooleanType SigmoidalContrastImageChannel(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
   sigmoidal_map=(MagickRealType *) AcquireQuantumMemory(MaxMap+1UL,

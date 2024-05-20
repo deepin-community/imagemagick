@@ -17,7 +17,7 @@
 %                               September 2002                                %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -63,6 +63,7 @@
 #include "magick/splay-tree.h"
 #include "magick/thread-private.h"
 #include "magick/token.h"
+#include "magick/timer-private.h"
 #include "magick/utility.h"
 #include "magick/utility-private.h"
 
@@ -125,8 +126,8 @@ static ResourceInfo
     MagickULLConstant(0),                 /* initial thread */
     MagickULLConstant(0),                 /* initial throttle */
     MagickULLConstant(0),                 /* initial time */
-    MAGICK_SSIZE_MAX/sizeof(PixelPacket), /* width limit */
-    MAGICK_SSIZE_MAX/sizeof(PixelPacket), /* height limit */
+    (MagickSizeType) (MAGICK_SSIZE_MAX/sizeof(PixelPacket)/5), /* width limit */
+    (MagickSizeType) (MAGICK_SSIZE_MAX/sizeof(PixelPacket)/5), /* height limit */
     MagickResourceInfinity,               /* list length limit */
     MagickULLConstant(3072)*1024*1024,    /* area limit */
     MagickULLConstant(1536)*1024*1024,    /* memory limit */
@@ -135,7 +136,7 @@ static ResourceInfo
     MagickULLConstant(768),               /* file limit */
     MagickULLConstant(1),                 /* thread limit */
     MagickULLConstant(0),                 /* throttle limit */
-    MagickResourceInfinity                /* time limit */
+    (MagickSizeType) MAGICK_SSIZE_MAX     /* time limit */
   };
 
 static SemaphoreInfo
@@ -188,9 +189,9 @@ MagickExport MagickBooleanType AcquireMagickResource(const ResourceType type,
   const MagickSizeType size)
 {
   char
-    resource_current[MaxTextExtent],
-    resource_limit[MaxTextExtent],
-    resource_request[MaxTextExtent];
+    resource_current[MaxTextExtent] = "",
+    resource_limit[MaxTextExtent] = "",
+    resource_request[MaxTextExtent] = "";
 
   MagickBooleanType
     logging,
@@ -206,7 +207,7 @@ MagickExport MagickBooleanType AcquireMagickResource(const ResourceType type,
   if (request < 0)
     return(MagickFalse);
   status=MagickFalse;
-  logging=IsEventLogging();
+  logging=(GetLogEventMask() & ResourceEvent) != 0 ? MagickTrue : MagickFalse;
   switch (type)
   {
     case DiskResource:
@@ -478,6 +479,7 @@ MagickExport void AsynchronousResourceComponentTerminus(void)
   while (path != (const char *) NULL)
   {
     (void) ShredFile(path);
+    (void) remove_utf8(path);
     path=(const char *) GetNextKeyInSplayTree(temporary_resources);
   }
 }
@@ -510,6 +512,7 @@ MagickExport void AsynchronousResourceComponentTerminus(void)
 static void *DestroyTemporaryResources(void *temporary_resource)
 {
   (void) ShredFile((char *) temporary_resource);
+  (void) remove_utf8((char *) temporary_resource);
   temporary_resource=DestroyString((char *) temporary_resource);
   return((void *) NULL);
 }
@@ -627,7 +630,8 @@ MagickExport int AcquireUniqueFileResource(char *path)
     *datum;
 
   assert(path != (char *) NULL);
-  (void) LogMagickEvent(ResourceEvent,GetMagickModule(),"...");
+  if ((GetLogEventMask() & ResourceEvent) != 0)
+    (void) LogMagickEvent(ResourceEvent,GetMagickModule(),"...");
   if (random_info == (RandomInfo *) NULL)
     {
       if (resource_semaphore[FileResource] == (SemaphoreInfo *) NULL)
@@ -683,7 +687,8 @@ MagickExport int AcquireUniqueFileResource(char *path)
     if ((file >= 0) || (errno != EEXIST))
       break;
   }
-  (void) LogMagickEvent(ResourceEvent,GetMagickModule(),"Acquire %s",path);
+  if ((GetLogEventMask() & ResourceEvent) != 0)
+    (void) LogMagickEvent(ResourceEvent,GetMagickModule(),"Acquire %s",path);
   if (file == -1)
     return(file);
   if (resource_semaphore[FileResource] == (SemaphoreInfo *) NULL)
@@ -958,11 +963,11 @@ static ssize_t FormatPixelSize(const MagickSizeType size,
   static const char
     *bi_units[] =
     {
-      "", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi", "Yi", (char *) NULL
+      "", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi", "Yi", "Ri", "Qi", (char *) NULL
     },
     *traditional_units[] =
     {
-      "", "K", "M", "G", "T", "P", "E", "Z", "Y", (char *) NULL
+      "", "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q", (char *) NULL
     };
 
   bytes=1000.0;
@@ -1082,7 +1087,7 @@ MagickExport void RelinquishMagickResource(const ResourceType type,
   MagickBooleanType
     logging;
 
-  logging=IsEventLogging();
+  logging=(GetLogEventMask() & ResourceEvent) != 0 ? MagickTrue : MagickFalse;
   if (logging != MagickFalse)
     (void) FormatMagickSize(size,MagickFalse,resource_request);
   switch (type)
@@ -1289,12 +1294,13 @@ MagickExport MagickBooleanType RelinquishUniqueFileResource(const char *path)
   char
     cache_path[MaxTextExtent];
 
-  MagickBooleanType
+  MagickStatusType
     status;
 
   assert(path != (const char *) NULL);
   status=MagickFalse;
-  (void) LogMagickEvent(ResourceEvent,GetMagickModule(),"Relinquish %s",path);
+  if ((GetLogEventMask() & ResourceEvent) != 0)
+    (void) LogMagickEvent(ResourceEvent,GetMagickModule(),"Relinquish %s",path);
   if (resource_semaphore[FileResource] == (SemaphoreInfo *) NULL)
     ActivateSemaphoreInfo(&resource_semaphore[FileResource]);
   LockSemaphoreInfo(resource_semaphore[FileResource]);
@@ -1304,10 +1310,16 @@ MagickExport MagickBooleanType RelinquishUniqueFileResource(const char *path)
   (void) CopyMagickString(cache_path,path,MaxTextExtent);
     AppendImageFormat("cache",cache_path);
   if (access_utf8(cache_path,F_OK) == 0)
-    (void) ShredFile(cache_path);
+    {
+      status=ShredFile(cache_path);
+      status|=remove_utf8(cache_path);
+    }
   if (status == MagickFalse)
-    status=ShredFile(path);
-  return(status);
+    {
+      status=ShredFile(path);
+      status|=remove_utf8(path);
+    }
+  return(status == 0 ? MagickFalse : MagickTrue);
 }
 
 /*
@@ -1377,10 +1389,10 @@ MagickExport MagickBooleanType ResourceComponentGenesis(void)
   memory=(MagickSizeType) pages*pagesize;
   if ((pagesize <= 0) || (pages <= 0))
     memory=2048UL*1024UL*1024UL;
-#if defined(PixelCacheThreshold)
-  memory=PixelCacheThreshold;
+#if defined(MAGICKCORE_PixelCacheThreshold)
+  memory=StringToMagickSizeType(MAGICKCORE_PixelCacheThreshold,100.0);
 #endif
-  (void) SetMagickResourceLimit(AreaResource,2*memory);
+  (void) SetMagickResourceLimit(AreaResource,4*memory);
   limit=GetEnvironmentValue("MAGICK_AREA_LIMIT");
   if (limit != (char *) NULL)
     {
@@ -1649,7 +1661,8 @@ MagickExport MagickBooleanType SetMagickResourceLimit(const ResourceType type,
         resource_info.time_limit=limit;
       else
         resource_info.time_limit=MagickMin(limit,StringToSizeType(value,100.0));
-      ResetPixelCacheEpoch();
+      resource_info.time_limit=MagickMin(resource_info.time_limit,
+        (MagickSizeType) MAGICK_SSIZE_MAX);
       break;
     }
     case WidthResource:

@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -195,7 +195,7 @@ static Image *ReadRLEImage(const ImageInfo *image_info,ExceptionInfo *exception)
     y;
 
   unsigned char
-    background_color[256],
+    background_color[256] = { 0 },
     *colormap,
     pixel,
     plane,
@@ -206,11 +206,11 @@ static Image *ReadRLEImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -679,7 +679,7 @@ static Image *ReadRLEImage(const ImageInfo *image_info,ExceptionInfo *exception)
             image->colors=0;
           }
       }
-    if (number_colormaps != 0)
+    if (colormap != (unsigned char *) NULL)
       colormap=(unsigned char *) RelinquishMagickMemory(colormap);
     pixel_info=RelinquishVirtualMemory(pixel_info);
     if (EOFBlob(image) != MagickFalse)
@@ -714,6 +714,8 @@ static Image *ReadRLEImage(const ImageInfo *image_info,ExceptionInfo *exception)
           break;
       }
   } while ((count != 0) && (memcmp(magick,"\122\314",2) == 0));
+  if (colormap != (unsigned char *) NULL)
+    colormap=(unsigned char *) RelinquishMagickMemory(colormap);
   (void) CloseBlob(image);
   if (status == MagickFalse)
     return(DestroyImageList(image));

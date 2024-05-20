@@ -17,7 +17,7 @@
 %                              January 1993                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -43,10 +43,12 @@
 #include "magick/studio.h"
 #include "magick/exception.h"
 #include "magick/exception-private.h"
+#include "magick/image-private.h"
 #include "magick/locale_.h"
 #include "magick/log.h"
 #include "magick/memory_.h"
 #include "magick/nt-base-private.h"
+#include "magick/resource_.h"
 #include "magick/string-private.h"
 #include "magick/timer.h"
 #include "magick/timer-private.h"
@@ -319,34 +321,74 @@ MagickExport double GetElapsedTime(TimerInfo *time_info)
 %
 %  GetMagickTime() returns the time as the number of seconds since the Epoch.
 %
-%  The format of the GetElapsedTime method is:
+%  The format of the GetMagickTime method is:
 %
-%      time_t GetElapsedTime(void)
+%      time_t GetMagickTime(void)
 %
 */
 MagickExport time_t GetMagickTime(void)
 {
-  static const char
-    *source_date_epoch = (const char *) NULL;
+  static time_t
+    constant_magick_time = (time_t) 0;
 
   static MagickBooleanType
-    epoch_initalized = MagickFalse;
+    epoch_initialized = MagickFalse;
 
-  if (epoch_initalized == MagickFalse)
+  if (epoch_initialized == MagickFalse)
     {
+      const char
+        *source_date_epoch;
+
+      epoch_initialized=MagickTrue;
       source_date_epoch=getenv("SOURCE_DATE_EPOCH");
-      epoch_initalized=MagickTrue;
-    }
-  if (source_date_epoch != (const char *) NULL)
-    {
-      time_t
-        epoch;
+      if (source_date_epoch != (const char *) NULL)
+        {
+          time_t
+            epoch;
 
-      epoch=(time_t) StringToDouble(source_date_epoch,(char **) NULL);
-      if ((epoch > 0) && (epoch <= time((time_t *) NULL)))
-        return(epoch);
+          epoch=(time_t) StringToDouble(source_date_epoch,(char **) NULL);
+          if ((epoch > 0) && (epoch <= time((time_t *) NULL)))
+            constant_magick_time=epoch;
+        }
     }
+  if (constant_magick_time != 0)
+    return(constant_magick_time);
   return(time((time_t *) NULL));
+}
+
+/*
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                                                             %
+%                                                                             %
++   G e t M a g i c k T T L                                                   %
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  GetMagickTTL() returns the time as the number of seconds to live.
+%
+%  The format of the GetMagickTTL method is:
+%
+%      MagickSizeType GetMagickTTL(void)
+%
+*/
+MagickPrivate MagickOffsetType GetMagickTTL(void)
+{
+  static time_t
+    magick_epoch = (time_t) 0;
+
+  static MagickBooleanType
+    epoch_initialized = MagickFalse;
+
+  if (epoch_initialized == MagickFalse)
+    {
+      epoch_initialized=MagickTrue;
+      magick_epoch=time((time_t *) NULL);
+    }
+  return((MagickOffsetType) GetMagickResourceLimit(TimeResource)-
+    (GetMagickTime()-magick_epoch));
 }
 
 /*

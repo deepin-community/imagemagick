@@ -17,7 +17,7 @@
 %                                  July 1992                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -166,8 +166,8 @@ static MagickBooleanType CropToFitImage(Image **image,
   }
   geometry.x=CastDoubleToLong(ceil(min.x-0.5));
   geometry.y=CastDoubleToLong(ceil(min.y-0.5));
-  geometry.width=(size_t) floor(max.x-min.x+0.5);
-  geometry.height=(size_t) floor(max.y-min.y+0.5);
+  geometry.width=CastDoubleToUnsigned(max.x-min.x+0.5);
+  geometry.height=CastDoubleToUnsigned(max.y-min.y+0.5);
   page=(*image)->page;
   (void) ParseAbsoluteGeometry("0x0+0+0",&(*image)->page);
   crop_image=CropImage(*image,&geometry,exception);
@@ -542,23 +542,23 @@ static void GetImageBackgroundColor(Image *image,const ssize_t offset,
     {
       if ((x >= offset) && (x < ((ssize_t) image->columns-offset)))
         continue;
-      background.red+=QuantumScale*GetPixelRed(p);
-      background.green+=QuantumScale*GetPixelGreen(p);
-      background.blue+=QuantumScale*GetPixelBlue(p);
-      background.opacity+=QuantumScale*GetPixelOpacity(p);
+      background.red+=QuantumScale*(MagickRealType) GetPixelRed(p);
+      background.green+=QuantumScale*(MagickRealType) GetPixelGreen(p);
+      background.blue+=QuantumScale*(MagickRealType) GetPixelBlue(p);
+      background.opacity+=QuantumScale*(MagickRealType) GetPixelOpacity(p);
       count++;
       p++;
     }
   }
   image_view=DestroyCacheView(image_view);
   image->background_color.red=ClampToQuantum((MagickRealType) QuantumRange*
-    background.red/count);
+    (MagickRealType) background.red/count);
   image->background_color.green=ClampToQuantum((MagickRealType) QuantumRange*
-    background.green/count);
+    (MagickRealType) background.green/count);
   image->background_color.blue=ClampToQuantum((MagickRealType) QuantumRange*
-    background.blue/count);
+    (MagickRealType) background.blue/count);
   image->background_color.opacity=ClampToQuantum((MagickRealType) QuantumRange*
-    background.opacity/count);
+    (MagickRealType) background.opacity/count);
 }
 
 MagickExport Image *DeskewImage(const Image *image,const double threshold,
@@ -822,10 +822,10 @@ MagickExport Image *IntegralRotateImage(const Image *image,size_t rotations,
             width;
 
           width=tile_width;
-          if ((tile_x+(ssize_t) tile_width) > (ssize_t) image->columns)
+          if ((tile_width+tile_x) > image->columns)
             width=(size_t) (tile_width-(tile_x+tile_width-image->columns));
           height=tile_height;
-          if ((tile_y+(ssize_t) tile_height) > (ssize_t) image->rows)
+          if ((tile_height+tile_y) > image->rows)
             height=(size_t) (tile_height-(tile_y+tile_height-image->rows));
           p=GetCacheViewVirtualPixels(image_view,tile_x,tile_y,width,height,
             exception);
@@ -1020,10 +1020,10 @@ MagickExport Image *IntegralRotateImage(const Image *image,size_t rotations,
             width;
 
           width=tile_width;
-          if ((tile_x+(ssize_t) tile_width) > (ssize_t) image->columns)
+          if ((tile_x+tile_width) > image->columns)
             width=(size_t) (tile_width-(tile_x+tile_width-image->columns));
           height=tile_height;
-          if ((tile_y+(ssize_t) tile_height) > (ssize_t) image->rows)
+          if ((tile_y+tile_height) > image->rows)
             height=(size_t) (tile_height-(tile_y+tile_height-image->rows));
           p=GetCacheViewVirtualPixels(image_view,tile_x,tile_y,width,height,
             exception);
@@ -1171,7 +1171,7 @@ static MagickBooleanType XShearImage(Image *image,const MagickRealType degrees,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   GetMagickPixelPacket(image,&background);
   SetMagickPixelPacket(image,&image->background_color,(IndexPacket *) NULL,
@@ -1393,7 +1393,7 @@ static MagickBooleanType YShearImage(Image *image,const MagickRealType degrees,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   GetMagickPixelPacket(image,&background);
   SetMagickPixelPacket(image,&image->background_color,(IndexPacket *) NULL,
@@ -1573,7 +1573,7 @@ static MagickBooleanType YShearImage(Image *image,const MagickRealType degrees,
 %  necessary for the new Image structure and returns a pointer to the new image.
 %
 %  ShearImage() is based on the paper "A Fast Algorithm for General Raster
-%  Rotatation" by Alan W. Paeth.
+%  Rotation" by Alan W. Paeth.
 %
 %  The format of the ShearImage method is:
 %
@@ -1608,10 +1608,10 @@ MagickExport Image *ShearImage(const Image *image,const double x_shear,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if ((x_shear != 0.0) && (fmod(x_shear,90.0) == 0.0))
     ThrowImageException(ImageError,"AngleIsDiscontinuous");
   if ((y_shear != 0.0) && (fmod(y_shear,90.0) == 0.0))
@@ -1705,7 +1705,7 @@ MagickExport Image *ShearImage(const Image *image,const double x_shear,
 %  pointer to the new image.
 %
 %  ShearRotateImage() is based on the paper "A Fast Algorithm for General
-%  Raster Rotatation" by Alan W. Paeth.  ShearRotateImage is adapted from a
+%  Raster Rotation" by Alan W. Paeth.  ShearRotateImage is adapted from a
 %  similar method based on the Paeth paper written by Michael Halle of the
 %  Spatial Imaging Group, MIT Media Lab.
 %
@@ -1754,10 +1754,10 @@ MagickExport Image *ShearRotateImage(const Image *image,const double degrees,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   angle=fmod(degrees,360.0);
   if (angle < -45.0)
     angle+=360.0;
@@ -1787,9 +1787,9 @@ MagickExport Image *ShearRotateImage(const Image *image,const double degrees,
   */
   width=integral_image->columns;
   height=integral_image->rows;
-  bounds.width=(size_t) floor(fabs((double) height*shear.x)+width+0.5);
-  bounds.height=(size_t) floor(fabs((double) bounds.width*shear.y)+height+0.5);
-  shear_width=(size_t) floor(fabs((double) bounds.height*shear.x)+
+  bounds.width=CastDoubleToUnsigned(fabs((double) height*shear.x)+width+0.5);
+  bounds.height=CastDoubleToUnsigned(fabs((double) bounds.width*shear.y)+height+0.5);
+  shear_width=CastDoubleToUnsigned(fabs((double) bounds.height*shear.x)+
     bounds.width+0.5);
   bounds.x=CastDoubleToLong(floor((double) ((shear_width > bounds.width) ?
     width : bounds.width-shear_width+2)/2.0+0.5));

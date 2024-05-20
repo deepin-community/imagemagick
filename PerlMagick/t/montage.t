@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-#  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+#  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
 #  dedicated to making software imaging solutions freely available.
 #
 #  You may not use this file except in compliance with the License.  You may
@@ -154,7 +154,7 @@ testMontage( q/bordercolor=>'blue', mattecolor=>'red'/,
   q/background=>'#696e7e',, tile=>'4x4', geometry=>'90x80+6+6>', frame=>'8x10',
   borderwidth=>'0', gravity=>'Center', shadow=>'True',background=>'gray'/,
   'd4de864f9004b185297c9c2351f811aaeb779095bdd8fd5f29bcfbee79f09da4',
-  'e784da474c0296b00cbde2eed40fa99664f6a5975eeca2efc2aff131bc5982ce',
+  'c45f922b6f1f94accacd3946bee3f60cf84fb7930866f1c9bf0d18521218ab5b',
   '803c926764df2ad940f36fbbeea274e05467d729bfdfb2f28c479cfd27245a85');
 
 #
@@ -165,7 +165,7 @@ testMontage( q/bordercolor=>'blue', mattecolor=>'red'/,
   q/background=>'#696e7e',, tile=>'4x4', geometry=>'90x80+6+6>', frame=>'8x10',
   borderwidth=>'0', gravity=>'Center', shadow=>'True', texture=>'granite:'/,
   '8418407b6d56d2c1b67bc735004794d9eb20609d30115a93255eefcad3499e95',
-  'f683fcddacc049c873776952909ea5a741f76ec6db600453724cee8dbb9d06c4',
+  'a67fd0b6e03bd5610bb58d66f99fc0e8b3a0bf5dec7714ea2ac9f8032eb4d7f5',
   '5793a1de15b5d73df297968af79fa01a110c1585cccd46dcbef794674ab5f174');
 
 #
@@ -223,7 +223,7 @@ testMontage( q//,
   '108b50e6f8d5155f6c6f60dfe939e83ec465a917b3d8ec6fa1419d27ffa3cdb3',
   '1fdca151dfe00fdc106832696815eff00b7e32a5fb0af64b41cb08610661880e');
 #
-# 19) Test concatenated thumbnail Montage (concatentated by setting params to zero)
+# 19) Test concatenated thumbnail Montage (concatenated by setting params to zero)
 #     Thumbnails should be compacted tightly together in a grid
 #
 ++$test;

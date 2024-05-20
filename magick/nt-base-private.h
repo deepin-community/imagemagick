@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -21,6 +21,7 @@
 #include "magick/delegate.h"
 #include "magick/delegate-private.h"
 #include "magick/exception.h"
+#include "magick/memory_.h"
 #include "magick/splay-tree.h"
 
 #if defined(__cplusplus) || defined(c_plusplus)
@@ -71,6 +72,20 @@ struct timezone
 #  endif
 #endif
 
+static inline void *NTAcquireQuantumMemory(const size_t count,
+  const size_t quantum)
+{
+  size_t
+    size;
+
+  if (HeapOverflowSanityCheckGetSize(count,quantum,&size) != MagickFalse)
+    {
+      errno=ENOMEM;
+      return(NULL);
+    }
+  return(AcquireMagickMemory(size));
+}
+
 extern MagickPrivate char
   *NTGetLastError(void);
 
@@ -99,10 +114,8 @@ extern MagickPrivate int
   NTControlHandler(void),
   NTExitLibrary(void),
   NTTruncateFile(int,off_t),
-  NTGhostscriptDLL(char *,int),
   NTGhostscriptEXE(char *,int),
   NTGhostscriptFonts(char *,int),
-  NTGhostscriptLoadDLL(void),
   NTInitializeLibrary(void),
   NTSetSearchPath(const char *),
   NTUnmapMemory(void *,size_t),
@@ -118,7 +131,7 @@ extern MagickPrivate MagickBooleanType
   NTReportEvent(const char *,const MagickBooleanType);
 
 extern MagickExport MagickBooleanType
-  NTLongPathsEnabled();
+  NTLongPathsEnabled(void);
 
 extern MagickPrivate struct dirent
   *NTReadDirectory(DIR *);

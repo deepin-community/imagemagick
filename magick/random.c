@@ -16,7 +16,7 @@
 %                              December 2001                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -61,6 +61,9 @@
 #include "magick/thread_.h"
 #include "magick/thread-private.h"
 #include "magick/utility-private.h"
+#if defined(MAGICKCORE_HAVE_GETENTROPY)
+#include <sys/random.h>
+#endif
 /*
   Define declarations.
 */
@@ -271,9 +274,10 @@ MagickExport RandomInfo *AcquireRandomInfo(void)
 */
 MagickExport RandomInfo *DestroyRandomInfo(RandomInfo *random_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(random_info != (RandomInfo *) NULL);
   assert(random_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   LockSemaphoreInfo(random_info->semaphore);
   if (random_info->reservoir != (StringInfo *) NULL)
     random_info->reservoir=DestroyStringInfo(random_info->reservoir);
@@ -344,7 +348,7 @@ static ssize_t ReadRandom(int file,unsigned char *source,size_t length)
 
 static StringInfo *GenerateEntropicChaos(RandomInfo *random_info)
 {
-#define MaxEntropyExtent  64
+#define MaxEntropyExtent  64  /* max permitted: 256 */
 
   MagickThreadType
     tid;
@@ -365,6 +369,20 @@ static StringInfo *GenerateEntropicChaos(RandomInfo *random_info)
   */
   entropy=AcquireStringInfo(0);
   LockSemaphoreInfo(random_info->semaphore);
+#if defined(MAGICKCORE_HAVE_GETENTROPY)
+  {
+    int
+      status;
+
+    SetStringInfoLength(entropy,MaxEntropyExtent);
+    status=getentropy(GetStringInfoDatum(entropy),MaxEntropyExtent);
+    if (status == 0)
+      {
+        UnlockSemaphoreInfo(random_info->semaphore);
+        return(entropy);
+      }
+  }
+#endif
   chaos=AcquireStringInfo(sizeof(unsigned char *));
   SetStringInfoDatum(chaos,(unsigned char *) &entropy);
   ConcatenateStringInfo(entropy,chaos);
@@ -458,7 +476,7 @@ static StringInfo *GenerateEntropicChaos(RandomInfo *random_info)
       nanoseconds;
 
     /*
-      Not crytographically strong but better than nothing.
+      Not cryptographically strong but better than nothing.
     */
     seconds=NTElapsedTime()+NTUserTime();
     SetStringInfoLength(chaos,sizeof(seconds));
@@ -492,7 +510,7 @@ static StringInfo *GenerateEntropicChaos(RandomInfo *random_info)
       *device;
 
     /*
-      Not crytographically strong but better than nothing.
+      Not cryptographically strong but better than nothing.
     */
     if (environ != (char **) NULL)
       {
@@ -500,7 +518,7 @@ static StringInfo *GenerateEntropicChaos(RandomInfo *random_info)
           i;
 
         /*
-          Squeeze some entropy from the sometimes unpredicatble environment.
+          Squeeze some entropy from the sometimes unpredictable environment.
         */
         for (i=0; environ[i] != (char *) NULL; i++)
         {
@@ -700,7 +718,7 @@ MagickExport StringInfo *GetRandomKey(RandomInfo *random_info,
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  GetRandomSecretKey() returns the random secet key.
+%  GetRandomSecretKey() returns the random secret key.
 %
 %  The format of the GetRandomSecretKey method is:
 %

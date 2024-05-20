@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -104,11 +104,11 @@ static inline MagickBooleanType PlasmaPixel(Image *image,
     exception);
   if (q == (PixelPacket *) NULL)
     return(MagickFalse);
-  SetPixelRed(q,(Quantum) (QuantumRange*
+  SetPixelRed(q,(Quantum) ((MagickRealType) QuantumRange*
     GetPseudoRandomValue(random_info)+0.5));
-  SetPixelGreen(q,(Quantum) (QuantumRange*
+  SetPixelGreen(q,(Quantum) ((MagickRealType) QuantumRange*
     GetPseudoRandomValue(random_info)+0.5));
-  SetPixelBlue(q,(Quantum) (QuantumRange*
+  SetPixelBlue(q,(Quantum) ((MagickRealType) QuantumRange*
     GetPseudoRandomValue(random_info)+0.5));
   return(SyncAuthenticPixels(image,exception));
 }

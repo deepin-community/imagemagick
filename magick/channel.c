@@ -17,7 +17,7 @@
 %                               December 2003                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -118,7 +118,7 @@ MagickExport Image *CombineImages(const Image *image,const ChannelType channel,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
@@ -317,7 +317,7 @@ MagickExport Image *CombineImages(const Image *image,const ChannelType channel,
 MagickExport MagickBooleanType GetImageAlphaChannel(const Image *image)
 {
   assert(image != (const Image *) NULL);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(image->signature == MagickCoreSignature);
   return(image->matte);
@@ -367,7 +367,7 @@ MagickExport Image *SeparateImage(const Image *image,const ChannelType channel,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
@@ -402,7 +402,7 @@ MagickExport MagickBooleanType SeparateImageChannel(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (SetImageStorageClass(image,DirectClass) == MagickFalse)
     return(MagickFalse);
@@ -583,7 +583,7 @@ MagickExport Image *SeparateImages(const Image *image,const ChannelType channel,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   images=NewImageList();
   if ((channel & RedChannel) != 0)
@@ -665,7 +665,7 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
     y;
 
   assert(image != (Image *) NULL);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(image->signature == MagickCoreSignature);
   exception=(&image->exception);
@@ -674,6 +674,8 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
   {
     case ActivateAlphaChannel:
     {
+      if (image->matte == MagickTrue)
+        return(status);
       image->matte=MagickTrue;
       break;
     }
@@ -712,10 +714,10 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
           double
             gamma;
 
-          gamma=QuantumScale*GetPixelAlpha(q);
-          SetPixelRed(q,ClampToQuantum(gamma*GetPixelRed(q)));
-          SetPixelGreen(q,ClampToQuantum(gamma*GetPixelGreen(q)));
-          SetPixelBlue(q,ClampToQuantum(gamma*GetPixelBlue(q)));
+          gamma=QuantumScale*(double) GetPixelAlpha(q);
+          SetPixelRed(q,ClampToQuantum(gamma*(double) GetPixelRed(q)));
+          SetPixelGreen(q,ClampToQuantum(gamma*(double) GetPixelGreen(q)));
+          SetPixelBlue(q,ClampToQuantum(gamma*(double) GetPixelBlue(q)));
           q++;
         }
         if (SyncCacheViewAuthenticPixels(image_view,exception) == MagickFalse)
@@ -829,6 +831,8 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
     }
     case DeactivateAlphaChannel:
     {
+      if (image->matte == MagickFalse)
+        return(status);
       image->matte=MagickFalse;
       break;
     }
@@ -866,11 +870,11 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
             alpha,
             gamma;
 
-          alpha=QuantumScale*GetPixelAlpha(q);
+          alpha=QuantumScale*(double) GetPixelAlpha(q);
           gamma=PerceptibleReciprocal(alpha);
-          SetPixelRed(q,ClampToQuantum(gamma*GetPixelRed(q)));
-          SetPixelGreen(q,ClampToQuantum(gamma*GetPixelGreen(q)));
-          SetPixelBlue(q,ClampToQuantum(gamma*GetPixelBlue(q)));
+          SetPixelRed(q,ClampToQuantum(gamma*(double) GetPixelRed(q)));
+          SetPixelGreen(q,ClampToQuantum(gamma*(double) GetPixelGreen(q)));
+          SetPixelBlue(q,ClampToQuantum(gamma*(double) GetPixelBlue(q)));
           q++;
         }
         if (SyncCacheViewAuthenticPixels(image_view,exception) == MagickFalse)
@@ -944,7 +948,8 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
             gamma,
             opacity;
 
-          gamma=1.0-QuantumScale*QuantumScale*q->opacity*pixel.opacity;
+          gamma=1.0-QuantumScale*QuantumScale*(double) q->opacity*(double)
+            pixel.opacity;
           opacity=(double) QuantumRange*(1.0-gamma);
           gamma=PerceptibleReciprocal(gamma);
           q->red=ClampToQuantum(gamma*MagickOver_((MagickRealType) q->red,

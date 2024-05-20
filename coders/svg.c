@@ -18,7 +18,7 @@
 %                                March 2000                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -68,6 +68,7 @@
 #include "magick/option.h"
 #include "magick/pixel-accessor.h"
 #include "magick/pixel-private.h"
+#include "magick/policy.h"
 #include "magick/property.h"
 #include "magick/quantum-private.h"
 #include "magick/resource_.h"
@@ -76,6 +77,7 @@
 #include "magick/string-private.h"
 #include "magick/token.h"
 #include "magick/utility.h"
+
 #if defined(MAGICKCORE_XML_DELEGATE)
 #  if defined(MAGICKCORE_WINDOWS_SUPPORT)
 #    if !defined(__MINGW32__)
@@ -256,7 +258,7 @@ static MagickBooleanType IsSVG(const unsigned char *magick,const size_t length)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  ReadSVGImage() reads a Scalable Vector Gaphics file and returns it.  It
+%  ReadSVGImage() reads a Scalable Vector Graphics file and returns it.  It
 %  allocates the memory necessary for the new Image structure and returns a
 %  pointer to the new image.
 %
@@ -311,11 +313,12 @@ static Image *RenderSVGImage(const ImageInfo *image_info,Image *image,
     ceil(sqrt(image->x_resolution*image->y_resolution)-0.5));
   (void) FormatLocaleString(background,MagickPathExtent,
     "rgb(%.20g%%,%.20g%%,%.20g%%)",
-    100.0*QuantumScale*image->background_color.red,
-    100.0*QuantumScale*image->background_color.green,
-    100.0*QuantumScale*image->background_color.blue);
+    100.0*QuantumScale*(MagickRealType) image->background_color.red,
+    100.0*QuantumScale*(MagickRealType) image->background_color.green,
+    100.0*QuantumScale*(MagickRealType) image->background_color.blue);
   (void) FormatLocaleString(opacity,MagickPathExtent,"%.20g",QuantumScale*
-    (QuantumRange-image->background_color.opacity)-MagickEpsilon);
+    ((MagickRealType) QuantumRange-(MagickRealType)
+    image->background_color.opacity));
   (void) FormatLocaleString(command,MagickPathExtent,
     GetDelegateCommands(delegate_info),input_filename,output_filename,density,
     background,opacity,unique);
@@ -354,6 +357,294 @@ static Image *RenderSVGImage(const ImageInfo *image_info,Image *image,
   (void) RelinquishUniqueFileResource(output_filename);
   return((Image *) NULL);
 }
+
+#if defined(MAGICKCORE_RSVG_DELEGATE)
+static Image *RenderRSVGImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
+{
+#if defined(MAGICKCORE_CAIRO_DELEGATE)
+  cairo_surface_t
+    *cairo_surface;
+
+  cairo_t
+    *cairo_image;
+
+  MagickBooleanType
+    apply_density;
+
+  MemoryInfo
+    *pixel_info;
+
+  unsigned char
+    *p;
+
+  RsvgDimensionData
+    dimension_info;
+
+  unsigned char
+    *pixels;
+
+#else
+  GdkPixbuf
+    *pixel_buffer;
+
+  const guchar
+    *p;
+#endif
+
+  GError
+    *error;
+
+  Image
+    *next;
+
+  MagickBooleanType
+    status;
+
+  PixelPacket
+    fill_color;
+
+  PixelPacket
+    *q;
+
+  RsvgHandle
+    *svg_handle;
+
+  ssize_t
+    n,
+    x,
+    y;
+
+  unsigned char
+    *buffer;
+
+  buffer=(unsigned char *) AcquireQuantumMemory(MagickMaxBufferExtent,
+    sizeof(*buffer));
+  if (buffer == (unsigned char *) NULL)
+    ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
+  {
+#if LIBRSVG_CHECK_VERSION(2,40,3)
+    const char *option = GetImageOption(image_info,"svg:parse-huge");
+    if (option == (char *) NULL)
+      option=GetImageOption(image_info,"svg:xml-parse-huge");
+    if ((option != (char *) NULL) && (IsStringTrue(option) != MagickFalse))
+      svg_handle=rsvg_handle_new_with_flags(RSVG_HANDLE_FLAG_UNLIMITED);
+    else
+#endif
+      svg_handle=rsvg_handle_new();
+  }
+  if (svg_handle == (RsvgHandle *) NULL)
+    {
+      buffer=(unsigned char *) RelinquishMagickMemory(buffer);
+      ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
+    }
+  rsvg_handle_set_base_uri(svg_handle,image_info->filename);
+  if ((fabs(image->x_resolution) > MagickEpsilon) &&
+      (fabs(image->y_resolution) > MagickEpsilon))
+    rsvg_handle_set_dpi_x_y(svg_handle,image->x_resolution,
+      image->y_resolution);
+  while ((n=ReadBlob(image,MagickMaxBufferExtent-1,buffer)) != 0)
+  {
+    buffer[n]='\0';
+    error=(GError *) NULL;
+    (void) rsvg_handle_write(svg_handle,buffer,n,&error);
+    if (error != (GError *) NULL)
+      g_error_free(error);
+  }
+  buffer=(unsigned char *) RelinquishMagickMemory(buffer);
+  error=(GError *) NULL;
+  rsvg_handle_close(svg_handle,&error);
+  if (error != (GError *) NULL)
+    g_error_free(error);
+#if defined(MAGICKCORE_CAIRO_DELEGATE)
+  apply_density=MagickTrue;
+  rsvg_handle_get_dimensions(svg_handle,&dimension_info);
+  if ((image->x_resolution > 0.0) && (image->y_resolution > 0.0))
+    {
+      RsvgDimensionData
+        dpi_dimension_info;
+
+      /*
+        We should not apply the density when the internal 'factor' is 'i'.
+        This can be checked by using the trick below.
+      */
+      rsvg_handle_set_dpi_x_y(svg_handle,image->x_resolution*256,
+        image->y_resolution*256.0);
+      rsvg_handle_get_dimensions(svg_handle,&dpi_dimension_info);
+      if ((fabs((double) dpi_dimension_info.width-dimension_info.width) >= MagickEpsilon) ||
+          (fabs((double) dpi_dimension_info.height-dimension_info.height) >= MagickEpsilon))
+        apply_density=MagickFalse;
+      rsvg_handle_set_dpi_x_y(svg_handle,image->x_resolution,
+        image->y_resolution);
+    }
+  if (image_info->size != (char *) NULL)
+    {
+      (void) GetGeometry(image_info->size,(ssize_t *) NULL,
+        (ssize_t *) NULL,&image->columns,&image->rows);
+      if ((image->columns != 0) || (image->rows != 0))
+        {
+          image->x_resolution=DefaultSVGDensity*image->columns/
+            dimension_info.width;
+          image->y_resolution=DefaultSVGDensity*image->rows/
+            dimension_info.height;
+          if (fabs(image->x_resolution) < MagickEpsilon)
+            image->x_resolution=image->y_resolution;
+          else
+            if (fabs(image->y_resolution) < MagickEpsilon)
+              image->y_resolution=image->x_resolution;
+            else
+              image->x_resolution=image->y_resolution=MagickMin(
+                image->x_resolution,image->y_resolution);
+          apply_density=MagickTrue;
+        }
+    }
+  if (apply_density != MagickFalse)
+    {
+      image->columns=image->x_resolution*dimension_info.width/
+        DefaultSVGDensity;
+      image->rows=image->y_resolution*dimension_info.height/
+        DefaultSVGDensity;
+    }
+  else
+    {
+      image->columns=dimension_info.width;
+      image->rows=dimension_info.height;
+    }
+  pixel_info=(MemoryInfo *) NULL;
+#else
+  pixel_buffer=rsvg_handle_get_pixbuf(svg_handle);
+  rsvg_handle_free(svg_handle);
+  image->columns=gdk_pixbuf_get_width(pixel_buffer);
+  image->rows=gdk_pixbuf_get_height(pixel_buffer);
+#endif
+  image->matte=MagickTrue;
+  if (image_info->ping == MagickFalse)
+    {
+#if defined(MAGICKCORE_CAIRO_DELEGATE)
+      size_t
+        stride;
+#endif
+
+      status=SetImageExtent(image,image->columns,image->rows);
+      if (status == MagickFalse)
+        {
+#if !defined(MAGICKCORE_CAIRO_DELEGATE)
+          g_object_unref(G_OBJECT(pixel_buffer));
+#endif
+          g_object_unref(svg_handle);
+          InheritException(exception,&image->exception);
+          ThrowReaderException(MissingDelegateError,
+            "NoDecodeDelegateForThisImageFormat");
+        }
+
+#if defined(MAGICKCORE_CAIRO_DELEGATE)
+      stride=4*image->columns;
+#if defined(MAGICKCORE_PANGOCAIRO_DELEGATE)
+      stride=(size_t) cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,
+        (int) image->columns);
+#endif
+      pixel_info=AcquireVirtualMemory(stride,image->rows*sizeof(*pixels));
+      if (pixel_info == (MemoryInfo *) NULL)
+        {
+          g_object_unref(svg_handle);
+          ThrowReaderException(ResourceLimitError,
+            "MemoryAllocationFailed");
+        }
+      pixels=(unsigned char *) GetVirtualMemoryBlob(pixel_info);
+#endif
+      (void) SetImageBackgroundColor(image);
+#if defined(MAGICKCORE_CAIRO_DELEGATE)
+      cairo_surface=cairo_image_surface_create_for_data(pixels,
+        CAIRO_FORMAT_ARGB32,(int) image->columns,(int) image->rows,(int)
+        stride);
+      if ((cairo_surface == (cairo_surface_t *) NULL) ||
+          (cairo_surface_status(cairo_surface) != CAIRO_STATUS_SUCCESS))
+        {
+          if (cairo_surface != (cairo_surface_t *) NULL)
+            cairo_surface_destroy(cairo_surface);
+          pixel_info=RelinquishVirtualMemory(pixel_info);
+          g_object_unref(svg_handle);
+          ThrowReaderException(ResourceLimitError,
+            "MemoryAllocationFailed");
+        }
+      cairo_image=cairo_create(cairo_surface);
+      cairo_set_operator(cairo_image,CAIRO_OPERATOR_CLEAR);
+      cairo_paint(cairo_image);
+      cairo_set_operator(cairo_image,CAIRO_OPERATOR_OVER);
+      if (apply_density != MagickFalse)
+        cairo_scale(cairo_image,image->x_resolution/DefaultSVGDensity,
+          image->y_resolution/DefaultSVGDensity);
+      rsvg_handle_render_cairo(svg_handle,cairo_image);
+      cairo_destroy(cairo_image);
+      cairo_surface_destroy(cairo_surface);
+      g_object_unref(svg_handle);
+      p=pixels;
+#else
+      p=gdk_pixbuf_get_pixels(pixel_buffer);
+#endif
+      for (y=0; y < (ssize_t) image->rows; y++)
+      {
+        q=GetAuthenticPixels(image,0,y,image->columns,1,exception);
+        if (q == (PixelPacket *) NULL)
+          break;
+        for (x=0; x < (ssize_t) image->columns; x++)
+        {
+#if defined(MAGICKCORE_CAIRO_DELEGATE)
+          fill_color.blue=ScaleCharToQuantum(*p++);
+          fill_color.green=ScaleCharToQuantum(*p++);
+          fill_color.red=ScaleCharToQuantum(*p++);
+#else
+          fill_color.red=ScaleCharToQuantum(*p++);
+          fill_color.green=ScaleCharToQuantum(*p++);
+          fill_color.blue=ScaleCharToQuantum(*p++);
+#endif
+          fill_color.opacity=QuantumRange-ScaleCharToQuantum(*p++);
+#if defined(MAGICKCORE_CAIRO_DELEGATE)
+          {
+            double
+              gamma;
+
+            gamma=1.0-QuantumScale*(MagickRealType) fill_color.opacity;
+            gamma=PerceptibleReciprocal(gamma);
+            fill_color.blue=(Quantum) ((MagickRealType) fill_color.red*gamma);
+            fill_color.green=(Quantum) ((MagickRealType) fill_color.green*
+              gamma);
+            fill_color.red=(Quantum) ((MagickRealType) fill_color.blue*gamma);
+          }
+#endif
+          MagickCompositeOver(&fill_color,fill_color.opacity,q,
+            (MagickRealType) q->opacity,q);
+          q++;
+        }
+        if (SyncAuthenticPixels(image,exception) == MagickFalse)
+          break;
+        if (image->previous == (Image *) NULL)
+          {
+            status=SetImageProgress(image,LoadImageTag,(MagickOffsetType)
+              y,image->rows);
+            if (status == MagickFalse)
+              break;
+          }
+      }
+    }
+#if defined(MAGICKCORE_CAIRO_DELEGATE)
+  else
+    g_object_unref(svg_handle);
+  if (pixel_info != (MemoryInfo *) NULL)
+    pixel_info=RelinquishVirtualMemory(pixel_info);
+#else
+  g_object_unref(G_OBJECT(pixel_buffer));
+#endif
+  (void) CloseBlob(image);
+  for (next=GetFirstImageInList(image); next != (Image *) NULL; )
+  {
+    (void) CopyMagickString(next->filename,image->filename,MaxTextExtent);
+    (void) CopyMagickString(next->magick,image->magick,MaxTextExtent);
+    next=GetNextImageInList(next);
+  }
+  return(GetFirstImageInList(image));
+}
+#endif
 
 #if defined(MAGICKCORE_XML_DELEGATE)
 static SVGInfo *AcquireSVGInfo(void)
@@ -400,8 +691,9 @@ static double GetUserSpaceCoordinateValue(const SVGInfo *svg_info,int type,
   double
     value;
 
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",string);
   assert(string != (const char *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",string);
   p=(const char *) string;
   (void) GetNextToken(p,&p,MaxTextExtent,token);
   value=StringToDouble(token,&next_token);
@@ -413,13 +705,13 @@ static double GetUserSpaceCoordinateValue(const SVGInfo *svg_info,int type,
 
       if (type > 0)
         {
-          if (svg_info->view_box.width == 0.0)
+          if (svg_info->view_box.width < MagickEpsilon)
             return(0.0);
           return(svg_info->view_box.width*value/100.0);
         }
       if (type < 0)
         {
-          if (svg_info->view_box.height == 0.0)
+          if (svg_info->view_box.height < MagickEpsilon)
             return(0.0);
           return(svg_info->view_box.height*value/100.0);
         }
@@ -562,11 +854,17 @@ static xmlEntityPtr SVGGetParameterEntity(void *context,const xmlChar *name)
   return(xmlGetParameterEntity(svg_info->document,name));
 }
 
+static void SVGError(void *,const char *,...)
+  magick_attribute((__format__ (__printf__,2,3)));
+
 static void SVGEntityDeclaration(void *context,const xmlChar *name,int type,
   const xmlChar *public_id,const xmlChar *system_id,xmlChar *content)
 {
   SVGInfo
     *svg_info;
+
+  xmlEntityPtr
+    entity;
 
   /*
     An entity definition has been parsed.
@@ -577,12 +875,16 @@ static void SVGEntityDeclaration(void *context,const xmlChar *name,int type,
     system_id != (xmlChar *) NULL ? (const char *) system_id : "none",content);
   svg_info=(SVGInfo *) context;
   if (svg_info->parser->inSubset == 1)
-    (void) xmlAddDocEntity(svg_info->document,name,type,public_id,system_id,
+    entity=xmlAddDocEntity(svg_info->document,name,type,public_id,system_id,
       content);
   else
     if (svg_info->parser->inSubset == 2)
-      (void) xmlAddDtdEntity(svg_info->document,name,type,public_id,system_id,
+      entity=xmlAddDtdEntity(svg_info->document,name,type,public_id,system_id,
         content);
+    else
+      return;
+  if (entity == (xmlEntityPtr) NULL)
+    SVGError(svg_info,"NULL entity");
 }
 
 static void SVGAttributeDeclaration(void *context,const xmlChar *element,
@@ -761,15 +1063,27 @@ static char **SVGKeyValuePairs(void *context,const int key_sentinel,
             return((char **) NULL);
           }
       }
-    tokens[i]=AcquireString(p);
+    tokens[i]=(char *) AcquireMagickMemory((size_t) (q-p+2));
+    if (tokens[i] == (char *) NULL)
+      {
+        (void) ThrowMagickException(svg_info->exception,GetMagickModule(),
+          ResourceLimitError,"MemoryAllocationFailed","`%s'",text);
+        break;
+      }
     (void) CopyMagickString(tokens[i],p,(size_t) (q-p+1));
     SVGStripString(MagickTrue,tokens[i]);
     i++;
     p=q+1;
   }
-  tokens[i]=AcquireString(p);
-  (void) CopyMagickString(tokens[i],p,(size_t) (q-p+1));
-  SVGStripString(MagickTrue,tokens[i++]);
+  tokens[i]=(char *) AcquireMagickMemory((size_t) (q-p+2));
+  if (tokens[i] == (char *) NULL)
+    (void) ThrowMagickException(svg_info->exception,GetMagickModule(),
+      ResourceLimitError,"MemoryAllocationFailed","`%s'",text);
+  else
+    {
+      (void) CopyMagickString(tokens[i],p,(size_t) (q-p+1));
+      SVGStripString(MagickTrue,tokens[i++]);
+    }
   tokens[i]=(char *) NULL;
   *number_tokens=(size_t) i;
   return(tokens);
@@ -2424,7 +2738,7 @@ static void SVGStartElement(void *context,const xmlChar *name,
                 (void) GetNextToken(p,&p,MaxTextExtent,token);
               svg_info->view_box.width=StringToDouble(token,
                 (char **) NULL);
-              if (svg_info->bounds.width == 0)
+              if (svg_info->bounds.width < MagickEpsilon)
                 svg_info->bounds.width=svg_info->view_box.width;
               (void) GetNextToken(p,&p,MaxTextExtent,token);
               if (*token == ',')
@@ -2514,15 +2828,15 @@ static void SVGStartElement(void *context,const xmlChar *name,
             tx,
             ty;
 
-          if ((svg_info->view_box.width == 0.0) ||
-              (svg_info->view_box.height == 0.0))
+          if ((svg_info->view_box.width < MagickEpsilon) ||
+              (svg_info->view_box.height < MagickEpsilon))
             svg_info->view_box=svg_info->bounds;
           svg_info->width=0;
-          if (svg_info->bounds.width > 0.0)
-            svg_info->width=(size_t) floor(svg_info->bounds.width+0.5);
+          if (svg_info->bounds.width >= MagickEpsilon)
+            svg_info->width=CastDoubleToUnsigned(svg_info->bounds.width+0.5);
           svg_info->height=0;
-          if (svg_info->bounds.height > 0.0)
-            svg_info->height=(size_t) floor(svg_info->bounds.height+0.5);
+          if (svg_info->bounds.height >= MagickEpsilon)
+            svg_info->height=CastDoubleToUnsigned(svg_info->bounds.height+0.5);
           (void) FormatLocaleFile(svg_info->file,"viewbox 0 0 %.20g %.20g\n",
             (double) svg_info->width,(double) svg_info->height);
           sx=PerceptibleReciprocal(svg_info->view_box.width)*svg_info->width;
@@ -3038,9 +3352,6 @@ static void SVGWarning(void *context,const char *format,...)
   va_end(operands);
 }
 
-static void SVGError(void *,const char *,...)
-  magick_attribute((__format__ (__printf__,2,3)));
-
 static void SVGError(void *context,const char *format,...)
 {
   char
@@ -3071,6 +3382,7 @@ static void SVGError(void *context,const char *format,...)
     reason,"`%s`",message);
   message=DestroyString(message);
   va_end(operands);
+  xmlStopParser(svg_info->parser);
 }
 
 static void SVGCDataBlock(void *context,const xmlChar *value,int length)
@@ -3172,19 +3484,16 @@ static void SVGExternalSubset(void *context,const xmlChar *name,
 }
 #endif
 
-static Image *ReadSVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
+static Image *RenderMSVGImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
   char
     filename[MaxTextExtent];
-
-  const char
-    *option;
 
   FILE
     *file;
 
   Image
-    *image,
     *next;
 
   int
@@ -3206,325 +3515,6 @@ static Image *ReadSVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   xmlSAXHandlerPtr
     sax_handler;
 
-  /*
-    Open image file.
-  */
-  assert(image_info != (const ImageInfo *) NULL);
-  assert(image_info->signature == MagickCoreSignature);
-  assert(exception != (ExceptionInfo *) NULL);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
-  assert(exception->signature == MagickCoreSignature);
-  image=AcquireImage(image_info);
-  status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
-  if (status == MagickFalse)
-    {
-      image=DestroyImageList(image);
-      return((Image *) NULL);
-    }
-  if ((fabs(image->x_resolution) < MagickEpsilon) ||
-      (fabs(image->y_resolution) < MagickEpsilon))
-    {
-      GeometryInfo
-        geometry_info;
-
-      int
-        flags;
-
-      flags=ParseGeometry(SVGDensityGeometry,&geometry_info);
-      image->x_resolution=geometry_info.rho;
-      image->y_resolution=geometry_info.sigma;
-      if ((flags & SigmaValue) == 0)
-        image->y_resolution=image->x_resolution;
-    }
-  if (LocaleCompare(image_info->magick,"MSVG") != 0)
-    {
-      Image
-        *svg_image;
-
-      svg_image=RenderSVGImage(image_info,image,exception);
-      if (svg_image != (Image *) NULL)
-        {
-          image=DestroyImageList(image);
-          return(svg_image);
-        }
-      {
-#if defined(MAGICKCORE_RSVG_DELEGATE)
-#if defined(MAGICKCORE_CAIRO_DELEGATE)
-        cairo_surface_t
-          *cairo_surface;
-
-        cairo_t
-          *cairo_image;
-
-        MagickBooleanType
-          apply_density;
-
-        MemoryInfo
-          *pixel_info;
-
-        unsigned char
-          *p;
-
-        RsvgDimensionData
-          dimension_info;
-
-        unsigned char
-          *pixels;
-
-#else
-        GdkPixbuf
-          *pixel_buffer;
-
-        const guchar
-          *p;
-#endif
-
-        GError
-          *error;
-
-        PixelPacket
-          fill_color;
-
-        ssize_t
-          x;
-
-        PixelPacket
-          *q;
-
-        RsvgHandle
-          *svg_handle;
-
-        ssize_t
-          y;
-
-        unsigned char
-          *buffer;
-
-        buffer=(unsigned char *) AcquireQuantumMemory(MagickMaxBufferExtent,
-          sizeof(*buffer));
-        if (buffer == (unsigned char *) NULL)
-          ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-#if LIBRSVG_CHECK_VERSION(2,40,3)
-        option=GetImageOption(image_info,"svg:xml-parse-huge");
-        if ((option != (char *) NULL) && (IsStringTrue(option) != MagickFalse))
-          svg_handle=rsvg_handle_new_with_flags(RSVG_HANDLE_FLAG_UNLIMITED);
-        else
-#endif
-          svg_handle=rsvg_handle_new();
-        if (svg_handle == (RsvgHandle *) NULL)
-          {
-            buffer=(unsigned char *) RelinquishMagickMemory(buffer);
-            ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-          }
-        rsvg_handle_set_base_uri(svg_handle,image_info->filename);
-        if ((fabs(image->x_resolution) > MagickEpsilon) &&
-            (fabs(image->y_resolution) > MagickEpsilon))
-          rsvg_handle_set_dpi_x_y(svg_handle,image->x_resolution,
-            image->y_resolution);
-        while ((n=ReadBlob(image,MagickMaxBufferExtent-1,buffer)) != 0)
-        {
-          buffer[n]='\0';
-          error=(GError *) NULL;
-          (void) rsvg_handle_write(svg_handle,buffer,n,&error);
-          if (error != (GError *) NULL)
-            g_error_free(error);
-        }
-        buffer=(unsigned char *) RelinquishMagickMemory(buffer);
-        error=(GError *) NULL;
-        rsvg_handle_close(svg_handle,&error);
-        if (error != (GError *) NULL)
-          g_error_free(error);
-#if defined(MAGICKCORE_CAIRO_DELEGATE)
-        apply_density=MagickTrue;
-        rsvg_handle_get_dimensions(svg_handle,&dimension_info);
-        if ((image->x_resolution > 0.0) && (image->y_resolution > 0.0))
-          {
-            RsvgDimensionData
-              dpi_dimension_info;
-
-            /*
-              We should not apply the density when the internal 'factor' is 'i'.
-              This can be checked by using the trick below.
-            */
-            rsvg_handle_set_dpi_x_y(svg_handle,image->x_resolution*256,
-              image->y_resolution*256);
-            rsvg_handle_get_dimensions(svg_handle,&dpi_dimension_info);
-            if ((dpi_dimension_info.width != dimension_info.width) ||
-                (dpi_dimension_info.height != dimension_info.height))
-              apply_density=MagickFalse;
-            rsvg_handle_set_dpi_x_y(svg_handle,image->x_resolution,
-              image->y_resolution);
-          }
-        if (image_info->size != (char *) NULL)
-          {
-            (void) GetGeometry(image_info->size,(ssize_t *) NULL,
-              (ssize_t *) NULL,&image->columns,&image->rows);
-            if ((image->columns != 0) || (image->rows != 0))
-              {
-                image->x_resolution=DefaultSVGDensity*image->columns/
-                  dimension_info.width;
-                image->y_resolution=DefaultSVGDensity*image->rows/
-                  dimension_info.height;
-                if (fabs(image->x_resolution) < MagickEpsilon)
-                  image->x_resolution=image->y_resolution;
-                else
-                  if (fabs(image->y_resolution) < MagickEpsilon)
-                    image->y_resolution=image->x_resolution;
-                  else
-                    image->x_resolution=image->y_resolution=MagickMin(
-                      image->x_resolution,image->y_resolution);
-                apply_density=MagickTrue;
-              }
-          }
-        if (apply_density != MagickFalse)
-          {
-            image->columns=image->x_resolution*dimension_info.width/
-              DefaultSVGDensity;
-            image->rows=image->y_resolution*dimension_info.height/
-              DefaultSVGDensity;
-          }
-        else
-          {
-            image->columns=dimension_info.width;
-            image->rows=dimension_info.height;
-          }
-        pixel_info=(MemoryInfo *) NULL;
-#else
-        pixel_buffer=rsvg_handle_get_pixbuf(svg_handle);
-        rsvg_handle_free(svg_handle);
-        image->columns=gdk_pixbuf_get_width(pixel_buffer);
-        image->rows=gdk_pixbuf_get_height(pixel_buffer);
-#endif
-        image->matte=MagickTrue;
-        if (image_info->ping == MagickFalse)
-          {
-#if defined(MAGICKCORE_CAIRO_DELEGATE)
-            size_t
-              stride;
-#endif
-
-            status=SetImageExtent(image,image->columns,image->rows);
-            if (status == MagickFalse)
-              {
-#if !defined(MAGICKCORE_CAIRO_DELEGATE)
-                g_object_unref(G_OBJECT(pixel_buffer));
-#endif
-                g_object_unref(svg_handle);
-                InheritException(exception,&image->exception);
-                ThrowReaderException(MissingDelegateError,
-                  "NoDecodeDelegateForThisImageFormat");
-              }
-
-#if defined(MAGICKCORE_CAIRO_DELEGATE)
-            stride=4*image->columns;
-#if defined(MAGICKCORE_PANGOCAIRO_DELEGATE)
-            stride=(size_t) cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32,
-              (int) image->columns);
-#endif
-            pixel_info=AcquireVirtualMemory(stride,image->rows*sizeof(*pixels));
-            if (pixel_info == (MemoryInfo *) NULL)
-              {
-                g_object_unref(svg_handle);
-                ThrowReaderException(ResourceLimitError,
-                  "MemoryAllocationFailed");
-              }
-            pixels=(unsigned char *) GetVirtualMemoryBlob(pixel_info);
-#endif
-            (void) SetImageBackgroundColor(image);
-#if defined(MAGICKCORE_CAIRO_DELEGATE)
-            cairo_surface=cairo_image_surface_create_for_data(pixels,
-              CAIRO_FORMAT_ARGB32,(int) image->columns,(int) image->rows,(int)
-              stride);
-            if ((cairo_surface == (cairo_surface_t *) NULL) ||
-                (cairo_surface_status(cairo_surface) != CAIRO_STATUS_SUCCESS))
-              {
-                if (cairo_surface != (cairo_surface_t *) NULL)
-                  cairo_surface_destroy(cairo_surface);
-                pixel_info=RelinquishVirtualMemory(pixel_info);
-                g_object_unref(svg_handle);
-                ThrowReaderException(ResourceLimitError,
-                  "MemoryAllocationFailed");
-              }
-            cairo_image=cairo_create(cairo_surface);
-            cairo_set_operator(cairo_image,CAIRO_OPERATOR_CLEAR);
-            cairo_paint(cairo_image);
-            cairo_set_operator(cairo_image,CAIRO_OPERATOR_OVER);
-            if (apply_density != MagickFalse)
-              cairo_scale(cairo_image,image->x_resolution/DefaultSVGDensity,
-                image->y_resolution/DefaultSVGDensity);
-            rsvg_handle_render_cairo(svg_handle,cairo_image);
-            cairo_destroy(cairo_image);
-            cairo_surface_destroy(cairo_surface);
-            g_object_unref(svg_handle);
-            p=pixels;
-#else
-            p=gdk_pixbuf_get_pixels(pixel_buffer);
-#endif
-            for (y=0; y < (ssize_t) image->rows; y++)
-            {
-              q=GetAuthenticPixels(image,0,y,image->columns,1,exception);
-              if (q == (PixelPacket *) NULL)
-                break;
-              for (x=0; x < (ssize_t) image->columns; x++)
-              {
-#if defined(MAGICKCORE_CAIRO_DELEGATE)
-                fill_color.blue=ScaleCharToQuantum(*p++);
-                fill_color.green=ScaleCharToQuantum(*p++);
-                fill_color.red=ScaleCharToQuantum(*p++);
-#else
-                fill_color.red=ScaleCharToQuantum(*p++);
-                fill_color.green=ScaleCharToQuantum(*p++);
-                fill_color.blue=ScaleCharToQuantum(*p++);
-#endif
-                fill_color.opacity=QuantumRange-ScaleCharToQuantum(*p++);
-#if defined(MAGICKCORE_CAIRO_DELEGATE)
-                {
-                  double
-                    gamma;
-
-                  gamma=1.0-QuantumScale*fill_color.opacity;
-                  gamma=PerceptibleReciprocal(gamma);
-                  fill_color.blue*=gamma;
-                  fill_color.green*=gamma;
-                  fill_color.red*=gamma;
-                }
-#endif
-                MagickCompositeOver(&fill_color,fill_color.opacity,q,
-                  (MagickRealType) q->opacity,q);
-                q++;
-              }
-              if (SyncAuthenticPixels(image,exception) == MagickFalse)
-                break;
-              if (image->previous == (Image *) NULL)
-                {
-                  status=SetImageProgress(image,LoadImageTag,(MagickOffsetType)
-                    y,image->rows);
-                  if (status == MagickFalse)
-                    break;
-                }
-            }
-          }
-#if defined(MAGICKCORE_CAIRO_DELEGATE)
-        else
-          g_object_unref(svg_handle);
-        if (pixel_info != (MemoryInfo *) NULL)
-          pixel_info=RelinquishVirtualMemory(pixel_info);
-#else
-        g_object_unref(G_OBJECT(pixel_buffer));
-#endif
-        (void) CloseBlob(image);
-        for (next=GetFirstImageInList(image); next != (Image *) NULL; )
-        {
-          (void) CopyMagickString(next->filename,image->filename,MaxTextExtent);
-          (void) CopyMagickString(next->magick,image->magick,MaxTextExtent);
-          next=GetNextImageInList(next);
-        }
-        return(GetFirstImageInList(image));
-#endif
-      }
-    }
   /*
     Open draw file.
   */
@@ -3561,7 +3551,6 @@ static Image *ReadSVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (image->debug != MagickFalse)
     (void) LogMagickEvent(CoderEvent,GetMagickModule(),"begin SAX");
   xmlInitParser();
-  (void) xmlSubstituteEntitiesDefault(1);
   (void) memset(&sax_modules,0,sizeof(sax_modules));
   sax_modules.internalSubset=SVGInternalSubset;
   sax_modules.isStandalone=SVGIsStandalone;
@@ -3597,11 +3586,18 @@ static Image *ReadSVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
     {
       svg_info->parser=xmlCreatePushParserCtxt(sax_handler,svg_info,(char *)
         message,n,image->filename);
-      option=GetImageOption(image_info,"svg:xml-parse-huge");
       if (svg_info->parser != (xmlParserCtxtPtr) NULL)
         {
-          if ((option != (char *) NULL) && (IsStringTrue(option) != MagickFalse))
+          const char *option = GetImageOption(image_info,"svg:parse-huge");
+          if (option == (char *) NULL)
+            option=GetImageOption(image_info,"svg:xml-parse-huge");
+          if ((option != (char *) NULL) &&
+              (IsStringTrue(option) != MagickFalse))
             (void) xmlCtxtUseOptions(svg_info->parser,XML_PARSE_HUGE);
+          option=GetImageOption(image_info,"svg:substitute-entities");
+          if ((option != (char *) NULL) &&
+              (IsStringTrue(option) != MagickFalse))
+            (void) xmlCtxtUseOptions(svg_info->parser,XML_PARSE_NOENT);
           while ((n=ReadBlob(image,MaxTextExtent-1,message)) != 0)
           {
             message[n]='\0';
@@ -3621,7 +3617,10 @@ static Image *ReadSVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   (void) xmlParseChunk(svg_info->parser,(char *) message,0,1);
   SVGEndDocument(svg_info);
   if (svg_info->parser->myDoc != (xmlDocPtr) NULL)
-    xmlFreeDoc(svg_info->parser->myDoc);
+    {
+      xmlFreeDoc(svg_info->parser->myDoc);
+      svg_info->parser->myDoc=(xmlDocPtr) NULL;
+    }
   xmlFreeParserCtxt(svg_info->parser);
   if (image->debug != MagickFalse)
     (void) LogMagickEvent(CoderEvent,GetMagickModule(),"end SAX");
@@ -3668,31 +3667,44 @@ static Image *ReadSVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
     }
   svg_info=DestroySVGInfo(svg_info);
   (void) RelinquishUniqueFileResource(filename);
-  for (next=GetFirstImageInList(image); next != (Image *) NULL; )
-  {
-    (void) CopyMagickString(next->filename,image->filename,MaxTextExtent);
-    (void) CopyMagickString(next->magick,"SVG",MaxTextExtent);
-    next=GetNextImageInList(next);
-  }
+  if (image != (Image *) NULL)
+    for (next=GetFirstImageInList(image); next != (Image *) NULL; )
+    {
+      (void) CopyMagickString(next->filename,image->filename,MaxTextExtent);
+      (void) CopyMagickString(next->magick,"SVG",MaxTextExtent);
+      next=GetNextImageInList(next);
+    }
   return(GetFirstImageInList(image));
 }
 #else
+static Image *RenderMSVGImage(const ImageInfo *magick_unused(image_info),
+  Image *image,ExceptionInfo *magick_unused(exception))
+{
+  magick_unreferenced(image_info);
+  magick_unreferenced(exception);
+  image=DestroyImageList(image);
+  return((Image *) NULL);
+}
+#endif
+
 static Image *ReadSVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
 {
   Image
-    *image,
-    *svg_image;
+    *image;
 
   MagickBooleanType
     status;
 
+  /*
+    Open image file.
+  */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
   assert(exception != (ExceptionInfo *) NULL);
-  if (image_info->debug != MagickFalse)
+  assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  assert(exception->signature == MagickCoreSignature);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -3710,16 +3722,42 @@ static Image *ReadSVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
         flags;
 
       flags=ParseGeometry(SVGDensityGeometry,&geometry_info);
-      image->x_resolution=geometry_info.rho;
-      image->y_resolution=geometry_info.sigma;
-      if ((flags & SigmaValue) == 0)
-        image->y_resolution=image->x_resolution;
+      if ((flags & RhoValue) != 0)
+        image->x_resolution=geometry_info.rho;
+      image->y_resolution=image->x_resolution;
+      if ((flags & SigmaValue) != 0)
+        image->y_resolution=geometry_info.sigma;
     }
-  svg_image=RenderSVGImage(image_info,image,exception);
-  image=DestroyImage(image);
-  return(svg_image);
-}
+  if (LocaleCompare(image_info->magick,"MSVG") != 0)
+    {
+      Image
+        *svg_image;
+
+#if defined(MAGICKCORE_RSVG_DELEGATE)
+      if (LocaleCompare(image_info->magick,"RSVG") == 0)
+        {
+          image=RenderRSVGImage(image_info,image,exception);
+          return(image);
+        }
 #endif
+      svg_image=RenderSVGImage(image_info,image,exception);
+      if (svg_image != (Image *) NULL)
+        {
+          image=DestroyImageList(image);
+          return(svg_image);
+        }
+#if defined(MAGICKCORE_RSVG_DELEGATE)
+      image=RenderRSVGImage(image_info,image,exception);
+      return(image);
+#endif
+    }
+  status=IsRightsAuthorized(CoderPolicyDomain,ReadPolicyRights,"MSVG");
+  if (status == MagickFalse)
+    image=DestroyImageList(image);
+  else
+    image=RenderMSVGImage(image_info,image,exception);
+  return(image);
+}
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3770,6 +3808,7 @@ ModuleExport size_t RegisterSVGImage(void)
   entry->decoder=(DecodeImageHandler *) ReadSVGImage;
   entry->encoder=(EncodeImageHandler *) WriteSVGImage;
   entry->seekable_stream=MagickFalse;
+  entry->blob_support=MagickFalse;
 #if defined(MAGICKCORE_RSVG_DELEGATE)
   entry->thread_support=MagickFalse;
 #endif
@@ -3786,6 +3825,7 @@ ModuleExport size_t RegisterSVGImage(void)
 #endif
   entry->encoder=(EncodeImageHandler *) WriteSVGImage;
   entry->seekable_stream=MagickFalse;
+  entry->blob_support=MagickFalse;
 #if defined(MAGICKCORE_RSVG_DELEGATE)
   entry->thread_support=MagickFalse;
 #endif
@@ -3802,6 +3842,7 @@ ModuleExport size_t RegisterSVGImage(void)
 #endif
   entry->encoder=(EncodeImageHandler *) WriteSVGImage;
   entry->seekable_stream=MagickFalse;
+  entry->blob_support=MagickFalse;
 #if defined(MAGICKCORE_RSVG_DELEGATE)
   entry->thread_support=MagickFalse;
 #endif
@@ -4088,7 +4129,7 @@ static MagickBooleanType TraceSVGImage(Image *image,ExceptionInfo *exception)
     blob=(unsigned char *) RelinquishMagickMemory(blob);
     (void) FormatLocaleString(message,MaxTextExtent,
       "  <image id=\"image%.20g\" width=\"%.20g\" height=\"%.20g\" "
-      "x=\"%.20g\" y=\"%.20g\"\n    href=\"data:image/png;base64,",
+      "x=\"%.20g\" y=\"%.20g\"\n    xlink:href=\"data:image/png;base64,",
       (double) image->scene,(double) image->columns,(double) image->rows,
       (double) image->page.x,(double) image->page.y);
     (void) WriteBlobString(image,message);
@@ -4170,7 +4211,7 @@ static MagickBooleanType WriteSVGImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
@@ -4608,7 +4649,7 @@ static MagickBooleanType WriteSVGImage(const ImageInfo *image_info,Image *image)
             *name='\0';
             (void) GetNextToken(q,&q,extent,token);
             if (*q == '"')
-              (void) GetNextToken(q,&q,extent,name);
+              (void) GetNextToken(q,&q,MaxTextExtent,name);
             if (LocaleCompare("clip-path",token) == 0)
               {
                 (void) GetNextToken(q,&q,extent,token);

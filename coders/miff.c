@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -464,7 +464,7 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
 #if defined(MAGICKCORE_LZMA_DELEGATE)
   lzma_stream
     initialize_lzma = LZMA_STREAM_INIT,
-    lzma_info;
+    lzma_info = LZMA_STREAM_INIT;
 
   lzma_allocator
     allocator;
@@ -520,11 +520,11 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -584,8 +584,8 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
               {
                 *p='\0';
                 length<<=1;
-                comment=(char *) ResizeQuantumMemory(comment,length+
-                  MaxTextExtent,sizeof(*comment));
+                comment=(char *) ResizeQuantumMemory(comment,
+                  OverAllocateMemory(length+MagickPathExtent),sizeof(*comment));
                 if (comment == (char *) NULL)
                   break;
                 p=comment+strlen(comment);
@@ -727,6 +727,11 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
                     image->colorspace=(ColorspaceType) colorspace;
                     break;
                   }
+                if (LocaleCompare(keyword,"columns") == 0)
+                  {
+                    image->columns=StringToUnsignedLong(options);
+                    break;
+                  }
                 if (LocaleCompare(keyword,"compression") == 0)
                   {
                     ssize_t
@@ -737,11 +742,6 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
                     if (compression < 0)
                       break;
                     image->compression=(CompressionType) compression;
-                    break;
-                  }
-                if (LocaleCompare(keyword,"columns") == 0)
-                  {
-                    image->columns=StringToUnsignedLong(options);
                     break;
                   }
                 (void) SetImageProperty(image,keyword,options);
@@ -831,6 +831,15 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
               {
                 if (LocaleCompare(keyword,"id") == 0)
                   {
+                    if (*id != '\0')
+                      {
+                        options=DestroyString(options);
+                        if (profiles != (LinkedListInfo *) NULL)
+                          profiles=DestroyLinkedList(profiles,
+                            RelinquishMagickMemory);
+                        ThrowMIFFException(CorruptImageError,
+                          "ImproperImageHeader");
+                      }
                     (void) CopyMagickString(id,options,MaxTextExtent);
                     break;
                   }
@@ -1125,6 +1134,7 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
           CorruptImageError,"ImproperImageHeader","`%s'",image->filename);
         break;
       }
+    *id='\0';
     if (image->montage != (char *) NULL)
       {
         char
@@ -1708,7 +1718,7 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
     {
       c=ReadBlobByte(image);
     } while ((isgraph((int) ((unsigned char) c)) == 0) && (c != EOF));
-    if (c != EOF)
+    if ((c != EOF) && ((c == 'i') || (c == 'I')))
       {
         /*
           Allocate next image structure.
@@ -1725,7 +1735,7 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
         if (status == MagickFalse)
           break;
       }
-  } while (c != EOF);
+  } while (c != EOF && ((c == 'i') || (c == 'I')));
   (void) CloseBlob(image);
   if (status == MagickFalse)
     return(DestroyImageList(image));
@@ -1854,9 +1864,11 @@ static unsigned char *PopRunlengthPacket(Image *image,unsigned char *pixels,
         {
           *pixels++=(unsigned char) (value >> 24);
           *pixels++=(unsigned char) (value >> 16);
+          magick_fallthrough;
         }
         case 16:
           *pixels++=(unsigned char) (value >> 8);
+          magick_fallthrough;
         case 8:
         {
           *pixels++=(unsigned char) value;
@@ -2041,8 +2053,8 @@ static MagickBooleanType WriteMIFFImage(const ImageInfo *image_info,
     i;
 
   size_t
-    imageListLength,
     length,
+    number_scenes,
     packet_size;
 
   ssize_t
@@ -2065,13 +2077,13 @@ static MagickBooleanType WriteMIFFImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     /*
@@ -2288,7 +2300,7 @@ static MagickBooleanType WriteMIFFImage(const ImageInfo *image_info,
     if (image->chromaticity.white_point.x != 0.0)
       {
         /*
-          Note chomaticity points.
+          Note chromaticity points.
         */
         (void) FormatLocaleString(buffer,MaxTextExtent,"red-primary=%g,"
           "%g  green-primary=%g,%g  blue-primary=%g,%g\n",
@@ -2789,7 +2801,7 @@ static MagickBooleanType WriteMIFFImage(const ImageInfo *image_info,
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);

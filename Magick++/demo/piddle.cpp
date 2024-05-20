@@ -110,7 +110,7 @@ int main( int /*argc*/, char ** argv)
     }
 
     //
-    // Draw pentogram.
+    // Draw pentagram.
     //
     {
       drawList.push_back(DrawableStrokeColor("red"));
@@ -143,6 +143,7 @@ int main( int /*argc*/, char ** argv)
     //
     // Draw text.
     //
+#if defined(MAGICKCORE_FREETYPE_DELEGATE)
     if (getenv("MAGICK_FONT") != 0)
       drawList.push_back(DrawableFont(string(getenv("MAGICK_FONT"))));
     drawList.push_back(DrawableFillColor("green"));
@@ -151,6 +152,7 @@ int main( int /*argc*/, char ** argv)
     drawList.push_back(DrawableTranslation(30,140));
     drawList.push_back(DrawableRotation(45.0));
     drawList.push_back(DrawableText(0,0,"This is a test!"));
+#endif
 
     // Finish drawing by popping back to base context.
     drawList.push_back(DrawablePopGraphicContext());
@@ -166,7 +168,7 @@ int main( int /*argc*/, char ** argv)
     image.compressType( RLECompression );
     image.write( "piddle_out.miff" );
     cout << "Writing MVG metafile \"piddle_out.mvg\" ..." << endl;
-    image.write( "piddle_out.mvg" );
+    image.write( "mvg:piddle_out.mvg" );
 
     //     cout << "Display image..." << endl;
     //     image.display( );

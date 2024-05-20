@@ -17,7 +17,7 @@
 %                              July 1992                                      %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -210,12 +210,13 @@
 #define CacheShift  3
 #endif
 #define ErrorQueueLength  16
+#define ErrorRelativeWeight  PerceptibleReciprocal(16)
 #define MaxNodes  266817
 #define MaxTreeDepth  8
 #define NodesInAList  1920
 
 /*
-  Typdef declarations.
+  Typedef declarations.
 */
 typedef struct _NodeInfo
 {
@@ -291,6 +292,7 @@ typedef struct _CubeInfo
     error[ErrorQueueLength];
 
   MagickRealType
+    diffusion,
     weights[ErrorQueueLength];
 
   QuantizeInfo
@@ -438,10 +440,11 @@ static inline void AssociateAlphaPixel(const CubeInfo *cube_info,
       alpha_pixel->opacity=(MagickRealType) GetPixelOpacity(pixel);
       return;
     }
-  alpha=(MagickRealType) (QuantumScale*(QuantumRange-GetPixelOpacity(pixel)));
-  alpha_pixel->red=alpha*GetPixelRed(pixel);
-  alpha_pixel->green=alpha*GetPixelGreen(pixel);
-  alpha_pixel->blue=alpha*GetPixelBlue(pixel);
+  alpha=(MagickRealType) (QuantumScale*((MagickRealType) QuantumRange-
+    (MagickRealType) GetPixelOpacity(pixel)));
+  alpha_pixel->red=alpha*(MagickRealType) GetPixelRed(pixel);
+  alpha_pixel->green=alpha*(MagickRealType) GetPixelGreen(pixel);
+  alpha_pixel->blue=alpha*(MagickRealType) GetPixelBlue(pixel);
   alpha_pixel->opacity=(MagickRealType) GetPixelOpacity(pixel);
 }
 
@@ -587,8 +590,8 @@ static MagickBooleanType AssignImageColors(Image *image,CubeInfo *cube_info)
             Find closest color among siblings and their children.
           */
           cube.target=pixel;
-          cube.distance=(MagickRealType) (4.0*(QuantumRange+1.0)*
-            (QuantumRange+1.0)+1.0);
+          cube.distance=(MagickRealType) (4.0*((MagickRealType) QuantumRange+
+            1.0)*((MagickRealType) QuantumRange+1.0)+1.0);
           ClosestColor(image,&cube,node_info->parent);
           index=cube.color_number;
           for (i=0; i < (ssize_t) count; i++)
@@ -622,8 +625,7 @@ static MagickBooleanType AssignImageColors(Image *image,CubeInfo *cube_info)
   if (cube_info->quantize_info->measure_error != MagickFalse)
     (void) GetImageQuantizeError(image);
   if ((cube_info->quantize_info->number_colors == 2) &&
-      ((cube_info->quantize_info->colorspace == LinearGRAYColorspace) ||
-       (cube_info->quantize_info->colorspace == GRAYColorspace)))
+      (IsGrayColorspace(cube_info->quantize_info->colorspace)))
     {
       double
         intensity;
@@ -631,8 +633,8 @@ static MagickBooleanType AssignImageColors(Image *image,CubeInfo *cube_info)
       /*
         Monochrome image.
       */
-      intensity=GetPixelLuma(image,image->colormap+0) < QuantumRange/2.0 ? 0.0 :
-        QuantumRange;
+      intensity=GetPixelLuma(image,image->colormap+0) <
+        (MagickRealType) QuantumRange/2.0 ? 0.0 : (double) QuantumRange;
       if ((image->colors > 1) &&
           (GetPixelLuma(image,image->colormap+0) > 
            GetPixelLuma(image,image->colormap+1)))
@@ -861,14 +863,17 @@ static MagickBooleanType ClassifyImageColors(CubeInfo *cube_info,
         Sum RGB for this leaf for later derivation of the mean cube color.
       */
       node_info->number_unique+=count;
-      node_info->total_color.red+=count*QuantumScale*ClampPixel(pixel.red);
-      node_info->total_color.green+=count*QuantumScale*ClampPixel(pixel.green);
-      node_info->total_color.blue+=count*QuantumScale*ClampPixel(pixel.blue);
+      node_info->total_color.red+=count*QuantumScale*(MagickRealType)
+        ClampPixel(pixel.red);
+      node_info->total_color.green+=count*QuantumScale*(MagickRealType)
+        ClampPixel(pixel.green);
+      node_info->total_color.blue+=count*QuantumScale*(MagickRealType)
+        ClampPixel(pixel.blue);
       if (cube_info->associate_alpha != MagickFalse)
-        node_info->total_color.opacity+=count*QuantumScale*
+        node_info->total_color.opacity+=count*QuantumScale*(MagickRealType)
           ClampPixel(pixel.opacity);
       else
-        node_info->total_color.opacity+=count*QuantumScale*
+        node_info->total_color.opacity+=count*QuantumScale*(MagickRealType)
           ClampPixel(OpaqueOpacity);
       p+=count;
     }
@@ -962,14 +967,17 @@ static MagickBooleanType ClassifyImageColors(CubeInfo *cube_info,
         Sum RGB for this leaf for later derivation of the mean cube color.
       */
       node_info->number_unique+=count;
-      node_info->total_color.red+=count*QuantumScale*ClampPixel(pixel.red);
-      node_info->total_color.green+=count*QuantumScale*ClampPixel(pixel.green);
-      node_info->total_color.blue+=count*QuantumScale*ClampPixel(pixel.blue);
+      node_info->total_color.red+=count*QuantumScale*(MagickRealType)
+        ClampPixel(pixel.red);
+      node_info->total_color.green+=count*QuantumScale*(MagickRealType)
+        ClampPixel(pixel.green);
+      node_info->total_color.blue+=count*QuantumScale*(MagickRealType)
+        ClampPixel(pixel.blue);
       if (cube_info->associate_alpha != MagickFalse)
-        node_info->total_color.opacity+=count*QuantumScale*ClampPixel(
-          pixel.opacity);
+        node_info->total_color.opacity+=count*QuantumScale*(MagickRealType)
+          ClampPixel(pixel.opacity);
       else
-        node_info->total_color.opacity+=count*QuantumScale*
+        node_info->total_color.opacity+=count*QuantumScale*(MagickRealType)
           ClampPixel(OpaqueOpacity);
       p+=count;
     }
@@ -1080,15 +1088,13 @@ static void ClosestColor(const Image *image,CubeInfo *cube_info,
   if (node_info->number_unique != 0)
     {
       MagickRealType
+        alpha,
+        beta,
+        distance,
         pixel;
 
       DoublePixelPacket
         *magick_restrict q;
-
-      MagickRealType
-        alpha,
-        beta,
-        distance;
 
       PixelPacket
         *magick_restrict p;
@@ -1102,24 +1108,24 @@ static void ClosestColor(const Image *image,CubeInfo *cube_info,
       beta=1.0;
       if (cube_info->associate_alpha != MagickFalse)
         {
-          alpha=(MagickRealType) (QuantumScale*GetPixelAlpha(p));
-          beta=(MagickRealType) (QuantumScale*GetPixelAlpha(q));
+          alpha=(MagickRealType) QuantumScale*GetPixelAlpha(p);
+          beta=(MagickRealType) QuantumScale*GetPixelAlpha(q);
         }
       pixel=alpha*GetPixelRed(p)-beta*GetPixelRed(q);
       distance=pixel*pixel;
       if (distance <= cube_info->distance)
         {
-          pixel=alpha*GetPixelGreen(p)-beta*GetPixelGreen(q);
+          pixel=(MagickRealType) alpha*GetPixelGreen(p)-beta*GetPixelGreen(q);
           distance+=pixel*pixel;
           if (distance <= cube_info->distance)
             {
-              pixel=alpha*GetPixelBlue(p)-beta*GetPixelBlue(q);
+              pixel=(MagickRealType) alpha*GetPixelBlue(p)-beta*GetPixelBlue(q);
               distance+=pixel*pixel;
               if (distance <= cube_info->distance)
                 {
                   if (cube_info->associate_alpha != MagickFalse)
                     {
-                      pixel=GetPixelAlpha(p)-GetPixelAlpha(q);
+                      pixel=(MagickRealType) GetPixelAlpha(p)-GetPixelAlpha(q);
                       distance+=pixel*pixel;
                     }
                   if (distance <= cube_info->distance)
@@ -1163,7 +1169,7 @@ MagickExport MagickBooleanType CompressImageColormap(Image *image)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (IsPaletteImage(image,&image->exception) == MagickFalse)
     return(MagickFalse);
@@ -1206,11 +1212,11 @@ MagickExport MagickBooleanType CompressImageColormap(Image *image)
 static void DefineImageColormap(Image *image,CubeInfo *cube_info,
   NodeInfo *node_info)
 {
-  ssize_t
-    i;
-
   size_t
     number_children;
+
+  ssize_t
+    i;
 
   /*
     Traverse any children.
@@ -1235,12 +1241,12 @@ static void DefineImageColormap(Image *image,CubeInfo *cube_info,
       alpha=PerceptibleReciprocal(alpha);
       if (cube_info->associate_alpha == MagickFalse)
         {
-          SetPixelRed(q,ClampToQuantum((MagickRealType) (alpha*
-            QuantumRange*node_info->total_color.red)));
-          SetPixelGreen(q,ClampToQuantum((MagickRealType) (alpha*
-            QuantumRange*node_info->total_color.green)));
-          SetPixelBlue(q,ClampToQuantum((MagickRealType) (alpha*
-            QuantumRange*node_info->total_color.blue)));
+          SetPixelRed(q,ClampToQuantum(alpha*(MagickRealType) QuantumRange*
+            node_info->total_color.red));
+          SetPixelGreen(q,ClampToQuantum(alpha*(MagickRealType) QuantumRange*
+            node_info->total_color.green));
+          SetPixelBlue(q,ClampToQuantum(alpha*(MagickRealType) QuantumRange*
+            node_info->total_color.blue));
           SetPixelOpacity(q,OpaqueOpacity);
         }
       else
@@ -1248,31 +1254,32 @@ static void DefineImageColormap(Image *image,CubeInfo *cube_info,
           MagickRealType
             opacity;
 
-          opacity=(MagickRealType) (alpha*QuantumRange*
+          opacity=(MagickRealType) (alpha*(MagickRealType) QuantumRange*
             node_info->total_color.opacity);
           SetPixelOpacity(q,ClampToQuantum(opacity));
           if (q->opacity == OpaqueOpacity)
             {
-              SetPixelRed(q,ClampToQuantum((MagickRealType) (alpha*
-                QuantumRange*node_info->total_color.red)));
-              SetPixelGreen(q,ClampToQuantum((MagickRealType) (alpha*
-                QuantumRange*node_info->total_color.green)));
-              SetPixelBlue(q,ClampToQuantum((MagickRealType) (alpha*
-                QuantumRange*node_info->total_color.blue)));
+              SetPixelRed(q,ClampToQuantum(alpha*(MagickRealType)
+                QuantumRange*node_info->total_color.red));
+              SetPixelGreen(q,ClampToQuantum(alpha*(MagickRealType)
+                QuantumRange*node_info->total_color.green));
+              SetPixelBlue(q,ClampToQuantum(alpha*(MagickRealType)
+                QuantumRange*node_info->total_color.blue));
             }
           else
             {
               double
                 gamma;
 
-              gamma=(double) (QuantumScale*(QuantumRange-(double) q->opacity));
+              gamma=(double) (QuantumScale*((double) QuantumRange-(double)
+                q->opacity));
               gamma=PerceptibleReciprocal(gamma);
-              SetPixelRed(q,ClampToQuantum((MagickRealType) (alpha*
-                gamma*QuantumRange*node_info->total_color.red)));
-              SetPixelGreen(q,ClampToQuantum((MagickRealType) (alpha*
-                gamma*QuantumRange*node_info->total_color.green)));
-              SetPixelBlue(q,ClampToQuantum((MagickRealType) (alpha*
-                gamma*QuantumRange*node_info->total_color.blue)));
+              SetPixelRed(q,ClampToQuantum(alpha*gamma*(MagickRealType)
+                QuantumRange*node_info->total_color.red));
+              SetPixelGreen(q,ClampToQuantum(alpha*gamma*(MagickRealType)
+                QuantumRange*node_info->total_color.green));
+              SetPixelBlue(q,ClampToQuantum(alpha*gamma*(MagickRealType)
+                QuantumRange*node_info->total_color.blue));
               if (node_info->number_unique > cube_info->transparent_pixels)
                 {
                   cube_info->transparent_pixels=node_info->number_unique;
@@ -1354,9 +1361,10 @@ static void DestroyCubeInfo(CubeInfo *cube_info)
 */
 MagickExport QuantizeInfo *DestroyQuantizeInfo(QuantizeInfo *quantize_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(quantize_info != (QuantizeInfo *) NULL);
   assert(quantize_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   quantize_info->signature=(~MagickCoreSignature);
   quantize_info=(QuantizeInfo *) RelinquishMagickMemory(quantize_info);
   return(quantize_info);
@@ -1390,7 +1398,7 @@ MagickExport QuantizeInfo *DestroyQuantizeInfo(QuantizeInfo *quantize_info)
 %
 */
 
-static DoublePixelPacket **DestroyPixelThreadSet(DoublePixelPacket **pixels)
+static DoublePixelPacket **DestroyPixelTLS(DoublePixelPacket **pixels)
 {
   ssize_t
     i;
@@ -1403,16 +1411,16 @@ static DoublePixelPacket **DestroyPixelThreadSet(DoublePixelPacket **pixels)
   return(pixels);
 }
 
-static DoublePixelPacket **AcquirePixelThreadSet(const size_t count)
+static DoublePixelPacket **AcquirePixelTLS(const size_t count)
 {
   DoublePixelPacket
     **pixels;
 
-  ssize_t
-    i;
-
   size_t
     number_threads;
+
+  ssize_t
+    i;
 
   number_threads=(size_t) GetMagickResourceLimit(ThreadResource);
   pixels=(DoublePixelPacket **) AcquireQuantumMemory(number_threads,
@@ -1425,7 +1433,7 @@ static DoublePixelPacket **AcquirePixelThreadSet(const size_t count)
     pixels[i]=(DoublePixelPacket *) AcquireQuantumMemory(count,
       2*sizeof(**pixels));
     if (pixels[i] == (DoublePixelPacket *) NULL)
-      return(DestroyPixelThreadSet(pixels));
+      return(DestroyPixelTLS(pixels));
   }
   return(pixels);
 }
@@ -1456,12 +1464,6 @@ static MagickBooleanType FloydSteinbergDither(Image *image,CubeInfo *cube_info)
   CacheView
     *image_view;
 
-  const char
-    *artifact;
-
-  double
-    amount;
-
   DoublePixelPacket
     **pixels;
 
@@ -1477,15 +1479,11 @@ static MagickBooleanType FloydSteinbergDither(Image *image,CubeInfo *cube_info)
   /*
     Distribute quantization error using Floyd-Steinberg.
   */
-  pixels=AcquirePixelThreadSet(image->columns);
+  pixels=AcquirePixelTLS(image->columns);
   if (pixels == (DoublePixelPacket **) NULL)
     return(MagickFalse);
   exception=(&image->exception);
   status=MagickTrue;
-  amount=1.0;
-  artifact=GetImageArtifact(image,"dither:diffusion-amount");
-  if (artifact != (const char *) NULL)
-    amount=StringToDoubleInterval(artifact,1.0);
   image_view=AcquireAuthenticCacheView(image,exception);
   for (y=0; y < (ssize_t) image->rows; y++)
   {
@@ -1505,13 +1503,11 @@ static MagickBooleanType FloydSteinbergDither(Image *image,CubeInfo *cube_info)
     PixelPacket
       *magick_restrict q;
 
-    ssize_t
-      x;
-
     size_t
       index;
 
     ssize_t
+      x,
       v;
 
     if (status == MagickFalse)
@@ -1543,34 +1539,35 @@ static MagickBooleanType FloydSteinbergDither(Image *image,CubeInfo *cube_info)
       AssociateAlphaPixel(&cube,q+u,&pixel);
       if (x > 0)
         {
-          pixel.red+=7.0*amount*current[u-v].red/16;
-          pixel.green+=7.0*amount*current[u-v].green/16;
-          pixel.blue+=7.0*amount*current[u-v].blue/16;
+          pixel.red+=7.0*cube_info->diffusion*current[u-v].red/16;
+          pixel.green+=7.0*cube_info->diffusion*current[u-v].green/16;
+          pixel.blue+=7.0*cube_info->diffusion*current[u-v].blue/16;
           if (cube.associate_alpha != MagickFalse)
-            pixel.opacity+=7.0*amount*current[u-v].opacity/16;
+            pixel.opacity+=7.0*cube_info->diffusion*current[u-v].opacity/16;
         }
       if (y > 0)
         {
           if (x < (ssize_t) (image->columns-1))
             {
-              pixel.red+=previous[u+v].red/16;
-              pixel.green+=previous[u+v].green/16;
-              pixel.blue+=previous[u+v].blue/16;
+              pixel.red+=cube_info->diffusion*previous[u+v].red/16;
+              pixel.green+=cube_info->diffusion*previous[u+v].green/16;
+              pixel.blue+=cube_info->diffusion*previous[u+v].blue/16;
               if (cube.associate_alpha != MagickFalse)
-                pixel.opacity+=previous[u+v].opacity/16;
+                pixel.opacity+=cube_info->diffusion*previous[u+v].opacity/16;
             }
-          pixel.red+=5.0*amount*previous[u].red/16;
-          pixel.green+=5.0*amount*previous[u].green/16;
-          pixel.blue+=5.0*amount*previous[u].blue/16;
+          pixel.red+=5.0*cube_info->diffusion*previous[u].red/16;
+          pixel.green+=5.0*cube_info->diffusion*previous[u].green/16;
+          pixel.blue+=5.0*cube_info->diffusion*previous[u].blue/16;
           if (cube.associate_alpha != MagickFalse)
-            pixel.opacity+=5.0*amount*previous[u].opacity/16;
+            pixel.opacity+=5.0*cube_info->diffusion*previous[u].opacity/16;
           if (x > 0)
             {
-              pixel.red+=3.0*amount*previous[u-v].red/16;
-              pixel.green+=3.0*amount*previous[u-v].green/16;
-              pixel.blue+=3.0*amount*previous[u-v].blue/16;
+              pixel.red+=3.0*cube_info->diffusion*previous[u-v].red/16;
+              pixel.green+=3.0*cube_info->diffusion*previous[u-v].green/16;
+              pixel.blue+=3.0*cube_info->diffusion*previous[u-v].blue/16;
               if (cube.associate_alpha != MagickFalse)
-                pixel.opacity+=3.0*amount*previous[u-v].opacity/16;
+                pixel.opacity+=3.0*cube_info->diffusion*
+                  previous[u-v].opacity/16;
             }
         }
       pixel.red=(MagickRealType) ClampPixel(pixel.red);
@@ -1602,8 +1599,8 @@ static MagickBooleanType FloydSteinbergDither(Image *image,CubeInfo *cube_info)
             Find closest color among siblings and their children.
           */
           cube.target=pixel;
-          cube.distance=(MagickRealType) (4.0*(QuantumRange+1.0)*(QuantumRange+
-            1.0)+1.0);
+          cube.distance=(MagickRealType) (4.0*((MagickRealType) QuantumRange+
+            1.0)*((MagickRealType) QuantumRange+1.0)+1.0);
           ClosestColor(image,&cube,node_info->parent);
           cube.cache[i]=(ssize_t) cube.color_number;
         }
@@ -1643,45 +1640,57 @@ static MagickBooleanType FloydSteinbergDither(Image *image,CubeInfo *cube_info)
     }
   }
   image_view=DestroyCacheView(image_view);
-  pixels=DestroyPixelThreadSet(pixels);
+  pixels=DestroyPixelTLS(pixels);
   return(MagickTrue);
 }
 
 static MagickBooleanType
   RiemersmaDither(Image *,CacheView *,CubeInfo *,const unsigned int);
 
-static void Riemersma(Image *image,CacheView *image_view,CubeInfo *cube_info,
-  const size_t level,const unsigned int direction)
+static MagickBooleanType Riemersma(Image *image,CacheView *image_view,
+  CubeInfo *cube_info,const size_t level,const unsigned int direction)
 {
+  MagickStatusType
+    status;
+
+  status=MagickTrue;
   if (level == 1)
     switch (direction)
     {
       case WestGravity:
       {
-        (void) RiemersmaDither(image,image_view,cube_info,EastGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,SouthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,WestGravity);
+        status=RiemersmaDither(image,image_view,cube_info,EastGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,SouthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,WestGravity);
         break;
       }
       case EastGravity:
       {
-        (void) RiemersmaDither(image,image_view,cube_info,WestGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,NorthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,EastGravity);
+        status=RiemersmaDither(image,image_view,cube_info,WestGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,NorthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,EastGravity);
         break;
       }
       case NorthGravity:
       {
-        (void) RiemersmaDither(image,image_view,cube_info,SouthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,EastGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,NorthGravity);
+        status=RiemersmaDither(image,image_view,cube_info,SouthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,EastGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,NorthGravity);
         break;
       }
       case SouthGravity:
       {
-        (void) RiemersmaDither(image,image_view,cube_info,NorthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,WestGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,SouthGravity);
+        status=RiemersmaDither(image,image_view,cube_info,NorthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,WestGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,SouthGravity);
         break;
       }
       default:
@@ -1692,51 +1701,76 @@ static void Riemersma(Image *image,CacheView *image_view,CubeInfo *cube_info,
     {
       case WestGravity:
       {
-        Riemersma(image,image_view,cube_info,level-1,NorthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,EastGravity);
-        Riemersma(image,image_view,cube_info,level-1,WestGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,SouthGravity);
-        Riemersma(image,image_view,cube_info,level-1,WestGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,WestGravity);
-        Riemersma(image,image_view,cube_info,level-1,SouthGravity);
+        status=Riemersma(image,image_view,cube_info,level-1,NorthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,EastGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,WestGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,SouthGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,WestGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,WestGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,SouthGravity);
         break;
       }
       case EastGravity:
       {
-        Riemersma(image,image_view,cube_info,level-1,SouthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,WestGravity);
-        Riemersma(image,image_view,cube_info,level-1,EastGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,NorthGravity);
-        Riemersma(image,image_view,cube_info,level-1,EastGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,EastGravity);
-        Riemersma(image,image_view,cube_info,level-1,NorthGravity);
+        status=Riemersma(image,image_view,cube_info,level-1,SouthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,WestGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,EastGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,NorthGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,EastGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,EastGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,NorthGravity);
         break;
       }
       case NorthGravity:
       {
-        Riemersma(image,image_view,cube_info,level-1,WestGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,SouthGravity);
-        Riemersma(image,image_view,cube_info,level-1,NorthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,EastGravity);
-        Riemersma(image,image_view,cube_info,level-1,NorthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,NorthGravity);
-        Riemersma(image,image_view,cube_info,level-1,EastGravity);
+        status=Riemersma(image,image_view,cube_info,level-1,WestGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,SouthGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,NorthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,EastGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,NorthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,NorthGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,EastGravity);
         break;
       }
       case SouthGravity:
       {
-        Riemersma(image,image_view,cube_info,level-1,EastGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,NorthGravity);
-        Riemersma(image,image_view,cube_info,level-1,SouthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,WestGravity);
-        Riemersma(image,image_view,cube_info,level-1,SouthGravity);
-        (void) RiemersmaDither(image,image_view,cube_info,SouthGravity);
-        Riemersma(image,image_view,cube_info,level-1,WestGravity);
+        status=Riemersma(image,image_view,cube_info,level-1,EastGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,NorthGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,SouthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,WestGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,SouthGravity);
+        if (status != MagickFalse)
+          status=RiemersmaDither(image,image_view,cube_info,SouthGravity);
+        if (status != MagickFalse)
+          status=Riemersma(image,image_view,cube_info,level-1,WestGravity);
         break;
       }
       default:
         break;
     }
+  return(status != 0 ? MagickTrue : MagickFalse);
 }
 
 static MagickBooleanType RiemersmaDither(Image *image,CacheView *image_view,
@@ -1744,15 +1778,15 @@ static MagickBooleanType RiemersmaDither(Image *image,CacheView *image_view,
 {
 #define DitherImageTag  "Dither/Image"
 
+  CubeInfo
+    *p;
+
   DoublePixelPacket
     color,
     pixel;
 
   MagickBooleanType
     proceed;
-
-  CubeInfo
-    *p;
 
   size_t
     index;
@@ -1784,11 +1818,15 @@ static MagickBooleanType RiemersmaDither(Image *image,CacheView *image_view,
       AssociateAlphaPixel(cube_info,q,&pixel);
       for (i=0; i < ErrorQueueLength; i++)
       {
-        pixel.red+=p->weights[i]*p->error[i].red;
-        pixel.green+=p->weights[i]*p->error[i].green;
-        pixel.blue+=p->weights[i]*p->error[i].blue;
+        pixel.red+=ErrorRelativeWeight*cube_info->diffusion*p->weights[i]*
+          p->error[i].red;
+        pixel.green+=ErrorRelativeWeight*cube_info->diffusion*p->weights[i]*
+          p->error[i].green;
+        pixel.blue+=ErrorRelativeWeight*cube_info->diffusion*p->weights[i]*
+          p->error[i].blue;
         if (cube_info->associate_alpha != MagickFalse)
-          pixel.opacity+=p->weights[i]*p->error[i].opacity;
+          pixel.opacity+=ErrorRelativeWeight*cube_info->diffusion*p->weights[i]*
+            p->error[i].opacity;
       }
       pixel.red=(MagickRealType) ClampPixel(pixel.red);
       pixel.green=(MagickRealType) ClampPixel(pixel.green);
@@ -1819,8 +1857,8 @@ static MagickBooleanType RiemersmaDither(Image *image,CacheView *image_view,
             Find closest color among siblings and their children.
           */
           p->target=pixel;
-          p->distance=(MagickRealType) (4.0*(QuantumRange+1.0)*((MagickRealType)
-            QuantumRange+1.0)+1.0);
+          p->distance=(MagickRealType) (4.0*((MagickRealType) QuantumRange+
+           1.0)*((MagickRealType) QuantumRange+1.0)+1.0);
           ClosestColor(image,p,node_info->parent);
           p->cache[i]=(ssize_t) p->color_number;
         }
@@ -1869,15 +1907,19 @@ static MagickBooleanType DitherImage(Image *image,CubeInfo *cube_info)
   CacheView
     *image_view;
 
+  const char
+    *artifact;
+
   MagickBooleanType
     status;
 
-  ssize_t
-    i;
-
   size_t
-    depth;
+    extent,
+    level;
 
+  artifact=GetImageArtifact(image,"dither:diffusion-amount");
+  if (artifact != (const char *) NULL)
+    cube_info->diffusion=StringToDoubleInterval(artifact,1.0);
   if (cube_info->quantize_info->dither_method != RiemersmaDitherMethod)
     return(FloydSteinbergDither(image,cube_info));
   /*
@@ -1886,17 +1928,18 @@ static MagickBooleanType DitherImage(Image *image,CubeInfo *cube_info)
   (void) memset(cube_info->error,0,ErrorQueueLength*sizeof(*cube_info->error));
   cube_info->x=0;
   cube_info->y=0;
-  i=MagickMax((ssize_t) image->columns,(ssize_t) image->rows);
-  for (depth=1; i != 0; depth++)
-    i>>=1;
-  if ((ssize_t) (1L << depth) < MagickMax((ssize_t) image->columns,(ssize_t) image->rows))
-    depth++;
+  extent=MagickMax(image->columns,image->rows);
+  level=(size_t) log2((double) extent);
+  if ((1UL << level) < extent)
+    level++;
   cube_info->offset=0;
   cube_info->span=(MagickSizeType) image->columns*image->rows;
   image_view=AcquireAuthenticCacheView(image,&image->exception);
-  if (depth > 1)
-    Riemersma(image,image_view,cube_info,depth-1,NorthGravity);
-  status=RiemersmaDither(image,image_view,cube_info,ForgetGravity);
+  status=MagickTrue;
+  if (level > 0)
+    status=Riemersma(image,image_view,cube_info,level,NorthGravity);
+  if (status != MagickFalse)
+    status=RiemersmaDither(image,image_view,cube_info,ForgetGravity);
   image_view=DestroyCacheView(image_view);
   return(status);
 }
@@ -1942,14 +1985,13 @@ static CubeInfo *GetCubeInfo(const QuantizeInfo *quantize_info,
     *cube_info;
 
   MagickRealType
-    sum,
     weight;
-
-  ssize_t
-    i;
 
   size_t
     length;
+
+  ssize_t
+    i;
 
   /*
     Initialize tree to describe color cube_info.
@@ -1992,22 +2034,10 @@ static CubeInfo *GetCubeInfo(const QuantizeInfo *quantize_info,
   weight=1.0;
   for (i=0; i < ErrorQueueLength; i++)
   {
-    cube_info->weights[ErrorQueueLength-i-1]=PerceptibleReciprocal(weight);
-    weight*=exp(log(((double) QuantumRange+1.0))/(ErrorQueueLength-1.0));
+    cube_info->weights[i]=PerceptibleReciprocal(weight);
+    weight*=exp(log(1.0/ErrorRelativeWeight)/(ErrorQueueLength-1.0));
   }
-  /*
-    Normalize the weighting factors.
-  */
-  weight=0.0;
-  for (i=0; i < ErrorQueueLength; i++)
-    weight+=cube_info->weights[i];
-  sum=0.0;
-  for (i=0; i < ErrorQueueLength; i++)
-  {
-    cube_info->weights[i]/=weight;
-    sum+=cube_info->weights[i];
-  }
-  cube_info->weights[0]+=1.0-sum;
+  cube_info->diffusion=1.0;
   return(cube_info);
 }
 
@@ -2100,7 +2130,7 @@ static NodeInfo *GetNodeInfo(CubeInfo *cube_info,const size_t id,
 %      measure is normalized to a range between 0 and 1.  It is independent
 %      of the range of red, green, and blue values in the image.
 %
-%    o normalized_maximum_square_error:  Thsi value is the normalized
+%    o normalized_maximum_square_error:  This value is the normalized
 %      maximum quantization error for any single pixel in the image.  This
 %      distance measure is normalized to a range between 0 and 1.  It is
 %      independent of the range of red, green, and blue values in your image.
@@ -2141,7 +2171,7 @@ MagickExport MagickBooleanType GetImageQuantizeError(Image *image)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   image->total_colors=GetNumberColors(image,(FILE *) NULL,&image->exception);
   (void) memset(&image->error,0,sizeof(image->error));
@@ -2172,24 +2202,24 @@ MagickExport MagickBooleanType GetImageQuantizeError(Image *image)
       index=(ssize_t) GetPixelIndex(indexes+x);
       if (image->matte != MagickFalse)
         {
-          alpha=(MagickRealType) (QuantumScale*(GetPixelAlpha(p)));
-          beta=(MagickRealType) (QuantumScale*(QuantumRange-
-            image->colormap[index].opacity));
+          alpha=QuantumScale*(MagickRealType) GetPixelAlpha(p);
+          beta=QuantumScale*((MagickRealType) QuantumRange-
+            (MagickRealType) image->colormap[index].opacity);
         }
-      distance=fabs((double) (alpha*GetPixelRed(p)-beta*
-        image->colormap[index].red));
+      distance=fabs((double) (alpha*(MagickRealType) GetPixelRed(p)-beta*
+        (MagickRealType) image->colormap[index].red));
       mean_error_per_pixel+=distance;
       mean_error+=distance*distance;
       if (distance > maximum_error)
         maximum_error=distance;
-      distance=fabs((double) (alpha*GetPixelGreen(p)-beta*
-        image->colormap[index].green));
+      distance=fabs((double) (alpha*(MagickRealType) GetPixelGreen(p)-beta*
+        (MagickRealType) image->colormap[index].green));
       mean_error_per_pixel+=distance;
       mean_error+=distance*distance;
       if (distance > maximum_error)
         maximum_error=distance;
-      distance=fabs((double) (alpha*GetPixelBlue(p)-beta*
-        image->colormap[index].blue));
+      distance=fabs((double) (alpha*(MagickRealType) GetPixelBlue(p)-beta*
+        (MagickRealType) image->colormap[index].blue));
       mean_error_per_pixel+=distance;
       mean_error+=distance*distance;
       if (distance > maximum_error)
@@ -2229,8 +2259,9 @@ MagickExport MagickBooleanType GetImageQuantizeError(Image *image)
 */
 MagickExport void GetQuantizeInfo(QuantizeInfo *quantize_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(quantize_info != (QuantizeInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   (void) memset(quantize_info,0,sizeof(*quantize_info));
   quantize_info->number_colors=256;
   quantize_info->dither=MagickTrue;
@@ -2299,7 +2330,8 @@ MagickExport MagickBooleanType PosterizeImageChannel(Image *image,
 {
 #define PosterizeImageTag  "Posterize/Image"
 #define PosterizePixel(pixel) ClampToQuantum((MagickRealType) QuantumRange*( \
-  MagickRound(QuantumScale*pixel*(levels-1)))/MagickMax((ssize_t) levels-1,1))
+  MagickRound(QuantumScale*(MagickRealType) pixel*(levels-1)))/ \
+  MagickMax((ssize_t) levels-1,1))
 
   CacheView
     *image_view;
@@ -2317,14 +2349,12 @@ MagickExport MagickBooleanType PosterizeImageChannel(Image *image,
     *quantize_info;
 
   ssize_t
-    i;
-
-  ssize_t
+    i,
     y;
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->storage_class == PseudoClass)
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
@@ -2337,13 +2367,17 @@ MagickExport MagickBooleanType PosterizeImageChannel(Image *image,
         Posterize colormap.
       */
       if ((channel & RedChannel) != 0)
-        image->colormap[i].red=PosterizePixel(image->colormap[i].red);
+        image->colormap[i].red=(MagickRealType)
+          PosterizePixel(image->colormap[i].red);
       if ((channel & GreenChannel) != 0)
-        image->colormap[i].green=PosterizePixel(image->colormap[i].green);
+        image->colormap[i].green=(MagickRealType)
+          PosterizePixel(image->colormap[i].green);
       if ((channel & BlueChannel) != 0)
-        image->colormap[i].blue=PosterizePixel(image->colormap[i].blue);
+        image->colormap[i].blue=(MagickRealType)
+          PosterizePixel(image->colormap[i].blue);
       if ((channel & OpacityChannel) != 0)
-        image->colormap[i].opacity=PosterizePixel(image->colormap[i].opacity);
+        image->colormap[i].opacity=(MagickRealType)
+          PosterizePixel(image->colormap[i].opacity);
     }
   /*
     Posterize image.
@@ -2449,11 +2483,11 @@ static void PruneChild(CubeInfo *cube_info,const NodeInfo *node_info)
   NodeInfo
     *parent;
 
-  ssize_t
-    i;
-
   size_t
     number_children;
+
+  ssize_t
+    i;
 
   /*
     Traverse any children.
@@ -2462,17 +2496,20 @@ static void PruneChild(CubeInfo *cube_info,const NodeInfo *node_info)
   for (i=0; i < (ssize_t) number_children; i++)
     if (node_info->child[i] != (NodeInfo *) NULL)
       PruneChild(cube_info,node_info->child[i]);
-  /*
-    Merge color statistics into parent.
-  */
-  parent=node_info->parent;
-  parent->number_unique+=node_info->number_unique;
-  parent->total_color.red+=node_info->total_color.red;
-  parent->total_color.green+=node_info->total_color.green;
-  parent->total_color.blue+=node_info->total_color.blue;
-  parent->total_color.opacity+=node_info->total_color.opacity;
-  parent->child[node_info->id]=(NodeInfo *) NULL;
-  cube_info->nodes--;
+  if (cube_info->nodes > cube_info->maximum_colors)
+    {
+      /*
+        Merge color statistics into parent.
+      */
+      parent=node_info->parent;
+      parent->number_unique+=node_info->number_unique;
+      parent->total_color.red+=node_info->total_color.red;
+      parent->total_color.green+=node_info->total_color.green;
+      parent->total_color.blue+=node_info->total_color.blue;
+      parent->total_color.opacity+=node_info->total_color.opacity;
+      parent->child[node_info->id]=(NodeInfo *) NULL;
+      cube_info->nodes--;
+    }
 }
 
 /*
@@ -2502,11 +2539,11 @@ static void PruneChild(CubeInfo *cube_info,const NodeInfo *node_info)
 */
 static void PruneLevel(CubeInfo *cube_info,const NodeInfo *node_info)
 {
-  ssize_t
-    i;
-
   size_t
     number_children;
+
+  ssize_t
+    i;
 
   /*
     Traverse any children.
@@ -2547,11 +2584,11 @@ static void PruneLevel(CubeInfo *cube_info,const NodeInfo *node_info)
 */
 static void PruneToCubeDepth(CubeInfo *cube_info,const NodeInfo *node_info)
 {
-  ssize_t
-    i;
-
   size_t
     number_children;
+
+  ssize_t
+    i;
 
   /*
     Traverse any children.
@@ -2609,7 +2646,7 @@ MagickExport MagickBooleanType QuantizeImage(const QuantizeInfo *quantize_info,
   assert(quantize_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   maximum_colors=quantize_info->number_colors;
   if (maximum_colors == 0)
@@ -2705,19 +2742,19 @@ MagickExport MagickBooleanType QuantizeImages(const QuantizeInfo *quantize_info,
   MagickProgressMonitor
     progress_monitor;
 
-  ssize_t
-    i;
-
   size_t
     depth,
     maximum_colors,
     number_images;
 
+  ssize_t
+    i;
+
   assert(quantize_info != (const QuantizeInfo *) NULL);
   assert(quantize_info->signature == MagickCoreSignature);
   assert(images != (Image *) NULL);
   assert(images->signature == MagickCoreSignature);
-  if (images->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",images->filename);
   if (GetNextImageInList(images) == (Image *) NULL)
     {
@@ -2838,12 +2875,12 @@ static size_t QuantizeErrorFlatten(const CubeInfo *cube_info,
   const NodeInfo *node_info,const ssize_t offset,
   MagickRealType *quantize_error)
 {
-  ssize_t
-    i;
-
   size_t
     n,
     number_children;
+
+  ssize_t
+    i;
 
   if (offset >= (ssize_t) cube_info->nodes)
     return(0);
@@ -2884,11 +2921,11 @@ static size_t QuantizeErrorFlatten(const CubeInfo *cube_info,
 */
 static void Reduce(CubeInfo *cube_info,const NodeInfo *node_info)
 {
-  ssize_t
-    i;
-
   size_t
     number_children;
+
+  ssize_t
+    i;
 
   /*
     Traverse any children.
@@ -3074,7 +3111,7 @@ MagickExport MagickBooleanType RemapImage(const QuantizeInfo *quantize_info,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(remap_image != (Image *) NULL);
   assert(remap_image->signature == MagickCoreSignature);
@@ -3083,6 +3120,7 @@ MagickExport MagickBooleanType RemapImage(const QuantizeInfo *quantize_info,
   if (cube_info == (CubeInfo *) NULL)
     ThrowBinaryImageException(ResourceLimitError,"MemoryAllocationFailed",
       image->filename);
+  cube_info->quantize_info->colorspace=remap_image->colorspace;
   status=ClassifyImageColors(cube_info,remap_image,&image->exception);
   if (status != MagickFalse)
     {
@@ -3138,7 +3176,7 @@ MagickExport MagickBooleanType RemapImages(const QuantizeInfo *quantize_info,
 
   assert(images != (Image *) NULL);
   assert(images->signature == MagickCoreSignature);
-  if (images->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",images->filename);
   image=images;
   if (remap_image == (Image *) NULL)
@@ -3240,14 +3278,12 @@ static MagickBooleanType SetGrayscaleImage(Image *image)
   PixelPacket
     *colormap;
 
-  ssize_t
-    i;
-
   size_t
     extent;
 
   ssize_t
     *colormap_index,
+    i,
     j,
     y;
 

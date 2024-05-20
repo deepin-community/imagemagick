@@ -10,7 +10,7 @@
 %                            EEEEE  M   M  F                                  %
 %                                                                             %
 %                                                                             %
-%                  Read Windows Enahanced Metafile Format                     %
+%                   Read Windows Enhanced Metafile Format                     %
 %                                                                             %
 %                              Software Design                                %
 %                              Bill Radcliffe                                 %
@@ -18,7 +18,7 @@
 %                               Dirk Lemstra                                  %
 %                               January 2014                                  %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -411,7 +411,8 @@ static HENHMETAFILE ReadEnhMetaFile(const char *path,ssize_t *width,
     }
   ReadFile(hFile,pBits,dwSize,&dwSize,NULL);
   CloseHandle(hFile);
-  if (((PAPMHEADER) pBits)->dwKey != 0x9ac6cdd7l)
+  if (((PAPMHEADER) pBits)->dwKey != 0x9ac6cdd7l ||
+      (((PAPMHEADER) pBits)->wInch == 0))
     {
       pBits=(BYTE *) DestroyString((char *) pBits);
       return((HENHMETAFILE) NULL);
@@ -705,11 +706,10 @@ static Image *ReadEMFImage(const ImageInfo *image_info,
 
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  assert(exception != (ExceptionInfo *) NULL);
-
   image=AcquireImage(image_info);
   if (Gdiplus::GdiplusStartup(&token,&startup_input,NULL) != 
     Gdiplus::Status::Ok)
@@ -746,10 +746,11 @@ static Image *ReadEMFImage(const ImageInfo *image_info,
   else if (image_info->density != (char *) NULL)
     {
       flags=ParseGeometry(image_info->density,&geometry_info);
-      image->x_resolution=geometry_info.rho;
-      image->y_resolution=geometry_info.sigma;
-      if ((flags & SigmaValue) == 0)
-        image->y_resolution=image->x_resolution;
+      if ((flags & RhoValue) != 0)
+        image->x_resolution=geometry_info.rho;
+      image->y_resolution=image->x_resolution;
+      if ((flags & SigmaValue) != 0)
+        image->y_resolution=geometry_info.sigma;
       EMFSetDimensions(image,source);
     }
   if (SetImageExtent(image,image->columns,image->rows) == MagickFalse)

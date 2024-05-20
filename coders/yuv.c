@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -139,11 +139,11 @@ static Image *ReadYUVImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   if ((image->columns == 0) || (image->rows == 0))
     ThrowReaderException(OptionError,"MustSpecifyImageSize");
@@ -166,10 +166,11 @@ static Image *ReadYUVImage(const ImageInfo *image_info,ExceptionInfo *exception)
         flags;
 
       flags=ParseGeometry(image_info->sampling_factor,&geometry_info);
-      horizontal_factor=(ssize_t) geometry_info.rho;
-      vertical_factor=(ssize_t) geometry_info.sigma;
-      if ((flags & SigmaValue) == 0)
-        vertical_factor=horizontal_factor;
+      if ((flags & RhoValue) != 0)
+        horizontal_factor=(ssize_t) geometry_info.rho;
+      vertical_factor=horizontal_factor;
+      if ((flags & SigmaValue) != 0)
+        vertical_factor=(ssize_t) geometry_info.sigma;
       if ((horizontal_factor != 1) && (horizontal_factor != 2) &&
           (vertical_factor != 1) && (vertical_factor != 2))
         ThrowReaderException(CorruptImageError,"UnexpectedSamplingFactor");
@@ -622,7 +623,7 @@ static MagickBooleanType WriteYUVImage(const ImageInfo *image_info,Image *image)
 
   size_t
     height,
-    imageListLength,
+    number_scenes,
     quantum,
     width;
 
@@ -635,7 +636,7 @@ static MagickBooleanType WriteYUVImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   quantum=(size_t) (image->depth <= 8 ? 1 : 2);
   interlace=image->interlace;
@@ -650,10 +651,11 @@ static MagickBooleanType WriteYUVImage(const ImageInfo *image_info,Image *image)
         flags;
 
       flags=ParseGeometry(image_info->sampling_factor,&geometry_info);
-      horizontal_factor=(ssize_t) geometry_info.rho;
-      vertical_factor=(ssize_t) geometry_info.sigma;
-      if ((flags & SigmaValue) == 0)
-        vertical_factor=horizontal_factor;
+      if ((flags & RhoValue) != 0)
+        horizontal_factor=(ssize_t) geometry_info.rho;
+      vertical_factor=horizontal_factor;
+      if ((flags & SigmaValue) != 0)
+        vertical_factor=(ssize_t) geometry_info.sigma;
       if ((horizontal_factor != 1) && (horizontal_factor != 2) &&
           (vertical_factor != 1) && (vertical_factor != 2))
         ThrowWriterException(CorruptImageError,"UnexpectedSamplingFactor");
@@ -682,7 +684,7 @@ static MagickBooleanType WriteYUVImage(const ImageInfo *image_info,Image *image)
         return(status);
     }
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     /*
@@ -863,7 +865,7 @@ static MagickBooleanType WriteYUVImage(const ImageInfo *image_info,Image *image)
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);

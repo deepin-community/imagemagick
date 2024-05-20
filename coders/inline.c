@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -118,11 +118,11 @@ static Image *ReadINLINEImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   if (LocaleNCompare(image_info->filename,"data:",5) == 0)
     {
       char
@@ -312,9 +312,12 @@ static MagickBooleanType WriteINLINEImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
+  status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
+  if (status == MagickFalse)
+    return(status);
   write_info=CloneImageInfo(image_info);
   (void) SetImageInfo(write_info,1,exception);
   if (LocaleCompare(write_info->magick,"INLINE") == 0)
@@ -348,16 +351,11 @@ static MagickBooleanType WriteINLINEImage(const ImageInfo *image_info,
   /*
     Write base64-encoded image.
   */
-  status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
-  if (status == MagickFalse)
-    {
-      base64=DestroyString(base64);
-      return(status);
-    }
   (void) FormatLocaleString(message,MaxTextExtent,"data:%s;base64,",
     GetMagickMimeType(magick_info));
   (void) WriteBlobString(image,message);
   (void) WriteBlobString(image,base64);
   base64=DestroyString(base64);
+  (void) CloseBlob(image);
   return(MagickTrue);
 }

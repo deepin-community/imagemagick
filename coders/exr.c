@@ -17,7 +17,7 @@
 %                                 April 2007                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -66,7 +66,7 @@
 #endif
 
 /*
-  Typedef declaractions.
+  Typedef declarations.
 */
 typedef struct _EXRWindowInfo
 {
@@ -180,11 +180,11 @@ static Image *ReadEXRImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -201,7 +201,7 @@ static Image *ReadEXRImage(const ImageInfo *image_info,ExceptionInfo *exception)
       return((Image *) NULL);
     }
   hdr_info=ImfInputHeader(file);
-  ImfHeaderDisplayWindow(hdr_info,&display_window.min_x,&display_window.min_y,
+  ImfHeaderDataWindow(hdr_info,&display_window.min_x,&display_window.min_y,
     &display_window.max_x,&display_window.max_y);
   image->columns=(size_t) (display_window.max_x-display_window.min_x+1UL);
   image->rows=(size_t) (display_window.max_y-display_window.min_y+1UL);
@@ -217,6 +217,7 @@ static Image *ReadEXRImage(const ImageInfo *image_info,ExceptionInfo *exception)
   status=SetImageExtent(image,image->columns,image->rows);
   if (status == MagickFalse)
     {
+      (void) ImfCloseInputFile(file);
       InheritException(exception,&image->exception);
       return(DestroyImageList(image));
     }
@@ -264,9 +265,17 @@ static Image *ReadEXRImage(const ImageInfo *image_info,ExceptionInfo *exception)
       continue;
     }
     (void) memset(scanline,0,columns*sizeof(*scanline));
-    ImfInputSetFrameBuffer(file,scanline-data_window.min_x-columns*yy,1,
-      columns);
-    ImfInputReadPixels(file,yy,yy);
+    if (ImfInputSetFrameBuffer(file,scanline-data_window.min_x-columns*yy,1,
+      columns) == 0)
+      {
+        status=MagickFalse;
+        break;
+      }
+    if (ImfInputReadPixels(file,yy,yy) == 0)
+      {
+        status=MagickFalse;
+        break;
+      }
     for (x=0; x < (ssize_t) image->columns; x++)
     {
       int
@@ -283,13 +292,13 @@ static Image *ReadEXRImage(const ImageInfo *image_info,ExceptionInfo *exception)
       else
         {
           SetPixelRed(q,ClampToQuantum((MagickRealType) QuantumRange*
-            ImfHalfToFloat(scanline[xx].r)));
+            (MagickRealType) ImfHalfToFloat(scanline[xx].r)));
           SetPixelGreen(q,ClampToQuantum((MagickRealType) QuantumRange*
-            ImfHalfToFloat(scanline[xx].g)));
+            (MagickRealType) ImfHalfToFloat(scanline[xx].g)));
           SetPixelBlue(q,ClampToQuantum((MagickRealType) QuantumRange*
-            ImfHalfToFloat(scanline[xx].b)));
+            (MagickRealType) ImfHalfToFloat(scanline[xx].b)));
           SetPixelAlpha(q,ClampToQuantum((MagickRealType) QuantumRange*
-            ImfHalfToFloat(scanline[xx].a)));
+            (MagickRealType) ImfHalfToFloat(scanline[xx].a)));
         }
       q++;
     }
@@ -298,6 +307,8 @@ static Image *ReadEXRImage(const ImageInfo *image_info,ExceptionInfo *exception)
   }
   scanline=(ImfRgba *) RelinquishMagickMemory(scanline);
   (void) ImfCloseInputFile(file);
+  if (status == MagickFalse)
+    ThrowReaderException(CorruptImageError,"UnableToReadImageData");
   (void) CloseBlob(image);
   return(GetFirstImageInList(image));
 }
@@ -450,7 +461,7 @@ static MagickBooleanType WriteEXRImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
@@ -585,16 +596,20 @@ static MagickBooleanType WriteEXRImage(const ImageInfo *image_info,Image *image)
       break;
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      ImfFloatToHalf(QuantumScale*GetPixelRed(p),&half_quantum);
+      ImfFloatToHalf(QuantumScale*(MagickRealType) GetPixelRed(p),
+        &half_quantum);
       scanline[x].r=half_quantum;
-      ImfFloatToHalf(QuantumScale*GetPixelGreen(p),&half_quantum);
+      ImfFloatToHalf(QuantumScale*(MagickRealType) GetPixelGreen(p),
+        &half_quantum);
       scanline[x].g=half_quantum;
-      ImfFloatToHalf(QuantumScale*GetPixelBlue(p),&half_quantum);
+      ImfFloatToHalf(QuantumScale*(MagickRealType) GetPixelBlue(p),
+        &half_quantum);
       scanline[x].b=half_quantum;
       if (image->matte == MagickFalse)
         ImfFloatToHalf(1.0,&half_quantum);
       else
-        ImfFloatToHalf(1.0-QuantumScale*GetPixelOpacity(p),&half_quantum);
+        ImfFloatToHalf(1.0-QuantumScale*(MagickRealType) GetPixelOpacity(p),
+          &half_quantum);
       scanline[x].a=half_quantum;
       p++;
     }
