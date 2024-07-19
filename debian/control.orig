@@ -7,7 +7,7 @@ Uploaders: Bastien Roucariès <rouca@debian.org>
 Standards-Version: 4.5.1
 # for dbg-sym
 Rules-Requires-Root: no
-Build-Depends: debhelper-compat (= 13),
+Build-Depends: dpkg-dev (>= 1.22.5), debhelper-compat (= 13),
 # for improving build
  dh-exec,
 # ABI dump
@@ -224,7 +224,10 @@ Description: image manipulation programs -- quantum depth Q16
 # predepend on dpkg (>= 1.17.6) for libgomp symbols remove after jeesie +2
 # normally depends on imagemagick-6-common >= ${source:version} except
 # here when some files were moved between two packages
-Package: libmagickcore-6.q16-7
+Package: libmagickcore-6.q16-7t64
+Provides: ${t64:Provides}
+Replaces: libmagickcore-6.q16-7
+Breaks: libmagickcore-6.q16-7 (<< ${source:Version})
 Architecture: any
 Multi-Arch: same
 Section: libs
@@ -252,7 +255,7 @@ Multi-Arch: same
 Section: libs
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Enhances: libmagickcore-6.q16-7
+Enhances: libmagickcore-6.q16-7t64
 Provides: libmagickcore-extra, libmagickcore-6.q16-1-extra,
  libmagickcore-6.q16-2-extra,
  libmagickcore-6.q16-3-extra,
@@ -275,7 +278,7 @@ Section: libdevel
 Pre-Depends: dpkg (>= 1.17.11)
 Depends:
  libmagickcore-6-arch-config (= ${binary:Version}),
- libmagickcore-6.q16-7 (= ${binary:Version}),
+ libmagickcore-6.q16-7t64 (= ${binary:Version}),
  libmagickcore-6.q16-7-extra (= ${binary:Version}),
  libbz2-dev, libdjvulibre-dev,
  libexif-dev, libfreetype-dev, libjpeg-dev, libopenjp2-7-dev,
@@ -299,7 +302,10 @@ Description: low-level image manipulation library - development files (Q16)
  depth of 16 bits (Q16).
 
 # predepend on dpkg (>= 1.17.6)  for libgomp symbols remove after jeesie + 2
-Package: libmagickwand-6.q16-7
+Package: libmagickwand-6.q16-7t64
+Provides: ${t64:Provides}
+Replaces: libmagickwand-6.q16-7
+Breaks: libmagickwand-6.q16-7 (<< ${source:Version})
 Architecture: any
 Multi-Arch: same
 Section: libs
@@ -324,7 +330,7 @@ Multi-Arch: same
 Section: libdevel
 Pre-Depends: dpkg (>= 1.17.11)
 Depends: libmagickwand-6-headers (= ${source:Version}),
- libmagickwand-6.q16-7 (= ${binary:Version}),
+ libmagickwand-6.q16-7t64 (= ${binary:Version}),
  libmagickcore-6.q16-7-extra (= ${binary:Version}),
  libmagickcore-6.q16-dev (= ${binary:Version}),
  pkgconf,
@@ -344,7 +350,10 @@ Description: image manipulation library - development files (Q16)
  This version of libmagickwand-dev is compiled for a channel
  depth of 16 bits (Q16).
 
-Package: libmagick++-6.q16-9
+Package: libmagick++-6.q16-9t64
+Provides: ${t64:Provides}
+Replaces: libmagick++-6.q16-9
+Breaks: libmagick++-6.q16-9 (<< ${source:Version})
 Architecture: any
 Multi-Arch: same
 Section: libs
@@ -366,7 +375,7 @@ Multi-Arch: same
 Section: libdevel
 Pre-Depends: dpkg (>= 1.17.11)
 Depends: libmagick++-6-headers (= ${source:Version}),
- libmagick++-6.q16-9 (= ${binary:Version}),
+ libmagick++-6.q16-9t64 (= ${binary:Version}),
  libmagickcore-6.q16-dev (= ${binary:Version}),
  libmagickwand-6.q16-dev (= ${binary:Version}),
  pkgconf,
@@ -434,7 +443,10 @@ Description: image manipulation programs -- quantum depth Q16HDRI
 # predepend on dpkg (>= 1.17.6) for libgomp symbols remove after jeesie +2
 # normally depends on imagemagick-6-common >= ${source:version} except
 # here when some files were moved between two packages
-Package: libmagickcore-6.q16hdri-7
+Package: libmagickcore-6.q16hdri-7t64
+Provides: ${t64:Provides}
+Replaces: libmagickcore-6.q16hdri-7
+Breaks: libmagickcore-6.q16hdri-7 (<< ${source:Version})
 Architecture: any
 Multi-Arch: same
 Section: libs
@@ -462,7 +474,7 @@ Multi-Arch: same
 Section: libs
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Enhances: libmagickcore-6.q16hdri-7
+Enhances: libmagickcore-6.q16hdri-7t64
 Provides: libmagickcore-extra, libmagickcore-6.q16hdri-1-extra,
  libmagickcore-6.q16hdri-2-extra,
  libmagickcore-6.q16hdri-3-extra,
@@ -485,7 +497,7 @@ Section: libdevel
 Pre-Depends: dpkg (>= 1.17.11)
 Depends:
  libmagickcore-6-arch-config (= ${binary:Version}),
- libmagickcore-6.q16hdri-7 (= ${binary:Version}),
+ libmagickcore-6.q16hdri-7t64 (= ${binary:Version}),
  libmagickcore-6.q16hdri-7-extra (= ${binary:Version}),
  libbz2-dev, libdjvulibre-dev,
  libexif-dev, libfreetype-dev, libjpeg-dev, libopenjp2-7-dev,
@@ -508,7 +520,10 @@ Description: low-level image manipulation library - development files (Q16HDRI)
  depth of 16 bits with high dynamic range (Q16HDRI).
 
 # predepend on dpkg (>= 1.17.6)  for libgomp symbols remove after jeesie + 2
-Package: libmagickwand-6.q16hdri-7
+Package: libmagickwand-6.q16hdri-7t64
+Provides: ${t64:Provides}
+Replaces: libmagickwand-6.q16hdri-7
+Breaks: libmagickwand-6.q16hdri-7 (<< ${source:Version})
 Architecture: any
 Multi-Arch: same
 Section: libs
@@ -533,7 +548,7 @@ Multi-Arch: same
 Section: libdevel
 Pre-Depends: dpkg (>= 1.17.11)
 Depends: libmagickwand-6-headers (= ${source:Version}),
- libmagickwand-6.q16hdri-7 (= ${binary:Version}),
+ libmagickwand-6.q16hdri-7t64 (= ${binary:Version}),
  libmagickcore-6.q16hdri-7-extra (= ${binary:Version}),
  libmagickcore-6.q16hdri-dev (= ${binary:Version}),
  pkgconf,
@@ -552,7 +567,10 @@ Description: image manipulation library - development files (Q16HDRI)
  This version of libmagickwand-dev is compiled for a channel
  depth of 16 bits with high dynamic range (Q16HDRI).
 
-Package: libmagick++-6.q16hdri-9
+Package: libmagick++-6.q16hdri-9t64
+Provides: ${t64:Provides}
+Replaces: libmagick++-6.q16hdri-9
+Breaks: libmagick++-6.q16hdri-9 (<< ${source:Version})
 Architecture: any
 Multi-Arch: same
 Section: libs
@@ -574,7 +592,7 @@ Multi-Arch: same
 Section: libdevel
 Pre-Depends: dpkg (>= 1.17.11)
 Depends: libmagick++-6-headers (= ${source:Version}),
- libmagick++-6.q16hdri-9 (= ${binary:Version}),
+ libmagick++-6.q16hdri-9t64 (= ${binary:Version}),
  libmagickcore-6.q16hdri-dev (= ${binary:Version}),
  libmagickwand-6.q16hdri-dev (= ${binary:Version}),
  pkgconf,

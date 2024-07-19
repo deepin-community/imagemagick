@@ -1,3 +1,9 @@
+imagemagick (8:6.9.13.12+dfsg1-1deepin1) unstable; urgency=medium
+
+  * revert: for t64 transition.
+
+ -- LiChengGang <lichenggang@uniontech.com>  Fri, 19 Jul 2024 14:00:13 +0800
+
 imagemagick (8:6.9.13.12+dfsg1-1) unstable; urgency=medium
 
   * New upstream version
