@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -249,6 +249,17 @@ typedef struct _CacheInfo
     height_limit;
 } CacheInfo;
 
+static inline MagickBooleanType IsValidPixelOffset(const ssize_t x,
+  const size_t extent)
+{
+  if (extent == 0)
+    return(MagickTrue);
+  if ((x >= (MAGICK_SSIZE_MAX/(ssize_t) extent)) ||
+      (x <= (MAGICK_SSIZE_MIN/(ssize_t) extent)))
+    return(MagickFalse);
+  return(MagickTrue);
+}
+
 extern MagickExport Cache
   AcquirePixelCache(const size_t),
   ClonePixelCache(const Cache),
@@ -303,6 +314,7 @@ extern MagickExport void
   SetPixelCacheMethods(Cache,CacheMethods *);
 
 extern MagickPrivate void
+  ResetCacheAnonymousMemory(void),
   ResetPixelCacheEpoch(void);
 
 extern MagickPrivate MagickBooleanType

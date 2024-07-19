@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -42,6 +42,9 @@ extern MagickExport void
   SetStreamInfoClientData(StreamInfo *,const void *),
   SetStreamInfoMap(StreamInfo *,const char *),
   SetStreamInfoStorageType(StreamInfo *,const StorageType);
+
+extern MagickPrivate void
+  ResetStreamAnonymousMemory(void);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

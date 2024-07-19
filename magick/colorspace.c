@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -120,7 +120,7 @@ MagickExport ColorspaceType GetImageColorspaceType(const Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   colorspace=image->colorspace;
   type=IdentifyImageType(image,exception);
@@ -162,9 +162,9 @@ MagickExport ColorspaceType GetImageColorspaceType(const Image *image,
 static inline void ConvertRGBToCMY(const Quantum red,const Quantum green,
   const Quantum blue,double *cyan,double *magenta,double *yellow)
 {
-  *cyan=QuantumScale*(QuantumRange-red);
-  *magenta=QuantumScale*(QuantumRange-green);
-  *yellow=QuantumScale*(QuantumRange-blue);
+  *cyan=QuantumScale*((double) QuantumRange-(double) red);
+  *magenta=QuantumScale*((double) QuantumRange-(double) green);
+  *yellow=QuantumScale*((double) QuantumRange-(double) blue);
 }
 
 static void ConvertRGBToLab(const Quantum red,const Quantum green,
@@ -230,9 +230,12 @@ static void ConvertRGBToxyY(const Quantum red,const Quantum green,
 static void ConvertRGBToYPbPr(const Quantum red,const Quantum green,
   const Quantum blue,double *Y,double *Pb,double *Pr)
 {
-  *Y=QuantumScale*(0.298839*red+0.586811*green+0.114350*blue);
-  *Pb=QuantumScale*((-0.1687367)*red-0.331264*green+0.5*blue)+0.5;
-  *Pr=QuantumScale*(0.5*red-0.418688*green-0.081312*blue)+0.5;
+  *Y=QuantumScale*(0.298839*(double) red+0.586811*(double) green+0.114350*
+    (double) blue);
+  *Pb=QuantumScale*((-0.1687367)*(double) red-0.331264*(double) green+0.5*
+    (double) blue)+0.5;
+  *Pr=QuantumScale*(0.5*(double) red-0.418688*(double) green-0.081312*
+    (double) blue)+0.5;
 }
 
 static void ConvertRGBToYCbCr(const Quantum red,const Quantum green,
@@ -244,25 +247,34 @@ static void ConvertRGBToYCbCr(const Quantum red,const Quantum green,
 static void ConvertRGBToYUV(const Quantum red,const Quantum green,
   const Quantum blue,double *Y,double *U,double *V)
 {
-  *Y=QuantumScale*(0.298839*red+0.586811*green+0.114350*blue);
-  *U=QuantumScale*((-0.147)*red-0.289*green+0.436*blue)+0.5;
-  *V=QuantumScale*(0.615*red-0.515*green-0.100*blue)+0.5;
+  *Y=QuantumScale*(0.298839*(double) red+0.586811*(double) green+0.114350*
+    (double) blue);
+  *U=QuantumScale*((-0.147)*(double) red-0.289*(double) green+0.436*
+    (double) blue)+0.5;
+  *V=QuantumScale*(0.615*(double) red-0.515*(double) green-0.100*
+    (double) blue)+0.5;
 }
 
 static void ConvertRGBToYDbDr(const Quantum red,const Quantum green,
   const Quantum blue,double *Y,double *Db,double *Dr)
 {
-  *Y=QuantumScale*(0.298839*red+0.586811*green+0.114350*blue);
-  *Db=QuantumScale*(-0.450*red-0.883*green+1.333*blue)+0.5;
-  *Dr=QuantumScale*(-1.333*red+1.116*green+0.217*blue)+0.5;
+  *Y=QuantumScale*(0.298839*(double) red+0.586811*(double) green+0.114350*
+    (double) blue);
+  *Db=QuantumScale*(-0.450*(double) red-0.883*(double) green+1.333*
+    (double) blue)+0.5;
+  *Dr=QuantumScale*(-1.333*(double) red+1.116*(double) green+0.217*
+    (double) blue)+0.5;
 }
 
 static void ConvertRGBToYIQ(const Quantum red,const Quantum green,
   const Quantum blue,double *Y,double *I,double *Q)
 {
-  *Y=QuantumScale*(0.298839*red+0.586811*green+0.114350*blue);
-  *I=QuantumScale*(0.595716*red-0.274453*green-0.321263*blue)+0.5;
-  *Q=QuantumScale*(0.211456*red-0.522591*green+0.311135*blue)+0.5;
+  *Y=QuantumScale*(0.298839*(double) red+0.586811*(double) green+0.114350*
+    (double) blue);
+  *I=QuantumScale*(0.595716*(double) red-0.274453*(double) green-0.321263*
+    (double) blue)+0.5;
+  *Q=QuantumScale*(0.211456*(double) red-0.522591*(double) green+0.311135*
+    (double) blue)+0.5;
 }
 
 MagickExport MagickBooleanType RGBTransformImage(Image *image,
@@ -298,11 +310,11 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(colorspace != sRGBColorspace);
   assert(colorspace != TransparentColorspace);
   assert(colorspace != UndefinedColorspace);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=MagickTrue;
   progress=0;
   exception=(&image->exception);
@@ -329,7 +341,7 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -395,7 +407,7 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -422,9 +434,10 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
           MagickRealType
             gray;
 
-          gray=0.212656*GetPixelRed(q)+0.715158*GetPixelGreen(q)+
-            0.072186*GetPixelBlue(q);
-          SetPixelGray(q,ClampToQuantum(DecodePixelGamma(gray)));
+          gray=0.212656*DecodePixelGamma(GetPixelRed(q))+0.715158*
+            DecodePixelGamma(GetPixelGreen(q))+0.072186*
+            DecodePixelGamma(GetPixelBlue(q));
+          SetPixelGray(q,ClampToQuantum(gray));
           q++;
         }
         sync=SyncCacheViewAuthenticPixels(image_view,exception);
@@ -452,7 +465,7 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -479,8 +492,8 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
           MagickRealType
             gray;
 
-          gray=0.212656*GetPixelRed(q)+0.715158*GetPixelGreen(q)+
-            0.072186*GetPixelBlue(q);
+          gray=0.212656*(double) GetPixelRed(q)+0.715158*(double)
+            GetPixelGreen(q)+0.072186*(double) GetPixelBlue(q);
           SetPixelGray(q,ClampToQuantum(gray));
           q++;
         }
@@ -529,7 +542,7 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -671,9 +684,9 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
             }
             default:
             {
-              X=QuantumScale*red;
-              Y=QuantumScale*green;
-              Z=QuantumScale*blue;
+              X=QuantumScale*(double) red;
+              Y=QuantumScale*(double) green;
+              Z=QuantumScale*(double) blue;
               break;
             }
           }
@@ -737,19 +750,19 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
       if (logmap == (Quantum *) NULL)
         ThrowBinaryException(ResourceLimitError,"MemoryAllocationFailed",
           image->filename);
-      black=pow(10.0,(reference_black-reference_white)*(gamma/density)*0.002/
-        film_gamma);
+      black=pow(10.0,(reference_black-reference_white)*(gamma/density)*0.002*
+        PerceptibleReciprocal(film_gamma));
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static)
 #endif
       for (i=0; i <= (ssize_t) MaxMap; i++)
         logmap[i]=ScaleMapToQuantum((MagickRealType) (MaxMap*(reference_white+
-          log10(black+(1.0*i/MaxMap)*(1.0-black))/((gamma/density)*0.002/
-          film_gamma))/1024.0));
+          log10(black+(1.0*i/MaxMap)*(1.0-black))/((gamma/density)*0.002*
+          PerceptibleReciprocal(film_gamma)))/1024.0));
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -815,7 +828,7 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -904,8 +917,8 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
         I and Q, normally -0.5 through 0.5, are normalized to the range 0
         through QuantumRange.
       */
-      primary_info.y=(double) (MaxMap+1.0)/2.0;
-      primary_info.z=(double) (MaxMap+1.0)/2.0;
+      primary_info.y=(MagickRealType) ((MaxMap+1)/2);
+      primary_info.z=(MagickRealType) ((MaxMap+1)/2);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static)
 #endif
@@ -959,8 +972,8 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
         Cb and Cr, normally -0.5 through 0.5, are normalized to the range 0
         through QuantumRange.
       */
-      primary_info.y=(double) (MaxMap+1.0)/2.0;
-      primary_info.z=(double) (MaxMap+1.0)/2.0;
+      primary_info.y=(MagickRealType) ((MaxMap+1)/2);
+      primary_info.z=(MagickRealType) ((MaxMap+1)/2);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static)
 #endif
@@ -1014,8 +1027,8 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
         Cb and Cr, normally -0.5 through 0.5, are normalized to the range 0
         through QuantumRange.
       */
-      primary_info.y=(double) (MaxMap+1.0)/2.0;
-      primary_info.z=(double) (MaxMap+1.0)/2.0;
+      primary_info.y=(MagickRealType) ((MaxMap+1)/2);
+      primary_info.z=(MagickRealType) ((MaxMap+1)/2);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static)
 #endif
@@ -1044,8 +1057,10 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
 
         YCC is scaled by 1.3584.  C1 zero is 156 and C2 is at 137.
       */
-      primary_info.y=(double) ScaleQuantumToMap(ScaleCharToQuantum(156));
-      primary_info.z=(double) ScaleQuantumToMap(ScaleCharToQuantum(137));
+      primary_info.y=(MagickRealType) ScaleQuantumToMap(
+        ScaleCharToQuantum(156));
+      primary_info.z=(MagickRealType) ScaleQuantumToMap(
+        ScaleCharToQuantum(137));
       for (i=0; i <= (ssize_t) (0.018*MaxMap); i++)
       {
         x_map[i].x=0.005382*i;
@@ -1109,7 +1124,7 @@ MagickExport MagickBooleanType RGBTransformImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -1258,7 +1273,7 @@ MagickExport MagickBooleanType SetImageColorspace(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->colorspace == colorspace)
     return(MagickTrue);
@@ -1328,27 +1343,21 @@ MagickExport MagickBooleanType SetImageColorspace(Image *image,
 MagickExport MagickBooleanType SetImageGray(Image *image,
   ExceptionInfo *exception)
 {
-  const char
-    *value;
-
   CacheView
     *image_view;
 
+  const char
+    *value;
+
   ImageType
-    type;
-
-  const PixelPacket
-    *p;
-
-  ssize_t
-    x;
+    type = BilevelType;
 
   ssize_t
     y;
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if ((image->type == BilevelType) || (image->type == GrayscaleType) ||
       (image->type == GrayscaleMatteType))
@@ -1359,13 +1368,27 @@ MagickExport MagickBooleanType SetImageGray(Image *image,
   value=GetImageProperty(image,"colorspace:auto-grayscale");
   if (IsStringNotFalse(value) == MagickFalse)
     return(MagickFalse);
-  type=BilevelType;
   image_view=AcquireVirtualCacheView(image,exception);
+#if defined(MAGICKCORE_OPENMP_SUPPORT)
+  #pragma omp parallel for schedule(static) shared(type) \
+    magick_number_threads(image,image,image->rows,2)
+#endif
   for (y=0; y < (ssize_t) image->rows; y++)
   {
+    const PixelPacket
+      *p;
+
+    ssize_t
+      x;
+
+    if (type == UndefinedType)
+      continue;
     p=GetCacheViewVirtualPixels(image_view,0,y,image->columns,1,exception);
     if (p == (const PixelPacket *) NULL)
-      break;
+      {
+        type=UndefinedType;
+        continue;
+      }
     for (x=0; x < (ssize_t) image->columns; x++)
     {
       if (IsGrayPixel(p) == MagickFalse)
@@ -1377,8 +1400,6 @@ MagickExport MagickBooleanType SetImageGray(Image *image,
         type=GrayscaleType;
       p++;
     }
-    if (type == UndefinedType)
-      break;
   }
   image_view=DestroyCacheView(image_view);
   if (type == UndefinedType)
@@ -1391,7 +1412,7 @@ MagickExport MagickBooleanType SetImageGray(Image *image,
     image->type=GrayscaleMatteType;
   return(MagickTrue);
 }
-
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1429,22 +1450,16 @@ MagickExport MagickBooleanType SetImageMonochrome(Image *image,
     *image_view;
 
   ImageType
-    type;
-
-  ssize_t
-    x;
-
-  const PixelPacket
-    *p;
+    type = BilevelType;
 
   ssize_t
     y;
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  if (image->type == BilevelType)
+  if (IsMonochromeImage(image,&image->exception) != MagickFalse)
     return(MagickTrue);
   if ((IsGrayColorspace(image->colorspace) == MagickFalse) &&
       (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse))
@@ -1452,13 +1467,27 @@ MagickExport MagickBooleanType SetImageMonochrome(Image *image,
   value=GetImageProperty(image,"colorspace:auto-grayscale");
   if (IsStringNotFalse(value) == MagickFalse)
     return(MagickFalse);
-  type=BilevelType;
   image_view=AcquireVirtualCacheView(image,exception);
+#if defined(MAGICKCORE_OPENMP_SUPPORT)
+  #pragma omp parallel for schedule(static) shared(type) \
+    magick_number_threads(image,image,image->rows,2)
+#endif
   for (y=0; y < (ssize_t) image->rows; y++)
   {
+    const PixelPacket
+      *p;
+
+    ssize_t
+      x;
+
+    if (type == UndefinedType)
+      continue;
     p=GetCacheViewVirtualPixels(image_view,0,y,image->columns,1,exception);
     if (p == (const PixelPacket *) NULL)
-      break;
+      {
+        type=UndefinedType;
+        continue;
+      }
     for (x=0; x < (ssize_t) image->columns; x++)
     {
       if (IsMonochromePixel(p) == MagickFalse)
@@ -1468,8 +1497,6 @@ MagickExport MagickBooleanType SetImageMonochrome(Image *image,
         }
       p++;
     }
-    if (type == UndefinedType)
-      break;
   }
   image_view=DestroyCacheView(image_view);
   if (type == UndefinedType)
@@ -1480,7 +1507,7 @@ MagickExport MagickBooleanType SetImageMonochrome(Image *image,
   image->type=type;
   return(MagickTrue);
 }
-
+
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
@@ -1514,7 +1541,7 @@ MagickExport MagickBooleanType TransformImageColorspace(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->colorspace == colorspace)
     return(MagickTrue);
@@ -1572,9 +1599,9 @@ MagickExport MagickBooleanType TransformImageColorspace(Image *image,
 static inline void ConvertCMYToRGB(const double cyan,const double magenta,
   const double yellow,Quantum *red,Quantum *green,Quantum *blue)
 {
-  *red=ClampToQuantum(QuantumRange*(1.0-cyan));
-  *green=ClampToQuantum(QuantumRange*(1.0-magenta));
-  *blue=ClampToQuantum(QuantumRange*(1.0-yellow));
+  *red=ClampToQuantum((MagickRealType) QuantumRange*(1.0-cyan));
+  *green=ClampToQuantum((MagickRealType) QuantumRange*(1.0-magenta));
+  *blue=ClampToQuantum((MagickRealType) QuantumRange*(1.0-yellow));
 }
 
 static inline void ConvertLMSToXYZ(const double L,const double M,const double S,
@@ -1649,11 +1676,11 @@ static inline void ConvertxyYToRGB(const double low_x,const double low_y,
 static void ConvertYPbPrToRGB(const double Y,const double Pb,const double Pr,
   Quantum *red,Quantum *green,Quantum *blue)
 {
-  *red=ClampToQuantum(QuantumRange*(0.99999999999914679361*Y-
+  *red=ClampToQuantum((MagickRealType) QuantumRange*(0.99999999999914679361*Y-
     1.2188941887145875e-06*(Pb-0.5)+1.4019995886561440468*(Pr-0.5)));
-  *green=ClampToQuantum(QuantumRange*(0.99999975910502514331*Y-
+  *green=ClampToQuantum((MagickRealType) QuantumRange*(0.99999975910502514331*Y-
     0.34413567816504303521*(Pb-0.5)-0.71413649331646789076*(Pr-0.5)));
-  *blue=ClampToQuantum(QuantumRange*(1.00000124040004623180*Y+
+  *blue=ClampToQuantum((MagickRealType) QuantumRange*(1.00000124040004623180*Y+
     1.77200006607230409200*(Pb-0.5)+2.1453384174593273e-06*(Pr-0.5)));
 }
 
@@ -1666,34 +1693,34 @@ static void ConvertYCbCrToRGB(const double Y,const double Cb,
 static void ConvertYDbDrToRGB(const double Y,const double Db,const double Dr,
   Quantum *red,Quantum *green,Quantum *blue)
 {
-  *red=ClampToQuantum(QuantumRange*(Y+9.2303716147657e-05*(Db-0.5)-
-    0.52591263066186533*(Dr-0.5)));
-  *green=ClampToQuantum(QuantumRange*(Y-0.12913289889050927*(Db-0.5)+
-    0.26789932820759876*(Dr-0.5)));
-  *blue=ClampToQuantum(QuantumRange*(Y+0.66467905997895482*(Db-0.5)-
-    7.9202543533108e-05*(Dr-0.5)));
+  *red=ClampToQuantum((MagickRealType) QuantumRange*(Y+9.2303716147657e-05*
+    (Db-0.5)-0.52591263066186533*(Dr-0.5)));
+  *green=ClampToQuantum((MagickRealType) QuantumRange*(Y-0.12913289889050927*
+    (Db-0.5)+0.26789932820759876*(Dr-0.5)));
+  *blue=ClampToQuantum((MagickRealType) QuantumRange*(Y+0.66467905997895482*
+    (Db-0.5)-7.9202543533108e-05*(Dr-0.5)));
 }
 
 static void ConvertYIQToRGB(const double Y,const double I,const double Q,
   Quantum *red,Quantum *green,Quantum *blue)
 {
-  *red=ClampToQuantum(QuantumRange*(Y+0.9562957197589482261*(I-0.5)+
-    0.6210244164652610754*(Q-0.5)));
-  *green=ClampToQuantum(QuantumRange*(Y-0.2721220993185104464*(I-0.5)-
-    0.6473805968256950427*(Q-0.5)));
-  *blue=ClampToQuantum(QuantumRange*(Y-1.1069890167364901945*(I-0.5)+
-    1.7046149983646481374*(Q-0.5)));
+  *red=ClampToQuantum((MagickRealType) QuantumRange*(Y+0.9562957197589482261*
+    (I-0.5)+0.6210244164652610754*(Q-0.5)));
+  *green=ClampToQuantum((MagickRealType) QuantumRange*(Y-0.2721220993185104464*
+    (I-0.5)-0.6473805968256950427*(Q-0.5)));
+  *blue=ClampToQuantum((MagickRealType) QuantumRange*(Y-1.1069890167364901945*
+    (I-0.5)+1.7046149983646481374*(Q-0.5)));
 }
 
 static void ConvertYUVToRGB(const double Y,const double U,const double V,
   Quantum *red,Quantum *green,Quantum *blue)
 {
-  *red=ClampToQuantum(QuantumRange*(Y-3.945707070708279e-05*(U-0.5)+
-    1.1398279671717170825*(V-0.5)));
-  *green=ClampToQuantum(QuantumRange*(Y-0.3946101641414141437*(U-0.5)-
-    0.5805003156565656797*(V-0.5)));
-  *blue=ClampToQuantum(QuantumRange*(Y+2.0319996843434342537*(U-0.5)-
-    4.813762626262513e-04*(V-0.5)));
+  *red=ClampToQuantum((MagickRealType) QuantumRange*(Y-3.945707070708279e-05*
+    (U-0.5)+1.1398279671717170825*(V-0.5)));
+  *green=ClampToQuantum((MagickRealType) QuantumRange*(Y-0.3946101641414141437*
+    (U-0.5)-0.5805003156565656797*(V-0.5)));
+  *blue=ClampToQuantum((MagickRealType) QuantumRange*(Y+2.0319996843434342537*
+    (U-0.5)-4.813762626262513e-04*(V-0.5)));
 }
 
 MagickExport MagickBooleanType TransformRGBImage(Image *image,
@@ -1963,7 +1990,7 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=MagickTrue;
   progress=0;
@@ -1989,7 +2016,7 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -2053,7 +2080,7 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -2080,9 +2107,9 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
           MagickRealType
             gray;
 
-          gray=0.212656*GetPixelRed(q)+0.715158*GetPixelGreen(q)+
-            0.072186*GetPixelBlue(q);
-          gray=EncodePixelGamma(gray);
+          gray=0.212656*EncodePixelGamma(GetPixelRed(q))+0.715158*
+            EncodePixelGamma(GetPixelGreen(q))+0.072186*
+            EncodePixelGamma(GetPixelBlue(q));
           SetPixelRed(q,ClampToQuantum(gray));
           SetPixelGreen(q,ClampToQuantum(gray));
           SetPixelBlue(q,ClampToQuantum(gray));
@@ -2115,7 +2142,7 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -2142,8 +2169,8 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
           MagickRealType
             gray;
 
-          gray=0.212656*GetPixelRed(q)+0.715158*GetPixelGreen(q)+
-            0.072186*GetPixelBlue(q);
+          gray=(MagickRealType) (0.212656*(double) GetPixelRed(q)+0.715158*
+            (double) GetPixelGreen(q)+0.072186*(double) GetPixelBlue(q));
           SetPixelRed(q,ClampToQuantum(gray));
           SetPixelGreen(q,ClampToQuantum(gray));
           SetPixelBlue(q,ClampToQuantum(gray));
@@ -2193,7 +2220,7 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -2227,9 +2254,9 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
             green,
             red;
 
-          X=QuantumScale*GetPixelRed(q);
-          Y=QuantumScale*GetPixelGreen(q);
-          Z=QuantumScale*GetPixelBlue(q);
+          X=QuantumScale*(double) GetPixelRed(q);
+          Y=QuantumScale*(double) GetPixelGreen(q);
+          Z=QuantumScale*(double) GetPixelBlue(q);
           switch (colorspace)
           {
             case CMYColorspace:
@@ -2335,9 +2362,9 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
             }
             default:
             {
-              red=ClampToQuantum(QuantumRange*X);
-              green=ClampToQuantum(QuantumRange*Y);
-              blue=ClampToQuantum(QuantumRange*Z);
+              red=ClampToQuantum((MagickRealType) QuantumRange*X);
+              green=ClampToQuantum((MagickRealType) QuantumRange*Y);
+              blue=ClampToQuantum((MagickRealType) QuantumRange*Z);
               break;
             }
           }
@@ -2396,14 +2423,14 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
       if (logmap == (Quantum *) NULL)
         ThrowBinaryException(ResourceLimitError,"MemoryAllocationFailed",
           image->filename);
-      black=pow(10.0,(reference_black-reference_white)*(gamma/density)*0.002/
-        film_gamma);
+      black=pow(10.0,(reference_black-reference_white)*(gamma/density)*0.002*
+        PerceptibleReciprocal(film_gamma));
       for (i=0; i <= (ssize_t) (reference_black*MaxMap/1024.0); i++)
         logmap[i]=(Quantum) 0;
       for ( ; i < (ssize_t) (reference_white*MaxMap/1024.0); i++)
         logmap[i]=ClampToQuantum((MagickRealType) QuantumRange/(1.0-black)*
-          (pow(10.0,(1024.0*i/MaxMap-reference_white)*(gamma/density)*0.002/
-          film_gamma)-black));
+          (pow(10.0,(1024.0*i/MaxMap-reference_white)*(gamma/density)*0.002*
+          PerceptibleReciprocal(film_gamma))-black));
       for ( ; i <= (ssize_t) MaxMap; i++)
         logmap[i]=QuantumRange;
       if (image->storage_class == PseudoClass)
@@ -2416,7 +2443,7 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -2482,7 +2509,7 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -2713,7 +2740,7 @@ MagickExport MagickBooleanType TransformRGBImage(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
-        magick_number_threads(image,image,image->rows,1)
+        magick_number_threads(image,image,image->rows,2)
 #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {

@@ -18,7 +18,7 @@
 %                              September 1993                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -965,7 +965,7 @@ static void XDrawTriangleSouth(Display *display,const XWindowInfo *window_info,
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  XDrawWidgetText() first clears the widget and draws a text string justifed
+%  XDrawWidgetText() first clears the widget and draws a text string justified
 %  left (or center) in the x-direction and centered within the y-direction.
 %
 %  The format of the XDrawWidgetText function is:
@@ -1111,6 +1111,7 @@ static void XEditText(Display *display,XWidgetInfo *text_info,
           text_info->highlight=MagickFalse;
           break;
         }
+      magick_fallthrough;
     }
     case XK_Left:
     case XK_KP_Left:
@@ -1607,7 +1608,7 @@ MagickExport void XColorBrowserWidget(Display *display,XWindows *windows,
 
   char
     **colorlist,
-    primary_selection[MaxTextExtent],
+    primary_selection[MaxTextExtent] = "",
     reset_pattern[MaxTextExtent],
     text[MaxTextExtent];
 
@@ -1679,7 +1680,8 @@ MagickExport void XColorBrowserWidget(Display *display,XWindows *windows,
   assert(windows != (XWindows *) NULL);
   assert(action != (char *) NULL);
   assert(reply != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
   XSetCursorState(display,windows,MagickTrue);
   XCheckRefreshWindows(display,windows);
   (void) CopyMagickString(reset_pattern,"*",MaxTextExtent);
@@ -1790,8 +1792,8 @@ MagickExport void XColorBrowserWidget(Display *display,XWindows *windows,
         XGetWidgetInfo(action,&action_info);
         action_info.width=width;
         action_info.height=(unsigned int) ((3*height) >> 1);
-        action_info.x=cancel_info.x-(cancel_info.width+(QuantumMargin >> 1)+
-          (action_info.bevel_width << 1));
+        action_info.x=(int) windows->widget.width-(int) action_info.width-
+          (int) cancel_info.width-2*QuantumMargin-2;
         action_info.y=cancel_info.y;
         XGetWidgetInfo(GrabButtonText,&grab_info);
         grab_info.width=width;
@@ -1852,10 +1854,11 @@ MagickExport void XColorBrowserWidget(Display *display,XWindows *windows,
           slider_info.bevel_width+2;
         slider_info.height=scroll_info.height-((slider_info.min_y-
           scroll_info.y+1) << 1)+4;
-        visible_colors=scroll_info.height/(height+(height >> 3));
+        visible_colors=(unsigned int) (scroll_info.height*
+          PerceptibleReciprocal((double) height+(height >> 3)));
         if (colors > visible_colors)
-          slider_info.height=(unsigned int)
-            ((visible_colors*slider_info.height)/colors);
+          slider_info.height=(unsigned int) ((visible_colors*
+            slider_info.height)/colors);
         slider_info.max_y=south_info.y-south_info.bevel_width-
           slider_info.bevel_width-2;
         slider_info.x=scroll_info.x+slider_info.bevel_width+1;
@@ -2270,9 +2273,10 @@ MagickExport void XColorBrowserWidget(Display *display,XWindows *windows,
               Move text cursor to position of button press.
             */
             x=event.xbutton.x-reply_info.x-(QuantumMargin >> 2);
-            for (i=1; i <= Extent(reply_info.marker); i++)
-              if (XTextWidth(font_info,reply_info.marker,i) > x)
-                break;
+            if (font_info != (XFontStruct *) NULL)
+              for (i=1; i <= Extent(reply_info.marker); i++)
+                if (XTextWidth(font_info,reply_info.marker,i) > x)
+                  break;
             reply_info.cursor=reply_info.marker+i-1;
             if (event.xbutton.time > (click_time+DoubleClick))
               reply_info.highlight=MagickFalse;
@@ -2513,7 +2517,7 @@ MagickExport void XColorBrowserWidget(Display *display,XWindows *windows,
         if ((key_symbol == XK_Return) || (key_symbol == XK_KP_Enter))
           {
             /*
-              Read new color or glob patterm.
+              Read new color or glob pattern.
             */
             if (*reply_info.text == '\0')
               break;
@@ -2902,9 +2906,10 @@ MagickExport int XCommandWidget(Display *display,XWindows *windows,
   XFontStruct
     *font_info;
 
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(display != (Display *) NULL);
   assert(windows != (XWindows *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   font_info=windows->command.font_info;
   height=(unsigned int) (font_info->ascent+font_info->descent);
   id=(~0);
@@ -3259,7 +3264,8 @@ MagickExport int XConfirmWidget(Display *display,XWindows *windows,
   assert(windows != (XWindows *) NULL);
   assert(reason != (char *) NULL);
   assert(description != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",reason);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",reason);
   XCheckRefreshWindows(display,windows);
   font_info=windows->widget.font_info;
   width=WidgetTextWidth(font_info,CancelButtonText);
@@ -3676,7 +3682,8 @@ MagickExport int XDialogWidget(Display *display,XWindows *windows,
   assert(action != (char *) NULL);
   assert(query != (char *) NULL);
   assert(reply != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
   XCheckRefreshWindows(display,windows);
   font_info=windows->widget.font_info;
   width=WidgetTextWidth(font_info,(char *) action);
@@ -4279,7 +4286,8 @@ MagickExport void XFileBrowserWidget(Display *display,XWindows *windows,
   assert(windows != (XWindows *) NULL);
   assert(action != (char *) NULL);
   assert(reply != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
   XSetCursorState(display,windows,MagickTrue);
   XCheckRefreshWindows(display,windows);
   directory=getcwd(home_directory,MaxTextExtent);
@@ -4365,7 +4373,6 @@ MagickExport void XFileBrowserWidget(Display *display,XWindows *windows,
   visible_files=0;
   anomaly=(LocaleCompare(action,"Composite") == 0) ||
     (LocaleCompare(action,"Open") == 0) || (LocaleCompare(action,"Map") == 0);
-  *reply='\0';
   delay=SuspendTime << 2;
   state=UpdateConfigurationState;
   do
@@ -4458,10 +4465,11 @@ MagickExport void XFileBrowserWidget(Display *display,XWindows *windows,
           slider_info.bevel_width+2;
         slider_info.height=scroll_info.height-((slider_info.min_y-
           scroll_info.y+1) << 1)+4;
-        visible_files=scroll_info.height/(height+(height >> 3));
+        visible_files=(unsigned int) (scroll_info.height*
+          PerceptibleReciprocal((double) height+(height >> 3)));
         if (files > visible_files)
-          slider_info.height=(unsigned int)
-            ((visible_files*slider_info.height)/files);
+          slider_info.height=(unsigned int) ((visible_files*
+            slider_info.height)/files);
         slider_info.max_y=south_info.y-south_info.bevel_width-
           slider_info.bevel_width-2;
         slider_info.x=scroll_info.x+slider_info.bevel_width+1;
@@ -5140,7 +5148,7 @@ MagickExport void XFileBrowserWidget(Display *display,XWindows *windows,
         if ((key_symbol == XK_Return) || (key_symbol == XK_KP_Enter))
           {
             /*
-              Read new directory or glob patterm.
+              Read new directory or glob pattern.
             */
             if (*reply_info.text == '\0')
               break;
@@ -5467,12 +5475,12 @@ MagickExport void XFontBrowserWidget(Display *display,XWindows *windows,
 #define ResetButtonText  "Reset"
 
   char
-    back_pattern[MaxTextExtent],
+    back_pattern[MaxTextExtent] = "",
     **fontlist,
     **listhead,
-    primary_selection[MaxTextExtent],
-    reset_pattern[MaxTextExtent],
-    text[MaxTextExtent];
+    primary_selection[MaxTextExtent] = "",
+    reset_pattern[MaxTextExtent] = "",
+    text[MaxTextExtent] = "";
 
   int
     fonts,
@@ -5536,7 +5544,8 @@ MagickExport void XFontBrowserWidget(Display *display,XWindows *windows,
   assert(windows != (XWindows *) NULL);
   assert(action != (char *) NULL);
   assert(reply != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
   XSetCursorState(display,windows,MagickTrue);
   XCheckRefreshWindows(display,windows);
   (void) CopyMagickString(back_pattern,glob_pattern,MaxTextExtent);
@@ -5659,8 +5668,8 @@ MagickExport void XFontBrowserWidget(Display *display,XWindows *windows,
         XGetWidgetInfo(action,&action_info);
         action_info.width=width;
         action_info.height=(unsigned int) ((3*height) >> 1);
-        action_info.x=cancel_info.x-(cancel_info.width+(QuantumMargin >> 1)+
-          (action_info.bevel_width << 1));
+        action_info.x=(int) windows->widget.width-(int) action_info.width-
+          (int) cancel_info.width-2*QuantumMargin-2;
         action_info.y=cancel_info.y;
         XGetWidgetInfo(BackButtonText,&back_info);
         back_info.width=width;
@@ -5721,7 +5730,8 @@ MagickExport void XFontBrowserWidget(Display *display,XWindows *windows,
           slider_info.bevel_width+2;
         slider_info.height=scroll_info.height-((slider_info.min_y-
           scroll_info.y+1) << 1)+4;
-        visible_fonts=scroll_info.height/(height+(height >> 3));
+        visible_fonts=(unsigned int) (scroll_info.height*
+          PerceptibleReciprocal((double) height+(height >> 3)));
         if (fonts > (int) visible_fonts)
           slider_info.height=(visible_fonts*slider_info.height)/fonts;
         slider_info.max_y=south_info.y-south_info.bevel_width-
@@ -6379,7 +6389,7 @@ MagickExport void XFontBrowserWidget(Display *display,XWindows *windows,
         if ((key_symbol == XK_Return) || (key_symbol == XK_KP_Enter))
           {
             /*
-              Read new font or glob patterm.
+              Read new font or glob pattern.
             */
             if (*reply_info.text == '\0')
               break;
@@ -6652,10 +6662,11 @@ MagickExport void XInfoWidget(Display *display,XWindows *windows,
   /*
     Map Info widget.
   */
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(display != (Display *) NULL);
   assert(windows != (XWindows *) NULL);
   assert(activity != (char *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   font_info=windows->info.font_info;
   width=WidgetTextWidth(font_info,(char *) activity)+((3*QuantumMargin) >> 1)+4;
   height=(unsigned int) (((6*(font_info->ascent+font_info->descent)) >> 2)+4);
@@ -6803,7 +6814,8 @@ MagickExport void XListBrowserWidget(Display *display,XWindows *windows,
   assert(action != (char *) NULL);
   assert(query != (char *) NULL);
   assert(reply != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",action);
   XSetCursorState(display,windows,MagickTrue);
   XCheckRefreshWindows(display,windows);
   if (list == (const char **) NULL)
@@ -6934,7 +6946,8 @@ MagickExport void XListBrowserWidget(Display *display,XWindows *windows,
           slider_info.bevel_width+2;
         slider_info.height=scroll_info.height-((slider_info.min_y-
           scroll_info.y+1) << 1)+4;
-        visible_entries=scroll_info.height/(height+(height >> 3));
+        visible_entries=(unsigned int) (scroll_info.height*
+          PerceptibleReciprocal((double) height+(height >> 3)));
         if (entries > visible_entries)
           slider_info.height=(visible_entries*slider_info.height)/entries;
         slider_info.max_y=south_info.y-south_info.bevel_width-
@@ -7694,7 +7707,8 @@ MagickExport int XMenuWidget(Display *display,XWindows *windows,
   assert(title != (char *) NULL);
   assert(selections != (const char **) NULL);
   assert(item != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",title);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",title);
   font_info=windows->widget.font_info;
   windows->widget.width=submenu_info.active == 0 ?
     WidgetTextWidth(font_info,(char *) title) : 0;
@@ -7858,6 +7872,8 @@ MagickExport int XMenuWidget(Display *display,XWindows *windows,
             break;
           }
         state&=(~InactiveWidgetState);
+        if (selection_info.height == 0)
+          break;
         id=(event.xbutton.y-top_offset)/(int) selection_info.height;
         selection_info.id=id;
         if ((id < 0) || (id >= (int) number_selections))
@@ -7911,6 +7927,8 @@ MagickExport int XMenuWidget(Display *display,XWindows *windows,
         if (event.xcrossing.state == 0)
           break;
         state&=(~InactiveWidgetState);
+        if (selection_info.height == 0)
+          break;
         id=((event.xcrossing.y-top_offset)/(int) selection_info.height);
         if ((selection_info.id >= 0) &&
             (selection_info.id < (int) number_selections))
@@ -7996,6 +8014,8 @@ MagickExport int XMenuWidget(Display *display,XWindows *windows,
         if (event.xmotion.window != windows->widget.id)
           break;
         if (state & InactiveWidgetState)
+          break;
+        if (selection_info.height == 0)
           break;
         id=(event.xmotion.y-top_offset)/(int) selection_info.height;
         if ((selection_info.id >= 0) &&
@@ -8125,8 +8145,9 @@ MagickExport void XNoticeWidget(Display *display,XWindows *windows,
   assert(display != (Display *) NULL);
   assert(windows != (XWindows *) NULL);
   assert(reason != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",reason);
-  XDelay(display,SuspendTime << 3);  /* avoid surpise with delay */
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",reason);
+  XDelay(display,SuspendTime << 3);  /* avoid surprise with delay */
   XSetCursorState(display,windows,MagickTrue);
   XCheckRefreshWindows(display,windows);
   font_info=windows->widget.font_info;
@@ -8470,10 +8491,11 @@ MagickExport MagickBooleanType XPreferencesWidget(Display *display,
   /*
     Determine Preferences widget attributes.
   */
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(display != (Display *) NULL);
   assert(resource_info != (XResourceInfo *) NULL);
   assert(windows != (XWindows *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   XCheckRefreshWindows(display,windows);
   font_info=windows->widget.font_info;
   text_width=WidgetTextWidth(font_info,CacheButtonText);
@@ -8877,7 +8899,8 @@ MagickExport void XProgressMonitorWidget(Display *display,XWindows *windows,
   assert(display != (Display *) NULL);
   assert(windows != (XWindows *) NULL);
   assert(task != (const char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",task);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",task);
   if (span == 0)
     return;
   /*
@@ -9004,7 +9027,8 @@ MagickExport void XTextViewWidget(Display *display,
   assert(windows != (XWindows *) NULL);
   assert(title != (const char *) NULL);
   assert(textlist != (const char **) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",title);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",title);
   XSetCursorState(display,windows,MagickTrue);
   XCheckRefreshWindows(display,windows);
   if (textlist == (const char **) NULL)
@@ -9123,8 +9147,9 @@ MagickExport void XTextViewWidget(Display *display,
           slider_info.bevel_width+2;
         slider_info.height=scroll_info.height-((slider_info.min_y-
           scroll_info.y+1) << 1)+4;
-        visible_lines=scroll_info.height/(text_info->ascent+text_info->descent+
-          ((text_info->ascent+text_info->descent) >> 3));
+        visible_lines=(unsigned int) (scroll_info.height*PerceptibleReciprocal(
+          (double) text_info->ascent+text_info->descent+((text_info->ascent+
+          text_info->descent) >> 3)));
         if (lines > visible_lines)
           slider_info.height=(unsigned int) (visible_lines*slider_info.height)/
             lines;

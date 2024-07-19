@@ -17,7 +17,7 @@
 %                                April 2016                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -146,11 +146,11 @@ static Image *ReadFLIFImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -383,6 +383,9 @@ ModuleExport void UnregisterFLIFImage(void)
 static MagickBooleanType WriteFLIFImage(const ImageInfo *image_info,
   Image *image, ExceptionInfo *exception)
 {
+  const PixelPacket
+    *magick_restrict p;
+
   FLIF_ENCODER
     *flifenc;
 
@@ -398,11 +401,15 @@ static MagickBooleanType WriteFLIFImage(const ImageInfo *image_info,
   MagickOffsetType
     scene;
 
-  const PixelPacket
-    *magick_restrict p;
+  size_t
+    columns,
+    length,
+    number_scenes,
+    rows;
 
   ssize_t
-    x;
+    x,
+    y;
 
   unsigned char
     *magick_restrict qc;
@@ -410,26 +417,15 @@ static MagickBooleanType WriteFLIFImage(const ImageInfo *image_info,
   unsigned short
     *magick_restrict qs;
 
-  size_t
-    columns,
-    imageListLength,
-    length,
-    rows;
-
-  ssize_t
-    y;
-
   void
-    *buffer;
-
-  void
+    *buffer,
     *pixels;
 
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if ((image->columns > 0xFFFF) || (image->rows > 0xFFFF))
     ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
@@ -471,7 +467,7 @@ static MagickBooleanType WriteFLIFImage(const ImageInfo *image_info,
       ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
     }
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     for (y=0; y < (ssize_t) image->rows; y++)
@@ -498,7 +494,7 @@ static MagickBooleanType WriteFLIFImage(const ImageInfo *image_info,
         }
       else
         {
-          qc=pixels;
+          qc=(unsigned char *) pixels;
           for (x=0; x < (ssize_t) image->columns; x++)
           {
             *qc++=ScaleQuantumToChar(GetPixelRed(p));
@@ -527,7 +523,7 @@ static MagickBooleanType WriteFLIFImage(const ImageInfo *image_info,
         ThrowWriterException(ImageError,"FramesNotSameDimensions");
       }
     scene++;
-    status=SetImageProgress(image,SaveImagesTag,scene,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene,number_scenes);
     if (status == MagickFalse)
        break;
   } while (image_info->adjoin != MagickFalse);
@@ -535,7 +531,7 @@ static MagickBooleanType WriteFLIFImage(const ImageInfo *image_info,
   pixels=RelinquishMagickMemory(pixels);
   flif_status=flif_encoder_encode_memory(flifenc,&buffer,&length);
   if (flif_status)
-    WriteBlob(image,length,buffer);
+    WriteBlob(image,length,(unsigned char *) buffer);
   CloseBlob(image);
   flif_destroy_encoder(flifenc);
   buffer=RelinquishMagickMemory(buffer);

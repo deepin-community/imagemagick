@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -152,16 +152,13 @@ static MagickBooleanType DecodeImage(Image *image,
   const MagickBooleanType compression,unsigned char *pixels,
   const size_t number_pixels)
 {
-#if !defined(MAGICKCORE_WINDOWS_SUPPORT) || defined(__MINGW32__)
-#define BI_RGB  0
-#define BI_RLE8  1
-#define BI_RLE4  2
-#define BI_BITFIELDS  3
-#undef BI_JPEG
-#define BI_JPEG  4
-#undef BI_PNG
-#define BI_PNG  5
-#endif
+
+#define DibRgbCompression  0
+#define DibRle8Compression  1
+#define DibRle4Compression  2
+#define DibBitfieldsCompression  3
+#define DibJpegCompression  4
+#define DibPngCompression  5
 
   int
     byte,
@@ -180,9 +177,9 @@ static MagickBooleanType DecodeImage(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(pixels != (unsigned char *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   (void) memset(pixels,0,number_pixels*sizeof(*pixels));
   byte=0;
   x=0;
@@ -207,7 +204,7 @@ static MagickBooleanType DecodeImage(Image *image,
         byte=ReadBlobByte(image);
         if (byte == EOF)
           break;
-        if (compression == BI_RLE8)
+        if (compression == DibRle8Compression)
           {
             for (i=0; i < (ssize_t) count; i++)
               *p++=(unsigned char) byte;
@@ -247,8 +244,14 @@ static MagickBooleanType DecodeImage(Image *image,
             /*
               Delta mode.
             */
-            x+=ReadBlobByte(image);
-            y+=ReadBlobByte(image);
+            byte=ReadBlobByte(image);
+            if (byte == EOF)
+              return(MagickFalse);
+            x+=byte;
+            byte=ReadBlobByte(image);
+            if (byte == EOF)
+              return(MagickFalse);
+            y+=byte;
             p=pixels+y*image->columns+x;
             break;
           }
@@ -258,7 +261,7 @@ static MagickBooleanType DecodeImage(Image *image,
               Absolute mode.
             */
             count=(int) MagickMin((size_t) count,(size_t) (q-p));
-            if (compression == BI_RLE8)
+            if (compression == DibRle8Compression)
               for (i=0; i < (ssize_t) count; i++)
               {
                 byte=ReadBlobByte(image);
@@ -282,7 +285,7 @@ static MagickBooleanType DecodeImage(Image *image,
             /*
               Read pad byte.
             */
-            if (compression == BI_RLE8)
+            if (compression == DibRle8Compression)
               {
                 if ((count & 0x01) != 0)
                   if (ReadBlobByte(image) == EOF)
@@ -359,10 +362,10 @@ static size_t EncodeImage(Image *image,const size_t bytes_per_line,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(pixels != (const unsigned char *) NULL);
   assert(compressed_pixels != (unsigned char *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   p=pixels;
   q=compressed_pixels;
   i=0;
@@ -507,11 +510,11 @@ static Image *ReadDIBImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -543,7 +546,7 @@ static Image *ReadDIBImage(const ImageInfo *image_info,ExceptionInfo *exception)
       (dib_info.bits_per_pixel != 8) && (dib_info.bits_per_pixel != 16) &&
       (dib_info.bits_per_pixel != 24) && (dib_info.bits_per_pixel != 32))
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
-  if ((dib_info.compression == BI_BITFIELDS) &&
+  if ((dib_info.compression == DibBitfieldsCompression) &&
       ((dib_info.bits_per_pixel == 16) || (dib_info.bits_per_pixel == 32)))
     {
       dib_info.red_mask=(unsigned short) ReadBlobLSBLong(image);
@@ -573,14 +576,14 @@ static Image *ReadDIBImage(const ImageInfo *image_info,ExceptionInfo *exception)
     ThrowReaderException(CorruptImageError,"UnsupportedBitsPerPixel");
   switch (dib_info.compression)
   {
-    case BI_RGB:
-    case BI_RLE8:
-    case BI_RLE4:
-    case BI_BITFIELDS:
+    case DibRgbCompression:
+    case DibRle8Compression:
+    case DibRle4Compression:
+    case DibBitfieldsCompression:
       break;
-    case BI_JPEG:
+    case DibJpegCompression:
       ThrowReaderException(CoderError,"JPEGCompressNotSupported");
-    case BI_PNG:
+    case DibPngCompression:
       ThrowReaderException(CoderError,"PNGCompressNotSupported");
     default:
       ThrowReaderException(CorruptImageError,"UnrecognizedImageCompression");
@@ -668,7 +671,7 @@ static Image *ReadDIBImage(const ImageInfo *image_info,ExceptionInfo *exception)
   /*
     Read image data.
   */
-  if (dib_info.compression == BI_RLE4)
+  if (dib_info.compression == DibRle4Compression)
     dib_info.bits_per_pixel<<=1;
   bytes_per_line=4*((image->columns*dib_info.bits_per_pixel+31)/32);
   length=bytes_per_line*image->rows;
@@ -679,8 +682,8 @@ static Image *ReadDIBImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (pixel_info == (MemoryInfo *) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
   pixels=(unsigned char *) GetVirtualMemoryBlob(pixel_info);
-  if ((dib_info.compression == BI_RGB) ||
-      (dib_info.compression == BI_BITFIELDS))
+  if ((dib_info.compression == DibRgbCompression) ||
+      (dib_info.compression == DibBitfieldsCompression))
     {
       count=ReadBlob(image,length,pixels);
       if (count != (ssize_t) (length))
@@ -801,8 +804,8 @@ static Image *ReadDIBImage(const ImageInfo *image_info,ExceptionInfo *exception)
       /*
         Convert PseudoColor scanline.
       */
-      if ((dib_info.compression == BI_RLE8) ||
-          (dib_info.compression == BI_RLE4))
+      if ((dib_info.compression == DibRle8Compression) ||
+          (dib_info.compression == DibRle4Compression))
         bytes_per_line=image->columns;
       for (y=(ssize_t) image->rows-1; y >= 0; y--)
       {
@@ -840,7 +843,7 @@ static Image *ReadDIBImage(const ImageInfo *image_info,ExceptionInfo *exception)
         Convert PseudoColor scanline.
       */
       image->storage_class=DirectClass;
-      if (dib_info.compression == BI_RLE8)
+      if (dib_info.compression == DibRle8Compression)
         bytes_per_line=2*image->columns;
       for (y=(ssize_t) image->rows-1; y >= 0; y--)
       {
@@ -993,7 +996,10 @@ static Image *ReadDIBImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (EOFBlob(image) != MagickFalse)
     ThrowFileException(exception,CorruptImageError,"UnexpectedEndOfFile",
       image->filename);
-  (void) CloseBlob(image);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  if (status == MagickFalse)
+    return(DestroyImageList(image));
   return(GetFirstImageInList(image));
 }
 
@@ -1137,7 +1143,7 @@ static MagickBooleanType WriteDIBImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
@@ -1148,7 +1154,8 @@ static MagickBooleanType WriteDIBImage(const ImageInfo *image_info,Image *image)
   /*
     Initialize DIB raster file header.
   */
-  (void) TransformImageColorspace(image,sRGBColorspace);
+  if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+    (void) TransformImageColorspace(image,sRGBColorspace);
   if (image->storage_class == DirectClass)
     {
       /*
@@ -1176,7 +1183,7 @@ static MagickBooleanType WriteDIBImage(const ImageInfo *image_info,Image *image)
   dib_info.height=(int) image->rows;
   dib_info.planes=1;
   dib_info.compression=(unsigned int) (dib_info.bits_per_pixel == 16 ?
-    BI_BITFIELDS : BI_RGB);
+    DibBitfieldsCompression : DibRgbCompression);
   dib_info.image_size=(unsigned int) (bytes_per_line*image->rows);
   dib_info.x_pixels=75*39;
   dib_info.y_pixels=75*39;
@@ -1362,7 +1369,7 @@ static MagickBooleanType WriteDIBImage(const ImageInfo *image_info,Image *image)
           pixels,dib_data);
         pixels=(unsigned char *) RelinquishMagickMemory(pixels);
         pixels=dib_data;
-        dib_info.compression = BI_RLE8;
+        dib_info.compression = DibRle8Compression;
       }
   /*
     Write DIB header.
@@ -1416,7 +1423,7 @@ static MagickBooleanType WriteDIBImage(const ImageInfo *image_info,Image *image)
         }
       else
         if ((dib_info.bits_per_pixel == 16) &&
-            (dib_info.compression == BI_BITFIELDS))
+            (dib_info.compression == DibBitfieldsCompression))
           {
             (void) WriteBlobLSBLong(image,0xf800);
             (void) WriteBlobLSBLong(image,0x07e0);
@@ -1425,6 +1432,7 @@ static MagickBooleanType WriteDIBImage(const ImageInfo *image_info,Image *image)
     }
   (void) WriteBlob(image,dib_info.image_size,pixels);
   pixels=(unsigned char *) RelinquishMagickMemory(pixels);
-  (void) CloseBlob(image);
-  return(MagickTrue);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  return(status);
 }

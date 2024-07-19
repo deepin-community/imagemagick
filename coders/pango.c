@@ -17,7 +17,7 @@
 %                                 March 2012                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -178,11 +178,11 @@ static Image *ReadPANGOImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   (void) ResetImagePage(image,"0x0+0+0");
   if ((image->columns != 0) && (image->rows != 0))
@@ -418,9 +418,10 @@ static Image *ReadPANGOImage(const ImageInfo *image_info,
   cairo_paint(cairo_image);
   cairo_set_operator(cairo_image,CAIRO_OPERATOR_OVER);
   cairo_translate(cairo_image,page.x,page.y);
-  cairo_set_source_rgba(cairo_image,QuantumScale*draw_info->fill.red,
-    QuantumScale*draw_info->fill.green,QuantumScale*draw_info->fill.blue,
-    QuantumScale*(QuantumRange-draw_info->fill.opacity));
+  cairo_set_source_rgba(cairo_image,QuantumScale*(MagickRealType)
+    draw_info->fill.red,QuantumScale*(MagickRealType) draw_info->fill.green,
+    QuantumScale*(MagickRealType) draw_info->fill.blue,QuantumScale*
+    ((MagickRealType) QuantumRange-(MagickRealType) draw_info->fill.opacity));
   pango_cairo_show_layout(cairo_image,layout);
   cairo_destroy(cairo_image);
   cairo_surface_destroy(surface);
@@ -454,11 +455,11 @@ static Image *ReadPANGOImage(const ImageInfo *image_info,
       /*
         Disassociate alpha.
       */
-      gamma=1.0-QuantumScale*fill_color.opacity;
+      gamma=1.0-QuantumScale*(MagickRealType) fill_color.opacity;
       gamma=PerceptibleReciprocal(gamma);
-      fill_color.blue*=gamma;
-      fill_color.green*=gamma;
-      fill_color.red*=gamma;
+      fill_color.blue*=(Quantum) gamma;
+      fill_color.green*=(Quantum) gamma;
+      fill_color.red*=(Quantum) gamma;
       MagickCompositeOver(&fill_color,fill_color.opacity,q,(MagickRealType)
         q->opacity,q);
       q++;

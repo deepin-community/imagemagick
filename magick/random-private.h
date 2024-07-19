@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -24,8 +24,7 @@
 extern "C" {
 #endif
 
-static inline RandomInfo **DestroyRandomInfoThreadSet(
-  RandomInfo **random_info)
+static inline RandomInfo **DestroyRandomInfoTLS(RandomInfo **random_info)
 {
   ssize_t
     i;
@@ -37,7 +36,7 @@ static inline RandomInfo **DestroyRandomInfoThreadSet(
   return((RandomInfo **) RelinquishAlignedMemory(random_info));
 }
 
-static inline RandomInfo **AcquireRandomInfoThreadSet(void)
+static inline RandomInfo **AcquireRandomInfoTLS(void)
 {
   ssize_t
     i;

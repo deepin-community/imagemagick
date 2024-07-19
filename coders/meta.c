@@ -17,7 +17,7 @@
 %                                 July 2001                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -47,6 +47,7 @@
 #include "magick/image.h"
 #include "magick/image-private.h"
 #include "magick/list.h"
+#include "magick/locale-private.h"
 #include "magick/magick.h"
 #include "magick/memory_.h"
 #include "magick/module.h"
@@ -177,10 +178,10 @@ static int stringnicmp(const char *p,const char *q,size_t n)
       break;
     i=(*p);
     if (islower((int) ((unsigned char) i)) != 0)
-      i=LocaleUppercase(i);
+      i=LocaleToUppercase(i);
     j=(*q);
     if (islower((int) ((unsigned char) j)) != 0)
-      j=LocaleUppercase(j);
+      j=LocaleToUppercase(j);
     if (i != j)
       break;
     n--;
@@ -189,7 +190,7 @@ static int stringnicmp(const char *p,const char *q,size_t n)
     p++;
     q++;
   }
-  return(LocaleUppercase((int) *p)-LocaleUppercase((int) *q));
+  return(LocaleToUppercase((int) *p)-LocaleToUppercase((int) *q));
 }
 
 static size_t convertHTMLcodes(char *s)
@@ -384,11 +385,13 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
                 recnum = (unsigned int) StringToUnsignedLong(newstr);
                 break;
               case 2:
-                name=(char *) AcquireQuantumMemory(strlen(newstr)+MaxTextExtent,
-                  sizeof(*name));
-                if (name)
-                  (void) strcpy(name,newstr);
+              {
+                size_t extent = strlen(newstr)+MagickPathExtent;
+                name=(char *) AcquireQuantumMemory(extent,sizeof(*name));
+                if (name != (char *) NULL)
+                  (void) CopyMagickString(name,newstr,extent);
                 break;
+              }
             }
             state++;
           }
@@ -1204,11 +1207,11 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -1246,7 +1249,7 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
           length=(size_t) parse8BIM(image, buff);
           if (length == 0)
             {
-              blob=DetachBlob(buff->blob);
+              blob=(unsigned char *) DetachBlob(buff->blob);
               blob=(unsigned char *) RelinquishMagickMemory(blob);
               buff=DestroyImage(buff);
               ThrowReaderException(CorruptImageError,"CorruptImage");
@@ -1259,7 +1262,7 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
           length=(size_t) parse8BIMW(image, buff);
           if (length == 0)
             {
-              blob=DetachBlob(buff->blob);
+              blob=(unsigned char *) DetachBlob(buff->blob);
               blob=(unsigned char *) RelinquishMagickMemory(blob);
               buff=DestroyImage(buff);
               ThrowReaderException(CorruptImageError,"CorruptImage");
@@ -1273,14 +1276,14 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
         GetBlobSize(buff));
       if (profile == (StringInfo *) NULL)
         {
-          blob=DetachBlob(buff->blob);
+          blob=(unsigned char *) DetachBlob(buff->blob);
           blob=(unsigned char *) RelinquishMagickMemory(blob);
           buff=DestroyImage(buff);
           ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
         }
       status=SetImageProfile(image,"8bim",profile);
       profile=DestroyStringInfo(profile);
-      blob=DetachBlob(buff->blob);
+      blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
       if (status == MagickFalse)
@@ -1312,7 +1315,7 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
 
           if (image_info->profile == (void *) NULL)
             {
-              blob=DetachBlob(buff->blob);
+              blob=(unsigned char *) DetachBlob(buff->blob);
               blob=(unsigned char *) RelinquishMagickMemory(blob);
               buff=DestroyImage(buff);
               ThrowReaderException(CoderError,"NoIPTCProfileAvailable");
@@ -1321,7 +1324,7 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
           iptc=AcquireImage((ImageInfo *) NULL);
           if (iptc == (Image *) NULL)
             {
-              blob=DetachBlob(buff->blob);
+              blob=(unsigned char *) DetachBlob(buff->blob);
               blob=(unsigned char *) RelinquishMagickMemory(blob);
               buff=DestroyImage(buff);
               ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
@@ -1329,7 +1332,7 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
           AttachBlob(iptc->blob,GetStringInfoDatum(profile),
             GetStringInfoLength(profile));
           result=jpeg_embed(image,buff,iptc);
-          blob=DetachBlob(iptc->blob);
+          blob=(unsigned char *) DetachBlob(iptc->blob);
           blob=(unsigned char *) RelinquishMagickMemory(blob);
           iptc=DestroyImage(iptc);
           if (result == 0)
@@ -1343,7 +1346,7 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
         ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
       status=SetImageProfile(image,name,profile);
       profile=DestroyStringInfo(profile);
-      blob=DetachBlob(buff->blob);
+      blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
       if (status == MagickFalse)
@@ -1370,14 +1373,14 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
         GetBlobSize(buff));
       if (profile == (StringInfo *) NULL)
         {
-          blob=DetachBlob(buff->blob);
+          blob=(unsigned char *) DetachBlob(buff->blob);
           blob=(unsigned char *) RelinquishMagickMemory(blob);
           buff=DestroyImage(buff);
           ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
         }
       (void) SetImageProfile(image,"icc",profile);
       profile=DestroyStringInfo(profile);
-      blob=DetachBlob(buff->blob);
+      blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
     }
@@ -1398,14 +1401,14 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
         GetBlobSize(buff));
       if (profile == (StringInfo *) NULL)
         {
-          blob=DetachBlob(buff->blob);
+          blob=(unsigned char *) DetachBlob(buff->blob);
           blob=(unsigned char *) RelinquishMagickMemory(blob);
           buff=DestroyImage(buff);
           ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
         }
       (void) SetImageProfile(image,"iptc",profile);
       profile=DestroyStringInfo(profile);
-      blob=DetachBlob(buff->blob);
+      blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
     }
@@ -1426,18 +1429,21 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
         GetBlobSize(buff));
       if (profile == (StringInfo *) NULL)
         {
-          blob=DetachBlob(buff->blob);
+          blob=(unsigned char *) DetachBlob(buff->blob);
           blob=(unsigned char *) RelinquishMagickMemory(blob);
           buff=DestroyImage(buff);
           ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
         }
       (void) SetImageProfile(image,"xmp",profile);
       profile=DestroyStringInfo(profile);
-      blob=DetachBlob(buff->blob);
+      blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
     }
-  (void) CloseBlob(image);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  if (status == MagickFalse)
+    return(DestroyImageList(image));
   return(GetFirstImageInList(image));
 }
 
@@ -2339,7 +2345,7 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   length=0;
   if (LocaleCompare(image_info->magick,"8BIM") == 0)
@@ -2372,6 +2378,8 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
       if (profile == (StringInfo *) NULL)
         ThrowWriterException(CoderError,"No8BIMDataIsAvailable");
       status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+      if (status == MagickFalse)
+        return(status);
       info=GetStringInfoDatum(profile);
       length=GetStringInfoLength(profile);
       length=GetIPTCStream(&info,length);

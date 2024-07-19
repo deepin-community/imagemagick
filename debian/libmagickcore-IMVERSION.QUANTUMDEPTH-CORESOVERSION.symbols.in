@@ -1,5 +1,6 @@
 # SymbolsHelper-Confirmed: 1.0.0 amd64
-libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION} #MINVER#
+libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}t64 #MINVER#
+* Build-Depends-Package: libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-dev
  (regex|optional)"^.gomp_critical_user_.*@Base" 8:6.9.10.2
  AcquireAlignedMemory@Base 8:6.9.10.2
  AcquireAuthenticCacheView@Base 8:6.9.10.2
@@ -523,6 +524,7 @@ libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-$
  GetLocaleMessage@Base 8:6.9.10.2
  GetLocaleOptions@Base 8:6.9.10.2
  GetLocaleValue@Base 8:6.9.10.2
+ GetLogEventMask@Base 8:6.9.12.89
  GetLogInfoList@Base 8:6.9.10.2
  GetLogList@Base 8:6.9.10.2
  GetLogName@Base 8:6.9.10.2
@@ -807,6 +809,7 @@ libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-$
  ListMagickVersion@Base 8:6.9.10.2
  ListMimeInfo@Base 8:6.9.10.2
  ListModuleInfo@Base 8:6.9.10.2
+ ListPagesizes@Base 8:6.9.12.89
  ListPolicyInfo@Base 8:6.9.10.2
  ListThresholdMapFile@Base 8:6.9.10.2
  ListThresholdMaps@Base 8:6.9.10.2

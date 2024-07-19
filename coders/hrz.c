@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -100,23 +100,19 @@ static Image *ReadHRZImage(const ImageInfo *image_info,ExceptionInfo *exception)
   MagickBooleanType
     status;
 
-  ssize_t
-    x;
-
   PixelPacket
     *q;
-
-  unsigned char
-    *p;
-
-  ssize_t
-    count,
-    y;
 
   size_t
     length;
 
+  ssize_t
+    count,
+    x,
+    y;
+
   unsigned char
+    *p,
     *pixels;
 
   /*
@@ -124,11 +120,11 @@ static Image *ReadHRZImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -142,6 +138,11 @@ static Image *ReadHRZImage(const ImageInfo *image_info,ExceptionInfo *exception)
   image->columns=256;
   image->rows=240;
   image->depth=8;
+  if (image_info->ping != MagickFalse)
+    {
+      (void) CloseBlob(image);
+      return(GetFirstImageInList(image));
+    }
   status=SetImageExtent(image,image->columns,image->rows);
   if (status == MagickFalse)
     {
@@ -182,7 +183,10 @@ static Image *ReadHRZImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (EOFBlob(image) != MagickFalse)
     ThrowFileException(exception,CorruptImageError,"UnexpectedEndOfFile",
       image->filename);
-  (void) CloseBlob(image);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  if (status == MagickFalse)
+    return(DestroyImageList(image));
   return(GetFirstImageInList(image));
 }
 
@@ -273,27 +277,23 @@ ModuleExport void UnregisterHRZImage(void)
 */
 static MagickBooleanType WriteHRZImage(const ImageInfo *image_info,Image *image)
 {
+  const PixelPacket
+    *p;
+
   Image
     *hrz_image;
 
   MagickBooleanType
     status;
 
-  const PixelPacket
-    *p;
-
   ssize_t
+    count,
     x,
     y;
 
   unsigned char
+    *pixels,
     *q;
-
-  ssize_t
-    count;
-
-  unsigned char
-    *pixels;
 
   /*
     Open output image file.
@@ -302,7 +302,7 @@ static MagickBooleanType WriteHRZImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
@@ -333,9 +333,9 @@ static MagickBooleanType WriteHRZImage(const ImageInfo *image_info,Image *image)
     q=pixels;
     for (x=0; x < (ssize_t) hrz_image->columns; x++)
     {
-      *q++=ScaleQuantumToChar(GetPixelRed(p)/4);
-      *q++=ScaleQuantumToChar(GetPixelGreen(p)/4);
-      *q++=ScaleQuantumToChar(GetPixelBlue(p)/4);
+      *q++=ScaleQuantumToChar(GetPixelRed(p))/4;
+      *q++=ScaleQuantumToChar(GetPixelGreen(p))/4;
+      *q++=ScaleQuantumToChar(GetPixelBlue(p))/4;
       p++;
     }
     count=WriteBlob(image,(size_t) (q-pixels),pixels);
@@ -347,6 +347,7 @@ static MagickBooleanType WriteHRZImage(const ImageInfo *image_info,Image *image)
   }
   pixels=(unsigned char *) RelinquishMagickMemory(pixels);
   hrz_image=DestroyImage(hrz_image);
-  (void) CloseBlob(image);
-  return(MagickTrue);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  return(status);
 }

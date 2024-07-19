@@ -9,9 +9,9 @@ export DH_VERBOSE=1
 # quantum depth is channel depth
 export QUANTUMDEPTH ?= q16 q16hdri
 # lib version, run make -f debian/rules update_pkg in order to upgrade
-export CORESOVERSION ?= 6
-export WANDSOVERSION ?= 6
-export PPSOVERSION ?= 8
+export CORESOVERSION ?= 7
+export WANDSOVERSION ?= 7t64
+export PPSOVERSION ?= 9t64
 
 # minimal version ABI compatible of common
 export COMMONMINVERSION ?= 8:6.9.6.2+dfsg-3
@@ -26,7 +26,6 @@ VALGRIND_POC_ARCH ?=
 
 # for hardening
 # export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
 include /usr/share/dpkg/pkg-info.mk
 include /usr/share/dpkg/architecture.mk
@@ -68,6 +67,7 @@ CONFIGURE_ARCH_FLAGS ?= $(STATIC_CONFIGURE_ARCH_FLAGS)
 # NOTICE: remove EPL delegate lib gvc (license problem)
 # should be last variable
 STATIC_CONFIGURE_OPTIONS := \
+	--with-security-policy=debian \
 	--enable-reproducible-build \
 	--prefix=/usr \
 	--libdir=/usr/lib/$(DEB_HOST_MULTIARCH) \
@@ -78,7 +78,7 @@ STATIC_CONFIGURE_OPTIONS := \
 	--mandir=/usr/share/man \
 	--infodir=/usr/share/info \
 	--with-modules \
-	--with-gs-font-dir=/usr/share/fonts/type1/gsfonts \
+        --with-urw-base35-font-dir=/usr/share/fonts/type1/urw-base35 \
 	--with-magick-plus-plus \
 	--with-djvu \
         --with-heic \
@@ -93,18 +93,19 @@ STATIC_CONFIGURE_OPTIONS := \
 	--with-perl-options='INSTALLDIRS=vendor' \
 	--x-includes=/usr/include/X11 \
 	--x-libraries=/usr/lib/X11 \
-	--without-rsvg
+	--without-rsvg \
+	--with-fftw \
+        MVDelegate=/bin/mv \
+        RMDelegate=/bin/rm
 CONFIGURE_OPTIONS ?= $(STATIC_CONFIGURE_OPTIONS) \
 			    $(CONFIGURE_OPTIONS_CACHE) \
-			    $(CONFIGURE_ARCH_FLAGS) \
-			    MVDelegate=/bin/mv \
-			    RMDelegate=/bin/rm
+			    $(CONFIGURE_ARCH_FLAGS)
 
 # export for alternatives
 export MAGICK_PROGRAMS := compare animate convert composite conjure import identify stream display montage mogrify
 
 MAGICK_ANY_QUANTUM_PACKAGES :=  imagemagick-$(IMVERSION).$$QUANTUM \
-				libmagickcore-${IMVERSION}.$$QUANTUM-${CORESOVERSION} \
+				libmagickcore-${IMVERSION}.$$QUANTUM-${CORESOVERSION}t64 \
 				libmagickcore-${IMVERSION}.$$QUANTUM-${CORESOVERSION}-extra \
 				libmagickwand-${IMVERSION}.$$QUANTUM-${WANDSOVERSION} \
 				libmagick++-${IMVERSION}.$$QUANTUM-${PPSOVERSION} \
@@ -242,6 +243,14 @@ update_pkg.%:
 	UCQUANTUMDEPTH=$(call UC,$*) \
 	$(DH_EXEC_SUBST) $(CURDIR)/debian/tests.d/perlmagick-IMVERSION.QUANTUMDEPTH.in > $(CURDIR)/debian/tests/perlmagick-$(IMVERSION).$*
 	chmod +x $(CURDIR)/debian/tests/perlmagick-$(IMVERSION).$*
+	QUANTUM=$(call QUANTUM_PART,$*) \
+	HDRI=$(call HDRI_PART,$*) \
+	QUANTUMDEPTH=$* \
+	UCQUANTUMDEPTH=$(call UC,$*) \
+	$(DH_EXEC_SUBST) $(CURDIR)/debian/tests.d/perlmagick-leak-IMVERSION.QUANTUMDEPTH.in > $(CURDIR)/debian/tests/perlmagick-leak-$(IMVERSION).$*
+	chmod +x $(CURDIR)/debian/tests/perlmagick-leak-$(IMVERSION).$*
+	$(DH_EXEC_SUBST) $(CURDIR)/debian/tests.d/perlmagick-gd-IMVERSION.QUANTUMDEPTH.in > $(CURDIR)/debian/tests/perlmagick-gd-$(IMVERSION).$*
+	chmod +x $(CURDIR)/debian/tests/perlmagick-gd-$(IMVERSION).$*
 	# clean up
 	rm -f $(CURDIR)/debian/control.d/quantum.$*
 
@@ -252,7 +261,8 @@ update_pkg: $(foreach Q,$(QUANTUMDEPTH),update_pkg.$Q)
 	cat $(CURDIR)/debian/control.d/noquantum >> $(CURDIR)/debian/control
 	cat $(CURDIR)/debian/control.d/quantum >> $(CURDIR)/debian/control
 	cat $(CURDIR)/debian/control.d/compat >> $(CURDIR)/debian/control
-	cat $(CURDIR)/debian/tests.d/control.quantum > $(CURDIR)/debian/tests/control
+	cat $(CURDIR)/debian/tests.d/control.quantum $(CURDIR)/debian/tests.d/control.noquantum > $(CURDIR)/debian/tests/control
+	cp  $(CURDIR)/debian/tests.d/rmagick-leak $(CURDIR)/debian/tests/rmagick-leak
 	rm -f $(CURDIR)/debian/control.d/compat
 	rm -f $(CURDIR)/debian/control.d/quantum
 	rm -f $(CURDIR)/debian/control.d/noquantum
@@ -326,7 +336,7 @@ override_dh_auto_configure-arch_generatefile_quantum.%:
 	QUANTUM=$(call QUANTUM_PART,$*) \
 	HDRI=$(call HDRI_PART,$*) \
 	QUANTUMDEPTH=$* \
-	dh-exec $(CURDIR)/debian/libmagickcore-IMVERSION.QUANTUMDEPTH-CORESOVERSION.install.in > $(CURDIR)/debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).install
+	dh-exec $(CURDIR)/debian/libmagickcore-IMVERSION.QUANTUMDEPTH-CORESOVERSION.install.in > $(CURDIR)/debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.install
 	QUANTUM=$(call QUANTUM_PART,$*) \
 	HDRI=$(call HDRI_PART,$*) \
 	QUANTUMDEPTH=$* \
@@ -339,7 +349,7 @@ override_dh_auto_configure-arch_generatefile_quantum.%:
 	HDRI=$(call HDRI_PART,$*) \
 	QUANTUMDEPTH=$* \
 	UCQUANTUMDEPTH=$(call UC,$*) \
-	$(DH_EXEC_SUBST) $(CURDIR)/debian/libmagickcore-IMVERSION.QUANTUMDEPTH-CORESOVERSION.symbols.in > $(CURDIR)/debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).symbols
+	$(DH_EXEC_SUBST) $(CURDIR)/debian/libmagickcore-IMVERSION.QUANTUMDEPTH-CORESOVERSION.symbols.in > $(CURDIR)/debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.symbols
 
 	# wand
 	QUANTUM=$(call QUANTUM_PART,$*) \
@@ -359,8 +369,8 @@ override_dh_auto_configure-arch_generatefile_quantum.%:
 	touch $@
 
 # configure in build directory
-override_dh_auto_configure-arch_quantum.%: override_dh_auto_configure-arch_generatefile_quantum.%
-	@echo "configure for $* : quantum=$(call QUANTUM_PART,$*) HDRI=$(call HDRI_PART,$*)"
+override_dh_auto_configure-arch_quantum.%: override_dh_auto_configure-arch_generatefile_quantum.% PerlMagick/demo/Generic.ttf PerlMagick/t/ttf/input.ttf
+		@echo "configure for $* : quantum=$(call QUANTUM_PART,$*) HDRI=$(call HDRI_PART,$*)"
 	dh_auto_configure --builddirectory="debian/build-quantum-$*" -- \
 		 ${CONFIGURE_OPTIONS} \
 		--disable-silent-rules \
@@ -368,9 +378,15 @@ override_dh_auto_configure-arch_quantum.%: override_dh_auto_configure-arch_gener
 		--enable-hdri=$(call HDRI_PART,$*)
 	touch $@
 
-override_dh_auto_configure-arch: $(foreach Q,$(QUANTUMDEPTH),override_dh_auto_configure-arch_quantum.$Q)
+# link for fonts
+PerlMagick/demo/Generic.ttf:
+	test -h $@ || ln -s /usr/share/fonts/truetype/tuffy/tuffy_regular.ttf $@
+PerlMagick/t/ttf/input.ttf:
+	test -h $@ || ln -s /usr/share/fonts/truetype/tuffy/tuffy_regular.ttf $@
 
-override_dh_auto_configure-indep:
+override_dh_auto_configure-arch: $(foreach Q,$(QUANTUMDEPTH),override_dh_auto_configure-arch_quantum.$Q) PerlMagick/demo/Generic.ttf PerlMagick/t/ttf/input.ttf
+
+override_dh_auto_configure-indep: PerlMagick/demo/Generic.ttf PerlMagick/t/ttf/input.ttf
 	@echo "configure indep for $* : quantum=$(call QUANTUM_PART,$*) HDRI=$(call HDRI_PART,$*)"
 	dh_auto_configure --builddirectory="debian/build-quantum-indep" -- \
 		 ${CONFIGURE_OPTIONS} \
@@ -424,7 +440,7 @@ endif
 
 # test suite
 override_dh_auto_test-arch_native_has_fpu_testsuite_quantum.%:
-	unset DISPLAY; \
+	unset DISPLAY; unset SOURCE_DATE_EPOCH; \
 	if ! dh_auto_test --builddirectory="debian/build-quantum-$*"; then \
 		find "debian/build-quantum-$*/tests" -name *.log -exec cat {} ; false ;\
 	fi;
@@ -476,14 +492,6 @@ override_dh_auto_install-arch_iconcache_quantum.%:
 			   $(CURDIR)/debian/tmp-$*/usr/share/icons/hicolor/$$SIZE/apps/display-im$(IMVERSION).$*.png; \
 		echo "Done"; \
 	done < $(CURDIR)/debian/display-im$(IMVERSION).iconssize
-	# make xpm
-	mkdir -p $(CURDIR)/debian/tmp-$*/usr/share/pixmaps/
-	cd $(CURDIR)/debian/build-quantum-$*; \
-	echo "Make xpm size 32x32..." ; \
-	$(CONVERT) $(CURDIR)/debian/display-im$(IMVERSION).svg $(CONVERT_FLAGS) -resize 32x32 \
-		-gravity center -extent 32x32  \
-		$(CURDIR)/debian/tmp-$*/usr/share/pixmaps/display-im$(IMVERSION).$*.xpm ;\
-	echo "Done"
 	# do not forget svgz
 	mkdir -p $(CURDIR)/debian/tmp-$*/usr/share/icons/hicolor/scalable/apps/
 	gzip -c -n -9 $(CURDIR)/debian/display-im$(IMVERSION).svg \
@@ -501,7 +509,13 @@ override_dh_auto_install-arch_quantum.%: override_dh_auto_install-arch_iconcache
 	find $(CURDIR)/debian/tmp-$*/usr/lib -name '*.la' -exec \
 		sed -i "s,^dependency_libs=.*,dependency_libs=''," {} \;
 	# Remove RPATH from *.so
-	find $(CURDIR)/debian/tmp-$* -name '*.so*' -exec \
+	find $(CURDIR)/debian/tmp-$* -type f -name '*.so*'  -printf '%p' -exec \
+		chmod u+w {} \;
+	find $(CURDIR)/debian/tmp-$* -type f -name '*.so*'  -printf '%p' -exec \
+		chrpath -d {} \;
+	find $(CURDIR)/debian/tmp-$*/usr/bin -type f -executable -printf '%p' -exec \
+		chmod u+w {} \;
+	find $(CURDIR)/debian/tmp-$*/usr/bin -type f -executable -printf '%p' -exec \
 		chrpath -d {} \;
 
 	# move binaries to /usr/bin/*quantum
@@ -514,14 +528,6 @@ override_dh_auto_install-arch_quantum.%: override_dh_auto_install-arch_iconcache
 	# move generic man page
 	mv "$(CURDIR)/debian/tmp-$*/usr/share/man/man1/ImageMagick.1" \
 	   "$(CURDIR)/debian/tmp-$*/usr/share/man/man1/ImageMagick-im$(IMVERSION).$*.1"
-
-	# move config script to arch directory
-	# TODO: remove after jessie +1
-	mkdir -p "debian/tmp-$*/usr/lib/$(DEB_HOST_MULTIARCH)/ImageMagick-$(DEB_UPSTREAM_VERSION_DROPREVISION)/bin-$*/"; \
-	set -e; for SCRIPT in Magick-config MagickCore-config MagickWand-config Wand-config Magick++-config; do \
-		cp -f "debian/tmp-$*/usr/bin/$$SCRIPT" \
-		      "debian/tmp-$*/usr/lib/$(DEB_HOST_MULTIARCH)/ImageMagick-$(DEB_UPSTREAM_VERSION_DROPREVISION)/bin-$*/"; \
-	done;
 
 	# add desktop for default
 	mkdir -p debian/tmp-$*/usr/share/applications/
@@ -681,7 +687,7 @@ override_dh_install-arch_quantum.%:
 
 	# Remove extra coders from libmagickcore
 	set -e; while read FILE; do \
-		rm -f debian/libmagickcore-${IMVERSION}.$*-${CORESOVERSION}/$$FILE; \
+		rm -f debian/libmagickcore-${IMVERSION}.$*-${CORESOVERSION}t64/$$FILE; \
 	done < debian/libmagickcore-${IMVERSION}.$*-${CORESOVERSION}-extra.install
 
 # install arch package
@@ -818,10 +824,10 @@ override_dh_clean_quantum.%:
 	[ ! -f debian/libmagick++-$(IMVERSION).$*-dev.install ] || rm debian/libmagick++-$(IMVERSION).$*-dev.install
 	[ ! -f debian/libmagick++-$(IMVERSION).$*-$(PPSOVERSION).symbols ] || rm debian/libmagick++-$(IMVERSION).$*-$(PPSOVERSION).symbols
 
-	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).install ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).install
+	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.install ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.install
 	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)-extra.install ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)-extra.install
 	[ ! -f debian/libmagickcore-$(IMVERSION).$*-dev.install ] || rm -f debian/libmagickcore-$(IMVERSION).$*-dev.install
-	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).symbols ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).symbols
+	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.symbols ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.symbols
 
 	[ ! -f debian/libmagickwand-$(IMVERSION).$*-$(WANDSOVERSION).install ] || rm -f debian/libmagickwand-$(IMVERSION).$*-$(WANDSOVERSION).install
 	[ ! -f debian/libmagickwand-$(IMVERSION).$*-dev.install ] || rm -f debian/libmagickwand-$(IMVERSION).$*-dev.install
@@ -847,6 +853,9 @@ override_dh_clean_quantum.%:
 
 override_dh_clean: $(foreach Q,$(QUANTUMDEPTH),override_dh_clean_quantum.$Q) override_dh_clean_quantum.indep
 	[ ! -f $(CONFIGURE_CACHEFILE) ] || rm -f $(CONFIGURE_CACHEFILE)
+        # rm link for fonts
+	rm -f $(CURDIR)/PerlMagick/demo/Generic.ttf
+	rm -f $(CURDIR)/PerlMagick/t/ttf/input.ttf
 	dh_clean
 
 

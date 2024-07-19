@@ -1,5 +1,5 @@
 /*
-Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+Copyright 1999 ImageMagick Studio LLC, a non-profit organization
 dedicated to making software imaging solutions freely available.
 
 You may not use this file except in compliance with the License.  You may
@@ -23,6 +23,13 @@ Include declarations.
 */
 #include "magick/studio.h"
 #include "magick/opencl.h"
+
+#if defined(MAGICKCORE_HAVE_CL_CL_H)
+#  include <CL/cl.h>
+#endif
+#if defined(MAGICKCORE_HAVE_OPENCL_CL_H)
+#  include <OpenCL/cl.h>
+#endif
 
 #if defined(__cplusplus) || defined(c_plusplus)
 extern "C" {

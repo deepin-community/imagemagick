@@ -1,0 +1,49 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 18 Jun 2023 19:23:43 +0000
+Subject: Fix another html file
+
+forwarded: not-needed
+---
+ www/api/morphology.html | 4 ++--
+ www/index.html          | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index 29abcb0..6c2d9fa 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
+@@ -378,13 +378,13 @@
+ <pre class="bg-light text-dark mx-4"><samp>       zero.  If the kernel is normalized regardless of any flags.
+ </samp></pre>
+ 
+-<p>o normalize_flags: </dd>
++<dd>o normalize_flags: </dd>
+ 
+ <pre class="bg-light text-dark mx-4"><samp>       specifically: NormalizeValue, CorrelateNormalizeValue,
+                      and/or PercentValue
+ </samp></pre>
+ 
+-<p></dd>
++<dd></dd>
+ </dl>
+ <h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="ShowKernelInfo">ShowKernelInfo</a></h2>
+ 
+diff --git a/www/index.html b/www/index.html
+index e599fd4..20f75d5 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -64,7 +64,7 @@
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
++        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+         <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+       </form>
+     </div>
+@@ -298,4 +298,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 28th February 2024 22:41 -->
+\ No newline at end of file

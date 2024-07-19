@@ -17,7 +17,7 @@
 %                              January 1993                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -45,6 +45,7 @@
 #include "magick/exception-private.h"
 #include "magick/image.h"
 #include "magick/image-private.h"
+#include "magick/locale-private.h"
 #include "magick/memory_.h"
 #include "magick/string_.h"
 #include "magick/string-private.h"
@@ -53,7 +54,7 @@
 #include "magick/utility.h"
 
 /*
-  Typedef declaractions.
+  Typedef declarations.
 */
 struct _TokenInfo
 {
@@ -128,9 +129,10 @@ MagickExport TokenInfo *AcquireTokenInfo(void)
 */
 MagickExport TokenInfo *DestroyTokenInfo(TokenInfo *token_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(token_info != (TokenInfo *) NULL);
   assert(token_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   token_info->signature=(~MagickCoreSignature);
   token_info=(TokenInfo *) RelinquishMagickMemory(token_info);
   return(token_info);
@@ -356,12 +358,12 @@ MagickExport MagickBooleanType GlobExpression(
   const char *magick_restrict expression,const char *magick_restrict pattern,
   const MagickBooleanType case_insensitive)
 {
+  char
+    path[MagickPathExtent];
+
   MagickBooleanType
     done,
     match;
-
-  const char
-    *magick_restrict p;
 
   /*
     Return on empty pattern or '*'.
@@ -372,30 +374,9 @@ MagickExport MagickBooleanType GlobExpression(
     return(MagickTrue);
   if (LocaleCompare(pattern,"*") == 0)
     return(MagickTrue);
-  p=pattern+strlen(pattern)-1;
-  if ((GetUTFCode(p) == ']') && (strchr(pattern,'[') != (char *) NULL))
-    {
-      ExceptionInfo
-        *exception;
-
-      ImageInfo
-        *image_info;
-
-      /*
-        Determine if pattern is a scene, i.e. img0001.pcd[2].
-      */
-      image_info=AcquireImageInfo();
-      (void) CopyMagickString(image_info->filename,pattern,MaxTextExtent);
-      exception=AcquireExceptionInfo();
-      (void) SetImageInfo(image_info,0,exception);
-      exception=DestroyExceptionInfo(exception);
-      if (LocaleCompare(image_info->filename,pattern) != 0)
-        {
-          image_info=DestroyImageInfo(image_info);
-          return(MagickFalse);
-        }
-      image_info=DestroyImageInfo(image_info);
-    }
+  GetPathComponent(pattern,SubimagePath,path);
+  if (*path != '\0')
+    return(MagickFalse);
   /*
     Evaluate glob expression.
   */
@@ -545,12 +526,13 @@ MagickExport MagickBooleanType GlobExpression(
         pattern+=GetUTFOctets(pattern);
         if (GetUTFCode(pattern) == 0)
           break;
+        magick_fallthrough;
       }
       default:
       {
         if (case_insensitive != MagickFalse)
           {
-            if (LocaleLowercase((int) GetUTFCode(expression)) != LocaleLowercase((int) GetUTFCode(pattern)))
+            if (LocaleToLowercase((int) GetUTFCode(expression)) != LocaleToLowercase((int) GetUTFCode(pattern)))
               {
                 done=MagickTrue;
                 break;
@@ -864,12 +846,12 @@ static void StoreToken(TokenInfo *token_info,char *string,
   {
     case 1:
     {
-      string[i]=(char) LocaleUppercase(c);
+      string[i]=(char) LocaleToUppercase(c);
       break;
     }
     case 2:
     {
-      string[i]=(char) LocaleLowercase(c);
+      string[i]=(char) LocaleToLowercase(c);
       break;
     }
     default:

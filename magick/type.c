@@ -17,7 +17,7 @@
 %                                 May 2001                                    %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -241,9 +241,13 @@ static SplayTreeInfo *AcquireTypeCache(const char *filename,
         font_path=DestroyString(font_path);
       }
   }
+#else
+  magick_unreferenced(filename);
 #endif
   if (GetNumberOfNodesInSplayTree(cache) == 0)
     status&=LoadTypeCache(cache,TypeMap,"built-in",0,exception);
+  if (status == MagickFalse)
+    { };
   return(cache);
 }
 
@@ -564,8 +568,9 @@ MagickExport const TypeInfo **GetTypeInfoList(const char *pattern,
     Allocate type list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_fonts != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_fonts=0;
   p=GetTypeInfo("*",exception);
   if (p == (const TypeInfo *) NULL)
@@ -657,8 +662,9 @@ MagickExport char **GetTypeList(const char *pattern,size_t *number_fonts,
     Allocate type list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_fonts != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_fonts=0;
   p=GetTypeInfo("*",exception);
   if (p == (const TypeInfo *) NULL)
@@ -1084,8 +1090,9 @@ static MagickBooleanType LoadTypeCache(SplayTreeInfo *cache,const char *xml,
   /*
     Load the type map file.
   */
-  (void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
-    "Loading type configure file \"%s\" ...",filename);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(ConfigureEvent,GetMagickModule(),
+      "Loading type configure file \"%s\" ...",filename);
   if (xml == (const char *) NULL)
     return(MagickFalse);
   status=MagickTrue;

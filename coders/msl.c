@@ -19,7 +19,7 @@
 %                               December 2001                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -104,14 +104,14 @@
 #endif
 
 /*
-  Define Declatations.
+  Define Declarations.
 */
 #define ThrowMSLException(severity,tag,reason) \
   (void) ThrowMagickException(msl_info->exception,GetMagickModule(),severity, \
     tag,"`%s'",reason);
 
 /*
-  Typedef declaractions.
+  Typedef declarations.
 */
 typedef struct _MSLGroupInfo
 {
@@ -356,11 +356,17 @@ static xmlEntityPtr MSLGetParameterEntity(void *context,const xmlChar *name)
   return(xmlGetParameterEntity(msl_info->document,name));
 }
 
+static void MSLError(void *,const char *,...)
+  magick_attribute((__format__ (__printf__,2,3)));
+
 static void MSLEntityDeclaration(void *context,const xmlChar *name,int type,
   const xmlChar *public_id,const xmlChar *system_id,xmlChar *content)
 {
   MSLInfo
     *msl_info;
+
+  xmlEntityPtr
+    entity;
 
   /*
     An entity definition has been parsed.
@@ -372,12 +378,16 @@ static void MSLEntityDeclaration(void *context,const xmlChar *name,int type,
     content);
   msl_info=(MSLInfo *) context;
   if (msl_info->parser->inSubset == 1)
-    (void) xmlAddDocEntity(msl_info->document,name,type,public_id,system_id,
+    entity=xmlAddDocEntity(msl_info->document,name,type,public_id,system_id,
       content);
   else
     if (msl_info->parser->inSubset == 2)
-      (void) xmlAddDtdEntity(msl_info->document,name,type,public_id,system_id,
+      entity=xmlAddDtdEntity(msl_info->document,name,type,public_id,system_id,
         content);
+    else
+      return;
+  if (entity == (xmlEntityPtr) NULL)
+    MSLError(msl_info,"NULL entity");
 }
 
 static void MSLAttributeDeclaration(void *context,const xmlChar *element,
@@ -558,7 +568,7 @@ static void MSLPushImage(MSLInfo *msl_info,Image *image)
   ssize_t
     n;
 
-  if (image != (Image *) NULL)
+  if ((IsEventLogging() != MagickFalse) && (image != (Image *) NULL))
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(msl_info != (MSLInfo *) NULL);
   msl_info->n++;
@@ -579,10 +589,8 @@ static void MSLPushImage(MSLInfo *msl_info,Image *image)
   msl_info->image_info[n]=CloneImageInfo(msl_info->image_info[n-1]);
   msl_info->draw_info[n]=CloneDrawInfo(msl_info->image_info[n-1],
     msl_info->draw_info[n-1]);
-  if (image == (Image *) NULL)
-    msl_info->attributes[n]=AcquireImage(msl_info->image_info[n]);
-  else
-    msl_info->attributes[n]=CloneImage(image,0,0,MagickTrue,&image->exception);
+  msl_info->attributes[n]=CloneImage(msl_info->attributes[n-1],0,0,MagickTrue,
+    &image->exception);
   msl_info->image[n]=(Image *) image;
   if ((msl_info->image_info[n] == (ImageInfo *) NULL) ||
       (msl_info->attributes[n] == (Image *) NULL))
@@ -1363,6 +1371,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'C':
     case 'c':
@@ -2296,6 +2305,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'D':
     case 'd':
@@ -2719,6 +2729,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'E':
     case 'e':
@@ -2934,6 +2945,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'F':
     case 'f':
@@ -3174,6 +3186,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'G':
     case 'g':
@@ -3333,6 +3346,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
                     break;
                   }
                 ThrowMSLException(OptionError,"UnrecognizedAttribute",keyword);
+                break;
               }
               case 'W':
               case 'w':
@@ -3345,6 +3359,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
                     break;
                   }
                 ThrowMSLException(OptionError,"UnrecognizedAttribute",keyword);
+                break;
               }
               default:
               {
@@ -3364,6 +3379,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
       break;
     }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'I':
     case 'i':
@@ -3496,6 +3512,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'L':
     case 'l':
@@ -3572,6 +3589,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       }
+      break;
     }
     case 'M':
     case 'm':
@@ -4052,6 +4070,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'N':
     case 'n':
@@ -4174,6 +4193,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'O':
     case 'o':
@@ -4319,6 +4339,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'P':
     case 'p':
@@ -4459,6 +4480,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
             break;
           }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'Q':
     case 'q':
@@ -4936,6 +4958,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'R':
     case 'r':
@@ -5786,6 +5809,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
         break;
       }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'S':
     case 's':
@@ -6050,6 +6074,11 @@ static void MSLStartElement(void *context,const xmlChar *tag,
         for (i=0; (attributes[i] != (const xmlChar *) NULL); i++)
         {
           keyword=(const char *) attributes[i++];
+          if (msl_info->attributes[n] == (Image *) NULL)
+            {
+              ThrowMSLException(OptionError,"NoImagesDefined",keyword);
+              break;
+            }
           attribute=InterpretImageProperties(msl_info->image_info[n],
             msl_info->attributes[n],(const char *) attributes[i]);
           CloneString(&value,attribute);
@@ -6686,7 +6715,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
                 (const char *) tag);
               break;
             }
-          geometry_info.rho=QuantumRange/2.0;
+          geometry_info.rho=(MagickRealType) QuantumRange/2.0;
           if (attributes != (const xmlChar **) NULL)
             for (i=0; (attributes[i] != (const xmlChar *) NULL); i++)
             {
@@ -7125,6 +7154,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           break;
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'T':
     case 't':
@@ -7309,6 +7339,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
         }
       }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     case 'W':
     case 'w':
@@ -7342,6 +7373,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
                     break;
                   }
                 (void) SetMSLAttributes(msl_info,keyword,value);
+                break;
               }
               default:
               {
@@ -7359,6 +7391,7 @@ static void MSLStartElement(void *context,const xmlChar *tag,
           }
         }
       ThrowMSLException(OptionError,"UnrecognizedElement",(const char *) tag);
+      break;
     }
     default:
     {
@@ -7409,16 +7442,21 @@ static void MSLEndElement(void *context,const xmlChar *tag)
     {
       if (LocaleCompare((const char *) tag, "group") == 0 )
       {
-        if (msl_info->group_info[msl_info->number_groups-1].numImages > 0 )
+        if ((msl_info->number_groups > 0) &&
+            (msl_info->group_info[msl_info->number_groups-1].numImages > 0))
         {
           ssize_t  i = (ssize_t)
             (msl_info->group_info[msl_info->number_groups-1].numImages);
-          while ( i-- )
+
+          while ((i--) && (msl_info->n > 0))
           {
             if (msl_info->image[msl_info->n] != (Image *) NULL)
-              msl_info->image[msl_info->n]=DestroyImage(msl_info->image[msl_info->n]);
-            msl_info->attributes[msl_info->n]=DestroyImage(msl_info->attributes[msl_info->n]);
-            msl_info->image_info[msl_info->n]=DestroyImageInfo(msl_info->image_info[msl_info->n]);
+              msl_info->image[msl_info->n]=DestroyImage(
+                msl_info->image[msl_info->n]);
+            msl_info->attributes[msl_info->n]=DestroyImage(
+              msl_info->attributes[msl_info->n]);
+            msl_info->image_info[msl_info->n]=DestroyImageInfo(
+              msl_info->image_info[msl_info->n]);
             msl_info->n--;
           }
         }
@@ -7521,6 +7559,10 @@ static void MSLReference(void *context,const xmlChar *name)
     "  SAX.reference(%s)",name);
   msl_info=(MSLInfo *) context;
   parser=msl_info->parser;
+  if (parser == (xmlParserCtxtPtr) NULL)
+    return;
+  if (parser->node == (xmlNodePtr) NULL)
+    return;
   if (*name == '#')
     (void) xmlAddChild(parser->node,xmlNewCharRef(msl_info->document,name));
   else
@@ -7636,6 +7678,7 @@ static void MSLError(void *context,const char *format,...)
 #endif
   ThrowMSLException(DelegateFatalError,reason,"SAX error");
   va_end(operands);
+  xmlStopParser(msl_info->parser);
 }
 
 static void MSLCDataBlock(void *context,const xmlChar *value,int length)
@@ -7751,11 +7794,11 @@ static MagickBooleanType ProcessMSLScript(const ImageInfo *image_info,
   int
     status;
 
-  ssize_t
-    n;
-
   MSLInfo
     msl_info;
+
+  ssize_t
+    n;
 
   xmlSAXHandler
     sax_modules;
@@ -7768,10 +7811,10 @@ static MagickBooleanType ProcessMSLScript(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  assert(image != (Image **) NULL);
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  assert(image != (Image **) NULL);
   msl_image=AcquireImage(image_info);
   status=OpenBlob(image_info,msl_image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -7807,13 +7850,13 @@ static MagickBooleanType ProcessMSLScript(const ImageInfo *image_info,
   *msl_info.image_info=CloneImageInfo(image_info);
   *msl_info.draw_info=CloneDrawInfo(image_info,(DrawInfo *) NULL);
   *msl_info.attributes=AcquireImage(image_info);
+  (void) SetImageExtent(*msl_info.attributes,1,1);
   msl_info.group_info[0].numImages=0;
   /* the first slot is used to point to the MSL file image */
   *msl_info.image=msl_image;
   if (*image != (Image *) NULL)
     MSLPushImage(&msl_info,*image);
   xmlInitParser();
-  (void) xmlSubstituteEntitiesDefault(1);
   (void) memset(&sax_modules,0,sizeof(sax_modules));
   sax_modules.internalSubset=MSLInternalSubset;
   sax_modules.isStandalone=MSLIsStandalone;
@@ -7845,6 +7888,15 @@ static MagickBooleanType ProcessMSLScript(const ImageInfo *image_info,
   sax_handler=(&sax_modules);
   msl_info.parser=xmlCreatePushParserCtxt(sax_handler,&msl_info,(char *) NULL,0,
     msl_image->filename);
+  if (msl_info.parser != (xmlParserCtxtPtr) NULL)
+    { 
+      const char *option = GetImageOption(image_info,"msl:parse-huge");
+      if ((option != (char *) NULL) && (IsStringTrue(option) != MagickFalse))
+        (void) xmlCtxtUseOptions(msl_info.parser,XML_PARSE_HUGE);
+      option=GetImageOption(image_info,"msl:substitute-entities");
+      if ((option != (char *) NULL) && (IsStringTrue(option) != MagickFalse))
+        (void) xmlCtxtUseOptions(msl_info.parser,XML_PARSE_NOENT);
+    }
   while (ReadBlobString(msl_image,message) != (char *) NULL)
   {
     n=(ssize_t) strlen(message);
@@ -7853,7 +7905,9 @@ static MagickBooleanType ProcessMSLScript(const ImageInfo *image_info,
     status=xmlParseChunk(msl_info.parser,message,(int) n,MagickFalse);
     if (status != 0)
       break;
-    (void) xmlParseChunk(msl_info.parser," ",1,MagickFalse);
+    status=xmlParseChunk(msl_info.parser," ",1,MagickFalse);
+    if (status != 0)
+      break;
     if (msl_info.exception->severity >= ErrorException)
       break;
   }
@@ -7862,15 +7916,22 @@ static MagickBooleanType ProcessMSLScript(const ImageInfo *image_info,
   /*
     Free resources.
   */
+  MSLEndDocument(&msl_info);
   if (msl_info.parser->myDoc != (xmlDocPtr) NULL)
-    xmlFreeDoc(msl_info.parser->myDoc);
+    {
+      xmlFreeDoc(msl_info.parser->myDoc);
+      msl_info.parser->myDoc=(xmlDocPtr) NULL;
+    }
   xmlFreeParserCtxt(msl_info.parser);
+  xmlFreeDoc(msl_info.document);
+  msl_info.document=(xmlDocPtr) NULL;
   (void) LogMagickEvent(CoderEvent,GetMagickModule(),"end SAX");
   if (*image == (Image *) NULL)
     *image=CloneImage(*msl_info.image,0,0,MagickTrue,exception);
   while (msl_info.n >= 0)
   {
-    msl_info.image[msl_info.n]=DestroyImage(msl_info.image[msl_info.n]);
+    if (msl_info.image[msl_info.n] != (Image *) NULL)
+      msl_info.image[msl_info.n]=DestroyImage(msl_info.image[msl_info.n]);
     msl_info.attributes[msl_info.n]=DestroyImage(
       msl_info.attributes[msl_info.n]);
     msl_info.draw_info[msl_info.n]=DestroyDrawInfo(
@@ -7901,11 +7962,11 @@ static Image *ReadMSLImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=(Image *) NULL;
   (void) ProcessMSLScript(image_info,&image,exception);
   return(GetFirstImageInList(image));
@@ -8305,7 +8366,7 @@ static MagickBooleanType WriteMSLImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   msl_image=CloneImage(image,0,0,MagickTrue,&image->exception);
   status=ProcessMSLScript(image_info,&msl_image,&image->exception);

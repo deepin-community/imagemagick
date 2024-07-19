@@ -1,5 +1,4 @@
-From 1012523f76edd9c46ea5a9dff6062fefffb51a40 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Bastien=20ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
+From: =?utf-8?q?Bastien_ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
 Date: Tue, 15 Sep 2015 22:01:13 +0200
 Subject: Use modern idiom for autoconf
 
@@ -9,10 +8,10 @@ Forwarded: yes, https://github.com/ImageMagick/ImageMagick/issues/305
  1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 7963576e31..37ed00c988 100644
+index 39e375f..110f35e 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -208,9 +208,9 @@ AC_SUBST([SBIN_DIR])
+@@ -207,9 +207,9 @@ AC_SUBST([SBIN_DIR])
  eval "eval LIBEXEC_DIR=$libexecdir"
  AC_SUBST([LIBEXEC_DIR])
  eval "eval DATA_DIR=$datadir"
@@ -25,7 +24,7 @@ index 7963576e31..37ed00c988 100644
  eval "eval SYSCONF_DIR=$sysconfdir"
  AC_SUBST([SYSCONF_DIR])
  eval "eval SHAREDSTATE_DIR=$sharedstatedir"
-@@ -3048,9 +3048,8 @@ AC_SUBST([FILTER_PATH])
+@@ -3062,9 +3062,8 @@ AC_SUBST([FILTER_PATH])
  
  #
  # Path to ImageMagick documentation files

@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -26,25 +26,6 @@ extern "C" {
 
 #define OpaqueOpacity  ((Quantum) 0UL)
 #define TransparentOpacity  (QuantumRange)
-
-typedef enum
-{
-  UndefinedAlphaChannel,
-  ActivateAlphaChannel,
-  BackgroundAlphaChannel,
-  CopyAlphaChannel,
-  DeactivateAlphaChannel,
-  ExtractAlphaChannel,
-  OpaqueAlphaChannel,
-  ResetAlphaChannel,  /* deprecated */
-  SetAlphaChannel,
-  ShapeAlphaChannel,
-  TransparentAlphaChannel,
-  FlattenAlphaChannel,
-  RemoveAlphaChannel,
-  AssociateAlphaChannel,
-  DisassociateAlphaChannel
-} AlphaChannelType;
 
 typedef enum
 {
@@ -289,7 +270,7 @@ struct _Image
   MagickBooleanType
     debug;            /* debug output attribute */
 
-  volatile ssize_t
+  ssize_t
     reference_count;
 
   SemaphoreInfo
@@ -356,6 +337,9 @@ struct _Image
 
   long
     tietz_offset;
+
+  time_t
+    ttl;
 };
 
 struct _ImageInfo
@@ -396,7 +380,7 @@ struct _ImageInfo
     quality;
 
   char
-    *sampling_factor,
+    *sampling_factor,  /* Chroma subsampling ratio string */
     *server_name,
     *font,
     *texture,

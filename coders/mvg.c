@@ -17,7 +17,7 @@
 %                                 April 2000                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -143,11 +143,11 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -177,8 +177,8 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
           continue;
         (void) sscanf(p,"viewbox %lf %lf %lf %lf",&bounds.x1,&bounds.y1,
           &bounds.x2,&bounds.y2);
-        image->columns=(size_t) floor((bounds.x2-bounds.x1)+0.5);
-        image->rows=(size_t) floor((bounds.y2-bounds.y1)+0.5);
+        image->columns=CastDoubleToUnsigned(floor((bounds.x2-bounds.x1)+0.5));
+        image->rows=CastDoubleToUnsigned(floor((bounds.y2-bounds.y1)+0.5));
         break;
       }
     }
@@ -191,8 +191,8 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
     96.0;
   draw_info->affine.sy=image->y_resolution == 0.0 ? 1.0 : image->y_resolution/
     96.0;
-  image->columns=(size_t) (draw_info->affine.sx*image->columns);
-  image->rows=(size_t) (draw_info->affine.sy*image->rows);
+  image->columns=CastDoubleToUnsigned(draw_info->affine.sx*image->columns);
+  image->rows=CastDoubleToUnsigned(draw_info->affine.sy*image->rows);
   status=SetImageExtent(image,image->columns,image->rows);
   if (status == MagickFalse)
     {
@@ -243,7 +243,10 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   (void) DrawImage(image,draw_info);
   (void) SetImageArtifact(image,"mvg:vector-graphics",draw_info->primitive);
   draw_info=DestroyDrawInfo(draw_info);
-  (void) CloseBlob(image);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  if (status == MagickFalse)
+    return(DestroyImageList(image));
   return(GetFirstImageInList(image));
 }
 
@@ -351,7 +354,7 @@ static MagickBooleanType WriteMVGImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   value=GetImageArtifact(image,"mvg:vector-graphics");
   if (value == (const char *) NULL)
@@ -360,6 +363,7 @@ static MagickBooleanType WriteMVGImage(const ImageInfo *image_info,Image *image)
   if (status == MagickFalse)
     return(status);
   (void) WriteBlob(image,strlen(value),(const unsigned char *) value);
-  (void) CloseBlob(image);
-  return(MagickTrue);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  return(status);
 }

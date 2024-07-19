@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -31,7 +31,7 @@ typedef struct _MagickByteBuffer
     data[MagickMinBufferExtent];
 } MagickByteBuffer;
 
-static inline int ReadMagickByteBuffer(MagickByteBuffer *buffer)
+static inline int PeekMagickByteBuffer(MagickByteBuffer *buffer)
 {
   if ((buffer->offset == buffer->count) && (buffer->offset > 0))
     {
@@ -47,7 +47,18 @@ static inline int ReadMagickByteBuffer(MagickByteBuffer *buffer)
       if (buffer->count < 1)
         return(EOF);
     }
-  return(buffer->data[buffer->offset++]);
+  return((int) buffer->data[buffer->offset]);
+}
+
+static inline int ReadMagickByteBuffer(MagickByteBuffer *buffer)
+{
+  int
+    result;
+
+  result=PeekMagickByteBuffer(buffer);
+  if (result != EOF)
+    buffer->offset++;
+  return(result);
 }
 
 static inline char *GetMagickByteBufferDatum(MagickByteBuffer *buffer)

@@ -1,12 +1,12 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
-  
+
   You may not use this file except in compliance with the License.  You may
   obtain a copy of the License at
-  
+
     https://imagemagick.org/script/license.php
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,9 +25,9 @@
 extern "C" {
 #endif
 
-#define D65X  0.950456
+#define D65X  0.95047
 #define D65Y  1.0
-#define D65Z  1.088754
+#define D65Z  1.08883
 #define CIEEpsilon  (216.0/24389.0)
 #define CIEK  (24389.0/27.0)
 
@@ -143,12 +143,12 @@ static inline void ConvertLuvToXYZ(const double L,const double u,const double v,
     *Y=(double) pow((L+16.0)/116.0,3.0);
   else
     *Y=L/CIEK;
-  gamma=PerceptibleReciprocal((((52.0*L/(u+13.0*L*(4.0*D65X/(D65X+15.0*D65Y+
-    3.0*D65Z))))-1.0)/3.0)-(-1.0/3.0));
-  *X=gamma*((*Y*((39.0*L/(v+13.0*L*(9.0*D65Y/(D65X+15.0*D65Y+3.0*D65Z))))-5.0))+
-    5.0*(*Y));
-  *Z=(*X*(((52.0f*L/(u+13.0*L*(4.0*D65X/(D65X+15.0*D65Y+3.0*D65Z))))-1.0)/3.0))-
-    5.0*(*Y);
+  gamma=PerceptibleReciprocal((((52.0*L*PerceptibleReciprocal(u+13.0*L* 
+    (4.0*D65X/(D65X+15.0*D65Y+3.0*D65Z))))-1.0)/3.0)-(-1.0/3.0));
+  *X=gamma*((*Y*((39.0*L*PerceptibleReciprocal(v+13.0*L*(9.0*D65Y/
+    (D65X+15.0*D65Y+3.0*D65Z))))-5.0))+5.0*(*Y));
+  *Z=(*X*(((52.0*L*PerceptibleReciprocal(u+13.0*L*(4.0*D65X/
+    (D65X+15.0*D65Y+3.0*D65Z))))-1.0)/3.0))-5.0*(*Y);
 }
 
 static inline void ConvertXYZToRGB(const double X,const double Y,const double Z,
@@ -165,9 +165,12 @@ static inline void ConvertXYZToRGB(const double X,const double Y,const double Z,
   r=3.2404542*X-1.5371385*Y-0.4985314*Z;
   g=(-0.9692660)*X+1.8760108*Y+0.0415560*Z;
   b=0.0556434*X-0.2040259*Y+1.0572252*Z;
-  *red=ClampToQuantum((MagickRealType) EncodePixelGamma(QuantumRange*r));
-  *green=ClampToQuantum((MagickRealType) EncodePixelGamma(QuantumRange*g));
-  *blue=ClampToQuantum((MagickRealType) EncodePixelGamma(QuantumRange*b));
+  *red=ClampToQuantum((MagickRealType) EncodePixelGamma((MagickRealType)
+    QuantumRange*r));
+  *green=ClampToQuantum((MagickRealType) EncodePixelGamma((MagickRealType)
+    QuantumRange*g));
+  *blue=ClampToQuantum((MagickRealType) EncodePixelGamma((MagickRealType)
+    QuantumRange*b));
 }
 
 #if defined(__cplusplus) || defined(c_plusplus)

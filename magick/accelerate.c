@@ -21,7 +21,7 @@
 %                                 May 2016                                    %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -43,7 +43,6 @@ Include declarations.
 */
 #include "magick/studio.h"
 #include "magick/accelerate-private.h"
-#include "magick/accelerate-kernels-private.h"
 #include "magick/artifact.h"
 #include "magick/cache.h"
 #include "magick/cache-private.h"
@@ -368,7 +367,7 @@ static Image *ComputeAddNoiseImage(const Image *image,
   option=GetImageArtifact(image,"attenuate");
   if (option != (char *) NULL)
     attenuate=StringToDouble(option,(char **) NULL);
-  random_info=AcquireRandomInfoThreadSet();
+  random_info=AcquireRandomInfoTLS();
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   key=GetRandomSecretKey(random_info[0]);
   (void) key;
@@ -1293,7 +1292,7 @@ MagickPrivate MagickBooleanType ComputeContrastStretchImageChannel(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
 
   /* exception=(&image->exception); */
@@ -2395,7 +2394,7 @@ MagickPrivate MagickBooleanType ComputeEqualizeImage(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
 
   /*
@@ -2739,7 +2738,7 @@ static MagickBooleanType ComputeFunctionImage(Image *image,
 		  parametersBufferPtr[i] = (float)parameters[i];
 
 	  parametersBuffer = clEnv->library->clCreateBuffer(context, CL_MEM_COPY_HOST_PTR, number_parameters * sizeof(float), parametersBufferPtr, &clStatus);
-	  parametersBufferPtr=RelinquishMagickMemory(parametersBufferPtr);
+	  parametersBufferPtr=(float *) RelinquishMagickMemory(parametersBufferPtr);
   }
 
   clkernel = AcquireOpenCLKernel(clEnv, MAGICK_OPENCL_ACCELERATE, "ComputeFunction");
@@ -2866,7 +2865,7 @@ MagickBooleanType ComputeGrayscaleImage(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
 
   /*
@@ -3291,7 +3290,7 @@ MagickBooleanType ComputeModulateImage(Image *image,
 
   assert(image != (Image *)NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent, GetMagickModule(), "%s", image->filename);
 
   /*
@@ -4688,7 +4687,7 @@ static Image *ComputeUnsharpMaskImage(const Image *image,
       goto cleanup;
     }
 
-    kernelBufferPtr=AcquireQuantumMemory(kernel->width,sizeof(float));
+    kernelBufferPtr=(float *) AcquireQuantumMemory(kernel->width,sizeof(float));
     if (kernelBufferPtr == (float *) NULL)
     {
       (void) OpenCLThrowMagickException(exception, GetMagickModule(), ResourceLimitWarning, "Memory allocation failed.",".");
@@ -4698,7 +4697,7 @@ static Image *ComputeUnsharpMaskImage(const Image *image,
       kernelBufferPtr[i]=(float) kernel->values[i];
 
     imageKernelBuffer = clEnv->library->clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, kernel->width * sizeof(float), kernelBufferPtr, &clStatus);
-    kernelBufferPtr=RelinquishMagickMemory(kernelBufferPtr);
+    kernelBufferPtr=(float *) RelinquishMagickMemory(kernelBufferPtr);
     if (clStatus != CL_SUCCESS)
     {
       (void) OpenCLThrowMagickException(exception, GetMagickModule(), ResourceLimitWarning, "clEnv->library->clCreateBuffer failed.",".");

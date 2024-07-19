@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -45,9 +45,10 @@ static inline MagickBooleanType GetFillColor(const DrawInfo *draw_info,
     x+pattern->tile_offset.x,y+pattern->tile_offset.y,fill,&pattern->exception);
   if (pattern->matte == MagickFalse)
     fill->opacity=OpaqueOpacity;
-  if (fabs(draw_info->fill_opacity-TransparentOpacity) >= MagickEpsilon)
-    fill->opacity=(Quantum) (QuantumRange-(QuantumRange-fill->opacity)*
-      QuantumScale*(QuantumRange-draw_info->fill_opacity));
+  if (fabs(draw_info->fill_opacity-(double) TransparentOpacity) >= MagickEpsilon)
+    fill->opacity=(Quantum) ((double) QuantumRange-((double) QuantumRange-
+      (double) fill->opacity)*QuantumScale*((double) QuantumRange-(double)
+      draw_info->fill_opacity));
   return(status);
 }
 
@@ -71,9 +72,10 @@ static inline MagickBooleanType GetStrokeColor(const DrawInfo *draw_info,
     &pattern->exception);
   if (pattern->matte == MagickFalse)
     stroke->opacity=OpaqueOpacity;
-  if (fabs(draw_info->stroke_opacity-TransparentOpacity) >= MagickEpsilon)
-    stroke->opacity=(Quantum) (QuantumRange-(QuantumRange-stroke->opacity)*
-      QuantumScale*(QuantumRange-draw_info->stroke_opacity));
+  if (fabs(draw_info->stroke_opacity-(double) TransparentOpacity) >= MagickEpsilon)
+    stroke->opacity=(Quantum) ((double) QuantumRange-((double) QuantumRange-
+      (double) stroke->opacity)*QuantumScale*((double) QuantumRange-(double)
+      draw_info->stroke_opacity));
   return(status);
 }
 

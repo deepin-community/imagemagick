@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -107,7 +107,7 @@ MagickExport Image *AutoOrientImage(const Image *image,
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
   orient_image=(Image *) NULL;
-  switch(orientation)
+  switch (orientation)
   {
     case UndefinedOrientation:
     case TopLeftOrientation:
@@ -214,11 +214,11 @@ MagickExport Image *ChopImage(const Image *image,const RectangleInfo *chop_info,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
   assert(chop_info != (RectangleInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (((chop_info->x+(ssize_t) chop_info->width) < 0) ||
       ((chop_info->y+(ssize_t) chop_info->height) < 0) ||
       (chop_info->x > (ssize_t) image->columns) ||
@@ -239,6 +239,8 @@ MagickExport Image *ChopImage(const Image *image,const RectangleInfo *chop_info,
       extent.height-=(size_t) (-extent.y);
       extent.y=0;
     }
+  if ((extent.width >= image->columns) || (extent.height >= image->rows))
+    ThrowImageException(OptionWarning,"GeometryDoesNotContainImage");
   chop_image=CloneImage(image,image->columns-extent.width,image->rows-
     extent.height,MagickTrue,exception);
   if (chop_image == (Image *) NULL)
@@ -252,7 +254,7 @@ MagickExport Image *ChopImage(const Image *image,const RectangleInfo *chop_info,
   chop_view=AcquireAuthenticCacheView(chop_image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(status) \
-    magick_number_threads(image,chop_image,extent.y,1)
+    magick_number_threads(image,chop_image,extent.y,2)
 #endif
   for (y=0; y < (ssize_t) extent.y; y++)
   {
@@ -316,7 +318,7 @@ MagickExport Image *ChopImage(const Image *image,const RectangleInfo *chop_info,
   */
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(status) \
-    magick_number_threads(image,image,image->rows,1)
+    magick_number_threads(image,image,image->rows,2)
 #endif
   for (y=0; y < (ssize_t) (image->rows-(extent.y+extent.height)); y++)
   {
@@ -431,10 +433,10 @@ MagickExport Image *ConsolidateCMYKImages(const Image *images,
   */
   assert(images != (Image *) NULL);
   assert(images->signature == MagickCoreSignature);
-  if (images->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",images->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",images->filename);
   cmyk_images=NewImageList();
   for (i=0; i < (ssize_t) GetImageListLength(images); i+=4)
   {
@@ -464,7 +466,8 @@ MagickExport Image *ConsolidateCMYKImages(const Image *images,
         break;
       for (x=0; x < (ssize_t) images->columns; x++)
       {
-        SetPixelRed(q,ClampToQuantum(QuantumRange-GetPixelIntensity(images,p)));
+        SetPixelRed(q,ClampToQuantum((MagickRealType) QuantumRange-
+          GetPixelIntensity(images,p)));
         p++;
         q++;
       }
@@ -496,7 +499,8 @@ MagickExport Image *ConsolidateCMYKImages(const Image *images,
         break;
       for (x=0; x < (ssize_t) images->columns; x++)
       {
-        q->green=ClampToQuantum(QuantumRange-GetPixelIntensity(images,p));
+        q->green=ClampToQuantum((MagickRealType) QuantumRange-(MagickRealType)
+          GetPixelIntensity(images,p));
         p++;
         q++;
       }
@@ -528,7 +532,8 @@ MagickExport Image *ConsolidateCMYKImages(const Image *images,
         break;
       for (x=0; x < (ssize_t) images->columns; x++)
       {
-        q->blue=ClampToQuantum(QuantumRange-GetPixelIntensity(images,p));
+        q->blue=ClampToQuantum((MagickRealType) QuantumRange-(MagickRealType)
+          GetPixelIntensity(images,p));
         p++;
         q++;
       }
@@ -564,7 +569,7 @@ MagickExport Image *ConsolidateCMYKImages(const Image *images,
       indexes=GetCacheViewAuthenticIndexQueue(cmyk_view);
       for (x=0; x < (ssize_t) images->columns; x++)
       {
-        SetPixelIndex(indexes+x,ClampToQuantum(QuantumRange-
+        SetPixelIndex(indexes+x,ClampToQuantum((MagickRealType) QuantumRange-
           GetPixelIntensity(images,p)));
         p++;
       }
@@ -641,11 +646,11 @@ MagickExport Image *CropImage(const Image *image,const RectangleInfo *geometry,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(geometry != (const RectangleInfo *) NULL);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   bounding_box=image->page;
   if ((bounding_box.width == 0) || (bounding_box.height == 0))
     {
@@ -657,10 +662,10 @@ MagickExport Image *CropImage(const Image *image,const RectangleInfo *geometry,
     page.width=bounding_box.width;
   if (page.height == 0)
     page.height=bounding_box.height;
-  if (((bounding_box.x-page.x) >= (ssize_t) page.width) ||
-      ((bounding_box.y-page.y) >= (ssize_t) page.height) ||
-      ((page.x-bounding_box.x) > (ssize_t) image->columns) ||
-      ((page.y-bounding_box.y) > (ssize_t) image->rows))
+  if ((((double) bounding_box.x-page.x) >= (double) page.width) ||
+      (((double) bounding_box.y-page.y) >= (double) page.height) ||
+      (((double) page.x-bounding_box.x) > (double) image->columns) ||
+      (((double) page.y-bounding_box.y) > (double) image->rows))
     {
       /*
         Crop is not within virtual canvas, return 1 pixel transparent image.
@@ -744,7 +749,7 @@ MagickExport Image *CropImage(const Image *image,const RectangleInfo *geometry,
   crop_view=AcquireAuthenticCacheView(crop_image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(status) \
-    magick_number_threads(image,crop_image,crop_image->rows,1)
+    magick_number_threads(image,crop_image,crop_image->rows,2)
 #endif
   for (y=0; y < (ssize_t) crop_image->rows; y++)
   {
@@ -855,10 +860,8 @@ MagickExport Image *CropImageToTiles(const Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  crop_image=NewImageList();
-  next=NewImageList();
   flags=ParseGravityGeometry(image,crop_geometry,&geometry,exception);
   if ((flags & AreaValue) != 0)
     {
@@ -876,6 +879,7 @@ MagickExport Image *CropImageToTiles(const Image *image,
       /*
         Crop into NxM tiles (@ flag).
       */
+      crop_image=NewImageList();
       width=image->columns;
       height=image->rows;
       if (geometry.width == 0)
@@ -989,7 +993,8 @@ MagickExport Image *CropImageToTiles(const Image *image,
       height=geometry.height;
       if (height == 0)
         height=page.height;
-      next=NewImageList();
+      crop_image=NewImageList();
+      next=(Image *) NULL;
       for (y=0; y < (ssize_t) page.height; y+=(ssize_t) height)
       {
         for (x=0; x < (ssize_t) page.width; x+=(ssize_t) width)
@@ -1065,11 +1070,11 @@ MagickExport Image *ExcerptImage(const Image *image,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(geometry != (const RectangleInfo *) NULL);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   excerpt_image=CloneImage(image,geometry->width,geometry->height,MagickTrue,
     exception);
   if (excerpt_image == (Image *) NULL)
@@ -1083,7 +1088,7 @@ MagickExport Image *ExcerptImage(const Image *image,
   excerpt_view=AcquireAuthenticCacheView(excerpt_image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(progress,status) \
-    magick_number_threads(image,excerpt_image,excerpt_image->rows,1)
+    magick_number_threads(image,excerpt_image,excerpt_image->rows,2)
 #endif
   for (y=0; y < (ssize_t) excerpt_image->rows; y++)
   {
@@ -1185,11 +1190,11 @@ MagickExport Image *ExtentImage(const Image *image,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(geometry != (const RectangleInfo *) NULL);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   extent_image=CloneImage(image,geometry->width,geometry->height,MagickTrue,
     exception);
   if (extent_image == (Image *) NULL)
@@ -1263,10 +1268,10 @@ MagickExport Image *FlipImage(const Image *image,ExceptionInfo *exception)
 
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   flip_image=CloneImage(image,0,0,MagickTrue,exception);
   if (flip_image == (Image *) NULL)
     return((Image *) NULL);
@@ -1280,7 +1285,7 @@ MagickExport Image *FlipImage(const Image *image,ExceptionInfo *exception)
   flip_view=AcquireAuthenticCacheView(flip_image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(status) \
-    magick_number_threads(image,flip_image,flip_image->rows,1)
+    magick_number_threads(image,flip_image,flip_image->rows,2)
 #endif
   for (y=0; y < (ssize_t) flip_image->rows; y++)
   {
@@ -1392,10 +1397,10 @@ MagickExport Image *FlopImage(const Image *image,ExceptionInfo *exception)
 
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   flop_image=CloneImage(image,0,0,MagickTrue,exception);
   if (flop_image == (Image *) NULL)
     return((Image *) NULL);
@@ -1409,7 +1414,7 @@ MagickExport Image *FlopImage(const Image *image,ExceptionInfo *exception)
   flop_view=AcquireAuthenticCacheView(flop_image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(status) \
-    magick_number_threads(image,flop_image,flop_image->rows,1)
+    magick_number_threads(image,flop_image,flop_image->rows,2)
 #endif
   for (y=0; y < (ssize_t) flop_image->rows; y++)
   {
@@ -1526,7 +1531,7 @@ static MagickBooleanType CopyImageRegion(Image *destination,const Image *source,
   destination_view=AcquireAuthenticCacheView(destination,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(status) \
-    magick_number_threads(source,destination,rows,1)
+    magick_number_threads(source,destination,rows,2)
 #endif
   for (y=0; y < (ssize_t) rows; y++)
   {
@@ -1594,10 +1599,10 @@ MagickExport Image *RollImage(const Image *image,const ssize_t x_offset,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   roll_image=CloneImage(image,0,0,MagickTrue,exception);
   if (roll_image == (Image *) NULL)
     return((Image *) NULL);
@@ -1679,7 +1684,7 @@ MagickExport Image *ShaveImage(const Image *image,
 
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (((2*shave_info->width) >= image->columns) ||
       ((2*shave_info->height) >= image->rows))
@@ -1758,11 +1763,11 @@ MagickExport Image *SpliceImage(const Image *image,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(geometry != (const RectangleInfo *) NULL);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   splice_geometry=(*geometry);
   splice_image=CloneImage(image,image->columns+splice_geometry.width,
     image->rows+splice_geometry.height,MagickTrue,exception);
@@ -1840,7 +1845,7 @@ MagickExport Image *SpliceImage(const Image *image,
   splice_view=AcquireAuthenticCacheView(splice_image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(progress,status) \
-    magick_number_threads(image,splice_image,splice_geometry.y,1)
+    magick_number_threads(image,splice_image,splice_geometry.y,2)
 #endif
   for (y=0; y < (ssize_t) splice_geometry.y; y++)
   {
@@ -1919,7 +1924,7 @@ MagickExport Image *SpliceImage(const Image *image,
   }
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(progress,status) \
-    magick_number_threads(image,splice_image,splice_image->rows,1)
+    magick_number_threads(image,splice_image,splice_image->rows,2)
 #endif
   for (y=(ssize_t) (splice_geometry.y+splice_geometry.height);
        y < (ssize_t) splice_image->rows; y++)
@@ -2068,7 +2073,7 @@ MagickExport MagickBooleanType TransformImage(Image **image,
 
   assert(image != (Image **) NULL);
   assert((*image)->signature == MagickCoreSignature);
-  if ((*image)->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",(*image)->filename);
   transform_image=(*image);
   if (crop_geometry != (const char *) NULL)
@@ -2156,7 +2161,7 @@ MagickExport MagickBooleanType TransformImages(Image **images,
 
   assert(images != (Image **) NULL);
   assert((*images)->signature == MagickCoreSignature);
-  if ((*images)->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       (*images)->filename);
   image_list=ImageListToArray(*images,&(*images)->exception);
@@ -2225,7 +2230,7 @@ MagickExport Image *TransposeImage(const Image *image,ExceptionInfo *exception)
 
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
@@ -2242,7 +2247,7 @@ MagickExport Image *TransposeImage(const Image *image,ExceptionInfo *exception)
   transpose_view=AcquireAuthenticCacheView(transpose_image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(progress,status) \
-    magick_number_threads(image,transpose_image,image->rows,1)
+    magick_number_threads(image,transpose_image,image->rows,2)
 #endif
   for (y=0; y < (ssize_t) image->rows; y++)
   {
@@ -2355,7 +2360,7 @@ MagickExport Image *TransverseImage(const Image *image,ExceptionInfo *exception)
 
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
@@ -2372,7 +2377,7 @@ MagickExport Image *TransverseImage(const Image *image,ExceptionInfo *exception)
   transverse_view=AcquireAuthenticCacheView(transverse_image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(progress,status) \
-    magick_number_threads(image,transverse_image,image->rows,1)
+    magick_number_threads(image,transverse_image,image->rows,2)
 #endif
   for (y=0; y < (ssize_t) image->rows; y++)
   {
@@ -2480,7 +2485,7 @@ MagickExport Image *TrimImage(const Image *image,ExceptionInfo *exception)
 
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   geometry=GetImageBoundingBox(image,exception);
   if ((geometry.width == 0) || (geometry.height == 0))

@@ -17,7 +17,7 @@
 %                               September 2014                                %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -199,10 +199,10 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   component_image=CloneImage(image,0,0,MagickTrue,exception);
   if (component_image == (Image *) NULL)
     return((Image *) NULL);
@@ -404,13 +404,13 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
         object[id].bounding_box.y=y;
       if (y >= (ssize_t) object[id].bounding_box.height)
         object[id].bounding_box.height=(size_t) y;
-      object[id].color.red+=QuantumScale*p->red;
-      object[id].color.green+=QuantumScale*p->green;
-      object[id].color.blue+=QuantumScale*p->blue;
+      object[id].color.red+=QuantumScale*(MagickRealType) p->red;
+      object[id].color.green+=QuantumScale*(MagickRealType) p->green;
+      object[id].color.blue+=QuantumScale*(MagickRealType) p->blue;
       if (image->matte != MagickFalse)
-        object[id].color.opacity+=QuantumScale*p->opacity;
+        object[id].color.opacity+=QuantumScale*(MagickRealType) p->opacity;
       if (image->colorspace == CMYKColorspace)
-        object[id].color.index+=QuantumScale*indexes[x];
+        object[id].color.index+=QuantumScale*(MagickRealType) indexes[x];
       object[id].centroid.x+=x;
       object[id].centroid.y+=y;
       object[id].area++;
@@ -467,7 +467,7 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
   max_threshold+=MagickEpsilon;
   artifact=GetImageArtifact(image,"connected-components:background-id");
   if (artifact != (const char *) NULL)
-    background_id=(ssize_t) StringToDouble(artifact,(char **) NULL);
+    background_id=(ssize_t) StringToLong(artifact);
   artifact=GetImageArtifact(image,"connected-components:area-threshold");
   if (artifact != (const char *) NULL)
     {
@@ -557,7 +557,7 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
       /*
         Keep top objects.
       */
-      top_ids=(ssize_t) StringToDouble(artifact,(char **) NULL);
+      top_ids=(ssize_t) StringToLong(artifact);
       top_objects=(CCObjectInfo *) AcquireQuantumMemory(component_image->colors,
         sizeof(*top_objects));
       if (top_objects == (CCObjectInfo *) NULL)
@@ -683,11 +683,14 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
       indexes=GetCacheViewVirtualIndexQueue(component_view);
       for (x=0; x < (ssize_t) bounding_box.width; x++)
       {
+        size_t
+          k;
+
         if (status == MagickFalse)
           continue;
         j=(ssize_t) indexes[x];
         if (j == i)
-          for (n=0; n < (ssize_t) (connectivity > 4 ? 4 : 2); n++)
+          for (k=0; k < (ssize_t) (connectivity > 4 ? 4 : 2); k++)
           {
             const IndexPacket
               *magick_restrict indexes;
@@ -700,8 +703,8 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
             */
             if (status == MagickFalse)
               continue;
-            dx=connectivity > 4 ? connect8[n][1] : connect4[n][1];
-            dy=connectivity > 4 ? connect8[n][0] : connect4[n][0];
+            dx=connectivity > 4 ? connect8[k][1] : connect4[k][1];
+            dy=connectivity > 4 ? connect8[k][0] : connect4[k][0];
             p=GetCacheViewVirtualPixels(object_view,bounding_box.x+x+dx,
               bounding_box.y+y+dy,1,1,exception);
             if (p == (const PixelPacket *) NULL)

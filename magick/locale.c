@@ -17,7 +17,7 @@
 %                                 July 2003                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -48,6 +48,7 @@
 #include "magick/hashmap.h"
 #include "magick/image-private.h"
 #include "magick/locale_.h"
+#include "magick/locale-private.h"
 #include "magick/log.h"
 #include "magick/memory_.h"
 #include "magick/nt-base-private.h"
@@ -214,17 +215,11 @@ static void *DestroyLocaleNode(void *locale_info)
 static SplayTreeInfo *AcquireLocaleSplayTree(const char *filename,
   const char *locale,ExceptionInfo *exception)
 {
-  MagickStatusType
-    status;
-
   SplayTreeInfo
     *cache;
 
   cache=NewSplayTree(CompareSplayTreeString,(void *(*)(void *)) NULL,
     DestroyLocaleNode);
-  if (cache == (SplayTreeInfo *) NULL)
-    ThrowFatalException(ResourceLimitFatalError,"MemoryAllocationFailed");
-  status=MagickTrue;
 #if !MAGICKCORE_ZERO_CONFIGURATION_SUPPORT
   {
     const StringInfo
@@ -237,7 +232,7 @@ static SplayTreeInfo *AcquireLocaleSplayTree(const char *filename,
     option=(const StringInfo *) GetNextValueInLinkedList(options);
     while (option != (const StringInfo *) NULL)
     {
-      status&=LoadLocaleCache(cache,(const char *) GetStringInfoDatum(option),
+      (void) LoadLocaleCache(cache,(const char *) GetStringInfoDatum(option),
         GetStringInfoPath(option),locale,0,exception);
       option=(const StringInfo *) GetNextValueInLinkedList(options);
     }
@@ -248,7 +243,7 @@ static SplayTreeInfo *AcquireLocaleSplayTree(const char *filename,
         option=(const StringInfo *) GetNextValueInLinkedList(options);
         while (option != (const StringInfo *) NULL)
         {
-          status&=LoadLocaleCache(cache,(const char *)
+          (void) LoadLocaleCache(cache,(const char *)
             GetStringInfoDatum(option),GetStringInfoPath(option),locale,0,
             exception);
           option=(const StringInfo *) GetNextValueInLinkedList(options);
@@ -258,8 +253,7 @@ static SplayTreeInfo *AcquireLocaleSplayTree(const char *filename,
   }
 #endif
   if (GetNumberOfNodesInSplayTree(cache) == 0)
-    status&=LoadLocaleCache(cache,LocaleMap,"built-in",locale,0,
-      exception);
+    (void) LoadLocaleCache(cache,LocaleMap,"built-in",locale,0,exception);
   return(cache);
 }
 
@@ -323,7 +317,8 @@ static void *DestroyOptions(void *message)
 MagickExport LinkedListInfo *DestroyLocaleOptions(LinkedListInfo *messages)
 {
   assert(messages != (LinkedListInfo *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   return(DestroyLinkedList(messages,DestroyOptions));
 }
 
@@ -624,8 +619,9 @@ MagickExport const LocaleInfo **GetLocaleInfoList(const char *pattern,
     Allocate locale list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_messages != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_messages=0;
   p=GetLocaleInfo_("*",exception);
   if (p == (const LocaleInfo *) NULL)
@@ -719,8 +715,9 @@ MagickExport char **GetLocaleList(const char *pattern,
     Allocate locale list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_messages != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_messages=0;
   p=GetLocaleInfo_("*",exception);
   if (p == (const LocaleInfo *) NULL)
@@ -833,8 +830,9 @@ MagickExport LinkedListInfo *GetLocaleOptions(const char *filename,
     *xml;
 
   assert(filename != (const char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
   assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
   (void) CopyMagickString(path,filename,MaxTextExtent);
   /*
     Load XML from configuration files to linked-list.
@@ -902,7 +900,8 @@ MagickExport LinkedListInfo *GetLocaleOptions(const char *filename,
 */
 MagickExport const char *GetLocaleValue(const LocaleInfo *locale_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(locale_info != (LocaleInfo *) NULL);
   assert(locale_info->signature == MagickCoreSignature);
   return(locale_info->message);
@@ -1154,15 +1153,18 @@ static void ChopLocaleComponents(char *path,const size_t components)
     *path='\0';
 }
 
+static void LocaleFatalErrorHandler(const ExceptionType severity,
+  const char *reason,const char *description) magick_attribute((__noreturn__));
+
 static void LocaleFatalErrorHandler(
   const ExceptionType magick_unused(severity),
   const char *reason,const char *description)
 {
   magick_unreferenced(severity);
 
-  if (reason == (char *) NULL)
-    return;
-  (void) FormatLocaleFile(stderr,"%s: %s",GetClientName(),reason);
+  (void) FormatLocaleFile(stderr,"%s:",GetClientName());
+  if (reason != (char *) NULL)
+    (void) FormatLocaleFile(stderr," %s",reason);
   if (description != (char *) NULL)
     (void) FormatLocaleFile(stderr," (%s)",description);
   (void) FormatLocaleFile(stderr,".\n");
@@ -1494,7 +1496,7 @@ MagickExport void LocaleLower(char *string)
 
   assert(string != (char *) NULL);
   for (q=string; *q != '\0'; q++)
-    *q=(char) LocaleLowercase((int) *q);
+    *q=(char) LocaleToLowercase((int) *q);
 }
 
 /*
@@ -1508,11 +1510,11 @@ MagickExport void LocaleLower(char *string)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  LocaleLowercase() convert to uppercase.
+%  LocaleLowercase() converts the character to lowercase.
 %
 %  The format of the LocaleLowercase method is:
 %
-%      void LocaleLowercase(const int c)
+%      int LocaleLowercase(const int c)
 %
 %  A description of each parameter follows:
 %
@@ -1521,13 +1523,7 @@ MagickExport void LocaleLower(char *string)
 */
 MagickExport int LocaleLowercase(const int c)
 {
-  if ((c == EOF) || (c != (unsigned char) c))
-    return(c);
-#if defined(MAGICKCORE_LOCALE_SUPPORT)
-  if (c_locale != (locale_t) NULL)
-    return(tolower_l((int) ((unsigned char) c),c_locale));
-#endif
-  return(tolower((int) ((unsigned char) c)));
+  return(LocaleToLowercase(c));
 }
 
 /*
@@ -1634,7 +1630,7 @@ MagickExport void LocaleUpper(char *string)
 
   assert(string != (char *) NULL);
   for (q=string; *q != '\0'; q++)
-    *q=(char) LocaleUppercase((int) *q);
+    *q=(char) LocaleToUppercase((int) *q);
 }
 
 /*
@@ -1648,11 +1644,11 @@ MagickExport void LocaleUpper(char *string)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  LocaleUppercase() convert to uppercase.
+%  LocaleUppercase() converts the character to uppercase.
 %
 %  The format of the LocaleUppercase method is:
 %
-%      void LocaleUppercase(const int c)
+%      int LocaleUppercase(const int c)
 %
 %  A description of each parameter follows:
 %
@@ -1661,13 +1657,7 @@ MagickExport void LocaleUpper(char *string)
 */
 MagickExport int LocaleUppercase(const int c)
 {
-  if (c == EOF)
-    return(c);
-#if defined(MAGICKCORE_LOCALE_SUPPORT)
-  if (c_locale != (locale_t) NULL)
-    return(toupper_l((int) ((unsigned char) c),c_locale));
-#endif
-  return(toupper((int) ((unsigned char) c)));
+  return(LocaleToUppercase(c));
 }
 
 /*

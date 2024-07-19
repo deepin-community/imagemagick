@@ -17,7 +17,7 @@
 %                               December 2003                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -118,7 +118,7 @@ MagickExport Image *CombineImages(const Image *image,const ChannelType channel,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
@@ -152,6 +152,10 @@ MagickExport Image *CombineImages(const Image *image,const ChannelType channel,
   status=MagickTrue;
   progress=0;
   combine_view=AcquireAuthenticCacheView(combine_image,exception);
+#if defined(MAGICKCORE_OPENMP_SUPPORT)
+  #pragma omp parallel for schedule(static) shared(progress,status) \
+    magick_number_threads(combine_image,combine_image,combine_image->rows,4)
+#endif
   for (y=0; y < (ssize_t) combine_image->rows; y++)
   {
     CacheView
@@ -317,7 +321,7 @@ MagickExport Image *CombineImages(const Image *image,const ChannelType channel,
 MagickExport MagickBooleanType GetImageAlphaChannel(const Image *image)
 {
   assert(image != (const Image *) NULL);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(image->signature == MagickCoreSignature);
   return(image->matte);
@@ -367,7 +371,7 @@ MagickExport Image *SeparateImage(const Image *image,const ChannelType channel,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
@@ -402,7 +406,7 @@ MagickExport MagickBooleanType SeparateImageChannel(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (SetImageStorageClass(image,DirectClass) == MagickFalse)
     return(MagickFalse);
@@ -417,7 +421,7 @@ MagickExport MagickBooleanType SeparateImageChannel(Image *image,
   image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(progress,status) \
-    magick_number_threads(image,image,image->rows,1)
+    magick_number_threads(image,image,image->rows,2)
 #endif
   for (y=0; y < (ssize_t) image->rows; y++)
   {
@@ -583,7 +587,7 @@ MagickExport Image *SeparateImages(const Image *image,const ChannelType channel,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   images=NewImageList();
   if ((channel & RedChannel) != 0)
@@ -665,7 +669,7 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
     y;
 
   assert(image != (Image *) NULL);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(image->signature == MagickCoreSignature);
   exception=(&image->exception);
@@ -674,6 +678,8 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
   {
     case ActivateAlphaChannel:
     {
+      if (image->matte == MagickTrue)
+        return(status);
       image->matte=MagickTrue;
       break;
     }
@@ -688,7 +694,7 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
       #if defined(MAGICKCORE_OPENMP_SUPPORT)
         #pragma omp parallel for schedule(static) shared(status) \
-          magick_number_threads(image,image,image->rows,1)
+          magick_number_threads(image,image,image->rows,2)
       #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -712,10 +718,10 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
           double
             gamma;
 
-          gamma=QuantumScale*GetPixelAlpha(q);
-          SetPixelRed(q,ClampToQuantum(gamma*GetPixelRed(q)));
-          SetPixelGreen(q,ClampToQuantum(gamma*GetPixelGreen(q)));
-          SetPixelBlue(q,ClampToQuantum(gamma*GetPixelBlue(q)));
+          gamma=QuantumScale*(double) GetPixelAlpha(q);
+          SetPixelRed(q,ClampToQuantum(gamma*(double) GetPixelRed(q)));
+          SetPixelGreen(q,ClampToQuantum(gamma*(double) GetPixelGreen(q)));
+          SetPixelBlue(q,ClampToQuantum(gamma*(double) GetPixelBlue(q)));
           q++;
         }
         if (SyncCacheViewAuthenticPixels(image_view,exception) == MagickFalse)
@@ -759,7 +765,7 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
       #if defined(MAGICKCORE_OPENMP_SUPPORT)
         #pragma omp parallel for schedule(static) shared(status) \
-          magick_number_threads(image,image,image->rows,1)
+          magick_number_threads(image,image,image->rows,2)
       #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -829,6 +835,8 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
     }
     case DeactivateAlphaChannel:
     {
+      if (image->matte == MagickFalse)
+        return(status);
       image->matte=MagickFalse;
       break;
     }
@@ -841,7 +849,7 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
       #if defined(MAGICKCORE_OPENMP_SUPPORT)
         #pragma omp parallel for schedule(static) shared(status) \
-          magick_number_threads(image,image,image->rows,1)
+          magick_number_threads(image,image,image->rows,2)
       #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -866,11 +874,11 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
             alpha,
             gamma;
 
-          alpha=QuantumScale*GetPixelAlpha(q);
+          alpha=QuantumScale*(double) GetPixelAlpha(q);
           gamma=PerceptibleReciprocal(alpha);
-          SetPixelRed(q,ClampToQuantum(gamma*GetPixelRed(q)));
-          SetPixelGreen(q,ClampToQuantum(gamma*GetPixelGreen(q)));
-          SetPixelBlue(q,ClampToQuantum(gamma*GetPixelBlue(q)));
+          SetPixelRed(q,ClampToQuantum(gamma*(double) GetPixelRed(q)));
+          SetPixelGreen(q,ClampToQuantum(gamma*(double) GetPixelGreen(q)));
+          SetPixelBlue(q,ClampToQuantum(gamma*(double) GetPixelBlue(q)));
           q++;
         }
         if (SyncCacheViewAuthenticPixels(image_view,exception) == MagickFalse)
@@ -886,6 +894,51 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
       image->matte=MagickFalse;
       break;
     }
+    case OffIfOpaqueAlphaChannel:
+    {
+      MagickBooleanType
+        opaque = MagickTrue;
+
+      /*
+        Remove opaque alpha channel.
+      */
+      image_view=AcquireVirtualCacheView(image,exception);
+      #if defined(MAGICKCORE_OPENMP_SUPPORT)
+        #pragma omp parallel for schedule(static) shared(opaque,status) \
+          magick_number_threads(image,image,image->rows,2)
+      #endif
+      for (y=0; y < (ssize_t) image->rows; y++)
+      {
+        const PixelPacket
+          *magick_restrict p;
+
+        ssize_t
+          x;
+
+        if ((status == MagickFalse) || (opaque == MagickFalse))
+          continue;
+        p=GetCacheViewVirtualPixels(image_view,0,y,image->columns,1,exception);
+        if (p == (const PixelPacket *) NULL)
+          {
+            status=MagickFalse;
+            continue;
+          }
+        for (x=0; x < (ssize_t) image->columns; x++)
+        {
+          if (GetPixelOpacity(p) != OpaqueOpacity)
+            {
+              opaque=MagickFalse;
+              break;
+            }
+          p++;
+        }
+      }
+      image_view=DestroyCacheView(image_view);
+      if (opaque != MagickFalse)
+        image->matte=MagickFalse;
+      break;
+    }
+    case ResetAlphaChannel: /* deprecated */
     case RemoveAlphaChannel:
     case FlattenAlphaChannel:
     {
@@ -916,7 +969,7 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
       image_view=AcquireAuthenticCacheView(image,exception);
       #if defined(MAGICKCORE_OPENMP_SUPPORT)
         #pragma omp parallel for schedule(static) shared(status) \
-          magick_number_threads(image,image,image->rows,1)
+          magick_number_threads(image,image,image->rows,2)
       #endif
       for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -944,7 +997,8 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
             gamma,
             opacity;
 
-          gamma=1.0-QuantumScale*QuantumScale*q->opacity*pixel.opacity;
+          gamma=1.0-QuantumScale*QuantumScale*(double) q->opacity*(double)
+            pixel.opacity;
           opacity=(double) QuantumRange*(1.0-gamma);
           gamma=PerceptibleReciprocal(gamma);
           q->red=ClampToQuantum(gamma*MagickOver_((MagickRealType) q->red,
@@ -971,7 +1025,6 @@ MagickExport MagickBooleanType SetImageAlphaChannel(Image *image,
       image_view=DestroyCacheView(image_view);
       return(status);
     }
-    case ResetAlphaChannel: /* deprecated */
     case OpaqueAlphaChannel:
     {
       status=SetImageOpacity(image,OpaqueOpacity);

@@ -19,7 +19,7 @@
 %                                  2008.05.07                                 %
 %                                     v 0.9                                   %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -206,18 +206,18 @@ static Image *ReadIPLImage(const ImageInfo *image_info,ExceptionInfo *exception)
 
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if ( image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent, GetMagickModule(), "%s",
-                image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
-  {
-    image=DestroyImageList(image);
-    return((Image *) NULL);
-  }
+    {
+      image=DestroyImageList(image);
+      return((Image *) NULL);
+    }
 
   /*
     Read IPL image
@@ -253,8 +253,13 @@ static Image *ReadIPLImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if((ipl_info.width == 0UL) || (ipl_info.height == 0UL))
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   ipl_info.colors=ReadBlobLong(image);
-  if(ipl_info.colors == 3){ SetImageColorspace(image,sRGBColorspace);}
-  else { image->colorspace = GRAYColorspace; }
+  if(ipl_info.colors == 3)
+    {
+      if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+        (void) SetImageColorspace(image,sRGBColorspace);
+    }
+  else
+    image->colorspace = GRAYColorspace;
   ipl_info.z=ReadBlobLong(image);
   ipl_info.time=ReadBlobLong(image);
 
@@ -535,7 +540,7 @@ static MagickBooleanType WriteIPLImage(const ImageInfo *image_info,Image *image)
     *quantum_info;
 
   size_t
-    imageListLength;
+    number_scenes;
 
   ssize_t
     y;
@@ -550,7 +555,7 @@ static MagickBooleanType WriteIPLImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
@@ -591,13 +596,14 @@ static MagickBooleanType WriteIPLImage(const ImageInfo *image_info,Image *image)
     break;
 
   }
-  imageListLength=GetImageListLength(image);
-  ipl_info.z = (unsigned int) imageListLength;
+  number_scenes=GetImageListLength(image);
+  ipl_info.z = (unsigned int) number_scenes;
   /* There is no current method for detecting whether we have T or Z stacks */
   ipl_info.time = 1;
   ipl_info.width = (unsigned int) image->columns;
   ipl_info.height = (unsigned int) image->rows;
-  (void) TransformImageColorspace(image,sRGBColorspace);
+  if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+      (void) TransformImageColorspace(image,sRGBColorspace);
   if(IssRGBCompatibleColorspace(image->colorspace) != MagickFalse) { ipl_info.colors = 3; }
   else{ ipl_info.colors = 1; }
 
@@ -692,7 +698,7 @@ static MagickBooleanType WriteIPLImage(const ImageInfo *image_info,Image *image)
   if (GetNextImageInList(image) == (Image *) NULL)
     break;
       image=SyncNextImageInList(image);
-      status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+      status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
       if (status == MagickFalse)
         break;
     }while (image_info->adjoin != MagickFalse);

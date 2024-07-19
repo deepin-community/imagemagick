@@ -1,5 +1,6 @@
 # SymbolsHelper-Confirmed: 1.0.0 amd64
 libMagickWand-${IMVERSION}.${UCQUANTUMDEPTH}.so.${WANDSOVERSION} libmagickwand-${IMVERSION}.${QUANTUMDEPTH}-${WANDSOVERSION} #MINVER#
+* Build-Depends-Package: libmagickwand-${IMVERSION}.${QUANTUMDEPTH}-dev
  (regex|optional)"^.gomp_critical_user_.*@Base" 8:6.9.10.2
  AcquireDrawingWand@Base 8:6.9.10.2
  AcquireWandId@Base 8:6.9.10.2

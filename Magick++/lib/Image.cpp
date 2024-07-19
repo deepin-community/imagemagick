@@ -16,14 +16,14 @@
 #include <errno.h>
 #include <math.h>
 
-using namespace std;
-
 #include "Magick++/Image.h"
 #include "Magick++/Functions.h"
 #include "Magick++/Pixels.h"
 #include "Magick++/Options.h"
 #include "Magick++/ImageRef.h"
 #include "Magick++/ResourceLimits.h"
+
+using namespace std;
 
 #define AbsoluteValue(x)  ((x) < 0 ? -(x) : (x))
 #define MagickPI  3.14159265358979323846264338327950288419716939937510
@@ -790,7 +790,7 @@ void Magick::Image::fillPattern(const Image &fillPattern_)
 
 Magick::Image Magick::Image::fillPattern(void) const
 {
-  // FIXME: This is inordinately innefficient
+  // FIXME: This is inordinately inefficient
   const MagickCore::Image
     *tmpTexture;
 
@@ -3119,7 +3119,7 @@ void Magick::Image::fontTypeMetricsMultiline(const std::string &text_,
 
   drawInfo=options()->drawInfo();
   drawInfo->text=const_cast<char *>(text_.c_str());
-  GetMultilineTypeMetrics(image(),drawInfo,&(metrics->_typeMetric));
+  (void) GetMultilineTypeMetrics(image(),drawInfo,&(metrics->_typeMetric));
   drawInfo->text=0;
 }
 
