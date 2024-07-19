@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -179,11 +179,11 @@ static MagickBooleanType DecodeImage(Image *image,unsigned char *luma,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(luma != (unsigned char *) NULL);
   assert(chroma1 != (unsigned char *) NULL);
   assert(chroma2 != (unsigned char *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   buffer=(unsigned char *) AcquireQuantumMemory(0x800,sizeof(*buffer));
   if (buffer == (unsigned char *) NULL)
     ThrowBinaryImageException(ResourceLimitError,"MemoryAllocationFailed",
@@ -325,6 +325,7 @@ static MagickBooleanType DecodeImage(Image *image,unsigned char *luma,
     PCDGetBits(r->length);
     count--;
   }
+  (void) count;
   /*
     Relinquish resources.
   */
@@ -540,7 +541,7 @@ static Image *ReadPCDImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
@@ -1013,9 +1014,9 @@ static MagickBooleanType WritePCDTile(Image *image,const char *page_geometry,
   (void) ParseMetaGeometry(page_geometry,&geometry.x,&geometry.y,
     &geometry.width,&geometry.height);
   if ((geometry.width % 2) != 0)
-    geometry.width--;
+    geometry.width=MagickMax(geometry.width-1,1);
   if ((geometry.height % 2) != 0)
-    geometry.height--;
+    geometry.height=MagickMax(geometry.height-1,1);
   tile_image=ResizeImage(image,geometry.width,geometry.height,TriangleFilter,
     1.0,&image->exception);
   if (tile_image == (Image *) NULL)
@@ -1110,7 +1111,7 @@ static MagickBooleanType WritePCDImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   pcd_image=image;
   if (image->columns < image->rows)

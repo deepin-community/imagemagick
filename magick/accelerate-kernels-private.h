@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -703,7 +703,7 @@ uint MWC64X_NextUint(mwc64x_state_t *s)
         beta=mwcReadPseudoRandomValue(r);
         alpha*=beta;
       }
-      noise=(float) (QuantumRange*i/SigmaPoisson);
+      noise=(float) (QuantumRange*i*PerceptibleReciprocal(SigmaPoisson));
       break;
     }
     case RandomNoise:
@@ -2274,6 +2274,7 @@ uint MWC64X_NextUint(mwc64x_state_t *s)
     switch ((int) floor(h) % 6)
     {
       case 0:
+      default:
         {
           r=tmin+c;
           g=tmin+x;
@@ -2314,12 +2315,6 @@ uint MWC64X_NextUint(mwc64x_state_t *s)
           g=tmin;
           b=tmin+x;
           break;
-        }
-      default:
-        {
-          r=0.0;
-          g=0.0;
-          b=0.0;
         }
     }
     *red=ClampToQuantum(QuantumRange*r);
@@ -2609,7 +2604,7 @@ uint MWC64X_NextUint(mwc64x_state_t *s)
     http://www.cs.utexas.edu/users/fussell/courses/cs384g/lectures/mitchell/
     Mitchell.pdf.
 
-    Coefficents are determined from B,C values:
+    Coefficients are determined from B,C values:
     P0 = (  6 - 2*B       )/6 = coeff[0]
     P1 =         0
     P2 = (-18 +12*B + 6*C )/6 = coeff[1]

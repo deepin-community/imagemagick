@@ -9,7 +9,7 @@
 // are using X-Windows to see an animated result.
 //
 // Concept and algorithms lifted from PerlMagick demo script written
-// by John Christy.
+// by Cristy.
 //
 
 #include <Magick++.h>
@@ -26,6 +26,8 @@ int main( int /*argc*/, char ** argv)
 
   // Initialize ImageMagick install location for Windows
   InitializeMagick(*argv);
+  const char *const p = getenv("MAGICK_FONT");
+  const string MAGICK_FONT(p ? p : "");
 
   try {
 
@@ -49,6 +51,7 @@ int main( int /*argc*/, char ** argv)
     base.strokeColor(Color());
     base.fillColor("#600");
     base.fontPointsize( 30 );
+    base.font( MAGICK_FONT );
     base.boxColor( "red" );
     base.animationDelay( 20 );
     base.compressType( RLECompression );

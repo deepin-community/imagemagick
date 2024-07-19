@@ -1,0 +1,373 @@
+From: =?utf-8?q?Bastien_ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
+Date: Tue, 21 Mar 2017 12:15:08 +0100
+Subject: Improve man page to use version information and quantum
+
+Use ls *.in |sed 's,[.]1.in,,g' |xargs -n1 sh -c 'sed -i "s,$1(1),$1-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1),g" *.in' sedtest
+use ls *.in |sed 's,[.]1.in,,g' |xargs -n1 sh -c 'sed -i "s,fB$1,fB$1-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@,g" *.in' sedtest
+use  ls *.in |sed 's,[.]1.in,,g' |xargs -n1 sh -c 'sed -i "s,.TH $1,.TH $1-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@,g" *.in' sedtest
+Forwarded: no
+---
+ configure.ac               |  5 ++++-
+ utilities/ImageMagick.1.in |  6 +++---
+ utilities/animate.1.in     |  8 ++++----
+ utilities/compare.1.in     |  8 ++++----
+ utilities/composite.1.in   |  8 ++++----
+ utilities/conjure.1.in     |  8 ++++----
+ utilities/convert.1.in     |  8 ++++----
+ utilities/display.1.in     |  8 ++++----
+ utilities/identify.1.in    |  8 ++++----
+ utilities/import.1.in      |  8 ++++----
+ utilities/mogrify.1.in     | 10 +++++-----
+ utilities/montage.1.in     |  8 ++++----
+ utilities/stream.1.in      |  8 ++++----
+ 13 files changed, 52 insertions(+), 49 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 639c149..1c24117 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -783,7 +783,10 @@ MAGICK_ABI_SUFFIX="Q${QUANTUM_DEPTH}"
+ if test "$enable_hdri" = 'yes'; then
+   MAGICK_ABI_SUFFIX="Q${QUANTUM_DEPTH}${MAGICK_HDRI}"
+ fi
+-AC_SUBST([MAGICK_ABI_SUFFIX])
++
++AC_SUBST(MAGICK_ABI_SUFFIX)
++MAGICK_ABI_SUFFIX_LC=`echo "$MAGICK_ABI_SUFFIX" | sed 's/./\L&/g'`
++AC_SUBST(MAGICK_ABI_SUFFIX_LC)
+ 
+ # Set pixel cache threshold
+ AC_ARG_WITH([cache],
+diff --git a/utilities/ImageMagick.1.in b/utilities/ImageMagick.1.in
+index d64ee07..3f749fb 100644
+--- a/utilities/ImageMagick.1.in
++++ b/utilities/ImageMagick.1.in
+@@ -1,8 +1,8 @@
+-.TH ImageMagick 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ ImageMagick \- is a free software suite for the creation, modification and display of bitmap images.
+ .SH SYNOPSIS
+-\fBconvert\fP \fIinput-file\fP [\fIoptions\fP] \fIoutput-file\fP
++\fBconvert-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP \fIinput-file\fP [\fIoptions\fP] \fIoutput-file\fP
+ .SH OVERVIEW
+ 
+ Use ImageMagick\[rg] to create, edit, compose, or convert bitmap images. It can read and write images in a variety of formats (over 200) including PNG, JPEG, GIF, HEIC, TIFF, DPX, EXR, WebP, Postscript, PDF, and SVG. Use ImageMagick to resize, flip, mirror, rotate, distort, shear and transform images, adjust image colors, apply various special effects, or draw text, lines, polygons, ellipses and B\\['e]zier curves.
+@@ -77,7 +77,7 @@ interprets and executes scripts written in the Magick Scripting Language (MSL).
+ .PP
+ For more information about the ImageMagick, point your browser to file://@DOCUMENTATION_PATH@/index.html@EXTRA_DOC_DIR@ or https://imagemagick.org/.
+ .SH SEE ALSO
+-convert(1), compare(1), composite(1), conjure(1), identify(1), import(1), montage(1), display(1), animate(1), import(1), Magick++-config(1), MagickCore-config(1), MagickWand-config(1)
++convert-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1), identify-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1), composite-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1), montage-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1), compare-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1), display-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1), animate-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1), import-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1), conjure-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1), quantize(5), miff(4)
+ 
+ .SH COPYRIGHT
+ \fBCopyright (C) 1999 ImageMagick Studio LLC. Additional copyrights and licenses apply to this software, see file://@DOCUMENTATION_PATH@/www/license.html@EXTRA_DOC_DIR@ or https://imagemagick.org/script/license.php\fP
+diff --git a/utilities/animate.1.in b/utilities/animate.1.in
+index 0822c31..868e9c8 100644
+--- a/utilities/animate.1.in
++++ b/utilities/animate.1.in
+@@ -1,11 +1,11 @@
+-.TH animate 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH animate-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ animate \- animates an image or image sequence on any X server.
+ .SH SYNOPSIS
+ .TP
+-\fBanimate\fP [\fIoptions\fP] \fIinput-file\fP
++\fBanimate-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP [\fIoptions\fP] \fIinput-file\fP
+ .SH OVERVIEW
+-The \fBanimate\fP program is a member of the ImageMagick(1) suite of tools.  Use it to animate an image or image sequence on any X server.
++The \fBanimate-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  Use it to animate an image or image sequence on any X server.
+ 
+ For more information about the animate command, point your browser to file://@DOCUMENTATION_PATH@/www/animate.html@EXTRA_DOC_DIR@ or https://imagemagick.org/script/animate.php.
+ .SH DESCRIPTION
+@@ -94,7 +94,7 @@ By default, the image format of `file' is determined by its magic number.  To sp
+ Buttons: 
+   1    press to map or unmap the Command widget
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/compare.1.in b/utilities/compare.1.in
+index eddf748..5eb9224 100644
+--- a/utilities/compare.1.in
++++ b/utilities/compare.1.in
+@@ -1,11 +1,11 @@
+-.TH compare 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH compare-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ compare \- mathematically and visually annotate the difference between an image and its reconstruction.
+ .SH SYNOPSIS
+ .TP
+-\fBcompare\fP \fIinput-file\fP \fIinput-file\fP [\fIoptions\fP] \fIoutput-file\fP
++\fBcompare-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP \fIinput-file\fP \fIinput-file\fP [\fIoptions\fP] \fIoutput-file\fP
+ .SH OVERVIEW
+-The \fBcompare\fP program is a member of the ImageMagick(1) suite of tools.  Use it to mathematically and visually annotate the difference between an image and its reconstruction.
++The \fBcompare-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  Use it to mathematically and visually annotate the difference between an image and its reconstruction.
+ 
+ For more information about the compare command, point your browser to file://@DOCUMENTATION_PATH@/www/compare.html@EXTRA_DOC_DIR@ or https://imagemagick.org/script/compare.php.
+ .SH DESCRIPTION
+@@ -96,7 +96,7 @@ Two images are considered similar if their difference according to the specified
+ 
+ The compare program returns 2 on error, 0 if the images are similar, or a value between 0 and 1 if they are not similar.
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/composite.1.in b/utilities/composite.1.in
+index 478687a..2adb2bc 100644
+--- a/utilities/composite.1.in
++++ b/utilities/composite.1.in
+@@ -1,11 +1,11 @@
+-.TH composite 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH composite-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ composite \-  overlaps one image over another.
+ .SH SYNOPSIS
+ .TP
+-\fBcomposite\fP \fB[\fP \fIoptions\fP \fB... ]\fP \fIchange-file base-file\fP \fB[\fP \fImask-file\fP \fB]\fP \fIoutput-image\fP
++\fBcomposite-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP \fB[\fP \fIoptions\fP \fB... ]\fP \fIchange-file base-file\fP \fB[\fP \fImask-file\fP \fB]\fP \fIoutput-image\fP
+ .SH OVERVIEW
+-The \fBcomposite\fP program is a member of the ImageMagick(1) suite of tools.  Use it to overlap one image over another.
++The \fBcomposite-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  Use it to overlap one image over another.
+ 
+ For more information about the composite command, point your browser to file://@DOCUMENTATION_PATH@/www/composite.html@EXTRA_DOC_DIR@ or https://imagemagick.org/script/composite.php.
+ .SH DESCRIPTION
+@@ -109,7 +109,7 @@ Miscellaneous Options:
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/conjure.1.in b/utilities/conjure.1.in
+index bb1dfba..66604db 100644
+--- a/utilities/conjure.1.in
++++ b/utilities/conjure.1.in
+@@ -1,11 +1,11 @@
+-.TH conjure 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH conjure-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ conjure \- interprets and executes scripts written in the Magick Scripting Language (MSL).
+ .SH SYNOPSIS
+ .TP
+-\fBconjure\fP [\fIoptions\fP] \fIscript.msl\fP
++\fBconjure-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP [\fIoptions\fP] \fIscript.msl\fP
+ .SH OVERVIEW
+-The \fBconjure\fP program is a member of the ImageMagick(1) suite of tools.  Use it to process a Magick Scripting Language (MSL) script. The Magick scripting language (MSL) will primarily benefit those that want to accomplish custom image processing tasks but do not wish to program, or those that do not have access to a Perl interpreter or a compiler.
++The \fBconjure-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  Use it to process a Magick Scripting Language (MSL) script. The Magick scripting language (MSL) will primarily benefit those that want to accomplish custom image processing tasks but do not wish to program, or those that do not have access to a Perl interpreter or a compiler.
+ 
+ For more information about the conjure command, point your browser to file://@DOCUMENTATION_PATH@/www/conjure.html@EXTRA_DOC_DIR@ or https://www.imagemagick.org/script/conjure.php.
+ .SH DESCRIPTION
+@@ -27,7 +27,7 @@ In addition, define any key value pairs required by your script.  For example,
+ 
+     conjure \-size 100x100 \-color blue \-foo bar script.msl
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/convert.1.in b/utilities/convert.1.in
+index d4f40f0..99da109 100644
+--- a/utilities/convert.1.in
++++ b/utilities/convert.1.in
+@@ -1,11 +1,11 @@
+-.TH convert 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH convert-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ convert \- convert between image formats as well as resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample, and much more.
+ .SH SYNOPSIS
+ .TP
+-\fBconvert\fP [\fIinput-option\fP] \fIinput-file\fP [\fIoutput-option\fP] \fIoutput-file\fP
++\fBconvert-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP [\fIinput-option\fP] \fIinput-file\fP [\fIoutput-option\fP] \fIoutput-file\fP
+ .SH OVERVIEW
+-The \fBconvert\fP program is a member of the ImageMagick(1) suite of tools.  Use it to convert between image formats as well as resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample, and much more.  
++The \fBconvert-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  Use it to convert between image formats as well as resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample, and much more.  
+ 
+ For more information about the convert command, point your browser to file://@DOCUMENTATION_PATH@/www/convert.html@EXTRA_DOC_DIR@ or https://www.imagemagick.org/script/convert.php.
+ .SH DESCRIPTION
+@@ -317,7 +317,7 @@ Use any setting or operator as an \fIoutput-option\fP.  Only a limited number of
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/display.1.in b/utilities/display.1.in
+index 3c7c976..cd9fe07 100644
+--- a/utilities/display.1.in
++++ b/utilities/display.1.in
+@@ -1,11 +1,11 @@
+-.TH display 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH display-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ display \- displays an image or image sequence on any X server.
+ .SH SYNOPSIS
+ .TP
+-\fBdisplay\fP [\fIoptions\fP] \fIinput-file\fP
++\fBdisplay-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP [\fIoptions\fP] \fIinput-file\fP
+ .SH OVERVIEW
+-The \fBdisplay\fP program is a member of the ImageMagick(1) suite of tools.  Use it to display an image or image sequence on any X server.
++The \fBdisplay-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  Use it to display an image or image sequence on any X server.
+ 
+ For more information about the display command, point your browser to file://@DOCUMENTATION_PATH@/www/display.html@EXTRA_DOC_DIR@ or https://www.imagemagick.org/script/display.php.
+ .SH DESCRIPTION
+@@ -132,7 +132,7 @@ The display program defaults to the X screen resolution.  To display vector form
+ 
+   display -density 72 drawing.svg
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/identify.1.in b/utilities/identify.1.in
+index a8ed0bd..8b102d0 100644
+--- a/utilities/identify.1.in
++++ b/utilities/identify.1.in
+@@ -1,11 +1,11 @@
+-.TH identify 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH identify-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ identify \- describes the format and characteristics of one or more image files.
+ .SH SYNOPSIS
+ .TP
+-\fBidentify\fP [\fIoptions\fP] \fIinput-file\fP
++\fBidentify-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP [\fIoptions\fP] \fIinput-file\fP
+ .SH OVERVIEW
+-The \fBidentify\fP program is a member of the ImageMagick(1) suite of tools.  It describes the format and characteristics of one or more image files. It also reports if an image is incomplete or corrupt. The information returned includes the image number, the file name, the width and height of the image, whether the image is colormapped or not, the number of colors in the image (by default off use \fI-define unique=true\fP option), the number of bytes in the image, the format of the image (JPEG, PNM, etc.), and finally the number of seconds it took to read and process the image. Many more attributes are available with the verbose option.
++The \fBidentify-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  It describes the format and characteristics of one or more image files. It also reports if an image is incomplete or corrupt. The information returned includes the image number, the file name, the width and height of the image, whether the image is colormapped or not, the number of colors in the image (by default off use \fI-define unique=true\fP option), the number of bytes in the image, the format of the image (JPEG, PNM, etc.), and finally the number of seconds it took to read and process the image. Many more attributes are available with the verbose option.
+ 
+ For more information about the identify command, point your browser to file://@DOCUMENTATION_PATH@/www/identify.html@EXTRA_DOC_DIR@ or https://www.imagemagick.org/script/identify.php.
+ .SH DESCRIPTION
+@@ -74,7 +74,7 @@ By default, the image format of `file' is determined by its magic number.  To sp
+ Although some options appear to modify the file to be identified, the identify command is strictly \fBread only\fP. For instance, the crop option crops the in-memory image and then describes the result.
+ 
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/import.1.in b/utilities/import.1.in
+index 2f2a49b..4293f51 100644
+--- a/utilities/import.1.in
++++ b/utilities/import.1.in
+@@ -1,11 +1,11 @@
+-.TH import 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH import-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ import \- saves any visible window on an X server and outputs it as an image file. You can capture a single window, the entire screen, or any rectangular portion of the screen.
+ .SH SYNOPSIS
+ .TP
+-\fBimport\fP [\fIoptions\fP] \fIoutput-file\fP
++\fBimport-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP [\fIoptions\fP] \fIoutput-file\fP
+ .SH OVERVIEW
+-The \fBimport\fP program is a member of the ImageMagick(1) suite of tools.  Use it to capture some or all of an X server screen and save the image to a file.
++The \fBimport-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  Use it to capture some or all of an X server screen and save the image to a file.
+ 
+ For more information about the import command, point your browser to file://@DOCUMENTATION_PATH@/www/import.html@EXTRA_DOC_DIR@ or https://www.imagemagick.org/script/import.php.
+ .SH DESCRIPTION
+@@ -92,7 +92,7 @@ Miscellaneous Options:
+ 
+ By default, 'file' is written in the Postscript image format.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/mogrify.1.in b/utilities/mogrify.1.in
+index f141c79..f957639 100644
+--- a/utilities/mogrify.1.in
++++ b/utilities/mogrify.1.in
+@@ -1,11 +1,11 @@
+-.TH mogrify 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH mogrify-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+-mogrify \- resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample, and much more. Mogrify overwrites the original image file, whereas, convert(1) writes to a different image file.
++mogrify \- resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample, and much more. Mogrify overwrites the original image file, whereas, convert-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) writes to a different image file.
+ .SH SYNOPSIS
+ .TP
+-\fBmogrify\fP [\fIoptions\fP] \fIinput-file\fP 
++\fBmogrify-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP [\fIoptions\fP] \fIinput-file\fP 
+ .SH OVERVIEW
+-The \fBmogrify\fP program is a member of the ImageMagick(1) suite of tools.  Use it to resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample, and much more. This tool is similar to convert(1) except the original image file is overwritten with any changes you request.
++The \fBmogrify-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  Use it to resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample, and much more. This tool is similar to convert-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) except the original image file is overwritten with any changes you request.
+ 
+ For more information about the mogrify command, point your browser to file://@DOCUMENTATION_PATH@/www/mogrify.html@EXTRA_DOC_DIR@ or https://www.imagemagick.org/script/mogrify.php.
+ .SH DESCRIPTION
+@@ -320,7 +320,7 @@ Miscellaneous Options:
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/montage.1.in b/utilities/montage.1.in
+index 4fc4153..a93efd8 100644
+--- a/utilities/montage.1.in
++++ b/utilities/montage.1.in
+@@ -1,11 +1,11 @@
+-.TH montage 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH montage-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ montage \- create a composite image by combining several separate images. The images are tiled on the composite image optionally adorned with a border, frame, image name, and more.
+ .SH SYNOPSIS
+ .TP
+-\fBmontage\fP \fIinput-file[s]\fP [\fIoptions\fP] \fIoutput-file\fP
++\fBmontage-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP \fIinput-file[s]\fP [\fIoptions\fP] \fIoutput-file\fP
+ .SH OVERVIEW
+-The \fBmontage\fP program is a member of the ImageMagick(1) suite of tools.  Use it to create a composite image by combining several separate images. The images are tiled on the composite image optionally adorned with a border, frame, image name, and more.
++The \fBmontage-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP program is a member of the ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1) suite of tools.  Use it to create a composite image by combining several separate images. The images are tiled on the composite image optionally adorned with a border, frame, image name, and more.
+ 
+ For more information about the montage command, point your browser to file://@DOCUMENTATION_PATH@/www/montage.html@EXTRA_DOC_DIR@ or https://www.imagemagick.org/script/montage.php.
+ .SH DESCRIPTION
+@@ -141,7 +141,7 @@ In addition to those listed above, you can specify these standard X resources as
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+diff --git a/utilities/stream.1.in b/utilities/stream.1.in
+index 628b9ce..ba04530 100644
+--- a/utilities/stream.1.in
++++ b/utilities/stream.1.in
+@@ -1,11 +1,11 @@
+-.TH stream 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
++.TH stream-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@ 1 "Date: 2009/01/10 01:00:00" "ImageMagick"
+ .SH NAME
+ stream \- a lightweight tool to stream one or more pixel components of the image or portion of the image to your choice of storage formats.
+ .SH SYNOPSIS
+ .TP
+-\fBstream\fP [\fIoptions\fP] \fIinput-file\fP \fIoutput-file\fP
++\fBstream-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP [\fIoptions\fP] \fIinput-file\fP \fIoutput-file\fP
+ .SH OVERVIEW
+-\fBStream\fP is a lightweight tool to stream one or more pixel components of the image or portion of the image to your choice of storage formats.  It writes the pixel components as they are read from the input image a row at a time making \fBstream\fP desirable when working with large images or when you require raw pixel components.
++\fBStream\fP is a lightweight tool to stream one or more pixel components of the image or portion of the image to your choice of storage formats.  It writes the pixel components as they are read from the input image a row at a time making \fBstream-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@\fP desirable when working with large images or when you require raw pixel components.
+ 
+ For more information about the stream command, point your browser to file://@DOCUMENTATION_PATH@/www/stream.html@EXTRA_DOC_DIR@ or https://www.imagemagick.org/script/stream.php.
+ .SH DESCRIPTION
+@@ -52,7 +52,7 @@ Miscellaneous Options:
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick(1)
++ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 

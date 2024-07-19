@@ -18,7 +18,7 @@
 %                                December 1996                                %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -42,9 +42,6 @@
 */
 #include "magick/studio.h"
 #if defined(MAGICKCORE_WINDOWS_SUPPORT) || defined(__CYGWIN__)
-#define WIN32_LEAN_AND_MEAN
-#define VC_EXTRALEAN
-#include <windows.h>
 #include "magick/cache.h"
 #include "magick/colorspace.h"
 #include "magick/colorspace-private.h"
@@ -52,17 +49,24 @@
 #include "magick/exception.h"
 #include "magick/exception-private.h"
 #include "magick/image-private.h"
+#include "magick/locale-private.h"
 #include "magick/memory_.h"
 #include "magick/monitor.h"
 #include "magick/monitor-private.h"
 #include "magick/nt-base.h"
 #include "magick/nt-base-private.h"
+#include "magick/nt-feature.h"
 #include "magick/pixel-accessor.h"
 #include "magick/quantum.h"
 #include "magick/string_.h"
 #include "magick/token.h"
 #include "magick/splay-tree.h"
 #include "magick/utility.h"
+#if defined(__CYGWIN__)
+#define WIN32_LEAN_AND_MEAN
+#define VC_EXTRALEAN
+#include <windows.h>
+#endif
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,7 +100,7 @@ MagickExport MagickBooleanType NTIsMagickConflict(const char *magick)
   if (strlen(magick) > 1)
     return(MagickFalse);
   status=(GetLogicalDrives() & (1 <<
-    ((LocaleUppercase((int) (*magick)))-'A'))) != 0 ? MagickTrue : MagickFalse;
+    ((LocaleToUppercase((int) (*magick)))-'A'))) != 0 ? MagickTrue : MagickFalse;
   return(status);
 }
 

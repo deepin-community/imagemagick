@@ -4,14 +4,14 @@ Architecture: any
 Multi-Arch: foreign
 Depends: ${shlibs:Depends}, ${misc:Depends}, hicolor-icon-theme
 Recommends: libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, ghostscript, netpbm
-Suggests: imagemagick-doc, autotrace, cups-bsd | lpr | lprng, curl, enscript,
+Suggests: imagemagick-${IMVERSION}-doc, autotrace, cups-bsd | lpr | lprng, curl, enscript,
  ffmpeg, gimp, gnuplot, grads, graphviz, groff-base, hp2xx, html2ps,
  libwmf-bin, mplayer,
  povray, radiance, sane-utils, texlive-base-bin, transfig,
- ufraw-batch, xdg-utils
+ libraw-bin, xdg-utils
 Replaces: imagemagick (<< 8:6.9.2.10+dfsg-2~)
 Breaks: libmagickcore-dev (<< 8:6.9.2.10+dfsg-2~)
-Provides: imagemagick, imagemagick-${IMVERSION}.defaultquantum
+Provides: imagemagick, imagemagick-${IMVERSION}.defaultquantum (= ${binary:Version})
 Description: image manipulation programs -- quantum depth ${UCQUANTUMDEPTH}
  ImageMagick is a software suite to create, edit, and compose bitmap images.
  It can read, convert and write images in a variety of formats (over 100)
@@ -31,14 +31,14 @@ Description: image manipulation programs -- quantum depth ${UCQUANTUMDEPTH}
 # predepend on dpkg (>= 1.17.6) for libgomp symbols remove after jeesie +2
 # normally depends on imagemagick-${IMVERSION}-common >= ${source:version} except
 # here when some files were moved between two packages
-Package: libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}
+Package: libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}t64
 Architecture: any
 Multi-Arch: same
 Section: libs
 Pre-Depends: ${misc:Pre-Depends}, dpkg (>= 1.17.6)
 Depends: ${shlibs:Depends}, ${misc:Depends},
  imagemagick-${IMVERSION}-common (>= ${COMMONMINVERSION})
-Recommends: ghostscript, gsfonts
+Recommends: ghostscript, fonts-urw-base35
 Suggests: libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra
 Description: low-level image manipulation library -- quantum depth ${UCQUANTUMDEPTH}
  The MagickCore API is a low-level interface between the C programming language
@@ -59,12 +59,13 @@ Multi-Arch: same
 Section: libs
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Enhances: libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}
+Enhances: libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}t64
 Provides: libmagickcore-extra, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-1-extra,
  libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-2-extra,
  libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-3-extra,
  libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-4-extra,
- libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-5-extra
+ libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-5-extra,
+ libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-6-extra
 Suggests: inkscape
 Recommends: libjxr-tools
 Description: low-level image manipulation library - extra codecs (${UCQUANTUMDEPTH})
@@ -81,18 +82,15 @@ Section: libdevel
 Pre-Depends: dpkg (>= 1.17.11)
 Depends:
  libmagickcore-${IMVERSION}-arch-config (= ${binary:Version}),
- libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION} (= ${binary:Version}),
+ libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}t64 (= ${binary:Version}),
  libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra (= ${binary:Version}),
  libbz2-dev, libdjvulibre-dev,
- libexif-dev, libfreetype6-dev, libjpeg-dev, libopenjp2-7-dev,
+ libexif-dev, libfreetype-dev, libjpeg-dev, libopenjp2-7-dev,
  liblcms2-dev, liblqr-1-0-dev, libltdl-dev, libopenexr-dev, libpng-dev,
  librsvg2-dev, libtiff-dev, libwmf-dev, libx11-dev, libxext-dev, libxml2-dev,
  libxt-dev, zlib1g-dev,
- pkg-config,
+ pkgconf,
  ${misc:Depends}
-# remove breaks/replaces after jessie +2
-Replaces: libmagickcore-dev (<< 8:6.8.3.10-1~)
-Breaks: libmagickcore-dev (<< 8:6.8.3.10-1~)
 ${PROVIDES_LIBMAGICKCORE_DEV}
 Description: low-level image manipulation library - development files (${UCQUANTUMDEPTH})
  The MagickCore API is a low-level interface between the C programming language
@@ -136,7 +134,7 @@ Depends: libmagickwand-${IMVERSION}-headers (= ${source:Version}),
  libmagickwand-${IMVERSION}.${QUANTUMDEPTH}-${WANDSOVERSION} (= ${binary:Version}),
  libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra (= ${binary:Version}),
  libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-dev (= ${binary:Version}),
- pkg-config,
+ pkgconf,
  ${misc:Depends}
 ${PROVIDES_LIBMAGICKWAND_DEV}
 Replaces: libmagickwand-dev (<< 8:6.8.3.10-1~)
@@ -178,7 +176,7 @@ Depends: libmagick++-${IMVERSION}-headers (= ${source:Version}),
  libmagick++-${IMVERSION}.${QUANTUMDEPTH}-${PPSOVERSION} (= ${binary:Version}),
  libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-dev (= ${binary:Version}),
  libmagickwand-${IMVERSION}.${QUANTUMDEPTH}-dev (= ${binary:Version}),
- pkg-config,
+ pkgconf,
  ${misc:Depends}
 Replaces: libmagick++-dev (<< 8:6.8.3.10-1~)
 Breaks: libmagick++-dev (<< 8:6.8.3.10-1~)
@@ -199,11 +197,8 @@ Multi-Arch: allowed
 Section: perl
 Pre-Depends: dpkg (>= 1.17.11)
 Depends: ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
-Suggests: imagemagick-doc
+Suggests: imagemagick-${IMVERSION}-doc
 ${PROVIDES_MAGICK_PERL}
-# remove breaks/replaces after jessie +2
-Replaces: perlmagick (<< 8:6.8.3.10-1~)
-Breaks: perlmagick (<< 8:6.8.3.10-1~)
 Description: Perl interface to the ImageMagick graphics routines -- ${UCQUANTUMDEPTH} version
  PerlMagick is an objected-oriented Perl interface to ImageMagick.
  Use the module to read, manipulate, or write an image or image sequence from

@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -20,6 +20,10 @@
 
 #include "magick/magick-config.h"
 
+#if defined(MAGICKCORE_HAVE_UINTPTR_T)
+#  include <stdint.h>
+#endif
+
 #if defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
 #endif
@@ -39,9 +43,6 @@ extern "C" {
 #  define MagickULLConstant(c)  ((MagickSizeType) (c ## ULL))
 #endif
 
-#if defined(__s390__)
-typedef double MagickFloatType;
-#else
 #if MAGICKCORE_SIZEOF_FLOAT_T == 0
 typedef float MagickFloatType;
 #elif (MAGICKCORE_SIZEOF_FLOAT_T == MAGICKCORE_SIZEOF_FLOAT)
@@ -52,7 +53,6 @@ typedef double MagickFloatType;
 typedef double MagickFloatType;
 #else
 #error Your MagickFloatType type is neither a float, nor a double, nor a long double
-#endif
 #endif
 #if MAGICKCORE_SIZEOF_DOUBLE_T == 0
 typedef double MagickDoubleType;
@@ -70,7 +70,7 @@ typedef long double MagickDoubleType;
 typedef ssize_t SignedQuantum;
 #if defined(MAGICKCORE_HDRI_SUPPORT)
 typedef MagickFloatType Quantum;
-#define QuantumRange  255.0
+#define QuantumRange  ((Quantum) 255.0)
 #define QuantumFormat  "%g"
 #else
 typedef unsigned char Quantum;
@@ -83,7 +83,7 @@ typedef unsigned char Quantum;
 typedef ssize_t SignedQuantum;
 #if defined(MAGICKCORE_HDRI_SUPPORT)
 typedef MagickFloatType Quantum;
-#define QuantumRange  65535.0
+#define QuantumRange  ((Quantum) 65535.0)
 #define QuantumFormat  "%g"
 #else
 typedef unsigned short Quantum;
@@ -96,7 +96,7 @@ typedef unsigned short Quantum;
 typedef MagickDoubleType SignedQuantum;
 #if defined(MAGICKCORE_HDRI_SUPPORT)
 typedef MagickDoubleType Quantum;
-#define QuantumRange  4294967295.0
+#define QuantumRange  ((Quantum) 4294967295.0)
 #define QuantumFormat  "%g"
 #else
 typedef unsigned int Quantum;
@@ -109,7 +109,7 @@ typedef unsigned int Quantum;
 #define MaxMap  65535UL
 typedef MagickDoubleType SignedQuantum;
 typedef MagickDoubleType Quantum;
-#define QuantumRange  18446744073709551615.0
+#define QuantumRange  ((Quantum) 18446744073709551615.0)
 #define QuantumFormat  "%g"
 #else
 #if !defined(_CH_)
@@ -148,7 +148,7 @@ typedef unsigned __int64 MagickSizeType;
 #define MagickSizeFormat  "I64u"
 #endif
 
-#if MAGICKCORE_HAVE_UINTPTR_T || defined(uintptr_t)
+#if defined(MAGICKCORE_HAVE_UINTPTR_T) || defined(uintptr_t)
 typedef uintptr_t MagickAddressType;
 #else
 /* Hope for the best, I guess. */
@@ -216,7 +216,7 @@ typedef enum
 
   The macros are thus is only true if the value given is NaN.
 */
-#if defined(MAGICKCORE_HAVE_ISNAN)
+#if defined(MAGICKCORE_HAVE_ISNAN) && !defined(__cplusplus) && !defined(c_plusplus)
 #  define IsNaN(a) isnan(a)
 #elif defined(_MSC_VER) && (_MSC_VER >= 1310)
 #  include <float.h>

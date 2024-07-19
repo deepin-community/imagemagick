@@ -10,14 +10,14 @@
 %                            M   M  P       CCCC                              %
 %                                                                             %
 %                                                                             %
-%              Read/Write Magick Persistant Cache Image Format                %
+%                 Read/Write Magick Pixel Cache Image Format                  %
 %                                                                             %
 %                              Software Design                                %
 %                                   Cristy                                    %
 %                                 March 2000                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -76,6 +76,11 @@
 #include "magick/version-private.h"
 
 /*
+  Define declarations..
+*/
+#define MagickPixelCacheNonce  "MagickPixelCache"
+
+/*
   Forward declarations.
 */
 static MagickBooleanType
@@ -108,9 +113,9 @@ static MagickBooleanType
 */
 static MagickBooleanType IsMPC(const unsigned char *magick,const size_t length)
 {
-  if (length < 14)
+  if (length < 19)
     return(MagickFalse);
-  if (LocaleNCompare((const char *) magick,"id=MagickPixelCache",14) == 0)
+  if (LocaleNCompare((const char *) magick,"id=MagickPixelCache",19) == 0)
     return(MagickTrue);
   return(MagickFalse);
 }
@@ -186,6 +191,9 @@ static Image *ReadMPCImage(const ImageInfo *image_info,ExceptionInfo *exception)
   ssize_t
     count;
 
+  StringInfo
+    *nonce;
+
   unsigned int
     signature;
 
@@ -194,11 +202,11 @@ static Image *ReadMPCImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -226,7 +234,9 @@ static Image *ReadMPCImage(const ImageInfo *image_info,ExceptionInfo *exception)
     profiles=(LinkedListInfo *) NULL;
     length=MaxTextExtent;
     options=AcquireString((char *) NULL);
-    signature=GetMagickCoreSignature((const StringInfo *) NULL);
+    nonce=StringToStringInfo(MagickPixelCacheNonce);
+    signature=GetMagickCoreSignature(nonce);
+    nonce=DestroyStringInfo(nonce);
     image->depth=8;
     image->compression=NoCompression;
     while ((isgraph((int) ((unsigned char) c)) != 0) && (c != (int) ':'))
@@ -301,7 +311,7 @@ static Image *ReadMPCImage(const ImageInfo *image_info,ExceptionInfo *exception)
                   Get the keyword value.
                 */
                 c=ReadBlobByte(image);
-                while ((c != (int) '}') && (c != EOF))
+                while ((c != (int) '{') && (c != (int) '}') && (c != EOF))
                 {
                   if ((size_t) (p-options+1) >= length)
                     {
@@ -318,7 +328,7 @@ static Image *ReadMPCImage(const ImageInfo *image_info,ExceptionInfo *exception)
                   if (c == '\\')
                     {
                       c=ReadBlobByte(image);
-                      if (c == (int) '}')
+                      if ((c == (int) '{') || (c == (int) '}'))
                         {
                           *p++=(char) c;
                           c=ReadBlobByte(image);
@@ -776,12 +786,15 @@ static Image *ReadMPCImage(const ImageInfo *image_info,ExceptionInfo *exception)
           profiles=DestroyLinkedList(profiles,RelinquishMagickMemory);
         ThrowReaderException(CorruptImageError,"ImproperImageHeader");
       }
-    if (signature != GetMagickCoreSignature((const StringInfo *) NULL))
+    nonce=StringToStringInfo(MagickPixelCacheNonce);
+    if (signature != GetMagickCoreSignature(nonce))
       {
+        nonce=DestroyStringInfo(nonce);
         if (profiles != (LinkedListInfo *) NULL)
           profiles=DestroyLinkedList(profiles,RelinquishMagickMemory);
         ThrowReaderException(CacheError,"IncompatibleAPI");
       }
+    nonce=DestroyStringInfo(nonce);
     if (image->montage != (char *) NULL)
       {
         char
@@ -981,7 +994,7 @@ static Image *ReadMPCImage(const ImageInfo *image_info,ExceptionInfo *exception)
     {
       c=ReadBlobByte(image);
     } while ((isgraph((int) ((unsigned char) c)) == 0) && (c != EOF));
-    if (c != EOF)
+    if ((c != EOF) && ((c == 'i') || (c == 'I')))
       {
         /*
           Allocate next image structure.
@@ -998,8 +1011,9 @@ static Image *ReadMPCImage(const ImageInfo *image_info,ExceptionInfo *exception)
         if (status == MagickFalse)
           break;
       }
-  } while (c != EOF);
-  (void) CloseBlob(image);
+  } while ((c != EOF) && ((c == 'i') || (c == 'I')));
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
   if (status == MagickFalse)
     return(DestroyImageList(image));
   return(GetFirstImageInList(image));
@@ -1115,13 +1129,13 @@ static MagickBooleanType WriteMPCImage(const ImageInfo *image_info,Image *image)
     offset,
     scene;
 
-  ssize_t
-    i;
-
   size_t
     depth,
-    imageListLength,
+    number_scenes,
     one;
+
+  ssize_t
+    i;
 
   /*
     Open persistent cache.
@@ -1130,7 +1144,7 @@ static MagickBooleanType WriteMPCImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
@@ -1140,11 +1154,14 @@ static MagickBooleanType WriteMPCImage(const ImageInfo *image_info,Image *image)
   scene=0;
   offset=0;
   one=1;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
+    StringInfo
+      *nonce;
+
     /*
-      Write persistent cache meta-information.
+      Write cache meta-information.
     */
     (void) SetImageStorageClass(image,image->storage_class);
     depth=GetImageQuantumDepth(image,MagickTrue);
@@ -1152,8 +1169,10 @@ static MagickBooleanType WriteMPCImage(const ImageInfo *image_info,Image *image)
         (image->colors > (one << depth)))
       (void) SetImageStorageClass(image,DirectClass);
     (void) WriteBlobString(image,"id=MagickPixelCache\n");
+    nonce=StringToStringInfo(MagickPixelCacheNonce);
     (void) FormatLocaleString(buffer,MaxTextExtent,"magick-signature=%u\n",
-      GetMagickCoreSignature((const StringInfo *) NULL));
+      GetMagickCoreSignature(nonce));
+    nonce=DestroyStringInfo(nonce);
     (void) WriteBlobString(image,buffer);
     (void) FormatLocaleString(buffer,MaxTextExtent,
       "class=%s  colors=%.20g  matte=%s\n",CommandOptionToMnemonic(
@@ -1298,7 +1317,7 @@ static MagickBooleanType WriteMPCImage(const ImageInfo *image_info,Image *image)
     if (image->chromaticity.white_point.x != 0.0)
       {
         /*
-          Note chomaticity points.
+          Note chromaticity points.
         */
         (void) FormatLocaleString(buffer,MaxTextExtent,"red-primary="
           "%g,%g  green-primary=%g,%g  blue-primary=%g,%g\n",
@@ -1371,12 +1390,13 @@ static MagickBooleanType WriteMPCImage(const ImageInfo *image_info,Image *image)
           else
             {
               (void) WriteBlobByte(image,'{');
-              if (strchr(value,'}') == (char *) NULL)
+              if ((strchr(value,'{') == (char *) NULL) &&
+                  (strchr(value,'}') == (char *) NULL))
                 (void) WriteBlob(image,length,(const unsigned char *) value);
               else
                 for (i=0; i < (ssize_t) length; i++)
                 {
-                  if (value[i] == (int) '}')
+                  if ((value[i] == (int) '{') || (value[i] == (int) '}'))
                     (void) WriteBlobByte(image,'\\');
                   (void) WriteBlobByte(image,(unsigned char) value[i]);
                 }
@@ -1506,13 +1526,14 @@ static MagickBooleanType WriteMPCImage(const ImageInfo *image_info,Image *image)
     image=SyncNextImageInList(image);
     if (image->progress_monitor != (MagickProgressMonitor) NULL)
       {
-        status=image->progress_monitor(SaveImagesTag,scene,imageListLength,
+        status=image->progress_monitor(SaveImagesTag,scene,number_scenes,
           image->client_data);
         if (status == MagickFalse)
           break;
       }
     scene++;
   } while (image_info->adjoin != MagickFalse);
-  (void) CloseBlob(image);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
   return(status);
 }

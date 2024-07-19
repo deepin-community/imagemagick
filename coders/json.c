@@ -17,7 +17,7 @@
 %                                January 2014                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -54,6 +54,7 @@
 #include "magick/image.h"
 #include "magick/image-private.h"
 #include "magick/list.h"
+#include "magick/locale-private.h"
 #include "magick/magick.h"
 #include "magick/memory_.h"
 #include "magick/monitor.h"
@@ -322,6 +323,7 @@ static void ColorFormatLocaleFile(FILE *file,const char *format,Image *image,
   MagickPixelPacket
     pixel;
 
+  assert(p != (const PixelPacket *) NULL);
   GetMagickPixelPacket(image,&pixel);
   SetMagickPixelPacket(image,p,index,&pixel);
   GetColorTuple(&pixel,MagickTrue,color);
@@ -345,7 +347,7 @@ static ChannelStatistics *GetLocationStatistics(const Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   length=CompositeChannels+1UL;
   channel_statistics=(ChannelStatistics *) AcquireQuantumMemory(length,
@@ -629,24 +631,24 @@ static ssize_t PrintChannelLocations(FILE *file,const Image *image,
       {
         case RedChannel:
         {
-          match=fabs((double) (p->red-target)) < 0.5 ? MagickTrue : MagickFalse;
+          match=fabs((double) p->red-target) < 0.5 ? MagickTrue : MagickFalse;
           break;
         }
         case GreenChannel:
         {
-          match=fabs((double) (p->green-target)) < 0.5 ? MagickTrue :
+          match=fabs((double) p->green-target) < 0.5 ? MagickTrue :
             MagickFalse;
           break;
         }
         case BlueChannel:
         {
-          match=fabs((double) (p->blue-target)) < 0.5 ? MagickTrue :
+          match=fabs((double) p->blue-target) < 0.5 ? MagickTrue :
             MagickFalse;
           break;
         }
         case AlphaChannel:
         {
-          match=fabs((double) (p->opacity-target)) < 0.5 ? MagickTrue :
+          match=fabs((double) p->opacity-target) < 0.5 ? MagickTrue :
             MagickFalse;
           break;
         }
@@ -756,24 +758,31 @@ static ssize_t PrintChannelStatistics(FILE *file,const ChannelType channel,
 
   if (channel == AlphaChannel)
     n=FormatLocaleFile(file,StatisticsFormat,name,GetMagickPrecision(),
-      (double) ClampToQuantum(scale*(QuantumRange-
-      channel_statistics[channel].minima)),GetMagickPrecision(),(double)
-      ClampToQuantum(scale*(QuantumRange-channel_statistics[channel].maxima)),
-      GetMagickPrecision(),scale*(QuantumRange-
-      channel_statistics[channel].mean),GetMagickPrecision(),
-      IsNaN(channel_statistics[channel].standard_deviation) != 0 ? MagickEpsilon :
-      scale*channel_statistics[channel].standard_deviation,GetMagickPrecision(),
-      channel_statistics[channel].kurtosis,GetMagickPrecision(),
-      channel_statistics[channel].skewness,GetMagickPrecision(),
-      channel_statistics[channel].entropy);
+      channel_statistics[channel].minima == MagickMaximumValue ? 0.0 :
+      (double) ClampToQuantum(scale*((MagickRealType) QuantumRange-
+      channel_statistics[channel].minima)),GetMagickPrecision(),
+       channel_statistics[channel].maxima == -MagickMaximumValue ? 0.0 :
+      (double) ClampToQuantum(scale*((MagickRealType) QuantumRange-
+      channel_statistics[channel].maxima)),GetMagickPrecision(),scale*
+      ((MagickRealType) QuantumRange-channel_statistics[channel].mean),
+      GetMagickPrecision(),
+      IsNaN(channel_statistics[channel].standard_deviation) != 0 ?
+      MagickEpsilon : scale*channel_statistics[channel].standard_deviation,
+      GetMagickPrecision(),channel_statistics[channel].kurtosis,
+      GetMagickPrecision(),channel_statistics[channel].skewness,
+      GetMagickPrecision(),channel_statistics[channel].entropy);
   else
     n=FormatLocaleFile(file,StatisticsFormat,name,GetMagickPrecision(),
+      channel_statistics[channel].minima == MagickMaximumValue ? 0.0 :
       (double) ClampToQuantum(scale*channel_statistics[channel].minima),
-      GetMagickPrecision(),(double) ClampToQuantum(scale*
-      channel_statistics[channel].maxima),GetMagickPrecision(),scale*
-      channel_statistics[channel].mean,GetMagickPrecision(),
-      IsNaN(channel_statistics[channel].standard_deviation) != 0 ? MagickEpsilon :
-      scale*channel_statistics[channel].standard_deviation,GetMagickPrecision(),
+      GetMagickPrecision(),
+      channel_statistics[channel].maxima == -MagickMaximumValue ? 0.0 :
+      (double) ClampToQuantum(scale*channel_statistics[channel].maxima),
+      GetMagickPrecision(),scale*channel_statistics[channel].mean,
+      GetMagickPrecision(),
+      IsNaN(channel_statistics[channel].standard_deviation) != 0 ?
+      MagickEpsilon : scale*channel_statistics[channel].standard_deviation,
+      GetMagickPrecision(),
       channel_statistics[channel].kurtosis,GetMagickPrecision(),
       channel_statistics[channel].skewness,GetMagickPrecision(),
       channel_statistics[channel].entropy);
@@ -999,21 +1008,22 @@ static MagickBooleanType EncodeImageAttributes(Image *image,FILE *file)
   ImageType
     type;
 
-  ssize_t
-    i,
-    x;
-
   size_t
     depth,
     distance,
     scale;
 
   ssize_t
+    i,
+    x,
     y;
+
+  struct stat
+    properties;
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (file == (FILE *) NULL)
     file=stdout;
@@ -1049,6 +1059,11 @@ static MagickBooleanType EncodeImageAttributes(Image *image,FILE *file)
           JSONFormatLocaleFile(file,"    \"baseName\": %s,\n",filename);
         }
     }
+  properties=(*GetBlobProperties(image));
+  if (properties.st_mode != 0)
+    (void) FormatLocaleFile(file,"    \"permissions\": %d%d%d,\n",
+      (properties.st_mode >> 6) & 0x07,(properties.st_mode >> 3) & 0x07,
+      (properties.st_mode >> 0) & 0x07);
   magick_info=GetMagickInfo(image->magick,exception);
   JSONFormatLocaleFile(file,"    \"format\": %s,\n",image->magick);
   if ((magick_info != (const MagickInfo *) NULL) &&
@@ -1091,7 +1106,7 @@ static MagickBooleanType EncodeImageAttributes(Image *image,FILE *file)
     JSONFormatLocaleFile(file,"    \"baseType\": %s,\n",
       CommandOptionToMnemonic(MagickTypeOptions,(ssize_t) image->type));
   if (version < 1.0)
-    JSONFormatLocaleFile(file,"    \"endianness\": %s,\n",
+    JSONFormatLocaleFile(file,"    \"endianess\": %s,\n",
       CommandOptionToMnemonic(MagickEndianOptions,(ssize_t) image->endian));
   else
     JSONFormatLocaleFile(file,"    \"endianness\": %s,\n",
@@ -1128,7 +1143,7 @@ static MagickBooleanType EncodeImageAttributes(Image *image,FILE *file)
       if (channel_statistics == (ChannelStatistics *) NULL)
         return(MagickFalse);
       (void) CopyMagickString(target,locate,MaxTextExtent);
-      *target=(char) LocaleUppercase((int) ((unsigned char) *target));
+      *target=(char) LocaleToUppercase((int) ((unsigned char) *target));
       (void) FormatLocaleFile(file,"    \"channel%s\": {\n",target);
       if (image->matte != MagickFalse)
         (void) PrintChannelLocations(file,image,AlphaChannel,"alpha",
@@ -1765,7 +1780,7 @@ static MagickBooleanType WriteJSONImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBlobMode,&image->exception);
   if (status == MagickFalse)
@@ -1780,7 +1795,9 @@ static MagickBooleanType WriteJSONImage(const ImageInfo *image_info,
       MaxTextExtent);
     image->magick_columns=image->columns;
     image->magick_rows=image->rows;
-    (void) EncodeImageAttributes(image,GetBlobFileHandle(image));
+    status=EncodeImageAttributes(image,GetBlobFileHandle(image));
+    if (status == MagickFalse)
+      break;
     if (GetNextImageInList(image) == (Image *) NULL)
       {
         (void) WriteBlobString(image,"]");
@@ -1792,6 +1809,7 @@ static MagickBooleanType WriteJSONImage(const ImageInfo *image_info,
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);
-  (void) CloseBlob(image);
-  return(MagickTrue);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  return(status);
 }

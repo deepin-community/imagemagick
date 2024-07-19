@@ -17,7 +17,7 @@
 %                                 March 2000                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -149,6 +149,7 @@ MagickExport MagickBooleanType DefineImageRegistry(const RegistryType type,
 */
 MagickExport MagickBooleanType DeleteImageRegistry(const char *key)
 {
+  assert(key != (const char *) NULL);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",key);
   if (registry == (void *) NULL)
@@ -192,6 +193,7 @@ MagickExport void *GetImageRegistry(const RegistryType type,const char *key,
   RegistryInfo
     *registry_info;
 
+  assert(key != (const char *) NULL);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",key);
   if (registry == (void *) NULL)
@@ -354,6 +356,7 @@ MagickExport void RegistryComponentTerminus(void)
 */
 MagickExport void *RemoveImageRegistry(const char *key)
 {
+  assert(key != (const char *) NULL);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",key);
   if (registry == (void *) NULL)
@@ -451,15 +454,13 @@ static void *DestroyRegistryNode(void *registry_info)
 MagickExport MagickBooleanType SetImageRegistry(const RegistryType type,
   const char *key,const void *value,ExceptionInfo *exception)
 {
-  MagickBooleanType
-    status;
-
   RegistryInfo
     *registry_info;
 
   void
     *clone_value;
 
+  assert(key != (const char *) NULL);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",key);
   if (value == (const void *) NULL)
@@ -483,7 +484,8 @@ MagickExport MagickBooleanType SetImageRegistry(const RegistryType type,
         *image;
 
       image=(const Image *) value;
-      if (image->signature != MagickCoreSignature)
+      if ((image == (const Image *) NULL) ||
+          (image->signature != MagickCoreSignature))
         {
           (void) ThrowMagickException(exception,GetMagickModule(),RegistryError,
             "UnableToSetRegistry","%s",key);
@@ -498,7 +500,8 @@ MagickExport MagickBooleanType SetImageRegistry(const RegistryType type,
         *image_info;
 
       image_info=(const ImageInfo *) value;
-      if (image_info->signature != MagickCoreSignature)
+      if ((image_info == (const ImageInfo *) NULL) ||
+          (image_info->signature != MagickCoreSignature))
         {
           (void) ThrowMagickException(exception,GetMagickModule(),RegistryError,
             "UnableToSetRegistry","%s",key);
@@ -525,6 +528,5 @@ MagickExport MagickBooleanType SetImageRegistry(const RegistryType type,
           DestroyRegistryNode);
       UnlockSemaphoreInfo(registry_semaphore);
     }
-  status=AddValueToSplayTree(registry,ConstantString(key),registry_info);
-  return(status);
+  return(AddValueToSplayTree(registry,ConstantString(key),registry_info));
 }

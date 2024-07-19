@@ -1,0 +1,24 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Mon, 1 Feb 2021 16:19:56 +0000
+Subject: FIx error in new upstream html
+
+Forwarded: yes
+---
+ www/links.html | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/www/links.html b/www/links.html
+index f553865..f5fc485 100644
+--- a/www/links.html
++++ b/www/links.html
+@@ -161,7 +161,9 @@
+ <h2><a class="anchor" id="bank"></a>Image Bank</h2>
+ 
+ <ul>
+-  <dd class="col-md-8"><a href="../archive//image-bank/">Image Bank</a>: a small digital test image bank</dd>
++  <dd class="col-md-8"><a href="https://urban-warrior.org/">Wizard's Toolkit</a></dd>
++  <dd class="col-md-8"><a href="https://github.com/cherryleafroad/Android-ImageMagick7">ImageMagick API on the Android Platform</a></dd>
++  <dd class="col-md-8"><a href="../archive//iOS/">ImageMagick API on the iOS / iPhone  Platform</a></dd>
+ </ul>
+ 
+ <h2><a class="anchor" id="related-projects"></a>Related Projects</h2>

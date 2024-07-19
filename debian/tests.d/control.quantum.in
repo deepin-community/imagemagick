@@ -2,5 +2,12 @@ Tests: rose-${IMVERSION}.${QUANTUMDEPTH}
 Depends: imagemagick-${IMVERSION}.${QUANTUMDEPTH}, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, netpbm
 
 Tests: perlmagick-${IMVERSION}.${QUANTUMDEPTH}
-Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, gsfonts
+Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, fonts-urw-base35
+
+Tests: perlmagick-gd-${IMVERSION}.${QUANTUMDEPTH}
+Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, fonts-urw-base35, libgd-securityimage-perl, libimage-magick-perl
+
+Tests: perlmagick-leak-${IMVERSION}.${QUANTUMDEPTH}
+Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, fonts-urw-base35, time, bash
+
 

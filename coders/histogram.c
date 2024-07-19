@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -183,6 +183,9 @@ static MagickBooleanType WriteHISTOGRAMImage(const ImageInfo *image_info,
   const char
     *option;
 
+  const MagickInfo
+    *magick_info;
+
   ExceptionInfo
     *exception;
 
@@ -228,7 +231,7 @@ static MagickBooleanType WriteHISTOGRAMImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   SetGeometry(image,&geometry);
@@ -386,8 +389,9 @@ static MagickBooleanType WriteHISTOGRAMImage(const ImageInfo *image_info,
   write_info=CloneImageInfo(image_info);
   *write_info->magick='\0';
   (void) SetImageInfo(write_info,1,&image->exception);
-  if ((*write_info->magick == '\0') ||
-      (LocaleCompare(write_info->magick,"HISTOGRAM") == 0))
+  magick_info=GetMagickInfo(write_info->magick,&image->exception);
+  if ((magick_info == (const MagickInfo*) NULL) ||
+      (LocaleCompare(magick_info->magick_module,"HISTOGRAM") == 0))
     (void) FormatLocaleString(histogram_image->filename,MaxTextExtent,
       "miff:%s",write_info->filename);
   status=WriteImage(write_info,histogram_image);

@@ -17,7 +17,7 @@
 %                                 March 2000                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -43,6 +43,7 @@
 #include "magick/studio.h"
 #include "magick/artifact.h"
 #include "magick/cache.h"
+#include "magick/channel.h"
 #include "magick/color.h"
 #include "magick/compare.h"
 #include "magick/constitute.h"
@@ -68,6 +69,7 @@
 #include "magick/property.h"
 #include "magick/quantize.h"
 #include "magick/quantum.h"
+#include "magick/registry.h"
 #include "magick/resample.h"
 #include "magick/resource_.h"
 #include "magick/splay-tree.h"
@@ -105,6 +107,7 @@ static const OptionInfo
     { "Extract", ExtractAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "Flatten", FlattenAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "Off", DeactivateAlphaChannel, UndefinedOptionFlag, MagickFalse },
+    { "OffIfOpaque", OffIfOpaqueAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "On", ActivateAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "Opaque", OpaqueAlphaChannel, UndefinedOptionFlag, MagickFalse },
     { "Remove", RemoveAlphaChannel, UndefinedOptionFlag, MagickFalse },
@@ -997,7 +1000,11 @@ static const OptionInfo
   {
     { "Undefined", UndefinedDirection, UndefinedOptionFlag, MagickTrue },
     { "right-to-left", RightToLeftDirection, UndefinedOptionFlag, MagickFalse },
+    { "RTL", RightToLeftDirection, UndefinedOptionFlag, MagickFalse },
     { "left-to-right", LeftToRightDirection, UndefinedOptionFlag, MagickFalse },
+    { "LTR", LeftToRightDirection, UndefinedOptionFlag, MagickFalse },
+    { "to-to-bottom", TopToBottomDirection, UndefinedOptionFlag, MagickFalse },
+    { "TTB", TopToBottomDirection, UndefinedOptionFlag, MagickFalse },
     { (char *) NULL, UndefinedDirection, UndefinedOptionFlag, MagickFalse }
   },
   DisposeOptions[] =
@@ -1350,6 +1357,7 @@ static const OptionInfo
     { "Module", MagickModuleOptions, UndefinedOptionFlag, MagickFalse },
     { "Noise", MagickNoiseOptions, UndefinedOptionFlag, MagickFalse },
     { "Orientation", MagickOrientationOptions, UndefinedOptionFlag, MagickFalse },
+    { "Pagesize", MagickPagesizeOptions, UndefinedOptionFlag, MagickFalse },
     { "PixelIntensity", MagickPixelIntensityOptions, UndefinedOptionFlag, MagickFalse },
     { "Policy", MagickPolicyOptions, UndefinedOptionFlag, MagickFalse },
     { "PolicyDomain", MagickPolicyDomainOptions, UndefinedOptionFlag, MagickFalse },
@@ -1787,11 +1795,11 @@ MagickExport MagickBooleanType CloneImageOptions(ImageInfo *image_info,
 {
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(clone_info != (const ImageInfo *) NULL);
   assert(clone_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   if (clone_info->options != (void *) NULL)
     {
       if (image_info->options != (void *) NULL)
@@ -1880,7 +1888,7 @@ MagickExport MagickBooleanType DeleteImageOption(ImageInfo *image_info,
 {
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   if (image_info->options == (void *) NULL)
@@ -1914,7 +1922,7 @@ MagickExport void DestroyImageOptions(ImageInfo *image_info)
 {
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   if (image_info->options != (void *) NULL)
@@ -1954,7 +1962,7 @@ MagickExport const char *GetImageOption(const ImageInfo *image_info,
 
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   if (image_info->options == (void *) NULL)
@@ -2219,7 +2227,7 @@ MagickExport char *GetNextImageOption(const ImageInfo *image_info)
 {
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   if (image_info->options == (void *) NULL)
@@ -2252,8 +2260,26 @@ MagickExport char *GetNextImageOption(const ImageInfo *image_info)
 */
 MagickExport MagickBooleanType IsCommandOption(const char *option)
 {
+  char
+    *value;
+  
+  ExceptionInfo
+    *exception;
+
+  MagickBooleanType
+    pedantic;
+  
   assert(option != (const char *) NULL);
   if ((*option != '-') && (*option != '+'))
+    return(MagickFalse);
+  exception=AcquireExceptionInfo();
+  value=(char *) GetImageRegistry(StringRegistryType,"option:pedantic",
+    exception);
+  exception=DestroyExceptionInfo(exception);
+  pedantic=IsStringTrue(value);
+  if (value != (char *) NULL)
+    value=DestroyString(value);
+  if ((pedantic == MagickFalse) && (IsPathAccessible(option) != MagickFalse))
     return(MagickFalse);
   if (strlen(option) == 1)
     return(((*option == '{') || (*option == '}') || (*option == '[') ||
@@ -2697,7 +2723,7 @@ MagickExport char *RemoveImageOption(ImageInfo *image_info,const char *option)
 
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   if (image_info->options == (void *) NULL)
@@ -2734,7 +2760,7 @@ MagickExport void ResetImageOptions(const ImageInfo *image_info)
 {
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   if (image_info->options == (void *) NULL)
@@ -2770,7 +2796,7 @@ MagickExport void ResetImageOptionIterator(const ImageInfo *image_info)
 {
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   if (image_info->options == (void *) NULL)
@@ -2810,7 +2836,7 @@ MagickExport MagickBooleanType SetImageOption(ImageInfo *image_info,
 {
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   /*

@@ -18,7 +18,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -198,7 +198,8 @@ ModuleExport void UnregisterHTMLImage(void)
 %
 %  The format of the WriteHTMLImage method is:
 %
-%      MagickBooleanType WriteHTMLImage(const ImageInfo *image_info,Image *image)
+%      MagickBooleanType WriteHTMLImage(const ImageInfo *image_info,
+%        Image *image)
 %
 %  A description of each parameter follows.
 %
@@ -208,6 +209,23 @@ ModuleExport void UnregisterHTMLImage(void)
 %
 %
 */
+
+static ssize_t WriteURLComponent(Image *image,const int c)
+{
+  char
+    encoding[MagickPathExtent],
+    html5;
+
+  html5=isalnum(c) != 0 || (c == '-') || (c == '_') || (c == '.') ||
+    (c == '!') || (c == '~') || (c == '*') || (c == '\'') || (c == '(') ||
+    (c == ')') ?  c : 0;
+  if (html5 != 0)
+    (void) FormatLocaleString(encoding,MagickPathExtent,"%c",html5);
+  else
+    (void) FormatLocaleString(encoding,MagickPathExtent,"%%%02X",c);
+  return(WriteBlobString(image,encoding));
+}
+
 static MagickBooleanType WriteHTMLImage(const ImageInfo *image_info,
   Image *image)
 {
@@ -240,14 +258,15 @@ static MagickBooleanType WriteHTMLImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
   (void) CloseBlob(image);
-  (void) TransformImageColorspace(image,sRGBColorspace);
+  if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+    (void) TransformImageColorspace(image,sRGBColorspace);
   *url='\0';
   if ((LocaleCompare(image_info->magick,"FTP") == 0) ||
       (LocaleCompare(image_info->magick,"HTTP") == 0))
@@ -295,7 +314,7 @@ static MagickBooleanType WriteHTMLImage(const ImageInfo *image_info,
         Write the HTML image file.
       */
       (void) WriteBlobString(image,"<?xml version=\"1.0\" "
-        "encoding=\"US-ASCII\"?>\n");
+        "encoding=\"UTF-8\"?>\n");
       (void) WriteBlobString(image,"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML "
         "1.0 Strict//EN\" "
         "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
@@ -349,7 +368,7 @@ static MagickBooleanType WriteHTMLImage(const ImageInfo *image_info,
       else
         for (p=image->directory; *p != '\0'; p++)
           if (*p != '\xff')
-            (void) WriteBlobByte(image,(unsigned char) *p);
+            (void) WriteURLComponent(image,(unsigned char) *p);
           else
             {
               (void) FormatLocaleString(buffer,MaxTextExtent,"\" shape="
@@ -424,7 +443,7 @@ static MagickBooleanType WriteHTMLImage(const ImageInfo *image_info,
   else
     for (p=image->directory; *p != '\0'; p++)
       if (*p != '\xff')
-        (void) WriteBlobByte(image,(unsigned char) *p);
+        (void) WriteURLComponent(image,(unsigned char) *p);
       else
         {
           (void) FormatLocaleString(buffer,MaxTextExtent,"\" shape=\"rect\""

@@ -17,7 +17,7 @@
 %                               December 2001                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -89,33 +89,41 @@ static int ConjureMain(int argc,char **argv)
     status;
 
   MagickCoreGenesis(*argv,MagickTrue);
+  MagickWandGenesis();
   exception=AcquireExceptionInfo();
   image_info=AcquireImageInfo();
   status=MagickCommandGenesis(image_info,ConjureImageCommand,argc,argv,
     (char **) NULL,exception);
   image_info=DestroyImageInfo(image_info);
   exception=DestroyExceptionInfo(exception);
-  MagickCoreTerminus();
+  MagickWandTerminus();
   return(status != MagickFalse ? 0 : 1);
 }
 
-#if !defined(MAGICKCORE_WINDOWS_SUPPORT) || defined(__CYGWIN__) || defined(__MINGW32__)
+#if !defined(MAGICKCORE_WINDOWS_SUPPORT) || defined(__CYGWIN__)
 int main(int argc,char **argv)
 {
   return(ConjureMain(argc,argv));
 }
 #else
+static LONG WINAPI NTUncaughtException(EXCEPTION_POINTERS *info)
+{ 
+  magick_unreferenced(info);
+  AsynchronousResourceComponentTerminus();
+  return(EXCEPTION_CONTINUE_SEARCH);
+}
+
 int wmain(int argc,wchar_t *argv[])
 {
   char
     **utf8;
 
   int
+    i,
     status;
 
-  int
-    i;
-
+  SetUnhandledExceptionFilter(NTUncaughtException);
+  SetConsoleOutputCP(CP_UTF8);
   utf8=NTArgvToUTF8(argc,argv);
   status=ConjureMain(argc,utf8);
   for (i=0; i < argc; i++)

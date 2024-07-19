@@ -17,7 +17,7 @@
 %                            September 1994                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -100,6 +100,7 @@ static MagickBooleanType IdentifyUsage(void)
       "  -log format          format of debugging information\n"
       "  -version             print version information",
     operators[] =
+      "  -auto-orient         automagically orient (rotate) image\n"
       "  -grayscale method    convert image to grayscale\n"
       "  -negate              replace every pixel with its complementary color",
     settings[] =
@@ -230,9 +231,9 @@ WandExport MagickBooleanType IdentifyImageCommand(ImageInfo *image_info,
   */
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   if (argc == 2)
     {
       option=argv[1];
@@ -244,7 +245,12 @@ WandExport MagickBooleanType IdentifyImageCommand(ImageInfo *image_info,
         }
     }
   if (argc < 2)
-    return(IdentifyUsage());
+    {
+      (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+        "MissingArgument","%s","");
+      (void) IdentifyUsage();
+      return(MagickFalse);
+    }
   count=0;
   format=NULL;
   j=1;
@@ -376,6 +382,8 @@ WandExport MagickBooleanType IdentifyImageCommand(ImageInfo *image_info,
               ThrowIdentifyException(OptionError,"MissingArgument",option);
             break;
           }
+        if (LocaleCompare("auto-orient",option+1) == 0)
+          break;
         ThrowIdentifyException(OptionError,"UnrecognizedOption",option)
       }
       case 'c':

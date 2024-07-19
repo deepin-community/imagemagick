@@ -17,7 +17,7 @@
 %                               September 2002                                %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -275,7 +275,7 @@ MagickExport const char *GetMagickFeatures(void)
 #if defined(MAGICKCORE_HAVE_TCMALLOC)
   "TCMalloc "
 #endif
-#if defined(ZERO_CONFIGURATION_SUPPORT)
+#if MAGICKCORE_ZERO_CONFIGURATION_SUPPORT
   "Zero-configuration "
 #endif
 #if (MAGICKCORE_QUANTUM_DEPTH == 64)

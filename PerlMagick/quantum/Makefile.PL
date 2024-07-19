@@ -1,4 +1,4 @@
-#  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+#  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
 #  dedicated to making software imaging solutions freely available.
 #
 #  You may not use this file except in compliance with the License.  You may
@@ -16,7 +16,7 @@
 #
 #    make test
 #
-#  Exersise one regression test:
+#  Exercise one regression test:
 #
 #    make TEST_VERBOSE=1 TEST_FILES=t/filter.t test
 #
@@ -161,11 +161,11 @@ foreach my $delegate (@tested_delegates) {
 }
 
 # defaults for LIBS & INC & CCFLAGS params that we later pass to Writemakefile
-my $INC_magick = '-I../../ -I../..  -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16  -I"' . $Config{'usrinc'} . '/ImageMagick"';
-my $LIBS_magick = '-L../../magick/.libs -lMagickCore-6.Q16 -lperl -lm';
-my $CCFLAGS_magick = "$Config{'ccflags'} -I/usr/include/libxml2    -I/usr/include/libraw  -I/usr/include/libpng16   -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/fribidi -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/uuid -I/usr/include/harfbuzz  -I/usr/include/OpenEXR -pthread   -I/usr/include/openjpeg-2.3   -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/fribidi  -I/usr/include/freetype2 -I/usr/include/libpng16  -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/uuid  -pthread    -fopenmp -Wall -g -O2 -mtune=amdfam10 -fexceptions -pthread -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16";
-my $LDFLAGS_magick   = "-L../../magick/.libs -lMagickCore-6.Q16 $Config{'ldflags'}  ";
-my $LDDLFLAGS_magick = "-L../../magick/.libs -lMagickCore-6.Q16 $Config{'lddlflags'}  ";
+my $INC_magick = '-I../../ -I../.. -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 -I"' . $Config{'usrinc'} . '/ImageMagick"';
+my $LIBS_magick = '-L../../magick/.libs -lMagickCore-6.Q16 -lm -L' . $Config{'archlib'} . '/CORE';
+my $CCFLAGS_magick = "$Config{'ccflags'} -I/usr/include/libxml2 -DWITH_GZFILEOP -I/usr/include/webp -I/usr/include/webp -I/usr/include/libraw -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/openjpeg-2.5 -I/usr/include/libvmaf -DHWY_SHARED_DEFINE -I/usr/include/openjpeg-2.5 -I/usr/include/webp -I/usr/include/freetype2 -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/libxml2 -DWITH_GZFILEOP -pthread -DWITH_GZFILEOP -fopenmp -Wall -g -O2 -mtune=haswell -fexceptions -pthread -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16";
+my $LDFLAGS_magick   = "-L../../magick/.libs -lMagickCore-6.Q16 $Config{'ldflags'} ";
+my $LDDLFLAGS_magick = "-L../../magick/.libs -lMagickCore-6.Q16 $Config{'lddlflags'} ";
 
 if (($^O eq 'MSWin32') && ($Config{cc} =~ /gcc/)) {
   my($Ipaths, $Lpaths) = AutodetectWin32gcc();
@@ -173,7 +173,7 @@ if (($^O eq 'MSWin32') && ($Config{cc} =~ /gcc/)) {
   #
   # Setup for strawberry perl.
   #
-  $INC_magick       = "$Ipaths";
+  $INC_magick       = "$Ipaths -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16";
   $LIBS_magick      = "-lMagickCore-6.Q16";
   $CCFLAGS_magick   = "$Config{'ccflags'}";
   $LDFLAGS_magick   = "$Config{'ldflags'} $Lpaths ";
@@ -194,19 +194,19 @@ WriteMakefile
    'AUTHOR' => 'ImageMagick Studio LLC',
 
    # Module version
-   'VERSION' => '6.9.11',
+   'VERSION' => '6.9.13',
 
    # Preprocessor defines
    'DEFINE'	=> ' -D_LARGE_FILES=1 -DHAVE_CONFIG_H',     # e.g., '-DHAVE_SOMETHING'
 
-   # Header search specfication and preprocessor flags
+   # Header search specification and preprocessor flags
    'INC'	=> $INC_magick,
 
    # C compiler
    #'CC' => 'gcc',
 
    # C pre-processor flags (e.g. -I & -D options)
-   # 'CPPFLAGS' => "$Config{'cppflags'}  -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 ",
+   # 'CPPFLAGS' => "$Config{'cppflags'} -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16",
 
    # C compiler flags (e.g. -O -g)
    'CCFLAGS' => $CCFLAGS_magick,
@@ -219,6 +219,9 @@ WriteMakefile
 
    # Linker flags for building a dynamically loadable module
    'LDDLFLAGS' => $LDDLFLAGS_magick,
+
+   # Install PerlMagick into ImageMagick prefix
+   'INSTALL_BASE' => '/usr',
 
    # Install PerlMagick binary into ImageMagick bin directory
    'INSTALLBIN'	=> '/usr/bin',
@@ -247,7 +250,7 @@ WriteMakefile
 
    ($Config{'archname'} =~ /-object$/i ? ('CAPI' => 'TRUE') : ()),
 
-# sane vesion
+# sane version
    depend => { '$(FIRST_MAKEFILE)' => '$(VERSION_FROM)' }
 );
 

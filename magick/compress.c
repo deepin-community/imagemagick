@@ -17,7 +17,7 @@
 %                              May  1993                                      %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -280,9 +280,9 @@ MagickExport void Ascii85Flush(Image *image)
 {
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(image->ascii85 != (Ascii85Info *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->ascii85->offset > 0)
     {
       image->ascii85->buffer[image->ascii85->offset]='\0';
@@ -449,7 +449,7 @@ MagickExport MagickBooleanType HuffmanDecodeImage(Image *image)
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   exception=(&image->exception);
   if (image->blob == (BlobInfo *) NULL)
@@ -753,10 +753,10 @@ RestoreMSCWarning \
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(inject_image != (Image *) NULL);
   assert(inject_image->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   one=1;
   width=inject_image->columns;
   if (LocaleCompare(image_info->magick,"FAX") == 0)
@@ -966,9 +966,9 @@ MagickExport MagickBooleanType LZWEncodeImage(Image *image,const size_t length,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(pixels != (unsigned char *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   table=(TableType *) AcquireQuantumMemory(1UL << 12,sizeof(*table));
   if (table == (TableType *) NULL)
     ThrowBinaryImageException(ResourceLimitWarning,"MemoryAllocationFailed",
@@ -1101,9 +1101,9 @@ MagickExport MagickBooleanType PackbitsEncodeImage(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(pixels != (unsigned char *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   packbits=(unsigned char *) AcquireQuantumMemory(128UL,sizeof(*packbits));
   if (packbits == (unsigned char *) NULL)
     ThrowBinaryImageException(ResourceLimitError,"MemoryAllocationFailed",
@@ -1253,7 +1253,7 @@ MagickExport MagickBooleanType ZLIBEncodeImage(Image *image,const size_t length,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   compress_packets=(size_t) (1.001*length+12);
   compress_pixels=(unsigned char *) AcquireQuantumMemory(compress_packets,
@@ -1261,6 +1261,7 @@ MagickExport MagickBooleanType ZLIBEncodeImage(Image *image,const size_t length,
   if (compress_pixels == (unsigned char *) NULL)
     ThrowBinaryImageException(ResourceLimitError,"MemoryAllocationFailed",
       image->filename);
+  (void) memset(&stream,0,sizeof(stream));
   stream.next_in=pixels;
   stream.avail_in=(unsigned int) length;
   stream.next_out=compress_pixels;
@@ -1293,7 +1294,7 @@ MagickExport MagickBooleanType ZLIBEncodeImage(Image *image,
 {
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   (void) ThrowMagickException(&image->exception,GetMagickModule(),
     MissingDelegateError,"DelegateLibrarySupportNotBuiltIn","`%s' (ZIP)",

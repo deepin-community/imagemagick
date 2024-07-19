@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -128,17 +128,12 @@ static Image *ReadJBIGImage(const ImageInfo *image_info,
   IndexPacket
     *indexes;
 
-  ssize_t
-    x;
-
   PixelPacket
     *q;
 
-  unsigned char
-    *p;
-
   ssize_t
     length,
+    x,
     y;
 
   struct jbg_dec_state
@@ -147,18 +142,19 @@ static Image *ReadJBIGImage(const ImageInfo *image_info,
   unsigned char
     bit,
     *buffer,
-    byte;
+    byte,
+    *p;
 
   /*
     Open image file.
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -169,6 +165,9 @@ static Image *ReadJBIGImage(const ImageInfo *image_info,
   /*
     Initialize JBIG toolkit.
   */
+  if ((image->columns != (unsigned long) image->columns) ||
+      (image->rows != (unsigned long) image->rows))
+    ThrowReaderException(ImageError,"WidthOrHeightExceedsLimit");
   jbg_dec_init(&jbig_info);
   jbg_dec_maxsize(&jbig_info,(unsigned long) image->columns,(unsigned long)
     image->rows);
@@ -276,7 +275,10 @@ static Image *ReadJBIGImage(const ImageInfo *image_info,
   */
   jbg_dec_free(&jbig_info);
   buffer=(unsigned char *) RelinquishMagickMemory(buffer);
-  (void) CloseBlob(image);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  if (status == MagickFalse)
+    return(DestroyImageList(image));
   return(GetFirstImageInList(image));
 }
 #endif
@@ -417,6 +419,9 @@ static void JBIGEncode(unsigned char *pixels,size_t length,void *data)
 static MagickBooleanType WriteJBIGImage(const ImageInfo *image_info,
   Image *image)
 {
+  const PixelPacket
+    *p;
+
   double
     version;
 
@@ -429,20 +434,12 @@ static MagickBooleanType WriteJBIGImage(const ImageInfo *image_info,
   MemoryInfo
     *pixel_info;
 
-  const PixelPacket
-    *p;
-
-  ssize_t
-    x;
-
-  unsigned char
-    *q;
-
   size_t
-    imageListLength,
+    number_images,
     number_packets;
 
   ssize_t
+    x,
     y;
 
   struct jbg_enc_state
@@ -451,7 +448,8 @@ static MagickBooleanType WriteJBIGImage(const ImageInfo *image_info,
   unsigned char
     bit,
     byte,
-    *pixels;
+    *pixels,
+    *q;
 
   /*
     Open image file.
@@ -460,20 +458,21 @@ static MagickBooleanType WriteJBIGImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
   version=StringToDouble(JBG_VERSION,(char **) NULL);
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_images=GetImageListLength(image);
   do
   {
     /*
       Allocate pixel data.
     */
-    (void) TransformImageColorspace(image,sRGBColorspace);
+    if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+      (void) TransformImageColorspace(image,sRGBColorspace);
     number_packets=(image->columns+7)/8;
     pixel_info=AcquireVirtualMemory(number_packets,image->rows*sizeof(*pixels));
     if (pixel_info == (MemoryInfo *) NULL)
@@ -494,7 +493,7 @@ static MagickBooleanType WriteJBIGImage(const ImageInfo *image_info,
       for (x=0; x < (ssize_t) image->columns; x++)
       {
         byte<<=1;
-        if (GetPixelLuma(image,p) < (QuantumRange/2.0))
+        if (GetPixelLuma(image,p) < ((MagickRealType) QuantumRange/2.0))
           byte|=0x01;
         bit++;
         if (bit == 8)
@@ -565,11 +564,12 @@ static MagickBooleanType WriteJBIGImage(const ImageInfo *image_info,
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_images);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);
-  (void) CloseBlob(image);
-  return(MagickTrue);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  return(status);
 }
 #endif

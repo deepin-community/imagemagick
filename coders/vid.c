@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -135,11 +135,11 @@ static Image *ReadVIDImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   list=(char **) AcquireMagickMemory(sizeof(*filelist));
   if (list == (char **) NULL)
@@ -165,12 +165,24 @@ static Image *ReadVIDImage(const ImageInfo *image_info,ExceptionInfo *exception)
     (void) CloneString(&read_info->size,DefaultTileGeometry);
   for (i=0; i < (ssize_t) number_files; i++)
   {
-    if (image_info->debug != MagickFalse)
+    char
+      extension[MagickPathExtent];
+
+    if (IsEventLogging() != MagickFalse)
       (void) LogMagickEvent(CoderEvent,GetMagickModule(),"name: %s",
         filelist[i]);
+    if (LocaleNCompare(filelist[i],"VID:",4) == 0)
+      continue;
+    GetPathComponent(filelist[i],ExtensionPath,extension);
+    if (LocaleNCompare(extension,"VID",3) == 0)
+      continue;
     (void) CopyMagickString(read_info->filename,filelist[i],MaxTextExtent);
     filelist[i]=DestroyString(filelist[i]);
     *read_info->magick='\0';
+    (void) SetImageInfo(read_info,1,exception);
+    if (LocaleCompare(read_info->magick,"VID") == 0)
+      (void) FormatLocaleString(read_info->filename,MagickPathExtent,"miff:%s",
+        filelist[i]);
     next_image=ReadImage(read_info,exception);
     CatchException(exception);
     if (next_image == (Image *) NULL)
@@ -181,7 +193,7 @@ static Image *ReadVIDImage(const ImageInfo *image_info,ExceptionInfo *exception)
         (void) SetImageProperty(next_image,"label",label);
         label=DestroyString(label);
       }
-    if (image_info->debug != MagickFalse)
+    if (IsEventLogging() != MagickFalse)
       (void) LogMagickEvent(CoderEvent,GetMagickModule(),
         "geometry: %.20gx%.20g",(double) next_image->columns,(double)
         next_image->rows);
@@ -195,7 +207,7 @@ static Image *ReadVIDImage(const ImageInfo *image_info,ExceptionInfo *exception)
         next_image=DestroyImage(next_image);
         next_image=thumbnail_image;
       }
-    if (image_info->debug != MagickFalse)
+    if (IsEventLogging() != MagickFalse)
       (void) LogMagickEvent(CoderEvent,GetMagickModule(),
         "thumbnail geometry: %.20gx%.20g",(double) next_image->columns,(double)
         next_image->rows);
@@ -205,6 +217,8 @@ static Image *ReadVIDImage(const ImageInfo *image_info,ExceptionInfo *exception)
       break;
   }
   read_info=DestroyImageInfo(read_info);
+  for (i=0; i < (ssize_t) number_files; i++)
+    filelist[i]=DestroyString(filelist[i]);
   filelist=(char **) RelinquishMagickMemory(filelist);
   if (images == (Image *) NULL)
     ThrowReaderException(CorruptImageError,
@@ -213,7 +227,7 @@ static Image *ReadVIDImage(const ImageInfo *image_info,ExceptionInfo *exception)
     Create the visual image directory.
   */
   montage_info=CloneMontageInfo(image_info,(MontageInfo *) NULL);
-  if (image_info->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(CoderEvent,GetMagickModule(),"creating montage");
   montage_image=MontageImageList(image_info,montage_info,
     GetFirstImageInList(images),exception);
@@ -310,6 +324,9 @@ ModuleExport void UnregisterVIDImage(void)
 */
 static MagickBooleanType WriteVIDImage(const ImageInfo *image_info,Image *image)
 {
+  const MagickInfo
+    *magick_info;
+
   Image
     *montage_image;
 
@@ -341,8 +358,9 @@ static MagickBooleanType WriteVIDImage(const ImageInfo *image_info,Image *image)
   write_info=CloneImageInfo(image_info);
   *write_info->magick='\0';
   (void) SetImageInfo(write_info,1,&image->exception);
-  if ((*write_info->magick == '\0') ||
-      (LocaleCompare(write_info->magick,"VID") == 0))
+  magick_info=GetMagickInfo(write_info->magick,&image->exception);
+  if ((magick_info == (const MagickInfo*) NULL) ||
+      (LocaleCompare(magick_info->magick_module,"VID") == 0))
     (void) FormatLocaleString(montage_image->filename,MaxTextExtent,
       "miff:%s",write_info->filename);
   status=WriteImage(write_info,montage_image);

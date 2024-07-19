@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -128,7 +128,7 @@ static MagickBooleanType MontageUsage(void)
       "  -caption string      assign a caption to an image\n"
       "  -channel type        apply option to select image channels\n"
       "  -colors value        preferred number of colors in the image\n"
-      "  -colorspace type     alternate image colorsapce\n"
+      "  -colorspace type     alternate image colorspace\n"
       "  -comment string      annotate image with comment\n"
       "  -compose operator    composite operator\n"
       "  -compress type       type of pixel compression when writing the image\n"
@@ -279,7 +279,7 @@ WandExport MagickBooleanType MontageImageCommand(ImageInfo *image_info,
     *format;
 
   Image
-    *image,
+    *image = (Image *) NULL,
     *montage_image;
 
   ImageStack
@@ -313,9 +313,9 @@ WandExport MagickBooleanType MontageImageCommand(ImageInfo *image_info,
   */
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   if (argc == 2)
     {
       option=argv[1];
@@ -327,7 +327,12 @@ WandExport MagickBooleanType MontageImageCommand(ImageInfo *image_info,
         }
     }
   if (argc < 3)
-    return(MontageUsage());
+    {
+      (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+        "MissingArgument","%s","");
+      (void) MontageUsage();
+      return(MagickFalse);
+    }
   format="%w,%h,%m";
   first_scene=0;
   j=1;

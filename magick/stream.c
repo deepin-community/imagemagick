@@ -17,7 +17,7 @@
 %                                 March 2000                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -63,7 +63,7 @@
 #include "magick/string_.h"
 
 /*
-  Typedef declaractions.
+  Typedef declarations.
 */
 struct _StreamInfo
 {
@@ -126,12 +126,6 @@ static PixelPacket
 #if defined(__cplusplus) || defined(c_plusplus)
 }
 #endif
-
-/*
-  Global declarations.
-*/
-static ssize_t
-  cache_anonymous_memory = (-1);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -204,14 +198,17 @@ static inline void RelinquishStreamPixels(CacheInfo *cache_info)
   if (cache_info->pixels != NULL)
     {
       if (cache_info->mapped == MagickFalse)
-        (void) RelinquishAlignedMemory(cache_info->pixels);
+        cache_info->pixels=(PixelPacket *) RelinquishAlignedMemory(
+          cache_info->pixels);
       else
-        (void) UnmapBlob(cache_info->pixels,(size_t) cache_info->length);
+        { 
+          (void) UnmapBlob(cache_info->pixels,(size_t) cache_info->length);
+          cache_info->pixels=(PixelPacket *) NULL;
+        }
     }
-  cache_info->pixels=(PixelPacket *) NULL;
+  cache_info->mapped=MagickFalse;
   cache_info->indexes=(IndexPacket *) NULL;
   cache_info->length=0;
-  cache_info->mapped=MagickFalse;
 }
 
 static void DestroyPixelStream(Image *image)
@@ -224,7 +221,7 @@ static void DestroyPixelStream(Image *image)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   cache_info=(CacheInfo *) image->cache;
   assert(cache_info->signature == MagickCoreSignature);
@@ -272,9 +269,10 @@ static void DestroyPixelStream(Image *image)
 */
 MagickExport StreamInfo *DestroyStreamInfo(StreamInfo *stream_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(stream_info != (StreamInfo *) NULL);
   assert(stream_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   if (stream_info->map != (char *) NULL)
     stream_info->map=DestroyString(stream_info->map);
   if (stream_info->pixels != (unsigned char *) NULL)
@@ -322,7 +320,7 @@ static IndexPacket *GetAuthenticIndexesFromStream(const Image *image)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   cache_info=(CacheInfo *) image->cache;
   assert(cache_info->signature == MagickCoreSignature);
@@ -370,7 +368,7 @@ static PixelPacket *GetAuthenticPixelsStream(Image *image,const ssize_t x,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   pixels=QueueAuthenticPixelsStream(image,x,y,columns,rows,exception);
   return(pixels);
@@ -406,7 +404,7 @@ static PixelPacket *GetAuthenticPixelsFromStream(const Image *image)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   cache_info=(CacheInfo *) image->cache;
   assert(cache_info->signature == MagickCoreSignature);
@@ -523,7 +521,7 @@ static MagickBooleanType GetOneVirtualPixelFromStream(const Image *image,
 %
 %  GetStreamInfoClientData() gets the stream info client data.
 %
-%  The format of the SetStreamInfoClientData method is:
+%  The format of the GetStreamInfoClientData method is:
 %
 %      const void *GetStreamInfoClientData(StreamInfo *stream_info)
 %
@@ -572,7 +570,7 @@ static const PixelPacket *GetVirtualPixelsStream(const Image *image)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   cache_info=(CacheInfo *) image->cache;
   assert(cache_info->signature == MagickCoreSignature);
@@ -609,7 +607,7 @@ static const IndexPacket *GetVirtualIndexesFromStream(const Image *image)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   cache_info=(CacheInfo *) image->cache;
   assert(cache_info->signature == MagickCoreSignature);
@@ -657,44 +655,11 @@ static inline MagickBooleanType AcquireStreamPixels(CacheInfo *cache_info,
 {
   if (cache_info->length != (MagickSizeType) ((size_t) cache_info->length))
     return(MagickFalse);
-  if (cache_anonymous_memory < 0)
-    {
-      char
-        *value;
-
-      /*
-        Does the security policy require anonymous mapping for pixel cache?
-      */
-      cache_anonymous_memory=0;
-      value=GetPolicyValue("pixel-cache-memory");
-      if (value == (char *) NULL)
-        value=GetPolicyValue("cache:memory-map");
-      if (LocaleCompare(value,"anonymous") == 0)
-        {
-#if defined(MAGICKCORE_HAVE_MMAP) && defined(MAP_ANONYMOUS)
-          cache_anonymous_memory=1;
-#else
-          (void) ThrowMagickException(exception,GetMagickModule(),
-            MissingDelegateError,"DelegateLibrarySupportNotBuiltIn",
-            "'%s' (policy requires anonymous memory mapping)",
-            cache_info->filename);
-#endif
-        }
-      value=DestroyString(value);
-    }
-   if (cache_anonymous_memory <= 0)
-     {
-       cache_info->mapped=MagickFalse;
-       cache_info->pixels=(PixelPacket *) MagickAssumeAligned(
-         AcquireAlignedMemory(1,(size_t) cache_info->length));
-     }
-   else
-     {
-       cache_info->mapped=MagickTrue;
-       cache_info->pixels=(PixelPacket *) MapBlob(-1,IOMode,0,(size_t)
-         cache_info->length);
-     }
-  if (cache_info->pixels == (PixelPacket *) NULL)
+  cache_info->pixels=(PixelPacket *) MagickAssumeAligned(
+    AcquireAlignedMemory(1,(size_t) cache_info->length));
+  if (cache_info->pixels != (PixelPacket *) NULL)
+    (void) memset(cache_info->pixels,0,(size_t) cache_info->length);
+  else
     {
       (void) ThrowMagickException(exception,GetMagickModule(),
         ResourceLimitError,"MemoryAllocationFailed","`%s'",
@@ -728,12 +693,11 @@ static const PixelPacket *GetVirtualPixelStream(const Image *image,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  if ((x < 0) || (y < 0) ||
-      ((x+(ssize_t) columns) > (ssize_t) image->columns) ||
-      ((y+(ssize_t) rows) > (ssize_t) image->rows) ||
-      (columns == 0) || (rows == 0))
+  if ((image->columns == 0) || (image->rows == 0) || (x < 0) ||
+      (y < 0) || (x >= (ssize_t) image->columns) ||
+      (y >= (ssize_t) image->rows))
     {
       (void) ThrowMagickException(exception,GetMagickModule(),StreamError,
         "ImageDoesNotContainTheStreamGeometry","`%s'",image->filename);
@@ -1007,11 +971,11 @@ MagickExport Image *ReadStream(const ImageInfo *image_info,StreamHandler stream,
   */
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   read_info=CloneImageInfo(image_info);
   read_info->cache=AcquirePixelCache(0);
   GetPixelCacheMethods(&cache_methods);
@@ -1033,6 +997,28 @@ MagickExport Image *ReadStream(const ImageInfo *image_info,StreamHandler stream,
   image=ReadImage(read_info,exception);
   read_info=DestroyImageInfo(read_info);
   return(image);
+}
+
+/*
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                                                             %
+%                                                                             %
++   R e s e t S t r e a m A n o n y m o u s M e m o r y                       %
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     
+%  ResetStreamAnonymousMemory() resets the anonymous_memory value.
+%
+%  The format of the ResetStreamAnonymousMemory method is:
+%
+%      void ResetStreamAnonymousMemory(void)
+%
+*/
+MagickPrivate void ResetStreamAnonymousMemory(void)
+{
 }
 
 /*
@@ -1115,7 +1101,7 @@ MagickExport void SetStreamInfoMap(StreamInfo *stream_info,const char *map)
 %  The format of the SetStreamInfoStorageType method is:
 %
 %      void SetStreamInfoStorageType(StreamInfo *stream_info,
-%        const StoreageType *storage_type)
+%        const StorageType *storage_type)
 %
 %  A description of each parameter follows:
 %
@@ -1267,12 +1253,12 @@ MagickExport Image *StreamImage(const ImageInfo *image_info,
 
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(stream_info != (StreamInfo *) NULL);
   assert(stream_info->signature == MagickCoreSignature);
   assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   read_info=CloneImageInfo(image_info);
   stream_info->image_info=image_info;
   stream_info->quantum_info=AcquireQuantumInfo(image_info,(Image *) NULL);
@@ -1347,7 +1333,7 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
   assert(stream_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   length=strlen(stream_info->map);
   quantum_map=(QuantumType *) AcquireQuantumMemory(length,sizeof(*quantum_map));
@@ -1638,11 +1624,11 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(double) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelRed(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1655,13 +1641,13 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(double) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelRed(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelAlpha(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelAlpha(p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1674,11 +1660,11 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(double) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelRed(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
             *q++=0.0;
             p++;
@@ -1692,7 +1678,7 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(double) ((QuantumScale*GetPixelIntensity(image,p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelIntensity(image,p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1705,11 +1691,11 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(double) ((QuantumScale*GetPixelRed(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1722,13 +1708,13 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(double) ((QuantumScale*GetPixelRed(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelAlpha(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelAlpha(p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1741,11 +1727,11 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(double) ((QuantumScale*GetPixelRed(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(double) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(double) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
             *q++=0.0;
             p++;
@@ -1766,46 +1752,46 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             case RedQuantum:
             case CyanQuantum:
             {
-              *q=(double) ((QuantumScale*GetPixelRed(p))*
+              *q=(double) ((QuantumScale*(double) GetPixelRed(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case GreenQuantum:
             case MagentaQuantum:
             {
-              *q=(double) ((QuantumScale*GetPixelGreen(p))*
+              *q=(double) ((QuantumScale*(double) GetPixelGreen(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case BlueQuantum:
             case YellowQuantum:
             {
-              *q=(double) ((QuantumScale*GetPixelBlue(p))*
+              *q=(double) ((QuantumScale*(double) GetPixelBlue(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case AlphaQuantum:
             {
-              *q=(double) ((QuantumScale*GetPixelAlpha(p))*
+              *q=(double) ((QuantumScale*(double) GetPixelAlpha(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case OpacityQuantum:
             {
-              *q=(double) ((QuantumScale*GetPixelOpacity(p))*
+              *q=(double) ((QuantumScale*(double) GetPixelOpacity(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case BlackQuantum:
             {
               if (image->colorspace == CMYKColorspace)
-                *q=(double) ((QuantumScale*GetPixelIndex(indexes+x))*
+                *q=(double) ((QuantumScale*(double) GetPixelIndex(indexes+x))*
                   quantum_info->scale+quantum_info->minimum);
               break;
             }
             case IndexQuantum:
             {
-              *q=(double) ((QuantumScale*GetPixelIntensity(image,p))*
+              *q=(double) ((QuantumScale*(double) GetPixelIntensity(image,p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
@@ -1831,11 +1817,11 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(float) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelRed(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1848,13 +1834,13 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(float) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelRed(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*(Quantum) (GetPixelAlpha(p)))*
+            *q++=(float) ((QuantumScale*(double) GetPixelAlpha(p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1867,11 +1853,11 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(float) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelRed(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
             *q++=0.0;
             p++;
@@ -1885,7 +1871,7 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(float) ((QuantumScale*GetPixelIntensity(image,p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelIntensity(image,p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1898,11 +1884,11 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(float) ((QuantumScale*GetPixelRed(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1915,13 +1901,13 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(float) ((QuantumScale*GetPixelRed(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelAlpha(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelAlpha(p))*
               quantum_info->scale+quantum_info->minimum);
             p++;
           }
@@ -1934,11 +1920,11 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             break;
           for (x=0; x < (ssize_t) GetImageExtent(image); x++)
           {
-            *q++=(float) ((QuantumScale*GetPixelRed(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelRed(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelGreen(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelGreen(p))*
               quantum_info->scale+quantum_info->minimum);
-            *q++=(float) ((QuantumScale*GetPixelBlue(p))*
+            *q++=(float) ((QuantumScale*(double) GetPixelBlue(p))*
               quantum_info->scale+quantum_info->minimum);
             *q++=0.0;
             p++;
@@ -1959,46 +1945,46 @@ static MagickBooleanType StreamImagePixels(const StreamInfo *stream_info,
             case RedQuantum:
             case CyanQuantum:
             {
-              *q=(float) ((QuantumScale*GetPixelRed(p))*
+              *q=(float) ((QuantumScale*(double) GetPixelRed(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case GreenQuantum:
             case MagentaQuantum:
             {
-              *q=(float) ((QuantumScale*GetPixelGreen(p))*
+              *q=(float) ((QuantumScale*(double) GetPixelGreen(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case BlueQuantum:
             case YellowQuantum:
             {
-              *q=(float) ((QuantumScale*GetPixelBlue(p))*
+              *q=(float) ((QuantumScale*(double) GetPixelBlue(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case AlphaQuantum:
             {
-              *q=(float) ((QuantumScale*GetPixelAlpha(p))*
+              *q=(float) ((QuantumScale*(double) GetPixelAlpha(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case OpacityQuantum:
             {
-              *q=(float) ((QuantumScale*GetPixelOpacity(p))*
+              *q=(float) ((QuantumScale*(double) GetPixelOpacity(p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
             case BlackQuantum:
             {
               if (image->colorspace == CMYKColorspace)
-                *q=(float) ((QuantumScale*GetPixelIndex(indexes+x))*
+                *q=(float) ((QuantumScale*(double) GetPixelIndex(indexes+x))*
                   quantum_info->scale+quantum_info->minimum);
               break;
             }
             case IndexQuantum:
             {
-              *q=(float) ((QuantumScale*GetPixelIntensity(image,p))*
+              *q=(float) ((QuantumScale*(double) GetPixelIntensity(image,p))*
                 quantum_info->scale+quantum_info->minimum);
               break;
             }
@@ -2729,7 +2715,7 @@ static MagickBooleanType SyncAuthenticPixelsStream(Image *image,
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   cache_info=(CacheInfo *) image->cache;
   assert(cache_info->signature == MagickCoreSignature);
@@ -2781,11 +2767,11 @@ MagickExport MagickBooleanType WriteStream(const ImageInfo *image_info,
 
   assert(image_info != (ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   write_info=CloneImageInfo(image_info);
   *write_info->magick='\0';
   write_info->stream=stream;

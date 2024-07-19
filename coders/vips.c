@@ -17,7 +17,7 @@
 %                                 April 2014                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -63,7 +63,7 @@
 #include "magick/module.h"
 
 /*
-  Define declaractions.
+  Define declarations.
 */
 #define VIPS_MAGIC_LSB 0x08f2a6b6U
 #define VIPS_MAGIC_MSB 0xb6a6f208U
@@ -172,7 +172,7 @@ static MagickBooleanType IsVIPS(const unsigned char *magick,const size_t length)
 %
 %  The format of the ReadVIPSImage method is:
 %
-%      Image *ReadVIPSmage(const ImageInfo *image_info,ExceptionInfo *exception)
+%      Image *ReadVIPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
 %
 %  A description of each parameter follows:
 %
@@ -290,10 +290,11 @@ static inline Quantum ReadVIPSPixelNONE(Image *image,
         case VIPSBandFormatINT:
           return(ScaleLongToQuantum(ReadBlobLong(image)));
         case VIPSBandFormatFLOAT:
-          return((Quantum) ((float) QuantumRange*(ReadBlobFloat(image)/1.0)));
+          return((Quantum) ((MagickRealType) QuantumRange*
+            ((MagickRealType) ReadBlobFloat(image)/1.0)));
         case VIPSBandFormatDOUBLE:
-          return((Quantum) ((double) QuantumRange*(ReadBlobDouble(
-            image)/1.0)));
+          return((Quantum) ((MagickRealType) QuantumRange*
+            (ReadBlobDouble(image)/1.0)));
         default:
           return((Quantum) 0);
       }
@@ -394,12 +395,11 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
 
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
-
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -523,7 +523,8 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
       SetImageProperty(image,"vips:metadata",metadata);
       metadata=(char *) RelinquishMagickMemory(metadata);
     }
-  (void) CloseBlob(image);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
   if (status == MagickFalse)
     return((Image *) NULL);
   return(image);
@@ -540,7 +541,7 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  RegisterVIPSmage() adds attributes for the VIPS image format to the list
+%  RegisterVIPSImage() adds attributes for the VIPS image format to the list
 %  of supported formats.  The attributes include the image format tag, a
 %  method to read and/or write the format, whether the format supports the
 %  saving of more than one frame to the same file or blob, whether the format
@@ -617,7 +618,7 @@ ModuleExport void UnregisterVIPSImage(void)
 %
 */
 
-static inline void WriteVIPSPixel(Image *image, const Quantum value)
+static inline void WriteVIPSPixel(Image *image,const Quantum value)
 {
   if (image->depth == 16)
     (void) WriteBlobShort(image,ScaleQuantumToShort(value));
@@ -653,9 +654,8 @@ static MagickBooleanType WriteVIPSImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
@@ -737,8 +737,11 @@ static MagickBooleanType WriteVIPSImage(const ImageInfo *image_info,
         WriteVIPSPixel(image,GetPixelAlpha(p));
       else
         {
-          WriteVIPSPixel(image,GetPixelGreen(p));
-          WriteVIPSPixel(image,GetPixelBlue(p));
+          if (channels >= 3)
+            {
+              WriteVIPSPixel(image,GetPixelGreen(p));
+              WriteVIPSPixel(image,GetPixelBlue(p));
+            }
           if (channels >= 4)
             {
               if (image->colorspace == CMYKColorspace)
@@ -758,6 +761,7 @@ static MagickBooleanType WriteVIPSImage(const ImageInfo *image_info,
   metadata=GetImageProperty(image,"vips:metadata");
   if (metadata != (const char*) NULL)
     WriteBlobString(image,metadata);
-  (void) CloseBlob(image);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
   return(status);
 }

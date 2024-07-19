@@ -1,0 +1,3 @@
+
+Tests: rmagick-leak
+Depends: ruby-rmagick, fonts-urw-base35, time, bash

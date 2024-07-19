@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -163,9 +163,9 @@ MagickExport MontageInfo *CloneMontageInfo(const ImageInfo *image_info,
 MagickExport MontageInfo *DestroyMontageInfo(MontageInfo *montage_info)
 {
   assert(montage_info != (MontageInfo *) NULL);
-  if (montage_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(montage_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   if (montage_info->geometry != (char *) NULL)
     montage_info->geometry=(char *)
       RelinquishMagickMemory(montage_info->geometry);
@@ -215,10 +215,10 @@ MagickExport void GetMontageInfo(const ImageInfo *image_info,
 {
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
+  assert(montage_info != (MontageInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  assert(montage_info != (MontageInfo *) NULL);
   (void) memset(montage_info,0,sizeof(*montage_info));
   (void) CopyMagickString(montage_info->filename,image_info->filename,
     MaxTextExtent);
@@ -402,12 +402,12 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
   */
   assert(images != (Image *) NULL);
   assert(images->signature == MagickCoreSignature);
-  if (images->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",images->filename);
   assert(montage_info != (MontageInfo *) NULL);
   assert(montage_info->signature == MagickCoreSignature);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",images->filename);
   number_images=GetImageListLength(images);
   primary_list=ImageListToArray(images,exception);
   if (primary_list == (Image **) NULL)
@@ -661,8 +661,12 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
     tile=0;
     while (tile < MagickMin((ssize_t) tiles_per_page,(ssize_t) number_images))
     {
-      (void) ConcatenateMagickString(montage->directory,
-        image_list[tile]->filename,extent);
+      if (strchr(image_list[tile]->filename,(int) '\xff') == (char *) NULL)
+        (void) ConcatenateMagickString(montage->directory,
+          image_list[tile]->filename,extent);
+      else
+        (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+          "InvalidArgument","'%s'",image_list[tile]->filename);
       (void) ConcatenateMagickString(montage->directory,"\xff",extent);
       tile++;
     }
@@ -807,7 +811,7 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
               */
               (void) QueryColorDatabase("#000000",&image->background_color,
                 exception);
-              shadow_image=ShadowImage(image,80.0,2.0,5,5,exception);
+              shadow_image=ShadowImage(image,30.0,5.0,5,5,exception);
               if (shadow_image != (Image *) NULL)
                 {
                   InheritException(&shadow_image->exception,exception);

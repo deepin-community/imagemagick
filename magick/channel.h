@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -23,6 +23,26 @@
 #if defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
 #endif
+
+typedef enum
+{
+  UndefinedAlphaChannel,
+  ActivateAlphaChannel,
+  BackgroundAlphaChannel,
+  CopyAlphaChannel,
+  DeactivateAlphaChannel,
+  ExtractAlphaChannel,
+  OpaqueAlphaChannel,
+  ResetAlphaChannel,  /* deprecated */
+  SetAlphaChannel,
+  ShapeAlphaChannel,
+  TransparentAlphaChannel,
+  FlattenAlphaChannel,
+  RemoveAlphaChannel,
+  AssociateAlphaChannel,
+  DisassociateAlphaChannel,
+  OffIfOpaqueAlphaChannel
+} AlphaChannelType;
 
 extern MagickExport Image
   *CombineImages(const Image *,const ChannelType,ExceptionInfo *),

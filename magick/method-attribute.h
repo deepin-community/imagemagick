@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -86,8 +86,9 @@ extern "C" {
 #define MagickCoreSignature  0xabacadabUL
 #define MagickSignature  MagickCoreSignature
 #if !defined(MaxTextExtent)
-#  define MaxTextExtent  4096  /* always >= 4096 */
+#  define MaxTextExtent  4096  /* always >= max(4096,PATH_MAX) */
 #endif
+#define MagickTimeExtent  26
 
 #if defined(MAGICKCORE_HAVE___ATTRIBUTE__)
 #  define magick_aligned(x,y)  x __attribute__((aligned(y)))
@@ -106,15 +107,17 @@ extern "C" {
 #  define magick_unreferenced(x)  /* nothing */
 #endif
 
-#if !defined(__clang__) && (((__GNUC__) > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 3)))
+#if !defined(__clang__) && (defined(__GNUC__) && (__GNUC__) > 4)
 #  define magick_alloc_size(x)  __attribute__((__alloc_size__(x)))
 #  define magick_alloc_sizes(x,y)  __attribute__((__alloc_size__(x,y)))
+#  define magick_fallthrough  __attribute__((fallthrough))
 #else
 #  define magick_alloc_size(x)  /* nothing */
 #  define magick_alloc_sizes(x,y)  /* nothing */
+#  define magick_fallthrough  /* nothing */
 #endif
 
-#if defined(__clang__) || (((__GNUC__) > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 3)))
+#if defined(__clang__) || (defined(__GNUC__) && (__GNUC__) > 4)
 #  define magick_cold_spot  __attribute__((__cold__))
 #  define magick_hot_spot  __attribute__((__hot__))
 #else

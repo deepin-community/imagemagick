@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -29,7 +29,9 @@ extern "C" {
 
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
-#define _CRT_SECURE_NO_DEPRECATE  1
+#if !defined(_CRT_SECURE_NO_DEPRECATE)
+#  define _CRT_SECURE_NO_DEPRECATE  1
+#endif
 #include <windows.h>
 #include <wchar.h>
 #include <winuser.h>
@@ -62,20 +64,9 @@ extern "C" {
 #   define SSIZE_MAX LONG_MAX
 # endif
 #endif
-
-/*
-  _MSC_VER values:
-    1100 MSVC 5.0
-    1200 MSVC 6.0
-    1300 MSVC 7.0 Visual C++ .NET 2002
-    1310 Visual c++ .NET 2003
-    1400 Visual C++ 2005
-    1500 Visual C++ 2008
-    1600 Visual C++ 2010
-    1700 Visual C++ 2012
-    1800 Visual C++ 2013
-    1900 Visual C++ 2015
-*/
+#ifndef S_ISCHR
+#  define S_ISCHR(m) (((m) & S_IFMT) == S_IFCHR)
+#endif
 
 #if !defined(chsize)
 # if defined(__BORLANDC__)
@@ -193,6 +184,7 @@ extern "C" {
 #  define mkdir  _mkdir
 #endif
 #if !defined(mmap)
+#  define MAGICKCORE_HAVE_MMAP 1
 #  define mmap(address,length,protection,access,file,offset) \
   NTMapMemory(address,length,protection,access,file,offset)
 #endif
@@ -210,6 +202,9 @@ extern "C" {
 #endif
 #if !defined(popen)
 #  define popen  _popen
+#endif
+#if !defined(putenv)
+#  define putenv  _putenv
 #endif
 #if !defined(fprintf_l)
 #define fprintf_l  _fprintf_s_l
@@ -246,6 +241,7 @@ extern "C" {
 #endif
 #if !defined(sysconf)
 #  define sysconf(name)  NTSystemConfiguration(name)
+#  define MAGICKCORE_HAVE_SYSCONF 1
 #endif
 #if defined(MAGICKCORE_WINDOWS_SUPPORT) && \
   !(defined(_MSC_VER) && (_MSC_VER < 1400)) && \

@@ -513,7 +513,6 @@ $logo->Zoom('40%');
 $montage->Composite(image=>$logo,gravity=>'North');
 
 print "Write...\n";
-$montage->Set(matte=>'false');
-$montage->Write('demo.jpg');
+$montage->Write('demo.pam');
 print "Display...\n";
-$montage->Write('win:');
+$montage->Write(magick=>'SHOW',title=>"PerlMagick Demo");

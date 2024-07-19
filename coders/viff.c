@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -262,11 +262,11 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -333,7 +333,7 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
     number_pixels=(MagickSizeType) viff_info.columns*viff_info.rows;
     if (number_pixels != (size_t) number_pixels)
       ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-    if (number_pixels > GetBlobSize(image))
+    if (number_pixels > 8*GetBlobSize(image))
       ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
     if (number_pixels == 0)
       ThrowReaderException(CoderError,"ImageColumnOrRowSizeIsNotSupported");
@@ -420,15 +420,16 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
           default: bytes_per_pixel=1; break;
         }
         image->colors=viff_info.map_columns;
-        if ((MagickSizeType) (viff_info.map_rows*image->colors) > GetBlobSize(image))
+        count=(size_t) bytes_per_pixel*image->colors*viff_info.map_rows;
+        if ((MagickSizeType) count > GetBlobSize(image))
           ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
         if (AcquireImageColormap(image,image->colors) == MagickFalse)
           ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-        if ((MagickSizeType) viff_info.map_rows > GetBlobSize(image))
-          ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
         if ((MagickSizeType) viff_info.map_rows >
             (viff_info.map_rows*bytes_per_pixel*sizeof(*viff_colormap)))
           ThrowReaderException(CorruptImageError,"ImproperImageHeader");
+        if ((MagickSizeType) viff_info.map_rows > GetBlobSize(image))
+          ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
         viff_colormap=(unsigned char *) AcquireQuantumMemory(image->colors,
           viff_info.map_rows*bytes_per_pixel*sizeof(*viff_colormap));
         if (viff_colormap == (unsigned char *) NULL)
@@ -436,8 +437,11 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
         /*
           Read VIFF raster colormap.
         */
-        (void) ReadBlob(image,bytes_per_pixel*image->colors*viff_info.map_rows,
-          viff_colormap);
+        if (ReadBlob(image,count,viff_colormap) != count)
+          {
+            viff_colormap=(unsigned char *) RelinquishMagickMemory(viff_colormap);
+            ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
+          }
         lsb_first=1;
         if (*(char *) &lsb_first &&
             ((viff_info.machine_dependency != VFF_DEP_DECORDER) &&
@@ -527,7 +531,8 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
           ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
         max_packets=(size_t) (number_pixels*viff_info.number_data_bands);
       }
-    if ((MagickSizeType) (bytes_per_pixel*max_packets) > GetBlobSize(image))
+    count=bytes_per_pixel*max_packets;
+    if ((MagickSizeType) count > GetBlobSize(image))
       ThrowReaderException(CorruptImageError,"ImproperImageHeader");
     pixels=(unsigned char *) AcquireQuantumMemory((size_t) MagickMax(
       number_pixels,max_packets),bytes_per_pixel*sizeof(*pixels));
@@ -535,7 +540,11 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
       ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
     (void) memset(pixels,0,MagickMax(number_pixels,max_packets)*
       bytes_per_pixel*sizeof(*pixels));
-    (void) ReadBlob(image,bytes_per_pixel*max_packets,pixels);
+    if (ReadBlob(image,count,pixels) != count)
+      {
+        pixels=(unsigned char *) RelinquishMagickMemory(pixels);
+        ThrowReaderException(CorruptImageError,"ImproperImageHeader");
+      }
     lsb_first=1;
     if (*(char *) &lsb_first &&
         ((viff_info.machine_dependency != VFF_DEP_DECORDER) &&
@@ -620,7 +629,7 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
       if (viff_info.map_scheme == VFF_MS_NONE)
         {
           value=(value-min_value)*scale_factor;
-          if (value > QuantumRange)
+          if (value > (MagickRealType) QuantumRange)
             value=QuantumRange;
           else
             if (value < 0)
@@ -754,11 +763,7 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
     if (image->storage_class == PseudoClass)
       (void) SyncImage(image);
     if (EOFBlob(image) != MagickFalse)
-      {
-        ThrowFileException(exception,CorruptImageError,"UnexpectedEndOfFile",
-          image->filename);
-        break;
-      }
+      ThrowReaderException(CorruptImageError,"UnexpectedEndOfFile");
     /*
       Proceed to next image.
     */
@@ -784,7 +789,8 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
           break;
       }
   } while ((count != 0) && (viff_info.identifier == 0xab));
-  (void) CloseBlob(image);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
   if (status == MagickFalse)
     return(DestroyImageList(image));
   return(GetFirstImageInList(image));
@@ -943,6 +949,12 @@ static MagickBooleanType WriteVIFFImage(const ImageInfo *image_info,
   const char
     *value;
 
+  const IndexPacket
+    *indexes;
+
+  const PixelPacket
+    *p;
+
   MagickBooleanType
     status;
 
@@ -956,29 +968,17 @@ static MagickBooleanType WriteVIFFImage(const ImageInfo *image_info,
   MemoryInfo
     *pixel_info;
 
-  const IndexPacket
-    *indexes;
-
-  const PixelPacket
-    *p;
-
-  ssize_t
-    x;
-
-  ssize_t
-    i;
-
-  unsigned char
-    *q;
-
   size_t
-    imageListLength;
+    number_scenes;
 
   ssize_t
+    i,
+    x,
     y;
 
   unsigned char
-    *pixels;
+    *pixels,
+    *q;
 
   ViffInfo
     viff_info;
@@ -990,20 +990,21 @@ static MagickBooleanType WriteVIFFImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
     return(status);
   (void) memset(&viff_info,0,sizeof(ViffInfo));
   scene=0;
-  imageListLength=GetImageListLength(image);
+  number_scenes=GetImageListLength(image);
   do
   {
     /*
       Initialize VIFF image structure.
     */
-    (void) TransformImageColorspace(image,sRGBColorspace);
+    if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+      (void) TransformImageColorspace(image,sRGBColorspace);
     viff_info.identifier=(char) -85;
     viff_info.file_type=1;
     viff_info.release=1;
@@ -1217,7 +1218,7 @@ static MagickBooleanType WriteVIFFImage(const ImageInfo *image_info,
               for (x=0; x < (ssize_t) image->columns; x++)
               {
                 byte>>=1;
-                if (GetPixelLuma(image,p) < (QuantumRange/2.0))
+                if (GetPixelLuma(image,p) < ((MagickRealType) QuantumRange/2.0))
                   byte|=0x80;
                 bit++;
                 if (bit == 8)
@@ -1267,10 +1268,11 @@ static MagickBooleanType WriteVIFFImage(const ImageInfo *image_info,
     if (GetNextImageInList(image) == (Image *) NULL)
       break;
     image=SyncNextImageInList(image);
-    status=SetImageProgress(image,SaveImagesTag,scene++,imageListLength);
+    status=SetImageProgress(image,SaveImagesTag,scene++,number_scenes);
     if (status == MagickFalse)
       break;
   } while (image_info->adjoin != MagickFalse);
-  (void) CloseBlob(image);
-  return(MagickTrue);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  return(status);
 }

@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -118,9 +118,9 @@ static MagickBooleanType CompositeImageList(ImageInfo *image_info,Image **image,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image **) NULL);
   assert((*image)->signature == MagickCoreSignature);
-  if ((*image)->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",(*image)->filename);
   assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",(*image)->filename);
   (void) image_info;
   status=MagickTrue;
   if (composite_image != (Image *) NULL)
@@ -445,7 +445,12 @@ WandExport MagickBooleanType CompositeImageCommand(ImageInfo *image_info,
         }
     }
   if (argc < 4)
-    return(CompositeUsage());
+    {
+      (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+        "MissingArgument","%s","");
+      (void) CompositeUsage();
+      return(MagickFalse);
+    }
   GetCompositeOptions(&composite_options);
   filename=(char *) NULL;
   format="%w,%h,%m";

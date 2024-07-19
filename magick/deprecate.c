@@ -17,7 +17,7 @@
 %                                October 2002                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -958,10 +958,12 @@ MagickExport unsigned int ChannelThresholdImage(Image *image,const char *level)
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.7");
+  if (IsEventLogging() != MagickFalse)
+    {
+      (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
+      (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),
+        "last use: v5.5.7");
+    }
   if (level == (char *) NULL)
     return(MagickFalse);
   flags=ParseGeometry(level,&geometry_info);
@@ -1236,10 +1238,10 @@ MagickExport MagickBooleanType ColorFloodfillImage(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(draw_info != (DrawInfo *) NULL);
   assert(draw_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if ((x_offset < 0) || (x_offset >= (ssize_t) image->columns))
     return(MagickFalse);
   if ((y_offset < 0) || (y_offset >= (ssize_t) image->rows))
@@ -1544,11 +1546,11 @@ MagickExport void *CropImageToHBITMAP(Image *image,
   */
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(geometry != (const RectangleInfo *) NULL);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (((geometry->x+(ssize_t) geometry->width) < 0) ||
       ((geometry->y+(ssize_t) geometry->height) < 0) ||
       (geometry->x >= (ssize_t) image->columns) ||
@@ -1864,7 +1866,7 @@ MagickExport void DestroyImageAttributes(Image *image)
 {
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->attributes != (void *) NULL)
     image->attributes=(void *) DestroySplayTree((SplayTreeInfo *)
@@ -1901,7 +1903,7 @@ MagickExport void DestroyImages(Image *image)
 {
   if (image == (Image *) NULL)
     return;
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.4.3");
   image=DestroyImageList(image);
 }
@@ -1997,7 +1999,7 @@ MagickExport unsigned int DispatchImage(const Image *image,const ssize_t x_offse
   unsigned int
     status;
 
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.6");
   status=ExportImagePixels(image,x_offset,y_offset,columns,rows,map,type,pixels,
     exception);
@@ -2088,25 +2090,22 @@ static double GetSimilarityMetric(const Image *image,const Image *reference,
       MagickRealType
         pixel;
 
-      pixel=QuantumScale*(GetPixelRed(p)-(double)
-        GetPixelRed(q));
+      pixel=QuantumScale*((double) GetPixelRed(p)-(double) GetPixelRed(q));
       similarity+=pixel*pixel;
-      pixel=QuantumScale*(GetPixelGreen(p)-(double)
-        GetPixelGreen(q));
+      pixel=QuantumScale*((double) GetPixelGreen(p)-(double) GetPixelGreen(q));
       similarity+=pixel*pixel;
-      pixel=QuantumScale*(GetPixelBlue(p)-(double)
-        GetPixelBlue(q));
+      pixel=QuantumScale*((double) GetPixelBlue(p)-(double) GetPixelBlue(q));
       similarity+=pixel*pixel;
       if ((image->matte != MagickFalse) && (reference->matte != MagickFalse))
         {
-          pixel=QuantumScale*(GetPixelOpacity(p)-(double)
+          pixel=QuantumScale*((double) GetPixelOpacity(p)-(double)
             GetPixelOpacity(q));
           similarity+=pixel*pixel;
         }
       if ((image->colorspace == CMYKColorspace) &&
           (reference->colorspace == CMYKColorspace))
         {
-          pixel=QuantumScale*(GetPixelIndex(indexes+x)-(double)
+          pixel=QuantumScale*((double) GetPixelIndex(indexes+x)-(double)
             GetPixelIndex(reference_indexes+x));
           similarity+=pixel*pixel;
         }
@@ -2449,16 +2448,16 @@ MagickExport unsigned int FuzzyColorMatch(const PixelPacket *p,
       (GetPixelGreen(p) == GetPixelGreen(q)) &&
       (GetPixelBlue(p) == GetPixelBlue(q)))
     return(MagickTrue);
-  pixel.red=GetPixelRed(p)-(MagickRealType) GetPixelRed(q);
+  pixel.red=(MagickRealType) GetPixelRed(p)-(MagickRealType) GetPixelRed(q);
   distance=pixel.red*pixel.red;
   if (distance > (fuzz*fuzz))
     return(MagickFalse);
-  pixel.green=GetPixelGreen(p)-(MagickRealType)
+  pixel.green=(MagickRealType) GetPixelGreen(p)-(MagickRealType)
     GetPixelGreen(q);
   distance+=pixel.green*pixel.green;
   if (distance > (fuzz*fuzz))
     return(MagickFalse);
-  pixel.blue=GetPixelBlue(p)-(MagickRealType) GetPixelBlue(q);
+  pixel.blue=(MagickRealType) GetPixelBlue(p)-(MagickRealType) GetPixelBlue(q);
   distance+=pixel.blue*pixel.blue;
   if (distance > (fuzz*fuzz))
     return(MagickFalse);
@@ -2579,8 +2578,12 @@ MagickExport void *GetConfigureBlob(const char *filename,char *path,
     *blob;
 
   assert(filename != (const char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
-  (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.7");
+  if (IsEventLogging() != MagickFalse)
+    {
+      (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
+      (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),
+        "last use: v5.5.7");
+    }
   assert(path != (char *) NULL);
   assert(length != (size_t *) NULL);
   assert(exception != (ExceptionInfo *) NULL);
@@ -3126,7 +3129,7 @@ MagickExport void GetMagickToken(const char *start,const char **end,char *token)
 MagickExport int GetImageGeometry(Image *image,const char *geometry,
   const unsigned int size_to_fit,RectangleInfo *region_info)
 {
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.4");
   if (size_to_fit != MagickFalse)
     return((int) ParseRegionGeometry(image,geometry,region_info,&image->exception));
@@ -3478,7 +3481,7 @@ MagickExport const ImageAttribute *GetNextImageAttribute(const Image *image)
 */
 MagickExport unsigned int GetNumberScenes(const Image *image)
 {
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.2");
   return((unsigned int) GetImageListLength(image));
 }
@@ -3686,9 +3689,13 @@ MagickExport void HSLTransform(const double hue,const double saturation,
 */
 MagickExport void IdentityAffine(AffineMatrix *affine)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
-  (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.7");
   assert(affine != (AffineMatrix *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    {
+      (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
+      (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),
+        "last use: v5.5.7");
+    }
   (void) memset(affine,0,sizeof(AffineMatrix));
   affine->sx=1.0;
   affine->sy=1.0;
@@ -4437,9 +4444,10 @@ MagickExport char *InterpretImageAttributes(const ImageInfo *image_info,
 */
 MagickExport MagickRealType InversesRGBCompandor(const MagickRealType pixel)
 {
-  if (pixel <= (0.0404482362771076*QuantumRange))
+  if (pixel <= (0.0404482362771076*(double) QuantumRange))
     return(pixel/12.92);
-  return(QuantumRange*pow((QuantumScale*pixel+0.055)/1.055,2.4));
+  return((MagickRealType) QuantumRange*pow((QuantumScale*pixel+0.055)/1.055,
+    2.4));
 }
 
 /*
@@ -4702,7 +4710,8 @@ MagickExport MagickBooleanType MagickMonitor(const char *text,
   magick_unreferenced(client_data);
 
   assert(text != (const char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",text);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",text);
   ProcessPendingEvents(text);
   status=MagickTrue;
   exception=AcquireExceptionInfo();
@@ -4760,10 +4769,10 @@ MagickExport MagickBooleanType MapImage(Image *image,const Image *map_image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(map_image != (Image *) NULL);
   assert(map_image->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   GetQuantizeInfo(&quantize_info);
   quantize_info.dither=dither;
   return(RemapImage(&quantize_info,image,map_image));
@@ -4814,7 +4823,7 @@ MagickExport MagickBooleanType MapImages(Image *images,const Image *map_image,
 
   assert(images != (Image *) NULL);
   assert(images->signature == MagickCoreSignature);
-  if (images->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",images->filename);
   GetQuantizeInfo(&quantize_info);
   quantize_info.dither=dither;
@@ -4893,7 +4902,7 @@ MagickExport MagickBooleanType MatteFloodfillImage(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if ((x_offset < 0) || (x_offset >= (ssize_t) image->columns))
     return(MagickFalse);
@@ -5318,7 +5327,7 @@ MagickExport MagickBooleanType OpaqueImage(Image *image,
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
   (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v6.1.0");
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   switch (image->storage_class)
   {
@@ -6112,7 +6121,7 @@ MagickExport size_t PushImagePixels(Image *image,const QuantumType quantum,
 */
 MagickExport unsigned int QuantizationError(Image *image)
 {
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.3");
   return(GetImageQuantizeError(image));
 }
@@ -6227,11 +6236,11 @@ MagickExport unsigned int RandomChannelThresholdImage(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.7");
   if (thresholds == (const char *) NULL)
     return(MagickTrue);
@@ -6252,16 +6261,16 @@ MagickExport unsigned int RandomChannelThresholdImage(Image *image,
             &upper_threshold);
           if (strchr(thresholds,'%') != (char *) NULL)
             {
-              upper_threshold*=(.01*QuantumRange);
-              lower_threshold*=(.01*QuantumRange);
+              upper_threshold*=(.01*(MagickRealType) QuantumRange);
+              lower_threshold*=(.01*(MagickRealType) QuantumRange);
             }
           if (count == 1)
             upper_threshold=(MagickRealType) QuantumRange-lower_threshold;
         }
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TransformEvent,GetMagickModule(),
       "  RandomChannelThresholdImage: channel type=%s",channel);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TransformEvent,GetMagickModule(),
       "    Thresholds: %s (%fx%f)",thresholds,lower_threshold,upper_threshold);
   if (LocaleCompare(channel,"all") == 0 ||
@@ -6302,8 +6311,8 @@ MagickExport unsigned int RandomChannelThresholdImage(Image *image,
               else if (intensity > upper_threshold)
                 threshold=upper_threshold;
               else
-                threshold=(MagickRealType) (QuantumRange*
-                  GetPseudoRandomValue(random_info));
+                threshold=(MagickRealType) QuantumRange*
+                  GetPseudoRandomValue(random_info);
             }
           else if (order == 2)
             threshold=(MagickRealType) QuantumRange*o2[(x%2)+2*(y%2)];
@@ -6331,8 +6340,8 @@ MagickExport unsigned int RandomChannelThresholdImage(Image *image,
                   else if ((MagickRealType) q->opacity > upper_threshold)
                     threshold=upper_threshold;
                   else
-                    threshold=(MagickRealType) (QuantumRange*
-                      GetPseudoRandomValue(random_info));
+                    threshold=(MagickRealType) QuantumRange*
+                      GetPseudoRandomValue(random_info);
                 }
               else if (order == 2)
                 threshold=(MagickRealType) QuantumRange*o2[(x%2)+2*(y%2)];
@@ -6709,7 +6718,7 @@ MagickExport void SetImage(Image *image,const Quantum opacity)
 
   (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v6.2.0");
   assert(image != (Image *) NULL);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(image->signature == MagickCoreSignature);
   background_color=image->background_color;
@@ -7089,7 +7098,7 @@ MagickExport Image *ShiftImageList(Image **images)
 */
 MagickExport MagickOffsetType SizeBlob(Image *image)
 {
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.4.3");
   return((MagickOffsetType) GetBlobSize(image));
 }
@@ -7175,9 +7184,10 @@ MagickExport Image *SpliceImageList(Image *images,const ssize_t offset,
 */
 MagickExport MagickRealType sRGBCompandor(const MagickRealType pixel)
 {
-  if (pixel <= (0.0031306684425005883*QuantumRange))
+  if (pixel <= (0.0031306684425005883*(double) QuantumRange))
     return(12.92*pixel);
-  return(QuantumRange*(1.055*pow(QuantumScale*pixel,1.0/2.4)-0.055));
+  return((MagickRealType) QuantumRange*(1.055*pow(QuantumScale*pixel,1.0/2.4)-
+    0.055));
 }
 
 /*
@@ -7456,9 +7466,9 @@ MagickExport unsigned int ThresholdImage(Image *image,const double threshold)
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.7");
   if (!AcquireImageColormap(image,2))
     ThrowBinaryImageException(ResourceLimitError,"MemoryAllocationFailed",
@@ -7542,7 +7552,7 @@ MagickExport unsigned int ThresholdImageChannel(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (threshold == (const char *) NULL)
     return(MagickTrue);
@@ -7565,10 +7575,10 @@ MagickExport unsigned int ThresholdImageChannel(Image *image,
     pixel.opacity=(MagickRealType) OpaqueOpacity;
   if (flags & PercentValue)
     {
-      pixel.red*=QuantumRange/100.0f;
-      pixel.green*=QuantumRange/100.0f;
-      pixel.blue*=QuantumRange/100.0f;
-      pixel.opacity*=QuantumRange/100.0f;
+      pixel.red*=(MagickRealType) QuantumRange/100.0;
+      pixel.green*=(MagickRealType) QuantumRange/100.0;
+      pixel.blue*=(MagickRealType) QuantumRange/100.0;
+      pixel.opacity*=(MagickRealType) QuantumRange/100.0;
     }
   if (!(flags & SigmaValue))
     {
@@ -7661,7 +7671,7 @@ MagickExport unsigned int TransformColorspace(Image *image,
 {
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.5.6");
   return(TransformImageColorspace(image,colorspace));
 }
@@ -7711,9 +7721,9 @@ MagickExport void TransformHSL(const Quantum red,const Quantum green,
   assert(hue != (double *) NULL);
   assert(saturation != (double *) NULL);
   assert(lightness != (double *) NULL);
-  r=QuantumScale*red;
-  g=QuantumScale*green;
-  b=QuantumScale*blue;
+  r=QuantumScale*(MagickRealType) red;
+  g=QuantumScale*(MagickRealType) green;
+  b=QuantumScale*(MagickRealType) blue;
   max=MagickMax(r,MagickMax(g,b));
   min=MagickMin(r,MagickMin(g,b));
   *hue=0.0;
@@ -7772,7 +7782,7 @@ MagickExport char *TranslateText(const ImageInfo *image_info,Image *image,
 {
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v6.2.6");
   return(InterpretImageProperties(image_info,image,embed_text));
 }
@@ -7828,7 +7838,7 @@ MagickExport MagickBooleanType TransparentImage(Image *image,
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
   (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v6.1.0");
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->matte == MagickFalse)
     (void) SetImageAlphaChannel(image,OpaqueAlphaChannel);
@@ -7934,7 +7944,7 @@ MagickExport unsigned int UnshiftImageList(Image **images,const Image *image,
 MagickExport IndexPacket ValidateColormapIndex(Image *image,
   const size_t index)
 {
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(DeprecateEvent,GetMagickModule(),"last use: v5.4.4");
   return(ConstrainColormapIndex(image,index));
 }
@@ -7986,10 +7996,10 @@ MagickExport Image *ZoomImage(const Image *image,const size_t columns,
 
   assert(image != (const Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   zoom_image=ResizeImage(image,columns,rows,image->filter,image->blur,
     exception);
   return(zoom_image);

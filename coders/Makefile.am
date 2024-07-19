@@ -1,4 +1,4 @@
-#  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+#  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
 #  dedicated to making software imaging solutions freely available.
 #
 #  You may not use this file except in compliance with the License.  You may
@@ -208,7 +208,6 @@ MAGICK_CODER_SRCS = \
 	coders/xcf.c \
 	coders/xpm.c \
 	coders/xps.c \
-	coders/xtrn.c \
 	coders/ycbcr.c \
 	coders/yuv.c \
   $(MAGICK_DPS_SRCS) \
@@ -221,6 +220,7 @@ MAGICK_CODER_SRCS = \
   $(MAGICK_JBIG_SRCS) \
   $(MAGICK_JPEG_SRCS) \
   $(MAGICK_JP2_SRCS) \
+  $(MAGICK_JXL_SRCS) \
   $(MAGICK_PNG_SRCS) \
   $(MAGICK_TIFF_SRCS) \
   $(MAGICK_WEBP_SRCS) \
@@ -340,7 +340,6 @@ coders_LTLIBRARIES = \
 	coders/xcf.la \
 	coders/xpm.la \
 	coders/xps.la \
-	coders/xtrn.la \
 	coders/ycbcr.la \
 	coders/yuv.la \
   $(MAGICK_DPS_MODULES) \
@@ -353,6 +352,7 @@ coders_LTLIBRARIES = \
   $(MAGICK_JBIG_MODULES) \
   $(MAGICK_JPEG_MODULES) \
   $(MAGICK_JP2_MODULES) \
+  $(MAGICK_JXL_MODULES) \
   $(MAGICK_PNG_MODULES) \
   $(MAGICK_TIFF_MODULES) \
   $(MAGICK_WEBP_MODULES) \
@@ -1009,6 +1009,9 @@ coders_url_la_SOURCES      = coders/url.c
 coders_url_la_CPPFLAGS     = $(MAGICK_CODER_CPPFLAGS)
 coders_url_la_LDFLAGS      = $(MODULECOMMONFLAGS)
 coders_url_la_LIBADD       = $(MAGICKCORE_LIBS) $(XML_LIBS) $(LZMA_LIBS) $(ZLIB_LIBS) $(MATH_LIBS)
+if WIN32_NATIVE_BUILD
+coders_url_la_LIBADD      += -lurlmon
+endif
 
 # UYVY coder module
 coders_uyvy_la_SOURCES     = coders/uyvy.c
@@ -1104,13 +1107,7 @@ coders_xpm_la_LIBADD       = $(MAGICKCORE_LIBS)
 coders_xps_la_SOURCES      = coders/xps.c
 coders_xps_la_CPPFLAGS     = $(MAGICK_CODER_CPPFLAGS)
 coders_xps_la_LDFLAGS      = $(MODULECOMMONFLAGS)
-coders_xps_la_LIBADD       = $(MAGICKCORE_LIBS) $(MUPDF_LIBS) $(FREETYPE_LIBS) $(MATH_LIBS) 
-
-# XTRN coder module
-coders_xtrn_la_SOURCES     = coders/xtrn.c
-coders_xtrn_la_CPPFLAGS    = $(MAGICK_CODER_CPPFLAGS)
-coders_xtrn_la_LDFLAGS     = $(MODULECOMMONFLAGS)
-coders_xtrn_la_LIBADD      = $(MAGICKCORE_LIBS) $(OLE_LIBS)
+coders_xps_la_LIBADD       = $(MAGICKCORE_LIBS) $(MUPDF_LIBS) $(FREETYPE_LIBS) $(MATH_LIBS)
 
 # XWD coder module
 coders_xwd_la_SOURCES      = coders/xwd.c

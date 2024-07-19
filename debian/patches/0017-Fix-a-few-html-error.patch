@@ -1,0 +1,45 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 26 Jul 2020 22:26:36 +0200
+Subject: Fix a few html error
+
+Forwarded: yes
+---
+ www/binary-releases.html | 1 -
+ www/changelog.html       | 5 +++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/www/binary-releases.html b/www/binary-releases.html
+index b6e959a..49a8f2a 100644
+--- a/www/binary-releases.html
++++ b/www/binary-releases.html
+@@ -65,7 +65,6 @@
+       <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
+-    </div>
+   </nav>
+   <div class="container">
+    <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>    <ins class="adsbygoogle"
+diff --git a/www/changelog.html b/www/changelog.html
+index 8d08a24..1f8adf3 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
+@@ -709,7 +709,8 @@
+ <dt>2019-10-27  6.9.10-70 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>
+   <li> Release ImageMagick version 6.9.10-70, GIT revision 14970:4200095:20191027.</li>
+ <dt>2019-10-27  6.9.10-70 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>
+-  <li> Fixed numerous issues  posted to GitHub (reference    https://github.com/ImageMagick/ImageMagick/issues).<dt>2019-10-27  6.9.10-70 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>
++<li> Fixed numerous issues  posted to GitHub (reference    https://github.com/ImageMagick/ImageMagick/issues).</li>
++<dt>2019-10-27  6.9.10-70 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>
+   <li> Release ImageMagick version 6.9.10-70, GIT revision 14970:4200095:20191027.</li>
+ <dt>2019-10-27  6.9.10-70 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>
+   <li> Fixed numerous issues  posted to GitHub (reference    https://github.com/ImageMagick/ImageMagick/issues).</li>
+@@ -1011,7 +1012,7 @@
+   <li> Release ImageMagick version 6.9.10-1, GIT revision 13595:dafb03062:20180616.</li>
+ <dt>2018-06-16  6.9.10-1 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>
+   <li> Fixed numerous use of uninitialized values, integer overflow, memory    exceeded, and timeouts (credit to OSS Fuzz).</li>
+-  <li> Fixed an issue with stroke and label: (reference</li>
++  <li> Fixed an issue with stroke and label</li>
+ <dt>2018-06-12  6.9.10-0 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>
+   <li> Release ImageMagick version 6.9.10-0, GIT revision 13585:82d7dbe0b:20180612.</li>
+ <dt>2018-06-11  6.9.10-0 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>

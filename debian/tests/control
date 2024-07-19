@@ -1,12 +1,29 @@
 Tests: rose-6.q16
-Depends: imagemagick-6.q16, libmagickcore-6.q16-6-extra, netpbm
+Depends: imagemagick-6.q16, libmagickcore-6.q16-7-extra, netpbm
 
 Tests: perlmagick-6.q16
-Depends: libimage-magick-q16-perl, libmagickcore-6.q16-6-extra, libaliased-perl, gsfonts
+Depends: libimage-magick-q16-perl, libmagickcore-6.q16-7-extra, libaliased-perl, fonts-urw-base35
+
+Tests: perlmagick-gd-6.q16
+Depends: libimage-magick-q16-perl, libmagickcore-6.q16-7-extra, libaliased-perl, fonts-urw-base35, libgd-securityimage-perl, libimage-magick-perl
+
+Tests: perlmagick-leak-6.q16
+Depends: libimage-magick-q16-perl, libmagickcore-6.q16-7-extra, libaliased-perl, fonts-urw-base35, time, bash
+
 
 Tests: rose-6.q16hdri
-Depends: imagemagick-6.q16hdri, libmagickcore-6.q16hdri-6-extra, netpbm
+Depends: imagemagick-6.q16hdri, libmagickcore-6.q16hdri-7-extra, netpbm
 
 Tests: perlmagick-6.q16hdri
-Depends: libimage-magick-q16hdri-perl, libmagickcore-6.q16hdri-6-extra, libaliased-perl, gsfonts
+Depends: libimage-magick-q16hdri-perl, libmagickcore-6.q16hdri-7-extra, libaliased-perl, fonts-urw-base35
 
+Tests: perlmagick-gd-6.q16hdri
+Depends: libimage-magick-q16hdri-perl, libmagickcore-6.q16hdri-7-extra, libaliased-perl, fonts-urw-base35, libgd-securityimage-perl, libimage-magick-perl
+
+Tests: perlmagick-leak-6.q16hdri
+Depends: libimage-magick-q16hdri-perl, libmagickcore-6.q16hdri-7-extra, libaliased-perl, fonts-urw-base35, time, bash
+
+
+
+Tests: rmagick-leak
+Depends: ruby-rmagick, fonts-urw-base35, time, bash

@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -314,15 +314,12 @@ process_message(ddjvu_message_t *message)
 }
 #endif
 
-
-#define RGB 1
-
 /*
  * DjVu advertised readiness to provide bitmap: So get it!
  * we use the RGB format!
  */
 static void
-get_page_image(LoadContext *lc, ddjvu_page_t *page, int x, int y, int w, int h, const ImageInfo *image_info ) {
+get_page_image(LoadContext *lc, ddjvu_page_t *page, int x, int y, int w, int h, const ImageInfo *magick_unused(image_info) ) {
   ddjvu_format_t
     *format;
 
@@ -460,6 +457,9 @@ get_page_image(LoadContext *lc, ddjvu_page_t *page, int x, int y, int w, int h, 
 #if defined(MAGICKCORE_DJVU_DELEGATE)
 
 #if 0
+
+#define RGB 1
+
 static int
 get_page_line(LoadContext *lc, int row, QuantumInfo* quantum_info)
 {
@@ -609,6 +609,8 @@ static Image *ReadOneDJVUImage(LoadContext* lc,const int pagenum,
                 if (tag == 0) break;
         } while (!ddjvu_page_decoding_done(lc->page));
 
+        if (ddjvu_page_decoding_error(lc->page) != 0)
+          ThrowReaderException(CorruptImageError,"CorruptImage");
         ddjvu_document_get_pageinfo(lc->document, pagenum, &info);
 
         image->x_resolution = (float) info.dpi;
@@ -644,7 +646,7 @@ static Image *ReadOneDJVUImage(LoadContext* lc,const int pagenum,
         image->columns=(size_t) info.width;
         image->rows=(size_t) info.height;
 
-        /* mmc: bitonal should be palettized, and compressed! */
+        /* mmc: bitonal should be palletized, and compressed! */
         if (type == DDJVU_PAGETYPE_BITONAL){
                 image->colorspace = GRAYColorspace;
                 image->storage_class = PseudoClass;
@@ -658,16 +660,7 @@ static Image *ReadOneDJVUImage(LoadContext* lc,const int pagenum,
                 image->storage_class = DirectClass;
                 /* fixme:  MAGICKCORE_QUANTUM_DEPTH ?*/
                 image->depth =  8UL;    /* i only support that? */
-
-                image->matte = MagickTrue;
-                /* is this useful? */
         }
-        status=SetImageExtent(image,image->columns,image->rows);
-        if (status == MagickFalse)
-          {
-            InheritException(exception,&image->exception);
-            return(DestroyImageList(image));
-          }
 #if DEBUG
         printf("now filling %.20g x %.20g\n",(double) image->columns,(double)
           image->rows);
@@ -677,7 +670,18 @@ static Image *ReadOneDJVUImage(LoadContext* lc,const int pagenum,
 #if 1                           /* per_line */
 
         /* q = QueueAuthenticPixels(image,0,0,image->columns,image->rows); */
-        get_page_image(lc, lc->page, 0, 0, info.width, info.height, image_info);
+       
+        if (image->ping == MagickFalse)
+          {
+            status=SetImageExtent(image,image->columns,image->rows);
+            if (status == MagickFalse)
+              {
+                InheritException(exception,&image->exception);
+                return(DestroyImageList(image));
+              }
+            get_page_image(lc, lc->page, 0, 0, image->columns, image->rows,
+              image_info);
+          }
 #else
         int i;
         for (i = 0;i< image->rows; i++)
@@ -773,20 +777,16 @@ static Image *ReadDJVUImage(const ImageInfo *image_info,
    */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-
-
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s", image_info->filename);
-
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
-
-
-  logging = LogMagickEvent(CoderEvent,GetMagickModule(),"enter ReadDJVUImage()");
-  (void) logging;
-
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image = AcquireImage(image_info); /* mmc: ?? */
-
+  if (image->debug != MagickFalse)
+    logging=LogMagickEvent(CoderEvent,GetMagickModule(),
+      "enter ReadDJVUImage()");
+  (void) logging;
 
   lc = (LoadContext *) NULL;
   status = OpenBlob(image_info,image,ReadBinaryBlobMode,exception);

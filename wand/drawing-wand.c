@@ -23,7 +23,7 @@
 %                                March 2002                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -279,8 +279,7 @@ static int MVGAutoWrapPrintf(DrawingWand *wand,const char *format,...)
 
 static void MVGAppendColor(DrawingWand *wand,const PixelPacket *color)
 {
-  if ((GetPixelRed(color) == 0) &&
-      (GetPixelGreen(color) == 0) &&
+  if ((GetPixelRed(color) == 0) && (GetPixelGreen(color) == 0) &&
       (GetPixelBlue(color) == 0) &&
       (GetPixelOpacity(color) == (Quantum) TransparentOpacity))
     (void) MVGPrintf(wand,"none");
@@ -383,11 +382,9 @@ WandExport DrawingWand *AcquireDrawingWand(const DrawInfo *draw_info,
       CurrentContext=DestroyDrawInfo(CurrentContext);
       CurrentContext=CloneDrawInfo((ImageInfo *) NULL,draw_info);
     }
+  wand->image=DestroyImage(wand->image);
   if (image != (Image *) NULL)
-    {
-      wand->image=DestroyImage(wand->image);
-      wand->destroy=MagickFalse;
-    }
+    wand->destroy=MagickFalse;
   wand->image=image;
   return(wand);
 }
@@ -1403,7 +1400,8 @@ WandExport double DrawGetFillOpacity(const DrawingWand *wand)
   assert(wand->signature == WandSignature);
   if (wand->debug != MagickFalse)
     (void) LogMagickEvent(WandEvent,GetMagickModule(),"%s",wand->name);
-  alpha=(double) QuantumScale*(QuantumRange-CurrentContext->fill.opacity);
+  alpha=QuantumScale*((double) QuantumRange-(double)
+    CurrentContext->fill.opacity);
   return(alpha);
 }
 
@@ -1449,7 +1447,7 @@ WandExport FillRule DrawGetFillRule(const DrawingWand *wand)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  DrawGetFont() returns a null-terminaged string specifying the font used
+%  DrawGetFont() returns a null-terminated string specifying the font used
 %  when annotating with text. The value returned must be freed by the user
 %  when no longer needed.
 %
@@ -1541,8 +1539,8 @@ WandExport MagickBooleanType DrawGetFontResolution(const DrawingWand *wand,
   assert(wand->signature == WandSignature);
   if (wand->debug != MagickFalse)
     (void) LogMagickEvent(WandEvent,GetMagickModule(),"%s",wand->name);
-  *x=72.0;
-  *y=72.0;
+  *x=DefaultResolution;
+  *y=DefaultResolution;
   if (CurrentContext->density != (char *) NULL)
     {
       GeometryInfo
@@ -1748,7 +1746,7 @@ WandExport double DrawGetOpacity(const DrawingWand *wand)
   assert(wand->signature == WandSignature);
   if (wand->debug != MagickFalse)
     (void) LogMagickEvent(WandEvent,GetMagickModule(),"%s",wand->name);
-  alpha=(double) QuantumScale*(QuantumRange-CurrentContext->opacity);
+  alpha=QuantumScale*((double) QuantumRange-(double) CurrentContext->opacity);
   return(alpha);
 }
 
@@ -2060,7 +2058,8 @@ WandExport double DrawGetStrokeOpacity(const DrawingWand *wand)
   assert(wand->signature == WandSignature);
   if (wand->debug != MagickFalse)
     (void) LogMagickEvent(WandEvent,GetMagickModule(),"%s",wand->name);
-  alpha=(double) QuantumScale*(QuantumRange-CurrentContext->stroke.opacity);
+  alpha=QuantumScale*((double) QuantumRange-(double)
+    CurrentContext->stroke.opacity);
   return(alpha);
 }
 
@@ -2455,7 +2454,8 @@ WandExport char *DrawGetVectorGraphics(DrawingWand *wand)
   if (child != (XMLTreeInfo *) NULL)
     {
       (void) FormatLocaleString(value,MaxTextExtent,"%.20g",
-        (double) (QuantumScale*(QuantumRange-CurrentContext->fill.opacity)));
+        QuantumScale*((double) QuantumRange-(double)
+        CurrentContext->fill.opacity));
       (void) SetXMLTreeContent(child,value);
     }
   child=AddChildToXMLTree(xml_info,"fill-rule",0);
@@ -2576,8 +2576,8 @@ WandExport char *DrawGetVectorGraphics(DrawingWand *wand)
   child=AddChildToXMLTree(xml_info,"stroke-opacity",0);
   if (child != (XMLTreeInfo *) NULL)
     {
-      (void) FormatLocaleString(value,MaxTextExtent,"%.20g",
-        (double) (QuantumScale*(QuantumRange-CurrentContext->stroke.opacity)));
+      (void) FormatLocaleString(value,MaxTextExtent,"%.20g",QuantumScale*
+        ((double) QuantumRange-(double) CurrentContext->stroke.opacity));
       (void) SetXMLTreeContent(child,value);
     }
   child=AddChildToXMLTree(xml_info,"stroke-width",0);
@@ -4372,7 +4372,7 @@ WandExport void DrawRotate(DrawingWand *wand,const double degrees)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  DrawRoundRectangle() draws a rounted rectangle given two coordinates,
+%  DrawRoundRectangle() draws a rounded rectangle given two coordinates,
 %  x & y corner radiuses and using the current stroke, stroke width,
 %  and fill settings.
 %
@@ -4989,7 +4989,7 @@ WandExport void DrawSetFillRule(DrawingWand *wand,const FillRule fill_rule)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  DrawSetFont() sets the fully-sepecified font to use when annotating with
+%  DrawSetFont() sets the fully-specified font to use when annotating with
 %  text.
 %
 %  The format of the DrawSetFont method is:

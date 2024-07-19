@@ -399,4 +399,10 @@
   <!-- remove rss meta data -->
   <xsl:template match="*[local-name(.)= 'link'][@href='http://imagemagick.org/ici.rdf']" />
 
+  <!-- remove github frame -->
+  <xsl:template match="*[local-name(.)= 'iframe'][contains(@src,'github.com/sponsors')]" />
+
+  <!-- remove wand icon -->
+  <xsl:template match="*[local-name(.)= 'link'][@rel='icon' and contains(@href,'http://')]" />
+  <xsl:template match="*[local-name(.)= 'link'][@rel='icon' and contains(@href,'https://')]" />
 </xsl:stylesheet>

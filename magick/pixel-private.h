@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -41,8 +41,8 @@ static inline MagickBooleanType IsGrayPixel(const PixelPacket *pixel)
       alpha,
       beta;
 
-    alpha=GetPixelRed(pixel)-(double) GetPixelGreen(pixel);
-    beta=GetPixelGreen(pixel)-(double) GetPixelBlue(pixel);
+    alpha=(double) GetPixelRed(pixel)-(double) GetPixelGreen(pixel);
+    beta=(double) GetPixelGreen(pixel)-(double) GetPixelBlue(pixel);
     if ((fabs(alpha) <= MagickEpsilon) && (fabs(beta) <= MagickEpsilon))
       return(MagickTrue);
   }
@@ -64,10 +64,10 @@ static inline MagickBooleanType IsMonochromePixel(const PixelPacket *pixel)
       alpha,
       beta;
 
-    alpha=GetPixelRed(pixel)-(double) GetPixelGreen(pixel);
-    beta=GetPixelGreen(pixel)-(double) GetPixelBlue(pixel);
+    alpha=(double) GetPixelRed(pixel)-(double) GetPixelGreen(pixel);
+    beta=(double) GetPixelGreen(pixel)-(double) GetPixelBlue(pixel);
     if (((fabs((double) GetPixelRed(pixel)) <= MagickEpsilon) ||
-         (fabs((double) GetPixelRed(pixel)-QuantumRange) <= MagickEpsilon)) &&
+         (fabs((double) GetPixelRed(pixel)-(double) QuantumRange) <= MagickEpsilon)) &&
         (fabs(alpha) <= MagickEpsilon) && (fabs(beta) <= MagickEpsilon))
       return(MagickTrue);
     }
@@ -107,6 +107,8 @@ static inline void SetPixelPacket(const Image *image,
   SetPixelGreen(color,ClampToQuantum(pixel->green));
   SetPixelBlue(color,ClampToQuantum(pixel->blue));
   SetPixelOpacity(color,ClampToQuantum(pixel->opacity));
+  if (index == (IndexPacket *) NULL)
+    return;
   if ((image->colorspace == CMYKColorspace) ||
       (image->storage_class == PseudoClass))
     SetPixelIndex(index,ClampToQuantum(pixel->index));

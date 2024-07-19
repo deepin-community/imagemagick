@@ -17,7 +17,7 @@
 %                                April 1993                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -980,7 +980,7 @@ MagickExport MagickBooleanType GetImageDynamicThreshold(const Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   GetMagickPixelPacket(image,pixel);
   for (i=0; i < MaxDimension; i++)
@@ -1004,11 +1004,11 @@ MagickExport MagickBooleanType GetImageDynamicThreshold(const Image *image,
   */
   InitializeHistogram(image,histogram,exception);
   (void) OptimalTau(histogram[Red],Tau,0.2f,DeltaTau,
-    (smooth_threshold == 0.0f ? 1.0f : smooth_threshold),extrema[Red]);
+    (smooth_threshold == 0.0 ? 1.0 : smooth_threshold),extrema[Red]);
   (void) OptimalTau(histogram[Green],Tau,0.2f,DeltaTau,
-    (smooth_threshold == 0.0f ? 1.0f : smooth_threshold),extrema[Green]);
+    (smooth_threshold == 0.0 ? 1.0 : smooth_threshold),extrema[Green]);
   (void) OptimalTau(histogram[Blue],Tau,0.2f,DeltaTau,
-    (smooth_threshold == 0.0f ? 1.0f : smooth_threshold),extrema[Blue]);
+    (smooth_threshold == 0.0 ? 1.0 : smooth_threshold),extrema[Blue]);
   /*
     Form clusters.
   */
@@ -1155,7 +1155,8 @@ MagickExport MagickBooleanType GetImageDynamicThreshold(const Image *image,
   }
   object=head;
   background=head;
-  if (count > 1)
+  if ((count > 1) && (head != (Cluster *) NULL) &&
+      (head->next != (Cluster *) NULL))
     {
       object=head->next;
       for (cluster=object; cluster->next != (Cluster *) NULL; )
@@ -1819,7 +1820,7 @@ MagickExport MagickBooleanType SegmentImage(Image *image,
   */
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   for (i=0; i < MaxDimension; i++)
   {

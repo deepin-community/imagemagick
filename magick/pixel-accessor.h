@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -33,7 +33,7 @@ extern "C" {
 #define ClampPixelOpacity(pixel) ClampToQuantum((pixel)->opacity)
 #define GetPixela(pixel) ((pixel)->green)
 #define GetPixelb(pixel) ((pixel)->blue)
-#define GetPixelAlpha(pixel) (QuantumRange-(pixel)->opacity)
+#define GetPixelAlpha(pixel) ((double) QuantumRange-(double) (pixel)->opacity)
 #define GetPixelBlack(indexes) (*(indexes))
 #define GetPixelBlue(pixel) ((pixel)->blue)
 #define GetPixelCb(pixel) ((pixel)->green)
@@ -65,7 +65,7 @@ extern "C" {
 #define GetPixelYellow(pixel) ((pixel)->blue)
 #define SetPixela(pixel,value) ((pixel)->green=(Quantum) (value))
 #define SetPixelAlpha(pixel,value) \
-  ((pixel)->opacity=(Quantum) (QuantumRange-(value)))
+  ((pixel)->opacity=(Quantum) ((double) QuantumRange-(double) (value)))
 #define SetPixelb(pixel,value) ((pixel)->blue=(Quantum) (value))
 #define SetPixelBlack(indexes,value) (*(indexes)=(Quantum) (value))
 #define SetPixelBlue(pixel,value) ((pixel)->blue=(Quantum) (value))
@@ -105,17 +105,17 @@ extern "C" {
 
 static inline MagickRealType AbsolutePixelValue(const MagickRealType x)
 {
-  return(x < 0.0f ? -x : x);
+  return(x < 0.0 ? -x : x);
 }
 
 static inline Quantum ClampPixel(const MagickRealType value)
 { 
-  if (value < 0.0f)
+  if (value < 0.0)
     return((Quantum) 0); 
   if (value >= (MagickRealType) QuantumRange)
     return((Quantum) QuantumRange);
 #if !defined(MAGICKCORE_HDRI_SUPPORT)
-  return((Quantum) (value+0.5f));
+  return((Quantum) (value+0.5));
 #else
   return((Quantum) value);
 #endif
@@ -135,8 +135,8 @@ static inline double PerceptibleReciprocal(const double x)
   return(sign/MagickEpsilon);
 }   
 
-static inline MagickRealType GetPixelLuma(const Image *magick_restrict image,
-  const PixelPacket *magick_restrict pixel)
+static inline MagickRealType GetPixelLuma(
+  const Image *magick_restrict image,const PixelPacket *magick_restrict pixel)
 {
   MagickRealType
     intensity;
@@ -159,10 +159,19 @@ static inline MagickRealType GetPixelLuminance(
         0.072186f*pixel->blue);
       return(intensity);
     }
-  intensity=(MagickRealType) (0.212656f*DecodePixelGamma((MagickRealType)
-    pixel->red)+0.715158f*DecodePixelGamma((MagickRealType) pixel->green)+
-    0.072186f*DecodePixelGamma((MagickRealType) pixel->blue));
+  intensity=(MagickRealType) (0.212656*DecodePixelGamma((MagickRealType)
+    pixel->red)+0.715158*DecodePixelGamma((MagickRealType) pixel->green)+
+    0.072186*DecodePixelGamma((MagickRealType) pixel->blue));
   return(intensity);
+}
+
+static inline void GetPixelPacketRGBA(const Quantum red,const Quantum green,
+  const Quantum blue,const Quantum opacity,PixelPacket *magick_restrict pixel)
+{
+  pixel->red=red;
+  pixel->green=green;
+  pixel->blue=blue;
+  pixel->opacity=opacity;
 }
 
 static inline MagickBooleanType IsPixelAtDepth(const Quantum pixel,
@@ -178,7 +187,8 @@ static inline MagickBooleanType IsPixelAtDepth(const Quantum pixel,
     (((MagickRealType) range*pixel)/QuantumRange+0.5)))/range+0.5);
 #else
   quantum=(Quantum) (((MagickRealType) QuantumRange*((QuantumAny)
-    (((MagickRealType) range*pixel)/QuantumRange+0.5)))/range);
+    (((MagickRealType) range*(MagickRealType) pixel)/(MagickRealType) QuantumRange+
+    0.5)))/(MagickRealType) range);
 #endif
   return(pixel == quantum ? MagickTrue : MagickFalse);
 }
@@ -189,15 +199,16 @@ static inline MagickBooleanType IsPixelGray(const PixelPacket *pixel)
     green_blue,
     red_green;
 
-  red_green=(MagickRealType) pixel->red-pixel->green;
-  green_blue=(MagickRealType) pixel->green-pixel->blue;
+  red_green=(MagickRealType) pixel->red-(MagickRealType) pixel->green;
+  green_blue=(MagickRealType) pixel->green-(MagickRealType) pixel->blue;
   if (((QuantumScale*AbsolutePixelValue(red_green)) < MagickEpsilon) &&
       ((QuantumScale*AbsolutePixelValue(green_blue)) < MagickEpsilon))
     return(MagickTrue);
   return(MagickFalse);
 }
 
-static inline MagickBooleanType IsPixelMonochrome(const PixelPacket *pixel)
+static inline MagickBooleanType IsPixelMonochrome(
+  const PixelPacket *pixel)
 {
   MagickRealType
     green_blue,
@@ -206,10 +217,10 @@ static inline MagickBooleanType IsPixelMonochrome(const PixelPacket *pixel)
 
   red=(MagickRealType) pixel->red;
   if ((AbsolutePixelValue(red) >= MagickEpsilon) &&
-      (AbsolutePixelValue(red-QuantumRange) >= MagickEpsilon))
+      (AbsolutePixelValue(red-(double) QuantumRange) >= MagickEpsilon))
     return(MagickFalse);
-  red_green=(MagickRealType) pixel->red-pixel->green;
-  green_blue=(MagickRealType) pixel->green-pixel->blue;
+  red_green=(MagickRealType) pixel->red-(double) pixel->green;
+  green_blue=(MagickRealType) pixel->green-(double) pixel->blue;
   if (((QuantumScale*AbsolutePixelValue(red_green)) < MagickEpsilon) &&
       ((QuantumScale*AbsolutePixelValue(green_blue)) < MagickEpsilon))
     return(MagickTrue);
@@ -223,8 +234,8 @@ static inline Quantum PixelPacketIntensity(const PixelPacket *pixel)
 
   if ((pixel->red  == pixel->green) && (pixel->green == pixel->blue))
     return(pixel->red);
-  intensity=(MagickRealType) (0.212656*pixel->red+0.715158*pixel->green+
-    0.072186*pixel->blue);
+  intensity=(MagickRealType) (0.212656f*pixel->red+0.715158f*pixel->green+
+    0.072186f*pixel->blue);
   return(ClampToQuantum(intensity));
 }
 

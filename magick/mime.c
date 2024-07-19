@@ -15,7 +15,7 @@
 %                                 July 2000                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -160,13 +160,9 @@ static LinkedListInfo *AcquireMimeCache(const char *filename,
   LinkedListInfo
     *cache;
 
-  MagickStatusType
-    status;
-
   cache=NewLinkedList(0);
   if (cache == (LinkedListInfo *) NULL)
     ThrowFatalException(ResourceLimitFatalError,"MemoryAllocationFailed");
-  status=MagickTrue;
 #if !MAGICKCORE_ZERO_CONFIGURATION_SUPPORT
   {
     const StringInfo
@@ -179,15 +175,17 @@ static LinkedListInfo *AcquireMimeCache(const char *filename,
     option=(const StringInfo *) GetNextValueInLinkedList(options);
     while (option != (const StringInfo *) NULL)
     {
-      status&=LoadMimeCache(cache,(const char *)
+      (void) LoadMimeCache(cache, (const char *)
         GetStringInfoDatum(option),GetStringInfoPath(option),0,exception);
       option=(const StringInfo *) GetNextValueInLinkedList(options);
     }
     options=DestroyConfigureOptions(options);
   }
+#else
+  magick_unreferenced(filename);
 #endif
   if (IsLinkedListEmpty(cache) != MagickFalse)
-    status&=LoadMimeCache(cache,MimeMap,"built-in",0,exception);
+    (void) LoadMimeCache(cache,MimeMap,"built-in",0,exception);
   return(cache);
 }
 
@@ -463,8 +461,9 @@ MagickExport const MimeInfo **GetMimeInfoList(const char *pattern,
     Allocate mime list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_aliases != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_aliases=0;
   p=GetMimeInfo((char *) NULL,(unsigned char *) "*",0,exception);
   if (p == (const MimeInfo *) NULL)
@@ -558,8 +557,9 @@ MagickExport char **GetMimeList(const char *pattern,
     Allocate configure list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_aliases != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_aliases=0;
   p=GetMimeInfo((char *) NULL,(unsigned char *) "*",0,exception);
   if (p == (const MimeInfo *) NULL)
@@ -609,9 +609,10 @@ MagickExport char **GetMimeList(const char *pattern,
 */
 MagickExport const char *GetMimeDescription(const MimeInfo *mime_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(mime_info != (MimeInfo *) NULL);
   assert(mime_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   return(mime_info->description);
 }
 
@@ -639,9 +640,10 @@ MagickExport const char *GetMimeDescription(const MimeInfo *mime_info)
 */
 MagickExport const char *GetMimeType(const MimeInfo *mime_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(mime_info != (MimeInfo *) NULL);
   assert(mime_info->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   return(mime_info->type);
 }
 

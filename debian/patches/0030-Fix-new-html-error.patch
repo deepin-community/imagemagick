@@ -1,0 +1,59 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Fri, 28 Jun 2024 16:54:36 +0000
+Subject: Fix new html error
+
+forwared: not-needed
+---
+ www/formats.html        | 2 +-
+ www/links.html          | 2 +-
+ www/privacy-policy.html | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/www/formats.html b/www/formats.html
+index a7b5d7a..71c0235 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -625,7 +625,7 @@ the supported image formats.</p>
+     <td><a href="https://en.wikipedia.org/wiki/JPEG_XR">JXR</a></td>
+     <td>RW</td>
+     <td>JPEG extended range</td>
+-    <td>Requires the <a href="https://jxrlib.codeplex.com/">jxrlib</a> delegate library. Put the JxrDecApp and JxrEncApp applications in your execution path.</p>
++    <td>Requires the <a href="https://jxrlib.codeplex.com/">jxrlib</a> delegate library. Put the JxrDecApp and JxrEncApp applications in your execution path.</td>
+   </tr>
+ 
+   <tr>
+diff --git a/www/links.html b/www/links.html
+index 0dcaab5..f0bfb77 100644
+--- a/www/links.html
++++ b/www/links.html
+@@ -169,7 +169,7 @@
+ <h2><a class="anchor" id="related-projects"></a>Related Projects</h2>
+ <ul>
+   <dd class="col-md-8"><a href="https://github.com/ImageMagick/MagickCache" target="_blank">MagickCache</a></dd>
+-  <dd class="col-md-8"><a href="https://urban-warrior.org" taget="_blank">Wizard's Toolkit</a>
++  <dd class="col-md-8"><a href="https://urban-warrior.org" taget="_blank">Wizard's Toolkit</a></dd>
+   <dd class="col-md-8"><a href="https://spiritual-warrior.org/" taget="_blank">The Tao of the Spiritual Warrior</a></dd>
+ </ul>
+ </div>
+diff --git a/www/privacy-policy.html b/www/privacy-policy.html
+index 9bc75ca..48fd5be 100644
+--- a/www/privacy-policy.html
++++ b/www/privacy-policy.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+@@ -64,7 +64,7 @@
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
++        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+         <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+       </form>
+     </div>

@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -102,11 +102,11 @@ static Image *ReadCLIPImage(const ImageInfo *image_info,
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   read_info=CloneImageInfo(image_info);
   SetImageInfoBlob(read_info,(void *) NULL,0);
   (void) CopyMagickString(read_info->magick,"MIFF",MaxTextExtent);
@@ -217,6 +217,9 @@ ModuleExport void UnregisterCLIPImage(void)
 static MagickBooleanType WriteCLIPImage(const ImageInfo *image_info,
   Image *image)
 {
+  const MagickInfo
+    *magick_info;
+
   Image
     *clip_image;
 
@@ -238,8 +241,9 @@ static MagickBooleanType WriteCLIPImage(const ImageInfo *image_info,
   write_info=CloneImageInfo(image_info);
   *write_info->magick='\0';
   (void) SetImageInfo(write_info,1,&image->exception);
-  if ((*write_info->magick == '\0') ||
-      (LocaleCompare(write_info->magick,"CLIP") == 0))
+  magick_info=GetMagickInfo(write_info->magick,&image->exception);
+  if ((magick_info == (const MagickInfo*) NULL) ||
+      (LocaleCompare(magick_info->magick_module,"CLIP") == 0))
     (void) FormatLocaleString(clip_image->filename,MaxTextExtent,"miff:%s",
       write_info->filename);
   status=WriteImage(write_info,clip_image);

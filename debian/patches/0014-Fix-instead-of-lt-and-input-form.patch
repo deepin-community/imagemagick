@@ -1,0 +1,266 @@
+From: =?utf-8?q?Bastien_ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
+Date: Sat, 3 Feb 2018 23:38:58 +0100
+Subject: Fix < instead of &lt; and input form
+
+Forwarded: Yes
+---
+ www/advanced-unix-installation.html    | 12 ++++++++----
+ www/advanced-windows-installation.html |  5 ++++-
+ www/animate.html                       |  5 ++++-
+ www/api/magick++-classes.html          |  5 ++---
+ www/api/magick-deprecate.html          |  5 ++---
+ www/color-management.html              |  2 +-
+ www/command-line-processing.html       |  7 +++++++
+ www/compare.html                       |  2 +-
+ www/gradient.html                      |  2 +-
+ www/identify.html                      |  4 ----
+ www/magick-script.html                 |  7 +++----
+ www/magick.html                        |  9 ++++-----
+ www/perl-magick.html                   |  2 +-
+ www/security-policy.html               |  3 ++-
+ 14 files changed, 40 insertions(+), 30 deletions(-)
+
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index 1d36318..5d8cdbd 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -71,7 +71,10 @@
+         <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+       </form>
+     </div>
+-  </div>
++    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
++      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
++      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
++    </form>
+   </nav>
+ 
+   <div class="container">
+@@ -653,7 +656,8 @@ no encode delegate for this image format
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script src="assets/magick.js" ></script>
+-  </body>
++  <script>window.jQuery || document.write('&lt;script src="assets/jquery.slim.min.js"&gt;&lt;\/script&gt;')</script><script src="assets/bootstrap.bundle.min.js" crossorigin="anonymous">
++ </script>
++</body>
+ </html>
+-<!-- Magick Cache 13th February 2021 14:08 -->
+\ No newline at end of file
++<!-- Magick Cache 1st January 2021 19:38 -->
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index d40eaab..54cfa8a 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
+@@ -68,7 +68,10 @@
+         <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+       </form>
+     </div>
+-  </div>
++    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
++      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
++      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
++    </form>
+   </nav>
+ 
+   <div class="container">
+diff --git a/www/animate.html b/www/animate.html
+index c5b853a..aa3ade2 100644
+--- a/www/animate.html
++++ b/www/animate.html
+@@ -68,7 +68,10 @@
+         <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+       </form>
+     </div>
+-  </div>
++    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
++      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
++      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
++    </form>
+   </nav>
+ 
+   <div class="container">
+diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
+index 0700d42..261de41 100644
+--- a/www/api/magick++-classes.html
++++ b/www/api/magick++-classes.html
+@@ -167,8 +167,7 @@ containers of image frames.</td>
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script src="../../www/assets/magick.js" crossorigin="anonymous"></script>
+-  <script>window.jQuery || document.write('<script src="https://localhost/ajax/libs/jquery/3.4.1/jquery.min.js"><\/script>')</script>
++  <script>window.jQuery || document.write('&lt;script src="assets/jquery.slim.min.js"&gt;&lt;\/script&gt;')</script><script src="assets/bootstrap.bundle.min.js" crossorigin="anonymous">
+ </body>
+ </html>
+-<!-- Magick Cache 30th July 2020 17:15 -->
+\ No newline at end of file
++<!-- Magick Cache 30th July 2020 17:15 -->
+diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
+index 720da05..7293644 100644
+--- a/www/api/magick-deprecate.html
++++ b/www/api/magick-deprecate.html
+@@ -1728,8 +1728,7 @@ MagickBooleanType UpdatePixelViewIterator(PixelView *source,
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script src="../assets/magick.js" crossorigin="anonymous"></script>
+-  <script>window.jQuery || document.write('<script src="https://localhost/ajax/libs/jquery/3.4.1/jquery.min.js"><\/script>')</script>
++  <script>window.jQuery || document.write('&lt;script src="assets/jquery.slim.min.js"&gt;&lt;\/script&gt;')</script><script src="assets/bootstrap.bundle.min.js" crossorigin="anonymous">
+ </body>
+ </html>
+-<!-- Magick Cache 25th July 2020 22:56 -->
+\ No newline at end of file
++<!-- Magick Cache 25th July 2020 22:56 -->
+diff --git a/www/color-management.html b/www/color-management.html
+index a815780..3ec6712 100644
+--- a/www/color-management.html
++++ b/www/color-management.html
+@@ -127,7 +127,7 @@ convert myimage_channels_*.png -combine myimage2.png</code></pre>
+ 
+ <p>In the above example, the separated channels are non-linear and the default for <code>-combine</code> is to assume non-linear channels. So the result is the same as the input.</p>
+ 
+-If one desires to separate to linear grayscale channels, recombine them later back to non-linear color, perhaps after some processing, then use the same concept as above for maintaining linear grayscale:</p>
++<p>If one desires to separate to linear grayscale channels, recombine them later back to non-linear color, perhaps after some processing, then use the same concept as above for maintaining linear grayscale:</p>
+ 
+ <pre class="bg-light text-dark mx-4"><code>convert myimage.png -set colorspace RGB -separate myimage_channels_%d.png
+ convert myimage_channels_*.png -set colorspace RGB -combine -colorspace sRGB myimage2.png</code></pre>
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index 187a911..71acf02 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
+@@ -68,7 +68,14 @@
+         <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+       </form>
+     </div>
++<<<<<<< HEAD
+   </div>
++=======
++    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
++      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
++      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
++    </form>
++>>>>>>> 08775bc3b1 (Fix < instead of &lt; and input form)
+   </nav>
+ 
+   <div class="container">
+diff --git a/www/compare.html b/www/compare.html
+index 19cd663..51b7de2 100644
+--- a/www/compare.html
++++ b/www/compare.html
+@@ -439,7 +439,7 @@ transparent, extract, background, or shape the alpha channel</td>
+     <td><a href="command-line-options.html#write-mask">-read-mask <var>filename</var></a></td>
+     <td>associate a write mask with the image</td>
+   </tr>
+-
++  </tr>
+   </tbody>
+ </table>
+ </div>
+diff --git a/www/gradient.html b/www/gradient.html
+index 39c73ff..de2a759 100644
+--- a/www/gradient.html
++++ b/www/gradient.html
+@@ -123,7 +123,7 @@ magick -size 256x256 radial-gradient:white-black radial_gradient.png </samp></pr
+ <p><img src="../images/gradients/radial_gradient.png" width="256" height="256" /></p>
+ 
+ <p>If you want non-linear grayscale gradients, then add -colorspace RGB -colorspace gray 
+-before saving the output. For example:<p>
++before saving the output. For example:</p>
+ 
+ <pre class="bg-light text-dark mx-4"><samp>convert -size 256x256 gradient: linear_gradient.png
+ magick -size 256x256 gradient:white-black -colorspace RGB -colorspace gray linear_linear_gradient.png </samp></pre>
+diff --git a/www/identify.html b/www/identify.html
+index 86282a6..7c7f061 100644
+--- a/www/identify.html
++++ b/www/identify.html
+@@ -195,10 +195,6 @@ Image: rose.jpg
+   Version: ImageMagick Q16 https://imagemagick.org
+ </code></pre>
+ 
+-<p>Note, the image signature is generated from the pixel components, not the ima
+-ge metadata.</p>
+-
+-
+ <p>To get the print size in inches of an image at 72 DPI, use:</p>
+ 
+ <pre class="bg-light text-dark mx-4"><code>-> identify -format "%[fx:w/72] by %[fx:h/72] inches" document.png
+diff --git a/www/magick-script.html b/www/magick-script.html
+index 9e59c88..3df92d3 100644
+--- a/www/magick-script.html
++++ b/www/magick-script.html
+@@ -66,8 +66,8 @@
+       </li>
+     </ul>
+     </div>
+-    <form class="form-inline my-2 my-md-0" action="https://legacy.imagemagick.org/www/https://imagemagick.org/script/search.php">
+-      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search">
++    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
++      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
+   </nav>
+@@ -1318,7 +1318,6 @@ transparent, extract, background, or shape the alpha channel</td>
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script src="assets/magick.js" crossorigin="anonymous"></script>
+-  <script>window.jQuery || document.write('<script src="https://localhost/ajax/libs/jquery/3.4.1/jquery.min.js"><\/script>')</script>
++  <script>window.jQuery || document.write('&lt;script src="assets/jquery.slim.min.js"&gt;&lt;\/script&gt;')</script><script src="assets/bootstrap.bundle.min.js" crossorigin="anonymous">
+ </body>
+ </html>
+diff --git a/www/magick.html b/www/magick.html
+index 67f9581..578c37a 100644
+--- a/www/magick.html
++++ b/www/magick.html
+@@ -66,8 +66,8 @@
+       </li>
+     </ul>
+     </div>
+-    <form class="form-inline my-2 my-md-0" action="../www/https://imagemagick.org/script/search.php">
+-      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search">
++    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
++      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
+   </nav>
+@@ -1354,8 +1354,7 @@ transparent, extract, background, or shape the alpha channel</td>
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script src="../www/assets/magick.js" crossorigin="anonymous"></script>
+-  <script>window.jQuery || document.write('<script src="https://localhost/ajax/libs/jquery/3.4.1/jquery.min.js"><\/script>')</script>
++  <script>window.jQuery || document.write('&lt;script src="assets/jquery.slim.min.js"&gt;&lt;\/script&gt;')</script><script src="assets/bootstrap.bundle.min.js" crossorigin="anonymous">
+ </body>
+ </html>
+-<!-- Magick Cache 25th August 2020 18:58 -->
+\ No newline at end of file
++<!-- Magick Cache 25th August 2020 18:58 -->
+diff --git a/www/perl-magick.html b/www/perl-magick.html
+index aa8857f..542752e 100644
+--- a/www/perl-magick.html
++++ b/www/perl-magick.html
+@@ -1659,7 +1659,7 @@ can use the integers 1 and 0.</p>
+ 
+   <tr>
+     <td>orientation</td>
+-    <td>{TopLeft, TopRight, BottomRight, BottomLeft, LeftTop, RightTop, RightBottom, LeftBottom}</td>
++    <td>{top-left, top-right, bottom-right, bottom-left, left-top, right-top, right-bottom, left-bottom}</td>
+     <td>image orientation</td>
+   </tr>
+ 
+diff --git a/www/security-policy.html b/www/security-policy.html
+index 6827e33..62fb107 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
+@@ -339,7 +339,8 @@ Path: [built-in]
+ 
+ <h2><a class="anchor" id="synchronize"></a>Pixel Cache Synchronize Policy</h2>
+ 
+-<p>When writing image pixels to disk, ImageMagick first preallocates the disk file, which is faster than fully populating the file with zeros. To improve performance even further, the file is memory-mapped on disk. This can result in an increase in performance of up to 5 times, but there is a possibility that the disk file may run out of free space as it is populated, causing the operating system (OS) to throw a SIGBUS signal which prevents ImageMagick from continuing. To prevent a SIGBUS signal from occurring, use this security policy:</p>
++<p>When writing image pixels to disk, ImageMagick firsts preallocates the disk file, which is much faster than fully populating the file with zeros.  To further increase performance, we memory-map the file on disk.  With memory-mapping, we get an increase in performance (up to 5x), however, there remains a possibility that as the disk file is populated, it may run out of free space.  The OS then throws a SIGBUS signal which prevents ImageMagick from continuing.  To prevent a SIGBUS, use this security policy:</p>
++
+ 
+ <pre class="bg-light text-dark mx-4">
+ &lt;policy domain="cache" name="synchronize" value="True"/>

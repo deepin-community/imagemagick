@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -68,7 +68,7 @@
 #include "magick/module.h"
 
 /*
-  Enumerated declaractions.
+  Enumerated declarations.
 */
 typedef enum
 {
@@ -81,7 +81,7 @@ typedef enum
 } TGAImageType;
 
 /*
-  Typedef declaractions.
+  Typedef declarations.
 */
 typedef struct _TGAInfo
 {
@@ -108,6 +108,24 @@ typedef struct _TGAInfo
   unsigned char
     bits_per_pixel,
     attributes;
+
+  unsigned long
+    extension,
+    developer;
+
+  char
+    signature[18];
+
+  unsigned short
+    size;
+
+  char
+    author[42],
+    comment[325],
+    software[42];
+
+  unsigned char
+    attributes_type;
 } TGAInfo;
 
 /*
@@ -144,6 +162,9 @@ static MagickBooleanType
 */
 static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
 {
+  const char
+    *option;
+
   Image
     *image;
 
@@ -151,6 +172,8 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
     index;
 
   MagickBooleanType
+    flip_x = MagickFalse,
+    flip_y = MagickFalse,
     status;
 
   PixelPacket
@@ -162,18 +185,17 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
   PixelPacket
     *q;
 
-  ssize_t
-    i,
-    x;
-
   size_t
     base,
     flag,
     offset,
+    offset_stepsize,
     skip;
 
   ssize_t
     count,
+    i,
+    x,
     y;
 
   TGAInfo
@@ -193,11 +215,11 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
-  if (image_info->debug != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
-      image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
+      image_info->filename);
   image=AcquireImage(image_info);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
@@ -233,7 +255,7 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
   tga_info.attributes=(unsigned char) ReadBlobByte(image);
   if (EOFBlob(image) != MagickFalse)
     ThrowReaderException(CorruptImageError,"UnableToReadImageData");
-  if ((((tga_info.bits_per_pixel <= 1) || (tga_info.bits_per_pixel >= 17)) &&
+  if ((((tga_info.bits_per_pixel < 1) || (tga_info.bits_per_pixel >= 17)) &&
        (tga_info.bits_per_pixel != 24) && (tga_info.bits_per_pixel != 32)))
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   /*
@@ -313,20 +335,39 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
         }
       comment=DestroyString(comment);
     }
+  image->orientation=BottomLeftOrientation;
   if ((tga_info.attributes & (1UL << 4)) == 0)
     {
       if ((tga_info.attributes & (1UL << 5)) == 0)
-        image->orientation=BottomLeftOrientation;
+        {
+          image->orientation=BottomLeftOrientation;
+          flip_y=MagickTrue;
+        }
       else
         image->orientation=TopLeftOrientation;
     }
   else
     {
       if ((tga_info.attributes & (1UL << 5)) == 0)
-        image->orientation=BottomRightOrientation;
+        {
+          image->orientation=BottomRightOrientation;
+          flip_x=MagickTrue;
+          flip_y=MagickTrue;
+        }
       else
-        image->orientation=TopRightOrientation;
+        {
+          image->orientation=TopRightOrientation;
+          flip_x=MagickTrue;
+        }
     }
+  option=GetImageOption(image_info,"tga:preserve-orientation");
+  if (IsStringTrue(option) != MagickFalse)
+    {
+      flip_x=MagickFalse;
+      flip_y=MagickFalse;
+    }
+  else
+    image->orientation=TopLeftOrientation;
   if (image_info->ping != MagickFalse)
     {
       (void) CloseBlob(image);
@@ -419,11 +460,19 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
   index=(IndexPacket) 0;
   runlength=0;
   offset=0;
+  offset_stepsize=1;
+  if (((unsigned char) (tga_info.attributes & 0xc0) >> 6) == 2)
+    offset_stepsize=2;
   for (y=0; y < (ssize_t) image->rows; y++)
   {
-    q=QueueAuthenticPixels(image,0,offset,image->columns,1,exception);
+    size_t
+      y_offset = (flip_y == MagickFalse) ? offset : image->rows-1-offset;
+
+    q=QueueAuthenticPixels(image,0,y_offset,image->columns,1,exception);
     if (q == (PixelPacket *) NULL)
       break;
+    if (flip_x != MagickFalse)
+      q+=(image->columns-1);
     indexes=GetAuthenticIndexQueue(image);
     for (x=0; x < (ssize_t) image->columns; x++)
     {
@@ -450,6 +499,23 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
       if (skip == MagickFalse)
         switch (tga_info.bits_per_pixel)
         {
+          case 1:
+          {
+            if ((x & 0x07) == 0)
+              index=(IndexPacket) ReadBlobByte(image);
+            else
+              index=(Quantum) ((size_t) index << 1);
+            if (tga_info.colormap_type != 0)
+              pixel=image->colormap[(ssize_t) ConstrainColormapIndex(image,
+                ((unsigned char) index) & 0x80 ? 1 : 0)];
+            else
+              {
+                pixel.red=(((unsigned char) index) & 0x80 ? QuantumRange : 0);
+                pixel.green=pixel.red;
+                pixel.blue=pixel.red;
+              }
+            break;
+          }
           case 8:
           default:
           {
@@ -492,7 +558,7 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
               pixel.opacity=(k & 0x80) == 0 ? (Quantum) TransparentOpacity :
                 (Quantum) OpaqueOpacity;
             if (image->storage_class == PseudoClass)
-              index=ConstrainColormapIndex(image,(ssize_t) ((size_t) k << 8)+j);
+              index=ConstrainColormapIndex(image,((ssize_t) k << 8)+j);
             break;
           }
           case 24:
@@ -531,17 +597,12 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
       SetPixelBlue(q,pixel.blue);
       if (image->matte != MagickFalse)
         SetPixelOpacity(q,pixel.opacity);
-      q++;
+      if (flip_x != MagickFalse)
+        q--;
+      else
+        q++;
     }
-    /*
-      if (((unsigned char) (tga_info.attributes & 0xc0) >> 6) == 4)
-        offset+=4;
-      else
-    */
-      if (((unsigned char) (tga_info.attributes & 0xc0) >> 6) == 2)
-        offset+=2;
-      else
-        offset++;
+    offset+=offset_stepsize;
     if (offset >= image->rows)
       {
         base++;
@@ -560,7 +621,47 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (EOFBlob(image) != MagickFalse)
     ThrowFileException(exception,CorruptImageError,"UnexpectedEndOfFile",
       image->filename);
-  (void) CloseBlob(image);
+  if (SeekBlob(image,-26,SEEK_END) >= 18)
+    {
+      /*
+        Optional header.
+      */
+      tga_info.extension=(unsigned long) ReadBlobLSBLong(image);
+      tga_info.developer=(unsigned long) ReadBlobLSBLong(image);
+      count=ReadBlob(image,18,(unsigned char *) &tga_info.signature);
+      if ((count == 18) &&
+          (LocaleCompare(tga_info.signature,"TRUEVISION-XFILE.") == 0) &&
+          (tga_info.extension > 3) &&
+          (SeekBlob(image,tga_info.extension,SEEK_SET) == (MagickOffsetType) tga_info.extension))
+        {
+          tga_info.size=(unsigned long) ReadBlobLSBShort(image);
+          if (tga_info.size == 495)
+            {
+              /*
+                Optional extension.
+              */
+              count=ReadBlob(image,41,(unsigned char *) &tga_info.author);
+              tga_info.author[41]='\0';
+              (void) SetImageProperty(image,"tga:author",tga_info.author);
+              count=ReadBlob(image,324,(unsigned char *) &tga_info.comment);
+              tga_info.comment[324]='\0';
+              (void) SetImageProperty(image,"tga:comment",tga_info.comment);
+              (void) DiscardBlobBytes(image,59);
+              count=ReadBlob(image,41,(unsigned char *) &tga_info.software);
+              tga_info.comment[41]='\0';
+              (void) SetImageProperty(image,"tga:software",tga_info.software);
+              (void) DiscardBlobBytes(image,27);
+              tga_info.attributes_type=(unsigned char) ReadBlobByte(image);
+              if ((image->matte != MagickFalse) &&
+                  (tga_info.attributes_type != 3))
+                image->matte=MagickFalse;
+            }
+        }
+    }
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  if (status == MagickFalse)
+    return(DestroyImageList(image));
   return(GetFirstImageInList(image));
 }
 
@@ -685,10 +786,13 @@ static inline void WriteTGAPixel(Image *image,TGAImageType image_type,
   const double midpoint)
 {
   if (image_type == TGAColormap || image_type == TGARLEColormap)
-    (void) WriteBlobByte(image,(unsigned char) GetPixelIndex(indexes));
+    {
+      assert(indexes != (IndexPacket *) NULL);
+      (void) WriteBlobByte(image,(unsigned char) GetPixelIndex(indexes));
+    }
   else
     {
-      if (image_type == TGAMonochrome || image_type == TGARLEMonochrome)
+      if ((image_type == TGAMonochrome) || (image_type == TGARLEMonochrome))
         (void) WriteBlobByte(image,ScaleQuantumToChar(ClampToQuantum(
           GetPixelLuma(image,p))));
       else
@@ -729,7 +833,7 @@ static MagickBooleanType WriteTGAImage(const ImageInfo *image_info,Image *image)
     *value;
 
   const double
-    midpoint = QuantumRange/2.0;
+    midpoint = (double) QuantumRange/2.0;
 
   MagickBooleanType
     status;
@@ -744,22 +848,18 @@ static MagickBooleanType WriteTGAImage(const ImageInfo *image_info,Image *image)
     *p;
 
   ssize_t
-    x;
-
-  ssize_t
-    i;
-
-  unsigned char
-    *q;
-
-  ssize_t
     base,
     count,
+    i,
     offset,
+    x,
     y;
 
   TGAInfo
     tga_info;
+
+  unsigned char
+    *q;
 
   /*
     Open output image file.
@@ -768,7 +868,7 @@ static MagickBooleanType WriteTGAImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (image->debug != MagickFalse)
+  if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
   if (status == MagickFalse)
@@ -778,7 +878,8 @@ static MagickBooleanType WriteTGAImage(const ImageInfo *image_info,Image *image)
   */
   if ((image->columns > 65535L) || (image->rows > 65535L))
     ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
-  (void) TransformImageColorspace(image,sRGBColorspace);
+  if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+    (void) TransformImageColorspace(image,sRGBColorspace);
   compression=image->compression;
   if (image_info->compression != UndefinedCompression)
     compression=image_info->compression;
@@ -995,7 +1096,8 @@ static MagickBooleanType WriteTGAImage(const ImageInfo *image_info,Image *image)
       }
     else
       for (x=0; x < (ssize_t) image->columns; x++)
-        WriteTGAPixel(image,tga_info.image_type,indexes+x,p++,range,midpoint);
+        WriteTGAPixel(image,tga_info.image_type,indexes ==
+          (IndexPacket *) NULL ? NULL : indexes+x,p++,range,midpoint);
     if (((unsigned char) (tga_info.attributes & 0xc0) >> 6) == 2)
       offset+=2;
     else
@@ -1013,6 +1115,7 @@ static MagickBooleanType WriteTGAImage(const ImageInfo *image_info,Image *image)
           break;
       }
   }
-  (void) CloseBlob(image);
-  return(MagickTrue);
+  if (CloseBlob(image) == MagickFalse)
+    status=MagickFalse;
+  return(status);
 }

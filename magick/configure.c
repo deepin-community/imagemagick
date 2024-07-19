@@ -17,7 +17,7 @@
 %                                 July 2003                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2021 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -426,8 +426,9 @@ MagickExport const ConfigureInfo **GetConfigureInfoList(const char *pattern,
     Allocate configure list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_options != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_options=0;
   p=GetConfigureInfo("*",exception);
   if (p == (const ConfigureInfo *) NULL)
@@ -520,8 +521,9 @@ MagickExport char **GetConfigureList(const char *pattern,
     Allocate configure list.
   */
   assert(pattern != (char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   assert(number_options != (size_t *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",pattern);
   *number_options=0;
   p=GetConfigureInfo("*",exception);
   if (p == (const ConfigureInfo *) NULL)
@@ -581,7 +583,8 @@ MagickExport char *GetConfigureOption(const char *option)
     *exception;
 
   assert(option != (const char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",option);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",option);
   exception=AcquireExceptionInfo();
   configure_info=GetConfigureInfo(option,exception);
   exception=DestroyExceptionInfo(exception);
@@ -636,8 +639,9 @@ MagickExport LinkedListInfo *GetConfigureOptions(const char *filename,
     *xml;
 
   assert(filename != (const char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
   assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
   (void) CopyMagickString(path,filename,MaxTextExtent);
   /*
     Load XML from configuration files to linked-list.
@@ -713,10 +717,6 @@ MagickExport LinkedListInfo *GetConfigureOptions(const char *filename,
 MagickExport LinkedListInfo *GetConfigurePaths(const char *filename,
   ExceptionInfo *exception)
 {
-#define RegistryKey  "ConfigurePath"
-#define MagickCoreDLL  "CORE_RL_magick_.dll"
-#define MagickCoreDebugDLL  "CORE_DB_magick_.dll"
-
   char
     path[MaxTextExtent];
 
@@ -724,8 +724,9 @@ MagickExport LinkedListInfo *GetConfigurePaths(const char *filename,
     *paths;
 
   assert(filename != (const char *) NULL);
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
   assert(exception != (ExceptionInfo *) NULL);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
   (void) exception;
   (void) CopyMagickString(path,filename,MaxTextExtent);
   paths=NewLinkedList(0);
@@ -783,7 +784,7 @@ MagickExport LinkedListInfo *GetConfigurePaths(const char *filename,
     /*
       Locate file via registry key.
     */
-    key_value=NTRegistryKeyLookup(RegistryKey);
+    key_value=NTRegistryKeyLookup("ConfigurePath");
     if (key_value != (unsigned char *) NULL)
       {
         (void) FormatLocaleString(path,MaxTextExtent,"%s%s",(char *) key_value,
@@ -900,8 +901,9 @@ MagickExport LinkedListInfo *GetConfigurePaths(const char *filename,
     char
       module_path[MaxTextExtent];
 
-    if ((NTGetModulePath(MagickCoreDLL,module_path) != MagickFalse) ||
-        (NTGetModulePath(MagickCoreDebugDLL,module_path) != MagickFalse))
+#if defined(_MAGICKDLL_)
+    if ((NTGetModulePath("CORE_RL_magick_.dll",module_path) != MagickFalse) ||
+        (NTGetModulePath("CORE_DB_magick_.dll",module_path) != MagickFalse))
       {
         unsigned char
           *key_value;
@@ -911,12 +913,13 @@ MagickExport LinkedListInfo *GetConfigurePaths(const char *filename,
         */
         (void) FormatLocaleString(path,MaxTextExtent,"%s%s",module_path,
           DirectorySeparator);
-        key_value=NTRegistryKeyLookup(RegistryKey);
+        key_value=NTRegistryKeyLookup("ConfigurePath");
         if (key_value == (unsigned char *) NULL)
           (void) AppendValueToLinkedList(paths,ConstantString(path));
         else
           key_value=(unsigned char *) RelinquishMagickMemory(key_value);
       }
+#endif
     if (NTGetModulePath("Magick.dll",module_path) != MagickFalse)
       {
         /*
@@ -961,7 +964,8 @@ MagickExport LinkedListInfo *GetConfigurePaths(const char *filename,
 */
 MagickExport const char *GetConfigureValue(const ConfigureInfo *configure_info)
 {
-  (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(configure_info != (ConfigureInfo *) NULL);
   assert(configure_info->signature == MagickCoreSignature);
   return(configure_info->value);

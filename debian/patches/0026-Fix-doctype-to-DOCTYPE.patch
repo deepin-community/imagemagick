@@ -1,0 +1,890 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 18 Jun 2023 19:24:41 +0000
+Subject: Fix !doctype to !DOCTYPE
+
+Forwarded: not-needed
+---
+ www/advanced-linux-installation.html   | 2 +-
+ www/advanced-unix-installation.html    | 2 +-
+ www/advanced-windows-installation.html | 2 +-
+ www/animate.html                       | 2 +-
+ www/architecture.html                  | 2 +-
+ www/changelog.html                     | 2 +-
+ www/cipher.html                        | 2 +-
+ www/cite.html                          | 2 +-
+ www/color-management.html              | 2 +-
+ www/color.html                         | 2 +-
+ www/command-line-options.html          | 2 +-
+ www/command-line-processing.html       | 2 +-
+ www/command-line-tools.html            | 2 +-
+ www/compare.html                       | 2 +-
+ www/compose.html                       | 2 +-
+ www/composite.html                     | 2 +-
+ www/conjure.html                       | 2 +-
+ www/connected-components.html          | 2 +-
+ www/contact.html                       | 2 +-
+ www/convert.html                       | 2 +-
+ www/defines.html                       | 2 +-
+ www/develop.html                       | 2 +-
+ www/display.html                       | 2 +-
+ www/distribute-pixel-cache.html        | 2 +-
+ www/download.html                      | 2 +-
+ www/escape.html                        | 2 +-
+ www/examples.html                      | 2 +-
+ www/exception.html                     | 2 +-
+ www/export.html                        | 2 +-
+ www/formats.html                       | 2 +-
+ www/fx.html                            | 2 +-
+ www/gradient.html                      | 2 +-
+ www/high-dynamic-range.html            | 2 +-
+ www/history.html                       | 2 +-
+ www/identify.html                      | 2 +-
+ www/import.html                        | 2 +-
+ www/index.html                         | 2 +-
+ www/install-source.html                | 2 +-
+ www/jp2.html                           | 2 +-
+ www/license.html                       | 2 +-
+ www/links.html                         | 2 +-
+ www/magick++.html                      | 2 +-
+ www/magick-core.html                   | 2 +-
+ www/magick-vector-graphics.html        | 2 +-
+ www/magick-wand.html                   | 2 +-
+ www/miff.html                          | 2 +-
+ www/mirror.html                        | 2 +-
+ www/mogrify.html                       | 2 +-
+ www/montage.html                       | 2 +-
+ www/motion-picture.html                | 2 +-
+ www/news.html                          | 2 +-
+ www/opencl.html                        | 2 +-
+ www/openmp.html                        | 2 +-
+ www/perl-magick.html                   | 2 +-
+ www/porting.html                       | 2 +-
+ www/quantize.html                      | 2 +-
+ www/resources.html                     | 2 +-
+ www/search.html                        | 2 +-
+ www/security-policy.html               | 2 +-
+ www/sitemap.html                       | 2 +-
+ www/stream.html                        | 2 +-
+ www/support.html                       | 2 +-
+ www/webp.html                          | 2 +-
+ 63 files changed, 63 insertions(+), 63 deletions(-)
+
+diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
+index 43fff74..5ecba57 100644
+--- a/www/advanced-linux-installation.html
++++ b/www/advanced-linux-installation.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index 4a3ec4a..61cf844 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index 5261e19..c920ac6 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/animate.html b/www/animate.html
+index aa3ade2..7c70b0a 100644
+--- a/www/animate.html
++++ b/www/animate.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/architecture.html b/www/architecture.html
+index 24afe17..2937ba5 100644
+--- a/www/architecture.html
++++ b/www/architecture.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/changelog.html b/www/changelog.html
+index 1f8adf3..0666615 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/cipher.html b/www/cipher.html
+index 081cdc8..71165a8 100644
+--- a/www/cipher.html
++++ b/www/cipher.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/cite.html b/www/cite.html
+index 3da91c4..89af54c 100644
+--- a/www/cite.html
++++ b/www/cite.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/color-management.html b/www/color-management.html
+index 3ec6712..8f30c59 100644
+--- a/www/color-management.html
++++ b/www/color-management.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/color.html b/www/color.html
+index 04fbcb7..0c14266 100644
+--- a/www/color.html
++++ b/www/color.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index 0484750..f6186d3 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index 71acf02..f86852c 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/command-line-tools.html b/www/command-line-tools.html
+index 109b5d2..3b9b06c 100644
+--- a/www/command-line-tools.html
++++ b/www/command-line-tools.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/compare.html b/www/compare.html
+index 51b7de2..b950c06 100644
+--- a/www/compare.html
++++ b/www/compare.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/compose.html b/www/compose.html
+index 92e88de..2b48bc7 100644
+--- a/www/compose.html
++++ b/www/compose.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/composite.html b/www/composite.html
+index 5e7fda2..8544c00 100644
+--- a/www/composite.html
++++ b/www/composite.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/conjure.html b/www/conjure.html
+index 8a27077..4f5acc5 100644
+--- a/www/conjure.html
++++ b/www/conjure.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/connected-components.html b/www/connected-components.html
+index b8d3c9a..2d573aa 100644
+--- a/www/connected-components.html
++++ b/www/connected-components.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/contact.html b/www/contact.html
+index f603b79..104d138 100644
+--- a/www/contact.html
++++ b/www/contact.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/convert.html b/www/convert.html
+index 8690105..4695c74 100644
+--- a/www/convert.html
++++ b/www/convert.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/defines.html b/www/defines.html
+index 098d8fd..e9fa7c1 100644
+--- a/www/defines.html
++++ b/www/defines.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/develop.html b/www/develop.html
+index 56af4c0..9ec70d3 100644
+--- a/www/develop.html
++++ b/www/develop.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/display.html b/www/display.html
+index 343dff4..e7625a3 100644
+--- a/www/display.html
++++ b/www/display.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
+index 8eb0199..0329017 100644
+--- a/www/distribute-pixel-cache.html
++++ b/www/distribute-pixel-cache.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/download.html b/www/download.html
+index 0b5bc2d..03a09c9 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/escape.html b/www/escape.html
+index 0d08a3f..cb07bf1 100644
+--- a/www/escape.html
++++ b/www/escape.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/examples.html b/www/examples.html
+index c4f4f4a..11de67e 100644
+--- a/www/examples.html
++++ b/www/examples.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/exception.html b/www/exception.html
+index 8874ade..5a7a010 100644
+--- a/www/exception.html
++++ b/www/exception.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/export.html b/www/export.html
+index fb37595..143dc83 100644
+--- a/www/export.html
++++ b/www/export.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/formats.html b/www/formats.html
+index 0fd331c..b41e463 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/fx.html b/www/fx.html
+index 1a773d0..d2deee8 100644
+--- a/www/fx.html
++++ b/www/fx.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/gradient.html b/www/gradient.html
+index de2a759..b52a74a 100644
+--- a/www/gradient.html
++++ b/www/gradient.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
+index 26907ff..3386439 100644
+--- a/www/high-dynamic-range.html
++++ b/www/high-dynamic-range.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/history.html b/www/history.html
+index 5a1f7dd..9e5508e 100644
+--- a/www/history.html
++++ b/www/history.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/identify.html b/www/identify.html
+index 7c7f061..e7348cb 100644
+--- a/www/identify.html
++++ b/www/identify.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/import.html b/www/import.html
+index 33f90f9..dd0737f 100644
+--- a/www/import.html
++++ b/www/import.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/index.html b/www/index.html
+index 20f75d5..7009fe1 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/install-source.html b/www/install-source.html
+index ab79c83..e5794b2 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/jp2.html b/www/jp2.html
+index 0025773..fcf4a98 100644
+--- a/www/jp2.html
++++ b/www/jp2.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/license.html b/www/license.html
+index 1d9d786..88950f0 100644
+--- a/www/license.html
++++ b/www/license.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/links.html b/www/links.html
+index f5fc485..32a9a97 100644
+--- a/www/links.html
++++ b/www/links.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/magick++.html b/www/magick++.html
+index 21e665d..8dae341 100644
+--- a/www/magick++.html
++++ b/www/magick++.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/magick-core.html b/www/magick-core.html
+index 2fb320c..c6ab056 100644
+--- a/www/magick-core.html
++++ b/www/magick-core.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
+index bd228f1..d849b18 100644
+--- a/www/magick-vector-graphics.html
++++ b/www/magick-vector-graphics.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/magick-wand.html b/www/magick-wand.html
+index c33b734..fb311dd 100644
+--- a/www/magick-wand.html
++++ b/www/magick-wand.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/miff.html b/www/miff.html
+index a646ffb..c24048c 100644
+--- a/www/miff.html
++++ b/www/miff.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/mirror.html b/www/mirror.html
+index 2f4b56f..f39e36f 100644
+--- a/www/mirror.html
++++ b/www/mirror.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/mogrify.html b/www/mogrify.html
+index b041d40..281e6eb 100644
+--- a/www/mogrify.html
++++ b/www/mogrify.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/montage.html b/www/montage.html
+index c66897a..2b0023a 100644
+--- a/www/montage.html
++++ b/www/montage.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/motion-picture.html b/www/motion-picture.html
+index 32f225f..fb83749 100644
+--- a/www/motion-picture.html
++++ b/www/motion-picture.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/news.html b/www/news.html
+index 3910309..3a80812 100644
+--- a/www/news.html
++++ b/www/news.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/opencl.html b/www/opencl.html
+index 3820bc6..8a88c1e 100644
+--- a/www/opencl.html
++++ b/www/opencl.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/openmp.html b/www/openmp.html
+index c7ad234..f0f1b81 100644
+--- a/www/openmp.html
++++ b/www/openmp.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/perl-magick.html b/www/perl-magick.html
+index 542752e..e935297 100644
+--- a/www/perl-magick.html
++++ b/www/perl-magick.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/porting.html b/www/porting.html
+index 83136a5..f4f65c7 100644
+--- a/www/porting.html
++++ b/www/porting.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/quantize.html b/www/quantize.html
+index e8554d5..17a7721 100644
+--- a/www/quantize.html
++++ b/www/quantize.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/resources.html b/www/resources.html
+index 7613cb6..3405e7c 100644
+--- a/www/resources.html
++++ b/www/resources.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/search.html b/www/search.html
+index fb3239b..017e0fb 100644
+--- a/www/search.html
++++ b/www/search.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/security-policy.html b/www/security-policy.html
+index 62fb107..9dfc1ec 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/sitemap.html b/www/sitemap.html
+index a55d479..7b474c0 100644
+--- a/www/sitemap.html
++++ b/www/sitemap.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/stream.html b/www/stream.html
+index f81a206..29ddad9 100644
+--- a/www/stream.html
++++ b/www/stream.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/support.html b/www/support.html
+index 76af898..ed89fdd 100644
+--- a/www/support.html
++++ b/www/support.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+diff --git a/www/webp.html b/www/webp.html
+index 2677810..a97a273 100644
+--- a/www/webp.html
++++ b/www/webp.html
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
