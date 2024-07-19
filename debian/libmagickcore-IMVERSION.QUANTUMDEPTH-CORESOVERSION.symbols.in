@@ -1,5 +1,5 @@
 # SymbolsHelper-Confirmed: 1.0.0 amd64
-libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}t64 #MINVER#
+libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION} #MINVER#
 * Build-Depends-Package: libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-dev
  (regex|optional)"^.gomp_critical_user_.*@Base" 8:6.9.10.2
  AcquireAlignedMemory@Base 8:6.9.10.2

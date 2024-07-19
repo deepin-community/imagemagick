@@ -10,8 +10,8 @@ export DH_VERBOSE=1
 export QUANTUMDEPTH ?= q16 q16hdri
 # lib version, run make -f debian/rules update_pkg in order to upgrade
 export CORESOVERSION ?= 7
-export WANDSOVERSION ?= 7t64
-export PPSOVERSION ?= 9t64
+export WANDSOVERSION ?= 7
+export PPSOVERSION ?= 9
 
 # minimal version ABI compatible of common
 export COMMONMINVERSION ?= 8:6.9.6.2+dfsg-3
@@ -105,7 +105,7 @@ CONFIGURE_OPTIONS ?= $(STATIC_CONFIGURE_OPTIONS) \
 export MAGICK_PROGRAMS := compare animate convert composite conjure import identify stream display montage mogrify
 
 MAGICK_ANY_QUANTUM_PACKAGES :=  imagemagick-$(IMVERSION).$$QUANTUM \
-				libmagickcore-${IMVERSION}.$$QUANTUM-${CORESOVERSION}t64 \
+				libmagickcore-${IMVERSION}.$$QUANTUM-${CORESOVERSION} \
 				libmagickcore-${IMVERSION}.$$QUANTUM-${CORESOVERSION}-extra \
 				libmagickwand-${IMVERSION}.$$QUANTUM-${WANDSOVERSION} \
 				libmagick++-${IMVERSION}.$$QUANTUM-${PPSOVERSION} \
@@ -336,7 +336,7 @@ override_dh_auto_configure-arch_generatefile_quantum.%:
 	QUANTUM=$(call QUANTUM_PART,$*) \
 	HDRI=$(call HDRI_PART,$*) \
 	QUANTUMDEPTH=$* \
-	dh-exec $(CURDIR)/debian/libmagickcore-IMVERSION.QUANTUMDEPTH-CORESOVERSION.install.in > $(CURDIR)/debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.install
+	dh-exec $(CURDIR)/debian/libmagickcore-IMVERSION.QUANTUMDEPTH-CORESOVERSION.install.in > $(CURDIR)/debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).install
 	QUANTUM=$(call QUANTUM_PART,$*) \
 	HDRI=$(call HDRI_PART,$*) \
 	QUANTUMDEPTH=$* \
@@ -349,7 +349,7 @@ override_dh_auto_configure-arch_generatefile_quantum.%:
 	HDRI=$(call HDRI_PART,$*) \
 	QUANTUMDEPTH=$* \
 	UCQUANTUMDEPTH=$(call UC,$*) \
-	$(DH_EXEC_SUBST) $(CURDIR)/debian/libmagickcore-IMVERSION.QUANTUMDEPTH-CORESOVERSION.symbols.in > $(CURDIR)/debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.symbols
+	$(DH_EXEC_SUBST) $(CURDIR)/debian/libmagickcore-IMVERSION.QUANTUMDEPTH-CORESOVERSION.symbols.in > $(CURDIR)/debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).symbols
 
 	# wand
 	QUANTUM=$(call QUANTUM_PART,$*) \
@@ -687,7 +687,7 @@ override_dh_install-arch_quantum.%:
 
 	# Remove extra coders from libmagickcore
 	set -e; while read FILE; do \
-		rm -f debian/libmagickcore-${IMVERSION}.$*-${CORESOVERSION}t64/$$FILE; \
+		rm -f debian/libmagickcore-${IMVERSION}.$*-${CORESOVERSION}/$$FILE; \
 	done < debian/libmagickcore-${IMVERSION}.$*-${CORESOVERSION}-extra.install
 
 # install arch package
@@ -824,10 +824,10 @@ override_dh_clean_quantum.%:
 	[ ! -f debian/libmagick++-$(IMVERSION).$*-dev.install ] || rm debian/libmagick++-$(IMVERSION).$*-dev.install
 	[ ! -f debian/libmagick++-$(IMVERSION).$*-$(PPSOVERSION).symbols ] || rm debian/libmagick++-$(IMVERSION).$*-$(PPSOVERSION).symbols
 
-	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.install ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.install
+	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).install ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).install
 	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)-extra.install ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)-extra.install
 	[ ! -f debian/libmagickcore-$(IMVERSION).$*-dev.install ] || rm -f debian/libmagickcore-$(IMVERSION).$*-dev.install
-	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.symbols ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION)t64.symbols
+	[ ! -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).symbols ] || rm -f debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).symbols
 
 	[ ! -f debian/libmagickwand-$(IMVERSION).$*-$(WANDSOVERSION).install ] || rm -f debian/libmagickwand-$(IMVERSION).$*-$(WANDSOVERSION).install
 	[ ! -f debian/libmagickwand-$(IMVERSION).$*-dev.install ] || rm -f debian/libmagickwand-$(IMVERSION).$*-dev.install
