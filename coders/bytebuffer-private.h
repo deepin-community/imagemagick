@@ -1,5 +1,5 @@
 /*
-  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
+  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.  You may
@@ -16,7 +16,8 @@
 #ifndef MAGICK_BYTE_BUFFER_PRIVATE_H
 #define MAGICK_BYTE_BUFFER_PRIVATE_H
 
-#include "magick/blob.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
 
 typedef struct _MagickByteBuffer
 {
@@ -72,7 +73,8 @@ static inline char *GetMagickByteBufferDatum(MagickByteBuffer *buffer)
       i=0;
       while (buffer->offset < buffer->count)
         buffer->data[i++]=buffer->data[buffer->offset++];
-      count=ReadBlob(buffer->image,sizeof(buffer->data)-1-i,buffer->data+i);
+      count=ReadBlob(buffer->image,(size_t) ((ssize_t) sizeof(buffer->data)-1-
+        i),buffer->data+i);
       buffer->count=i;
       if (count > 0)
         buffer->count+=count;
@@ -84,7 +86,7 @@ static inline char *GetMagickByteBufferDatum(MagickByteBuffer *buffer)
 static void CheckMagickByteBuffer(MagickByteBuffer *buffer,
   const size_t length)
 {
-  if ((buffer->offset+length) > (ssize_t) sizeof(buffer->data))
+  if ((buffer->offset+(ssize_t) length) > (ssize_t) sizeof(buffer->data))
     (void) GetMagickByteBufferDatum(buffer);
 }
 
@@ -105,8 +107,8 @@ static inline void SkipMagickByteBuffer(MagickByteBuffer *buffer,
   const size_t length)
 {
   CheckMagickByteBuffer(buffer,length);
-  if ((ssize_t) (buffer->offset+length) < buffer->count)
-    buffer->offset+=length;
+  if ((buffer->offset+(ssize_t) length) < buffer->count)
+    buffer->offset+=(ssize_t) length;
 }
 
 static inline MagickBooleanType SkipMagickByteBufferUntilNewline(

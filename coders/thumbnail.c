@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,31 +39,30 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/attribute.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/constitute.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/module.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/profile.h"
-#include "magick/property.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/string-private.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/attribute.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/constitute.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/profile.h"
+#include "MagickCore/property.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/string-private.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteTHUMBNAILImage(const ImageInfo *,Image *);
+  WriteTHUMBNAILImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,10 +92,8 @@ ModuleExport size_t RegisterTHUMBNAILImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("THUMBNAIL");
+  entry=AcquireMagickInfo("THUMBNAIL","THUMBNAIL","EXIF Profile Thumbnail");
   entry->encoder=(EncodeImageHandler *) WriteTHUMBNAILImage;
-  entry->description=ConstantString("EXIF Profile Thumbnail");
-  entry->magick_module=ConstantString("THUMBNAIL");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -141,7 +138,7 @@ ModuleExport void UnregisterTHUMBNAILImage(void)
 %  The format of the WriteTHUMBNAILImage method is:
 %
 %      MagickBooleanType WriteTHUMBNAILImage(const ImageInfo *image_info,
-%        Image *image)
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -149,9 +146,11 @@ ModuleExport void UnregisterTHUMBNAILImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
 static MagickBooleanType WriteTHUMBNAILImage(const ImageInfo *image_info,
-  Image *image)
+  Image *image,ExceptionInfo *exception)
 {
   const char
     *property;
@@ -186,11 +185,13 @@ static MagickBooleanType WriteTHUMBNAILImage(const ImageInfo *image_info,
   profile=GetImageProfile(image,"exif");
   if (profile == (const StringInfo *) NULL)
     ThrowWriterException(CoderError,"ImageDoesNotHaveAThumbnail");
-  property=GetImageProperty(image,"exif:JPEGInterchangeFormat");
+  property=GetImageProperty(image,"exif:thumbnail:JPEGInterchangeFormat",exception);
   if (property == (const char *) NULL)
     ThrowWriterException(CoderError,"ImageDoesNotHaveAThumbnail");
   offset=(ssize_t) StringToLong(property);
-  property=GetImageProperty(image,"exif:JPEGInterchangeFormatLength");
+  if (offset < 0)
+    ThrowWriterException(CoderError,"ImageDoesNotHaveAThumbnail");
+  property=GetImageProperty(image,"exif:thumbnail:JPEGInterchangeFormatLength",exception);
   if (property == (const char *) NULL)
     ThrowWriterException(CoderError,"ImageDoesNotHaveAThumbnail");
   length=(size_t) StringToLong(property);
@@ -204,22 +205,26 @@ static MagickBooleanType WriteTHUMBNAILImage(const ImageInfo *image_info,
   if ((q > (GetStringInfoDatum(profile)+GetStringInfoLength(profile))) ||
       ((ssize_t) length > (GetStringInfoDatum(profile)+GetStringInfoLength(profile)-q)))
     ThrowWriterException(CoderError,"ImageDoesNotHaveAThumbnail");
-  thumbnail_image=BlobToImage(image_info,q,length,&image->exception);
-  if (thumbnail_image == (Image *) NULL)
-    return(MagickFalse);
-  (void) SetImageType(thumbnail_image,thumbnail_image->matte == MagickFalse ?
-    TrueColorType : TrueColorMatteType);
-  (void) CopyMagickString(thumbnail_image->filename,image->filename,
-    MaxTextExtent);
   write_info=CloneImageInfo(image_info);
-  (void) SetImageInfo(write_info,1,&image->exception);
   *write_info->magick='\0';
-  magick_info=GetMagickInfo(write_info->magick,&image->exception);
+  thumbnail_image=BlobToImage(write_info,q,length,exception);
+  if (thumbnail_image == (Image *) NULL)
+    {
+      write_info=DestroyImageInfo(write_info);
+      return(MagickFalse);
+    }
+  (void) SetImageType(thumbnail_image,thumbnail_image->alpha_trait ==
+    UndefinedPixelTrait ? TrueColorType : TrueColorAlphaType,exception);
+  (void) CopyMagickString(thumbnail_image->filename,image->filename,
+    MagickPathExtent);
+  *write_info->magick='\0';
+  (void) SetImageInfo(write_info,1,exception);
+  magick_info=GetMagickInfo(write_info->magick,exception);
   if ((magick_info == (const MagickInfo*) NULL) ||
       (LocaleCompare(magick_info->magick_module,"THUMBNAIL") == 0))
-    (void) FormatLocaleString(thumbnail_image->filename,MaxTextExtent,
+    (void) FormatLocaleString(thumbnail_image->filename,MagickPathExtent,
       "miff:%s",write_info->filename);
-  status=WriteImage(write_info,thumbnail_image);
+  status=WriteImage(write_info,thumbnail_image,exception);
   thumbnail_image=DestroyImage(thumbnail_image);
   write_info=DestroyImageInfo(write_info);
   return(status);

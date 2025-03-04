@@ -49,16 +49,16 @@ testReadCompare('input.fits', 'reference/read/input_fits.miff', q//, 0.17, 0.7);
 
 print("CompuServe graphics interchange format ...\n");
 ++$test;
-testReadCompare('input.gif', 'reference/read/input_gif.miff', q//, 0.02, 1.02);
+testReadCompare('input.gif', 'reference/read/input_gif.miff', q//, 0.0, 0.0);
 
 print("CompuServe graphics interchange format (1987) ...\n");
 ++$test;
-testReadCompare('input.gif87', 'reference/read/input_gif87.miff', q//, 0.02, 1.02);
+testReadCompare('input.gif87', 'reference/read/input_gif87.miff', q//, 0.0, 0.0);
 
 print("Gradient (gradual passing from one shade to another) ...\n");
 ++$test;
 testReadCompare('gradient:red-blue', 'reference/read/gradient.miff',
-  q/size=>"70x46"/, 0.22, 1.022);
+  q/size=>"70x46"/, 0.03, 0.3);
 
 print("GRANITE (granite texture) ...\n");
 ++$test;
@@ -66,7 +66,7 @@ testReadCompare('granite:', 'reference/read/granite.miff', q/size=>"70x46"/, 0.0
 
 print("MAT (MatLab gray 8-bit LSB integer) ...\n");
 ++$test;
-testReadCompare('input_gray_lsb_08bit.mat', 'reference/read/input_gray_lsb_08bit_mat.miff', q//, 0.4, 1.04);
+testReadCompare('input_gray_lsb_08bit.mat', 'reference/read/input_gray_lsb_08bit_mat.miff', q//, 0.3, 1.03);
 
 print("MAT (MatLab gray 8-bit MSB integer) ...\n");
 ++$test;
@@ -78,7 +78,7 @@ testReadCompare('input_gray_lsb_double.mat', 'reference/read/input_gray_lsb_doub
 
 print("MAT (MatLab RGB 8-bit LSB integer) ...\n");
 ++$test;
-testReadCompare('input_rgb_lsb_08bit.mat', 'reference/read/input_rgb_lsb_08bit_mat.miff', q//, 0.22, 1.022);
+testReadCompare('input_rgb_lsb_08bit.mat', 'reference/read/input_rgb_lsb_08bit_mat.miff', q//, 0.0, 0.0);
 
 print("Microsoft icon ...\n");
 ++$test;
@@ -146,7 +146,7 @@ testReadCompare('input.psd', 'reference/read/input_psd.miff', q//, 0.0, 0.0);
 
 print("Irix RGB image file ...\n");
 ++$test;
-testReadCompare('input.sgi', 'reference/read/input_sgi.miff', q//, 0.25, 1.1);
+testReadCompare('input.sgi', 'reference/read/input_sgi.miff', q//, 0.0, 0.0);
 
 print("SUN 1-bit Rasterfile ...\n");
 ++$test;
@@ -204,7 +204,7 @@ testReadCompare('cmyk:input_70x46.cmyk', 'reference/read/input_cmyk.miff',
 print("GRAY format ...\n");
 ++$test;
 testReadCompare('gray:input_70x46.gray', 'reference/read/input_gray.miff',
-                q/size=>"70x46", depth=>8/, 0.06, 0.6);
+                q/size=>"70x46", depth=>8/, 0.0, 0.0);
 
 print("RGB format ...\n");
 ++$test;
@@ -219,4 +219,4 @@ testReadCompare('rgba:input_70x46.rgba', 'reference/read/input_rgba.miff',
 print("UYVY format ...\n");
 ++$test;
 testReadCompare('uyvy:input_70x46.uyvy', 'reference/read/input_uyvy.miff',
-                q/size=>"70x46", depth=>8/, 0.22, 1.022);
+                q/size=>"70x46", depth=>8/, 0.0, 0.0);

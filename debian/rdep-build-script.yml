@@ -1,0 +1,94 @@
+.rdep-build-before-script: &rdep-build-before-script |
+   # Reported in https://salsa.debian.org/salsa-ci-team/pipeline/issues/104,
+   # GitLab can only expand variables once. So at the beginning CCACHE_WORK_DIR
+   # was assigned to `${WORKING_DIR}/.ccache`, and it will be expanded as
+   # `$CI_PROJECT_DIR/debian/output/.ccache`, so it creates a folder named
+   # "\$CI_PROJECT_DIR", which is then saved as build cache. To allow smooth
+   # transition, that wrongly named folder has to be removed:
+   rm -rf '$CI_PROJECT_DIR'
+
+   # salsa-ci-team/pipeline#107
+   rm -rf ${CI_PROJECT_DIR}/debian/output/.ccache
+
+   mkdir -p ${WORKING_DIR} ${CCACHE_WORK_DIR}
+
+   # https://salsa.debian.org/salsa-ci-team/pipeline/-/merge_requests/230
+   rm -rf ${CCACHE_TMP_DIR}
+
+   mv ${CCACHE_WORK_DIR} ${CCACHE_TMP_DIR}
+   add_extra_repository.sh -v -e "${SALSA_CI_EXTRA_REPOSITORY}" -k "${SALSA_CI_EXTRA_REPOSITORY_KEY}"
+   echo "deb [trusted=yes] $PARENT_APTLY_REPO" | tee /etc/apt/sources.list.d/mainpkg.list
+   apt-get update
+
+
+
+.rdep-build-script: &rdep-build-script |
+   set -x
+   export CCACHE_DIR=${CCACHE_TMP_DIR}
+   # Add deb-src entries
+   sed -i 's/^Types:.*/Types: deb deb-src/' /etc/apt/sources.list.d/debian.sources
+   apt-get update && eatmydata apt-get install --no-install-recommends -y \
+     aptitude \
+     devscripts \
+     ccache \
+     equivs \
+     fakeroot \
+     build-essential \
+     apt-utils
+   # install build dep
+   apt -y build-dep ${REVERSE_DEP}
+   # download source
+   cd ${WORKING_DIR}
+   # Generate ccache links
+   dpkg-reconfigure ccache
+   PATH="/usr/lib/ccache/:${PATH}"
+   # Reset ccache stats
+   ccache -z
+   # Create salsaci user and fix permissions
+   useradd salsaci
+   chown -R salsaci. ${WORKING_DIR} ${CCACHE_DIR}
+   # Define buildlog filename
+   BUILD_LOGFILE="${CI_PROJECT_DIR}/${REVERSE_DEP}.build"
+   # Build package as user salsaci
+   ret=0
+   apt-get source "${REVERSE_DEP}"
+   tmpctrl=$(mktemp --suffix=control.orig)
+   cp "${REVERSE_DEP}"*/debian/control "$tmpctrl"
+   sed -i 's/imagemagick-6/imagemagick-7/g; s/libmagick\(++\|core\|wand\)-6/libmagick\1-7/g;' "${REVERSE_DEP}"*/debian/control
+   if ! cmp --quiet "${REVERSE_DEP}"*/debian/control "$tmpctrl"; then
+     echo "Patched debian/control for imagemagick 6 -> 7 transition as follows:" >&2
+     diff -u "$tmpctrl" "${REVERSE_DEP}"*/debian/control >&2 || true
+   fi
+   rm "$tmpctrl"
+   chown -R salsaci "${REVERSE_DEP}"-*
+   runuser -u salsaci -- env --chdir "${REVERSE_DEP}"-* eatmydata dpkg-buildpackage --build=any,all --unsigned-changes |& OUTPUT_FILENAME=${BUILD_LOGFILE} filter-output || ret=$?
+   if [ "$ret" -eq 0 ]; then
+     echo "building $REVERSE_DEP succeeded" > /dev/stderr
+   else
+     echo "building $REVERSE_DEP failed" > /dev/stderr
+     exit "$ret"
+   fi
+   # Restore PWD to ${WORKING_DIR}
+   cd ${WORKING_DIR}
+   rm -rf ${WORKING_DIR}/${REVERSE_DEP}*
+   # Print ccache stats on job log
+   ccache -s
+
+.rdep-build-definition: &rdep-build-definition
+  stage: test
+  image: ${SALSA_CI_IMAGES_BASE}
+  cache:
+    key: "${REVERSE_DEP}-build"
+    paths:
+      - .ccache
+  variables:
+    CCACHE_TMP_DIR: ${CI_PROJECT_DIR}/../.ccache
+    CCACHE_WORK_DIR: ${CI_PROJECT_DIR}/.ccache
+  script:
+    - *rdep-build-before-script
+    - *rdep-build-script
+    - mv ${CCACHE_TMP_DIR} ${CCACHE_WORK_DIR}
+  needs:
+    - pipeline: $PARENT_PIPELINE_ID
+      job: build
+      artifacts: true

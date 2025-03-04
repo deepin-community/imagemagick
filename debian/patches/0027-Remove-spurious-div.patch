@@ -1,0 +1,833 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Wed, 5 Jun 2024 22:07:51 +0000
+Subject: Remove spurious div
+
+forwarded: not-needed
+---
+ www/api/Image++.html          | 1 -
+ www/api/animate.html          | 3 ---
+ www/api/annotate.html         | 1 -
+ www/api/attribute.html        | 1 -
+ www/api/blob.html             | 1 -
+ www/api/cache-view.html       | 1 -
+ www/api/cache.html            | 1 -
+ www/api/channel.html          | 1 -
+ www/api/cipher.html           | 1 -
+ www/api/color.html            | 1 -
+ www/api/colormap.html         | 1 -
+ www/api/colorspace.html       | 1 -
+ www/api/compare.html          | 1 -
+ www/api/composite.html        | 1 -
+ www/api/constitute.html       | 1 -
+ www/api/decorate.html         | 1 -
+ www/api/deprecate.html        | 1 -
+ www/api/display.html          | 1 -
+ www/api/distort.html          | 1 -
+ www/api/draw.html             | 1 -
+ www/api/drawing-wand.html     | 1 -
+ www/api/effect.html           | 1 -
+ www/api/enhance.html          | 1 -
+ www/api/exception.html        | 1 -
+ www/api/feature.html          | 1 -
+ www/api/fourier.html          | 1 -
+ www/api/fx.html               | 1 -
+ www/api/histogram.html        | 1 -
+ www/api/image-view.html       | 1 -
+ www/api/image.html            | 1 -
+ www/api/layer.html            | 1 -
+ www/api/list.html             | 1 -
+ www/api/magick++-classes.html | 1 -
+ www/api/magick-deprecate.html | 1 -
+ www/api/magick-image.html     | 1 -
+ www/api/magick-property.html  | 1 -
+ www/api/magick-wand.html      | 1 -
+ www/api/magick.html           | 1 -
+ www/api/memory.html           | 1 -
+ www/api/mime.html             | 1 -
+ www/api/module.html           | 1 -
+ www/api/mogrify.html          | 1 -
+ www/api/monitor.html          | 1 -
+ www/api/montage.html          | 1 -
+ www/api/morphology.html       | 1 -
+ www/api/paint.html            | 1 -
+ www/api/pixel-iterator.html   | 1 -
+ www/api/pixel-wand.html       | 1 -
+ www/api/profile.html          | 1 -
+ www/api/property.html         | 1 -
+ www/api/quantize.html         | 1 -
+ www/api/registry.html         | 1 -
+ www/api/resize.html           | 1 -
+ www/api/resource.html         | 1 -
+ www/api/segment.html          | 1 -
+ www/api/shear.html            | 1 -
+ www/api/signature.html        | 1 -
+ www/api/statistic.html        | 1 -
+ www/api/stream.html           | 1 -
+ www/api/transform.html        | 1 -
+ www/api/version.html          | 1 -
+ www/api/vision.html           | 1 -
+ www/api/wand-view.html        | 1 -
+ 63 files changed, 65 deletions(-)
+
+diff --git a/www/api/Image++.html b/www/api/Image++.html
+index 2f04afa..1054041 100644
+--- a/www/api/Image++.html
++++ b/www/api/Image++.html
+@@ -3212,7 +3212,6 @@ the region set by a preceding getPixels or getConstPixels call.</font></td>
+   </tbody>
+ </table></ul>
+ </p>
+-</div>
+ </div>
+   </main><!-- /.container -->
+   <footer class="magick-footer">
+diff --git a/www/api/animate.html b/www/api/animate.html
+index 781af8e..5c43d8b 100644
+--- a/www/api/animate.html
++++ b/www/api/animate.html
+@@ -146,8 +146,6 @@
+ <br/>
+ <br/>
+ <div class="magick-header">
+-</div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+@@ -175,4 +173,3 @@
+   <!-- Javascript assets -->
+   <script src="../assets/magick.js" ></script>
+   </body>
+-</html>
+diff --git a/www/api/annotate.html b/www/api/annotate.html
+index 90d2ae8..bd14eb2 100644
+--- a/www/api/annotate.html
++++ b/www/api/annotate.html
+@@ -315,7 +315,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/attribute.html b/www/api/attribute.html
+index 158afee..f031d82 100644
+--- a/www/api/attribute.html
++++ b/www/api/attribute.html
+@@ -515,7 +515,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/blob.html b/www/api/blob.html
+index e2aee1a..fceac20 100644
+--- a/www/api/blob.html
++++ b/www/api/blob.html
+@@ -504,7 +504,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/cache-view.html b/www/api/cache-view.html
+index 48bbfaf..390d578 100644
+--- a/www/api/cache-view.html
++++ b/www/api/cache-view.html
+@@ -730,7 +730,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/cache.html b/www/api/cache.html
+index f0c3e99..2e219fc 100644
+--- a/www/api/cache.html
++++ b/www/api/cache.html
+@@ -602,7 +602,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/channel.html b/www/api/channel.html
+index 24ade79..bd089e9 100644
+--- a/www/api/channel.html
++++ b/www/api/channel.html
+@@ -330,7 +330,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/cipher.html b/www/api/cipher.html
+index 9d400be..728da14 100644
+--- a/www/api/cipher.html
++++ b/www/api/cipher.html
+@@ -379,7 +379,6 @@ MagickBooleanType EncipherImage(Image *image,const char *passphrase,
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/color.html b/www/api/color.html
+index b86d55f..0d16ba0 100644
+--- a/www/api/color.html
++++ b/www/api/color.html
+@@ -284,7 +284,6 @@
+ <p>return any errors or warnings in this structure.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/colormap.html b/www/api/colormap.html
+index b586c24..1d66ac7 100644
+--- a/www/api/colormap.html
++++ b/www/api/colormap.html
+@@ -210,7 +210,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/colorspace.html b/www/api/colorspace.html
+index 9d1e180..2d86af8 100644
+--- a/www/api/colorspace.html
++++ b/www/api/colorspace.html
+@@ -420,7 +420,6 @@ exception);
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/compare.html b/www/api/compare.html
+index 1032858..9e906a2 100644
+--- a/www/api/compare.html
++++ b/www/api/compare.html
+@@ -185,7 +185,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/composite.html b/www/api/composite.html
+index eee1c77..9b9b904 100644
+--- a/www/api/composite.html
++++ b/www/api/composite.html
+@@ -185,7 +185,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/constitute.html b/www/api/constitute.html
+index 3e72ac2..5564fac 100644
+--- a/www/api/constitute.html
++++ b/www/api/constitute.html
+@@ -373,7 +373,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/decorate.html b/www/api/decorate.html
+index 4b92d73..1d1e58d 100644
+--- a/www/api/decorate.html
++++ b/www/api/decorate.html
+@@ -252,7 +252,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/deprecate.html b/www/api/deprecate.html
+index 99878e9..728aca3 100644
+--- a/www/api/deprecate.html
++++ b/www/api/deprecate.html
+@@ -200,7 +200,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/display.html b/www/api/display.html
+index da9fe01..3918bd3 100644
+--- a/www/api/display.html
++++ b/www/api/display.html
+@@ -147,7 +147,6 @@
+ <br/>
+ <div class="magick-header">
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/distort.html b/www/api/distort.html
+index 8fa9908..a603ca4 100644
+--- a/www/api/distort.html
++++ b/www/api/distort.html
+@@ -309,7 +309,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/draw.html b/www/api/draw.html
+index d4fc6af..5672e7b 100644
+--- a/www/api/draw.html
++++ b/www/api/draw.html
+@@ -511,7 +511,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
+index 06cd0bf..9ffeadb 100644
+--- a/www/api/drawing-wand.html
++++ b/www/api/drawing-wand.html
+@@ -3965,7 +3965,6 @@ $  TypeMetric *metrics)
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/effect.html b/www/api/effect.html
+index a611f06..08038ce 100644
+--- a/www/api/effect.html
++++ b/www/api/effect.html
+@@ -823,7 +823,6 @@ ExceptionInfo *exception)
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/enhance.html b/www/api/enhance.html
+index 03ba453..6778eee 100644
+--- a/www/api/enhance.html
++++ b/www/api/enhance.html
+@@ -899,7 +899,6 @@ const MagickBooleanType invert,ExceptionInfo *exception)
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/exception.html b/www/api/exception.html
+index e572a4d..d0ca76c 100644
+--- a/www/api/exception.html
++++ b/www/api/exception.html
+@@ -536,7 +536,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/feature.html b/www/api/feature.html
+index ec6cc83..ed8e5b1 100644
+--- a/www/api/feature.html
++++ b/www/api/feature.html
+@@ -298,7 +298,6 @@ contrast=channel_features[RedPixelChannel].contrast[0];
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/fourier.html b/www/api/fourier.html
+index a3b8eb1..53437f9 100644
+--- a/www/api/fourier.html
++++ b/www/api/fourier.html
+@@ -244,7 +244,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/fx.html b/www/api/fx.html
+index 2d6b128..fad89fa 100644
+--- a/www/api/fx.html
++++ b/www/api/fx.html
+@@ -196,7 +196,6 @@
+ 
+ <p>/* For -fx, this sets p to ImgNum 0. for [fx:...], this sets p to the current image. Similarly img. </p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/histogram.html b/www/api/histogram.html
+index 9b7f1d0..3fbed47 100644
+--- a/www/api/histogram.html
++++ b/www/api/histogram.html
+@@ -307,7 +307,6 @@
+ <p>return any errors or warnings in this structure.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/image-view.html b/www/api/image-view.html
+index 24bf755..cd49d20 100644
+--- a/www/api/image-view.html
++++ b/www/api/image-view.html
+@@ -693,7 +693,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/image.html b/www/api/image.html
+index 7b97634..0f6c1c0 100644
+--- a/www/api/image.html
++++ b/www/api/image.html
+@@ -1252,7 +1252,6 @@ MagickBooleanType SyncImagesSettings(const ImageInfo *image_info,
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/layer.html b/www/api/layer.html
+index 3fcf927..f6898b8 100644
+--- a/www/api/layer.html
++++ b/www/api/layer.html
+@@ -465,7 +465,6 @@ ExceptionInfo *exception);
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/list.html b/www/api/list.html
+index eee4889..73712e9 100644
+--- a/www/api/list.html
++++ b/www/api/list.html
+@@ -805,7 +805,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
+index b4079c4..42faff8 100644
+--- a/www/api/magick++-classes.html
++++ b/www/api/magick++-classes.html
+@@ -143,7 +143,6 @@ containers of image frames.</td>
+ </table>
+ </ul>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="magick-footer">
+     <div class="container-fluid">
+diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
+index 3bb4c7a..1edecfd 100644
+--- a/www/api/magick-deprecate.html
++++ b/www/api/magick-deprecate.html
+@@ -139,7 +139,6 @@
+ <p class="text-center"><a href="#"></a></p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/magick-image.html b/www/api/magick-image.html
+index 23fd200..eb9fb42 100644
+--- a/www/api/magick-image.html
++++ b/www/api/magick-image.html
+@@ -8529,7 +8529,6 @@ MagickBooleanType MagickThresholdImageChannel(MagickWand *wand,
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/magick-property.html b/www/api/magick-property.html
+index 44f871a..c10afd4 100644
+--- a/www/api/magick-property.html
++++ b/www/api/magick-property.html
+@@ -2055,7 +2055,6 @@ void *client_data)
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
+index 8f94c0b..c03ba9a 100644
+--- a/www/api/magick-wand.html
++++ b/www/api/magick-wand.html
+@@ -730,7 +730,6 @@
+ </samp></pre>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/magick.html b/www/api/magick.html
+index 9f823a2..c61d929 100644
+--- a/www/api/magick.html
++++ b/www/api/magick.html
+@@ -264,7 +264,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/memory.html b/www/api/memory.html
+index 2c59741..9848cb0 100644
+--- a/www/api/memory.html
++++ b/www/api/memory.html
+@@ -597,7 +597,6 @@
+ <p>Specifies the length of the memory buffer.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/mime.html b/www/api/mime.html
+index 151dbf7..888c507 100644
+--- a/www/api/mime.html
++++ b/www/api/mime.html
+@@ -297,7 +297,6 @@
+ <p>return any errors or warnings in this structure.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/module.html b/www/api/module.html
+index 612d63f..e1e9e48 100644
+--- a/www/api/module.html
++++ b/www/api/module.html
+@@ -564,7 +564,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/mogrify.html b/www/api/mogrify.html
+index f3797a1..e6a867a 100644
+--- a/www/api/mogrify.html
++++ b/www/api/mogrify.html
+@@ -147,7 +147,6 @@
+ <br/>
+ <div class="magick-header">
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/monitor.html b/www/api/monitor.html
+index 53caa03..13a72fb 100644
+--- a/www/api/monitor.html
++++ b/www/api/monitor.html
+@@ -258,7 +258,6 @@ void *client_data)
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/montage.html b/www/api/montage.html
+index 6f1dc76..9b446e1 100644
+--- a/www/api/montage.html
++++ b/www/api/montage.html
+@@ -147,7 +147,6 @@
+ <br/>
+ <div class="magick-header">
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index cc2a062..2765d32 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
+@@ -678,7 +678,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/paint.html b/www/api/paint.html
+index 67d3e39..c323865 100644
+--- a/www/api/paint.html
++++ b/www/api/paint.html
+@@ -358,7 +358,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
+index ed2f21b..84c3fd4 100644
+--- a/www/api/pixel-iterator.html
++++ b/www/api/pixel-iterator.html
+@@ -569,7 +569,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
+index e28dfbb..721bbed 100644
+--- a/www/api/pixel-wand.html
++++ b/www/api/pixel-wand.html
+@@ -1638,7 +1638,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/profile.html b/www/api/profile.html
+index 5b6b50f..fb344c8 100644
+--- a/www/api/profile.html
++++ b/www/api/profile.html
+@@ -411,7 +411,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/property.html b/www/api/property.html
+index 1292b57..4dfee6d 100644
+--- a/www/api/property.html
++++ b/www/api/property.html
+@@ -463,7 +463,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/quantize.html b/www/api/quantize.html
+index 787e17a..4a1db24 100644
+--- a/www/api/quantize.html
++++ b/www/api/quantize.html
+@@ -589,7 +589,6 @@ pixel in the image.
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/registry.html b/www/api/registry.html
+index 0e995fc..f08f52a 100644
+--- a/www/api/registry.html
++++ b/www/api/registry.html
+@@ -317,7 +317,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/resize.html b/www/api/resize.html
+index 2a9a58a..63e1303 100644
+--- a/www/api/resize.html
++++ b/www/api/resize.html
+@@ -507,7 +507,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/resource.html b/www/api/resource.html
+index 9ecc96b..a949453 100644
+--- a/www/api/resource.html
++++ b/www/api/resource.html
+@@ -334,7 +334,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/segment.html b/www/api/segment.html
+index 340163d..eb374a7 100644
+--- a/www/api/segment.html
++++ b/www/api/segment.html
+@@ -179,7 +179,6 @@
+ <p>return any errors or warnings in this structure.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/shear.html b/www/api/shear.html
+index 31a07fc..cc15116 100644
+--- a/www/api/shear.html
++++ b/www/api/shear.html
+@@ -251,7 +251,6 @@
+ <p>return any errors or warnings in this structure.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/signature.html b/www/api/signature.html
+index 4c867b5..b717a8b 100644
+--- a/www/api/signature.html
++++ b/www/api/signature.html
+@@ -172,7 +172,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/statistic.html b/www/api/statistic.html
+index 510f31a..54034f9 100644
+--- a/www/api/statistic.html
++++ b/www/api/statistic.html
+@@ -584,7 +584,6 @@ red_mean=channel_statistics[RedPixelChannel].mean;
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/stream.html b/www/api/stream.html
+index 2cc3601..51eb8e4 100644
+--- a/www/api/stream.html
++++ b/www/api/stream.html
+@@ -185,7 +185,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/transform.html b/www/api/transform.html
+index 24788cf..daba842 100644
+--- a/www/api/transform.html
++++ b/www/api/transform.html
+@@ -602,7 +602,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/version.html b/www/api/version.html
+index acd0aae..e12b53a 100644
+--- a/www/api/version.html
++++ b/www/api/version.html
+@@ -178,7 +178,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/vision.html b/www/api/vision.html
+index c970973..57fa993 100644
+--- a/www/api/vision.html
++++ b/www/api/vision.html
+@@ -212,7 +212,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/api/wand-view.html b/www/api/wand-view.html
+index 0178696..235faa3 100644
+--- a/www/api/wand-view.html
++++ b/www/api/wand-view.html
+@@ -615,7 +615,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">

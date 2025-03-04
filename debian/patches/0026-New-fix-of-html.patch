@@ -1,0 +1,22 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Tue, 26 Dec 2023 15:46:33 +0000
+Subject: New fix of html
+
+forwarded: not-needed
+---
+ www/formats.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/www/formats.html b/www/formats.html
+index e1b903f..d1336e4 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -705,7 +705,7 @@ the supported image formats.</p>
+     <td><a href="https://en.wikipedia.org/wiki/JPEG_XR">JXR</a></td>
+     <td>RW</td>
+     <td>JPEG extended range</td>
+-    <td>Requires the <a href="../index.html">jxrlib</a> delegate library. Put the JxrDecApp and JxrEncApp applications in your execution path.</p>
++    <td>Requires the <a href="../index.html">jxrlib</a> delegate library. Put the JxrDecApp and JxrEncApp applications in your execution path.</td>
+   </tr>
+ 
+   <tr>

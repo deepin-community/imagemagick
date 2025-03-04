@@ -2,6 +2,9 @@
 //
 // Copyright Bob Friesenhahn, 2000, 2001, 2003
 //
+// Copyright @ 2013 ImageMagick Studio LLC, a non-profit organization
+// dedicated to making software imaging solutions freely available.
+//
 // Demo of text annotation with gravity.  Produces an animation showing
 // the effect of rotated text assize_t with various gravity specifications.
 //
@@ -13,6 +16,7 @@
 //
 
 #include <Magick++.h>
+#include <cstdlib>
 #include <string>
 #include <iostream>
 #include <list>
@@ -25,15 +29,16 @@ int main( int /*argc*/, char ** argv)
 {
 
   // Initialize ImageMagick install location for Windows
-  InitializeMagick(*argv);
-  const char *const p = getenv("MAGICK_FONT");
-  const string MAGICK_FONT(p ? p : "");
+  MagickPlusPlusGenesis genesis(*argv);
 
   try {
 
     string srcdir("");
     if(getenv("SRCDIR") != 0)
       srcdir = getenv("SRCDIR");
+    const char *const p = getenv("MAGICK_FONT");
+    const string MAGICK_FONT(p ? p : "");
+
 
     int x = 100;
     int y = 100;
@@ -47,7 +52,7 @@ int main( int /*argc*/, char ** argv)
     base.draw( DrawableLine( 300,100, 300,500 ) );
     base.draw( DrawableLine( 100,300, 500,300 ) );
     base.draw( DrawableRectangle( 100,100, 500,500 ) );
-    base.density( Geometry(72,72) );
+    base.density( Point(72,72) );
     base.strokeColor(Color());
     base.fillColor("#600");
     base.fontPointsize( 30 );

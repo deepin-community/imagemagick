@@ -17,7 +17,7 @@
 %                                 July 2001                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,33 +39,33 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/locale-private.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/module.h"
-#include "magick/pixel-accessor.h"
-#include "magick/profile.h"
-#include "magick/quantum-private.h"
-#include "magick/splay-tree.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/string-private.h"
-#include "magick/token.h"
-#include "magick/utility.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/channel.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/locale-private.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/profile-private.h"
+#include "MagickCore/splay-tree.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/string-private.h"
+#include "MagickCore/token.h"
+#include "MagickCore/utility.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteMETAImage(const ImageInfo *,Image *);
+  WriteMETAImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -316,18 +316,15 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
     state,
     next;
 
-  unsigned char
-    dataset;
-
-  unsigned int
-    recnum;
+  MagickBooleanType
+    status;
 
   MagickOffsetType
     savedpos,
     currentpos;
 
   size_t
-    inputlen = MaxTextExtent;
+    inputlen = MagickPathExtent;
 
   ssize_t
     savedolen = 0L,
@@ -336,13 +333,20 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
   TokenInfo
     *token_info;
 
+  unsigned char
+    dataset;
+
+  unsigned int
+    recnum;
+
   dataset = 0;
   recnum = 0;
-  line = (char *) AcquireQuantumMemory((size_t) inputlen,sizeof(*line));
+  line = (char *) AcquireQuantumMemory(inputlen,sizeof(*line));
   if (line == (char *) NULL)
     return(-1);
   newstr = name = token = (char *) NULL;
   savedpos = 0;
+  status=MagickTrue;
   token_info=AcquireTokenInfo();
   while (super_fgets(&line,&inputlen,ifile)!=NULL)
   {
@@ -361,19 +365,15 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
       if (state == 0)
         {
           int
-            state,
-            next;
+            s,
+            n;
 
-          char
-            brkused,
-            quoted;
-
-          state=0;
-          next=0;
+          s=0;
+          n=0;
           while (Tokenizer(token_info,0,newstr,inputlen,token,"","#",
-            "", 0,&brkused,&next,&quoted)==0)
+            "", 0,&brkused,&n,&quoted)==0)
           {
-            switch (state)
+            switch (s)
             {
               case 0:
                 if (strcmp(newstr,"8BIM")==0)
@@ -393,40 +393,36 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
                 break;
               }
             }
-            state++;
+            s++;
           }
         }
       else
         if (state == 1)
           {
             int
-              next;
+              n;
 
             ssize_t
               len;
 
-            char
-              brkused,
-              quoted;
-
-            next=0;
+            n=0;
             len = (ssize_t) strlen(token);
             while (Tokenizer(token_info,0,newstr,inputlen,token,"","&",
-              "",0,&brkused,&next,&quoted)==0)
+              "",0,&brkused,&n,&quoted)==0)
             {
-              if (brkused && next > 0)
+              if (brkused && n > 0)
                 {
                   size_t
                     codes_length;
 
                   char
-                    *s = &token[next-1];
+                    *s = &token[n-1];
 
                   codes_length=convertHTMLcodes(s);
                   if ((ssize_t) codes_length > len)
                     len=0;
                   else
-                    len-=codes_length;
+                    len-=(ssize_t) codes_length;
                 }
             }
 
@@ -447,21 +443,21 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
                     currentpos = TellBlob(ofile);
                     if (currentpos < 0)
                       {
-                        line=DestroyString(line);
-                        return(-1);
+                        status=MagickFalse;
+                        break;
                       }
                     offset=SeekBlob(ofile,savedpos,SEEK_SET);
                     if (offset < 0)
                       {
-                        line=DestroyString(line);
-                        return(-1);
+                        status=MagickFalse;
+                        break;
                       }
                     (void) WriteBlobMSBLong(ofile,(unsigned int) diff);
                     offset=SeekBlob(ofile,currentpos,SEEK_SET);
                     if (offset < 0)
                       {
-                        line=DestroyString(line);
-                        return(-1);
+                        status=MagickFalse;
+                        break;
                       }
                     savedolen = 0L;
                   }
@@ -490,10 +486,10 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
                     (void) WriteBlobMSBLong(ofile, (unsigned int) len);
                     outputlen += 4;
 
-                    next=0;
+                    n=0;
                     outputlen += len;
                     while (len-- > 0)
-                      (void) WriteBlobByte(ofile,(unsigned char) token[next++]);
+                      (void) WriteBlobByte(ofile,(unsigned char) token[n++]);
 
                     if (outputlen & 1)
                       {
@@ -506,7 +502,10 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
                     /* patch in a fake length for now and fix it later */
                     savedpos = TellBlob(ofile);
                     if (savedpos < 0)
-                      return(-1);
+                      {
+                        status=MagickFalse;
+                        break;
+                      }
                     (void) WriteBlobMSBLong(ofile,0xFFFFFFFFU);
                     outputlen += 4;
                     savedolen = outputlen;
@@ -521,10 +520,10 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
                     (void) WriteBlobByte(ofile,(unsigned char) (recnum & 0xff));
                     (void) WriteBlobMSBShort(ofile,(unsigned short) len);
                     outputlen += 5;
-                    next=0;
+                    n=0;
                     outputlen += len;
                     while (len-- > 0)
-                      (void) WriteBlobByte(ofile,(unsigned char) token[next++]);
+                      (void) WriteBlobByte(ofile,(unsigned char) token[n++]);
                   }
               }
           }
@@ -536,6 +535,8 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
       newstr=DestroyString(newstr);
     if (name != (char *) NULL)
       name=DestroyString(name);
+    if (status == MagickFalse)
+      break;
   }
   token_info=DestroyTokenInfo(token_info);
   if (token != (char *) NULL)
@@ -564,13 +565,15 @@ static ssize_t parse8BIM(Image *ifile, Image *ofile)
         return(-1);
       savedolen = 0L;
     }
-  return(outputlen);
+  return(status == MagickFalse ? -1 : outputlen);
 }
 
 static char *super_fgets_w(char **b, size_t *blen, Image *file)
 {
   int
-    c,
+    c;
+
+  size_t
     len;
 
   unsigned char
@@ -586,7 +589,7 @@ static char *super_fgets_w(char **b, size_t *blen, Image *file)
       break;
    if (EOFBlob(file))
       break;
-   if ((q-p+1) >= (int) len)
+   if ((size_t) (q-p+1) >= len)
       {
         size_t
           tlen;
@@ -598,10 +601,7 @@ static char *super_fgets_w(char **b, size_t *blen, Image *file)
         len<<=1;
         buffer=(unsigned char *) ResizeQuantumMemory(p,len+2,sizeof(*p));
         if (buffer == (unsigned char *) NULL)
-          {
-            p=(unsigned char *) RelinquishMagickMemory(p);
-            break;
-          }
+          break;
         p=buffer;
         q=p+tlen;
       }
@@ -617,7 +617,7 @@ static char *super_fgets_w(char **b, size_t *blen, Image *file)
       tlen=(size_t) (q-p);
       if (tlen == 0)
         return (char *) NULL;
-      p[tlen] = '\0';
+      p[tlen]='\0';
       *blen=++tlen;
     }
   return(*b);
@@ -644,11 +644,14 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
     recnum;
 
   size_t
-    inputlen = MaxTextExtent;
+    inputlen = MagickPathExtent;
 
   ssize_t
     savedolen = 0L,
     outputlen = 0L;
+
+  MagickBooleanType
+    status;
 
   MagickOffsetType
     savedpos,
@@ -665,6 +668,7 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
   newstr = name = token = (char *) NULL;
   savedpos = 0;
   token_info=AcquireTokenInfo();
+  status=MagickTrue;
   while (super_fgets_w(&line,&inputlen,ifile) != NULL)
   {
     state=0;
@@ -682,19 +686,15 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
       if (state == 0)
         {
           int
-            state,
-            next;
+            s,
+            n;
 
-          char
-            brkused,
-            quoted;
-
-          state=0;
-          next=0;
+          s=0;
+          n=0;
           while (Tokenizer(token_info,0,newstr,inputlen,token,"","#",
-            "",0,&brkused,&next,&quoted)==0)
+            "",0,&brkused,&n,&quoted)==0)
           {
-            switch (state)
+            switch (s)
             {
               case 0:
                 if (strcmp(newstr,"8BIM")==0)
@@ -706,46 +706,42 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
                 recnum=(unsigned int) StringToUnsignedLong(newstr);
                 break;
               case 2:
-                name=(char *) AcquireQuantumMemory(strlen(newstr)+MaxTextExtent,
+                name=(char *) AcquireQuantumMemory(strlen(newstr)+MagickPathExtent,
                   sizeof(*name));
                 if (name)
-                  (void) CopyMagickString(name,newstr,strlen(newstr)+MaxTextExtent);
+                  (void) CopyMagickString(name,newstr,strlen(newstr)+MagickPathExtent);
                 break;
             }
-            state++;
+            s++;
           }
         }
       else
         if (state == 1)
           {
             int
-              next;
+              n;
 
             ssize_t
               len;
 
-            char
-              brkused,
-              quoted;
-
-            next=0;
+            n=0;
             len = (ssize_t) strlen(token);
             while (Tokenizer(token_info,0,newstr,inputlen,token,"","&",
-              "",0,&brkused,&next,&quoted)==0)
+              "",0,&brkused,&n,&quoted)==0)
             {
-              if (brkused && next > 0)
+              if (brkused && n > 0)
                 {
                   size_t
                     codes_length;
 
                   char
-                    *s = &token[next-1];
+                    *s = &token[n-1];
 
                   codes_length=convertHTMLcodes(s);
                   if ((ssize_t) codes_length > len)
                     len=0;
                   else
-                    len-=codes_length;
+                    len-=(ssize_t) codes_length;
                 }
             }
 
@@ -762,17 +758,28 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
                     MagickOffsetType
                       offset;
 
-                    ssize_t diff = outputlen - savedolen;
+                    ssize_t
+                      diff = outputlen - savedolen;
+
                     currentpos = TellBlob(ofile);
                     if (currentpos < 0)
-                      return(-1);
+                      {
+                        status=MagickFalse;
+                        break;
+                      }
                     offset=SeekBlob(ofile,savedpos,SEEK_SET);
                     if (offset < 0)
-                      return(-1);
+                      {
+                        status=MagickFalse;
+                        break;
+                      }
                     (void) WriteBlobMSBLong(ofile,(unsigned int) diff);
                     offset=SeekBlob(ofile,currentpos,SEEK_SET);
                     if (offset < 0)
-                      return(-1);
+                      {
+                        status=MagickFalse;
+                        break;
+                      }
                     savedolen = 0L;
                   }
                 if (outputlen & 1)
@@ -800,10 +807,10 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
                     (void) WriteBlobMSBLong(ofile,(unsigned int) len);
                     outputlen += 4;
 
-                    next=0;
+                    n=0;
                     outputlen += len;
                     while (len--)
-                      (void) WriteBlobByte(ofile,(unsigned char) token[next++]);
+                      (void) WriteBlobByte(ofile,(unsigned char) token[n++]);
 
                     if (outputlen & 1)
                       {
@@ -816,7 +823,10 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
                     /* patch in a fake length for now and fix it later */
                     savedpos = TellBlob(ofile);
                     if (savedpos < 0)
-                      return(-1);
+                      {
+                        status=MagickFalse;
+                        break;
+                      }
                     (void) WriteBlobMSBLong(ofile,0xFFFFFFFFU);
                     outputlen += 4;
                     savedolen = outputlen;
@@ -831,10 +841,10 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
                     (void) WriteBlobByte(ofile,(unsigned char) (recnum & 0xff));
                     (void) WriteBlobMSBShort(ofile,(unsigned short) len);
                     outputlen += 5;
-                    next=0;
+                    n=0;
                     outputlen += len;
                     while (len--)
-                      (void) WriteBlobByte(ofile,(unsigned char) token[next++]);
+                      (void) WriteBlobByte(ofile,(unsigned char) token[n++]);
                   }
               }
           }
@@ -846,6 +856,8 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
       newstr=DestroyString(newstr);
     if (name != (char *) NULL)
       name=DestroyString(name);
+    if (status == MagickFalse)
+      break;
   }
   token_info=DestroyTokenInfo(token_info);
   if (token != (char *) NULL)
@@ -874,7 +886,7 @@ static ssize_t parse8BIMW(Image *ifile, Image *ofile)
         return(-1);
       savedolen = 0L;
     }
-  return outputlen;
+  return(status == MagickFalse ? -1 : outputlen);
 }
 
 /* some defines for the different JPEG block types */
@@ -1149,7 +1161,7 @@ static int jpeg_extract(Image *ifile, Image *ofile)
 }
 #endif
 
-static void CopyBlob(Image *source,Image *destination)
+static inline void CopyBlob(Image *source,Image *destination)
 {
   ssize_t
     i;
@@ -1212,7 +1224,7 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -1221,9 +1233,8 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
     }
   image->columns=1;
   image->rows=1;
-  if (SetImageBackgroundColor(image) == MagickFalse)
+  if (SetImageBackgroundColor(image,exception) == MagickFalse)
     {
-      InheritException(exception,&image->exception);
       image=DestroyImageList(image);
       return((Image *) NULL);
     }
@@ -1233,7 +1244,7 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
       /*
         Read 8BIM binary metadata.
       */
-      buff=AcquireImage((ImageInfo *) NULL);
+      buff=AcquireImage((ImageInfo *) NULL,exception);
       if (buff == (Image *) NULL)
         ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
       blob=(unsigned char *) AcquireQuantumMemory(length,sizeof(unsigned char));
@@ -1272,17 +1283,9 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
         }
       else
         CopyBlob(image,buff);
-      profile=BlobToStringInfo(GetBlobStreamData(buff),(size_t)
-        GetBlobSize(buff));
-      if (profile == (StringInfo *) NULL)
-        {
-          blob=(unsigned char *) DetachBlob(buff->blob);
-          blob=(unsigned char *) RelinquishMagickMemory(blob);
-          buff=DestroyImage(buff);
-          ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-        }
-      status=SetImageProfile(image,"8bim",profile);
-      profile=DestroyStringInfo(profile);
+      profile=BlobToProfileStringInfo("8bim",GetBlobStreamData(buff),(size_t)
+        GetBlobSize(buff),exception);
+      SetImageProfilePrivate(image,profile,exception);
       blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
@@ -1292,10 +1295,10 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
   if (LocaleNCompare(image_info->magick,"APP1",4) == 0)
     {
       char
-        name[MaxTextExtent];
+        name[MagickPathExtent];
 
-      (void) FormatLocaleString(name,MaxTextExtent,"APP%d",1);
-      buff=AcquireImage((ImageInfo *) NULL);
+      (void) FormatLocaleString(name,MagickPathExtent,"APP%d",1);
+      buff=AcquireImage((ImageInfo *) NULL,exception);
       if (buff == (Image *) NULL)
         ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
       blob=(unsigned char *) AcquireQuantumMemory(length,sizeof(unsigned char));
@@ -1321,7 +1324,7 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
               ThrowReaderException(CoderError,"NoIPTCProfileAvailable");
             }
           profile=CloneStringInfo((StringInfo *) image_info->profile);
-          iptc=AcquireImage((ImageInfo *) NULL);
+          iptc=AcquireImage((ImageInfo *) NULL,exception);
           if (iptc == (Image *) NULL)
             {
               blob=(unsigned char *) DetachBlob(buff->blob);
@@ -1336,29 +1339,24 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
           blob=(unsigned char *) RelinquishMagickMemory(blob);
           iptc=DestroyImage(iptc);
           if (result == 0)
-            ThrowReaderException(CoderError,"JPEGEmbeddingFailed");
+            {
+              buff=DestroyImage(buff);
+              ThrowReaderException(CoderError,"JPEGEmbeddingFailed");
+            }
         }
       else
         CopyBlob(image,buff);
-      profile=BlobToStringInfo(GetBlobStreamData(buff),(size_t)
-        GetBlobSize(buff));
-      if (profile == (StringInfo *) NULL)
-        ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-      status=SetImageProfile(image,name,profile);
-      profile=DestroyStringInfo(profile);
+      profile=BlobToProfileStringInfo(name,GetBlobStreamData(buff),(size_t)
+        GetBlobSize(buff),exception);
+      (void) SetImageProfilePrivate(image,profile,exception);
       blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
-      if (status == MagickFalse)
-        {
-          buff=DestroyImage(buff);
-          ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-        }
     }
   if ((LocaleCompare(image_info->magick,"ICC") == 0) ||
       (LocaleCompare(image_info->magick,"ICM") == 0))
     {
-      buff=AcquireImage((ImageInfo *) NULL);
+      buff=AcquireImage((ImageInfo *) NULL,exception);
       if (buff == (Image *) NULL)
         ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
       blob=(unsigned char *) AcquireQuantumMemory(length,sizeof(unsigned char));
@@ -1369,24 +1367,16 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
         }
       AttachBlob(buff->blob,blob,length);
       CopyBlob(image,buff);
-      profile=BlobToStringInfo(GetBlobStreamData(buff),(size_t)
-        GetBlobSize(buff));
-      if (profile == (StringInfo *) NULL)
-        {
-          blob=(unsigned char *) DetachBlob(buff->blob);
-          blob=(unsigned char *) RelinquishMagickMemory(blob);
-          buff=DestroyImage(buff);
-          ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-        }
-      (void) SetImageProfile(image,"icc",profile);
-      profile=DestroyStringInfo(profile);
+      profile=BlobToProfileStringInfo("icc",GetBlobStreamData(buff),(size_t)
+        GetBlobSize(buff),exception);
+      (void) SetImageProfilePrivate(image,profile,exception);
       blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
     }
   if (LocaleCompare(image_info->magick,"IPTC") == 0)
     {
-      buff=AcquireImage((ImageInfo *) NULL);
+      buff=AcquireImage((ImageInfo *) NULL,exception);
       if (buff == (Image *) NULL)
         ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
       blob=(unsigned char *) AcquireQuantumMemory(length,sizeof(unsigned char));
@@ -1397,24 +1387,16 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
         }
       AttachBlob(buff->blob,blob,length);
       CopyBlob(image,buff);
-      profile=BlobToStringInfo(GetBlobStreamData(buff),(size_t)
-        GetBlobSize(buff));
-      if (profile == (StringInfo *) NULL)
-        {
-          blob=(unsigned char *) DetachBlob(buff->blob);
-          blob=(unsigned char *) RelinquishMagickMemory(blob);
-          buff=DestroyImage(buff);
-          ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-        }
-      (void) SetImageProfile(image,"iptc",profile);
-      profile=DestroyStringInfo(profile);
+      profile=BlobToProfileStringInfo("iptc",GetBlobStreamData(buff),(size_t)
+        GetBlobSize(buff),exception);
+      (void) SetImageProfilePrivate(image,profile,exception);
       blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
     }
   if (LocaleCompare(image_info->magick,"XMP") == 0)
     {
-      buff=AcquireImage((ImageInfo *) NULL);
+      buff=AcquireImage((ImageInfo *) NULL,exception);
       if (buff == (Image *) NULL)
         ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
       blob=(unsigned char *) AcquireQuantumMemory(length,sizeof(unsigned char));
@@ -1425,17 +1407,9 @@ static Image *ReadMETAImage(const ImageInfo *image_info,
         }
       AttachBlob(buff->blob,blob,length);
       CopyBlob(image,buff);
-      profile=BlobToStringInfo(GetBlobStreamData(buff),(size_t)
-        GetBlobSize(buff));
-      if (profile == (StringInfo *) NULL)
-        {
-          blob=(unsigned char *) DetachBlob(buff->blob);
-          blob=(unsigned char *) RelinquishMagickMemory(blob);
-          buff=DestroyImage(buff);
-          ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-        }
-      (void) SetImageProfile(image,"xmp",profile);
-      profile=DestroyStringInfo(profile);
+      profile=BlobToProfileStringInfo("xmp",GetBlobStreamData(buff),(size_t)
+        GetBlobSize(buff),exception);
+      (void) SetImageProfilePrivate(image,profile,exception);
       blob=(unsigned char *) DetachBlob(buff->blob);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
       buff=DestroyImage(buff);
@@ -1475,113 +1449,90 @@ ModuleExport size_t RegisterMETAImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("8BIM");
+  entry=AcquireMagickInfo("META","8BIM","Photoshop resource format");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Photoshop resource format");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("8BIMTEXT");
+  entry=AcquireMagickInfo("META","8BIMTEXT","Photoshop resource text format");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Photoshop resource text format");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("8BIMWTEXT");
+  entry=AcquireMagickInfo("META","8BIMWTEXT",
+    "Photoshop resource wide text format");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Photoshop resource wide text format");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("APP1");
+  entry=AcquireMagickInfo("META","APP1","Raw application information");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Raw application information");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("APP1JPEG");
+  entry=AcquireMagickInfo("META","APP1JPEG","Raw JPEG binary data");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Raw JPEG binary data");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("EXIF");
+  entry=AcquireMagickInfo("META","EXIF","Exif digital camera binary data");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Exif digital camera binary data");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("XMP");
+  entry=AcquireMagickInfo("META","XMP","Adobe XML metadata");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Adobe XML metadata");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("ICM");
+  entry=AcquireMagickInfo("META","ICM","ICC Color Profile");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("ICC Color Profile");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("ICC");
+  entry=AcquireMagickInfo("META","ICC","ICC Color Profile");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("ICC Color Profile");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("IPTC");
+  entry=AcquireMagickInfo("META","IPTC","IPTC Newsphoto");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("IPTC Newsphoto");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("IPTCTEXT");
+  entry=AcquireMagickInfo("META","IPTCTEXT","IPTC Newsphoto text format");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("IPTC Newsphoto text format");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("IPTCWTEXT");
+  entry=AcquireMagickInfo("META","IPTCWTEXT","IPTC Newsphoto text format");
   entry->decoder=(DecodeImageHandler *) ReadMETAImage;
   entry->encoder=(EncodeImageHandler *) WriteMETAImage;
-  entry->adjoin=MagickFalse;
-  entry->stealth=MagickTrue;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("IPTC Newsphoto text format");
-  entry->magick_module=ConstantString("META");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags|=CoderStealthFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -1638,7 +1589,7 @@ ModuleExport void UnregisterMETAImage(void)
 %  The format of the WriteMETAImage method is:
 %
 %      MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
-%        Image *image)
+%        Image *image,ExceptionInfo *exception)
 %
 %  Compression code contributed by Kyle Shorter.
 %
@@ -1648,6 +1599,8 @@ ModuleExport void UnregisterMETAImage(void)
 %
 %    o image: A pointer to a Image structure.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
 
 static size_t GetIPTCStream(unsigned char **info,size_t length)
@@ -1655,21 +1608,19 @@ static size_t GetIPTCStream(unsigned char **info,size_t length)
   int
     c;
 
-  ssize_t
-    i;
+  size_t
+    extent,
+    info_length,
+    tag_length;
 
   unsigned char
     *p;
 
-  size_t
-    extent,
-    info_length;
+  ssize_t
+    i;
 
   unsigned int
     marker;
-
-  size_t
-    tag_length;
 
   p=(*info);
   extent=length;
@@ -1682,23 +1633,23 @@ static size_t GetIPTCStream(unsigned char **info,size_t length)
   {
     if (strncmp((const char *) p,"8BIM",4))
       break;
-    p+=4;
+    p+=(ptrdiff_t) 4;
     extent-=4;
     marker=(unsigned int) (*p) << 8 | *(p+1);
-    p+=2;
+    p+=(ptrdiff_t) 2;
     extent-=2;
     c=*p++;
     extent--;
     c|=0x01;
     if ((size_t) c >= extent)
       break;
-    p+=c;
-    extent-=c;
+    p+=(ptrdiff_t) c;
+    extent=(size_t) ((ssize_t) extent-c);
     if (extent < 4)
       break;
     tag_length=(((size_t) *p) << 24) | (((size_t) *(p+1)) << 16) |
       (((size_t) *(p+2)) << 8) | ((size_t) *(p+3));
-    p+=4;
+    p+=(ptrdiff_t) 4;
     extent-=4;
     if (tag_length > extent)
       break;
@@ -1709,7 +1660,7 @@ static size_t GetIPTCStream(unsigned char **info,size_t length)
       }
     if ((tag_length & 0x01) != 0)
       tag_length++;
-    p+=tag_length;
+    p+=(ptrdiff_t) tag_length;
     extent-=tag_length;
   }
   /*
@@ -1796,17 +1747,17 @@ iptc_find:
         /*
           Short format.
         */
-        tag_length=((long) c) << 8;
+        tag_length=(size_t) (c << 8);
         c=(*p++);
         length--;
         if (length == 0)
           break;
         info_length++;
-        tag_length|=(long) c;
+        tag_length|=(unsigned int) c;
       }
     if (tag_length > (length+1))
       break;
-    p+=tag_length;
+    p+=(ptrdiff_t) tag_length;
     length-=tag_length;
     if (length == 0)
       break;
@@ -1818,7 +1769,7 @@ iptc_find:
 static void formatString(Image *ofile, const char *s, ssize_t len)
 {
   char
-    temp[MaxTextExtent];
+    temp[MagickPathExtent];
 
   (void) WriteBlobByte(ofile,'"');
   for (; len > 0; len--, s++) {
@@ -1843,7 +1794,7 @@ static void formatString(Image *ofile, const char *s, ssize_t len)
         (void) WriteBlobByte(ofile,(unsigned char) *s);
       else
         {
-          (void) FormatLocaleString(temp,MaxTextExtent,"&#%d;", c & 255);
+          (void) FormatLocaleString(temp,MagickPathExtent,"&#%d;", c & 255);
           (void) WriteBlobString(ofile,temp);
         }
       break;
@@ -1852,11 +1803,7 @@ static void formatString(Image *ofile, const char *s, ssize_t len)
 #if defined(MAGICKCORE_WINDOWS_SUPPORT)
   (void) WriteBlobString(ofile,"\"\r\n");
 #else
-#if defined(macintosh)
-  (void) WriteBlobString(ofile,"\"\r");
-#else
   (void) WriteBlobString(ofile,"\"\n");
-#endif
 #endif
 }
 
@@ -1929,7 +1876,7 @@ static const tag_spec tags[] = {
 static int formatIPTC(Image *ifile, Image *ofile)
 {
   char
-    temp[MaxTextExtent];
+    temp[MagickPathExtent];
 
   unsigned int
     foundiptc,
@@ -1961,7 +1908,7 @@ static int formatIPTC(Image *ifile, Image *ofile)
   while (c != EOF)
   {
     if (c == 0x1c)
-      foundiptc=1;
+      foundiptc = 1;
     else
       {
         if (foundiptc)
@@ -2013,13 +1960,10 @@ static int formatIPTC(Image *ifile, Image *ofile)
     if (taglen < 0)
       return(-1);
     /* make a buffer to hold the tag datand snag it from the input stream */
-    str=(unsigned char *) AcquireQuantumMemory((size_t) (taglen+MaxTextExtent),
-      sizeof(*str));
+    str=(unsigned char *) AcquireQuantumMemory((size_t) (taglen+
+      MagickPathExtent),sizeof(*str));
     if (str == (unsigned char *) NULL)
-      {
-        (void) printf("MemoryAllocationFailed");
-        return 0;
-      }
+      return(0);
     for (tagindx=0; tagindx<taglen; tagindx++)
     {
       c=ReadBlobByte(ifile);
@@ -2034,10 +1978,10 @@ static int formatIPTC(Image *ifile, Image *ofile)
 
     /* now finish up by formatting this binary data into ASCII equivalent */
     if (strlen((char *)readable) > 0)
-      (void) FormatLocaleString(temp,MaxTextExtent,"%d#%d#%s=",
+      (void) FormatLocaleString(temp,MagickPathExtent,"%d#%d#%s=",
         (unsigned int) dataset, (unsigned int) recnum, readable);
     else
-      (void) FormatLocaleString(temp,MaxTextExtent,"%d#%d=",
+      (void) FormatLocaleString(temp,MagickPathExtent,"%d#%d=",
         (unsigned int) dataset,(unsigned int) recnum);
     (void) WriteBlobString(ofile,temp);
     formatString( ofile, (char *)str, taglen );
@@ -2072,7 +2016,7 @@ static int readWordFromBuffer(char **s, ssize_t *len)
 static int formatIPTCfromBuffer(Image *ofile, char *s, ssize_t len)
 {
   char
-    temp[MaxTextExtent];
+    temp[MagickPathExtent];
 
   unsigned int
     foundiptc,
@@ -2149,10 +2093,13 @@ static int formatIPTCfromBuffer(Image *ofile, char *s, ssize_t len)
     if (taglen > 65535)
       return(-1);
     /* make a buffer to hold the tag datand snag it from the input stream */
-    str=(unsigned char *) AcquireQuantumMemory((size_t) (taglen+MaxTextExtent),
-      sizeof(*str));
+    str=(unsigned char *) AcquireQuantumMemory((size_t) (taglen+
+      MagickPathExtent),sizeof(*str));
     if (str == (unsigned char *) NULL)
-      return 0;
+      {
+        (void) printf("MemoryAllocationFailed");
+        return 0;
+      }
     for (tagindx=0; tagindx<taglen; tagindx++)
     {
       c = *s++; len--;
@@ -2167,10 +2114,10 @@ static int formatIPTCfromBuffer(Image *ofile, char *s, ssize_t len)
 
     /* now finish up by formatting this binary data into ASCII equivalent */
     if (strlen((char *)readable) > 0)
-      (void) FormatLocaleString(temp,MaxTextExtent,"%d#%d#%s=",
+      (void) FormatLocaleString(temp,MagickPathExtent,"%d#%d#%s=",
         (unsigned int) dataset,(unsigned int) recnum, readable);
     else
-      (void) FormatLocaleString(temp,MaxTextExtent,"%d#%d=",
+      (void) FormatLocaleString(temp,MagickPathExtent,"%d#%d=",
         (unsigned int) dataset,(unsigned int) recnum);
     (void) WriteBlobString(ofile,temp);
     formatString( ofile, (char *)str, taglen );
@@ -2184,7 +2131,7 @@ static int formatIPTCfromBuffer(Image *ofile, char *s, ssize_t len)
 static int format8BIM(Image *ifile, Image *ofile)
 {
   char
-    temp[MaxTextExtent];
+    temp[MagickPathExtent];
 
   unsigned int
     foundOSType;
@@ -2247,7 +2194,7 @@ static int format8BIM(Image *ifile, Image *ofile)
         return(-1);
       plen = (unsigned char) c;
       PString=(unsigned char *) AcquireQuantumMemory((size_t) (plen+
-        MaxTextExtent),sizeof(*PString));
+        MagickPathExtent),sizeof(*PString));
       if (PString == (unsigned char *) NULL)
         return 0;
       for (i=0; i<plen; i++)
@@ -2256,7 +2203,7 @@ static int format8BIM(Image *ifile, Image *ofile)
         if (c == EOF)
           {
             PString=(unsigned char *) RelinquishMagickMemory(PString);
-            return(-1);
+            return -1;
           }
         PString[i] = (unsigned char) c;
       }
@@ -2267,7 +2214,7 @@ static int format8BIM(Image *ifile, Image *ofile)
         if (c == EOF)
           {
             PString=(unsigned char *) RelinquishMagickMemory(PString);
-            return(-1);
+            return -1;
           }
       }
     }
@@ -2275,7 +2222,7 @@ static int format8BIM(Image *ifile, Image *ofile)
     if ((count < 0) || (count > (ssize_t) GetBlobSize(ifile)))
       {
         PString=(unsigned char *) RelinquishMagickMemory(PString);
-        return(-1);
+        return -1;
       }
     /* make a buffer to hold the data and snag it from the input stream */
     str=(unsigned char *) AcquireQuantumMemory((size_t) count+1,sizeof(*str));
@@ -2291,7 +2238,7 @@ static int format8BIM(Image *ifile, Image *ofile)
         {
           str=(unsigned char *) RelinquishMagickMemory(str);
           PString=(unsigned char *) RelinquishMagickMemory(PString);
-          return(-1);
+          return -1;
         }
       str[i]=(unsigned char) c;
     }
@@ -2305,10 +2252,10 @@ static int format8BIM(Image *ifile, Image *ofile)
          * ASCII equivalent
          */
         if (strlen((const char *)PString) > 0)
-          (void) FormatLocaleString(temp,MaxTextExtent,"8BIM#%d#%s=",ID,
+          (void) FormatLocaleString(temp,MagickPathExtent,"8BIM#%d#%s=",ID,
             PString);
         else
-          (void) FormatLocaleString(temp,MaxTextExtent,"8BIM#%d=",ID);
+          (void) FormatLocaleString(temp,MagickPathExtent,"8BIM#%d=",ID);
         (void) WriteBlobString(ofile,temp);
         if (ID == IPTC_ID)
           {
@@ -2327,7 +2274,7 @@ static int format8BIM(Image *ifile, Image *ofile)
 }
 
 static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
-  Image *image)
+  Image *image,ExceptionInfo *exception)
 {
   const StringInfo
     *profile;
@@ -2347,7 +2294,6 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
   assert(image->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  length=0;
   if (LocaleCompare(image_info->magick,"8BIM") == 0)
     {
       /*
@@ -2356,7 +2302,9 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
       profile=GetImageProfile(image,"8bim");
       if (profile == (StringInfo *) NULL)
         ThrowWriterException(CoderError,"No8BIMDataIsAvailable");
-      status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+      assert(exception != (ExceptionInfo *) NULL);
+      assert(exception->signature == MagickCoreSignature);
+      status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
       if (status == MagickFalse)
         return(status);
       (void) WriteBlob(image,GetStringInfoLength(profile),
@@ -2366,9 +2314,6 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
     }
   if (LocaleCompare(image_info->magick,"iptc") == 0)
     {
-      size_t
-        length;
-
       unsigned char
         *info;
 
@@ -2377,7 +2322,9 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
         profile=GetImageProfile(image,"8bim");
       if (profile == (StringInfo *) NULL)
         ThrowWriterException(CoderError,"No8BIMDataIsAvailable");
-      status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+      assert(exception != (ExceptionInfo *) NULL);
+      assert(exception->signature == MagickCoreSignature);
+      status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
       if (status == MagickFalse)
         return(status);
       info=GetStringInfoDatum(profile);
@@ -2397,10 +2344,12 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
       profile=GetImageProfile(image,"8bim");
       if (profile == (StringInfo *) NULL)
         ThrowWriterException(CoderError,"No8BIMDataIsAvailable");
-      status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+      assert(exception != (ExceptionInfo *) NULL);
+      assert(exception->signature == MagickCoreSignature);
+      status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
       if (status == MagickFalse)
         return(status);
-      buff=AcquireImage((ImageInfo *) NULL);
+      buff=AcquireImage((ImageInfo *) NULL,exception);
       if (buff == (Image *) NULL)
         ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
       AttachBlob(buff->blob,GetStringInfoDatum(profile),
@@ -2429,10 +2378,12 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
       length=GetIPTCStream(&info,length);
       if (length == 0)
         ThrowWriterException(CoderError,"NoIPTCProfileAvailable");
-      status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+      assert(exception != (ExceptionInfo *) NULL);
+      assert(exception->signature == MagickCoreSignature);
+      status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
       if (status == MagickFalse)
         return(status);
-      buff=AcquireImage((ImageInfo *) NULL);
+      buff=AcquireImage((ImageInfo *) NULL,exception);
       if (buff == (Image *) NULL)
         ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
       AttachBlob(buff->blob,info,length);
@@ -2454,7 +2405,9 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
       profile=GetImageProfile(image,image_info->magick);
       if (profile == (StringInfo *) NULL)
         ThrowWriterException(CoderError,"NoAPP1DataIsAvailable");
-      status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+      assert(exception != (ExceptionInfo *) NULL);
+      assert(exception->signature == MagickCoreSignature);
+      status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
       if (status == MagickFalse)
         return(status);
       (void) WriteBlob(image,GetStringInfoLength(profile),
@@ -2471,7 +2424,9 @@ static MagickBooleanType WriteMETAImage(const ImageInfo *image_info,
       profile=GetImageProfile(image,"icc");
       if (profile == (StringInfo *) NULL)
         ThrowWriterException(CoderError,"NoColorProfileIsAvailable");
-      status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+      assert(exception != (ExceptionInfo *) NULL);
+      assert(exception->signature == MagickCoreSignature);
+      status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
       if (status == MagickFalse)
         return(status);
       (void) WriteBlob(image,GetStringInfoLength(profile),

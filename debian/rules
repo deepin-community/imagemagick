@@ -9,16 +9,12 @@ export DH_VERBOSE=1
 # quantum depth is channel depth
 export QUANTUMDEPTH ?= q16 q16hdri
 # lib version, run make -f debian/rules update_pkg in order to upgrade
-export CORESOVERSION ?= 7
-export WANDSOVERSION ?= 7
-export PPSOVERSION ?= 9
+export CORESOVERSION ?= 10
+export WANDSOVERSION ?= 10
+export PPSOVERSION ?= 5
 
 # minimal version ABI compatible of common
-export COMMONMINVERSION ?= 8:6.9.6.2+dfsg-3
-
-# default im version used for adding default file
-export DEFAULTIMVERSION ?= 6
-
+export COMMONMINVERSION ?= 8:7.0.0~
 
 # poc arch for test empty means no test
 POC_ARCH ?= any-i386 any-amd64
@@ -44,11 +40,22 @@ export DEFAULTQUANTUMDEPTH := $(shell echo $(QUANTUMDEPTH) | cut -f 1 -d ' ')
 export NOQUANTUMDEPTH := $(shell echo $(QUANTUMDEPTH) | cut -f 1 -d ' ')
 
 # convert used for icons
-export CONVERT ?= ./magick.sh convert
+export MAGICK ?= ./magick.sh magick
+export CONVERT ?= $(MAGICK) convert
 VALGRIND_CONVERT ?= ./libtool --mode=execute valgrind $(CONVERT)
+ifneq (,$(filter cross,$(DEB_BUILD_PROFILES)))
+CROSS_CONVERT = convert
+else
+CROSS_CONVERT = $(CONVERT)
+endif
 CONVERT_FLAGS ?= -background none -define filter:blur=0.75 -filter Gaussian
 
 # perl path
+ifneq ($(DEB_BUILD_ARCH),$(DEB_HOST_ARCH))
+PERLVER := $(shell perl -MConfig -e 'print $$Config{version}')
+PERL5LIB := /usr/lib/$(DEB_HOST_MULTIARCH)/perl/cross-config-$(PERLVER)$(if $(PERL5LIB),:$(PERL5LIB))
+export PERL5LIB
+endif
 export DEB_PERL_ARCHLIB := $(shell perl -MConfig -e 'print $$Config{vendorarch}')
 
 
@@ -78,7 +85,6 @@ STATIC_CONFIGURE_OPTIONS := \
 	--mandir=/usr/share/man \
 	--infodir=/usr/share/info \
 	--with-modules \
-        --with-urw-base35-font-dir=/usr/share/fonts/type1/urw-base35 \
 	--with-magick-plus-plus \
 	--with-djvu \
         --with-heic \
@@ -97,12 +103,13 @@ STATIC_CONFIGURE_OPTIONS := \
 	--with-fftw \
         MVDelegate=/bin/mv \
         RMDelegate=/bin/rm
+
 CONFIGURE_OPTIONS ?= $(STATIC_CONFIGURE_OPTIONS) \
 			    $(CONFIGURE_OPTIONS_CACHE) \
 			    $(CONFIGURE_ARCH_FLAGS)
 
 # export for alternatives
-export MAGICK_PROGRAMS := compare animate convert composite conjure import identify stream display montage mogrify
+export MAGICK_PROGRAMS := compare animate convert composite conjure import identify stream display montage mogrify magick magick-script
 
 MAGICK_ANY_QUANTUM_PACKAGES :=  imagemagick-$(IMVERSION).$$QUANTUM \
 				libmagickcore-${IMVERSION}.$$QUANTUM-${CORESOVERSION} \
@@ -187,10 +194,21 @@ PRIO_COMPUTATION =${shell $(CURDIR)/debian/scripts/quantumpriority.sh '$1'}
 DH_EXEC_SUBST = /usr/lib/dh-exec/dh-exec-subst
 DH_EXEC_SUBST_ENV = debian/scripts/dh-exec-subst-env
 
+
+# q16 quantum is unsigned short
+QUANTUMCTYPE_q16=unsigned short
+# q16 quantum is float_t converted (float or double depending of arch)
+# to stable ABI type at compilation time by autoconf
+# use a wrapper to capture float_t
+QUANTUMCTYPE_q16hdri:=$(shell $(CURDIR)/debian/test_float_t.sh)
+# extract type of quantum. Used with ${call }
+QUANTUMCTYPE = $(QUANTUMCTYPE_$(1))
+
 # js dir
 JS_DIR=www/assets
 
 dummy:
+
 
 test_fpu:
 	echo $(HAVE_FPU)
@@ -249,8 +267,18 @@ update_pkg.%:
 	UCQUANTUMDEPTH=$(call UC,$*) \
 	$(DH_EXEC_SUBST) $(CURDIR)/debian/tests.d/perlmagick-leak-IMVERSION.QUANTUMDEPTH.in > $(CURDIR)/debian/tests/perlmagick-leak-$(IMVERSION).$*
 	chmod +x $(CURDIR)/debian/tests/perlmagick-leak-$(IMVERSION).$*
+	QUANTUM=$(call QUANTUM_PART,$*) \
+	HDRI=$(call HDRI_PART,$*) \
+	QUANTUMDEPTH=$* \
+	UCQUANTUMDEPTH=$(call UC,$*) \
 	$(DH_EXEC_SUBST) $(CURDIR)/debian/tests.d/perlmagick-gd-IMVERSION.QUANTUMDEPTH.in > $(CURDIR)/debian/tests/perlmagick-gd-$(IMVERSION).$*
 	chmod +x $(CURDIR)/debian/tests/perlmagick-gd-$(IMVERSION).$*
+	QUANTUM=$(call QUANTUM_PART,$*) \
+	HDRI=$(call HDRI_PART,$*) \
+	QUANTUMDEPTH=$* \
+	UCQUANTUMDEPTH=$(call UC,$*) \
+	$(DH_EXEC_SUBST) $(CURDIR)/debian/tests.d/perlmagick-fonts-IMVERSION.QUANTUMDEPTH.in > $(CURDIR)/debian/tests/perlmagick-fonts-$(IMVERSION).$*
+	chmod +x $(CURDIR)/debian/tests/perlmagick-fonts-$(IMVERSION).$*
 	# clean up
 	rm -f $(CURDIR)/debian/control.d/quantum.$*
 
@@ -327,10 +355,11 @@ override_dh_auto_configure-arch_generatefile_quantum.%:
 	QUANTUMDEPTH=$* \
 	dh-exec $(CURDIR)/debian/libmagick++-IMVERSION.QUANTUMDEPTH-dev.install.in > $(CURDIR)/debian/libmagick++-$(IMVERSION).$*-dev.install
 	QUANTUM=$(call QUANTUM_PART,$*) \
-	HDRI=$(call HDRI_PART,$*) \
-	QUANTUMDEPTH=$* \
-	UCQUANTUMDEPTH=$(call UC,$*) \
-	$(DH_EXEC_SUBST) $(CURDIR)/debian/libmagick++-IMVERSION.QUANTUMDEPTH-PPSOVERSION.symbols.in > $(CURDIR)/debian/libmagick++-$(IMVERSION).$*-$(PPSOVERSION).symbols.notyet
+	HDRI='$(call HDRI_PART,$*)' \
+	QUANTUMDEPTH='$*' \
+	UCQUANTUMDEPTH='$(call UC,$*)' \
+	QUANTUMCTYPE='$(call QUANTUMCTYPE,$*)' \
+	$(DH_EXEC_SUBST) $(CURDIR)/debian/libmagick++-IMVERSION.QUANTUMDEPTH-PPSOVERSION.symbols.in > $(CURDIR)/debian/libmagick++-$(IMVERSION).$*-$(PPSOVERSION).symbols
 
 	# libmagickcore
 	QUANTUM=$(call QUANTUM_PART,$*) \
@@ -348,7 +377,7 @@ override_dh_auto_configure-arch_generatefile_quantum.%:
 	QUANTUM=$(call QUANTUM_PART,$*) \
 	HDRI=$(call HDRI_PART,$*) \
 	QUANTUMDEPTH=$* \
-	UCQUANTUMDEPTH=$(call UC,$*) \
+	UCQUANTUMDEPTH='$(call UC,$*)' \
 	$(DH_EXEC_SUBST) $(CURDIR)/debian/libmagickcore-IMVERSION.QUANTUMDEPTH-CORESOVERSION.symbols.in > $(CURDIR)/debian/libmagickcore-$(IMVERSION).$*-$(CORESOVERSION).symbols
 
 	# wand
@@ -365,7 +394,6 @@ override_dh_auto_configure-arch_generatefile_quantum.%:
 	QUANTUMDEPTH=$* \
 	UCQUANTUMDEPTH=$(call UC,$*) \
 	$(DH_EXEC_SUBST) $(CURDIR)/debian/libmagickwand-IMVERSION.QUANTUMDEPTH-WANDSOVERSION.symbols.in > $(CURDIR)/debian/libmagickwand-$(IMVERSION).$*-$(WANDSOVERSION).symbols
-
 	touch $@
 
 # configure in build directory
@@ -405,7 +433,7 @@ override_dh_auto_build-arch: $(foreach Q,$(QUANTUMDEPTH),override_dh_auto_build-
 
 override_dh_auto_build-indep:
 	# generate html doc
-	dh_auto_build --builddirectory="debian/build-quantum-indep" -- html
+	dh_auto_build --builddirectory="debian/build-quantum-indep" -- html html-local
 	cd debian/build-quantum-indep/PerlMagick/default/ && make
 
 # valgrind poc
@@ -485,7 +513,7 @@ override_dh_auto_install-arch_iconcache_quantum.%:
 		mkdir -p $(CURDIR)/debian/tmp-$*/usr/share/icons/hicolor/$$SIZE/apps/ ;\
 		cd $(CURDIR)/debian/build-quantum-$*; \
 		echo "Make icons for size $$SIZE..."; \
-		$(CONVERT) $(CURDIR)/debian/display-im$(IMVERSION).svg \
+		$(CROSS_CONVERT) $(CURDIR)/debian/display-im$(IMVERSION).svg \
 			   $(CONVERT_FLAGS) -resize $$SIZE \
 			   -gravity center -extent $$SIZE  \
 			   +set date:create +set date:modify -define png:exclude-chunk=time  \
@@ -520,8 +548,13 @@ override_dh_auto_install-arch_quantum.%: override_dh_auto_install-arch_iconcache
 
 	# move binaries to /usr/bin/*quantum
 	set -e; for basename in $(MAGICK_PROGRAMS); do \
-		mv "$(CURDIR)/debian/tmp-$*/usr/bin/$$basename" \
-		   "$(CURDIR)/debian/tmp-$*/usr/bin/$$basename-im$(IMVERSION).$*"; \
+		if test -L "$(CURDIR)/debian/tmp-$*/usr/bin/$$basename"; then \
+			rm -f "$(CURDIR)/debian/tmp-$*/usr/bin/$$basename"; \
+			ln -s "magick-im$(IMVERSION).$*" $(CURDIR)/debian/tmp-$*/usr/bin/$$basename-im$(IMVERSION).$*; \
+		else \
+			mv "$(CURDIR)/debian/tmp-$*/usr/bin/$$basename" \
+				"$(CURDIR)/debian/tmp-$*/usr/bin/$$basename-im$(IMVERSION).$*"; \
+		fi; \
 		mv "$(CURDIR)/debian/tmp-$*/usr/share/man/man1/$$basename.1" \
 		   "$(CURDIR)/debian/tmp-$*/usr/share/man/man1/$$basename-im$(IMVERSION).$*.1" ;\
 	done
@@ -574,6 +607,8 @@ override_dh_auto_install-arch_quantum.%: override_dh_auto_install-arch_iconcache
 
 	# Remove empty directories in debian/tmp
 	-find $(CURDIR)/debian/tmp-$* -type d -empty -print0 | xargs -0 -r rmdir -p --ignore-fail-on-non-empty
+
+	# remove spurious script
 	touch $@
 
 override_dh_auto_install-arch: $(foreach Q,$(QUANTUMDEPTH),override_dh_auto_install-arch_quantum.$Q)
@@ -605,7 +640,6 @@ override_dh_auto_install-arch: $(foreach Q,$(QUANTUMDEPTH),override_dh_auto_inst
 	-rm -f  "debian/tmp-${DEFAULTQUANTUMDEPTH}/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/MagickCore.pc"
 	-rm -f "debian/tmp-${DEFAULTQUANTUMDEPTH}/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/MagickWand.pc"
 	-rm -f "debian/tmp-${DEFAULTQUANTUMDEPTH}/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/Wand.pc"
-ifeq ($(DEFAULTIMVERSION),$(IMVERSION))
 	# for c++
 	ln -s "ImageMagick++-im$(IMVERSION).${DEFAULTQUANTUMDEPTH}.pc" \
 	      "debian/tmp-${DEFAULTQUANTUMDEPTH}/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/Magick++.pc"
@@ -622,7 +656,6 @@ ifeq ($(DEFAULTIMVERSION),$(IMVERSION))
 	      "debian/tmp-${DEFAULTQUANTUMDEPTH}/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/MagickWand.pc"
 	ln -s "MagickWand-im$(IMVERSION).${DEFAULTQUANTUMDEPTH}.pc" \
 	      "debian/tmp-${DEFAULTQUANTUMDEPTH}/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/Wand.pc"
-endif
 
 override_dh_auto_install-indep:
 	# install headers
@@ -631,7 +664,7 @@ override_dh_auto_install-indep:
 			--destdir="$(CURDIR)/debian/tmp-indep" \
 			--  install-configlibDATA install-configshareDATA \
 			    install-data-html \
-			    install-magickincHEADERS  install-wandincHEADERS install-magickppincHEADERS install-magickpptopincHEADERS \
+			    install-MagickCoreincHEADERS install-MagickWandincHEADERS install-magickppincHEADERS install-magickpptopincHEADERS \
 			    install-man1 \
 			    V=1;\
 	else \
@@ -639,10 +672,11 @@ override_dh_auto_install-indep:
 		make  DESTDIR=$(CURDIR)/debian/tmp-indep \
 			    install-configlibDATA install-configshareDATA \
 			    install-data-html \
-			    install-magickincHEADERS  install-wandincHEADERS install-magickppincHEADERS install-magickpptopincHEADERS \
+			    install-MagickCoreincHEADERS install-MagickWandincHEADERS install-magickppincHEADERS install-magickpptopincHEADERS \
 			    install-man1 \
 			    V=1 ;\
 	fi;
+	rsync -av $(CURDIR)/debian/build-quantum-indep/www/api $(CURDIR)/debian/tmp-indep/$(DOC_PKG_PATH)/www/
 
 	# Use x-terminal emulator for editing (Bug #132947) TODO: proper patch please
 	sed -i 's/xterm/\/etc\/alternatives\/x-terminal-emulator/' \
@@ -699,7 +733,6 @@ override_dh_install-arch: $(foreach Q,$(QUANTUMDEPTH),override_dh_install-arch_q
 	done;
 
 	# install default pc file
-ifeq ($(DEFAULTIMVERSION),$(IMVERSION))
 	# for c++
 	dh_install --package=libmagick++-${IMVERSION}.${DEFAULTQUANTUMDEPTH}-dev \
 		   --sourcedir=debian/tmp-${DEFAULTQUANTUMDEPTH} --autodest \
@@ -721,7 +754,6 @@ ifeq ($(DEFAULTIMVERSION),$(IMVERSION))
 	dh_install --package=libmagickwand-${IMVERSION}.${DEFAULTQUANTUMDEPTH}-dev \
 		   --sourcedir=debian/tmp-${DEFAULTQUANTUMDEPTH} --autodest \
 		   "usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/Wand.pc"
-endif
 
 override_dh_install-indep:
 	# special source imagemagick-*-common
@@ -748,6 +780,9 @@ override_dh_makeshlibs:
 	  FAIL=$$?; \
 	done; \
 	exit $$fail
+
+override_dh_shlibdeps:
+	dh_shlibdeps -- -v
 
 # remove after jessie+2
 override_dh_strip:

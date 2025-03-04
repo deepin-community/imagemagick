@@ -3,7 +3,7 @@
 display \- displays an image or image sequence on any X server.
 .SH SYNOPSIS
 .TP
-\fBdisplay\fP [\fIoptions\fP] \fIinput-file\fP
+\fBmagick display\fP [\fIoptions\fP] \fIinput-file\fP
 .SH OVERVIEW
 The \fBdisplay\fP program is a member of the ImageMagick(1) suite of tools.  Use it to display an image or image sequence on any X server.
 
@@ -11,11 +11,10 @@ For more information about the display command, point your browser to file://@DO
 .SH DESCRIPTION
 Image Settings:
   \-alpha option        on, activate, off, deactivate, set, opaque, copy
-  \                     transparent, extract, background, or shape
+                        transparent, extract, background, or shape
   \-antialias           remove pixel-aliasing
   \-authenticate value  decrypt image with this password
   \-backdrop            display image centered on a backdrop
-  \-channel type        apply option to select image channels
   \-colormap type       Shared or Private
   \-colorspace type     alternate image colorspace
   \-comment string      annotate image with comment
@@ -79,6 +78,7 @@ Image Settings:
 Image Operators:
   \-auto-orient         automatically orient image
   \-border geometry     surround image with a border of color
+  \-channel mask        set the image channel mask
   \-clip                clip along the first path from the 8BIM profile
   \-clip-path id        clip along a named path from the 8BIM profile
   \-colors value        preferred number of colors in the image
@@ -87,6 +87,7 @@ Image Operators:
   \-despeckle           reduce the speckles within an image
   \-edge factor         apply a filter to detect edges in the image
   \-enhance             apply a digital filter to enhance a noisy image
+  \-extent geometry     set the image size
   \-extract geometry    extract area from image
   \-flip                flip image in the vertical direction
   \-flop                flop image in the horizontal direction

@@ -17,7 +17,7 @@
 . ./common.shi
 . ${srcdir}/tests/common.shi
 
-depth=`eval ${CONVERT} xc:none -format '%[fx:QuantumRange]' info:-`
+depth=`eval ${MAGICK} xc:none -format '%[fx:QuantumRange]' info:-`
 if [ "X$depth" = "X255" ]; then
   echo "1..1"
   echo "ok"
@@ -33,10 +33,10 @@ out="-format '%[fx:int(255*r+.5)],%[fx:int(255*g+.5)],%[fx:int(255*b+.5)]' info:
 
 # Colors to compare results to.
 error=false
-average=`eval ${CONVERT} "$in" -noop "$out"`
-too_dark=`eval ${CONVERT} "$in" -colorspace RGB "$out"`
-too_light=`eval ${CONVERT} "$in" -set colorspace RGB -colorspace sRGB "$out"`
-format='%-30s%s\n'        # results formating
+average=`eval ${MAGICK} "$in" -noop "$out"`
+too_dark=`eval ${MAGICK} "$in" -colorspace RGB "$out"`
+too_light=`eval ${MAGICK} "$in" -set colorspace RGB -colorspace sRGB "$out"`
+format='%-30s%s\n'        # results formatting
 format2='%-30s%-14s%s\n'
 
 printf "$format2" "Average \"rose:\" Color"  "$average" "sRGB(rose)"
@@ -48,10 +48,10 @@ echo ''
 # Sanity checks
 #
 # NOTE: as a extra validation on sanity checks below...
-#    eval ${CONVERT} "$in" -gamma .454545 "$out"
+#    eval ${MAGICK} "$in" -gamma .454545 "$out"
 # produces a value of  74,25,20   which is close to 73,26,21 below.
-#    eval ${CONVERT} "$in" -gamma 2.2 "$out"
-# produces a value of  198,158,151  whcih is close to 199,160,152 below.
+#    eval ${MAGICK} "$in" -gamma 2.2 "$out"
+# produces a value of  198,158,151  which is close to 199,160,152 below.
 #
 # Actual values used below come from IM v6.5.4-7 colorspace conversions
 #
@@ -77,12 +77,13 @@ test_color() {
     test="${test}->$i"        # format of the test being performed
     cs="$cs -colorspace $i"   # colorspace operations to perform test
   done
-  color=`eval ${CONVERT} "$in" $cs "$out"`
+  color=`eval ${MAGICK} "$in" $cs "$out"`
 
   if [ "X$color" = "X$average" ]; then
     return 0
   fi
   # Its failed the round-trip test, now report how it failed!
+  error=true
   if [ "X$color" = "X$too_light" ]; then
     return 1
   fi
@@ -95,14 +96,17 @@ test_color() {
 # ----------------
 
 test_color RGB     sRGB && echo "ok" || echo "not ok"
+
 test_color XYZ     sRGB && echo "ok" || echo "not ok"
 test_color XYZ RGB sRGB && echo "ok" || echo "not ok"
 test_color RGB XYZ sRGB && echo "ok" || echo "not ok"
+
 test_color LAB     sRGB && echo "ok" || echo "not ok"
 test_color XYZ LAB sRGB && echo "ok" || echo "not ok"
 test_color LAB XYZ sRGB && echo "ok" || echo "not ok"
 test_color RGB LAB sRGB && echo "ok" || echo "not ok"
 test_color LAB RGB sRGB && echo "ok" || echo "not ok"
+
 test_color CMY   sRGB && echo "ok" || echo "not ok"
 test_color CMYK  sRGB && echo "ok" || echo "not ok"
 test_color HSL   sRGB && echo "ok" || echo "not ok"

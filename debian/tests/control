@@ -1,28 +1,34 @@
-Tests: rose-6.q16
-Depends: imagemagick-6.q16, libmagickcore-6.q16-7-extra, netpbm
+Tests: rose-7.q16
+Depends: imagemagick-7.q16, libmagickcore-7.q16-10-extra, netpbm
 
-Tests: perlmagick-6.q16
-Depends: libimage-magick-q16-perl, libmagickcore-6.q16-7-extra, libaliased-perl, fonts-urw-base35
+Tests: perlmagick-7.q16
+Depends: libimage-magick-q16-perl, libmagickcore-7.q16-10-extra, libaliased-perl, fonts-urw-base35
 
-Tests: perlmagick-gd-6.q16
-Depends: libimage-magick-q16-perl, libmagickcore-6.q16-7-extra, libaliased-perl, fonts-urw-base35, libgd-securityimage-perl, libimage-magick-perl
+Tests: perlmagick-gd-7.q16
+Depends: libimage-magick-q16-perl, libmagickcore-7.q16-10-extra, libaliased-perl, fonts-urw-base35, libgd-securityimage-perl, libimage-magick-perl, fonts-dejavu
 
-Tests: perlmagick-leak-6.q16
-Depends: libimage-magick-q16-perl, libmagickcore-6.q16-7-extra, libaliased-perl, fonts-urw-base35, time, bash
+Tests: perlmagick-leak-7.q16
+Depends: libimage-magick-q16-perl, libmagickcore-7.q16-10-extra, libaliased-perl, fonts-urw-base35, time, bash
 
+Tests: perlmagick-fonts-7.q16
+Depends: libimage-magick-q16-perl, libmagickcore-7.q16-10-extra, libaliased-perl, fonts-urw-base35, libarray-compare-perl, bash
+Restrictions: allow-stderr
 
-Tests: rose-6.q16hdri
-Depends: imagemagick-6.q16hdri, libmagickcore-6.q16hdri-7-extra, netpbm
+Tests: rose-7.q16hdri
+Depends: imagemagick-7.q16hdri, libmagickcore-7.q16hdri-10-extra, netpbm
 
-Tests: perlmagick-6.q16hdri
-Depends: libimage-magick-q16hdri-perl, libmagickcore-6.q16hdri-7-extra, libaliased-perl, fonts-urw-base35
+Tests: perlmagick-7.q16hdri
+Depends: libimage-magick-q16hdri-perl, libmagickcore-7.q16hdri-10-extra, libaliased-perl, fonts-urw-base35
 
-Tests: perlmagick-gd-6.q16hdri
-Depends: libimage-magick-q16hdri-perl, libmagickcore-6.q16hdri-7-extra, libaliased-perl, fonts-urw-base35, libgd-securityimage-perl, libimage-magick-perl
+Tests: perlmagick-gd-7.q16hdri
+Depends: libimage-magick-q16hdri-perl, libmagickcore-7.q16hdri-10-extra, libaliased-perl, fonts-urw-base35, libgd-securityimage-perl, libimage-magick-perl, fonts-dejavu
 
-Tests: perlmagick-leak-6.q16hdri
-Depends: libimage-magick-q16hdri-perl, libmagickcore-6.q16hdri-7-extra, libaliased-perl, fonts-urw-base35, time, bash
+Tests: perlmagick-leak-7.q16hdri
+Depends: libimage-magick-q16hdri-perl, libmagickcore-7.q16hdri-10-extra, libaliased-perl, fonts-urw-base35, time, bash
 
+Tests: perlmagick-fonts-7.q16hdri
+Depends: libimage-magick-q16hdri-perl, libmagickcore-7.q16hdri-10-extra, libaliased-perl, fonts-urw-base35, libarray-compare-perl, bash
+Restrictions: allow-stderr
 
 
 Tests: rmagick-leak

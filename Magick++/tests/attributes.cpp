@@ -17,7 +17,7 @@ int main( int /*argc*/, char ** argv)
 {
 
   // Initialize ImageMagick install location for Windows
-  InitializeMagick(*argv);
+  MagickPlusPlusGenesis genesis(*argv);
 
   volatile int failures=0;
 
@@ -34,26 +34,26 @@ int main( int /*argc*/, char ** argv)
     //
 
     // Test default value
-    if ( image.antiAlias() != true )
+    if ( image.textAntiAlias() != true )
       {
 	++failures;
-	cout << "Line: " << __LINE__ << ", antiAlias default not true" << endl;
+	cout << "Line: " << __LINE__ << ", textAntiAlias default not true" << endl;
       }
 
     // Test setting false
-    image.antiAlias( false );
-    if ( image.antiAlias() != false )
+    image.textAntiAlias( false );
+    if ( image.textAntiAlias() != false )
       {
 	++failures;
-	cout << "Line: " << __LINE__ << ", antiAlias not false" << endl;
+	cout << "Line: " << __LINE__ << ", textAntiAlias not false" << endl;
       }
 
     // Test setting true
-    image.antiAlias( true );
-    if ( image.antiAlias() != true )
+    image.textAntiAlias( true );
+    if ( image.textAntiAlias() != true )
       {
 	++failures;
-	cout << "Line: " << __LINE__ << ", antiAlias not true" << endl;
+	cout << "Line: " << __LINE__ << ", textAntiAlias not true" << endl;
       }
 
     //
@@ -154,7 +154,7 @@ int main( int /*argc*/, char ** argv)
     //
 
     // Test default value.
-    if (image.backgroundColor() != string(ColorRGB("white")))
+    if ( string(image.backgroundColor()) != string(ColorRGB("white")) )
       {
 	++failures;
 	cout << "Line: " << __LINE__ << ", backgroundColor default ("
@@ -174,7 +174,8 @@ int main( int /*argc*/, char ** argv)
     else
       if ( string(image.backgroundColor()) != "#0000FF" &&
 	   string(image.backgroundColor()) != "#00000000FFFF" &&
-	   string(image.backgroundColor()) != "#0000000000000000FFFFFFFF" )
+	   string(image.backgroundColor()) != "#0000000000000000FFFFFFFF" &&
+	   string(image.backgroundColor()) != "#00000000000000000000000000000000FFFFFFFFFFFFFFFF" )
 	{
 	  ++failures;
 	  cout << "Line: " << __LINE__ << ", backgroundColor ("
@@ -194,7 +195,8 @@ int main( int /*argc*/, char ** argv)
     else
       if ( string(image.backgroundColor()) != "#00AAFF" && 
 	   string(image.backgroundColor()) != "#0000AAAAFFFF" && 
-	   string(image.backgroundColor()) != "#00000000AAAAAAAAFFFFFFFF" )
+	   string(image.backgroundColor()) != "#00000000AAAAAAAAFFFFFFFF" &&
+	   string(image.backgroundColor()) != "#0000000000000000AAAAAAAAAAAAAAAAFFFFFFFFFFFFFFFF" )
 	{
 	  ++failures;
 	  cout << "Line: " << __LINE__
@@ -260,7 +262,8 @@ int main( int /*argc*/, char ** argv)
     // Base filename is color for xc images
     if ( image.baseFilename() != "xc:#FF0000" &&
 	 image.baseFilename() != "xc:#FFFF00000000" &&
-	 image.baseFilename() != "xc:#FFFFFFFF0000000000000000")
+	 image.baseFilename() != "xc:#FFFFFFFF0000000000000000" &&
+	 image.baseFilename() != "xc:#FFFFFFFFFFFFFFFF00000000000000000000000000000000")
       {
 	++failures;
 	cout << "Line: " << __LINE__
@@ -348,8 +351,8 @@ int main( int /*argc*/, char ** argv)
     //
     {
       // Test default setting
-      double x, y;
-      image.chromaBluePrimary( &x, &y );
+      double x, y, z;
+      image.chromaBluePrimary(&x, &y, &z);
       if ( x == 0.0f || y == 0.0f )
 	{
 	  ++failures;
@@ -359,9 +362,9 @@ int main( int /*argc*/, char ** argv)
 	}
 
       // Test set/get
-      image.chromaBluePrimary( 50, 100 );
-      image.chromaBluePrimary( &x, &y );
-      if ( x != 50 || y != 100 )
+      image.chromaBluePrimary(50, 100, 150 );
+      image.chromaBluePrimary(&x, &y, &z);
+      if ( x != 50 || y != 100 || z != 150 )
 	{
 	  ++failures;
 	  cout << "Line: " << __LINE__
@@ -374,8 +377,8 @@ int main( int /*argc*/, char ** argv)
     //
     {
       // Test default setting
-      double x, y;
-      image.chromaGreenPrimary( &x, &y );
+      double x, y, z;
+      image.chromaGreenPrimary(&x, &y, &z);
       if ( x == 0.0f || y == 0.0f )
 	{
 	  ++failures;
@@ -384,9 +387,9 @@ int main( int /*argc*/, char ** argv)
 	}
 
       // Test set/get
-      image.chromaGreenPrimary( 50, 100 );
-      image.chromaGreenPrimary( &x, &y );
-      if ( x != 50 || y != 100 )
+      image.chromaGreenPrimary(50, 100, 150);
+      image.chromaGreenPrimary(&x, &y, &z);
+      if (x != 50 || y != 100 || z != 150)
 	{
 	  ++failures;
 	  cout << "Line: " << __LINE__
@@ -399,8 +402,8 @@ int main( int /*argc*/, char ** argv)
     //
     {
       // Test default setting
-      double x, y;
-      image.chromaRedPrimary( &x, &y );
+      double x, y, z;
+      image.chromaRedPrimary(&x, &y, &z);
       if ( x == 0.0f || y == 0.0f )
 	{
 	  ++failures;
@@ -409,9 +412,9 @@ int main( int /*argc*/, char ** argv)
 	}
 
       // Test set/get
-      image.chromaRedPrimary( 50, 100 );
-      image.chromaRedPrimary( &x, &y );
-      if ( x != 50 || y != 100 )
+      image.chromaRedPrimary(50, 100, 150);
+      image.chromaRedPrimary(&x, &y, &z);
+      if (x != 50 || y != 100 || z != 150)
 	{
 	  ++failures;
 	  cout << "Line: " << __LINE__
@@ -424,8 +427,8 @@ int main( int /*argc*/, char ** argv)
     //
     {
       // Test default setting
-      double x, y;
-      image.chromaWhitePoint( &x, &y );
+      double x, y, z;
+      image.chromaWhitePoint(&x, &y, &z);
       if ( x == 0.0f || y == 0.0f )
 	{
 	  ++failures;
@@ -434,9 +437,9 @@ int main( int /*argc*/, char ** argv)
 	}
 
       // Test set/get
-      image.chromaWhitePoint( 50, 100 );
-      image.chromaWhitePoint( &x, &y );
-      if ( x != 50 || y != 100 )
+      image.chromaWhitePoint(50, 100, 150);
+      image.chromaWhitePoint(&x, &y, &z);
+      if (x != 50 || y != 100 || z != 150)
 	{
 	  ++failures;
 	  cout << "Line: " << __LINE__
@@ -538,7 +541,7 @@ int main( int /*argc*/, char ** argv)
     //
     {
       // Test defaults
-      if ( image.density() != Geometry(72,72) )
+      if ( image.density() != Point(72) )
 	{
 	  ++failures;
 	  cout << "Line: " << __LINE__
@@ -546,7 +549,7 @@ int main( int /*argc*/, char ** argv)
 	}
       
       // Test set/get
-      Geometry density(150,75);
+      Point density(150,75);
       image.density(density);
       if ( image.density() != density )
 	{
@@ -813,14 +816,14 @@ int main( int /*argc*/, char ** argv)
       }
 
     // Test set/get
-    image.gifDisposeMethod(4);
-    if ( image.gifDisposeMethod() != 4 )
+    image.gifDisposeMethod(BackgroundDispose);
+    if ( image.gifDisposeMethod() != BackgroundDispose )
       {
 	++failures;
 	cout << "Line: " << __LINE__
              << ", gifDisposeMethod set/get failed" << endl;
       }
-    image.gifDisposeMethod(0);
+    image.gifDisposeMethod(UndefinedDispose);
 
     //
     // interlaceType
@@ -869,24 +872,24 @@ int main( int /*argc*/, char ** argv)
       }
 
     //
-    // lineWidth
+    // strokeWidth
     //
     // Test default
-    if ( image.lineWidth() != 1 )
+    if ( image.strokeWidth() != 1 )
       {
 	++failures;
 	cout << "Line: " << __LINE__
-             << ", lineWidth default is not 1 as expected" << endl;
+             << ", strokeWidth default is not 1 as expected" << endl;
       }
 
     // Test set/get
-    image.lineWidth(2);
-    if ( image.lineWidth() != 2 )
+    image.strokeWidth(2);
+    if ( image.strokeWidth() != 2 )
       {
 	++failures;
-	cout << "Line: " << __LINE__ << ", lineWidth set/get failed" << endl;
+	cout << "Line: " << __LINE__ << ", strokeWidth set/get failed" << endl;
       }
-    image.lineWidth(1);
+    image.strokeWidth(1);
 
     //
     // magick
@@ -910,24 +913,24 @@ int main( int /*argc*/, char ** argv)
     image.magick("XC");
 
     //
-    // matte
+    // alpha
     //
     // Test default
-    if ( image.matte() != false )
+    if ( image.alpha() != false )
       {
 	++failures;
 	cout << "Line: " << __LINE__
-             << ", matte default is not false as expected" << endl;
+             << ", alpha default is not false as expected" << endl;
       }
 
     // Test set/get
-    image.matte(true);
-    if ( image.matte() != true )
+    image.alpha(true);
+    if ( image.alpha() != true )
       {
 	++failures;
-	cout << "Line: " << __LINE__ << ", matte set/get failed" << endl;
+	cout << "Line: " << __LINE__ << ", alpha set/get failed" << endl;
       }
-    image.matte(false);
+    image.alpha(false);
 
     //
     // matteColor
@@ -1025,19 +1028,6 @@ int main( int /*argc*/, char ** argv)
       }
 
     //
-    // penColor
-    //
-
-    image.penColor(ColorRGB(0.5,0.5,1));
-    if ( image.penColor() != ColorRGB(0.5,0.5,1) )
-      {
-	++failures;
-	cout << "Line: " << __LINE__ << ", penColor ("
-	     << string(image.penColor())
-	     << ") set/get failed" << endl;
-      }
-
-    //
     // strokeColor
     //
 
@@ -1068,7 +1058,7 @@ int main( int /*argc*/, char ** argv)
     // pixelColor
     //
     // Test default
-    if (image.pixelColor(40,60) != string(canvasColor))
+    if ( image.pixelColor(40,60) != string(canvasColor) )
       {
 	++failures;
 	cout << "Line: " << __LINE__ << ", pixelColor default ("
@@ -1282,19 +1272,14 @@ int main( int /*argc*/, char ** argv)
     // signature
     //
 
-    if ( image.signature() != "c7ac1ef7b47015c6ea6c1fb1d736eba4f8c3fe81dbfe511fbce104cedfce7588" &&
-	 image.signature() != "d9464cd4d0c02f25166909726d6548db51d25fa91bd3cff642813f8a464bcfc7" &&
-	 image.signature() != "e073572dfa4ad28f2f8dd3c6d37dfb14585e60c94cfae910149e97eff2fd895f" &&
-	 image.signature() != "ed06047a79b5b298515538db3fb8186d79e94758ed07a9b411637ba3a79fb4a0" &&
-	 image.signature() != "e12b9781b3a5025628567a4eabf970d16d42560e1b86189caceb03ec358dd8e6" &&
-	 image.signature() != "ea9aaf29023c4c1c801e05483423a4a4266918e3a464b6a5155f11a0c581dedb" &&
-	 image.signature() != "6a989010d8ea958934ff8be44a42e0848f7c5e7e46cd53e04c4a90452c15d34c" &&
-	 image.signature() != "7e5977b8bce5c40b858c84344803dae61feae0ef7a21739b2d068c9cdb72f95b" &&
-	 image.signature() != "c8aed4b60d666e449f5c29d0fb32f089e3257422a1f11a4712451c5340362df0" &&
-	 image.signature() != "bc272b75794971f4a3ade1bf524c0aee375765e9fb15d65278a8b9452b551ea6" &&
-	 image.signature() != "482690062c78a9e78c9f5f3db514197a067028e9f1bec577b787fb9e9b044567" &&
-	 image.signature() != "8610fd1c5ef905c05bf75438aaab8729d3e1277b8ec1e86927777bd3382702e5" &&
-   image.signature() != "b891ddb1d32cd45c6329180e5bd733eebb8dd06c401a9c721841ec43e4a662f8")
+    if (
+        ( image.signature() != "6b08f7559b92760e8945b924f514a2e997753eb4408ddf571dd5222a782b8b48") &&
+        ( image.signature() != "5e32612a0a3f2f1632d135f8c2df360604b0b84e9f082ddc20efbb0de752a53e") &&
+        ( image.signature() != "dba5480face4d9eb973a116fe32ef37a7b47211e563900d21f47d6f0904aba22") &&
+        ( image.signature() != "eccb7a8ac230b0deb76c8dd10ddeeb76a0918cbe6e3469d2d9f223d35c66498b") &&
+        ( image.signature() != "a0747a8a5a0e6a1ec960ab8994986ba087d518db97db6f17e7bb4da3bbc3c91d") &&
+        ( image.signature() != "6857675cd7d967e1e3ff094e1b3e5f4bb3fb9ba2557eb6d083d37881db0a2039")
+       )
       {
 	++failures;
 	cout << "Line: " << __LINE__ << ", signature ("
@@ -1364,32 +1349,6 @@ int main( int /*argc*/, char ** argv)
     image.subRange(0);
 
     //
-    // tileName
-    //
-    if ( image.tileName().length() != 0 )
-      {
-	++failures;
-	cout << "Line: " << __LINE__
-             << ", tileName default is not empty string as expected" << endl;
-      }
-    
-    image.tileName("How now brown cow?");
-    if ( image.tileName() != "How now brown cow?" )
-      {
-	++failures;
-	cout << "Line: " << __LINE__
-             << ", tileName set/get failed" << endl;
-      }
-
-    image.tileName( string() );
-    if ( image.tileName().length() != 0 )
-      {
-	++failures;
-	cout << "Line: " << __LINE__
-             << ", tileName failed to unset" << endl;
-      }
-
-    //
     // totalColors
     //
     if ( image.totalColors() != 2 )
@@ -1420,32 +1379,6 @@ int main( int /*argc*/, char ** argv)
 	++failures;
 	cout << "Line: " << __LINE__
              << ", verbose is not false as expected" << endl;
-      }
-
-    //
-    // view
-    //
-    if ( image.view().length() != 0 )
-      {
-	++failures;
-	cout << "Line: " << __LINE__
-             << ", view default is not empty string as expected" << endl;
-      }
-    
-    image.view("How now brown cow?");
-    if ( image.view() != "How now brown cow?" )
-      {
-	++failures;
-	cout << "Line: " << __LINE__
-             << ", view set/get failed" << endl;
-      }
-
-    image.view( string() );
-    if ( image.view().length() != 0 )
-      {
-	++failures;
-	cout << "Line: " << __LINE__
-             << ", view failed to unset" << endl;
       }
 
     //

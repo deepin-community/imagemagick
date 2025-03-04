@@ -1,0 +1,31 @@
+From: =?utf-8?q?Bastien_ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
+Date: Wed, 14 Dec 2016 15:23:11 +0100
+Subject: Fix www/api/mophologie.html
+
+Forwarded: Yes, https://github.com/ImageMagick/ImageMagick/issues/304
+---
+ www/api/morphology.html | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index 79e4cb9..760ae6a 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
+@@ -554,7 +554,7 @@
+ <pre class="bg-light text-dark mx-4"><samp>       "-set option:convolve:scale {geometry}" setting.
+ </samp></pre>
+ 
+-<p></dd>
++<dd></dd>
+ </dl>
+ <h2><a href="../../api/MagickCore/morphology_8c.html" id="ScaleKernelInfo">ScaleKernelInfo</a></h2>
+ 
+@@ -654,7 +654,7 @@
+ <pre class="bg-light text-dark mx-4"><samp>       the given kernel.
+ </samp></pre>
+ 
+-<p></dd>
++<dd></dd>
+ </dl>
+ <h2><a href="../../api/MagickCore/morphology_8c.html" id="ZeroKernelNans">ZeroKernelNans</a></h2>
+ 

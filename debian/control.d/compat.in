@@ -1,10 +1,9 @@
-# compatibility package (remove after jessie+2)
 Package: perlmagick
 Architecture: all
 Multi-Arch: foreign
 Section: oldlibs
 Pre-Depends: dpkg (>= 1.15.7.2)
-Depends: ${misc:Depends}, libimage-magick-perl, imagemagick-${IMVERSION}-common
+Depends: ${misc:Depends}, libimage-magick-perl:any, imagemagick-${IMVERSION}-common
 Description: Perl interface to ImageMagick -- dummy package
  PerlMagick is an objected-oriented Perl interface to ImageMagick.
  Use the module to read, manipulate, or write an image or image sequence from
@@ -15,14 +14,12 @@ Description: Perl interface to ImageMagick -- dummy package
  .
  This is a dummy package.  You can safely purge or remove it.
 
-# compatibility package (remove after jessie+2)
 Package: libmagickcore-dev
 Architecture: all
 Section: oldlibs
 Pre-Depends: dpkg (>= 1.15.7.2)
 Depends: ${misc:Depends},
  libmagickcore-${IMVERSION}.${DEFAULTQUANTUMDEPTH}-dev,
- imagemagick-${IMVERSION}-common
 Description: low-level image manipulation library -- dummy package
  This package included header files and static libraries needed to compile
  programs using MagickCore.
@@ -32,7 +29,6 @@ Description: low-level image manipulation library -- dummy package
  .
  This is a dummy package.  You can safely purge or remove it.
 
-# compatibility package (remove after jessie+2)
 Package: libmagickwand-dev
 Architecture: all
 Section: oldlibs
@@ -49,7 +45,6 @@ Description: image manipulation library -- dummy package
  .
  This is a dummy package.  You can safely purge or remove it.
 
-# compatibility package (remove after jessie+2)
 Package: libmagick++-dev
 Architecture: all
 Section: oldlibs
@@ -66,7 +61,6 @@ Description: object-oriented C++ interface to ImageMagick -- dummy package
  .
  This is a dummy package.  You can safely purge or remove it.
 
-# compatibility package (remove after jessie+2)
 # due to bug #813455 arch:any
 Package: imagemagick
 Architecture: any
@@ -84,7 +78,7 @@ Description: image manipulation programs -- binaries
  All manipulations can be achieved through shell commands as well as through
  an X11 graphical interface (display).
  .
+ This is a dependency package.
+ .
  This package include links to channel depth specific binaries and manual
  pages.
- .
- This is a dummy package.  You can safely purge or remove it.

@@ -1,0 +1,43 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 18 Jun 2023 19:23:43 +0000
+Subject: Fix another html file
+
+forwarded: not-needed
+---
+ www/api/morphology.html | 4 ++--
+ www/index.html          | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index 1a8c2f4..cc2a062 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
+@@ -599,13 +599,13 @@
+ <pre class="bg-light text-dark mx-4"><samp>       zero.  If the kernel is normalized regardless of any flags.
+ </samp></pre>
+ 
+-<p>o normalize_flags: </dd>
++<dd>o normalize_flags: </dd>
+ 
+ <pre class="bg-light text-dark mx-4"><samp>       specifically: NormalizeValue, CorrelateNormalizeValue,
+                      and/or PercentValue
+ </samp></pre>
+ 
+-<p></dd>
++<dd></dd>
+ </dl>
+ <h2><a href="../../api/MagickCore/morphology_8c.html" id="ShowKernelInfo">ShowKernelInfo</a></h2>
+ 
+diff --git a/www/index.html b/www/index.html
+index 845ab52..400b4c0 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -120,7 +120,7 @@
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
++        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+         <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+       </form>
+     </div>

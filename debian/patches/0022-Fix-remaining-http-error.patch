@@ -1,0 +1,128 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 18 Jun 2023 20:02:26 +0000
+Subject: Fix remaining http error
+
+forwarded: not-needed
+---
+ index.html                             | 1 +
+ www/advanced-unix-installation.html    | 1 +
+ www/advanced-windows-installation.html | 1 +
+ www/animate.html                       | 1 +
+ www/cite.html                          | 9 ++++++---
+ www/download.html                      | 3 ++-
+ www/search.html                        | 5 -----
+ 7 files changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/index.html b/index.html
+index 8207bad..5d013b8 100644
+--- a/index.html
++++ b/index.html
+@@ -4,6 +4,7 @@
+ 
+ <!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
++
+ <head>
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index e86ad53..bb11406 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -75,6 +75,7 @@
+       <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
++  </div>
+   </nav>
+ 
+   <div class="container">
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index d1481a4..bc318c4 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
+@@ -128,6 +128,7 @@
+       <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
++  </div>
+   </nav>
+ 
+ <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
+diff --git a/www/animate.html b/www/animate.html
+index 6f0dea2..787d09f 100644
+--- a/www/animate.html
++++ b/www/animate.html
+@@ -128,6 +128,7 @@
+       <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
++  </div>
+   </nav>
+ 
+ <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
+diff --git a/www/cite.html b/www/cite.html
+index 31e9197..2593199 100644
+--- a/www/cite.html
++++ b/www/cite.html
+@@ -145,7 +145,8 @@
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>1. ImageMagick Studio LLC. ImageMagick [Internet]. 2024. Available from: https://imagemagick.org</samp></pre>
+ 
+ <h4>Citation in Harvard style</h4>
+-<pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><sampl>ImageMagick Studio LLC, 2024. ImageMagick, Available at: https://imagemagick.org.</samp></pre>
++<pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>ImageMagick Studio LLC, 2024. ImageMagick, Available at: https://imagemagick.org.</samp></pre>
++
+ <h4>Citation in Bibtex format</h4>
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>@software{imagemagick,
+   author = {{ImageMagick Studio LLC}},
+@@ -154,9 +155,11 @@
+   version = {7.1.1},
+   date = {2024-01-04},
+ }</samp></pre>
++</div>
+   </div>
+-  </main><!-- /.container -->
+-  <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
++  </main>
++  <!-- /.container -->
++  <footer class="magick-footer">
+     <div class="container-fluid">
+       <a href="security-policy.html">Security</a> •
+       <a href="news.html">News</a>
+diff --git a/www/download.html b/www/download.html
+index e63a9fc..7c2f29a 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -128,6 +128,7 @@
+       <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
++    </div>
+   </nav>
+ 
+ <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
+@@ -517,7 +518,7 @@ display logo.gif</samp></pre>
+     <td>Portable Win32 static at 16 bits-per-pixel component with <a href="high-dynamic-range.html">high dynamic-range imaging</a> enabled.  Just copy to your host and run (no installer, no Windows registry entries).</td>
+   </tr>
+ 
+-  <tbody>
++  </tbody>
+ </table></div>
+ 
+ <p>Verify its <a href="../archive/binaries/digest.rdf">message digest</a>.</p>
+diff --git a/www/search.html b/www/search.html
+index 550b213..c0dd72b 100644
+--- a/www/search.html
++++ b/www/search.html
+@@ -135,11 +135,6 @@
+   </header>
+ 
+   <main class="container">
+-<div>
+-<p class="lead"> </p>
+-<div class="gcse-searchresults-only"></div>
+-</div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">

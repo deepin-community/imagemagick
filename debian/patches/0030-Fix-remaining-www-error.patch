@@ -1,0 +1,90 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 27 Oct 2024 19:55:41 +0000
+Subject: Fix remaining www error
+
+Forwarded: not-needed
+---
+ www/connected-components.html | 2 +-
+ www/escape.html               | 4 ++--
+ www/opencl.html               | 2 +-
+ www/sitemap.html              | 2 +-
+ www/support.html              | 4 ++--
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/www/connected-components.html b/www/connected-components.html
+index f1f4919..2dfa0c5 100644
+--- a/www/connected-components.html
++++ b/www/connected-components.html
+@@ -156,7 +156,7 @@
+   4: 21x23+0+45 8.8,55.9 409 srgb(255,255,255)
+   1: 4x10+252+0 253.9,4.1 31 srgb(255,255,255)
+ </samp></pre>
+-<p>Add <samp>-define connected-components:exclude-header=true</samp> to show the objects without the header-line.  Add <samp>-define connected-components:exclude-ids=true</samp>. Use <samp>-define connected-components:sort=<var>area | width | height | x | y</samp> to sort the verbose connected components objects.  By default, the objects are listed in decreasing area.  Add <samp>-define connected-components:sort-order=<var>increasing | decreasing</var> to specify the sort order.</p>
++<p>Add <samp>-define connected-components:exclude-header=true</samp> to show the objects without the header-line.  Add <samp>-define connected-components:exclude-ids=true</samp>. Use <samp>-define connected-components:sort=<var>area | width | height | x | y</var></samp> to sort the verbose connected components objects.  By default, the objects are listed in decreasing area.  Add <samp>-define connected-components:sort-order=<var>increasing | decreasing</var> to specify the sort order.</samp></p>
+ <p>Use <samp>-connected-components 8</samp> to visit 8 neighbors rather than 4.  By default, neighbor colors must be exact to be part of a unique object. Use the <a href="command-line-options.html#fuzz">-fuzz</a> option to include pixels as part of an object that are <var>close</var> in color.</p>
+ <p>You might want to eliminate small objects by merging them with their larger neighbors.  If so, use this command:</p>
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary cli"><samp>magick objects.gif -define connected-components:area-threshold=410 -connected-components 4 \
+diff --git a/www/escape.html b/www/escape.html
+index 2b0151c..55a85cf 100644
+--- a/www/escape.html
++++ b/www/escape.html
+@@ -492,7 +492,7 @@ when enclosed in braces (long form):</p>
+   </tr>
+   <tr>
+     <td><a href="convex-hull.html">%[convex-hull]</a></td>
+-    <td>points that form a convex hull around the foreground object.  Use <samp><a href="command-line-options.html#define">-define</a> convex-hull:background-color=<em>color</em></samp> to identify the image background color.  Use <samp><a href="command-line-options.html#fuzz">-fuzz</a> to allow for a non-uniform background color. </td>
++    <td>points that form a convex hull around the foreground object.  Use <samp><a href="command-line-options.html#define">-define</a> convex-hull:background-color=<em>color</em></samp> to identify the image background color.  Use <samp><a href="command-line-options.html#fuzz">-fuzz</a> to allow for a non-uniform background color. </samp></td>
+   </tr>
+   <tr>
+     <td><a href="convex-hull.html">%[convex-hull:extreme-points]</a></td>
+@@ -592,7 +592,7 @@ when enclosed in braces (long form):</p>
+   </tr>
+   <tr>
+     <td><a href="convex-hull.html">%[minimum-bounding-box]</a></td>
+-    <td>Use <samp><a href="command-line-options.html#define">-define</a> convex-hull:background-color=<em>color</em></samp> to identify the image background color.  Use <samp><a href="command-line-options.html#fuzz">-fuzz</a> to allow for a non-uniform background color.  In addition to the bounding box points, these properties are set: <samp>minimum-bounding-box:area</samp>, <samp>minimum-bounding-box:width</samp>, <samp>minimum-bounding-box:height</samp>, <samp>minimum-bounding-box:angle</samp>, and <samp>minimum-bounding-box:unrotate</samp>.</td>
++    <td>Use <samp><a href="command-line-options.html#define">-define</a> convex-hull:background-color=<em>color</em></samp> to identify the image background color.  Use <a href="command-line-options.html#fuzz">-fuzz</a> to allow for a non-uniform background color.  In addition to the bounding box points, these properties are set: <samp>minimum-bounding-box:area</samp>, <samp>minimum-bounding-box:width</samp>, <samp>minimum-bounding-box:height</samp>, <samp>minimum-bounding-box:angle</samp>, and <samp>minimum-bounding-box:unrotate</samp>.</td>
+   </tr>
+   <tr>
+     <td>%[opaque]</td>
+diff --git a/www/opencl.html b/www/opencl.html
+index f2524c4..3a3b8c4 100644
+--- a/www/opencl.html
++++ b/www/opencl.html
+@@ -171,7 +171,7 @@
+ 
+ <p>When some of the OpenCL accelerated operators are invoked for the first time and all the conditions above are met, ImageMagick conducts a series of tests to configure the OpenCL environment according to the system hardware; therefore, it is normal to experience a higher latency the first time you use an accelerated option.  The OpenCL kernels are embedded inside ImageMagick in source format.  During the initial setup, ImageMagick discovers all the available OpenCL devices and compiles the kernels for each of these targets.  ImageMagick also runs several performance tests internally to determine the preferred device to use.  The compiled kernel code and the performance test results are stored into the cache directory so that the data can be reused by subsequent invocations of the OpenCL path.  By default, the OpenCL cached data is stored in <samp>$HOME/.cache/ImageMagick</samp> on Linux and on MacOSX or in <samp>%LOCALAPPDATA%\ImageMagick</samp> on Windows. To run these tests for the first time, use the command below:</p>
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary cli"><samp>MAGICK_OCL_DEVICE=true magick sample.jpg -blur 0x5 null:</samp></pre>
+-<p>On Windows the <samp>MAGICK_OCL_DEVICE=true<samp> part should be removed and the command <samp>set MAGICK_OCL_DEVICE=true</samp> should be executed before executing the command above to enable OpenCL operations.</p>
++<p>On Windows the <samp>MAGICK_OCL_DEVICE=true</samp> part should be removed and the command <samp>set MAGICK_OCL_DEVICE=true</samp> should be executed before executing the command above to enable OpenCL operations.</p>
+ <p>To change the cache directory, set the MAGICK_OPENCL_CACHE_DIR environment variable.  ImageMagick is able to detect hardware changes, driver updates, and new kernel sources and re-run the setup and the calibration test.  You can also force ImageMagick to re-run the process by removing the content from the cache directory.</p>
+ <p>In addition to the environment variables mentioned above, ImageMagick provides a set of APIs that allow developers to gain more fine-grained control of the OpenCL acceleration. For example, use the <samp>InitializeOpenCL()</samp> function to initialize the OpenCL environment:</p>
+ 
+diff --git a/www/sitemap.html b/www/sitemap.html
+index 977c6ac..0a18ba4 100644
+--- a/www/sitemap.html
++++ b/www/sitemap.html
+@@ -134,7 +134,7 @@
+ <div>
+ <p class="text-center"><a href="#overview">Overview</a> • <a href="#download">Download ImageMagick</a> • <a href="#install">Install ImageMagick</a> • <a href="#command-line">Command-line Tools</a> • <a href="#program-interfaces">Program Interfaces</a> • <a href="#formats">Image Formats</a> • <a href="#help">Getting Help</a> • <a href="#support">Support ImageMagick</a> • <a href="#miscellaneous">Miscellaneous Topics</a></p>
+ 
+-<p class="lead">Use this ImageMagick sitemap to quickly jump to one of the areas of interest listed below.  If you can't find what you want on this page, try our <a href="search.html%3Fq=ImageMagick&sa=">site search</a>.</p>
++<p class="lead">Use this ImageMagick sitemap to quickly jump to one of the areas of interest listed below.  If you can't find what you want on this page, try our <a href="search.html%3Fq=ImageMagick&amp;sa=">site search</a>.</p>
+ 
+ <h2><a class="anchor" id="overview"></a>Overview</h2>
+ 
+diff --git a/www/support.html b/www/support.html
+index 54d44e0..1167cec 100644
+--- a/www/support.html
++++ b/www/support.html
+@@ -141,9 +141,9 @@
+ 
+ <dl>
+ <!-- source repos, social coding -->
+-  <dt class="col-md-12"><a href="../index.html"><a href="https://github.com/sponsors/ImageMagick" target="_blank" rel="noopener" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 499.36" width="5%" height="5%" role="img" focusable="false"><title>GitHub</title><path fill="currentColor" fill-rule="evenodd" d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z"/></svg></a> The world's leading software development platform.</dt><br/>
++  <dt class="col-md-12"><a href="https://github.com/sponsors/ImageMagick" target="_blank" rel="noopener" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 499.36" width="5%" height="5%" role="img" focusable="false"><title>GitHub</title><path fill="currentColor" fill-rule="evenodd" d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z"/></svg></a> The world's leading software development platform.</dt><br/>
+ <!-- online studio + jqmagick  -->
+-  <dt class="col-md-12"><a href="../index.html"> <img class="clearfix" src="../images/futureweb_red.png" width="143" height="160" alt="[Futureweb – Your Austrian Webdesign & Hosting Company]" /></a>  Futureweb – Your Austrian Webdesign &amp; Hosting Company.</dt><br/>
++  <dt class="col-md-12"><a href="../index.html"> <img class="clearfix" src="../images/futureweb_red.png" width="143" height="160" alt="[Futureweb – Your Austrian Webdesign &amp; Hosting Company]" /></a>  Futureweb – Your Austrian Webdesign &amp; Hosting Company.</dt><br/>
+ </dl>
+ 
+ <h2><a class="anchor" id="contribute"></a>Contribute a Bug Fix or Enhancement</h2>

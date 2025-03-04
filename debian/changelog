@@ -1,8 +1,62 @@
-imagemagick (8:6.9.13.12+dfsg1-1deepin1) unstable; urgency=medium
+imagemagick (8:7.1.1.43+dfsg1-1) unstable; urgency=medium
 
-  * revert: for t64 transition.
+  * New upstream version
+  * Allow smooth upgrade (Closes: #1087309)
+  * Fix documentation (Closes: #1034333)
 
- -- LiChengGang <lichenggang@uniontech.com>  Fri, 19 Jul 2024 14:00:13 +0800
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 29 Dec 2024 11:21:15 +0000
+
+imagemagick (8:7.1.1.39+dfsg1-3) unstable; urgency=medium
+
+  [ Bastien Roucariès]
+  * Fix imagemagick: .pc files contains -lfftw3
+    but no libfftw3-dev dependency (Closes: #1064658)
+
+  [ Helmut Grohne ]
+  * Fix FTCBFS: (Closes: #1086784). Thanks to Helmut
+    Grohne.
+    + Drop versioned g++ dependency satisfied in buster.
+    + Export PERL5LIB for cross building.
+    + Use the installed convert for generating the icons cache.
+
+ -- Bastien Roucariès <rouca@debian.org>  Tue, 12 Nov 2024 17:39:35 +0000
+
+imagemagick (8:7.1.1.39+dfsg1-2) unstable; urgency=medium
+
+  * Add dejavu font to test for gd
+  * Fix autopkgtest by finding a suitable font is default font is
+    not found.
+
+ -- Bastien Roucariès <rouca@debian.org>  Tue, 29 Oct 2024 16:54:08 +0000
+
+imagemagick (8:7.1.1.39+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version
+  * Upload to unstable
+
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 27 Oct 2024 18:45:43 +0000
+
+imagemagick (8:7.1.1.33+dfsg1-3) UNRELEASED; urgency=medium
+
+  * Merge generate rdeps at test time. Thanks to josh
+  * Add depends imagemagick-${IMVERSION}-common
+    to libmagickcore-dev quantum package
+
+ -- Bastien Roucariès <rouca@debian.org>  Sat, 19 Oct 2024 15:14:51 +0000
+
+imagemagick (8:7.1.1.33+dfsg1-2) experimental; urgency=medium
+
+  * Sourcefull rebuild
+  * Bump policy no changes
+  * Add :any anotation
+
+ -- Bastien Roucariès <rouca@debian.org>  Thu, 22 Aug 2024 10:11:37 +0000
+
+imagemagick (8:7.1.1.33+dfsg1-1) experimental; urgency=medium
+
+  * New major version (Closes: #929825)
+
+ -- Bastien Roucariès <rouca@debian.org>  Tue, 20 Aug 2024 20:49:37 +0000
 
 imagemagick (8:6.9.13.12+dfsg1-1) unstable; urgency=medium
 
