@@ -11,3 +11,4 @@ usr/bin/stream*
 usr/bin/display*
 usr/bin/montage*
 usr/bin/mogrify*
+usr/bin/magick*

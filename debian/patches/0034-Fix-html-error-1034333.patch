@@ -1,0 +1,1909 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 29 Dec 2024 13:59:19 +0000
+Subject: Fix html error #1034333
+
+find . -name '*.html' -exec sed -ip 's,^.*src=["]https://github.com/sponsors/ImageMagick/button["].*$,,g' {} \;
+
+bug-debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034333
+---
+ www/advanced-linux-installation.html   | 2 +-
+ www/advanced-unix-installation.html    | 2 +-
+ www/advanced-windows-installation.html | 2 +-
+ www/animate.html                       | 2 +-
+ www/api/Image++.html                   | 2 +-
+ www/api/animate.html                   | 2 +-
+ www/api/annotate.html                  | 2 +-
+ www/api/attribute.html                 | 2 +-
+ www/api/blob.html                      | 2 +-
+ www/api/cache-view.html                | 2 +-
+ www/api/cache.html                     | 2 +-
+ www/api/channel.html                   | 2 +-
+ www/api/cipher.html                    | 2 +-
+ www/api/color.html                     | 2 +-
+ www/api/colormap.html                  | 2 +-
+ www/api/colorspace.html                | 2 +-
+ www/api/compare.html                   | 2 +-
+ www/api/composite.html                 | 2 +-
+ www/api/constitute.html                | 2 +-
+ www/api/decorate.html                  | 2 +-
+ www/api/deprecate.html                 | 2 +-
+ www/api/display.html                   | 2 +-
+ www/api/distort.html                   | 2 +-
+ www/api/draw.html                      | 2 +-
+ www/api/drawing-wand.html              | 2 +-
+ www/api/effect.html                    | 2 +-
+ www/api/enhance.html                   | 2 +-
+ www/api/exception.html                 | 2 +-
+ www/api/feature.html                   | 2 +-
+ www/api/fourier.html                   | 2 +-
+ www/api/fx.html                        | 2 +-
+ www/api/histogram.html                 | 2 +-
+ www/api/image-view.html                | 2 +-
+ www/api/image.html                     | 2 +-
+ www/api/layer.html                     | 2 +-
+ www/api/list.html                      | 2 +-
+ www/api/magick++-classes.html          | 2 +-
+ www/api/magick-deprecate.html          | 2 +-
+ www/api/magick-image.html              | 2 +-
+ www/api/magick-property.html           | 2 +-
+ www/api/magick-wand.html               | 2 +-
+ www/api/magick.html                    | 2 +-
+ www/api/memory.html                    | 2 +-
+ www/api/mime.html                      | 2 +-
+ www/api/module.html                    | 2 +-
+ www/api/mogrify.html                   | 2 +-
+ www/api/monitor.html                   | 2 +-
+ www/api/montage.html                   | 2 +-
+ www/api/morphology.html                | 2 +-
+ www/api/paint.html                     | 2 +-
+ www/api/pixel-iterator.html            | 2 +-
+ www/api/pixel-wand.html                | 2 +-
+ www/api/profile.html                   | 2 +-
+ www/api/property.html                  | 2 +-
+ www/api/quantize.html                  | 2 +-
+ www/api/registry.html                  | 2 +-
+ www/api/resize.html                    | 2 +-
+ www/api/resource.html                  | 2 +-
+ www/api/segment.html                   | 2 +-
+ www/api/shear.html                     | 2 +-
+ www/api/signature.html                 | 2 +-
+ www/api/statistic.html                 | 2 +-
+ www/api/stream.html                    | 2 +-
+ www/api/transform.html                 | 2 +-
+ www/api/version.html                   | 2 +-
+ www/api/vision.html                    | 2 +-
+ www/api/wand-view.html                 | 2 +-
+ www/architecture.html                  | 2 +-
+ www/changelog.html                     | 2 +-
+ www/cipher.html                        | 2 +-
+ www/cite.html                          | 2 +-
+ www/clahe.html                         | 2 +-
+ www/color-management.html              | 2 +-
+ www/color-thresholding.html            | 2 +-
+ www/color.html                         | 2 +-
+ www/command-line-options.html          | 2 +-
+ www/command-line-processing.html       | 2 +-
+ www/command-line-tools.html            | 2 +-
+ www/compare.html                       | 2 +-
+ www/compose.html                       | 2 +-
+ www/composite.html                     | 2 +-
+ www/conjure.html                       | 2 +-
+ www/connected-components.html          | 2 +-
+ www/contact.html                       | 2 +-
+ www/convert.html                       | 2 +-
+ www/convex-hull.html                   | 2 +-
+ www/defines.html                       | 2 +-
+ www/develop.html                       | 2 +-
+ www/display.html                       | 2 +-
+ www/distribute-pixel-cache.html        | 2 +-
+ www/download.html                      | 2 +-
+ www/escape.html                        | 2 +-
+ www/examples.html                      | 2 +-
+ www/exception.html                     | 2 +-
+ www/export.html                        | 2 +-
+ www/formats.html                       | 2 +-
+ www/fx.html                            | 2 +-
+ www/gradient.html                      | 2 +-
+ www/high-dynamic-range.html            | 2 +-
+ www/history.html                       | 2 +-
+ www/identify.html                      | 2 +-
+ www/import.html                        | 2 +-
+ www/index.html                         | 2 +-
+ www/install-source.html                | 2 +-
+ www/jp2.html                           | 2 +-
+ www/license.html                       | 2 +-
+ www/links.html                         | 2 +-
+ www/magick++.html                      | 2 +-
+ www/magick-cache.html                  | 2 +-
+ www/magick-core.html                   | 2 +-
+ www/magick-script.html                 | 2 +-
+ www/magick-vector-graphics.html        | 2 +-
+ www/magick-wand.html                   | 2 +-
+ www/magick.html                        | 2 +-
+ www/miff.html                          | 2 +-
+ www/mirror.html                        | 2 +-
+ www/mogrify.html                       | 2 +-
+ www/montage.html                       | 2 +-
+ www/motion-picture.html                | 2 +-
+ www/multispectral-imagery.html         | 2 +-
+ www/news.html                          | 2 +-
+ www/opencl.html                        | 2 +-
+ www/openmp.html                        | 2 +-
+ www/perl-magick.html                   | 2 +-
+ www/porting.html                       | 2 +-
+ www/privacy-policy.html                | 2 +-
+ www/quantize.html                      | 2 +-
+ www/resources.html                     | 2 +-
+ www/search.html                        | 2 +-
+ www/security-policy.html               | 2 +-
+ www/sitemap.html                       | 2 +-
+ www/stream.html                        | 2 +-
+ www/support.html                       | 4 ++--
+ www/vpat.html                          | 2 +-
+ www/webp.html                          | 2 +-
+ 135 files changed, 136 insertions(+), 136 deletions(-)
+
+diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
+index 23e556a..6d93959 100644
+--- a/www/advanced-linux-installation.html
++++ b/www/advanced-linux-installation.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index ba8ef94..14bc679 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -63,7 +63,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index 1fd6868..c46d084 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/animate.html b/www/animate.html
+index 552667e..c9e2907 100644
+--- a/www/animate.html
++++ b/www/animate.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/api/Image++.html b/www/api/Image++.html
+index b48d453..5ddd3fe 100644
+--- a/www/api/Image++.html
++++ b/www/api/Image++.html
+@@ -63,7 +63,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/api/animate.html b/www/api/animate.html
+index 870ada2..95d9c82 100644
+--- a/www/api/animate.html
++++ b/www/api/animate.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/annotate.html b/www/api/annotate.html
+index 672f4f0..e24f97b 100644
+--- a/www/api/annotate.html
++++ b/www/api/annotate.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/attribute.html b/www/api/attribute.html
+index aedab0f..453985e 100644
+--- a/www/api/attribute.html
++++ b/www/api/attribute.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/blob.html b/www/api/blob.html
+index d68992a..611a2e9 100644
+--- a/www/api/blob.html
++++ b/www/api/blob.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/cache-view.html b/www/api/cache-view.html
+index fe22fc8..a76ae51 100644
+--- a/www/api/cache-view.html
++++ b/www/api/cache-view.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/cache.html b/www/api/cache.html
+index f48b2b8..d298990 100644
+--- a/www/api/cache.html
++++ b/www/api/cache.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/channel.html b/www/api/channel.html
+index 1eccfea..75277b5 100644
+--- a/www/api/channel.html
++++ b/www/api/channel.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/cipher.html b/www/api/cipher.html
+index 87b589d..0d85ca7 100644
+--- a/www/api/cipher.html
++++ b/www/api/cipher.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/color.html b/www/api/color.html
+index 068f205..245704d 100644
+--- a/www/api/color.html
++++ b/www/api/color.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/colormap.html b/www/api/colormap.html
+index d1328c1..96dc666 100644
+--- a/www/api/colormap.html
++++ b/www/api/colormap.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/colorspace.html b/www/api/colorspace.html
+index a3c17a7..9f0dd84 100644
+--- a/www/api/colorspace.html
++++ b/www/api/colorspace.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/compare.html b/www/api/compare.html
+index cb53a4e..04a91e1 100644
+--- a/www/api/compare.html
++++ b/www/api/compare.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/composite.html b/www/api/composite.html
+index 662f36c..d2720da 100644
+--- a/www/api/composite.html
++++ b/www/api/composite.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/constitute.html b/www/api/constitute.html
+index 713b55e..755ca06 100644
+--- a/www/api/constitute.html
++++ b/www/api/constitute.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/decorate.html b/www/api/decorate.html
+index 7a88d29..29d3ebf 100644
+--- a/www/api/decorate.html
++++ b/www/api/decorate.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/deprecate.html b/www/api/deprecate.html
+index 5fe0917..ab9d8d9 100644
+--- a/www/api/deprecate.html
++++ b/www/api/deprecate.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/display.html b/www/api/display.html
+index e5fe3ca..0905548 100644
+--- a/www/api/display.html
++++ b/www/api/display.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/distort.html b/www/api/distort.html
+index 680ccf8..90ce895 100644
+--- a/www/api/distort.html
++++ b/www/api/distort.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/draw.html b/www/api/draw.html
+index 41dec03..26571c2 100644
+--- a/www/api/draw.html
++++ b/www/api/draw.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
+index ee842b6..e145ea6 100644
+--- a/www/api/drawing-wand.html
++++ b/www/api/drawing-wand.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/effect.html b/www/api/effect.html
+index e37e8d5..77fd477 100644
+--- a/www/api/effect.html
++++ b/www/api/effect.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/enhance.html b/www/api/enhance.html
+index 278430b..46570ea 100644
+--- a/www/api/enhance.html
++++ b/www/api/enhance.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/exception.html b/www/api/exception.html
+index daf0e8d..3e46151 100644
+--- a/www/api/exception.html
++++ b/www/api/exception.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/feature.html b/www/api/feature.html
+index 3052caf..556d79a 100644
+--- a/www/api/feature.html
++++ b/www/api/feature.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/fourier.html b/www/api/fourier.html
+index 551492e..51978b6 100644
+--- a/www/api/fourier.html
++++ b/www/api/fourier.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/fx.html b/www/api/fx.html
+index 64517b3..ecd6673 100644
+--- a/www/api/fx.html
++++ b/www/api/fx.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/histogram.html b/www/api/histogram.html
+index d24bd54..b6e4b13 100644
+--- a/www/api/histogram.html
++++ b/www/api/histogram.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/image-view.html b/www/api/image-view.html
+index 544e289..07b9725 100644
+--- a/www/api/image-view.html
++++ b/www/api/image-view.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/image.html b/www/api/image.html
+index f880aad..c7ff62c 100644
+--- a/www/api/image.html
++++ b/www/api/image.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/layer.html b/www/api/layer.html
+index dede0d4..2a6138d 100644
+--- a/www/api/layer.html
++++ b/www/api/layer.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/list.html b/www/api/list.html
+index 19875ab..cc3a87f 100644
+--- a/www/api/list.html
++++ b/www/api/list.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
+index 396de82..8fd4bc6 100644
+--- a/www/api/magick++-classes.html
++++ b/www/api/magick++-classes.html
+@@ -63,7 +63,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
+index dc2f453..828f16a 100644
+--- a/www/api/magick-deprecate.html
++++ b/www/api/magick-deprecate.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/magick-image.html b/www/api/magick-image.html
+index 1d6d497..5fbcb41 100644
+--- a/www/api/magick-image.html
++++ b/www/api/magick-image.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/magick-property.html b/www/api/magick-property.html
+index e0f14d7..c98a1b9 100644
+--- a/www/api/magick-property.html
++++ b/www/api/magick-property.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
+index 3e5bce9..3debdce 100644
+--- a/www/api/magick-wand.html
++++ b/www/api/magick-wand.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/magick.html b/www/api/magick.html
+index f48e143..b5bd07e 100644
+--- a/www/api/magick.html
++++ b/www/api/magick.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/memory.html b/www/api/memory.html
+index 6423abd..7bd2950 100644
+--- a/www/api/memory.html
++++ b/www/api/memory.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/mime.html b/www/api/mime.html
+index 055c73f..07875ef 100644
+--- a/www/api/mime.html
++++ b/www/api/mime.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/module.html b/www/api/module.html
+index 8017821..f46bba6 100644
+--- a/www/api/module.html
++++ b/www/api/module.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/mogrify.html b/www/api/mogrify.html
+index f455527..630b5d5 100644
+--- a/www/api/mogrify.html
++++ b/www/api/mogrify.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/monitor.html b/www/api/monitor.html
+index 776b31f..bd1dabc 100644
+--- a/www/api/monitor.html
++++ b/www/api/monitor.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/montage.html b/www/api/montage.html
+index fba616f..9510f61 100644
+--- a/www/api/montage.html
++++ b/www/api/montage.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index ae92073..ccb3699 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/paint.html b/www/api/paint.html
+index d401c8a..136f6db 100644
+--- a/www/api/paint.html
++++ b/www/api/paint.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
+index 547fc34..64d871d 100644
+--- a/www/api/pixel-iterator.html
++++ b/www/api/pixel-iterator.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
+index c98a942..58a9867 100644
+--- a/www/api/pixel-wand.html
++++ b/www/api/pixel-wand.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/profile.html b/www/api/profile.html
+index 3bb04c4..d8075ae 100644
+--- a/www/api/profile.html
++++ b/www/api/profile.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/property.html b/www/api/property.html
+index 9270dee..ffc2a2c 100644
+--- a/www/api/property.html
++++ b/www/api/property.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/quantize.html b/www/api/quantize.html
+index 678a397..2188efd 100644
+--- a/www/api/quantize.html
++++ b/www/api/quantize.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/registry.html b/www/api/registry.html
+index e3b34e1..e86a2e3 100644
+--- a/www/api/registry.html
++++ b/www/api/registry.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/resize.html b/www/api/resize.html
+index 9c00a0c..73802be 100644
+--- a/www/api/resize.html
++++ b/www/api/resize.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/resource.html b/www/api/resource.html
+index c4130c3..eaaf0ba 100644
+--- a/www/api/resource.html
++++ b/www/api/resource.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/segment.html b/www/api/segment.html
+index 797df40..763fe0a 100644
+--- a/www/api/segment.html
++++ b/www/api/segment.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/shear.html b/www/api/shear.html
+index 29bbbfe..162a3a5 100644
+--- a/www/api/shear.html
++++ b/www/api/shear.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/signature.html b/www/api/signature.html
+index 1b2f579..75ea246 100644
+--- a/www/api/signature.html
++++ b/www/api/signature.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/statistic.html b/www/api/statistic.html
+index 7185965..89e6c07 100644
+--- a/www/api/statistic.html
++++ b/www/api/statistic.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/stream.html b/www/api/stream.html
+index 1047e26..118f303 100644
+--- a/www/api/stream.html
++++ b/www/api/stream.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/transform.html b/www/api/transform.html
+index e7ae838..8dfe538 100644
+--- a/www/api/transform.html
++++ b/www/api/transform.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/version.html b/www/api/version.html
+index d9f628c..8856beb 100644
+--- a/www/api/version.html
++++ b/www/api/version.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/vision.html b/www/api/vision.html
+index e429fb4..6a0a496 100644
+--- a/www/api/vision.html
++++ b/www/api/vision.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/api/wand-view.html b/www/api/wand-view.html
+index a153653..fb4582f 100644
+--- a/www/api/wand-view.html
++++ b/www/api/wand-view.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+diff --git a/www/architecture.html b/www/architecture.html
+index d117264..064cde1 100644
+--- a/www/architecture.html
++++ b/www/architecture.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/changelog.html b/www/changelog.html
+index 9b7a26e..010a136 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
+@@ -63,7 +63,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/cipher.html b/www/cipher.html
+index 2df983f..550855a 100644
+--- a/www/cipher.html
++++ b/www/cipher.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/cite.html b/www/cite.html
+index ca52daa..ea524bf 100644
+--- a/www/cite.html
++++ b/www/cite.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/clahe.html b/www/clahe.html
+index 84b90cf..8f75be6 100644
+--- a/www/clahe.html
++++ b/www/clahe.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/color-management.html b/www/color-management.html
+index d64d82f..77bd2fa 100644
+--- a/www/color-management.html
++++ b/www/color-management.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/color-thresholding.html b/www/color-thresholding.html
+index 48a5844..ad5bd71 100644
+--- a/www/color-thresholding.html
++++ b/www/color-thresholding.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/color.html b/www/color.html
+index 1eb4e92..5082935 100644
+--- a/www/color.html
++++ b/www/color.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index 1817b63..3b08307 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index 47a79d5..487a16c 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/command-line-tools.html b/www/command-line-tools.html
+index da6fef1..2a30992 100644
+--- a/www/command-line-tools.html
++++ b/www/command-line-tools.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/compare.html b/www/compare.html
+index cacd181..ba41880 100644
+--- a/www/compare.html
++++ b/www/compare.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/compose.html b/www/compose.html
+index 946badf..692e958 100644
+--- a/www/compose.html
++++ b/www/compose.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/composite.html b/www/composite.html
+index 7238713..770502c 100644
+--- a/www/composite.html
++++ b/www/composite.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/conjure.html b/www/conjure.html
+index e61bd36..13a3024 100644
+--- a/www/conjure.html
++++ b/www/conjure.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/connected-components.html b/www/connected-components.html
+index b87c676..6cb7d27 100644
+--- a/www/connected-components.html
++++ b/www/connected-components.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/contact.html b/www/contact.html
+index c3f2570..23c76bc 100644
+--- a/www/contact.html
++++ b/www/contact.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/convert.html b/www/convert.html
+index f1b4ebe..82305c6 100644
+--- a/www/convert.html
++++ b/www/convert.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/convex-hull.html b/www/convex-hull.html
+index a4d261f..8819c7a 100644
+--- a/www/convex-hull.html
++++ b/www/convex-hull.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/defines.html b/www/defines.html
+index c2bc85f..abc02d2 100644
+--- a/www/defines.html
++++ b/www/defines.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/develop.html b/www/develop.html
+index f4df61c..99df110 100644
+--- a/www/develop.html
++++ b/www/develop.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/display.html b/www/display.html
+index 242b82f..33f2db2 100644
+--- a/www/display.html
++++ b/www/display.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
+index 44e2f9e..c1dc718 100644
+--- a/www/distribute-pixel-cache.html
++++ b/www/distribute-pixel-cache.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/download.html b/www/download.html
+index 137796f..bc2148a 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/escape.html b/www/escape.html
+index 2fa465c..5c08623 100644
+--- a/www/escape.html
++++ b/www/escape.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/examples.html b/www/examples.html
+index 469a320..5ea6026 100644
+--- a/www/examples.html
++++ b/www/examples.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/exception.html b/www/exception.html
+index b40f96f..72a2c24 100644
+--- a/www/exception.html
++++ b/www/exception.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/export.html b/www/export.html
+index 24e2b53..191ee02 100644
+--- a/www/export.html
++++ b/www/export.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/formats.html b/www/formats.html
+index 6e96f7f..34814ad 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/fx.html b/www/fx.html
+index 525e7a3..9d19e03 100644
+--- a/www/fx.html
++++ b/www/fx.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/gradient.html b/www/gradient.html
+index ce319d5..9e45bd3 100644
+--- a/www/gradient.html
++++ b/www/gradient.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
+index d32936c..6ce3f67 100644
+--- a/www/high-dynamic-range.html
++++ b/www/high-dynamic-range.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/history.html b/www/history.html
+index 982115c..c26070f 100644
+--- a/www/history.html
++++ b/www/history.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/identify.html b/www/identify.html
+index c7cd6e3..d8c9890 100644
+--- a/www/identify.html
++++ b/www/identify.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/import.html b/www/import.html
+index a39bd95..fb2b2cf 100644
+--- a/www/import.html
++++ b/www/import.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/index.html b/www/index.html
+index 9a5a828..5c092a7 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/install-source.html b/www/install-source.html
+index 6a15303..d9b4972 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/jp2.html b/www/jp2.html
+index 2260dc2..cb9dce0 100644
+--- a/www/jp2.html
++++ b/www/jp2.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/license.html b/www/license.html
+index 90e9bab..fd365f4 100644
+--- a/www/license.html
++++ b/www/license.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/links.html b/www/links.html
+index e6e7f08..c240782 100644
+--- a/www/links.html
++++ b/www/links.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/magick++.html b/www/magick++.html
+index a99846a..cbab296 100644
+--- a/www/magick++.html
++++ b/www/magick++.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/magick-cache.html b/www/magick-cache.html
+index a4ca40e..1d4d010 100644
+--- a/www/magick-cache.html
++++ b/www/magick-cache.html
+@@ -117,7 +117,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/magick-core.html b/www/magick-core.html
+index 446df23..7afb962 100644
+--- a/www/magick-core.html
++++ b/www/magick-core.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/magick-script.html b/www/magick-script.html
+index 6ba4c00..d0fd67e 100644
+--- a/www/magick-script.html
++++ b/www/magick-script.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
+index 0e9a3d4..ffa59d9 100644
+--- a/www/magick-vector-graphics.html
++++ b/www/magick-vector-graphics.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/magick-wand.html b/www/magick-wand.html
+index bef2bfa..8574f6c 100644
+--- a/www/magick-wand.html
++++ b/www/magick-wand.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/magick.html b/www/magick.html
+index 547b1db..d034f8f 100644
+--- a/www/magick.html
++++ b/www/magick.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/miff.html b/www/miff.html
+index cc959fc..2ee6dad 100644
+--- a/www/miff.html
++++ b/www/miff.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/mirror.html b/www/mirror.html
+index 8ce503b..80c53e0 100644
+--- a/www/mirror.html
++++ b/www/mirror.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/mogrify.html b/www/mogrify.html
+index 7b2f2e3..92d0d4b 100644
+--- a/www/mogrify.html
++++ b/www/mogrify.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/montage.html b/www/montage.html
+index 5de2bf6..b57336f 100644
+--- a/www/montage.html
++++ b/www/montage.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/motion-picture.html b/www/motion-picture.html
+index 9ad7711..4524da4 100644
+--- a/www/motion-picture.html
++++ b/www/motion-picture.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
+index 73754a4..6d804ca 100644
+--- a/www/multispectral-imagery.html
++++ b/www/multispectral-imagery.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/news.html b/www/news.html
+index 4d93121..37d47b8 100644
+--- a/www/news.html
++++ b/www/news.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/opencl.html b/www/opencl.html
+index 517e2e9..9902d00 100644
+--- a/www/opencl.html
++++ b/www/opencl.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/openmp.html b/www/openmp.html
+index 9362cd1..3658510 100644
+--- a/www/openmp.html
++++ b/www/openmp.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/perl-magick.html b/www/perl-magick.html
+index bace158..51f0c51 100644
+--- a/www/perl-magick.html
++++ b/www/perl-magick.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/porting.html b/www/porting.html
+index 35786ef..f2f515f 100644
+--- a/www/porting.html
++++ b/www/porting.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/privacy-policy.html b/www/privacy-policy.html
+index de43cd9..63c0a9b 100644
+--- a/www/privacy-policy.html
++++ b/www/privacy-policy.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/quantize.html b/www/quantize.html
+index fd91d36..c8d01ca 100644
+--- a/www/quantize.html
++++ b/www/quantize.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/resources.html b/www/resources.html
+index 615b9b0..be0958d 100644
+--- a/www/resources.html
++++ b/www/resources.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/search.html b/www/search.html
+index 4d80994..1d492e2 100644
+--- a/www/search.html
++++ b/www/search.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/security-policy.html b/www/security-policy.html
+index b7fd21e..af8c206 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/sitemap.html b/www/sitemap.html
+index f69b2a6..d97c865 100644
+--- a/www/sitemap.html
++++ b/www/sitemap.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+diff --git a/www/stream.html b/www/stream.html
+index 96a3c76..3572d8a 100644
+--- a/www/stream.html
++++ b/www/stream.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/support.html b/www/support.html
+index b9ac096..2716d44 100644
+--- a/www/support.html
++++ b/www/support.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>
+@@ -173,7 +173,7 @@
+ <h2>Github</h2>
+ <p>ImageMagick Studio LLC is the organization that designs, maintains, and enhances the ImageMagick software suite. In the past, we paid for the privilege of producing free software out of our own pockets. Now, to help defray costs associated with network bandwidth, development software, computer hardware, taxes, legal, and other expenses, we accept donations from individuals or companies like yourself.</p>
+ <ul>
+-<iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+ </ul>
+ <h2><a href="https://www.paypal.com/biz/fund?id=9XPKRUWDXRR8J">Paypal</a></h2>
+ <p>For direct monetary contributions, click on the donate button to contribute thru Paypal or with a credit card:</p>
+diff --git a/www/vpat.html b/www/vpat.html
+index 46806a3..8d35ea4 100644
+--- a/www/vpat.html
++++ b/www/vpat.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+diff --git a/www/webp.html b/www/webp.html
+index f776572..b795723 100644
+--- a/www/webp.html
++++ b/www/webp.html
+@@ -116,7 +116,7 @@
+           <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+     </div>

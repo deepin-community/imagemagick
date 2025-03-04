@@ -17,7 +17,7 @@
 %                               October 2003                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,24 +39,24 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,7 +106,7 @@ static Image *ReadSCRImage(const ImageInfo *image_info,ExceptionInfo *exception)
     int paper;
     int bright;
 
-  unsigned char colour_palette[] = {
+  unsigned char color_palette[] = {
       0,  0,  0,
       0,  0,192,
     192,  0,  0,
@@ -131,7 +131,7 @@ static Image *ReadSCRImage(const ImageInfo *image_info,ExceptionInfo *exception)
   MagickBooleanType
     status;
 
-  PixelPacket
+  Quantum
     *q;
 
   ssize_t
@@ -147,7 +147,7 @@ static Image *ReadSCRImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -156,12 +156,9 @@ static Image *ReadSCRImage(const ImageInfo *image_info,ExceptionInfo *exception)
     }
   image->columns = 256;
   image->rows = 192;
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
-    {
-      InheritException(exception,&image->exception);
-      return(DestroyImageList(image));
-    }
+    return(DestroyImageList(image));
   count=ReadBlob(image,6144,(unsigned char *) zxscr);
   if (count != 6144)
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
@@ -222,24 +219,24 @@ static Image *ReadSCRImage(const ImageInfo *image_info,ExceptionInfo *exception)
             for(z=7;z>-1;z--)
           {
               q=QueueAuthenticPixels(image,pix,piy,1,1,exception);
-              if (q == (PixelPacket *) NULL)
+              if (q == (Quantum *) NULL)
                 break;
 
               if(binar[z])
             {
-                SetPixelRed(q,ScaleCharToQuantum(
-                  colour_palette[3*ink]));
-                SetPixelGreen(q,ScaleCharToQuantum(
-                  colour_palette[1+(3*ink)]));
-                SetPixelBlue(q,ScaleCharToQuantum(
-                  colour_palette[2+(3*ink)]));
+                SetPixelRed(image,ScaleCharToQuantum(
+                  color_palette[3*ink]),q);
+                SetPixelGreen(image,ScaleCharToQuantum(
+                  color_palette[1+(3*ink)]),q);
+                SetPixelBlue(image,ScaleCharToQuantum(
+                  color_palette[2+(3*ink)]),q);
             } else {
-                SetPixelRed(q,ScaleCharToQuantum(
-                  colour_palette[3*paper]));
-                SetPixelGreen(q,ScaleCharToQuantum(
-                  colour_palette[1+(3*paper)]));
-                SetPixelBlue(q,ScaleCharToQuantum(
-                  colour_palette[2+(3*paper)]));
+                SetPixelRed(image,ScaleCharToQuantum(
+                  color_palette[3*paper]),q);
+                SetPixelGreen(image,ScaleCharToQuantum(
+                  color_palette[1+(3*paper)]),q);
+                SetPixelBlue(image,ScaleCharToQuantum(
+                  color_palette[2+(3*paper)]),q);
             }
 
               pix++;
@@ -283,11 +280,9 @@ ModuleExport size_t RegisterSCRImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("SCR");
+  entry=AcquireMagickInfo("SCR","SCR","ZX-Spectrum SCREEN$");
   entry->decoder=(DecodeImageHandler *) ReadSCRImage;
-  entry->adjoin=MagickFalse;
-  entry->description=ConstantString("ZX-Spectrum SCREEN$");
-  entry->magick_module=ConstantString("SCR");
+  entry->flags^=CoderAdjoinFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

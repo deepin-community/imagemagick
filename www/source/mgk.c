@@ -17,13 +17,13 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999-2011 ImageMagick Studio LLC, a non-profit organization      %
+%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    http://www.imagemagick.org/script/license.php                            %
+%    https://imagemagick.org/script/license.php                               %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -39,30 +39,25 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/colorspace.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include <MagickCore/studio.h>
+#include <MagickCore/blob.h>
+#include <MagickCore/cache.h>
+#include <MagickCore/colorspace.h>
+#include <MagickCore/exception.h>
+#include <MagickCore/image.h>
+#include <MagickCore/list.h>
+#include <MagickCore/magick.h>
+#include <MagickCore/memory_.h>
+#include <MagickCore/monitor.h>
+#include <MagickCore/pixel-accessor.h>
+#include <MagickCore/string_.h>
+#include <MagickCore/module.h>
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteMGKImage(const ImageInfo *,Image *);
+  WriteMGKImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,9 +105,9 @@ static MagickBooleanType IsMGK(const unsigned char *magick,const size_t length)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  ReadMGKImage() reads a MGK image file and returns it.  It allocates
-%  the memory necessary for the new Image structure and returns a pointer to
-%  the new image.
+%  ReadMGKImage() reads a MGK image file and returns it.  It allocates the
+%  memory necessary for the new Image structure and returns a pointer to the
+%  new image.
 %
 %  The format of the ReadMGKImage method is:
 %
@@ -134,21 +129,23 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
   Image
     *image;
 
+  long
+    y;
+
   MagickBooleanType
     status;
 
-  register ssize_t
+  register long
     x;
 
-  register PixelPacket
+  register Quantum
     *q;
 
   register unsigned char
     *p;
 
   ssize_t
-    count,
-    y;
+    count;
 
   unsigned char
     *pixels;
@@ -161,13 +158,13 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
     Open image file.
   */
   assert(image_info != (const ImageInfo *) NULL);
-  assert(image_info->signature == MagickSignature);
+  assert(image_info->signature == MagickCoreSignature);
   if (image_info->debug != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   assert(exception != (ExceptionInfo *) NULL);
-  assert(exception->signature == MagickSignature);
-  image=AcquireImage(image_info);
+  assert(exception->signature == MagickCoreSignature);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -181,7 +178,7 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsMGK(buffer,7) == MagickFalse)
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   (void) ReadBlobString(image,buffer);
-  count=(ssize_t) sscanf(buffer,"%20lu %20lu\n",&columns,&rows);
+  count=(ssize_t) sscanf(buffer,"%lu %lu\n",&columns,&rows);
   if (count <= 0)
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   do
@@ -198,11 +195,8 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
     /*
       Convert MGK raster image to pixel packets.
     */
-    if (SetImageExtent(image,0,0) == MagickFalse)
-      {
-        InheritException(exception,&image->exception);
-        return(DestroyImageList(image));
-      }
+    if (SetImageExtent(image,image->columns,image->rows,exception) == MagickFalse)
+      return(DestroyImageList(image));
     pixels=(unsigned char *) AcquireQuantumMemory((size_t) image->columns,
       3UL*sizeof(*pixels));
     if (pixels == (unsigned char *) NULL)
@@ -214,20 +208,26 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
         ThrowReaderException(CorruptImageError,"UnableToReadImageData");
       p=pixels;
       q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-      if (q == (PixelPacket *) NULL)
+      if (q == (Quantum *) NULL)
         break;
       for (x=0; x < (ssize_t) image->columns; x++)
       {
-        SetPixelRed(q,ScaleCharToQuantum(*p++));
-        SetPixelGreen(q,ScaleCharToQuantum(*p++));
-        SetPixelBlue(q,ScaleCharToQuantum(*p++));
-        q++;
+        SetPixelRed(image,ScaleCharToQuantum(*p++),q);
+        SetPixelGreen(image,ScaleCharToQuantum(*p++),q);
+        SetPixelBlue(image,ScaleCharToQuantum(*p++),q);
+        q+=GetPixelChannels(image);
       }
       if (SyncAuthenticPixels(image,exception) == MagickFalse)
         break;
-      if ((image->previous == (Image *) NULL) &&
-          (SetImageProgress(image,LoadImageTag,y,image->rows) == MagickFalse))
-        break;
+      if (image->previous == (Image *) NULL)
+        if ((image->progress_monitor != (MagickProgressMonitor) NULL) &&
+            (QuantumTick(y,image->rows) != MagickFalse))
+          {
+            status=image->progress_monitor(LoadImageTag,y,image->rows,
+              image->client_data);
+            if (status == MagickFalse)
+              break;
+          }
     }
     pixels=(unsigned char *) RelinquishMagickMemory(pixels);
     if (EOFBlob(image) != MagickFalse)
@@ -244,13 +244,13 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
         break;
     *buffer='\0';
     (void) ReadBlobString(image,buffer);
-    count=(ssize_t) sscanf(buffer,"%20lu %20lu\n",&columns,&rows);
+    count=(ssize_t) sscanf(buffer,"%lu %lu\n",&columns,&rows);
     if (count > 0)
       {
         /*
           Allocate next image structure.
         */
-        AcquireNextImage(image_info,image);
+        AcquireNextImage(image_info,image,exception);
         if (GetNextImageInList(image) == (Image *) NULL)
           {
             status=MagickFalse;
@@ -292,20 +292,18 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
 %
 %  The format of the RegisterMGKImage method is:
 %
-%      size_t RegisterMGKImage(void)
+%      unsigned long RegisterMGKImage(void)
 %
 */
-ModuleExport size_t RegisterMGKImage(void)
+ModuleExport unsigned long RegisterMGKImage(void)
 {
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("MGK");
+  entry=AcquireMagickInfo("MGK","MGK","MGK image");
   entry->decoder=(DecodeImageHandler *) ReadMGKImage;
   entry->encoder=(EncodeImageHandler *) WriteMGKImage;
   entry->magick=(IsImageFormatHandler *) IsMGK;
-  entry->description=ConstantString("MGK");
-  entry->module=ConstantString("MGK");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -345,8 +343,8 @@ ModuleExport void UnregisterMGKImage(void)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  WriteMGKImage() writes an image to a file in red, green, and blue
-%  MGK rasterfile format.
+%  WriteMGKImage() writes an image to a file in red, green, and blue MGK
+%  rasterfile format.
 %
 %  The format of the WriteMGKImage method is:
 %
@@ -359,11 +357,17 @@ ModuleExport void UnregisterMGKImage(void)
 %
 %    o image:  The image.
 %
+%    o exception:  return any errors or warnings in this structure.
+%
 */
-static MagickBooleanType WriteMGKImage(const ImageInfo *image_info,Image *image)
+static MagickBooleanType WriteMGKImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
   char
     buffer[MaxTextExtent];
+
+  long
+    y;
 
   MagickBooleanType
     status;
@@ -371,17 +375,14 @@ static MagickBooleanType WriteMGKImage(const ImageInfo *image_info,Image *image)
   MagickOffsetType
     scene;
 
-  register const PixelPacket
+  register const Quantum
     *p;
 
-  register ssize_t
+  register long
     x;
 
   register unsigned char
     *q;
-
-  ssize_t
-    y;
 
   unsigned char
     *pixels;
@@ -390,12 +391,12 @@ static MagickBooleanType WriteMGKImage(const ImageInfo *image_info,Image *image)
     Open output image file.
   */
   assert(image_info != (const ImageInfo *) NULL);
-  assert(image_info->signature == MagickSignature);
+  assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
-  assert(image->signature == MagickSignature);
+  assert(image->signature == MagickCoreSignature);
   if (image->debug != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+  status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
   if (status == MagickFalse)
     return(status);
   scene=0;
@@ -405,7 +406,7 @@ static MagickBooleanType WriteMGKImage(const ImageInfo *image_info,Image *image)
       Allocate memory for pixels.
     */
     if (image->colorspace != RGBColorspace)
-      (void) SetImageColorspace(image,RGBColorspace);
+      (void) SetImageColorspace(image,RGBColorspace,exception);
     pixels=(unsigned char *) AcquireQuantumMemory((size_t) image->columns,
       3UL*sizeof(*pixels));
     if (pixels == (unsigned char *) NULL)
@@ -415,25 +416,31 @@ static MagickBooleanType WriteMGKImage(const ImageInfo *image_info,Image *image)
     */
     (void) WriteBlobString(image,"id=mgk\n");
     (void) FormatLocaleString(buffer,MaxTextExtent,"%lu %lu\n",image->columns,
-      image->rows);
+       image->rows);
     (void) WriteBlobString(image,buffer);
     for (y=0; y < (ssize_t) image->rows; y++)
     {
-      p=AcquireImagePixels(image,0,y,image->columns,1,&image->exception);
-      if (p == (const PixelPacket *) NULL)
+      p=GetVirtualPixels(image,0,y,image->columns,1,exception);
+      if (p == (const Quantum *) NULL)
         break;
       q=pixels;
       for (x=0; x < (ssize_t) image->columns; x++)
       {
-        *q++=ScaleQuantumToChar(GetRedSample(p));
-        *q++=ScaleQuantumToChar(GetGreenSample(p));
-        *q++=ScaleQuantumToChar(GetBlueSample(p));
-        p++;
+        *q++=ScaleQuantumToChar(GetPixelRed(image,p));
+        *q++=ScaleQuantumToChar(GetPixelGreen(image,p));
+        *q++=ScaleQuantumToChar(GetPixelBlue(image,p));
+        p+=GetPixelChannels(image);
       }
       (void) WriteBlob(image,(size_t) (q-pixels),pixels);
-      if ((image->previous == (Image *) NULL) &&
-          (SetImageProgress(image,SaveImageTag,y,image->rows) == MagickFalse))
-        break;
+      if (image->previous == (Image *) NULL)
+        if ((image->progress_monitor != (MagickProgressMonitor) NULL) &&
+            (QuantumTick(y,image->rows) != MagickFalse))
+          {
+            status=image->progress_monitor(SaveImageTag,y,image->rows,
+              image->client_data);
+            if (status == MagickFalse)
+              break;
+          }
     }
     pixels=(unsigned char *) RelinquishMagickMemory(pixels);
     if (GetNextImageInList(image) == (Image *) NULL)

@@ -34,8 +34,8 @@ sub AutodetectWin32gcc {
   my @libdir = ($wrkdir);
   my @bindir = ();
 
-  #try to get configuration info via identify or convert utilities
-  my $conf = `identify -list Configure 2>$devnull` || `convert -list Configure 2>$devnull`;
+  #try to get configuration info via magick or identify utilities
+  my $conf = `magick identify -list Configure 2>$devnull` || `identify -list Configure 2>$devnull`;
   foreach my $line (split '\n', $conf) {
     if ($line =~ /^Path:\s+(.*)/) {
       my ($vol,$dir,$file) = splitpath($1);
@@ -59,7 +59,7 @@ sub AutodetectWin32gcc {
       push @b, catfile($dirpath,'..','..','bin');
       push @b, catfile($dirpath,'..','..','..');
       push @b, catfile($dirpath,'..','..','..','bin');
-      foreach (@b) { push @bindir, $_ if (-e "$_/convert.exe" || -e "$_/identify.exe") };
+      foreach (@b) { push @bindir, $_ if (-e "$_/magick.exe" || -e "$_/identify.exe") };
 
       # try to detect 'include' dir
       push @i, catfile($dirpath,'include');
@@ -70,7 +70,7 @@ sub AutodetectWin32gcc {
       push @i, catfile($dirpath,'..','..','include','ImageMagick');
       push @i, catfile($dirpath,'..','..','..','include');
       push @i, catfile($dirpath,'..','..','..','include','ImageMagick');
-      foreach (@i) { push @incdir, $_ if (-e "$_/magick/MagickCore.h") };
+      foreach (@i) { push @incdir, $_ if (-e "$_/MagickCore/MagickCore.h") };
     }
   };
 
@@ -109,8 +109,8 @@ sub AutodetectWin32gcc {
 # 3) During installation select that you want to install ImageMagick's
 #    development files (libraries+headers)
 #
-# 4) You also need to have ImageMagick's directory in your PATH
-#    note: we are checking the presence of convert.exe and/or identify.exe tools
+# 4) You NEED TO have ImageMagick's directory in your PATH.  We are
+#    using the 'magick' tool to determine your actual configuration.
 #
 # 5) You might need Visual C++ Redistributable Package installed on your system
 #    see instructions on ImageMagick's Binary Release webpage
@@ -127,9 +127,9 @@ EOF
 }
 
 sub AutodetectDelegates {
-  #try to get configuration info via identify or convert utilities
+  #try to get configuration info via magick or identify utilities
   my $devnull = devnull();
-  my $conf = `identify -list Configure 2>$devnull` || `convert -list Configure 2>$devnull`;
+  my $conf = `magick identify -list Configure 2>$devnull` || `identify -list Configure 2>$devnull`;
   my @delegates = ();
   foreach my $line (split '\n', $conf) {
     next unless $line =~ /^DELEGATES\s+/;
@@ -161,11 +161,11 @@ foreach my $delegate (@tested_delegates) {
 }
 
 # defaults for LIBS & INC & CCFLAGS params that we later pass to Writemakefile
-my $INC_magick = '-I../ -I.. -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 -I"' . $Config{'usrinc'} . '/ImageMagick"';
-my $LIBS_magick = '-L../magick/.libs -lMagickCore-6.Q16 -lm -L' . $Config{'archlib'} . '/CORE';
-my $CCFLAGS_magick = "$Config{'ccflags'} -I/usr/include/libxml2 -DWITH_GZFILEOP -I/usr/include/webp -I/usr/include/webp -I/usr/include/libraw -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/openjpeg-2.5 -I/usr/include/libvmaf -DHWY_SHARED_DEFINE -I/usr/include/openjpeg-2.5 -I/usr/include/webp -I/usr/include/freetype2 -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/libxml2 -DWITH_GZFILEOP -pthread -DWITH_GZFILEOP -fopenmp -Wall -g -O2 -mtune=haswell -fexceptions -pthread -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16";
-my $LDFLAGS_magick   = "-L../magick/.libs -lMagickCore-6.Q16 $Config{'ldflags'} ";
-my $LDDLFLAGS_magick = "-L../magick/.libs -lMagickCore-6.Q16 $Config{'lddlflags'} ";
+my $INC_magick = '-I../ -I.. -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_CHANNEL_MASK_DEPTH=32 -I"' . $Config{'usrinc'} . '/ImageMagick"';
+my $LIBS_magick = '-L../MagickCore/.libs -lMagickCore-7.Q16HDRI -lm -L' . $Config{'archlib'} . '/CORE';
+my $CCFLAGS_magick = "$Config{'ccflags'} -I/usr/include/libxml2 -DWITH_GZFILEOP -I/usr/include/webp -I/usr/include/webp -I/usr/include/webp -DWITH_GZFILEOP -I/usr/include/libraw -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/openjpeg-2.5 -I/usr/include/libvmaf -I/usr/include/openjpeg-2.5 -I/usr/include/webp -I/usr/include/freetype2 -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/libxml2 -DWITH_GZFILEOP -pthread -DWITH_GZFILEOP -fopenmp -Wall -g -O2 -mtune=haswell -fexceptions -pthread -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_CHANNEL_MASK_DEPTH=32";
+my $LDFLAGS_magick   = "-L../MagickCore/.libs -lMagickCore-7.Q16HDRI $Config{'ldflags'} ";
+my $LDDLFLAGS_magick = "-L../MagickCore/.libs -lMagickCore-7.Q16HDRI $Config{'lddlflags'} ";
 
 if (($^O eq 'MSWin32') && ($Config{cc} =~ /gcc/)) {
   my($Ipaths, $Lpaths) = AutodetectWin32gcc();
@@ -173,8 +173,8 @@ if (($^O eq 'MSWin32') && ($Config{cc} =~ /gcc/)) {
   #
   # Setup for strawberry perl.
   #
-  $INC_magick       = "$Ipaths -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16";
-  $LIBS_magick      = "-lMagickCore-6.Q16";
+  $INC_magick       = "$Ipaths -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_CHANNEL_MASK_DEPTH=32";
+  $LIBS_magick      = "-lMagickCore-7.Q16HDRI";
   $CCFLAGS_magick   = "$Config{'ccflags'}";
   $LDFLAGS_magick   = "$Config{'ldflags'} $Lpaths ";
   $LDDLFLAGS_magick = "$Config{'lddlflags'} $Lpaths ";
@@ -194,13 +194,13 @@ WriteMakefile
    'AUTHOR' => 'ImageMagick Studio LLC',
 
    # Module version
-   'VERSION' => '6.9.13',
+   'VERSION' => '7.1.1',
 
    # Prerequisite version
    'PREREQ_PM' => {'parent' => '0'},
 
    # Preprocessor defines
-   'DEFINE'	=> ' -D_LARGE_FILES=1 -DHAVE_CONFIG_H',     # e.g., '-DHAVE_SOMETHING'
+   'DEFINE'	=> ' -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES=1 -D_LARGEFILE_SOURCE=1 -DHAVE_CONFIG_H',     # e.g., '-DHAVE_SOMETHING'
 
    # Header search specification and preprocessor flags
    'INC'	=> $INC_magick,
@@ -209,7 +209,7 @@ WriteMakefile
    #'CC' => 'gcc',
 
    # C pre-processor flags (e.g. -I & -D options)
-   # 'CPPFLAGS' => "$Config{'cppflags'} -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16",
+   # 'CPPFLAGS' => "$Config{'cppflags'} -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_CHANNEL_MASK_DEPTH=32",
 
    # C compiler flags (e.g. -O -g)
    'CCFLAGS' => $CCFLAGS_magick,
@@ -222,9 +222,6 @@ WriteMakefile
 
    # Linker flags for building a dynamically loadable module
    'LDDLFLAGS' => $LDDLFLAGS_magick,
-
-   # Install PerlMagick into ImageMagick prefix
-   'INSTALL_BASE' => '/usr',
 
    # Install PerlMagick binary into ImageMagick bin directory
    'INSTALLBIN'	=> '/usr/bin',

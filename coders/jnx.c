@@ -16,7 +16,7 @@
 %                                 July 2012                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -38,28 +38,29 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/colorspace.h"
-#include "magick/colorspace-private.h"
-#include "magick/draw.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/module.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/property.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/colorspace.h"
+#include "MagickCore/colorspace-private.h"
+#include "MagickCore/draw.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/property.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/resource_.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
 
 typedef struct _JNXInfo
 {
@@ -90,12 +91,6 @@ typedef struct _JNXLevelInfo
   int
     count,
     offset;
-
-  unsigned int
-    scale;
-
-  unsigned short
-    copyright[MaxTextExtent];
 } JNXLevelInfo;
 
 /*
@@ -141,6 +136,9 @@ static Image *ReadJNXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   MagickBooleanType
     status;
 
+  MagickSizeType
+    num_images;
+
   ssize_t
     i;
 
@@ -154,7 +152,7 @@ static Image *ReadJNXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   image->columns=0;
   image->rows=0;
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
@@ -193,6 +191,7 @@ static Image *ReadJNXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   /*
     Read JNX levels.
   */
+  num_images=0;
   (void) memset(&jnx_level_info,0,sizeof(jnx_level_info));
   for (i=0; i < (ssize_t) jnx_info.levels; i++)
   {
@@ -200,26 +199,20 @@ static Image *ReadJNXImage(const ImageInfo *image_info,ExceptionInfo *exception)
     if (jnx_level_info[i].count > 50000)
       ThrowReaderException(CorruptImageError,"ImproperImageHeader");
     jnx_level_info[i].offset=ReadBlobLSBSignedLong(image);
-    jnx_level_info[i].scale=ReadBlobLSBLong(image);
-    *jnx_level_info[i].copyright='\0';
+    /* scale */
+    (void) ReadBlobLSBLong(image);
     if (jnx_info.version > 3)
       {
-        ssize_t
-          j;
-
-        unsigned short
-          c;
-
+        /* copyright */
         (void) ReadBlobLSBLong(image);
-        j=0;
-        while ((c=ReadBlobLSBShort(image)) != 0)
-          if (j < (MaxTextExtent-1))
-            jnx_level_info[i].copyright[j++]=c;
-        jnx_level_info[i].copyright[j]='\0';
+        while (ReadBlobLSBShort(image) != 0);
       }
     if (EOFBlob(image) != MagickFalse)
       ThrowReaderException(CorruptImageError,"UnexpectedEndOfFile");
+    num_images+=(MagickSizeType) jnx_level_info[i].count;
   }
+  if (AcquireMagickResource(ListLengthResource,num_images) == MagickFalse)
+    ThrowReaderException(ResourceLimitError,"ListLengthExceedsLimit");
   /*
     Read JNX tiles.
   */
@@ -308,15 +301,16 @@ static Image *ReadJNXImage(const ImageInfo *image_info,ExceptionInfo *exception)
           ThrowReaderException(CorruptImageError,"UnexpectedEndOfFile");
         }
       read_info=CloneImageInfo(image_info);
-      (void) CopyMagickString(read_info->magick,"JPEG",MaxTextExtent);
+      (void) CopyMagickString(read_info->magick,"JPEG",MagickPathExtent);
       tile_image=BlobToImage(read_info,blob,tile_length+2,exception);
       read_info=DestroyImageInfo(read_info);
       blob=(unsigned char *) RelinquishMagickMemory(blob);
-      (void) SeekBlob(image,restore_offset,SEEK_SET);
+      offset=SeekBlob(image,restore_offset,SEEK_SET);
       if (tile_image == (Image *) NULL)
         continue;
       tile_image->depth=8;
-      (void) CopyMagickString(tile_image->magick,image->magick,MaxTextExtent);
+      (void) CopyMagickString(tile_image->magick,image->magick,
+        MagickPathExtent);
       (void) FormatImageProperty(tile_image,"jnx:northeast","%.20g,%.20g",
         northeast.x,northeast.y);
       (void) FormatImageProperty(tile_image,"jnx:southwest","%.20g,%.20g",
@@ -366,11 +360,9 @@ ModuleExport size_t RegisterJNXImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("JNX");
+  entry=AcquireMagickInfo("JNX","JNX","Garmin tile format");
   entry->decoder=(DecodeImageHandler *) ReadJNXImage;
-  entry->description=ConstantString("Garmin tile format");
-  entry->seekable_stream=MagickTrue;
-  entry->magick_module=ConstantString("JNX");
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

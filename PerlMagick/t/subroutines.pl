@@ -962,7 +962,7 @@ sub testGetAttribute {
 #       [, expected REF_16] );
 #
 sub testMontage {
-  my( $imageOptions, $montageOptions, $ref_8, $ref_16, $ref_32 ) = @_;
+  my( $imageOptions, $montageOptions, $ref_8, $ref_16, $ref_32, $ref_32_hdri ) = @_;
 
   my($image,$ref_signature);
 
@@ -973,19 +973,6 @@ sub testMontage {
   if ( !defined( $ref_32 ) )
     {
       $ref_32 = $ref_16;
-    }
-
-  if (Image::Magick->new()->QuantumDepth == 32)
-    {
-      $ref_signature=$ref_32;
-    }
-  elsif (Image::Magick->new()->QuantumDepth == 16)
-    {
-      $ref_signature=$ref_16;
-    }
-  else
-    {
-      $ref_signature=$ref_8;
     }
 
   # Create image for image list
@@ -1030,6 +1017,7 @@ sub testMontage {
   #print "Montage Options: $montageOptions\n";
   print("\$montage=\$images->Montage( $montageOptions )\n");
   eval "\$montage=\$images->Montage( $montageOptions ) ;";
+  #$montage->Clamp();
   if( $@ ) {
     print "$@";
     print "not ok $test\n";
@@ -1043,10 +1031,10 @@ sub testMontage {
     # $montage->Display();
     $signature=$montage->GetAttribute('signature');
     if ( defined( $signature ) ) {
-      if ( $signature ne $ref_signature ) {
+      if ( $signature ne $ref_8 && $signature ne $ref_16 && $signature ne $ref_32 && $signature ne $ref_32_hdri) {
         print "ReadImage()\n";
         print "Test $test, signatures do not match.\n";
-      	print "     Expected: $ref_signature\n";
+      	print "     Expected: $ref_8\n";
       	print "     Computed: $signature\n";
         print "     Depth:    ", Image::Magick->new()->QuantumDepth, "\n";
         $status = $montage->Write("test_${test}_out.miff");

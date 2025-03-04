@@ -1,0 +1,782 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 29 Dec 2024 13:37:00 +0000
+Subject: html remove cache line
+
+find . -name '*.html' -exec sed -ip 's,^[<][!]-- Magick Cache.*$,,g' {} \;
+
+ease apply patches
+
+forwarded: not-needed
+---
+ index.html                             | 1 -
+ www/advanced-linux-installation.html   | 1 -
+ www/advanced-unix-installation.html    | 1 -
+ www/advanced-windows-installation.html | 1 -
+ www/animate.html                       | 1 -
+ www/architecture.html                  | 1 -
+ www/cipher.html                        | 1 -
+ www/cite.html                          | 1 -
+ www/clahe.html                         | 1 -
+ www/color-management.html              | 1 -
+ www/color-thresholding.html            | 1 -
+ www/color.html                         | 1 -
+ www/command-line-options.html          | 1 -
+ www/command-line-processing.html       | 1 -
+ www/command-line-tools.html            | 1 -
+ www/compare.html                       | 1 -
+ www/compose.html                       | 1 -
+ www/composite.html                     | 1 -
+ www/conjure.html                       | 1 -
+ www/connected-components.html          | 1 -
+ www/convert.html                       | 1 -
+ www/convex-hull.html                   | 1 -
+ www/defines.html                       | 1 -
+ www/develop.html                       | 1 -
+ www/display.html                       | 1 -
+ www/distribute-pixel-cache.html        | 1 -
+ www/download.html                      | 1 -
+ www/escape.html                        | 1 -
+ www/examples.html                      | 1 -
+ www/exception.html                     | 1 -
+ www/export.html                        | 1 -
+ www/formats.html                       | 1 -
+ www/fx.html                            | 1 -
+ www/gradient.html                      | 1 -
+ www/high-dynamic-range.html            | 1 -
+ www/history.html                       | 1 -
+ www/identify.html                      | 1 -
+ www/import.html                        | 1 -
+ www/index.html                         | 1 -
+ www/install-source.html                | 1 -
+ www/jp2.html                           | 1 -
+ www/license.html                       | 1 -
+ www/links.html                         | 1 -
+ www/magick++.html                      | 1 -
+ www/magick-cache.html                  | 1 -
+ www/magick-core.html                   | 1 -
+ www/magick-script.html                 | 1 -
+ www/magick-vector-graphics.html        | 1 -
+ www/magick-wand.html                   | 1 -
+ www/magick.html                        | 1 -
+ www/miff.html                          | 1 -
+ www/mirror.html                        | 1 -
+ www/mogrify.html                       | 1 -
+ www/montage.html                       | 1 -
+ www/motion-picture.html                | 1 -
+ www/multispectral-imagery.html         | 1 -
+ www/news.html                          | 1 -
+ www/opencl.html                        | 1 -
+ www/openmp.html                        | 1 -
+ www/perl-magick.html                   | 1 -
+ www/porting.html                       | 1 -
+ www/privacy-policy.html                | 1 -
+ www/quantize.html                      | 1 -
+ www/resources.html                     | 1 -
+ www/security-policy.html               | 1 -
+ www/sitemap.html                       | 1 -
+ www/stream.html                        | 1 -
+ www/support.html                       | 1 -
+ www/vpat.html                          | 1 -
+ www/webp.html                          | 1 -
+ 70 files changed, 70 deletions(-)
+
+diff --git a/index.html b/index.html
+index 6b7f0a8..8207bad 100644
+--- a/index.html
++++ b/index.html
+@@ -347,4 +347,3 @@
+   <script src="www/assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:41 -->
+\ No newline at end of file
+diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
+index 2a4618b..1494272 100644
+--- a/www/advanced-linux-installation.html
++++ b/www/advanced-linux-installation.html
+@@ -677,4 +677,3 @@ no encode delegate for this image format </samp></pre>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:13 -->
+\ No newline at end of file
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index 066ce8c..bdd2396 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -656,4 +656,3 @@ no encode delegate for this image format
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 13th February 2021 11:28 -->
+\ No newline at end of file
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index 16c076b..913b1e7 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
+@@ -208,4 +208,3 @@ program will start a Wizard that allows configuration of ImageMagick and its ind
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:57 -->
+\ No newline at end of file
+diff --git a/www/animate.html b/www/animate.html
+index 6779460..efe1066 100644
+--- a/www/animate.html
++++ b/www/animate.html
+@@ -617,4 +617,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/architecture.html b/www/architecture.html
+index 9827415..f7802b3 100644
+--- a/www/architecture.html
++++ b/www/architecture.html
+@@ -1720,4 +1720,3 @@ Image: logo:
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:10 -->
+\ No newline at end of file
+diff --git a/www/cipher.html b/www/cipher.html
+index d73c117..5b98b13 100644
+--- a/www/cipher.html
++++ b/www/cipher.html
+@@ -223,4 +223,3 @@ Examples <a href="https://usage.imagemagick.org/transform/#encipher#encipher"
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:56 -->
+\ No newline at end of file
+diff --git a/www/cite.html b/www/cite.html
+index de1ca82..31e9197 100644
+--- a/www/cite.html
++++ b/www/cite.html
+@@ -183,4 +183,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:42 -->
+\ No newline at end of file
+diff --git a/www/clahe.html b/www/clahe.html
+index 9167084..c38ac7f 100644
+--- a/www/clahe.html
++++ b/www/clahe.html
+@@ -192,4 +192,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:13 -->
+\ No newline at end of file
+diff --git a/www/color-management.html b/www/color-management.html
+index a07db9f..c7bf3ea 100644
+--- a/www/color-management.html
++++ b/www/color-management.html
+@@ -222,4 +222,3 @@ magick myimage_channels_*.png -set colorspace HSL -combine -colorspace RGB -set
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:42 -->
+\ No newline at end of file
+diff --git a/www/color-thresholding.html b/www/color-thresholding.html
+index 47680a9..cc81316 100644
+--- a/www/color-thresholding.html
++++ b/www/color-thresholding.html
+@@ -233,4 +233,3 @@ magick xc:"sRGB(205,100,45)" -colorspace gray txt:
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:07 -->
+\ No newline at end of file
+diff --git a/www/color.html b/www/color.html
+index ff4a33b..9876da2 100644
+--- a/www/color.html
++++ b/www/color.html
+@@ -5038,4 +5038,3 @@ device-cmyk(0.11, 0.48, 0.83, 0.00)</samp></pre>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:11 -->
+\ No newline at end of file
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index da6c21b..03c1bf0 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
+@@ -8011,4 +8011,3 @@ but with strict boolean masking. </p>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:42 -->
+\ No newline at end of file
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index 443890e..42d6216 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
+@@ -736,4 +736,3 @@ image-2.jpg</pre>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:41 -->
+\ No newline at end of file
+diff --git a/www/command-line-tools.html b/www/command-line-tools.html
+index 9aff077..0e49ac2 100644
+--- a/www/command-line-tools.html
++++ b/www/command-line-tools.html
+@@ -192,4 +192,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:51 -->
+\ No newline at end of file
+diff --git a/www/compare.html b/www/compare.html
+index a1989a1..42ff448 100644
+--- a/www/compare.html
++++ b/www/compare.html
+@@ -511,4 +511,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:50 -->
+\ No newline at end of file
+diff --git a/www/compose.html b/www/compose.html
+index e4bcd2f..6b3ff79 100644
+--- a/www/compose.html
++++ b/www/compose.html
+@@ -759,4 +759,3 @@ href="command-line-options.html#list">-list compose</a>.</p>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:21 -->
+\ No newline at end of file
+diff --git a/www/composite.html b/www/composite.html
+index e3c7af0..d6a7531 100644
+--- a/www/composite.html
++++ b/www/composite.html
+@@ -619,4 +619,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:10 -->
+\ No newline at end of file
+diff --git a/www/conjure.html b/www/conjure.html
+index 8a8e21a..effff3b 100644
+--- a/www/conjure.html
++++ b/www/conjure.html
+@@ -1224,4 +1224,3 @@ fill="color name", channel="All, Default, Alpha, Black, Blue, CMYK, Cyan, Gray,
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:21 -->
+\ No newline at end of file
+diff --git a/www/connected-components.html b/www/connected-components.html
+index 32b49d4..b436071 100644
+--- a/www/connected-components.html
++++ b/www/connected-components.html
+@@ -228,4 +228,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:57 -->
+\ No newline at end of file
+diff --git a/www/convert.html b/www/convert.html
+index ea5e995..1f98d8d 100644
+--- a/www/convert.html
++++ b/www/convert.html
+@@ -1458,4 +1458,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:41 -->
+\ No newline at end of file
+diff --git a/www/convex-hull.html b/www/convex-hull.html
+index fd7e4c3..c6d7be9 100644
+--- a/www/convex-hull.html
++++ b/www/convex-hull.html
+@@ -224,4 +224,3 @@ magick [-fuzz <var>value</var>%] [-background <var>background-color</var>] -form
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:24 -->
+\ No newline at end of file
+diff --git a/www/defines.html b/www/defines.html
+index a48649a..d51c664 100644
+--- a/www/defines.html
++++ b/www/defines.html
+@@ -1864,4 +1864,3 @@ use:</p>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:14 -->
+\ No newline at end of file
+diff --git a/www/develop.html b/www/develop.html
+index 94aae6d..ddde4bc 100644
+--- a/www/develop.html
++++ b/www/develop.html
+@@ -315,4 +315,3 @@ With a language interface, use ImageMagick to modify or create images dynamicall
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:57 -->
+\ No newline at end of file
+diff --git a/www/display.html b/www/display.html
+index a55afe4..471cf1f 100644
+--- a/www/display.html
++++ b/www/display.html
+@@ -649,4 +649,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:45 -->
+\ No newline at end of file
+diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
+index 2428740..8e68089 100644
+--- a/www/distribute-pixel-cache.html
++++ b/www/distribute-pixel-cache.html
+@@ -180,4 +180,3 @@ magick -limit memory 1GiB -limit map 2GiB -limit disk 4GiB \
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:19 -->
+\ No newline at end of file
+diff --git a/www/download.html b/www/download.html
+index 3c69950..d8c1282 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -579,4 +579,3 @@ objShell.Exec("magick ""e:/myimages/image.png"" ""e:/myimages/image.jpg""")</sam
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:41 -->
+\ No newline at end of file
+diff --git a/www/escape.html b/www/escape.html
+index 07a5185..33382db 100644
+--- a/www/escape.html
++++ b/www/escape.html
+@@ -1026,4 +1026,3 @@ Post ObjectData Descriptor Record
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:23 -->
+\ No newline at end of file
+diff --git a/www/examples.html b/www/examples.html
+index 6642122..983024b 100644
+--- a/www/examples.html
++++ b/www/examples.html
+@@ -169,4 +169,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:20 -->
+\ No newline at end of file
+diff --git a/www/exception.html b/www/exception.html
+index 72d7db8..093b924 100644
+--- a/www/exception.html
++++ b/www/exception.html
+@@ -359,4 +359,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:00 -->
+\ No newline at end of file
+diff --git a/www/export.html b/www/export.html
+index 9fedb4d..a043998 100644
+--- a/www/export.html
++++ b/www/export.html
+@@ -169,4 +169,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:39 -->
+\ No newline at end of file
+diff --git a/www/formats.html b/www/formats.html
+index a99ab5b..67bbe1b 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -2235,4 +2235,3 @@ the supported image formats.</p>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:00 -->
+\ No newline at end of file
+diff --git a/www/fx.html b/www/fx.html
+index ff4a005..e915d41 100644
+--- a/www/fx.html
++++ b/www/fx.html
+@@ -553,4 +553,3 @@ Red channel of NW corner of image #1 is 0.184582
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:11 -->
+\ No newline at end of file
+diff --git a/www/gradient.html b/www/gradient.html
+index 4c41a9b..041b68e 100644
+--- a/www/gradient.html
++++ b/www/gradient.html
+@@ -320,4 +320,3 @@ magick -size 256x128 -define gradient:radii=128,64 radial-gradient:black-white r
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:13 -->
+\ No newline at end of file
+diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
+index d1327b3..b3d2ae3 100644
+--- a/www/high-dynamic-range.html
++++ b/www/high-dynamic-range.html
+@@ -201,4 +201,3 @@ Features: HDRI
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/history.html b/www/history.html
+index 30fa61b..221afc2 100644
+--- a/www/history.html
++++ b/www/history.html
+@@ -186,4 +186,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:07 -->
+\ No newline at end of file
+diff --git a/www/identify.html b/www/identify.html
+index 2b34fca..f25bf20 100644
+--- a/www/identify.html
++++ b/www/identify.html
+@@ -527,4 +527,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:54 -->
+\ No newline at end of file
+diff --git a/www/import.html b/www/import.html
+index 0dd5711d..9aeceb6 100644
+--- a/www/import.html
++++ b/www/import.html
+@@ -518,4 +518,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:23 -->
+\ No newline at end of file
+diff --git a/www/index.html b/www/index.html
+index 40bfb2e..045bcab 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -347,4 +347,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:41 -->
+\ No newline at end of file
+diff --git a/www/install-source.html b/www/install-source.html
+index d650f9a..a8ee946 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
+@@ -252,4 +252,3 @@ to compile the program and on completion run the program.</p>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:54 -->
+\ No newline at end of file
+diff --git a/www/jp2.html b/www/jp2.html
+index 9193e19..c4b2227 100644
+--- a/www/jp2.html
++++ b/www/jp2.html
+@@ -239,4 +239,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/license.html b/www/license.html
+index 6e37744..afbe50b 100644
+--- a/www/license.html
++++ b/www/license.html
+@@ -290,4 +290,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:53 -->
+\ No newline at end of file
+diff --git a/www/links.html b/www/links.html
+index 8c94366..a8a77d5 100644
+--- a/www/links.html
++++ b/www/links.html
+@@ -249,4 +249,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 15:47 -->
+\ No newline at end of file
+diff --git a/www/magick++.html b/www/magick++.html
+index 40f76c6..14d1034 100644
+--- a/www/magick++.html
++++ b/www/magick++.html
+@@ -270,4 +270,3 @@ int main(int argc,char **argv)
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:57 -->
+\ No newline at end of file
+diff --git a/www/magick-cache.html b/www/magick-cache.html
+index 83fb632..61f51ec 100644
+--- a/www/magick-cache.html
++++ b/www/magick-cache.html
+@@ -226,4 +226,3 @@ identified 1 resources</samp></pre>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:50 -->
+\ No newline at end of file
+diff --git a/www/magick-core.html b/www/magick-core.html
+index 1ee62fa..493f32a 100644
+--- a/www/magick-core.html
++++ b/www/magick-core.html
+@@ -422,4 +422,3 @@ int main(int argc,char **argv)
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 15:51 -->
+\ No newline at end of file
+diff --git a/www/magick-script.html b/www/magick-script.html
+index dd0c878..c011c00 100644
+--- a/www/magick-script.html
++++ b/www/magick-script.html
+@@ -1374,4 +1374,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
+index 72752ef..8a1ec0e 100644
+--- a/www/magick-vector-graphics.html
++++ b/www/magick-vector-graphics.html
+@@ -973,4 +973,3 @@ round</samp></pre></td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:41 -->
+\ No newline at end of file
+diff --git a/www/magick-wand.html b/www/magick-wand.html
+index a383cb7..df17fee 100644
+--- a/www/magick-wand.html
++++ b/www/magick-wand.html
+@@ -464,4 +464,3 @@ int main(int argc,char **argv)
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:13 -->
+\ No newline at end of file
+diff --git a/www/magick.html b/www/magick.html
+index 74a2080..54b643b 100644
+--- a/www/magick.html
++++ b/www/magick.html
+@@ -1438,4 +1438,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:13 -->
+\ No newline at end of file
+diff --git a/www/miff.html b/www/miff.html
+index 238fcae..0c2d085 100644
+--- a/www/miff.html
++++ b/www/miff.html
+@@ -333,4 +333,3 @@ or fewer colors in the image, each byte of image data contains an index value. I
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:02 -->
+\ No newline at end of file
+diff --git a/www/mirror.html b/www/mirror.html
+index cc6b50c..f70a5fa 100644
+--- a/www/mirror.html
++++ b/www/mirror.html
+@@ -196,4 +196,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:03 -->
+\ No newline at end of file
+diff --git a/www/mogrify.html b/www/mogrify.html
+index ea15e65..d1d8a18 100644
+--- a/www/mogrify.html
++++ b/www/mogrify.html
+@@ -1440,4 +1440,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:49 -->
+\ No newline at end of file
+diff --git a/www/montage.html b/www/montage.html
+index 2c31a82..1fbb250 100644
+--- a/www/montage.html
++++ b/www/montage.html
+@@ -745,4 +745,3 @@ transparent, extract, background, or shape the alpha channel</td>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:57 -->
+\ No newline at end of file
+diff --git a/www/motion-picture.html b/www/motion-picture.html
+index 829299c..505ff39 100644
+--- a/www/motion-picture.html
++++ b/www/motion-picture.html
+@@ -279,4 +279,3 @@ dpx:user.data
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:11 -->
+\ No newline at end of file
+diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
+index 1f4573e..4a947da 100644
+--- a/www/multispectral-imagery.html
++++ b/www/multispectral-imagery.html
+@@ -317,4 +317,3 @@ Image:
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:13 -->
+\ No newline at end of file
+diff --git a/www/news.html b/www/news.html
+index 276d46c..1c5a963 100644
+--- a/www/news.html
++++ b/www/news.html
+@@ -207,4 +207,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:19 -->
+\ No newline at end of file
+diff --git a/www/opencl.html b/www/opencl.html
+index a145992..8b47fa3 100644
+--- a/www/opencl.html
++++ b/www/opencl.html
+@@ -210,4 +210,3 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/openmp.html b/www/openmp.html
+index 4ba95a5..05c2ba8 100644
+--- a/www/openmp.html
++++ b/www/openmp.html
+@@ -186,4 +186,3 @@ Performance[8]: 40i 4.831ips 0.872e 15.680u 0:02.070</samp></pre>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 15:49 -->
+\ No newline at end of file
+diff --git a/www/perl-magick.html b/www/perl-magick.html
+index 8981dba..88a7845 100644
+--- a/www/perl-magick.html
++++ b/www/perl-magick.html
+@@ -2726,4 +2726,3 @@ XServerWarning
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:46 -->
+\ No newline at end of file
+diff --git a/www/porting.html b/www/porting.html
+index 58ff09c..5db6346 100644
+--- a/www/porting.html
++++ b/www/porting.html
+@@ -747,4 +747,3 @@ example "+annotate", "+resize", "+clut", and "+draw" .</p>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 16:52 -->
+\ No newline at end of file
+diff --git a/www/privacy-policy.html b/www/privacy-policy.html
+index 2387153..d4c7c66 100644
+--- a/www/privacy-policy.html
++++ b/www/privacy-policy.html
+@@ -168,4 +168,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/quantize.html b/www/quantize.html
+index 7865262..11f234a 100644
+--- a/www/quantize.html
++++ b/www/quantize.html
+@@ -285,4 +285,3 @@ while number of nodes with (n2 &gt; 0) &gt; required maximum number of colors
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/resources.html b/www/resources.html
+index 2f4f934..49985ce 100644
+--- a/www/resources.html
++++ b/www/resources.html
+@@ -459,4 +459,3 @@ $MAGICK_FONT_PATH</samp></pre>
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:13 -->
+\ No newline at end of file
+diff --git a/www/security-policy.html b/www/security-policy.html
+index 08e7105..cdb92f3 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
+@@ -455,4 +455,3 @@ Path: [built-in]
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:06 -->
+\ No newline at end of file
+diff --git a/www/sitemap.html b/www/sitemap.html
+index 226f2a9..bf249c6 100644
+--- a/www/sitemap.html
++++ b/www/sitemap.html
+@@ -437,4 +437,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/stream.html b/www/stream.html
+index 3081105..a17dda9 100644
+--- a/www/stream.html
++++ b/www/stream.html
+@@ -361,4 +361,3 @@ magick display -depth 8 -size 640x480 rgb:pixels.dat
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/support.html b/www/support.html
+index a4c66bf..2d51383 100644
+--- a/www/support.html
++++ b/www/support.html
+@@ -227,4 +227,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:21 -->
+\ No newline at end of file
+diff --git a/www/vpat.html b/www/vpat.html
+index b093b74..66099e3 100644
+--- a/www/vpat.html
++++ b/www/vpat.html
+@@ -213,4 +213,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 18:32 -->
+\ No newline at end of file
+diff --git a/www/webp.html b/www/webp.html
+index e3d62b2..7e6a60f 100644
+--- a/www/webp.html
++++ b/www/webp.html
+@@ -284,4 +284,3 @@
+   <script src="assets/magick.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 3rd November 2024 17:10 -->
+\ No newline at end of file

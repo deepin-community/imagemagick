@@ -17,7 +17,7 @@
 %                                 April 2000                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,30 +39,29 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/artifact.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/draw.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/module.h"
-#include "magick/pixel-accessor.h"
-#include "magick/property.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/artifact.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/draw.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/property.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteMVGImage(const ImageInfo *,Image *);
+  WriteMVGImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -127,8 +126,6 @@ static MagickBooleanType IsMVG(const unsigned char *magick,const size_t length)
 */
 static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
 {
-#define BoundingBox  "viewbox"
-
   DrawInfo
     *draw_info;
 
@@ -148,7 +145,7 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -158,7 +155,7 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if ((image->columns == 0) || (image->rows == 0))
     {
       char
-        primitive[MaxTextExtent];
+        primitive[MagickPathExtent];
 
       char
         *p;
@@ -172,11 +169,14 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
       (void) memset(&bounds,0,sizeof(bounds));
       while (ReadBlobString(image,primitive) != (char *) NULL)
       {
+        int
+          count;
+
         for (p=primitive; (*p == ' ') || (*p == '\t'); p++) ;
-        if (LocaleNCompare(BoundingBox,p,strlen(BoundingBox)) != 0)
-          continue;
-        (void) sscanf(p,"viewbox %lf %lf %lf %lf",&bounds.x1,&bounds.y1,
+        count=sscanf(p,"viewbox %lf %lf %lf %lf",&bounds.x1,&bounds.y1,
           &bounds.x2,&bounds.y2);
+        if (count != 4)
+          continue;
         image->columns=CastDoubleToUnsigned(floor((bounds.x2-bounds.x1)+0.5));
         image->rows=CastDoubleToUnsigned(floor((bounds.y2-bounds.y1)+0.5));
         break;
@@ -187,25 +187,22 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   draw_info=CloneDrawInfo(image_info,(DrawInfo *) NULL);
   if (draw_info->density != (char *) NULL)
     draw_info->density=DestroyString(draw_info->density);
-  draw_info->affine.sx=image->x_resolution == 0.0 ? 1.0 : image->x_resolution/
+  draw_info->affine.sx=image->resolution.x == 0.0 ? 1.0 : image->resolution.x/
     96.0;
-  draw_info->affine.sy=image->y_resolution == 0.0 ? 1.0 : image->y_resolution/
+  draw_info->affine.sy=image->resolution.y == 0.0 ? 1.0 : image->resolution.y/
     96.0;
   image->columns=CastDoubleToUnsigned(draw_info->affine.sx*image->columns);
   image->rows=CastDoubleToUnsigned(draw_info->affine.sy*image->rows);
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
     {
       draw_info=DestroyDrawInfo(draw_info);
-      InheritException(exception,&image->exception);
       return(DestroyImageList(image));
     }
-  if (SetImageBackgroundColor(image) == MagickFalse)
+  if (SetImageBackgroundColor(image,exception) == MagickFalse)
     {
       draw_info=DestroyDrawInfo(draw_info);
-      InheritException(exception,&image->exception);
-      image=DestroyImageList(image);
-      return((Image *) NULL);
+      return(DestroyImageList(image));
     }
   /*
     Render drawing.
@@ -232,7 +229,6 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (draw_info->primitive == (char *) NULL)
     {
       draw_info=DestroyDrawInfo(draw_info);
-      InheritException(exception,&image->exception);
       return(DestroyImageList(image));
     }
   if (*draw_info->primitive == '@')
@@ -240,7 +236,7 @@ static Image *ReadMVGImage(const ImageInfo *image_info,ExceptionInfo *exception)
       draw_info=DestroyDrawInfo(draw_info);
       ThrowReaderException(CorruptImageError,"ImproperImageHeader");
     }
-  (void) DrawImage(image,draw_info);
+  (void) DrawImage(image,draw_info,exception);
   (void) SetImageArtifact(image,"mvg:vector-graphics",draw_info->primitive);
   draw_info=DestroyDrawInfo(draw_info);
   if (CloseBlob(image) == MagickFalse)
@@ -278,15 +274,13 @@ ModuleExport size_t RegisterMVGImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("MVG");
+  entry=AcquireMagickInfo("MVG","MVG","Magick Vector Graphics");
   entry->decoder=(DecodeImageHandler *) ReadMVGImage;
   entry->encoder=(EncodeImageHandler *) WriteMVGImage;
   entry->magick=(IsImageFormatHandler *) IsMVG;
-  entry->adjoin=MagickFalse;
-  entry->seekable_stream=MagickTrue;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Magick Vector Graphics");
-  entry->magick_module=ConstantString("MVG");
+  entry->flags|=CoderDecoderSeekableStreamFlag;
+  entry->flags^=CoderAdjoinFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -330,7 +324,8 @@ ModuleExport void UnregisterMVGImage(void)
 %
 %  The format of the WriteMVGImage method is:
 %
-%      MagickBooleanType WriteMVGImage(const ImageInfo *image_info,Image *image)
+%      MagickBooleanType WriteMVGImage(const ImageInfo *image_info,
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -338,8 +333,11 @@ ModuleExport void UnregisterMVGImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
-static MagickBooleanType WriteMVGImage(const ImageInfo *image_info,Image *image)
+static MagickBooleanType WriteMVGImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
   const char
     *value;
@@ -359,7 +357,7 @@ static MagickBooleanType WriteMVGImage(const ImageInfo *image_info,Image *image)
   value=GetImageArtifact(image,"mvg:vector-graphics");
   if (value == (const char *) NULL)
     ThrowWriterException(OptionError,"NoImageVectorGraphics");
-  status=OpenBlob(image_info,image,WriteBlobMode,&image->exception);
+  status=OpenBlob(image_info,image,WriteBlobMode,exception);
   if (status == MagickFalse)
     return(status);
   (void) WriteBlob(image,strlen(value),(const unsigned char *) value);

@@ -8,14 +8,14 @@
 #
 subdir=Magick++/tests
 . ./common.shi
-echo "1..12"
+echo "1..13"
 
 SRCDIR=${top_srcdir}/${subdir}/
 export SRCDIR
 
 cd ${subdir} || exit 1
 
-for mytest in appendImages attributes averageImages coalesceImages coderInfo color colorHistogram exceptions montageImages morphImages readWriteBlob readWriteImages
+for mytest in appendImages attributes averageImages coalesceImages coderInfo color colorHistogram exceptions geometry montageImages morphImages readWriteBlob readWriteImages
 do
   ./${mytest} && echo "ok" || echo "not ok"
 done

@@ -1,0 +1,1942 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 29 Dec 2024 13:43:43 +0000
+Subject: Remove adsbygoogle script
+
+find . -name '*.html' -exec sed -ip 's,^.*js/adsbygoogle.js.*$,,g' {} \;
+
+forwarded: not-needed
+---
+ index.html                             | 2 +-
+ www/advanced-linux-installation.html   | 2 +-
+ www/advanced-unix-installation.html    | 2 +-
+ www/advanced-windows-installation.html | 2 +-
+ www/animate.html                       | 2 +-
+ www/api.html                           | 2 +-
+ www/api/Image++.html                   | 2 +-
+ www/api/animate.html                   | 2 +-
+ www/api/annotate.html                  | 2 +-
+ www/api/attribute.html                 | 2 +-
+ www/api/blob.html                      | 2 +-
+ www/api/cache-view.html                | 2 +-
+ www/api/cache.html                     | 2 +-
+ www/api/channel.html                   | 2 +-
+ www/api/cipher.html                    | 2 +-
+ www/api/color.html                     | 2 +-
+ www/api/colormap.html                  | 2 +-
+ www/api/colorspace.html                | 2 +-
+ www/api/compare.html                   | 2 +-
+ www/api/composite.html                 | 2 +-
+ www/api/constitute.html                | 2 +-
+ www/api/decorate.html                  | 2 +-
+ www/api/deprecate.html                 | 2 +-
+ www/api/display.html                   | 2 +-
+ www/api/distort.html                   | 2 +-
+ www/api/draw.html                      | 2 +-
+ www/api/drawing-wand.html              | 2 +-
+ www/api/effect.html                    | 2 +-
+ www/api/enhance.html                   | 2 +-
+ www/api/exception.html                 | 2 +-
+ www/api/feature.html                   | 2 +-
+ www/api/fourier.html                   | 2 +-
+ www/api/fx.html                        | 2 +-
+ www/api/histogram.html                 | 2 +-
+ www/api/image-view.html                | 2 +-
+ www/api/image.html                     | 2 +-
+ www/api/layer.html                     | 2 +-
+ www/api/list.html                      | 2 +-
+ www/api/magick++-classes.html          | 2 +-
+ www/api/magick-deprecate.html          | 2 +-
+ www/api/magick-image.html              | 2 +-
+ www/api/magick-property.html           | 2 +-
+ www/api/magick-wand.html               | 2 +-
+ www/api/magick.html                    | 2 +-
+ www/api/memory.html                    | 2 +-
+ www/api/mime.html                      | 2 +-
+ www/api/module.html                    | 2 +-
+ www/api/mogrify.html                   | 2 +-
+ www/api/monitor.html                   | 2 +-
+ www/api/montage.html                   | 2 +-
+ www/api/morphology.html                | 2 +-
+ www/api/paint.html                     | 2 +-
+ www/api/pixel-iterator.html            | 2 +-
+ www/api/pixel-wand.html                | 2 +-
+ www/api/profile.html                   | 2 +-
+ www/api/property.html                  | 2 +-
+ www/api/quantize.html                  | 2 +-
+ www/api/registry.html                  | 2 +-
+ www/api/resize.html                    | 2 +-
+ www/api/resource.html                  | 2 +-
+ www/api/segment.html                   | 2 +-
+ www/api/shear.html                     | 2 +-
+ www/api/signature.html                 | 2 +-
+ www/api/statistic.html                 | 2 +-
+ www/api/stream.html                    | 2 +-
+ www/api/transform.html                 | 2 +-
+ www/api/version.html                   | 2 +-
+ www/api/vision.html                    | 2 +-
+ www/api/wand-view.html                 | 2 +-
+ www/architecture.html                  | 2 +-
+ www/binary-releases.html               | 2 +-
+ www/changelog.html                     | 2 +-
+ www/cipher.html                        | 2 +-
+ www/cite.html                          | 2 +-
+ www/clahe.html                         | 2 +-
+ www/color-management.html              | 2 +-
+ www/color-thresholding.html            | 2 +-
+ www/color.html                         | 2 +-
+ www/command-line-options.html          | 2 +-
+ www/command-line-processing.html       | 2 +-
+ www/command-line-tools.html            | 2 +-
+ www/compare.html                       | 2 +-
+ www/compose.html                       | 2 +-
+ www/composite.html                     | 2 +-
+ www/conjure.html                       | 2 +-
+ www/connected-components.html          | 2 +-
+ www/contact.html                       | 2 +-
+ www/convert.html                       | 2 +-
+ www/convex-hull.html                   | 2 +-
+ www/defines.html                       | 2 +-
+ www/develop.html                       | 2 +-
+ www/display.html                       | 2 +-
+ www/distribute-pixel-cache.html        | 2 +-
+ www/download.html                      | 2 +-
+ www/escape.html                        | 2 +-
+ www/examples.html                      | 2 +-
+ www/exception.html                     | 2 +-
+ www/export.html                        | 2 +-
+ www/formats.html                       | 2 +-
+ www/fx.html                            | 2 +-
+ www/gradient.html                      | 2 +-
+ www/high-dynamic-range.html            | 2 +-
+ www/history.html                       | 2 +-
+ www/identify.html                      | 2 +-
+ www/import.html                        | 2 +-
+ www/index.html                         | 2 +-
+ www/install-source.html                | 2 +-
+ www/jp2.html                           | 2 +-
+ www/license.html                       | 2 +-
+ www/links.html                         | 2 +-
+ www/magick++.html                      | 2 +-
+ www/magick-cache.html                  | 2 +-
+ www/magick-core.html                   | 2 +-
+ www/magick-script.html                 | 2 +-
+ www/magick-vector-graphics.html        | 2 +-
+ www/magick-wand.html                   | 2 +-
+ www/magick.html                        | 2 +-
+ www/miff.html                          | 2 +-
+ www/mirror.html                        | 2 +-
+ www/mogrify.html                       | 2 +-
+ www/montage.html                       | 2 +-
+ www/motion-picture.html                | 2 +-
+ www/multispectral-imagery.html         | 2 +-
+ www/news.html                          | 2 +-
+ www/opencl.html                        | 2 +-
+ www/openmp.html                        | 2 +-
+ www/perl-magick.html                   | 2 +-
+ www/porting.html                       | 2 +-
+ www/privacy-policy.html                | 2 +-
+ www/quantize.html                      | 2 +-
+ www/resources.html                     | 2 +-
+ www/search.html                        | 2 +-
+ www/security-policy.html               | 2 +-
+ www/sitemap.html                       | 2 +-
+ www/stream.html                        | 2 +-
+ www/support.html                       | 2 +-
+ www/vpat.html                          | 2 +-
+ www/webp.html                          | 2 +-
+ 138 files changed, 138 insertions(+), 138 deletions(-)
+
+diff --git a/index.html b/index.html
+index ed41c03..3f8497a 100644
+--- a/index.html
++++ b/index.html
+@@ -30,7 +30,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="www/assets/magick.css" rel="stylesheet" />
+   <script src="www/assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
+index 0476712..5ffc4f3 100644
+--- a/www/advanced-linux-installation.html
++++ b/www/advanced-linux-installation.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index 0455595..ba8ef94 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -79,7 +79,7 @@
+   </nav>
+ 
+   <div class="container">
+-    <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>
++
+     <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index a773b62..eff4255 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/animate.html b/www/animate.html
+index fd3f454..7a72b45 100644
+--- a/www/animate.html
++++ b/www/animate.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api.html b/www/api.html
+index 063d4f5..6b63340 100644
+--- a/www/api.html
++++ b/www/api.html
+@@ -72,7 +72,7 @@
+     </form>
+   </nav>
+   <div class="container">
+-   <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>    <ins class="adsbygoogle"
++
+          style="display:block"
+          data-ad-client="ca-pub-3129977114552745"
+          data-ad-slot="6345125851"
+diff --git a/www/api/Image++.html b/www/api/Image++.html
+index 2f04afa..b48d453 100644
+--- a/www/api/Image++.html
++++ b/www/api/Image++.html
+@@ -71,7 +71,7 @@
+   </nav>
+ 
+   <div class="container">
+-    <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>
++
+     <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/api/animate.html b/www/api/animate.html
+index c2f0ffb..af785bf 100644
+--- a/www/api/animate.html
++++ b/www/api/animate.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/annotate.html b/www/api/annotate.html
+index bd14eb2..a360bb8 100644
+--- a/www/api/annotate.html
++++ b/www/api/annotate.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/attribute.html b/www/api/attribute.html
+index f031d82..f487fdb 100644
+--- a/www/api/attribute.html
++++ b/www/api/attribute.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/blob.html b/www/api/blob.html
+index fceac20..e9586cd 100644
+--- a/www/api/blob.html
++++ b/www/api/blob.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/cache-view.html b/www/api/cache-view.html
+index 390d578..5f3ebfa 100644
+--- a/www/api/cache-view.html
++++ b/www/api/cache-view.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/cache.html b/www/api/cache.html
+index 2e219fc..530cb2a 100644
+--- a/www/api/cache.html
++++ b/www/api/cache.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/channel.html b/www/api/channel.html
+index bd089e9..5a64a94 100644
+--- a/www/api/channel.html
++++ b/www/api/channel.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/cipher.html b/www/api/cipher.html
+index 728da14..b51b13e 100644
+--- a/www/api/cipher.html
++++ b/www/api/cipher.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/color.html b/www/api/color.html
+index 0d16ba0..2cda634 100644
+--- a/www/api/color.html
++++ b/www/api/color.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/colormap.html b/www/api/colormap.html
+index 1d66ac7..41effa7 100644
+--- a/www/api/colormap.html
++++ b/www/api/colormap.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/colorspace.html b/www/api/colorspace.html
+index 2d86af8..44b4c6a 100644
+--- a/www/api/colorspace.html
++++ b/www/api/colorspace.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/compare.html b/www/api/compare.html
+index 9e906a2..60722ea 100644
+--- a/www/api/compare.html
++++ b/www/api/compare.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/composite.html b/www/api/composite.html
+index 9b9b904..4eb7ae8 100644
+--- a/www/api/composite.html
++++ b/www/api/composite.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/constitute.html b/www/api/constitute.html
+index 5564fac..f1ae67d 100644
+--- a/www/api/constitute.html
++++ b/www/api/constitute.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/decorate.html b/www/api/decorate.html
+index 1d1e58d..c61254e 100644
+--- a/www/api/decorate.html
++++ b/www/api/decorate.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/deprecate.html b/www/api/deprecate.html
+index 728aca3..05eb221 100644
+--- a/www/api/deprecate.html
++++ b/www/api/deprecate.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/display.html b/www/api/display.html
+index 3918bd3..40166b6 100644
+--- a/www/api/display.html
++++ b/www/api/display.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/distort.html b/www/api/distort.html
+index a603ca4..e573d4a 100644
+--- a/www/api/distort.html
++++ b/www/api/distort.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/draw.html b/www/api/draw.html
+index 5672e7b..97fc00e 100644
+--- a/www/api/draw.html
++++ b/www/api/draw.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
+index 9ffeadb..b1ce3d2 100644
+--- a/www/api/drawing-wand.html
++++ b/www/api/drawing-wand.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/effect.html b/www/api/effect.html
+index 08038ce..e487c00 100644
+--- a/www/api/effect.html
++++ b/www/api/effect.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/enhance.html b/www/api/enhance.html
+index 6778eee..6944270 100644
+--- a/www/api/enhance.html
++++ b/www/api/enhance.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/exception.html b/www/api/exception.html
+index d0ca76c..d9b9859 100644
+--- a/www/api/exception.html
++++ b/www/api/exception.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/feature.html b/www/api/feature.html
+index ed8e5b1..f0481bc 100644
+--- a/www/api/feature.html
++++ b/www/api/feature.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/fourier.html b/www/api/fourier.html
+index 53437f9..db096eb 100644
+--- a/www/api/fourier.html
++++ b/www/api/fourier.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/fx.html b/www/api/fx.html
+index fad89fa..31eb1ae 100644
+--- a/www/api/fx.html
++++ b/www/api/fx.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/histogram.html b/www/api/histogram.html
+index 3fbed47..1a29869 100644
+--- a/www/api/histogram.html
++++ b/www/api/histogram.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/image-view.html b/www/api/image-view.html
+index cd49d20..ff801a9 100644
+--- a/www/api/image-view.html
++++ b/www/api/image-view.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/image.html b/www/api/image.html
+index 0f6c1c0..c531e80 100644
+--- a/www/api/image.html
++++ b/www/api/image.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/layer.html b/www/api/layer.html
+index f6898b8..938be74 100644
+--- a/www/api/layer.html
++++ b/www/api/layer.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/list.html b/www/api/list.html
+index 73712e9..b7baf8a 100644
+--- a/www/api/list.html
++++ b/www/api/list.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
+index 8057ebb..396de82 100644
+--- a/www/api/magick++-classes.html
++++ b/www/api/magick++-classes.html
+@@ -71,7 +71,7 @@
+   </nav>
+ 
+   <div class="container">
+-    <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>
++
+     <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
+index 1edecfd..b68cec3 100644
+--- a/www/api/magick-deprecate.html
++++ b/www/api/magick-deprecate.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/magick-image.html b/www/api/magick-image.html
+index eb9fb42..7ad59cf 100644
+--- a/www/api/magick-image.html
++++ b/www/api/magick-image.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/magick-property.html b/www/api/magick-property.html
+index c10afd4..5f779b7 100644
+--- a/www/api/magick-property.html
++++ b/www/api/magick-property.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
+index c03ba9a..29f8268 100644
+--- a/www/api/magick-wand.html
++++ b/www/api/magick-wand.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/magick.html b/www/api/magick.html
+index c61d929..cf9f315 100644
+--- a/www/api/magick.html
++++ b/www/api/magick.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/memory.html b/www/api/memory.html
+index 9848cb0..acc5d66 100644
+--- a/www/api/memory.html
++++ b/www/api/memory.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/mime.html b/www/api/mime.html
+index 888c507..15bcd4a 100644
+--- a/www/api/mime.html
++++ b/www/api/mime.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/module.html b/www/api/module.html
+index e1e9e48..a76ca73 100644
+--- a/www/api/module.html
++++ b/www/api/module.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/mogrify.html b/www/api/mogrify.html
+index e6a867a..9771d4d 100644
+--- a/www/api/mogrify.html
++++ b/www/api/mogrify.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/monitor.html b/www/api/monitor.html
+index 13a72fb..9ab4720 100644
+--- a/www/api/monitor.html
++++ b/www/api/monitor.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/montage.html b/www/api/montage.html
+index 9b446e1..ed9676c 100644
+--- a/www/api/montage.html
++++ b/www/api/montage.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index 2765d32..58106e4 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/paint.html b/www/api/paint.html
+index c323865..32a5669 100644
+--- a/www/api/paint.html
++++ b/www/api/paint.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
+index 84c3fd4..e1ceecf 100644
+--- a/www/api/pixel-iterator.html
++++ b/www/api/pixel-iterator.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
+index 721bbed..efa1c19 100644
+--- a/www/api/pixel-wand.html
++++ b/www/api/pixel-wand.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/profile.html b/www/api/profile.html
+index fb344c8..e551901 100644
+--- a/www/api/profile.html
++++ b/www/api/profile.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/property.html b/www/api/property.html
+index 4dfee6d..003f54a 100644
+--- a/www/api/property.html
++++ b/www/api/property.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/quantize.html b/www/api/quantize.html
+index 4a1db24..5bbb5ad 100644
+--- a/www/api/quantize.html
++++ b/www/api/quantize.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/registry.html b/www/api/registry.html
+index f08f52a..67631b0 100644
+--- a/www/api/registry.html
++++ b/www/api/registry.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/resize.html b/www/api/resize.html
+index 63e1303..b16261f 100644
+--- a/www/api/resize.html
++++ b/www/api/resize.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/resource.html b/www/api/resource.html
+index a949453..7a8ec51 100644
+--- a/www/api/resource.html
++++ b/www/api/resource.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/segment.html b/www/api/segment.html
+index eb374a7..44c8b5d 100644
+--- a/www/api/segment.html
++++ b/www/api/segment.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/shear.html b/www/api/shear.html
+index cc15116..f829a65 100644
+--- a/www/api/shear.html
++++ b/www/api/shear.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/signature.html b/www/api/signature.html
+index b717a8b..00fa914 100644
+--- a/www/api/signature.html
++++ b/www/api/signature.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/statistic.html b/www/api/statistic.html
+index 54034f9..0ddb94b 100644
+--- a/www/api/statistic.html
++++ b/www/api/statistic.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/stream.html b/www/api/stream.html
+index 51eb8e4..a4845ae 100644
+--- a/www/api/stream.html
++++ b/www/api/stream.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/transform.html b/www/api/transform.html
+index daba842..df240b7 100644
+--- a/www/api/transform.html
++++ b/www/api/transform.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/version.html b/www/api/version.html
+index e12b53a..e9826d2 100644
+--- a/www/api/version.html
++++ b/www/api/version.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/vision.html b/www/api/vision.html
+index 57fa993..6a9708e 100644
+--- a/www/api/vision.html
++++ b/www/api/vision.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/api/wand-view.html b/www/api/wand-view.html
+index 235faa3..813e37d 100644
+--- a/www/api/wand-view.html
++++ b/www/api/wand-view.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="../assets/magick.css" rel="stylesheet" />
+   <script src="../assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/architecture.html b/www/architecture.html
+index 6b7e20b..e2eaa4c 100644
+--- a/www/architecture.html
++++ b/www/architecture.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/binary-releases.html b/www/binary-releases.html
+index a66fcf0..fd92864 100644
+--- a/www/binary-releases.html
++++ b/www/binary-releases.html
+@@ -67,7 +67,7 @@
+     </form>
+   </nav>
+   <div class="container">
+-   <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>    <ins class="adsbygoogle"
++
+          style="display:block"
+          data-ad-client="ca-pub-3129977114552745"
+          data-ad-slot="6345125851"
+diff --git a/www/changelog.html b/www/changelog.html
+index 8a41a54..9b7a26e 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
+@@ -79,7 +79,7 @@
+   </nav>
+ 
+   <div class="container">
+-    <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>
++
+     <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/cipher.html b/www/cipher.html
+index 140fc45..d8383d4 100644
+--- a/www/cipher.html
++++ b/www/cipher.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/cite.html b/www/cite.html
+index 5f876e1..dec8cfb 100644
+--- a/www/cite.html
++++ b/www/cite.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/clahe.html b/www/clahe.html
+index 0c5c4f9..d03734e 100644
+--- a/www/clahe.html
++++ b/www/clahe.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/color-management.html b/www/color-management.html
+index d091da2..0445291 100644
+--- a/www/color-management.html
++++ b/www/color-management.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/color-thresholding.html b/www/color-thresholding.html
+index 2ba784a..b7422c1 100644
+--- a/www/color-thresholding.html
++++ b/www/color-thresholding.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/color.html b/www/color.html
+index 2c5d49b..1a96b80 100644
+--- a/www/color.html
++++ b/www/color.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index 2a728a8..c0db007 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index 58f8f34..547eb7d 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/command-line-tools.html b/www/command-line-tools.html
+index 4d0a4c0..e216da5 100644
+--- a/www/command-line-tools.html
++++ b/www/command-line-tools.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/compare.html b/www/compare.html
+index 1b00b92..0c19de4 100644
+--- a/www/compare.html
++++ b/www/compare.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/compose.html b/www/compose.html
+index de47870..fc1842f5 100644
+--- a/www/compose.html
++++ b/www/compose.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/composite.html b/www/composite.html
+index 3f6687e..566d66f 100644
+--- a/www/composite.html
++++ b/www/composite.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/conjure.html b/www/conjure.html
+index 13ec902..24111ef 100644
+--- a/www/conjure.html
++++ b/www/conjure.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/connected-components.html b/www/connected-components.html
+index 2dfa0c5..e068bb3 100644
+--- a/www/connected-components.html
++++ b/www/connected-components.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/contact.html b/www/contact.html
+index acaa057..72a190b 100644
+--- a/www/contact.html
++++ b/www/contact.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/convert.html b/www/convert.html
+index de3b0bd..24070c1 100644
+--- a/www/convert.html
++++ b/www/convert.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/convex-hull.html b/www/convex-hull.html
+index e4d32a4..236c3f0 100644
+--- a/www/convex-hull.html
++++ b/www/convex-hull.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/defines.html b/www/defines.html
+index b3cb592..30b038c 100644
+--- a/www/defines.html
++++ b/www/defines.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/develop.html b/www/develop.html
+index fa4e41dc..1c66169 100644
+--- a/www/develop.html
++++ b/www/develop.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/display.html b/www/display.html
+index c6d754e..f80c849 100644
+--- a/www/display.html
++++ b/www/display.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
+index c7abe14..b864104 100644
+--- a/www/distribute-pixel-cache.html
++++ b/www/distribute-pixel-cache.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/download.html b/www/download.html
+index 2567ffe..b91bc39 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/escape.html b/www/escape.html
+index 55a85cf..d564e55 100644
+--- a/www/escape.html
++++ b/www/escape.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/examples.html b/www/examples.html
+index 4f81712..bd6aa40 100644
+--- a/www/examples.html
++++ b/www/examples.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/exception.html b/www/exception.html
+index 566033b..e1c3eba 100644
+--- a/www/exception.html
++++ b/www/exception.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/export.html b/www/export.html
+index 2c48af4..9ae87d7 100644
+--- a/www/export.html
++++ b/www/export.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/formats.html b/www/formats.html
+index c4c9bdc..d9819bd 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/fx.html b/www/fx.html
+index 8cd031e..142a4d7 100644
+--- a/www/fx.html
++++ b/www/fx.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/gradient.html b/www/gradient.html
+index 5e9f99f..52eef99 100644
+--- a/www/gradient.html
++++ b/www/gradient.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
+index deaa05a..15f6dab 100644
+--- a/www/high-dynamic-range.html
++++ b/www/high-dynamic-range.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/history.html b/www/history.html
+index 0a716cd..5f7ce01 100644
+--- a/www/history.html
++++ b/www/history.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/identify.html b/www/identify.html
+index 141e3e2..77282ec 100644
+--- a/www/identify.html
++++ b/www/identify.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/import.html b/www/import.html
+index 49d86bf..9479039 100644
+--- a/www/import.html
++++ b/www/import.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/index.html b/www/index.html
+index 01e8c7d..ada1a4e 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/install-source.html b/www/install-source.html
+index 6f0cb36..8102c06 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/jp2.html b/www/jp2.html
+index 42bc9f7..30a66cb 100644
+--- a/www/jp2.html
++++ b/www/jp2.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/license.html b/www/license.html
+index a0fa18d..9562fe1 100644
+--- a/www/license.html
++++ b/www/license.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/links.html b/www/links.html
+index 8da48d2..b1f8273 100644
+--- a/www/links.html
++++ b/www/links.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/magick++.html b/www/magick++.html
+index b6879e6..4c5747e 100644
+--- a/www/magick++.html
++++ b/www/magick++.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/magick-cache.html b/www/magick-cache.html
+index 04ac2bf..7e3ad66 100644
+--- a/www/magick-cache.html
++++ b/www/magick-cache.html
+@@ -30,7 +30,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/magick-core.html b/www/magick-core.html
+index 56f9fe6..3219e37 100644
+--- a/www/magick-core.html
++++ b/www/magick-core.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/magick-script.html b/www/magick-script.html
+index 4bb2665..e8f437c 100644
+--- a/www/magick-script.html
++++ b/www/magick-script.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
+index d1fcbde..22cc3b4 100644
+--- a/www/magick-vector-graphics.html
++++ b/www/magick-vector-graphics.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/magick-wand.html b/www/magick-wand.html
+index 576dafa..70d8bdb 100644
+--- a/www/magick-wand.html
++++ b/www/magick-wand.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/magick.html b/www/magick.html
+index d019a89..56d5bc5 100644
+--- a/www/magick.html
++++ b/www/magick.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/miff.html b/www/miff.html
+index d404429..69cc7cb 100644
+--- a/www/miff.html
++++ b/www/miff.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/mirror.html b/www/mirror.html
+index 270cf6b..3212aff 100644
+--- a/www/mirror.html
++++ b/www/mirror.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/mogrify.html b/www/mogrify.html
+index 5a7f255..b177a1c 100644
+--- a/www/mogrify.html
++++ b/www/mogrify.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/montage.html b/www/montage.html
+index e29af96..2e7bcb5 100644
+--- a/www/montage.html
++++ b/www/montage.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/motion-picture.html b/www/motion-picture.html
+index af14d8f..07d9aee 100644
+--- a/www/motion-picture.html
++++ b/www/motion-picture.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
+index ef7b688..ef6f3b9 100644
+--- a/www/multispectral-imagery.html
++++ b/www/multispectral-imagery.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/news.html b/www/news.html
+index 30e101a..18e5a4a 100644
+--- a/www/news.html
++++ b/www/news.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/opencl.html b/www/opencl.html
+index 3a3b8c4..e426819 100644
+--- a/www/opencl.html
++++ b/www/opencl.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/openmp.html b/www/openmp.html
+index 9115c43..2dde2df 100644
+--- a/www/openmp.html
++++ b/www/openmp.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/perl-magick.html b/www/perl-magick.html
+index e8c1863..d22a255 100644
+--- a/www/perl-magick.html
++++ b/www/perl-magick.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/porting.html b/www/porting.html
+index d08e4c6..31baa20 100644
+--- a/www/porting.html
++++ b/www/porting.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/privacy-policy.html b/www/privacy-policy.html
+index 8d1ea1b..7e9b0db 100644
+--- a/www/privacy-policy.html
++++ b/www/privacy-policy.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/quantize.html b/www/quantize.html
+index 8b5a751..8c9057e 100644
+--- a/www/quantize.html
++++ b/www/quantize.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/resources.html b/www/resources.html
+index 0b5164c..5d86b3e 100644
+--- a/www/resources.html
++++ b/www/resources.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/search.html b/www/search.html
+index 3f27d6f..e6ab712 100644
+--- a/www/search.html
++++ b/www/search.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/security-policy.html b/www/security-policy.html
+index e7492ba..8396665 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/sitemap.html b/www/sitemap.html
+index 0a18ba4..4d23a8b 100644
+--- a/www/sitemap.html
++++ b/www/sitemap.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/stream.html b/www/stream.html
+index 28ea26b..21d5af7 100644
+--- a/www/stream.html
++++ b/www/stream.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/support.html b/www/support.html
+index 1167cec..2de2bdb 100644
+--- a/www/support.html
++++ b/www/support.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/vpat.html b/www/vpat.html
+index 4603b0b..c731879 100644
+--- a/www/vpat.html
++++ b/www/vpat.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>
+diff --git a/www/webp.html b/www/webp.html
+index a4dd37e..8a1ea53 100644
+--- a/www/webp.html
++++ b/www/webp.html
+@@ -29,7 +29,7 @@
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+   <link href="assets/magick.css" rel="stylesheet" />
+   <script src="assets/color-modes.js" ></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++
+   <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
+ </head>
+ <body>

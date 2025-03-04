@@ -17,7 +17,7 @@
 %                                January 2008                                 %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,45 +39,45 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/artifact.h"
-#include "magick/attribute.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/color.h"
-#include "magick/color-private.h"
-#include "magick/colorspace.h"
-#include "magick/colorspace-private.h"
-#include "magick/constitute.h"
-#include "magick/delegate.h"
-#include "magick/delegate-private.h"
-#include "magick/draw.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/geometry.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/module.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/nt-base-private.h"
-#include "magick/option.h"
-#include "magick/profile.h"
-#include "magick/resource_.h"
-#include "magick/pixel-accessor.h"
-#include "magick/property.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/string-private.h"
-#include "magick/timer-private.h"
-#include "magick/token.h"
-#include "magick/transform.h"
-#include "magick/utility.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/artifact.h"
+#include "MagickCore/attribute.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/color.h"
+#include "MagickCore/color-private.h"
+#include "MagickCore/colorspace.h"
+#include "MagickCore/colorspace-private.h"
+#include "MagickCore/constitute.h"
+#include "MagickCore/delegate.h"
+#include "MagickCore/delegate-private.h"
+#include "MagickCore/draw.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/geometry.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/nt-base-private.h"
+#include "MagickCore/option.h"
+#include "MagickCore/profile.h"
+#include "MagickCore/resource_.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/property.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/string-private.h"
+#include "MagickCore/timer-private.h"
+#include "MagickCore/token.h"
+#include "MagickCore/transform.h"
+#include "MagickCore/utility.h"
 #include "coders/bytebuffer-private.h"
 #include "coders/ghostscript-private.h"
 
@@ -164,7 +164,8 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
     flags;
 
   PointInfo
-    delta;
+    delta,
+    resolution;
 
   RectangleInfo
     page;
@@ -185,7 +186,7 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -205,31 +206,32 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   delta.x=DefaultResolution;
   delta.y=DefaultResolution;
-  if ((image->x_resolution == 0.0) || (image->y_resolution == 0.0))
+  if ((image->resolution.x == 0.0) || (image->resolution.y == 0.0))
     {
       flags=ParseGeometry(PSDensityGeometry,&geometry_info);
       if ((flags & RhoValue) != 0)
-        image->x_resolution=geometry_info.rho;
-      image->y_resolution=image->x_resolution;
+        image->resolution.x=geometry_info.rho;
+      image->resolution.y=image->resolution.x;
       if ((flags & SigmaValue) != 0)
-        image->y_resolution=geometry_info.sigma;
+        image->resolution.y=geometry_info.sigma;
     }
   if (image_info->density != (char *) NULL)
     {
       flags=ParseGeometry(image_info->density,&geometry_info);
       if ((flags & RhoValue) != 0)
-        image->x_resolution=geometry_info.rho;
-      image->y_resolution=image->x_resolution;
+        image->resolution.x=geometry_info.rho;
+      image->resolution.y=image->resolution.x;
       if ((flags & SigmaValue) != 0)
-        image->y_resolution=geometry_info.sigma;
+        image->resolution.y=geometry_info.sigma;
     }
   (void) ParseAbsoluteGeometry(PSPageGeometry,&page);
   if (image_info->page != (char *) NULL)
     (void) ParseAbsoluteGeometry(image_info->page,&page);
-  page.width=(size_t) ((ssize_t) ceil((double) (page.width*
-    image->x_resolution/delta.x)-0.5));
-  page.height=(size_t) ((ssize_t) ceil((double) (page.height*
-    image->y_resolution/delta.y)-0.5));
+  resolution=image->resolution;
+  page.width=(size_t) ((ssize_t) ceil((double) (page.width*resolution.x/
+    delta.x)-0.5));
+  page.height=(size_t) ((ssize_t) ceil((double) (page.height*resolution.y/
+    delta.y)-0.5));
   fitPage=MagickFalse;
   option=GetImageOption(image_info,"xps:fit-page");
   if (option != (char *) NULL)
@@ -249,9 +251,9 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
           return((Image *) NULL);
         }
       page.width=(size_t) ((ssize_t) ceil((double) (page.width*
-        image->x_resolution/delta.x)-0.5));
+        image->resolution.x/delta.x)-0.5));
       page.height=(size_t) ((ssize_t) ceil((double) (page.height*
-        image->y_resolution/delta.y) -0.5));
+        image->resolution.y/delta.y) -0.5));
       page_geometry=DestroyString(page_geometry);
       fitPage=MagickTrue;
     }
@@ -266,8 +268,8 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
     }
   density=AcquireString("");
   options=AcquireString("");
-  (void) FormatLocaleString(density,MagickPathExtent,"%gx%g",
-    image->x_resolution,image->y_resolution);
+  (void) FormatLocaleString(density,MagickPathExtent,"%gx%g",resolution.x,
+    resolution.y);
   if (image_info->ping != MagickFalse)
     (void) FormatLocaleString(density,MagickPathExtent,"2.0x2.0");
   else
@@ -318,7 +320,7 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
     for (i=1; ; i++)
     {
       (void) InterpretImageFilename(image_info,image,filename,(int) i,
-        read_info->filename);
+        read_info->filename,exception);
       if (IsGhostscriptRendered(read_info->filename) == MagickFalse)
         break;
       read_info->blob=NULL;
@@ -424,14 +426,12 @@ ModuleExport size_t RegisterXPSImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("XPS");
+  entry=AcquireMagickInfo("XPS","XPS","Microsoft XML Paper Specification");
   entry->decoder=(DecodeImageHandler *) ReadXPSImage;
-  entry->adjoin=MagickFalse;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->thread_support=EncoderThreadSupport;
-  entry->description=ConstantString("Microsoft XML Paper Specification");
-  entry->magick_module=ConstantString("XPS");
+  entry->flags|=CoderDecoderSeekableStreamFlag;
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags^=CoderBlobSupportFlag;
+  entry->mime_type=ConstantString("application/oxps");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

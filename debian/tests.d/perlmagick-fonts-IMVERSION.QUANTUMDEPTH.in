@@ -1,0 +1,21 @@
+#!/usr/bin/bash -e
+
+MAGICK_DEBUG=annotate perl<<"EOF"
+use Image::Magick::${UCQUANTUMDEPTH};
+use aliased 'Image::Magick::${UCQUANTUMDEPTH}' => 'im';
+use Array::Compare;
+my $comp = Array::Compare->new;
+
+my $i = im->new;
+$i->Read('null:#ffffff');
+
+use Data::Dumper;
+my @a = $i->QueryFontMetrics(font => '');
+print Dumper \@a;
+
+my @a = $i->QueryFont();
+print Dumper \@a;
+
+my @bad=[undef];
+exit $comp->compare(\@a,\@bad);
+EOF

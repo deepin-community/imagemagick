@@ -1,9 +1,9 @@
 Download & Unpack
   
   ImageMagick builds on a variety of Unix and Unix-like operating systems
-  including Linux, Ubuntu, Mac OS X, Windows, and others. A compiler is
-  required and fortunately almost all modern Unix systems have one. Download
-  https://legacy.imagemagick.org/archive/ImageMagick.tar.gz
+  including Linux, Ubuntu, FreeBSD, WIndows, Mac OS X, and others. A compiler
+  is required and fortunately almost all modern Unix systems have one. Download
+  https://imagemagick.org/archive/ImageMagick.tar.gz.
   
   Unpack the distribution with this command:
   
@@ -22,7 +22,7 @@ Configure
   default options, and build from within the source directory, you can simply
   type:
   
-    $ cd ImageMagick-6.9.12
+    $ cd ImageMagick-7.1.1
     $ ./configure
   
   Watch the configure script output to verify that it finds everything that
@@ -329,6 +329,9 @@ Configure
       disable JPEG v2 support.
   
     --without-lcms
+      disable lcms (v1.1X) support
+
+    --without-lcms2
       disable lcms (v2.X) support
   
     --without-lzma
@@ -502,7 +505,7 @@ Linux-specific Build instructions
   After the build you, locate the RPMS folder and install the ImageMagick
   binary RPM distribution:
   
-    $ rpm -ivh ImageMagick-6.9.12-?.*.rpm
+    $ rpm -ivh ImageMagick-7.1.1-?.*.rpm
   
 MinGW-specific Build instructions
   
@@ -512,12 +515,12 @@ MinGW-specific Build instructions
   sure you specify the development headers when you install a package. Next
   type,
   
-    $ tar jxvf ImageMagick-6.9.12-?.tar.bz2
-    $ cd ImageMagick-6.9.12
+    $ tar jxvf ImageMagick-7.1.1-?.tar.bz2
+    $ cd ImageMagick-7.1.1
     $ export CPPFLAGS="-Ic:/Progra~1/GnuWin32/include"
     $ export LDFLAGS="-Lc:/Progra~1/GnuWin32/lib"
     $ ./configure --without-perl
-    $ make 
+    $ make
     $ sudo make install
   
 Dealing with Unexpected Problems

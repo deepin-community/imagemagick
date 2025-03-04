@@ -47,7 +47,7 @@
   Include declarations.
 */
 #if !defined(_VISUALC_)
-#include <magick/magick-config.h>
+#include <MagickCore/magick-config.h>
 #endif
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,9 +57,9 @@
 #include <stdlib.h>
 #include <sys\types.h>
 #endif
-#include <time.h>
 #include <locale.h>
-#include <wand/MagickWand.h>
+#include <time.h>
+#include <MagickWand/MagickWand.h>
 
 #define WandDelay   3
 
@@ -5165,14 +5165,11 @@ int main(int argc,char **argv)
 
   char
     *description,
-    **options,
     *option,
+    **options,
     **profiles,
     **properties,
     *property;
-
-  DrawingWand
-    *drawing_wand;
 
   ExceptionType
     severity;
@@ -5187,7 +5184,6 @@ int main(int argc,char **argv)
   PixelWand
     *background,
     *border,
-    *fill,
     **pixels;
 
   ssize_t
@@ -5302,29 +5298,37 @@ int main(int argc,char **argv)
   border=NewPixelWand();
   (void) PixelSetColor(background,"green");
   (void) PixelSetColor(border,"black");
-  status=MagickFloodfillPaintImage(magick_wand,CompositeChannels,background,
-    0.01*(MagickRealType) QuantumRange,border,0,0,MagickFalse);
+  status=MagickFloodfillPaintImage(magick_wand,background,0.01*(double)
+    QuantumRange,border,0,0,MagickFalse);
   if (status == MagickFalse)
     ThrowAPIException(magick_wand);
   background=DestroyPixelWand(background);
   border=DestroyPixelWand(border);
-  drawing_wand=NewDrawingWand();
-  (void) PushDrawingWand(drawing_wand);
-  (void) DrawRotate(drawing_wand,45);
-  if (getenv("MAGICK_FONT") != 0)
-    (void) DrawSetFont(drawing_wand,getenv("MAGICK_FONT"));
-  (void) DrawSetFontSize(drawing_wand,18);
-  fill=NewPixelWand();
-  (void) PixelSetColor(fill,"green");
-  (void) DrawSetFillColor(drawing_wand,fill);
-  fill=DestroyPixelWand(fill);
-  (void) DrawAnnotation(drawing_wand,15,5,(const unsigned char *) "Magick");
-  (void) PopDrawingWand(drawing_wand);
-  (void) MagickSetIteratorIndex(magick_wand,1);
-  status=MagickDrawImage(magick_wand,drawing_wand);
-  if (status == MagickFalse)
-    ThrowAPIException(magick_wand);
-  drawing_wand=DestroyDrawingWand(drawing_wand);
+#if MAGICKCORE_FREETYPE_DELEGATE
+  {
+    DrawingWand
+      *const drawing_wand = NewDrawingWand();
+
+    PixelWand
+      *const fill = NewPixelWand();
+
+    (void) PushDrawingWand(drawing_wand);
+    (void) DrawRotate(drawing_wand,45);
+    if (getenv("MAGICK_FONT") != 0)
+      (void) DrawSetFont(drawing_wand,getenv("MAGICK_FONT"));
+    (void) DrawSetFontSize(drawing_wand,18);
+    (void) PixelSetColor(fill,"green");
+    (void) DrawSetFillColor(drawing_wand,fill);
+    (void) DestroyPixelWand(fill);
+    (void) DrawAnnotation(drawing_wand,15,5,(const unsigned char *) "Magick");
+    (void) PopDrawingWand(drawing_wand);
+    (void) MagickSetIteratorIndex(magick_wand,1);
+    status=MagickDrawImage(magick_wand,drawing_wand);
+    if (status == MagickFalse)
+      ThrowAPIException(magick_wand);
+    (void) DestroyDrawingWand(drawing_wand);
+  }
+#endif
   {
     unsigned char
       pixels[27],
@@ -5360,7 +5364,7 @@ int main(int argc,char **argv)
         }
   }
   (void) MagickSetIteratorIndex(magick_wand,3);
-  status=MagickResizeImage(magick_wand,50,50,UndefinedFilter,1.0);
+  status=MagickResizeImage(magick_wand,50,50,UndefinedFilter);
   if (status == MagickFalse)
     ThrowAPIException(magick_wand);
   MagickResetIterator(magick_wand);

@@ -38,30 +38,30 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/constitute.h"
-#include "magick/delegate.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/geometry.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/layer.h"
-#include "magick/list.h"
-#include "magick/log.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/module.h"
-#include "magick/option.h"
-#include "magick/resource_.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/transform.h"
-#include "magick/utility.h"
-#include "magick/utility-private.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/constitute.h"
+#include "MagickCore/delegate.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/geometry.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/layer.h"
+#include "MagickCore/list.h"
+#include "MagickCore/log.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/option.h"
+#include "MagickCore/resource_.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/transform.h"
+#include "MagickCore/utility.h"
+#include "MagickCore/utility-private.h"
 
 /*
   Global declarations.
@@ -77,7 +77,7 @@ static const char
   Forward declarations.
 */
 static MagickBooleanType
-  WriteVIDEOImage(const ImageInfo *,Image *);
+  WriteVIDEOImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -195,7 +195,7 @@ static Image *ReadVIDEOImage(const ImageInfo *image_info,
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -314,131 +314,96 @@ ModuleExport size_t RegisterVIDEOImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("3GP");
+  entry=AcquireMagickInfo("VIDEO","3GP","Media Container");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Media Container");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("3G2");
+  entry=AcquireMagickInfo("VIDEO","3G2","Media Container");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Media Container");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("APNG");
+  entry=AcquireMagickInfo("VIDEO","APNG","Animated Portable Network Graphics");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsPNG;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Animated Portable Network Graphics");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("AVI");
+  entry=AcquireMagickInfo("VIDEO","AVI","Microsoft Audio/Visual Interleaved");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Microsoft Audio/Visual Interleaved");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("FLV");
-  entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Flash Video Stream");
-  entry->magick_module=ConstantString("VIDEO");
-  (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("MKV");
+  entry=AcquireMagickInfo("VIDEO","FLV","Flash Video Stream");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsVIDEO;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Multimedia Container");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("MOV");
+  entry=AcquireMagickInfo("VIDEO","MKV","Multimedia Container");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsVIDEO;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("MPEG Video Stream");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("MPEG");
+  entry=AcquireMagickInfo("VIDEO","MOV","MPEG Video Stream");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsVIDEO;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("MPEG Video Stream");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("MPG");
+  entry=AcquireMagickInfo("VIDEO","MPEG","MPEG Video Stream");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsVIDEO;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("MPEG Video Stream");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("MP4");
+  entry=AcquireMagickInfo("VIDEO","MPG","MPEG Video Stream");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsVIDEO;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("VIDEO-4 Video Stream");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("M2V");
+  entry=AcquireMagickInfo("VIDEO","MP4","VIDEO-4 Video Stream");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsVIDEO;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("MPEG Video Stream");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("M4V");
+  entry=AcquireMagickInfo("VIDEO","M2V","MPEG Video Stream");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsVIDEO;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Raw VIDEO-4 Video");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("VIDEO");
+  entry=AcquireMagickInfo("VIDEO","M4V","Raw VIDEO-4 Video");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsVIDEO;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("MPEG Video Stream");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("WEBM");
+  entry=AcquireMagickInfo("VIDEO","WEBM","Open Web Media");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Open Web Media");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("WMV");
+  entry=AcquireMagickInfo("VIDEO","WMV","Windows Media Video");
   entry->decoder=(DecodeImageHandler *) ReadVIDEOImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDEOImage;
   entry->magick=(IsImageFormatHandler *) IsVIDEO;
-  entry->blob_support=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->description=ConstantString("Windows Media Video");
-  entry->magick_module=ConstantString("VIDEO");
+  entry->flags^=CoderBlobSupportFlag;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -559,7 +524,7 @@ static MagickBooleanType CopyDelegateFile(const char *source,
       return(MagickFalse);
     }
   length=0;
-  for (i=0; ; i+=count)
+  for (i=0; ; i+=(size_t) count)
   {
     count=(ssize_t) read(source_file,buffer,quantum);
     if (count <= 0)
@@ -577,7 +542,7 @@ static MagickBooleanType CopyDelegateFile(const char *source,
 }
 
 static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
-  Image *image)
+  Image *image,ExceptionInfo *exception)
 {
   char
     basename[MagickPathExtent],
@@ -623,12 +588,14 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
+  assert(exception != (ExceptionInfo *) NULL);
+  assert(exception->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   /*
     Write intermediate files.
   */
-  clone_images=CloneImageList(image,&image->exception);
+  clone_images=CloneImageList(image,exception);
   if (clone_images == (Image *) NULL)
     return(MagickFalse);
   file=AcquireUniqueFileResource(basename);
@@ -669,17 +636,17 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
             basename,(double) p->scene,intermediate_format);
           (void) FormatLocaleString(previous_image,MagickPathExtent,
             "%s%.20g.%s",basename,(double) p->scene,intermediate_format);
-          frame=CloneImage(p,0,0,MagickTrue,&image->exception);
+          frame=CloneImage(p,0,0,MagickTrue,exception);
           if (frame == (Image *) NULL)
             break;
-          status=WriteImage(write_info,frame);
+          status=WriteImage(write_info,frame,exception);
           frame=DestroyImage(frame);
           break;
         }
         case 1:
         {
           blob=(unsigned char *) FileToBlob(previous_image,SIZE_MAX,&length,
-            &image->exception);
+            exception);
           magick_fallthrough;
         }
         default:
@@ -687,7 +654,7 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
           (void) FormatLocaleString(filename,MagickPathExtent,"%s%.20g.%s",
             basename,(double) p->scene,intermediate_format);
           if (length > 0)
-            status=BlobToFile(filename,blob,length,&image->exception);
+            status=BlobToFile(filename,blob,length,exception);
           break;
         }
       }
@@ -713,7 +680,7 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
   /*
     Convert PAM to VIDEO.
   */
-  delegate_info=GetDelegateInfo((char *) NULL,"video:encode",&image->exception);
+  delegate_info=GetDelegateInfo((char *) NULL,"video:encode",exception);
   if (delegate_info != (const DelegateInfo *) NULL)
     {
       char
@@ -743,7 +710,7 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
         options,write_info->unique,image_info->magick);
       options=DestroyString(options);
       exit_code=ExternalDelegateCommand(MagickFalse,image_info->verbose,
-        command,message,&image->exception);
+        command,message,exception);
       status=exit_code == 0 ? MagickTrue : MagickFalse;
       if (status != MagickFalse)
         {
@@ -754,7 +721,7 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
         }
       else
         if (*message != '\0')
-          (void) ThrowMagickException(&image->exception,GetMagickModule(),
+          (void) ThrowMagickException(exception,GetMagickModule(),
             DelegateError,"VideoDelegateFailed","`%s'",message);
       (void) RelinquishUniqueFileResource(write_info->unique);
   }

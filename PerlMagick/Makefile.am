@@ -17,7 +17,7 @@
 #  Makefile for building PerlMagick.
 
 # If source files missing, see if they can be obtained via VPATH
-
+#
 $(PERLMAGICK)/quantum/@MAGICK_ABI_SUFFIX@.xs: $(PERLMAGICK)/quantum/quantum.xs
 	$(AM_V_GEN) $(LN_S) quantum.xs $@
 

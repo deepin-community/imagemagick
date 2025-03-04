@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,26 +39,26 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/colormap.h"
-#include "magick/constitute.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/colormap.h"
+#include "MagickCore/constitute.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,9 +91,9 @@ static Image *ReadSTEGANOImage(const ImageInfo *image_info,
   ExceptionInfo *exception)
 {
 #define GetBit(alpha,i) (((size_t) (alpha) >> (size_t) (i)) & 0x01)
-#define SetBit(indexes,i,set) SetPixelIndex(indexes,((set) != 0 ? \
-  (size_t) GetPixelIndex(indexes) | (one << (size_t) (i)) : (size_t) \
-  GetPixelIndex(indexes) & ~(one << (size_t) (i))))
+#define SetBit(i,set) SetPixelIndex(image,(Quantum) ((set) != 0 ? \
+  (size_t) GetPixelIndex(image,q) | (one << (size_t) (i)) : \
+  (size_t) GetPixelIndex(image,q) & ~(one << (size_t) (i))),q)
 
   Image
     *image,
@@ -108,13 +108,10 @@ static Image *ReadSTEGANOImage(const ImageInfo *image_info,
   MagickBooleanType
     status;
 
-  PixelPacket
+  PixelInfo
     pixel;
 
-  IndexPacket
-    *indexes;
-
-  PixelPacket
+  Quantum
     *q;
 
   ssize_t
@@ -141,7 +138,7 @@ static Image *ReadSTEGANOImage(const ImageInfo *image_info,
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
   one=1;
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   if ((image->columns == 0) || (image->rows == 0))
     ThrowReaderException(OptionError,"MustSpecifyImageSize");
   read_info=CloneImageInfo(image_info);
@@ -150,21 +147,31 @@ static Image *ReadSTEGANOImage(const ImageInfo *image_info,
   watermark=ReadImage(read_info,exception);
   read_info=DestroyImageInfo(read_info);
   if (watermark == (Image *) NULL)
-    return(DestroyImageList(image));
+    return(DestroyImage(image));
   watermark->depth=MAGICKCORE_QUANTUM_DEPTH;
-  if (AcquireImageColormap(image,MaxColormapSize) == MagickFalse)
+  if (AcquireImageColormap(image,MaxColormapSize,exception) == MagickFalse)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
   if (image_info->ping != MagickFalse)
     {
       (void) CloseBlob(image);
       return(GetFirstImageInList(image));
     }
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
+    return(DestroyImageList(image));
+  for (y=0; y < (ssize_t) image->rows; y++)
+  {
+    q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
+    if (q == (Quantum *) NULL)
+      break;
+    for (x=0; x < (ssize_t) image->columns; x++)
     {
-      InheritException(exception,&image->exception);
-      return(DestroyImageList(image));
+      SetPixelIndex(image,0,q);
+      q+=(ptrdiff_t) GetPixelChannels(image);
     }
+    if (SyncAuthenticPixels(image,exception) == MagickFalse)
+      break;
+  }
   /*
     Get hidden watermark from low-order bits of image.
   */
@@ -182,27 +189,27 @@ static Image *ReadSTEGANOImage(const ImageInfo *image_info,
       {
         if ((k/(ssize_t) watermark->columns) >= (ssize_t) watermark->rows)
           break;
-        (void) GetOneVirtualPixel(watermark,k % (ssize_t) watermark->columns,
-          k/(ssize_t) watermark->columns,&pixel,exception);
+        (void) GetOneVirtualPixelInfo(watermark,UndefinedVirtualPixelMethod,
+          k % (ssize_t) watermark->columns,k/(ssize_t) watermark->columns,
+          &pixel,exception);
         q=GetAuthenticPixels(image,x,y,1,1,exception);
-        if (q == (PixelPacket *) NULL)
+        if (q == (Quantum *) NULL)
           break;
-        indexes=GetAuthenticIndexQueue(image);
         switch (c)
         {
           case 0:
           {
-            SetBit(indexes,i,GetBit(pixel.red,j));
+            SetBit(i,GetBit(pixel.red,j));
             break;
           }
           case 1:
           {
-            SetBit(indexes,i,GetBit(pixel.green,j));
+            SetBit(i,GetBit(pixel.green,j));
             break;
           }
           case 2:
           {
-            SetBit(indexes,i,GetBit(pixel.blue,j));
+            SetBit(i,GetBit(pixel.blue,j));
             break;
           }
         }
@@ -223,7 +230,7 @@ static Image *ReadSTEGANOImage(const ImageInfo *image_info,
       break;
   }
   watermark=DestroyImage(watermark);
-  (void) SyncImage(image);
+  (void) SyncImage(image,exception);
   return(GetFirstImageInList(image));
 }
 
@@ -255,11 +262,9 @@ ModuleExport size_t RegisterSTEGANOImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("STEGANO");
+  entry=AcquireMagickInfo("STEGANO","STEGANO","Steganographic image");
   entry->decoder=(DecodeImageHandler *) ReadSTEGANOImage;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Steganographic image");
-  entry->magick_module=ConstantString("STEGANO");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

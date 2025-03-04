@@ -14,10 +14,10 @@
 %                                                                             %
 %                              Software Design                                %
 %                                   Cristy                                    %
-%                                 July 1992                                   %
+%                                 July 2016                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,34 +39,34 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/attribute.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/color-private.h"
-#include "magick/colormap.h"
-#include "magick/colorspace.h"
-#include "magick/colorspace-private.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/attribute.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/color-private.h"
+#include "MagickCore/colormap.h"
+#include "MagickCore/colorspace.h"
+#include "MagickCore/colorspace-private.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WritePGXImage(const ImageInfo *,Image *);
+  WritePGXImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -132,10 +132,10 @@ static unsigned int IsPGX(const unsigned char *magick,const size_t length)
 static Image *ReadPGXImage(const ImageInfo *image_info,ExceptionInfo *exception)
 {
   char
-    buffer[MaxTextExtent],
-    endian[MaxTextExtent],
-    sans[MaxTextExtent],
-    sign[MaxTextExtent];
+    buffer[MagickPathExtent],
+    endian[MagickPathExtent],
+    sans[MagickPathExtent],
+    sign[MagickPathExtent];
 
   Image
     *image;
@@ -171,7 +171,7 @@ static Image *ReadPGXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -196,13 +196,13 @@ static Image *ReadPGXImage(const ImageInfo *image_info,ExceptionInfo *exception)
       (void) CloseBlob(image);
       return(GetFirstImageInList(image));
     }
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
     return(DestroyImageList(image));
   /*
     Convert PGX image.
   */
-  (void) SetImageColorspace(image,GRAYColorspace);
+  (void) SetImageColorspace(image,GRAYColorspace,exception);
   quantum_info=AcquireQuantumInfo(image_info,image);
   if (quantum_info == (QuantumInfo *) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
@@ -213,11 +213,11 @@ static Image *ReadPGXImage(const ImageInfo *image_info,ExceptionInfo *exception)
     const void
       *stream;
 
-    PixelPacket
+    Quantum
       *magick_restrict q;
 
     q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-    if (q == (PixelPacket *) NULL)
+    if (q == (Quantum *) NULL)
       break;
     stream=ReadBlobStream(image,length,pixels,&count);
     if (count != (ssize_t) length)
@@ -269,13 +269,12 @@ ModuleExport size_t RegisterPGXImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("PGX");
+  entry=AcquireMagickInfo("PGX","PGX","JPEG 2000 uncompressed format");
   entry->decoder=(DecodeImageHandler *) ReadPGXImage;
   entry->encoder=(EncodeImageHandler *) WritePGXImage;
   entry->magick=(IsImageFormatHandler *) IsPGX;
-  entry->adjoin=MagickFalse;
-  entry->description=ConstantString("JPEG 2000 uncompressed format");
-  entry->magick_module=ConstantString("PGX");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags^=CoderUseExtensionFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -320,7 +319,7 @@ ModuleExport void UnregisterPGXImage(void)
 %  The format of the WritePGXImage method is:
 %
 %      MagickBooleanType WritePGXImage(const ImageInfo *image_info,
-%        Image *image)
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -328,14 +327,14 @@ ModuleExport void UnregisterPGXImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
-static MagickBooleanType WritePGXImage(const ImageInfo *image_info,Image *image)
+static MagickBooleanType WritePGXImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
   char
-    buffer[MaxTextExtent];
-
-  ExceptionInfo
-    *exception;
+    buffer[MagickPathExtent];
 
   MagickBooleanType
     status;
@@ -343,7 +342,7 @@ static MagickBooleanType WritePGXImage(const ImageInfo *image_info,Image *image)
   QuantumInfo
     *quantum_info;
 
-  const PixelPacket
+  const Quantum
     *p;
 
   size_t
@@ -363,25 +362,26 @@ static MagickBooleanType WritePGXImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
-  if (IsEventLogging() != MagickFalse)
-    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  exception=(&image->exception);
   assert(exception != (ExceptionInfo *) NULL);
   assert(exception->signature == MagickCoreSignature);
+  if (IsEventLogging() != MagickFalse)
+    (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
   if (status == MagickFalse)
     return(status);
-  (void) FormatLocaleString(buffer,MaxTextExtent,"PG ML + %g %g %g\n",
+  (void) FormatLocaleString(buffer,MagickPathExtent,"PG ML + %g %g %g\n",
     (double) image->depth,(double) image->columns,(double) image->rows);
   (void) WriteBlob(image,strlen(buffer),(unsigned char *) buffer);
   if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
-    (void) TransformImageColorspace(image,sRGBColorspace);
+    (void) TransformImageColorspace(image,sRGBColorspace,exception);
   quantum_info=AcquireQuantumInfo(image_info,image);
+  if (quantum_info == (QuantumInfo *) NULL)
+    ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
   pixels=(unsigned char *) GetQuantumPixels(quantum_info);
   for (y=0; y < (ssize_t) image->rows; y++)
   {
     p=GetVirtualPixels(image,0,y,image->columns,1,exception);
-    if (p == (const PixelPacket *) NULL)
+    if (p == (const Quantum *) NULL)
       break;
     length=ExportQuantumPixels(image,(CacheView *) NULL,quantum_info,
       GrayQuantum,pixels,exception);
