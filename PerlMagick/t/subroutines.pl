@@ -962,30 +962,24 @@ sub testGetAttribute {
 #       [, expected REF_16] );
 #
 sub testMontage {
-  my( $imageOptions, $montageOptions, $ref_8, $ref_16, $ref_32 ) = @_;
+  my( $imageOptions, $montageOptions, $ref_8, $ref_16, $ref_16_hdri, $ref_32, $ref_64 ) = @_;
 
-  my($image,$ref_signature);
+  my($image,$ref_expected,$ref_signature);
 
-  if ( !defined( $ref_16 ) )
+  $ref_expected = $ref_8;
+  
+  if ( defined( $ref_16 ) || defined( $ref_16_hdri ) || defined( $ref_32 ) || defined( $ref_64 ) )
     {
-      $ref_16 = $ref_8;
-    }
-  if ( !defined( $ref_32 ) )
-    {
-      $ref_32 = $ref_16;
-    }
-
-  if (Image::Magick->new()->QuantumDepth == 32)
-    {
-      $ref_signature=$ref_32;
-    }
-  elsif (Image::Magick->new()->QuantumDepth == 16)
-    {
-      $ref_signature=$ref_16;
-    }
-  else
-    {
-      $ref_signature=$ref_8;
+      my $version = $montage->GetAttribute('version');
+      if ( $version =~ /Q64/ ) {
+        $ref_expected = $ref_64;
+      } elsif ( $version =~ /Q32/ ) {
+        $ref_expected = $ref_32;
+      } elsif ( $version =~ /Q16\-HDRI/ ) {
+        $ref_expected = $ref_16_hdri;
+      } elsif ( $version =~ /Q16/ ) {
+        $ref_expected = $ref_16;
+      }
     }
 
   # Create image for image list
@@ -1030,6 +1024,7 @@ sub testMontage {
   #print "Montage Options: $montageOptions\n";
   print("\$montage=\$images->Montage( $montageOptions )\n");
   eval "\$montage=\$images->Montage( $montageOptions ) ;";
+  #$montage->Clamp();
   if( $@ ) {
     print "$@";
     print "not ok $test\n";
@@ -1043,12 +1038,11 @@ sub testMontage {
     # $montage->Display();
     $signature=$montage->GetAttribute('signature');
     if ( defined( $signature ) ) {
-      if ( $signature ne $ref_signature ) {
+      if ( $signature ne $ref_expected) {
         print "ReadImage()\n";
         print "Test $test, signatures do not match.\n";
-      	print "     Expected: $ref_signature\n";
+      	print "     Expected: $ref_expected\n";
       	print "     Computed: $signature\n";
-        print "     Depth:    ", Image::Magick->new()->QuantumDepth, "\n";
         $status = $montage->Write("test_${test}_out.miff");
         warn "Write: $status" if "$status";
           

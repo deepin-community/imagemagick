@@ -2,12 +2,16 @@
 //
 // Copyright Bob Friesenhahn, 1999, 2000, 2002, 2003
 //
+// Copyright @ 2013 ImageMagick Studio LLC, a non-profit organization
+// dedicated to making software imaging solutions freely available.
+//
 // GD/PerlMagick example using Magick++ methods.
 //
 // Concept and algorithms lifted from PerlMagick demo script
 //
 
 #include <Magick++.h>
+#include <cstdlib>
 #include <string>
 #include <iostream>
 
@@ -19,7 +23,7 @@ int main( int /*argc*/, char ** argv)
 {
 
   // Initialize ImageMagick install location for Windows
-  InitializeMagick(*argv);
+  MagickPlusPlusGenesis genesis(*argv);
 
   try {
 
@@ -36,17 +40,17 @@ int main( int /*argc*/, char ** argv)
     // Draw texture-filled polygon
     //
     // Polygon list
-    std::list<Coordinate> poly_coord;
+    std::vector<Coordinate> poly_coord;
     poly_coord.push_back( Coordinate(30,30) );
     poly_coord.push_back( Coordinate(100,10) );
     poly_coord.push_back( Coordinate(190,290) );
     poly_coord.push_back( Coordinate(30,290) );
 
     Image texture( srcdir + "tile.miff" );
-    image.penTexture( texture );
+    image.fillPattern( texture );
     image.draw( DrawablePolygon( poly_coord ) );
     texture.isValid( false );
-    image.penTexture( texture );  // Unset texture
+    image.fillPattern( texture );  // Unset texture
 
     //
     // Draw filled ellipse with black border, and red fill color
@@ -62,7 +66,7 @@ int main( int /*argc*/, char ** argv)
     //
     image.strokeColor( "black" );
     image.strokeWidth( 5 );
-    list<Drawable> drawlist;
+    vector<Drawable> drawlist;
 
     // Add polygon to list
     poly_coord.clear();
@@ -87,16 +91,22 @@ int main( int /*argc*/, char ** argv)
     if (getenv("MAGICK_FONT") != 0)
       image.font(string(getenv("MAGICK_FONT")));
     image.fontPointsize( 18 );
+#if defined(MAGICKCORE_FREETYPE_DELEGATE)
     image.annotate( "Hello world!", "+150+20" );
+#endif
 
     image.fillColor( "blue" );
     image.fontPointsize( 14 );
+#if defined(MAGICKCORE_FREETYPE_DELEGATE)
     image.annotate( "Goodbye cruel world!", "+150+38" );
+#endif
 
     image.fillColor( "black" );
     image.fontPointsize( 14 );
+#if defined(MAGICKCORE_FREETYPE_DELEGATE)
     image.annotate( "I'm climbing the wall!", "+280+120",
                     NorthWestGravity, 90.0 );
+#endif
     //image.display();
     //
     // Write image.

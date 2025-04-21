@@ -2,6 +2,9 @@
 //
 // Copyright Bob Friesenhahn, 2001, 2002, 2003
 //
+// Copyright @ 2013 ImageMagick Studio LLC, a non-profit organization
+// dedicated to making software imaging solutions freely available.
+//
 // Resize image using specified resize algorithm with Magick++ API
 //
 // Usage: zoom [-density resolution] [-filter algorithm] [-geometry geometry]
@@ -9,6 +12,7 @@
 //
 
 #include <Magick++.h>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 using namespace std; 
@@ -34,7 +38,7 @@ static void ParseError (int position, char **argv)
 int main(int argc,char **argv) 
 {
   // Initialize ImageMagick install location for Windows
-  InitializeMagick(*argv);
+  MagickPlusPlusGenesis genesis(*argv);
 
   if ( argc < 2 )
     Usage(argv);
@@ -47,10 +51,10 @@ int main(int argc,char **argv)
   };
 
   {
-    Geometry density;
     Geometry geometry;
-    Geometry resample;
-    Magick::FilterTypes filter(LanczosFilter);
+    Magick::FilterType filter(LanczosFilter);
+    Point density;
+    Point resample;
     ResizeAlgorithm resize_algorithm=Zoom;
 
     int argv_index=1;
@@ -160,9 +164,9 @@ int main(int argc,char **argv)
         {
           geometry =
             Geometry(static_cast<size_t>
-                     (image.columns()*((double)resample.width()/density.width())+0.5),
+                     (image.columns()*((double)resample.x()/density.x())+0.5),
                      static_cast<size_t>
-                     (image.rows()*((double)resample.height()/density.height())+0.5));
+                     (image.rows()*((double)resample.y()/density.y())+0.5));
           image.density(resample);
         }
       switch (resize_algorithm)

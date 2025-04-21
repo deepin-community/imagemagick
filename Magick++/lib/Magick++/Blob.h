@@ -1,7 +1,9 @@
 // This may look like C code, but it is really -*- C++ -*-
 //
 // Copyright Bob Friesenhahn, 1999, 2000, 2001, 2002
-// Copyright Dirk Lemstra 2015
+//
+// Copyright @ 2015 ImageMagick Studio LLC, a non-profit organization
+// dedicated to making software imaging solutions freely available.
 //
 // Reference counted container class for Binary Large Objects (BLOBs)
 //
@@ -40,12 +42,12 @@ namespace Magick
     virtual ~Blob();
 
     // Assignment operator (reference counted)
-    Blob& operator=(const Blob& blob_ );
+    Blob& operator=(const Blob& blob_);
 
     // Update object contents from Base64-encoded string representation.
     void base64(const std::string base64_);
     // Return Base64-encoded string representation.
-    std::string base64(void);
+    std::string base64(void) const;
 
     // Obtain pointer to data. The user should never try to modify or
     // free this data since the Blob class manages its own data. The
@@ -54,7 +56,7 @@ namespace Magick
     // destroyed.
     const void* data(void) const;
 
-    // Obtain data length
+    // Obtain data length.
     size_t length(void) const;
 
     // Update object contents, making a copy of the supplied data.
@@ -69,7 +71,7 @@ namespace Magick
     // via the C language malloc() function, or "NewAllocator" if
     // memory is allocated via C++ 'new'.
     void updateNoCopy(void* data_,const size_t length_,
-      Allocator allocator_=NewAllocator);
+      const Allocator allocator_=NewAllocator);
 
   private:
     BlobRef *_blobRef;

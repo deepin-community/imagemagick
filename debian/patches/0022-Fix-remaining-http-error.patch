@@ -1,0 +1,122 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 18 Jun 2023 20:02:26 +0000
+Subject: Fix remaining http error
+
+forwarded: not-needed
+---
+ index.html                             | 1 +
+ www/advanced-unix-installation.html    | 1 +
+ www/advanced-windows-installation.html | 1 +
+ www/animate.html                       | 1 +
+ www/cite.html                          | 4 +++-
+ www/download.html                      | 3 ++-
+ www/search.html                        | 5 -----
+ 7 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/index.html b/index.html
+index 36e55fa..a1760c7 100644
+--- a/index.html
++++ b/index.html
+@@ -3,6 +3,7 @@
+ 
+ <!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
++
+ <head>
+   <script src="www/assets/color-modes.js" ></script>
+   <meta charset="utf-8" />
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index 96df375..fa9f234 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -75,6 +75,7 @@
+       <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
++  </div>
+   </nav>
+ 
+   <div class="container">
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index ae344e0..4af6a1c 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
+@@ -126,6 +126,7 @@
+       <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
++  </div>
+   </nav>
+ 
+ <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
+diff --git a/www/animate.html b/www/animate.html
+index aec0b68..f9bcd43 100644
+--- a/www/animate.html
++++ b/www/animate.html
+@@ -126,6 +126,7 @@
+       <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
++  </div>
+   </nav>
+ 
+ <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
+diff --git a/www/cite.html b/www/cite.html
+index 5e8f9ba..ea6ca9f 100644
+--- a/www/cite.html
++++ b/www/cite.html
+@@ -143,7 +143,8 @@
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>1. ImageMagick Studio LLC. ImageMagick [Internet]. 2024. Available from: https://imagemagick.org</samp></pre>
+ 
+ <h4>Citation in Harvard style</h4>
+-<pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><sampl>ImageMagick Studio LLC, 2024. ImageMagick, Available at: https://imagemagick.org.</samp></pre>
++<pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>ImageMagick Studio LLC, 2024. ImageMagick, Available at: https://imagemagick.org.</samp></pre>
++
+ <h4>Citation in Bibtex format</h4>
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>@software{imagemagick,
+   author = {{ImageMagick Studio LLC}},
+@@ -152,6 +153,7 @@
+   version = {7.1.1},
+   date = {2024-01-04},
+ }</samp></pre>
++</div>
+   </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+diff --git a/www/download.html b/www/download.html
+index 49d193d..d43207f 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -126,6 +126,7 @@
+       <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
++    </div>
+   </nav>
+ 
+ <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
+@@ -519,7 +520,7 @@ display logo.gif</samp></pre>
+     <td>Portable Win32 static at 16 bits-per-pixel component with <a href="high-dynamic-range.html">high dynamic-range imaging</a> enabled.  Just copy to your host and run (no installer, no Windows registry entries).</td>
+   </tr>
+ 
+-  <tbody>
++  </tbody>
+ </table></div>
+ 
+ <p>Verify its <a href="../archive/binaries/digest.rdf">message digest</a>.</p>
+diff --git a/www/search.html b/www/search.html
+index 534aa25..29a3ce1 100644
+--- a/www/search.html
++++ b/www/search.html
+@@ -133,11 +133,6 @@
+   </header>
+ 
+   <main class="container">
+-<div>
+-<p class="lead"> </p>
+-<div class="gcse-searchresults-only"></div>
+-</div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">

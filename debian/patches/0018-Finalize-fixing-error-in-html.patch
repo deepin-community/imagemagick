@@ -1,0 +1,403 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Mon, 11 Jan 2021 22:42:36 +0000
+Subject: Finalize fixing error in html
+
+Forwarded: no
+---
+ www/advanced-unix-installation.html |   3 +-
+ www/api.html                        |   2 +-
+ www/architecture.html               | 125 ++++++++++++++----------------------
+ www/binary-releases.html            |   2 +-
+ www/command-line-options.html       |   6 +-
+ www/defines.html                    |  24 ++++---
+ www/download.html                   |   2 +-
+ www/support.html                    |   2 +-
+ www/webp.html                       |   1 +
+ 9 files changed, 66 insertions(+), 101 deletions(-)
+
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index f4120f9..96df375 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -656,8 +656,7 @@ no encode delegate for this image format
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script>window.jQuery || document.write('&lt;script src="assets/jquery.slim.min.js"&gt;&lt;\/script&gt;')</script><script src="assets/bootstrap.bundle.min.js" crossorigin="anonymous">
+- </script>
++  <script>window.jQuery || document.write('&lt;script src="assets/jquery.slim.min.js"&gt;&lt;\/script&gt;')</script><script src="assets/bootstrap.bundle.min.js" crossorigin="anonymous" />
+ </body>
+ </html>
+ <!-- Magick Cache 13th February 2021 11:28 -->
+\ No newline at end of file
+diff --git a/www/api.html b/www/api.html
+index 6542f55..d00f767 100644
+--- a/www/api.html
++++ b/www/api.html
+@@ -218,7 +218,7 @@
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script src="assets/magick.js" crossorigin="anonymous"></script>
++  <script src="assets/magick.js" crossorigin="anonymous" />
+   <script>window.jQuery || document.write('&lt;script src="assets/jquery.min.js">&lt;\/script>')</script>
+ </body>
+ </html>
+diff --git a/www/architecture.html b/www/architecture.html
+index b8b3184..8bc4b54 100644
+--- a/www/architecture.html
++++ b/www/architecture.html
+@@ -1459,63 +1459,40 @@ display logo.mgk
+ %    o exception: return any errors or warnings in this structure.
+ %
+ */
+-
+-typedef struct _StatisticsInfo
++ModuleExport size_t analyzeImage(Image **images,const int argc,const char **argv,
++  ExceptionInfo *exception)
+ {
++  char
++    text[MaxTextExtent];
++
+   double
+     area,
+     brightness,
+-    mean,
+-    standard_deviation,
+-    sum[5],
+-    kurtosis,
+-    skewness;
+-} StatisticsInfo;
+-
+-static inline int GetMagickNumberThreads(const Image *source,
+-  const Image *destination,const size_t chunk,int multithreaded)
+-{
+-#define MagickMax(x,y)  (((x) > (y)) ? (x) : (y))
+-#define MagickMin(x,y)  (((x) &lt; (y)) ? (x) : (y))
+-
+-  /*
+-    Number of threads bounded by the amount of work and any thread resource
+-    limit.  The limit is 2 if the pixel cache type is not memory or
+-    memory-mapped.
+-  */
+-  if (multithreaded == 0)
+-    return(1);
+-  if (((GetImagePixelCacheType(source) != MemoryCache) &&
+-       (GetImagePixelCacheType(source) != MapCache)) ||
+-      ((GetImagePixelCacheType(destination) != MemoryCache) &&
+-       (GetImagePixelCacheType(destination) != MapCache)))
+-    return(MagickMax(MagickMin(GetMagickResourceLimit(ThreadResource),2),1));
+-  return(MagickMax(MagickMin((ssize_t) GetMagickResourceLimit(ThreadResource),
+-    (ssize_t) (chunk)/64),1));
+-}
+-
+-ModuleExport size_t analyzeImage(Image **images,const int argc,
+-  const char **argv,ExceptionInfo *exception)
+-{
+-#define AnalyzeImageFilterTag  "Filter/Analyze"
+-#define magick_number_threads(source,destination,chunk,multithreaded) \
+-  num_threads(GetMagickNumberThreads(source,destination,chunk,multithreaded))
+-
+-  char
+-    text[MagickPathExtent];
++    brightness_mean,
++    brightness_standard_deviation,
++    brightness_kurtosis,
++    brightness_skewness,
++    brightness_sum_x,
++    brightness_sum_x2,
++    brightness_sum_x3,
++    brightness_sum_x4,
++    hue,
++    saturation,
++    saturation_mean,
++    saturation_standard_deviation,
++    saturation_kurtosis,
++    saturation_skewness,
++    saturation_sum_x,
++    saturation_sum_x2,
++    saturation_sum_x3,
++    saturation_sum_x4;
+ 
+   Image
+     *image;
+ 
+-  MagickBooleanType
+-    status;
+-
+-  MagickOffsetType
+-    progress;
+-
+   assert(images != (Image **) NULL);
+   assert(*images != (Image *) NULL);
+-  assert((*images)->signature == MagickCoreSignature);
++  assert((*images)-&gt;signature == MagickSignature);
+   (void) argc;
+   (void) argv;
+   status=MagickTrue;
+@@ -1525,40 +1502,42 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
+     CacheView
+       *image_view;
+ 
+-    double
+-      area;
++    MagickBooleanType
++      status;
+ 
+     ssize_t
+       y;
+ 
+-    StatisticsInfo
+-      brightness,
+-      saturation;
+-
+-    if (status == MagickFalse)
+-      continue;
+-    (void) memset(&brightness,0,sizeof(brightness));
+-    (void) memset(&saturation,0,sizeof(saturation));
++    brightness_sum_x=0.0;
++    brightness_sum_x2=0.0;
++    brightness_sum_x3=0.0;
++    brightness_sum_x4=0.0;
++    brightness_mean=0.0;
++    brightness_standard_deviation=0.0;
++    brightness_kurtosis=0.0;
++    brightness_skewness=0.0;
++    saturation_sum_x=0.0;
++    saturation_sum_x2=0.0;
++    saturation_sum_x3=0.0;
++    saturation_sum_x4=0.0;
++    saturation_mean=0.0;
++    saturation_standard_deviation=0.0;
++    saturation_kurtosis=0.0;
++    saturation_skewness=0.0;
++    area=0.0;
+     status=MagickTrue;
+     image_view=AcquireVirtualCacheView(image,exception);
+ #if defined(MAGICKCORE_OPENMP_SUPPORT)
+-  #pragma omp parallel for schedule(static) \
+-    shared(progress,status,brightness,saturation) \
+-    magick_number_threads(image,image,image->rows,1)
++    #pragma omp parallel for schedule(static,4) shared(status)
+ #endif
+-    for (y=0; y &lt; (ssize_t) image->rows; y++)
++    for (y=0; y &lt; (ssize_t) image-&gt;rows; y++)
+     {
+       const Quantum
+         *p;
+ 
+-      ssize_t
+-        i,
++      register ssize_t
+         x;
+ 
+-      StatisticsInfo
+-        local_brightness,
+-        local_saturation;
+-
+       if (status == MagickFalse)
+         continue;
+       p=GetCacheViewVirtualPixels(image_view,0,y,image->columns,1,exception);
+@@ -1567,9 +1546,7 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
+           status=MagickFalse;
+           continue;
+         }
+-      (void) memset(&local_brightness,0,sizeof(local_brightness));
+-      (void) memset(&local_saturation,0,sizeof(local_saturation));
+-      for (x=0; x &lt; (ssize_t) image->columns; x++)
++      for (x=0; x &lt; (ssize_t) image-&gt;columns; x++)
+       {
+         double
+           b,
+@@ -1586,14 +1563,6 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
+           local_saturation.sum[i]+=pow(s,(double) i);
+         p+=GetPixelChannels(image);
+       }
+-#if defined(MAGICKCORE_OPENMP_SUPPORT)
+-      #pragma omp critical (analyzeImage)
+-#endif
+-      for (i=1; i &lt;= 4; i++)
+-      {
+-        brightness.sum[i]+=local_brightness.sum[i];
+-        saturation.sum[i]+=local_saturation.sum[i];
+-      }
+     }
+     image_view=DestroyCacheView(image_view);
+     area=(double) image->columns*image->rows;
+diff --git a/www/binary-releases.html b/www/binary-releases.html
+index 49a8f2a..83401af 100644
+--- a/www/binary-releases.html
++++ b/www/binary-releases.html
+@@ -488,7 +488,7 @@ objShell.Exec("convert ""e:/myimages/image.png"" ""e:/myimages/image.jpg""")
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script src="assets/magick.js" crossorigin="anonymous"></script>
++  <script src="assets/magick.js" crossorigin="anonymous" />
+   <script>window.jQuery || document.write('&lt;script src="assets/jquery.min.js">&lt;\/script>')</script>
+ </body>
+ </html>
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index 90c3f40..36eec6d 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
+@@ -915,7 +915,7 @@ href="#auto-orient" >-auto-orient</a> operator will do nothing. </p>
+ </dl>
+ </div>
+ 
+-<p>The computed threshold is returned as the <kbd>auto-threshold:verbose</kbd> image property. To instead print to your device, use <kbd>-define auto-threshold:verbose=true</kbd>.</p>
++<p>The computed threshold is returned as the <kbd>auto-threshold:threshold</kbd> image property. To instead print to your device, use <kbd>-define auto-threshold:threshold=true</kbd>.</p>
+ 
+ <div style="margin: auto;">
+   <h2><a class="anchor" id="average"></a>-average</h2>
+@@ -4022,8 +4022,6 @@ image sequence.</p>
+ <p>For more information, see the webpage, <a href="cipher.html">ImageMagick: Encipher or
+ Decipher an Image</a>.</p>
+ 
+-
+-
+ <div style="margin: auto;">
+   <h2><a class="anchor" id="encoding"></a>-encoding <var>type</var></h2>
+ </div>
+@@ -8681,7 +8679,7 @@ href="#stretch">-stretch</a>, and <a href="#style">-style</a>. </p>
+   <h2><a class="anchor" id="white-balance"></a>-white-balance</h2>
+ </div>
+ <p>Applies white balancing to an image according to a grayworld assumption in the LAB colorspace.</p>
+-<p>Use <kbd>-define white-balance:vibrance=<em>value{%}</em></kdb> to change the color vibrance of the a &amp; b channels.</p>
++<p>Use <kbd>-define white-balance:vibrance=<em>value{%}</em></kbd> to change the color vibrance of the a &amp; b channels.</p>
+ 
+ <div style="margin: auto;">
+   <h2><a class="anchor" id="white-point"></a>-white-point <var>x,y</var></h2>
+diff --git a/www/defines.html b/www/defines.html
+index 26684d1..470fa37 100644
+--- a/www/defines.html
++++ b/www/defines.html
+@@ -174,7 +174,7 @@ use:</p>
+   </tr>
+ 
+   <tr>
+-   <td colspan=2><p></p></td>
++   <td colspan="2"><p></p></td>
+   </tr>
+ 
+   <tr>
+@@ -802,11 +802,11 @@ use:</p>
+   </tr>
+ 
+   <tr>
+-    <td colspan=2><p></p></td>
++    <td colspan="2"><p></p></td>
+   </tr>
+ 
+   <tr>
+-    <td colspan=2><p></p></td>
++    <td colspan="2"><p></p></td>
+   </tr>
+ 
+   <tr>
+@@ -814,7 +814,7 @@ use:</p>
+   </tr>
+ 
+   <tr>
+-    <td colspan=2><p></p></td>
++    <td colspan="2"><p></p></td>
+   </tr>
+ 
+   <tr>
+@@ -1312,7 +1312,6 @@ use:</p>
+     <td>png:exclude-chunk=<var>value</var></td>
+     <td> </td>
+   </tr>
+-
+   <tr>
+     <td>png:include-chunk=<var>value</var></td>
+     <td>ancillary chunks to be excluded from or included in PNG output.
+@@ -1656,15 +1655,15 @@ use:</p>
+   </tr>
+ 
+   <tr>
+-    <td colspan=2><p></p></td>
++    <td colspan="2"><p></p></td>
+   </tr>
+ 
+   <tr>
+-    <td colspan=2><p></p></td>
++    <td colspan="2"><p></p></td>
+   </tr>
+ 
+   <tr>
+-    <th align="center" colspan=2>PSEUDO-IMAGE FORMATS</th>
++    <th align="center" colspan="2">PSEUDO-IMAGE FORMATS</th>
+   </tr>
+ 
+   <tr>
+@@ -1686,7 +1685,6 @@ use:</p>
+     clockwise positive manner from its normal X-Y orientation.
+     Supported in Imagemagick 6.9.2-5.</td>
+    </tr>
+-
+   <tr>
+     <td>gradient:bounding-box=<var>WxH+X+Y</var></td>
+     <td>Limit the gradient to a larger or smaller region than
+@@ -1849,19 +1847,19 @@ use:</p>
+   </tr>
+ 
+   <tr>
+-    <td colspan=2><p></p></td>
++    <td colspan="2"><p></p></td>
+   </tr>
+ 
+   <tr>
+-    <td colspan=2><p></p></td>
++    <td colspan="2"><p></p></td>
+   </tr>
+ 
+   <tr>
+-    <th align="center" colspan=2>Identify Defines</th>
++    <th align="center" colspan="2">Identify Defines</th>
+   </tr>
+ 
+   <tr>
+-    <td colspan=2><p></p></td>
++    <td colspan="2"><p></p></td>
+   </tr>
+ 
+   <tr>
+diff --git a/www/download.html b/www/download.html
+index b4c8e07..49d193d 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -263,7 +263,7 @@ display logo.gif</samp></pre>
+     <td><a href="../archive/binaries/ImageMagick-x86_64-apple-darwin20.1.0.tar.gz">ImageMagick-x86_64-apple-darwin20.1.0.tar.gz</a></td>
+     <td>macOS High Sierra</td>
+   </tr>
+-  <tbody>
++  </tbody>
+ </table></div>
+ 
+ <p>Verify its <a href="../archive/binaries/digest.rdf">message digest</a>.</p>
+diff --git a/www/support.html b/www/support.html
+index 7463305..330d0a6 100644
+--- a/www/support.html
++++ b/www/support.html
+@@ -181,7 +181,7 @@
+ <p>For direct monetary contributions, click on the donate button to contribute thru Paypal or with a credit card:</p>
+ 
+ <ul>
+-<a href="https://www.paypal.com/biz/fund?id=9XPKRUWDXRR8J"><img "image" src="../images/donate.png" border="0" name="submit" alt="Sponsor ImageMagick" width="92" height="26"</img /></a>
++<a href="https://www.paypal.com/biz/fund?id=9XPKRUWDXRR8J"><img src="../images/donate.png" border="0" name="submit" alt="Sponsor ImageMagick" width="92" height="26" /></a>
+ </ul>
+ 
+ <h2>Bitcoin</h2>
+diff --git a/www/webp.html b/www/webp.html
+index 1788dff..2f82005 100644
+--- a/www/webp.html
++++ b/www/webp.html
+@@ -251,6 +251,7 @@
+     <td>use-sharp-yuv=<var>value</var></td>
+     <td>if needed, use sharp (and slow) RGB->YUV conversion.</td>
+   </tr>
++</tbody>
+ </table></div>
+ </div>
+   </div>

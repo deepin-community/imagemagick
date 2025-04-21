@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,25 +39,25 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/colormap.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/colormap.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,13 +109,10 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
   MagickBooleanType
     status;
 
-  IndexPacket
-    *indexes;
-
   ssize_t
     x;
 
-  PixelPacket
+  Quantum
     *q;
 
   ssize_t
@@ -151,7 +148,7 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -196,7 +193,7 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
         height=ReadBlobLSBShort(image);
         image->columns=width;
         image->rows=height;
-        if (AcquireImageColormap(image,pixel_mode == 1 ? 256UL : 16UL) == MagickFalse)
+        if (AcquireImageColormap(image,pixel_mode == 1 ? 256UL : 16UL,exception) == MagickFalse)
           ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
         tim_colormap=(unsigned char *) AcquireQuantumMemory(image->colors,
           2UL*sizeof(*tim_colormap));
@@ -207,7 +204,7 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
           {
             tim_colormap=(unsigned char *) RelinquishMagickMemory(tim_colormap);
             ThrowReaderException(CorruptImageError,
-            "InsufficientImageDataInFile");
+              "InsufficientImageDataInFile");
           }
         p=tim_colormap;
         for (i=0; i < (ssize_t) image->colors; i++)
@@ -235,22 +232,18 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
     width=ReadBlobLSBShort(image);
     height=ReadBlobLSBShort(image);
     image_size=2*width*height;
+    if (image_size > GetBlobSize(image))
+      ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
     bytes_per_line=width*2;
-    width=(width*16)/bits_per_pixel;
+    width=(size_t) (((ssize_t) width*16)/bits_per_pixel);
     image->columns=width;
     image->rows=height;
-    status=SetImageExtent(image,image->columns,image->rows);
+    status=SetImageExtent(image,image->columns,image->rows,exception);
     if (status == MagickFalse)
-      {
-        InheritException(exception,&image->exception);
-        return(DestroyImageList(image));
-      }
+      return(DestroyImageList(image));
     status=ResetImagePixels(image,exception);
     if (status == MagickFalse)
-      {
-        InheritException(exception,&image->exception);
-        return(DestroyImageList(image));
-      }
+      return(DestroyImageList(image));
     tim_pixels=(unsigned char *) AcquireQuantumMemory(image_size,
       sizeof(*tim_pixels));
     if (tim_pixels == (unsigned char *) NULL)
@@ -274,20 +267,22 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
         for (y=(ssize_t) image->rows-1; y >= 0; y--)
         {
           q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-          if (q == (PixelPacket *) NULL)
+          if (q == (Quantum *) NULL)
             break;
-          indexes=GetAuthenticIndexQueue(image);
-          p=tim_pixels+y*bytes_per_line;
+          p=tim_pixels+y*(ssize_t) bytes_per_line;
           for (x=0; x < ((ssize_t) image->columns-1); x+=2)
           {
-            SetPixelIndex(indexes+x,(*p) & 0x0f);
-            SetPixelIndex(indexes+x+1,(*p >> 4) & 0x0f);
+            SetPixelIndex(image,(*p) & 0x0f,q);
+            q+=(ptrdiff_t) GetPixelChannels(image);
+            SetPixelIndex(image,(*p >> 4) & 0x0f,q);
             p++;
+            q+=(ptrdiff_t) GetPixelChannels(image);
           }
           if ((image->columns % 2) != 0)
             {
-              SetPixelIndex(indexes+x,(*p >> 4) & 0x0f);
+              SetPixelIndex(image,(*p >> 4) & 0x0f,q);
               p++;
+              q+=(ptrdiff_t) GetPixelChannels(image);
             }
           if (SyncAuthenticPixels(image,exception) == MagickFalse)
             break;
@@ -309,12 +304,14 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
         for (y=(ssize_t) image->rows-1; y >= 0; y--)
         {
           q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-          if (q == (PixelPacket *) NULL)
+          if (q == (Quantum *) NULL)
             break;
-          indexes=GetAuthenticIndexQueue(image);
-          p=tim_pixels+y*bytes_per_line;
+          p=tim_pixels+y*(ssize_t) bytes_per_line;
           for (x=0; x < (ssize_t) image->columns; x++)
-            SetPixelIndex(indexes+x,*p++);
+          {
+            SetPixelIndex(image,*p++,q);
+            q+=(ptrdiff_t) GetPixelChannels(image);
+          }
           if (SyncAuthenticPixels(image,exception) == MagickFalse)
             break;
           if (image->previous == (Image *) NULL)
@@ -334,21 +331,21 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
         */
         for (y=(ssize_t) image->rows-1; y >= 0; y--)
         {
-          p=tim_pixels+y*bytes_per_line;
+          p=tim_pixels+y*(ssize_t) bytes_per_line;
           q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-          if (q == (PixelPacket *) NULL)
+          if (q == (Quantum *) NULL)
             break;
           for (x=0; x < (ssize_t) image->columns; x++)
           {
             word=(*p++);
             word|=(*p++ << 8);
-            SetPixelBlue(q,ScaleCharToQuantum(ScaleColor5to8(
-              (1UL*word >> 10) & 0x1f)));
-            SetPixelGreen(q,ScaleCharToQuantum(ScaleColor5to8(
-              (1UL*word >> 5) & 0x1f)));
-            SetPixelRed(q,ScaleCharToQuantum(ScaleColor5to8(
-              (1UL*word >> 0) & 0x1f)));
-            q++;
+            SetPixelBlue(image,ScaleCharToQuantum(ScaleColor5to8(
+              (1UL*word >> 10) & 0x1f)),q);
+            SetPixelGreen(image,ScaleCharToQuantum(ScaleColor5to8(
+              (1UL*word >> 5) & 0x1f)),q);
+            SetPixelRed(image,ScaleCharToQuantum(ScaleColor5to8(
+              (1UL*word >> 0) & 0x1f)),q);
+            q+=(ptrdiff_t) GetPixelChannels(image);
           }
           if (SyncAuthenticPixels(image,exception) == MagickFalse)
             break;
@@ -369,16 +366,16 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
         */
         for (y=(ssize_t) image->rows-1; y >= 0; y--)
         {
-          p=tim_pixels+y*bytes_per_line;
+          p=tim_pixels+y*(ssize_t) bytes_per_line;
           q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-          if (q == (PixelPacket *) NULL)
+          if (q == (Quantum *) NULL)
             break;
           for (x=0; x < (ssize_t) image->columns; x++)
           {
-            SetPixelRed(q,ScaleCharToQuantum(*p++));
-            SetPixelGreen(q,ScaleCharToQuantum(*p++));
-            SetPixelBlue(q,ScaleCharToQuantum(*p++));
-            q++;
+            SetPixelRed(image,ScaleCharToQuantum(*p++),q);
+            SetPixelGreen(image,ScaleCharToQuantum(*p++),q);
+            SetPixelBlue(image,ScaleCharToQuantum(*p++),q);
+            q+=(ptrdiff_t) GetPixelChannels(image);
           }
           if (SyncAuthenticPixels(image,exception) == MagickFalse)
             break;
@@ -399,7 +396,7 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
       }
     }
     if (image->storage_class == PseudoClass)
-      (void) SyncImage(image);
+      (void) SyncImage(image,exception);
     tim_pixels=(unsigned char *) RelinquishMagickMemory(tim_pixels);
     if (EOFBlob(image) != MagickFalse)
       {
@@ -419,7 +416,7 @@ static Image *ReadTIMImage(const ImageInfo *image_info,ExceptionInfo *exception)
         /*
           Allocate next image structure.
         */
-        AcquireNextImage(image_info,image);
+        AcquireNextImage(image_info,image,exception);
         if (GetNextImageInList(image) == (Image *) NULL)
           {
             status=MagickFalse;
@@ -467,10 +464,8 @@ ModuleExport size_t RegisterTIMImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("TIM");
+  entry=AcquireMagickInfo("TIM","TIM","PSX TIM");
   entry->decoder=(DecodeImageHandler *) ReadTIMImage;
-  entry->description=ConstantString("PSX TIM");
-  entry->magick_module=ConstantString("TIM");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

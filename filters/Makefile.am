@@ -19,11 +19,12 @@ filtersdir = $(FILTER_PATH)
 
 MAGICK_FILTER_CPPFLAGS = $(AM_CPPFLAGS)
 
-MAGICK_FILTER_SRCS = \
-	filters/analyze.c
+MAGICKCORE_FILTER_SRCS = \
+  filters/analyze.c
 
 if WITH_MODULES
-filters_LTLIBRARIES = filters/analyze.la
+filters_LTLIBRARIES = \
+  filters/analyze.la
 else
 filters_LTLIBRARIES =
 endif # WITH_MODULES

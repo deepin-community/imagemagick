@@ -17,7 +17,7 @@
 %                                 May 2002                                    %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,32 +39,32 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
+#include "MagickCore/studio.h"
 #if defined(MAGICKCORE_WINGDI32_DELEGATE)
 #  if defined(__CYGWIN__)
 #    include <windows.h>
 #  else
      /* All MinGW needs ... */
-#    include "magick/nt-base-private.h"
+#    include "MagickCore/nt-base-private.h"
 #    include <wingdi.h>
 #  endif
 #endif
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/nt-feature.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/nt-feature.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 #define BMP_HEADER_SIZE 14
 
@@ -73,7 +73,7 @@
 */
 #if defined(MAGICKCORE_WINGDI32_DELEGATE)
 static MagickBooleanType
-  WriteCLIPBOARDImage(const ImageInfo *,Image *);
+  WriteCLIPBOARDImage(const ImageInfo *,Image *,ExceptionInfo *);
 #endif
 
 /*
@@ -139,7 +139,7 @@ static Image *ReadCLIPBOARDImage(const ImageInfo *image_info,
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   if (!IsClipboardFormatAvailable(CF_DIB) &&
       !IsClipboardFormatAvailable(CF_DIBV5))
     ThrowReaderException(CoderError,"NoBitmapOnClipboard");
@@ -169,7 +169,7 @@ static Image *ReadCLIPBOARDImage(const ImageInfo *image_info,
       ThrowReaderException(CoderError,"UnableToReadImageData");
     }
   p=(unsigned char *) clip_data;
-  p+=BMP_HEADER_SIZE;
+  p+=(ptrdiff_t) BMP_HEADER_SIZE;
   (void) memcpy(p,clip_mem,clip_size);
   (void) GlobalUnlock(clip_mem);
   (void) CloseClipboard();
@@ -191,7 +191,7 @@ static Image *ReadCLIPBOARDImage(const ImageInfo *image_info,
         offset+=12;
     }
   offset+=BMP_HEADER_SIZE;
-  p-=BMP_HEADER_SIZE;
+  p-=(ptrdiff_t)BMP_HEADER_SIZE;
   p[0]='B';
   p[1]='M';
   p[2]=(unsigned char) total_size;
@@ -200,7 +200,7 @@ static Image *ReadCLIPBOARDImage(const ImageInfo *image_info,
   p[5]=(unsigned char) (total_size >> 24);
   p[10]=offset;
   read_info=CloneImageInfo(image_info);
-  (void) CopyMagickString(read_info->magick,"BMP",MaxTextExtent);
+  (void) CopyMagickString(read_info->magick,"BMP",MagickPathExtent);
   image=BlobToImage(read_info,clip_data,total_size,exception);
   read_info=DestroyImageInfo(read_info);
   clip_data=RelinquishMagickMemory(clip_data);
@@ -236,15 +236,13 @@ ModuleExport size_t RegisterCLIPBOARDImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("CLIPBOARD");
+  entry=AcquireMagickInfo("CLIPBOARD","CLIPBOARD","The system clipboard");
 #if defined(MAGICKCORE_WINGDI32_DELEGATE)
   entry->decoder=(DecodeImageHandler *) ReadCLIPBOARDImage;
   entry->encoder=(EncodeImageHandler *) WriteCLIPBOARDImage;
 #endif
-  entry->adjoin=MagickFalse;
+  entry->flags^=CoderAdjoinFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("The system clipboard");
-  entry->magick_module=ConstantString("CLIPBOARD");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -289,7 +287,7 @@ ModuleExport void UnregisterCLIPBOARDImage(void)
 %  The format of the WriteCLIPBOARDImage method is:
 %
 %      MagickBooleanType WriteCLIPBOARDImage(const ImageInfo *image_info,
-%        Image *image)
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -297,14 +295,13 @@ ModuleExport void UnregisterCLIPBOARDImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
 #if defined(MAGICKCORE_WINGDI32_DELEGATE)
 static MagickBooleanType WriteCLIPBOARDImage(const ImageInfo *image_info,
-  Image *image)
+  Image *image,ExceptionInfo *exception)
 {
-  ExceptionInfo
-    *sans_exception;
-
   HANDLE
     clip_handle;
 
@@ -329,16 +326,14 @@ static MagickBooleanType WriteCLIPBOARDImage(const ImageInfo *image_info,
   assert(image->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  if (SetImageStorageClass(image,DirectClass) == MagickFalse)
+  if (SetImageStorageClass(image,DirectClass,exception) == MagickFalse)
     ThrowWriterException(CoderError,"UnableToWriteImageData");
   write_info=CloneImageInfo(image_info);
-  if (image->matte == MagickFalse)
-    (void) CopyMagickString(write_info->magick,"BMP3",MaxTextExtent);
+  if ((image->alpha_trait & BlendPixelTrait) == 0)
+    (void) CopyMagickString(write_info->magick,"BMP3",MagickPathExtent);
   else
-    (void) CopyMagickString(write_info->magick,"BMP",MaxTextExtent);
-  sans_exception=AcquireExceptionInfo();
-  clip_data=ImageToBlob(write_info,image,&length,sans_exception);
-  sans_exception=DestroyExceptionInfo(sans_exception);
+    (void) CopyMagickString(write_info->magick,"BMP",MagickPathExtent);
+  clip_data=ImageToBlob(write_info,image,&length,exception);
   write_info=DestroyImageInfo(write_info);
   if (clip_data == (void *) NULL)
     ThrowWriterException(CoderError,"UnableToWriteImageData");
@@ -356,7 +351,7 @@ static MagickBooleanType WriteCLIPBOARDImage(const ImageInfo *image_info,
       ThrowWriterException(CoderError,"UnableToWriteImageData");
     }
   p=(unsigned char *) clip_data;
-  p+=BMP_HEADER_SIZE;
+  p+=(ptrdiff_t) BMP_HEADER_SIZE;
   (void) memcpy(clip_mem,p,length-BMP_HEADER_SIZE);
   (void) GlobalUnlock(clip_mem);
   clip_data=RelinquishMagickMemory(clip_data);
@@ -366,13 +361,11 @@ static MagickBooleanType WriteCLIPBOARDImage(const ImageInfo *image_info,
       ThrowWriterException(CoderError,"UnableToWriteImageData");
     }
   (void) EmptyClipboard();
-  if (image->matte == MagickFalse)
+  if ((image->alpha_trait & BlendPixelTrait) == 0)
     SetClipboardData(CF_DIB,clip_handle);
   else
     SetClipboardData(CF_DIBV5,clip_handle);
   (void) CloseClipboard();
-  CatchImageException(image);
   return(MagickTrue);
 }
 #endif /* MAGICKCORE_WINGDI32_DELEGATE */
-

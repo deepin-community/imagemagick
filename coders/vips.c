@@ -17,7 +17,7 @@
 %                                 April 2014                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,28 +39,29 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/attribute.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/colorspace.h"
-#include "magick/colorspace-private.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/property.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/attribute.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/colorspace.h"
+#include "MagickCore/colorspace-private.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/property.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "coders/coders-private.h"
 
 /*
   Define declarations.
@@ -96,16 +97,16 @@ typedef enum
   VIPSTypeB_W       = 1,   /* Some single band image */
   VIPSTypeHISTOGRAM = 10,  /* Histogram or LUT */
   VIPSTypeFOURIER   = 24,  /* Image in Fourier space */
-  VIPSTypeXYZ       = 12,  /* CIE XYZ colour space */
-  VIPSTypeLAB       = 13,  /* CIE LAB colour space */
+  VIPSTypeXYZ       = 12,  /* CIE XYZ color space */
+  VIPSTypeLAB       = 13,  /* CIE LAB color space */
   VIPSTypeCMYK      = 15,  /* im_icc_export() */
   VIPSTypeLABQ      = 16,  /* 32-bit CIE LAB */
   VIPSTypeRGB       = 17,  /* Some RGB */
-  VIPSTypeUCS       = 18,  /* UCS(1:1) colour space */
-  VIPSTypeLCH       = 19,  /* CIE LCh colour space */
+  VIPSTypeUCS       = 18,  /* UCS(1:1) color space */
+  VIPSTypeLCH       = 19,  /* CIE LCh color space */
   VIPSTypeLABS      = 21,  /* 48-bit CIE LAB */
-  VIPSTypesRGB      = 22,  /* sRGB colour space */
-  VIPSTypeYXY       = 23,  /* CIE Yxy colour space */
+  VIPSTypesRGB      = 22,  /* sRGB color space */
+  VIPSTypeYXY       = 23,  /* CIE Yxy color space */
   VIPSTypeRGB16     = 25,  /* 16-bit RGB */
   VIPSTypeGREY16    = 26   /* 16-bit monochrome */
 } VIPSType;
@@ -114,7 +115,7 @@ typedef enum
   Forward declarations.
 */
 static MagickBooleanType
-  WriteVIPSImage(const ImageInfo *,Image *);
+  WriteVIPSImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -290,11 +291,11 @@ static inline Quantum ReadVIPSPixelNONE(Image *image,
         case VIPSBandFormatINT:
           return(ScaleLongToQuantum(ReadBlobLong(image)));
         case VIPSBandFormatFLOAT:
-          return((Quantum) ((MagickRealType) QuantumRange*
-            ((MagickRealType) ReadBlobFloat(image)/1.0)));
+          return((Quantum) ((double) QuantumRange*((double)
+            ReadBlobFloat(image)/1.0)));
         case VIPSBandFormatDOUBLE:
-          return((Quantum) ((MagickRealType) QuantumRange*
-            (ReadBlobDouble(image)/1.0)));
+          return((Quantum) ((double) QuantumRange*(ReadBlobDouble(
+            image)/1.0)));
         default:
           return((Quantum) 0);
       }
@@ -310,10 +311,7 @@ static MagickBooleanType ReadVIPSPixelsNONE(Image *image,
   Quantum
     pixel;
 
-  IndexPacket
-    *indexes;
-
-  PixelPacket
+  Quantum
     *q;
 
   ssize_t
@@ -325,41 +323,41 @@ static MagickBooleanType ReadVIPSPixelsNONE(Image *image,
   for (y = 0; y < (ssize_t) image->rows; y++)
   {
     q=GetAuthenticPixels(image,0,y,image->columns,1,exception);
-    if (q == (PixelPacket *) NULL)
-      return MagickFalse;
-    indexes=GetAuthenticIndexQueue(image);
+    if (q == (Quantum *) NULL)
+      return(MagickFalse);
     for (x=0; x < (ssize_t) image->columns; x++)
     {
       pixel=ReadVIPSPixelNONE(image,format,type);
-      SetPixelRed(q,pixel);
+      SetPixelRed(image,pixel,q);
       if (channels < 3)
         {
-          SetPixelGreen(q,pixel);
-          SetPixelBlue(q,pixel);
+          SetPixelGreen(image,pixel,q);
+          SetPixelBlue(image,pixel,q);
           if (channels == 2)
-            SetPixelAlpha(q,ReadVIPSPixelNONE(image,format,type));
+            SetPixelAlpha(image,ReadVIPSPixelNONE(image,format,type),q);
         }
       else
         {
-          SetPixelGreen(q,ReadVIPSPixelNONE(image,format,type));
-          SetPixelBlue(q,ReadVIPSPixelNONE(image,format,type));
+          SetPixelGreen(image,ReadVIPSPixelNONE(image,format,type),q);
+          SetPixelBlue(image,ReadVIPSPixelNONE(image,format,type),q);
           if (channels == 4)
             {
               if (image->colorspace == CMYKColorspace)
-                SetPixelIndex(indexes+x,ReadVIPSPixelNONE(image,format,type));
+                SetPixelIndex(image,ReadVIPSPixelNONE(image,format,type),q);
               else
-                SetPixelAlpha(q,ReadVIPSPixelNONE(image,format,type));
+                SetPixelAlpha(image,ReadVIPSPixelNONE(image,format,type),q);
             }
-          else if (channels == 5)
-            {
-              SetPixelIndex(indexes+x,ReadVIPSPixelNONE(image,format,type));
-              SetPixelAlpha(q,ReadVIPSPixelNONE(image,format,type));
-            }
+          else
+            if (channels == 5)
+              {
+                SetPixelIndex(image,ReadVIPSPixelNONE(image,format,type),q);
+                SetPixelAlpha(image,ReadVIPSPixelNONE(image,format,type),q);
+              }
         }
-      q++;
+      q+=(ptrdiff_t) GetPixelChannels(image);
     }
     if (SyncAuthenticPixels(image,exception) == MagickFalse)
-      return MagickFalse;
+      return(MagickFalse);
   }
   return(MagickTrue);
 }
@@ -368,7 +366,7 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
   ExceptionInfo *exception)
 {
   char
-    buffer[MaxTextExtent],
+    buffer[MagickPathExtent],
     *metadata;
 
   Image
@@ -400,7 +398,7 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -410,18 +408,16 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
   marker=ReadBlobLSBLong(image);
   if (marker == VIPS_MAGIC_LSB)
     image->endian=LSBEndian;
-  else if (marker == VIPS_MAGIC_MSB)
-    image->endian=MSBEndian;
   else
-    ThrowReaderException(CorruptImageError,"ImproperImageHeader");
+    if (marker == VIPS_MAGIC_MSB)
+      image->endian=MSBEndian;
+    else
+      ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   image->columns=(size_t) ReadBlobLong(image);
   image->rows=(size_t) ReadBlobLong(image);
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
-    {
-      InheritException(exception,&image->exception);
-      return(DestroyImageList(image));
-    }
+    return(DestroyImageList(image));
   channels=ReadBlobLong(image);
   (void) ReadBlobLong(image); /* Legacy */
   format=(VIPSBandFormat) ReadBlobLong(image);
@@ -454,26 +450,26 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
   switch(type)
   {
     case VIPSTypeCMYK:
-      SetImageColorspace(image,CMYKColorspace);
+      SetImageColorspace(image,CMYKColorspace,exception);
       if (channels == 5)
-        image->matte=MagickTrue;
+        image->alpha_trait=BlendPixelTrait;
       break;
     case VIPSTypeB_W:
     case VIPSTypeGREY16:
-      SetImageColorspace(image,GRAYColorspace);
+      SetImageColorspace(image,GRAYColorspace,exception);
       if (channels == 2)
-        image->matte=MagickTrue;
+        image->alpha_trait=BlendPixelTrait;
       break;
     case VIPSTypeRGB:
     case VIPSTypeRGB16:
-      SetImageColorspace(image,RGBColorspace);
+      SetImageColorspace(image,RGBColorspace,exception);
       if (channels == 4)
-        image->matte=MagickTrue;
+        image->alpha_trait=BlendPixelTrait;
       break;
     case VIPSTypesRGB:
-      SetImageColorspace(image,sRGBColorspace);
+      SetImageColorspace(image,sRGBColorspace,exception);
       if (channels == 4)
-        image->matte=MagickTrue;
+        image->alpha_trait=BlendPixelTrait;
       break;
     default:
     case VIPSTypeFOURIER:
@@ -488,10 +484,10 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
     case VIPSTypeYXY:
       ThrowReaderException(CoderError,"Unsupported colorspace");
   }
-  (void) SetImageBackgroundColor(image);
+  (void) SetImageBackgroundColor(image,exception);
   image->units=PixelsPerCentimeterResolution;
-  image->x_resolution=ReadBlobFloat(image)*10;
-  image->y_resolution=ReadBlobFloat(image)*10;
+  image->resolution.x=ReadBlobFloat(image)*10;
+  image->resolution.y=ReadBlobFloat(image)*10;
   /*
     Legacy, offsets, future
   */
@@ -510,7 +506,7 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
   else
     ThrowReaderException(CoderError,"Unsupported coding");
   metadata=(char *) NULL;
-  while ((n=ReadBlob(image,MaxTextExtent-1,(unsigned char *) buffer)) != 0)
+  while ((n=ReadBlob(image,MagickPathExtent-1,(unsigned char *) buffer)) != 0)
   {
     buffer[n]='\0';
     if (metadata == (char *) NULL)
@@ -520,7 +516,7 @@ static Image *ReadVIPSImage(const ImageInfo *image_info,
   }
   if (metadata != (char *) NULL)
     {
-      SetImageProperty(image,"vips:metadata",metadata);
+      SetImageProperty(image,"vips:metadata",metadata,exception);
       metadata=(char *) RelinquishMagickMemory(metadata);
     }
   if (CloseBlob(image) == MagickFalse)
@@ -557,13 +553,11 @@ ModuleExport size_t RegisterVIPSImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("VIPS");
+  entry=AcquireMagickInfo("VIPS","VIPS","VIPS image");
   entry->decoder=(DecodeImageHandler *) ReadVIPSImage;
   entry->encoder=(EncodeImageHandler *) WriteVIPSImage;
   entry->magick=(IsImageFormatHandler *) IsVIPS;
-  entry->description=ConstantString("VIPS image");
-  entry->endian_support=MagickTrue;
-  entry->magick_module=ConstantString("VIPS");
+  entry->flags|=CoderEndianSupportFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -607,8 +601,7 @@ ModuleExport void UnregisterVIPSImage(void)
 %
 %  The format of the WriteVIPSImage method is:
 %
-%      MagickBooleanType WriteVIPSImage(const ImageInfo *image_info,
-%        Image *image)
+%      MagickBooleanType WriteVIPSImage(const ImageInfo *image_info,Image *image)
 %
 %  A description of each parameter follows.
 %
@@ -627,19 +620,16 @@ static inline void WriteVIPSPixel(Image *image,const Quantum value)
 }
 
 static MagickBooleanType WriteVIPSImage(const ImageInfo *image_info,
-  Image *image)
+  Image *image,ExceptionInfo *exception)
 {
   const char
     *metadata;
 
+  const Quantum
+    *p;
+
   MagickBooleanType
     status;
-
-  const IndexPacket
-    *indexes;
-
-  const PixelPacket
-    *p;
 
   ssize_t
     x;
@@ -656,7 +646,7 @@ static MagickBooleanType WriteVIPSImage(const ImageInfo *image_info,
   assert(image->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+  status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
   if (status == MagickFalse)
     return(status);
   if (image->endian == LSBEndian)
@@ -665,12 +655,16 @@ static MagickBooleanType WriteVIPSImage(const ImageInfo *image_info,
     (void) WriteBlobLSBLong(image,VIPS_MAGIC_MSB);
   (void) WriteBlobLong(image,(unsigned int) image->columns);
   (void) WriteBlobLong(image,(unsigned int) image->rows);
-  (void) SetImageStorageClass(image,DirectClass);
-  channels=image->matte ? 4 : 3;
-  if (SetImageGray(image,&image->exception) != MagickFalse)
-    channels=image->matte ? 2 : 1;
-  else if (image->colorspace == CMYKColorspace)
-    channels=image->matte ? 5 : 4;
+  (void) SetImageStorageClass(image,DirectClass,exception);
+  channels=image->alpha_trait != UndefinedPixelTrait ? 4 : 3;
+  if (IdentifyImageCoderGray(image,exception) != MagickFalse)
+    {
+      channels=image->alpha_trait != UndefinedPixelTrait ? 2 : 1;
+      (void) SetImageColorspace(image,GRAYColorspace,exception);
+    }
+  else
+    if (image->colorspace == CMYKColorspace)
+      channels=image->alpha_trait != UndefinedPixelTrait ? 5 : 4;
   (void) WriteBlobLong(image,channels);
   (void) WriteBlobLong(image,0);
   if (image->depth == 16)
@@ -681,84 +675,94 @@ static MagickBooleanType WriteVIPSImage(const ImageInfo *image_info,
       (void) WriteBlobLong(image,(unsigned int) VIPSBandFormatUCHAR);
     }
   (void) WriteBlobLong(image,VIPSCodingNONE);
-  switch(image->colorspace)
+  switch (image->colorspace)
   {
     case CMYKColorspace:
       (void) WriteBlobLong(image,VIPSTypeCMYK);
       break;
     case GRAYColorspace:
       if (image->depth == 16)
-        (void) WriteBlobLong(image, VIPSTypeGREY16);
+        (void) WriteBlobLong(image,VIPSTypeGREY16);
       else
-        (void) WriteBlobLong(image, VIPSTypeB_W);
+        (void) WriteBlobLong(image,VIPSTypeB_W);
+      break;
+    case LabColorspace:
+      (void) WriteBlobLong(image,VIPSTypeLAB);
+      break;
+    case LCHColorspace:
+      (void) WriteBlobLong(image,VIPSTypeLCH);
       break;
     case RGBColorspace:
       if (image->depth == 16)
-        (void) WriteBlobLong(image, VIPSTypeRGB16);
+        (void) WriteBlobLong(image,VIPSTypeRGB16);
       else
-        (void) WriteBlobLong(image, VIPSTypeRGB);
+        (void) WriteBlobLong(image,VIPSTypeRGB);
       break;
-    default:
+    case XYZColorspace:
+      (void) WriteBlobLong(image,VIPSTypeXYZ);
+      break;
     case sRGBColorspace:
-      (void) SetImageColorspace(image,sRGBColorspace);
+    default:
+      (void) SetImageColorspace(image,sRGBColorspace,exception);
       (void) WriteBlobLong(image,VIPSTypesRGB);
       break;
   }
   if (image->units == PixelsPerCentimeterResolution)
     {
-      (void) WriteBlobFloat(image,(image->x_resolution / 10));
-      (void) WriteBlobFloat(image,(image->y_resolution / 10));
-    }
-  else if (image->units == PixelsPerInchResolution)
-    {
-      (void) WriteBlobFloat(image,(image->x_resolution / 25.4));
-      (void) WriteBlobFloat(image,(image->y_resolution / 25.4));
+      (void) WriteBlobFloat(image,(image->resolution.x/10));
+      (void) WriteBlobFloat(image,(image->resolution.y/10));
     }
   else
-    {
-      (void) WriteBlobLong(image,0);
-      (void) WriteBlobLong(image,0);
-    }
+    if (image->units == PixelsPerInchResolution)
+      {
+        (void) WriteBlobFloat(image,(image->resolution.x/25.4));
+        (void) WriteBlobFloat(image,(image->resolution.y/25.4));
+      }
+    else
+      {
+        (void) WriteBlobLong(image,0);
+        (void) WriteBlobLong(image,0);
+      }
   /*
-    Legacy, Offsets, Future
+    Legacy, offsets, future.
   */
   for (y=0; y < 24; y++)
     (void) WriteBlobByte(image,0);
   for (y=0; y < (ssize_t) image->rows; y++)
   {
-    p=GetVirtualPixels(image,0,y,image->columns,1,&image->exception);
-    if (p == (const PixelPacket *) NULL)
+    p=GetVirtualPixels(image,0,y,image->columns,1,exception);
+    if (p == (const Quantum *) NULL)
       break;
-    indexes=GetVirtualIndexQueue(image);
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      WriteVIPSPixel(image,GetPixelRed(p));
+      WriteVIPSPixel(image,GetPixelRed(image,p));
       if (channels == 2)
-        WriteVIPSPixel(image,GetPixelAlpha(p));
+        WriteVIPSPixel(image,GetPixelAlpha(image,p));
       else
         {
           if (channels >= 3)
             {
-              WriteVIPSPixel(image,GetPixelGreen(p));
-              WriteVIPSPixel(image,GetPixelBlue(p));
+              WriteVIPSPixel(image,GetPixelGreen(image,p));
+              WriteVIPSPixel(image,GetPixelBlue(image,p));
             }
           if (channels >= 4)
             {
               if (image->colorspace == CMYKColorspace)
-                WriteVIPSPixel(image,GetPixelIndex(indexes+x));
+                WriteVIPSPixel(image,GetPixelIndex(image,p));
               else
-                WriteVIPSPixel(image,GetPixelAlpha(p));
+                WriteVIPSPixel(image,GetPixelAlpha(image,p));
             }
-          else if (channels == 5)
-            {
-               WriteVIPSPixel(image,GetPixelIndex(indexes+x));
-               WriteVIPSPixel(image,GetPixelAlpha(p));
-            }
+          else
+            if (channels == 5)
+              {
+                WriteVIPSPixel(image,GetPixelIndex(image,p));
+                WriteVIPSPixel(image,GetPixelAlpha(image,p));
+              }
         }
-      p++;
+      p+=(ptrdiff_t) GetPixelChannels(image);
     }
   }
-  metadata=GetImageProperty(image,"vips:metadata");
+  metadata=GetImageProperty(image,"vips:metadata",exception);
   if (metadata != (const char*) NULL)
     WriteBlobString(image,metadata);
   if (CloseBlob(image) == MagickFalse)

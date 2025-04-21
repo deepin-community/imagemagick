@@ -39,29 +39,29 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/color.h"
-#include "magick/composite.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/pixel.h"
-#include "magick/pixel-accessor.h"
-#include "magick/property.h"
-#include "magick/quantize.h"
-#include "magick/quantum-private.h"
-#include "magick/resource_.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/string-private.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/color.h"
+#include "MagickCore/composite.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/pixel.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/property.h"
+#include "MagickCore/quantize.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/resource_.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/string-private.h"
+#include "MagickCore/module.h"
 
 /*
   Typedef declarations.
@@ -403,7 +403,7 @@ static char *ReadBlobStringWithLongSize(Image *image,char *string,size_t max,
     string[i]=(char) c;
   }
   string[i]='\0';
-  offset=SeekBlob(image,(MagickOffsetType) (length-i),SEEK_CUR);
+  offset=SeekBlob(image,((MagickOffsetType) length-i),SEEK_CUR);
   if (offset < 0)
     (void) ThrowMagickException(exception,GetMagickModule(),
       CorruptImageError,"ImproperImageHeader","`%s'",image->filename);
@@ -428,7 +428,7 @@ static MagickBooleanType load_tile(Image *image,Image *tile_image,
   ssize_t
     x;
 
-  PixelPacket
+  Quantum
     *q;
 
   size_t
@@ -470,17 +470,17 @@ static MagickBooleanType load_tile(Image *image,Image *tile_image,
   for (y=0; y < (ssize_t) tile_image->rows; y++)
   {
     q=GetAuthenticPixels(tile_image,0,y,tile_image->columns,1,exception);
-    if (q == (PixelPacket *) NULL)
+    if (q == (Quantum *) NULL)
       break;
     if (inDocInfo->image_type == GIMP_GRAY)
       {
         for (x=0; x < (ssize_t) tile_image->columns; x++)
         {
-          SetPixelGray(q,ScaleCharToQuantum(*graydata));
-          SetPixelAlpha(q,ScaleCharToQuantum((unsigned char)
-            inLayerInfo->alpha));
+          SetPixelGray(tile_image,ScaleCharToQuantum(*graydata),q);
+          SetPixelAlpha(tile_image,ScaleCharToQuantum((unsigned char)
+            inLayerInfo->alpha),q);
           graydata++;
-          q++;
+          q+=(ptrdiff_t) GetPixelChannels(tile_image);
         }
       }
     else
@@ -488,13 +488,13 @@ static MagickBooleanType load_tile(Image *image,Image *tile_image,
         {
           for (x=0; x < (ssize_t) tile_image->columns; x++)
           {
-            SetPixelRed(q,ScaleCharToQuantum(xcfdata->red));
-            SetPixelGreen(q,ScaleCharToQuantum(xcfdata->green));
-            SetPixelBlue(q,ScaleCharToQuantum(xcfdata->blue));
-            SetPixelAlpha(q,xcfdata->alpha == 255U ? TransparentOpacity :
-              ScaleCharToQuantum((unsigned char) inLayerInfo->alpha));
+            SetPixelRed(tile_image,ScaleCharToQuantum(xcfdata->red),q);
+            SetPixelGreen(tile_image,ScaleCharToQuantum(xcfdata->green),q);
+            SetPixelBlue(tile_image,ScaleCharToQuantum(xcfdata->blue),q);
+            SetPixelAlpha(tile_image,xcfdata->alpha == 255U ? TransparentAlpha :
+              ScaleCharToQuantum((unsigned char) inLayerInfo->alpha),q);
             xcfdata++;
-            q++;
+            q+=(ptrdiff_t) GetPixelChannels(tile_image);
           }
         }
      if (SyncAuthenticPixels(tile_image,exception) == MagickFalse)
@@ -515,7 +515,7 @@ static MagickBooleanType load_tile_rle(Image *image,Image *tile_image,
     alpha,
     data;
 
-  PixelPacket
+  Quantum
     *q;
 
   size_t
@@ -547,9 +547,9 @@ static MagickBooleanType load_tile_rle(Image *image,Image *tile_image,
   {
     q=GetAuthenticPixels(tile_image,0,0,tile_image->columns,tile_image->rows,
       exception);
-    if (q == (PixelPacket *) NULL)
+    if (q == (Quantum *) NULL)
       continue;
-    size=(MagickOffsetType) tile_image->rows*tile_image->columns;
+    size=(MagickOffsetType) (tile_image->rows*tile_image->columns);
     while (size > 0)
     {
       if (xcfdata > xcfdatalimit)
@@ -566,7 +566,7 @@ static MagickBooleanType load_tile_rle(Image *image,Image *tile_image,
               length=(size_t) ((*xcfdata << 8) + xcfdata[1]) & 0xffff;
               xcfdata+=2;
             }
-          size-=length;
+          size-=(MagickOffsetType) length;
           if (size < 0)
             goto bogus_rle;
           if ((length < 1) || (length > data_length))
@@ -581,36 +581,36 @@ static MagickBooleanType load_tile_rle(Image *image,Image *tile_image,
               case 0:
               {
                 if (inDocInfo->image_type == GIMP_GRAY)
-                  SetPixelGray(q,data);
+                  SetPixelGray(tile_image,data,q);
                 else
                   {
-                    SetPixelRed(q,data);
-                    SetPixelGreen(q,data);
-                    SetPixelBlue(q,data);
+                    SetPixelRed(tile_image,data,q);
+                    SetPixelGreen(tile_image,data,q);
+                    SetPixelBlue(tile_image,data,q);
                   }
-                SetPixelAlpha(q,alpha);
+                SetPixelAlpha(tile_image,alpha,q);
                 break;
               }
               case 1:
               {
                 if (inDocInfo->image_type == GIMP_GRAY)
-                  SetPixelAlpha(q,data);
+                  SetPixelAlpha(tile_image,data,q);
                 else
-                  SetPixelGreen(q,data);
+                  SetPixelGreen(tile_image,data,q);
                 break;
               }
               case 2:
               {
-                SetPixelBlue(q,data);
+                SetPixelBlue(tile_image,data,q);
                 break;
               }
               case 3:
               {
-                SetPixelAlpha(q,data);
+                SetPixelAlpha(tile_image,data,q);
                 break;
               }
             }
-            q++;
+            q+=(ptrdiff_t) GetPixelChannels(tile_image);
           }
         }
       else
@@ -623,7 +623,7 @@ static MagickBooleanType load_tile_rle(Image *image,Image *tile_image,
               length=(size_t) ((*xcfdata << 8) + xcfdata[1]) & 0xffff;
               xcfdata+=2;
             }
-          size-=length;
+          size-=(MagickOffsetType) length;
           if (size < 0)
             goto bogus_rle;
           if (xcfdata > xcfdatalimit)
@@ -637,36 +637,36 @@ static MagickBooleanType load_tile_rle(Image *image,Image *tile_image,
               case 0:
               {
                 if (inDocInfo->image_type == GIMP_GRAY)
-                  SetPixelGray(q,data);
+                  SetPixelGray(tile_image,data,q);
                 else
                   {
-                    SetPixelRed(q,data);
-                    SetPixelGreen(q,data);
-                    SetPixelBlue(q,data);
+                    SetPixelRed(tile_image,data,q);
+                    SetPixelGreen(tile_image,data,q);
+                    SetPixelBlue(tile_image,data,q);
                   }
-                SetPixelAlpha(q,alpha);
+                SetPixelAlpha(tile_image,alpha,q);
                 break;
               }
               case 1:
               {
                 if (inDocInfo->image_type == GIMP_GRAY)
-                  SetPixelAlpha(q,data);
+                  SetPixelAlpha(tile_image,data,q);
                 else
-                  SetPixelGreen(q,data);
+                  SetPixelGreen(tile_image,data,q);
                 break;
               }
               case 2:
               {
-                SetPixelBlue(q,data);
+                SetPixelBlue(tile_image,data,q);
                 break;
               }
               case 3:
               {
-                SetPixelAlpha(q,data);
+                SetPixelAlpha(tile_image,data,q);
                 break;
               }
             }
-            q++;
+            q+=(ptrdiff_t) GetPixelChannels(tile_image);
           }
         }
     }
@@ -726,7 +726,7 @@ static MagickBooleanType load_level(Image *image,XCFDocInfo *inDocInfo,
       image->filename);
   if (offset == 0)
     {
-      (void) SetImageBackgroundColor(image);
+      (void) SetImageBackgroundColor(image,exception);
       return(MagickTrue);
     }
   /*
@@ -776,7 +776,7 @@ static MagickBooleanType load_level(Image *image,XCFDocInfo *inDocInfo,
       if (tile_image == (Image *) NULL)
         ThrowBinaryException(ResourceLimitError,"MemoryAllocationFailed",
           image->filename);
-      (void) SetImageBackgroundColor(tile_image);
+      (void) SetImageBackgroundColor(tile_image,exception);
 
       /* read in the tile */
       switch (inDocInfo->compression)
@@ -801,8 +801,8 @@ static MagickBooleanType load_level(Image *image,XCFDocInfo *inDocInfo,
 
       /* composite the tile onto the layer's image, and then destroy it */
       if (status != MagickFalse)
-        (void) CompositeImage(inLayerInfo->image,CopyCompositeOp,tile_image,
-          destLeft * TILE_WIDTH,destTop*TILE_HEIGHT);
+        (void) CompositeImage(inLayerInfo->image,tile_image,CopyCompositeOp,
+          MagickTrue,destLeft * TILE_WIDTH,destTop*TILE_HEIGHT,exception);
       tile_image=DestroyImage(tile_image);
 
       if (status == MagickFalse)
@@ -875,14 +875,14 @@ static MagickBooleanType load_hierarchy(Image *image,XCFDocInfo *inDocInfo,
   return(MagickTrue);
 }
 
-static void InitXCFImage(XCFLayerInfo *outLayer,
-  ExceptionInfo *magick_unused(exception))
+static void InitXCFImage(XCFLayerInfo *outLayer,ExceptionInfo *exception)
 {
   outLayer->image->page.x=outLayer->offset_x;
   outLayer->image->page.y=outLayer->offset_y;
   outLayer->image->page.width=outLayer->width;
   outLayer->image->page.height=outLayer->height;
-  (void) SetImageProperty(outLayer->image,"label",(char *) outLayer->name);
+  (void) SetImageProperty(outLayer->image,"label",(char *) outLayer->name,
+    exception);
 }
 
 static MagickBooleanType ReadOneLayer(const ImageInfo *image_info,Image* image,
@@ -1016,7 +1016,7 @@ static MagickBooleanType ReadOneLayer(const ImageInfo *image_info,Image* image,
       ssize_t
         scene;
 
-      scene=inDocInfo->number_layers-layer-1;
+      scene=(ssize_t) inDocInfo->number_layers-layer-1;
       if (scene > (ssize_t) (image_info->scene+image_info->number_scenes-1))
         {
           outLayer->image=CloneImage(image,0,0,MagickTrue,exception);
@@ -1032,7 +1032,7 @@ static MagickBooleanType ReadOneLayer(const ImageInfo *image_info,Image* image,
     return(MagickFalse);
   outLayer->width=outLayer->image->columns;
   status=SetImageExtent(outLayer->image,outLayer->image->columns,
-    outLayer->image->rows);
+    outLayer->image->rows,exception);
   if (status != MagickFalse)
     status=ResetImagePixels(outLayer->image,exception);
   if (status == MagickFalse)
@@ -1041,12 +1041,13 @@ static MagickBooleanType ReadOneLayer(const ImageInfo *image_info,Image* image,
       return(MagickFalse);
     }
   /* clear the image based on the layer opacity */
-  outLayer->image->background_color.opacity=QuantumRange-
+  outLayer->image->background_color.alpha=
     ScaleCharToQuantum((unsigned char) outLayer->alpha);
   if (outLayer->alpha != 255U)
     {
-      outLayer->image->matte=MagickTrue;
-      (void) SetImageBackgroundColor(outLayer->image);
+      outLayer->image->background_color.alpha_trait=BlendPixelTrait;
+      outLayer->image->alpha_trait=BlendPixelTrait;
+      (void) SetImageBackgroundColor(outLayer->image,exception);
     }
 
   InitXCFImage(outLayer,exception);
@@ -1155,7 +1156,6 @@ static Image *ReadXCFImage(const ImageInfo *image_info,ExceptionInfo *exception)
 
   size_t
     image_type,
-    precision,
     length;
 
   ssize_t
@@ -1174,7 +1174,7 @@ static Image *ReadXCFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -1192,12 +1192,17 @@ static Image *ReadXCFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if ((doc_info.width > 262144) || (doc_info.height > 262144))
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   doc_info.image_type=ReadBlobMSBLong(image);
-  precision=150;
   if (doc_info.version >= 4)
     {
+      size_t
+        precision;
+
       precision=ReadBlobMSBLong(image);
-      if (precision == 0)
+      if ((precision == 0) && (doc_info.version == 4))
         precision=150;
+      if ((precision == 100) && (doc_info.version < 7))
+        precision=150;
+      /* we only support 8-bit gamma integer */
       if (precision != 150)
         ThrowReaderException(CoderError,"DataStorageTypeIsNotSupported");
     }
@@ -1210,7 +1215,7 @@ static Image *ReadXCFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   doc_info.file_size=GetBlobSize(image);
   image->compression=NoCompression;
   image->depth=8;
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
     return(DestroyImageList(image));
   if (status != MagickFalse)
@@ -1218,13 +1223,13 @@ static Image *ReadXCFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (image_type == GIMP_INDEXED)
     ThrowReaderException(CoderError,"ColormapTypeNotSupported");
   if (image_type == GIMP_RGB)
-    SetImageColorspace(image,sRGBColorspace);
+    SetImageColorspace(image,sRGBColorspace,exception);
   else if (image_type == GIMP_GRAY)
-    SetImageColorspace(image,GRAYColorspace);
+    SetImageColorspace(image,GRAYColorspace,exception);
   else
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
-  (void) SetImageBackgroundColor(image);
-  (void) SetImageOpacity(image,OpaqueOpacity);
+  (void) SetImageBackgroundColor(image,exception);
+  (void) SetImageAlpha(image,OpaqueAlpha,exception);
   /*
     Read properties.
   */
@@ -1309,8 +1314,8 @@ static Image *ReadXCFImage(const ImageInfo *image_info,ExceptionInfo *exception)
         if ((x >= GIMP_MIN_RESOLUTION) && (x <= GIMP_MAX_RESOLUTION) &&
             (y >= GIMP_MIN_RESOLUTION) && (y <= GIMP_MAX_RESOLUTION))
           {
-            image->x_resolution=(double) x;
-            image->y_resolution=(double) y;
+            image->resolution.x=(double) x;
+            image->resolution.y=(double) y;
             image->units=PixelsPerInchResolution;
           }
       }
@@ -1407,10 +1412,10 @@ static Image *ReadXCFImage(const ImageInfo *image_info,ExceptionInfo *exception)
     {
       MagickBooleanType
         foundAllLayers = MagickFalse;
-        
+
       MagickOffsetType
         oldPos = TellBlob(image);
-    
+
       size_t
         number_layers = 0;
 
@@ -1607,12 +1612,10 @@ ModuleExport size_t RegisterXCFImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("XCF");
+  entry=AcquireMagickInfo("XCF","XCF","GIMP image");
   entry->decoder=(DecodeImageHandler *) ReadXCFImage;
   entry->magick=(IsImageFormatHandler *) IsXCF;
-  entry->description=ConstantString("GIMP image");
-  entry->magick_module=ConstantString("XCF");
-  entry->seekable_stream=MagickTrue;
+  entry->flags|=CoderDecoderSeekableStreamFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

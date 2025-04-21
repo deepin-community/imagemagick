@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,33 +39,34 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/colorspace.h"
-#include "magick/constitute.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/statistic.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/colorspace.h"
+#include "MagickCore/constitute.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/statistic.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteRAWImage(const ImageInfo *,Image *);
+  WriteRAWImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,15 +135,12 @@ static Image *ReadRAWImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   if ((image->columns == 0) || (image->rows == 0))
     ThrowReaderException(OptionError,"MustSpecifyImageSize");
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
-    {
-      InheritException(exception,&image->exception);
-      return(DestroyImageList(image));
-    }
+    return(DestroyImageList(image));
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -159,7 +157,8 @@ static Image *ReadRAWImage(const ImageInfo *image_info,ExceptionInfo *exception)
     exception);
   if (canvas_image == (Image *) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-  (void) SetImageVirtualPixelMethod(canvas_image,BlackVirtualPixelMethod);
+  (void) SetImageVirtualPixelMethod(canvas_image,BlackVirtualPixelMethod,
+    exception);
   quantum_type=GrayQuantum;
   quantum_info=AcquireQuantumInfo(image_info,canvas_image);
   if (quantum_info == (QuantumInfo *) NULL)
@@ -196,7 +195,7 @@ static Image *ReadRAWImage(const ImageInfo *image_info,ExceptionInfo *exception)
     if ((image_info->ping != MagickFalse) && (image_info->number_scenes != 0))
       if (image->scene >= (image_info->scene+image_info->number_scenes-1))
         break;
-    status=SetImageExtent(image,image->columns,image->rows);
+    status=SetImageExtent(image,image->columns,image->rows,exception);
     if (status == MagickFalse)
       break;
     if (scene == 0)
@@ -208,10 +207,10 @@ static Image *ReadRAWImage(const ImageInfo *image_info,ExceptionInfo *exception)
       }
     for (y=0; y < (ssize_t) image->extract_info.height; y++)
     {
-      const PixelPacket
+      const Quantum
         *magick_restrict p;
 
-      PixelPacket
+      Quantum
         *magick_restrict q;
 
       ssize_t
@@ -225,28 +224,28 @@ static Image *ReadRAWImage(const ImageInfo *image_info,ExceptionInfo *exception)
           break;
         }
       q=GetAuthenticPixels(canvas_image,0,0,canvas_image->columns,1,exception);
-      if (q == (PixelPacket *) NULL)
+      if (q == (Quantum *) NULL)
         break;
       length=ImportQuantumPixels(canvas_image,(CacheView *) NULL,quantum_info,
         quantum_type,(unsigned char *) stream,exception);
       if (SyncAuthenticPixels(canvas_image,exception) == MagickFalse)
         break;
-      if (((y-image->extract_info.y) >= 0) &&
+      if (((y-image->extract_info.y) >= 0) && 
           ((y-image->extract_info.y) < (ssize_t) image->rows))
         {
           p=GetVirtualPixels(canvas_image,canvas_image->extract_info.x,0,
             image->columns,1,exception);
           q=QueueAuthenticPixels(image,0,y-image->extract_info.y,image->columns,
             1,exception);
-          if ((p == (const PixelPacket *) NULL) || (q == (PixelPacket *) NULL))
+          if ((p == (const Quantum *) NULL) || (q == (Quantum *) NULL))
             break;
           for (x=0; x < (ssize_t) image->columns; x++)
           {
-            SetPixelRed(q,GetPixelRed(p));
-            SetPixelGreen(q,GetPixelGreen(p));
-            SetPixelBlue(q,GetPixelBlue(p));
-            p++;
-            q++;
+            SetPixelRed(image,GetPixelRed(canvas_image,p),q);
+            SetPixelGreen(image,GetPixelGreen(canvas_image,p),q);
+            SetPixelBlue(image,GetPixelBlue(canvas_image,p),q);
+            p+=(ptrdiff_t) GetPixelChannels(canvas_image);
+            q+=(ptrdiff_t) GetPixelChannels(image);
           }
           if (SyncAuthenticPixels(image,exception) == MagickFalse)
             break;
@@ -274,7 +273,7 @@ static Image *ReadRAWImage(const ImageInfo *image_info,ExceptionInfo *exception)
         /*
           Allocate next image structure.
         */
-        AcquireNextImage(image_info,image);
+        AcquireNextImage(image_info,image,exception);
         if (GetNextImageInList(image) == (Image *) NULL)
           {
             status=MagickFalse;
@@ -289,8 +288,6 @@ static Image *ReadRAWImage(const ImageInfo *image_info,ExceptionInfo *exception)
     scene++;
   } while (count == (ssize_t) length);
   quantum_info=DestroyQuantumInfo(quantum_info);
-  InheritException(exception,&canvas_image->exception);
-  InheritException(exception,&image->exception);
   canvas_image=DestroyImage(canvas_image);
   if (CloseBlob(image) == MagickFalse)
     status=MagickFalse;
@@ -326,86 +323,68 @@ ModuleExport size_t RegisterRAWImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("R");
+  entry=AcquireMagickInfo("RAW","R","Raw red samples");
   entry->decoder=(DecodeImageHandler *) ReadRAWImage;
   entry->encoder=(EncodeImageHandler *) WriteRAWImage;
-  entry->raw=MagickTrue;
-  entry->endian_support=MagickTrue;
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags|=CoderEndianSupportFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Raw red samples");
-  entry->magick_module=ConstantString("RAW");
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("C");
+  entry=AcquireMagickInfo("RAW","C","Raw cyan samples");
   entry->decoder=(DecodeImageHandler *) ReadRAWImage;
   entry->encoder=(EncodeImageHandler *) WriteRAWImage;
-  entry->raw=MagickTrue;
-  entry->endian_support=MagickTrue;
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags|=CoderEndianSupportFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Raw cyan samples");
-  entry->magick_module=ConstantString("RAW");
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("G");
+  entry=AcquireMagickInfo("RAW","G","Raw green samples");
   entry->decoder=(DecodeImageHandler *) ReadRAWImage;
   entry->encoder=(EncodeImageHandler *) WriteRAWImage;
-  entry->raw=MagickTrue;
-  entry->endian_support=MagickTrue;
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags|=CoderEndianSupportFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Raw green samples");
-  entry->magick_module=ConstantString("RAW");
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("M");
+  entry=AcquireMagickInfo("RAW","M","Raw magenta samples");
   entry->decoder=(DecodeImageHandler *) ReadRAWImage;
   entry->encoder=(EncodeImageHandler *) WriteRAWImage;
-  entry->raw=MagickTrue;
-  entry->endian_support=MagickTrue;
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags|=CoderEndianSupportFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Raw magenta samples");
-  entry->magick_module=ConstantString("RAW");
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("B");
+  entry=AcquireMagickInfo("RAW","B","Raw blue samples");
   entry->decoder=(DecodeImageHandler *) ReadRAWImage;
   entry->encoder=(EncodeImageHandler *) WriteRAWImage;
-  entry->raw=MagickTrue;
-  entry->endian_support=MagickTrue;
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags|=CoderEndianSupportFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Raw blue samples");
-  entry->magick_module=ConstantString("RAW");
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("Y");
+  entry=AcquireMagickInfo("RAW","Y","Raw yellow samples");
   entry->decoder=(DecodeImageHandler *) ReadRAWImage;
   entry->encoder=(EncodeImageHandler *) WriteRAWImage;
-  entry->raw=MagickTrue;
-  entry->endian_support=MagickTrue;
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags|=CoderEndianSupportFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Raw yellow samples");
-  entry->magick_module=ConstantString("RAW");
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("A");
+  entry=AcquireMagickInfo("RAW","A","Raw alpha samples");
   entry->decoder=(DecodeImageHandler *) ReadRAWImage;
   entry->encoder=(EncodeImageHandler *) WriteRAWImage;
-  entry->raw=MagickTrue;
-  entry->endian_support=MagickTrue;
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags|=CoderEndianSupportFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Raw alpha samples");
-  entry->magick_module=ConstantString("RAW");
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("O");
+  entry=AcquireMagickInfo("RAW","O","Raw opacity samples");
   entry->decoder=(DecodeImageHandler *) ReadRAWImage;
   entry->encoder=(EncodeImageHandler *) WriteRAWImage;
-  entry->raw=MagickTrue;
-  entry->endian_support=MagickTrue;
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags|=CoderEndianSupportFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Raw opacity samples");
-  entry->magick_module=ConstantString("RAW");
   (void) RegisterMagickInfo(entry);
-  entry=SetMagickInfo("K");
+  entry=AcquireMagickInfo("RAW","K","Raw black samples");
   entry->decoder=(DecodeImageHandler *) ReadRAWImage;
   entry->encoder=(EncodeImageHandler *) WriteRAWImage;
-  entry->raw=MagickTrue;
-  entry->endian_support=MagickTrue;
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags|=CoderEndianSupportFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Raw black samples");
-  entry->magick_module=ConstantString("RAW");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -457,7 +436,8 @@ ModuleExport void UnregisterRAWImage(void)
 %
 %  The format of the WriteRAWImage method is:
 %
-%      MagickBooleanType WriteRAWImage(const ImageInfo *image_info,Image *image)
+%      MagickBooleanType WriteRAWImage(const ImageInfo *image_info,
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -465,10 +445,13 @@ ModuleExport void UnregisterRAWImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
-static MagickBooleanType WriteRAWImage(const ImageInfo *image_info,Image *image)
+static MagickBooleanType WriteRAWImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
-  const PixelPacket
+  const Quantum
     *p;
 
   MagickOffsetType
@@ -501,9 +484,11 @@ static MagickBooleanType WriteRAWImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
+  assert(exception != (ExceptionInfo *) NULL);
+  assert(exception->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+  status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
   if (status == MagickFalse)
     return(status);
   switch (*image->magick)
@@ -592,14 +577,14 @@ static MagickBooleanType WriteRAWImage(const ImageInfo *image_info,Image *image)
     quantum_info=AcquireQuantumInfo(image_info,image);
     if (quantum_info == (QuantumInfo *) NULL)
       ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
-    pixels=GetQuantumPixels(quantum_info);
+    pixels=(unsigned char *) GetQuantumPixels(quantum_info);
     for (y=0; y < (ssize_t) image->rows; y++)
     {
-      p=GetVirtualPixels(image,0,y,image->columns,1,&image->exception);
-      if (p == (const PixelPacket *) NULL)
+      p=GetVirtualPixels(image,0,y,image->columns,1,exception);
+      if (p == (const Quantum *) NULL)
         break;
-      length=ExportQuantumPixels(image,(const CacheView *) NULL,quantum_info,
-        quantum_type,pixels,&image->exception);
+      length=ExportQuantumPixels(image,(CacheView *) NULL,quantum_info,
+        quantum_type,pixels,exception);
       count=WriteBlob(image,length,pixels);
       if (count != (ssize_t) length)
         break;

@@ -10,14 +10,14 @@
 %                          CCCC  LLLLL  IIIII  P                              %
 %                                                                             %
 %                                                                             %
-%                              Write Clip File.                               %
+%                        Write Clip Mask To MIFF File.                        %
 %                                                                             %
 %                              Software Design                                %
 %                                   Cristy                                    %
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,29 +39,28 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/attribute.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/constitute.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/attribute.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/constitute.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteCLIPImage(const ImageInfo *,Image *);
+  WriteCLIPImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,7 +108,7 @@ static Image *ReadCLIPImage(const ImageInfo *image_info,
       image_info->filename);
   read_info=CloneImageInfo(image_info);
   SetImageInfoBlob(read_info,(void *) NULL,0);
-  (void) CopyMagickString(read_info->magick,"MIFF",MaxTextExtent);
+  (void) CopyMagickString(read_info->magick,"MIFF",MagickPathExtent);
   image=ReadImage(read_info,exception);
   read_info=DestroyImageInfo(read_info);
   if (image != (Image *) NULL)
@@ -117,10 +116,10 @@ static Image *ReadCLIPImage(const ImageInfo *image_info,
       Image
         *clip_image;
 
-      (void) ClipImage(image);
-      if (image->clip_mask == (Image *) NULL)
+      (void) ClipImage(image,exception);
+      clip_image=GetImageMask(image,WritePixelMask,exception);
+      if (clip_image == (Image *) NULL)
         ThrowReaderException(CoderError,"ImageDoesNotHaveAClipMask");
-      clip_image=CloneImage(image->clip_mask,0,0,MagickTrue,exception);
       image=DestroyImage(image);
       image=clip_image;
     }
@@ -155,11 +154,9 @@ ModuleExport size_t RegisterCLIPImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("CLIP");
+  entry=AcquireMagickInfo("CLIP","CLIP","Image Clip Mask");
   entry->decoder=(DecodeImageHandler *) ReadCLIPImage;
   entry->encoder=(EncodeImageHandler *) WriteCLIPImage;
-  entry->description=ConstantString("Image Clip Mask");
-  entry->magick_module=ConstantString("CLIP");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -205,7 +202,7 @@ ModuleExport void UnregisterCLIPImage(void)
 %  The format of the WriteCLIPImage method is:
 %
 %      MagickBooleanType WriteCLIPImage(const ImageInfo *image_info,
-%        Image *image)
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -213,9 +210,11 @@ ModuleExport void UnregisterCLIPImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
 static MagickBooleanType WriteCLIPImage(const ImageInfo *image_info,
-  Image *image)
+  Image *image,ExceptionInfo *exception)
 {
   const MagickInfo
     *magick_info;
@@ -229,24 +228,24 @@ static MagickBooleanType WriteCLIPImage(const ImageInfo *image_info,
   MagickBooleanType
     status;
 
-  if (image->clip_mask == (Image *) NULL)
-    (void) ClipImage(image);
-  if (image->clip_mask == (Image *) NULL)
+  if ((image->channels & WriteMaskChannel) == 0)
+    status=ClipImage(image,exception);
+  if ((image->channels & WriteMaskChannel) == 0)
     ThrowWriterException(CoderError,"ImageDoesNotHaveAClipMask");
-  clip_image=CloneImage(image->clip_mask,0,0,MagickTrue,&image->exception);
+  clip_image=GetImageMask(image,WritePixelMask,exception);
   if (clip_image == (Image *) NULL)
     return(MagickFalse);
-  (void) SetImageType(clip_image,TrueColorType);
-  (void) CopyMagickString(clip_image->filename,image->filename,MaxTextExtent);
+  (void) CopyMagickString(clip_image->filename,image->filename,
+    MagickPathExtent);
   write_info=CloneImageInfo(image_info);
   *write_info->magick='\0';
-  (void) SetImageInfo(write_info,1,&image->exception);
-  magick_info=GetMagickInfo(write_info->magick,&image->exception);
+  (void) SetImageInfo(write_info,1,exception);
+  magick_info=GetMagickInfo(write_info->magick,exception);
   if ((magick_info == (const MagickInfo*) NULL) ||
       (LocaleCompare(magick_info->magick_module,"CLIP") == 0))
-    (void) FormatLocaleString(clip_image->filename,MaxTextExtent,"miff:%s",
+    (void) FormatLocaleString(clip_image->filename,MagickPathExtent,"miff:%s",
       write_info->filename);
-  status=WriteImage(write_info,clip_image);
+  status=WriteImage(write_info,clip_image,exception);
   clip_image=DestroyImage(clip_image);
   write_info=DestroyImageInfo(write_info);
   return(status);

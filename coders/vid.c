@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,36 +39,35 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/property.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/constitute.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/geometry.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/log.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/montage.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/resize.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
-#include "magick/utility.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/property.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/constitute.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/geometry.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/log.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/montage.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/resize.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/utility.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteVIDImage(const ImageInfo *,Image *);
+  WriteVIDImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -140,7 +139,7 @@ static Image *ReadVIDImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   list=(char **) AcquireMagickMemory(sizeof(*filelist));
   if (list == (char **) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
@@ -176,21 +175,17 @@ static Image *ReadVIDImage(const ImageInfo *image_info,ExceptionInfo *exception)
     GetPathComponent(filelist[i],ExtensionPath,extension);
     if (LocaleNCompare(extension,"VID",3) == 0)
       continue;
-    (void) CopyMagickString(read_info->filename,filelist[i],MaxTextExtent);
-    filelist[i]=DestroyString(filelist[i]);
+    (void) CopyMagickString(read_info->filename,filelist[i],MagickPathExtent);
     *read_info->magick='\0';
-    (void) SetImageInfo(read_info,1,exception);
-    if (LocaleCompare(read_info->magick,"VID") == 0)
-      (void) FormatLocaleString(read_info->filename,MagickPathExtent,"miff:%s",
-        filelist[i]);
     next_image=ReadImage(read_info,exception);
     CatchException(exception);
     if (next_image == (Image *) NULL)
       break;
-    label=InterpretImageProperties(image_info,next_image,DefaultTileLabel);
+    label=InterpretImageProperties((ImageInfo *) image_info,next_image,
+      DefaultTileLabel,exception);
     if (label != (char *) NULL)
       {
-        (void) SetImageProperty(next_image,"label",label);
+        (void) SetImageProperty(next_image,"label",label,exception);
         label=DestroyString(label);
       }
     if (IsEventLogging() != MagickFalse)
@@ -212,7 +207,8 @@ static Image *ReadVIDImage(const ImageInfo *image_info,ExceptionInfo *exception)
         "thumbnail geometry: %.20gx%.20g",(double) next_image->columns,(double)
         next_image->rows);
     AppendImageToList(&images,next_image);
-    status=SetImageProgress(images,LoadImagesTag,i,number_files);
+    status=SetImageProgress(images,LoadImagesTag,i,(MagickSizeType)
+      number_files);
     if (status == MagickFalse)
       break;
   }
@@ -264,12 +260,10 @@ ModuleExport size_t RegisterVIDImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("VID");
+  entry=AcquireMagickInfo("VID","VID","Visual Image Directory");
   entry->decoder=(DecodeImageHandler *) ReadVIDImage;
   entry->encoder=(EncodeImageHandler *) WriteVIDImage;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Visual Image Directory");
-  entry->magick_module=ConstantString("VID");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -313,7 +307,8 @@ ModuleExport void UnregisterVIDImage(void)
 %
 %  The format of the WriteVIDImage method is:
 %
-%      MagickBooleanType WriteVIDImage(const ImageInfo *image_info,Image *image)
+%      MagickBooleanType WriteVIDImage(const ImageInfo *image_info,
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -321,8 +316,11 @@ ModuleExport void UnregisterVIDImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
-static MagickBooleanType WriteVIDImage(const ImageInfo *image_info,Image *image)
+static MagickBooleanType WriteVIDImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
   const MagickInfo
     *magick_info;
@@ -346,24 +344,23 @@ static MagickBooleanType WriteVIDImage(const ImageInfo *image_info,Image *image)
     Create the visual image directory.
   */
   for (p=image; p != (Image *) NULL; p=GetNextImageInList(p))
-    (void) SetImageProperty(p,"label",DefaultTileLabel);
+    (void) SetImageProperty(p,"label",DefaultTileLabel,exception);
   montage_info=CloneMontageInfo(image_info,(MontageInfo *) NULL);
-  montage_image=MontageImageList(image_info,montage_info,image,
-    &image->exception);
+  montage_image=MontageImageList(image_info,montage_info,image,exception);
   montage_info=DestroyMontageInfo(montage_info);
   if (montage_image == (Image *) NULL)
     return(MagickFalse);
   (void) CopyMagickString(montage_image->filename,image_info->filename,
-    MaxTextExtent);
+    MagickPathExtent);
   write_info=CloneImageInfo(image_info);
   *write_info->magick='\0';
-  (void) SetImageInfo(write_info,1,&image->exception);
-  magick_info=GetMagickInfo(write_info->magick,&image->exception);
+  (void) SetImageInfo(write_info,1,exception);
+  magick_info=GetMagickInfo(write_info->magick,exception);
   if ((magick_info == (const MagickInfo*) NULL) ||
       (LocaleCompare(magick_info->magick_module,"VID") == 0))
-    (void) FormatLocaleString(montage_image->filename,MaxTextExtent,
+    (void) FormatLocaleString(montage_image->filename,MagickPathExtent,
       "miff:%s",write_info->filename);
-  status=WriteImage(write_info,montage_image);
+  status=WriteImage(write_info,montage_image,exception);
   montage_image=DestroyImage(montage_image);
   write_info=DestroyImageInfo(write_info);
   return(status);

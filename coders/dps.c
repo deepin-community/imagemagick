@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,27 +39,27 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/client.h"
-#include "magick/colormap.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
-#include "magick/utility.h"
-#include "magick/xwindow-private.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/client.h"
+#include "MagickCore/colormap.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/utility.h"
+#include "MagickCore/xwindow-private.h"
 #if defined(MAGICKCORE_DPS_DELEGATE)
 #include <DPS/dpsXclient.h>
 #include <DPS/dpsXpreview.h>
@@ -113,13 +113,10 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
   Pixmap
     pixmap;
 
-  IndexPacket
-    *indexes;
-
   ssize_t
     i;
 
-  PixelPacket
+  Quantum
     *q;
 
   size_t
@@ -174,7 +171,7 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
   /*
     Open image file.
   */
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -216,8 +213,8 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   screen=ScreenOfDisplay(display,visual_info->screen);
   pixels_per_point=XDPSPixelsPerPoint(screen);
-  if ((image->x_resolution != 0.0) && (image->y_resolution != 0.0))
-    pixels_per_point=MagickMin(image->x_resolution,image->y_resolution)/
+  if ((image->resolution.x != 0.0) && (image->resolution.y != 0.0))
+    pixels_per_point=MagickMin(image->resolution.x,image->resolution.y)/
       DefaultResolution;
   status=XDPSCreatePixmapForEPSF((DPSContext) NULL,screen,
     GetBlobFileHandle(image),visual_info->depth,pixels_per_point,&pixmap,
@@ -327,14 +324,13 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
         (XFontStruct *) NULL,&resource_info,(XWindowInfo *) NULL);
       return(GetFirstImageInList(image));
     }
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
     {
       colors=(XColor *) RelinquishMagickMemory(colors);
       XDestroyImage(dps_image);
       XFreeResources(display,visual_info,map_info,(XPixelInfo *) NULL,
         (XFontStruct *) NULL,&resource_info,(XWindowInfo *) NULL);
-      InheritException(exception,&image->exception);
       return(DestroyImageList(image));
     }
   switch (image->storage_class)
@@ -386,18 +382,18 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
         for (y=0; y < (ssize_t) image->rows; y++)
         {
           q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-          if (q == (PixelPacket *) NULL)
+          if (q == (Quantum *) NULL)
             break;
           for (x=0; x < (ssize_t) image->columns; x++)
           {
             pixel=XGetPixel(dps_image,x,y);
             index=(pixel >> red_shift) & red_mask;
-            SetPixelRed(q,ScaleShortToQuantum(colors[index].red));
+            SetPixelRed(image,ScaleShortToQuantum(colors[index].red),q);
             index=(pixel >> green_shift) & green_mask;
-            SetPixelGreen(q,ScaleShortToQuantum(colors[index].green));
+            SetPixelGreen(image,ScaleShortToQuantum(colors[index].green),q);
             index=(pixel >> blue_shift) & blue_mask;
-            SetPixelBlue(q,ScaleShortToQuantum(colors[index].blue));
-            q++;
+            SetPixelBlue(image,ScaleShortToQuantum(colors[index].blue),q);
+            q+=(ptrdiff_t) GetPixelChannels(image);
           }
           if (SyncAuthenticPixels(image,exception) == MagickFalse)
             break;
@@ -408,23 +404,21 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
         for (y=0; y < (ssize_t) image->rows; y++)
         {
           q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-          if (q == (PixelPacket *) NULL)
+          if (q == (Quantum *) NULL)
             break;
           for (x=0; x < (ssize_t) image->columns; x++)
           {
             pixel=XGetPixel(dps_image,x,y);
             color=(pixel >> red_shift) & red_mask;
             color=(color*65535L)/red_mask;
-            SetPixelRed(q,ScaleShortToQuantum((unsigned short) color));
+            SetPixelRed(image,ScaleShortToQuantum((unsigned short) color),q);
             color=(pixel >> green_shift) & green_mask;
             color=(color*65535L)/green_mask;
-            SetPixelGreen(q,ScaleShortToQuantum((unsigned short)
-              color));
+            SetPixelGreen(image,ScaleShortToQuantum((unsigned short) color),q);
             color=(pixel >> blue_shift) & blue_mask;
             color=(color*65535L)/blue_mask;
-            SetPixelBlue(q,ScaleShortToQuantum((unsigned short)
-              color));
-            q++;
+            SetPixelBlue(image,ScaleShortToQuantum((unsigned short) color),q);
+            q+=(ptrdiff_t) GetPixelChannels(image);
           }
           if (SyncAuthenticPixels(image,exception) == MagickFalse)
             break;
@@ -438,7 +432,7 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
       /*
         Create colormap.
       */
-      if (AcquireImageColormap(image,(size_t) visual_info->colormap_size) == MagickFalse)
+      if (AcquireImageColormap(image,(size_t) visual_info->colormap_size,exception) == MagickFalse)
         {
           image=DestroyImage(image);
           colors=(XColor *) RelinquishMagickMemory(colors);
@@ -461,12 +455,13 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
       for (y=0; y < (ssize_t) image->rows; y++)
       {
         q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-        if (q == (PixelPacket *) NULL)
+        if (q == (Quantum *) NULL)
           break;
-        indexes=GetAuthenticIndexQueue(image);
         for (x=0; x < (ssize_t) image->columns; x++)
-          SetPixelIndex(indexes+x,(unsigned short)
-            XGetPixel(dps_image,x,y));
+        {
+          SetPixelIndex(image,(unsigned short) XGetPixel(dps_image,x,y),q);
+          q+=(ptrdiff_t) GetPixelChannels(image);
+        }
         if (SyncAuthenticPixels(image,exception) == MagickFalse)
           break;
         if (SetImageProgress(image,LoadImageTag,y,image->rows) == MagickFalse)
@@ -478,7 +473,7 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
   colors=(XColor *) RelinquishMagickMemory(colors);
   XDestroyImage(dps_image);
   if (image->storage_class == PseudoClass)
-    (void) SyncImage(image);
+    (void) SyncImage(image,exception);
   /*
     Rasterize matte image.
   */
@@ -503,18 +498,18 @@ static Image *ReadDPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
           if (matte_image != (XImage *) NULL)
             {
               image->storage_class=DirectClass;
-              image->matte=MagickTrue;
+              image->alpha_trait=BlendPixelTrait;
               for (y=0; y < (ssize_t) image->rows; y++)
               {
                 q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-                if (q == (PixelPacket *) NULL)
+                if (q == (Quantum *) NULL)
                   break;
                 for (x=0; x < (ssize_t) image->columns; x++)
                 {
-                  SetPixelOpacity(q,OpaqueOpacity);
+                  SetPixelAlpha(image,OpaqueAlpha,q);
                   if (XGetPixel(matte_image,x,y) == 0)
-                    SetPixelOpacity(q,TransparentOpacity);
-                  q++;
+                    SetPixelAlpha(image,TransparentAlpha,q);
+                  q+=(ptrdiff_t) GetPixelChannels(image);
                 }
                 if (SyncAuthenticPixels(image,exception) == MagickFalse)
                   break;
@@ -564,13 +559,11 @@ ModuleExport size_t RegisterDPSImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("DPS");
+  entry=AcquireMagickInfo("DPS","DPS","Display Postscript Interpreter");
 #if defined(MAGICKCORE_DPS_DELEGATE)
   entry->decoder=(DecodeImageHandler *) ReadDPSImage;
 #endif
-  entry->blob_support=MagickFalse;
-  entry->description=ConstantString("Display Postscript Interpreter");
-  entry->magick_module=ConstantString("DPS");
+  entry->flags^=CoderBlobSupportFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

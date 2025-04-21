@@ -1,0 +1,68 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 29 Dec 2024 13:49:27 +0000
+Subject: Fix remaining html error
+
+forwarded: not-needed
+---
+ www/api.html             | 12 ------------
+ www/binary-releases.html | 10 ----------
+ www/install-source.html  |  2 +-
+ 3 files changed, 1 insertion(+), 23 deletions(-)
+
+diff --git a/www/api.html b/www/api.html
+index 063d4f5..8248fc4 100644
+--- a/www/api.html
++++ b/www/api.html
+@@ -71,18 +71,6 @@
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
+   </nav>
+-  <div class="container">
+-   <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>    <ins class="adsbygoogle"
+-         style="display:block"
+-         data-ad-client="ca-pub-3129977114552745"
+-         data-ad-slot="6345125851"
+-         data-full-width-responsive="true"
+-         data-ad-format="horizontal"></ins>
+-    <script>
+-      (adsbygoogle = window.adsbygoogle || []).push({});
+-    </script>
+-  </div>
+-
+   <main class="container">
+     <div class="magick-template">
+ <div class="magick-header">
+diff --git a/www/binary-releases.html b/www/binary-releases.html
+index a66fcf0..aa989d8 100644
+--- a/www/binary-releases.html
++++ b/www/binary-releases.html
+@@ -66,16 +66,6 @@
+       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+     </form>
+   </nav>
+-  <div class="container">
+-   <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>    <ins class="adsbygoogle"
+-         style="display:block"
+-         data-ad-client="ca-pub-3129977114552745"
+-         data-ad-slot="6345125851"
+-         data-ad-format="auto"></ins>
+-    <script>
+-      (adsbygoogle = window.adsbygoogle || []).push({});
+-    </script>
+-  </div>
+   </header>
+   <main class="container">
+     <div class="magick-template">
+diff --git a/www/install-source.html b/www/install-source.html
+index 59662a8..e19de05 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
+@@ -192,7 +192,7 @@ make</samp></pre>
+ <p>The above instructions will satisfy a great number of ImageMagick users, but we suspect a few will have additional questions or problems to consider.  For example, what does one do if ImageMagick fails to configure or compile?  Or what if you don't have administrator privileges and what if you don't want to install ImageMagick in the default <samp>/../usr/local</samp> folder?  You will find the answer to these questions, and more, in <a href="advanced-linux-installation.html">Advanced Linux Source Installation</a>.</p>
+ 
+ <h2><a class="anchor" id="windows"></a>Install from Windows Source</h2>
+-<p>We recommend you first uninstall an existing ImageMagick, else you might be surprised that your <samp>magick</samp> commands go to the old version.<p>
++<p>We recommend you first uninstall an existing ImageMagick, else you might be surprised that your <samp>magick</samp> commands go to the old version.</p>
+ <p>Building ImageMagick source for Windows can be done with a modern version of Microsoft Visual Studio IDE.  Users have reported success with the Borland C++ compiler as well.  If you don't have a compiler you can still install a self-installing <a href="download.html">binary release</a>.</p>
+ 
+ <p>Clone the Github repo:<p>

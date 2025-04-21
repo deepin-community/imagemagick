@@ -39,29 +39,28 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/annotate.h"
-#include "magick/artifact.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/draw.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/pixel-accessor.h"
-#include "magick/option.h"
-#include "magick/property.h"
-#include "magick/quantum-private.h"
-#include "magick/resource_.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/string-private.h"
-#include "magick/module.h"
-#include "magick/utility.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/annotate.h"
+#include "MagickCore/artifact.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/draw.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/option.h"
+#include "MagickCore/property.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/resource_.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/string-private.h"
+#include "MagickCore/module.h"
+#include "MagickCore/utility.h"
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,20 +136,20 @@ static Image *ReadLABELImage(const ImageInfo *image_info,
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   (void) ResetImagePage(image,"0x0+0+0");
   if ((image->columns != 0) && (image->rows != 0))
     {
-      status=SetImageExtent(image,image->columns,image->rows);
+      status=SetImageExtent(image,image->columns,image->rows,exception);
       if (status == MagickFalse)
         return(DestroyImageList(image));
-      (void) SetImageBackgroundColor(image);
+      (void) SetImageBackgroundColor(image,exception);
     }
   label=InterpretImageProperties((ImageInfo *) image_info,image,
-    image_info->filename);
+    image_info->filename,exception);
   if (label == (char *) NULL)
     return(DestroyImageList(image));
-  (void) SetImageProperty(image,"label",label);
+  (void) SetImageProperty(image,"label",label,exception);
   draw_info=CloneDrawInfo(image_info,(DrawInfo *) NULL);
   width=CastDoubleToUnsigned(0.5*draw_info->pointsize*strlen(label)+0.5);
   if (AcquireMagickResource(WidthResource,width) == MagickFalse)
@@ -161,7 +160,7 @@ static Image *ReadLABELImage(const ImageInfo *image_info,
     }
   draw_info->text=ConstantString(label);
   (void) memset(&metrics,0,sizeof(metrics));
-  status=GetMultilineTypeMetrics(image,draw_info,&metrics);
+  status=GetMultilineTypeMetrics(image,draw_info,&metrics,exception);
   AdjustTypeMetricBounds(&metrics);
   if ((image->columns == 0) && (image->rows == 0))
     {
@@ -210,7 +209,8 @@ static Image *ReadLABELImage(const ImageInfo *image_info,
                 metrics.bounds.x1,metrics.ascent);
               if (draw_info->gravity == UndefinedGravity)
                 (void) CloneString(&draw_info->geometry,geometry);
-              status=GetMultilineTypeMetrics(image,draw_info,&metrics);
+              status=GetMultilineTypeMetrics(image,draw_info,&metrics,
+                exception);
               if (status == MagickFalse)
                 break;
               AdjustTypeMetricBounds(&metrics);
@@ -247,7 +247,7 @@ static Image *ReadLABELImage(const ImageInfo *image_info,
             metrics.bounds.x1,metrics.ascent);
           if (draw_info->gravity == UndefinedGravity)
             (void) CloneString(&draw_info->geometry,geometry);
-          status=GetMultilineTypeMetrics(image,draw_info,&metrics);
+          status=GetMultilineTypeMetrics(image,draw_info,&metrics,exception);
           if (status == MagickFalse)
             break;
           AdjustTypeMetricBounds(&metrics);
@@ -281,7 +281,7 @@ static Image *ReadLABELImage(const ImageInfo *image_info,
   /*
     Draw label.
   */
-  status=GetMultilineTypeMetrics(image,draw_info,&metrics);
+  status=GetMultilineTypeMetrics(image,draw_info,&metrics,exception);
   AdjustTypeMetricBounds(&metrics);
   if (image->columns == 0)
     image->columns=(size_t) floor(metrics.width+draw_info->stroke_width+0.5);
@@ -293,13 +293,13 @@ static Image *ReadLABELImage(const ImageInfo *image_info,
   if (image->rows == 0)
     image->rows=(size_t) floor(draw_info->pointsize+draw_info->stroke_width+
       0.5);
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
     {
       draw_info=DestroyDrawInfo(draw_info);
       return(DestroyImageList(image));
     }
-  if (SetImageBackgroundColor(image) == MagickFalse)
+  if (SetImageBackgroundColor(image,exception) == MagickFalse)
     {
       draw_info=DestroyDrawInfo(draw_info);
       image=DestroyImageList(image);
@@ -319,7 +319,7 @@ static Image *ReadLABELImage(const ImageInfo *image_info,
     (draw_info->gravity == UndefinedGravity ? 
     MagickMax(metrics.ascent,metrics.bounds.y2) : 0.0));
   (void) CloneString(&draw_info->geometry,geometry);
-  status=AnnotateImage(image,draw_info);
+  status=AnnotateImage(image,draw_info,exception);
   if (image_info->pointsize == 0.0)
     (void) FormatImageProperty(image,"label:pointsize","%.20g",
       draw_info->pointsize);
@@ -360,12 +360,10 @@ ModuleExport size_t RegisterLABELImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("LABEL");
+  entry=AcquireMagickInfo("LABEL","LABEL","Image label");
   entry->decoder=(DecodeImageHandler *) ReadLABELImage;
-  entry->adjoin=MagickFalse;
+  entry->flags^=CoderAdjoinFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Image label");
-  entry->magick_module=ConstantString("LABEL");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

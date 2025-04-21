@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,35 +39,34 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/attribute.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/color-private.h"
-#include "magick/colormap.h"
-#include "magick/colorspace.h"
-#include "magick/colorspace-private.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/attribute.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/color-private.h"
+#include "MagickCore/colormap.h"
+#include "MagickCore/colorspace.h"
+#include "MagickCore/colorspace-private.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteARTImage(const ImageInfo *,Image *);
+  WriteARTImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,9 +103,6 @@ static Image *ReadARTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   QuantumInfo
     *quantum_info;
 
-  QuantumType
-    quantum_type;
-
   MagickBooleanType
     status;
 
@@ -130,7 +126,7 @@ static Image *ReadARTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -145,58 +141,47 @@ static Image *ReadARTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   image->rows=(size_t) ReadBlobLSBShort(image);
   if ((image->columns == 0) || (image->rows == 0))
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
-  /*
-    Initialize image colormap.
-  */
-  if (AcquireImageColormap(image,2) == MagickFalse)
-    ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
   if (image_info->ping != MagickFalse)
     {
       (void) CloseBlob(image);
       return(GetFirstImageInList(image));
     }
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
-    {
-      InheritException(exception,&image->exception);
-      return(DestroyImageList(image));
-    }
+    return(DestroyImageList(image));
   /*
     Convert bi-level image to pixel packets.
   */
-  SetImageColorspace(image,GRAYColorspace);
-  quantum_type=IndexQuantum;
+  SetImageColorspace(image,GRAYColorspace,exception);
   quantum_info=AcquireQuantumInfo(image_info,image);
   if (quantum_info == (QuantumInfo *) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
-  length=GetQuantumExtent(image,quantum_info,quantum_type);
+  length=GetQuantumExtent(image,quantum_info,GrayQuantum);
   pixels=GetQuantumPixels(quantum_info);
   for (y=0; y < (ssize_t) image->rows; y++)
   {
     const void
       *stream;
 
-    PixelPacket
+    Quantum
       *magick_restrict q;
 
     q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-    if (q == (PixelPacket *) NULL)
+    if (q == (Quantum *) NULL)
       break;
     stream=ReadBlobStream(image,length,pixels,&count);
     if (count != (ssize_t) length)
       break;
     (void) ImportQuantumPixels(image,(CacheView *) NULL,quantum_info,
-      quantum_type,(unsigned char *) stream,exception);
-    stream=ReadBlobStream(image,(size_t) (-(ssize_t) length) & 0x01,
-      pixels,&count);
+      GrayQuantum,(unsigned char *) stream,exception);
+    stream=ReadBlobStream(image,(size_t) (-(ssize_t) length) & 0x01,pixels,
+      &count);
     if (SyncAuthenticPixels(image,exception) == MagickFalse)
       break;
-    status=SetImageProgress(image,LoadImageTag,(MagickOffsetType) y,
-      image->rows);
-    if (status == MagickFalse)
+    if (SetImageProgress(image,LoadImageTag,y,image->rows) == MagickFalse)
       break;
   }
-  SetQuantumImageType(image,quantum_type);
+  SetQuantumImageType(image,GrayQuantum);
   quantum_info=DestroyQuantumInfo(quantum_info);
   if (y < (ssize_t) image->rows)
     ThrowReaderException(CorruptImageError,"UnableToReadImageData");
@@ -238,13 +223,11 @@ ModuleExport size_t RegisterARTImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("ART");
+  entry=AcquireMagickInfo("ART","ART","PFS: 1st Publisher Clip Art");
   entry->decoder=(DecodeImageHandler *) ReadARTImage;
   entry->encoder=(EncodeImageHandler *) WriteARTImage;
-  entry->raw=MagickTrue;
-  entry->adjoin=MagickFalse;
-  entry->description=ConstantString("PFS: 1st Publisher Clip Art");
-  entry->magick_module=ConstantString("ART");
+  entry->flags|=CoderRawSupportFlag;
+  entry->flags^=CoderAdjoinFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -288,7 +271,8 @@ ModuleExport void UnregisterARTImage(void)
 %
 %  The format of the WriteARTImage method is:
 %
-%      MagickBooleanType WriteARTImage(const ImageInfo *image_info,Image *image)
+%      MagickBooleanType WriteARTImage(const ImageInfo *image_info,
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -296,8 +280,11 @@ ModuleExport void UnregisterARTImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
-static MagickBooleanType WriteARTImage(const ImageInfo *image_info,Image *image)
+static MagickBooleanType WriteARTImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
   MagickBooleanType
     status;
@@ -305,7 +292,7 @@ static MagickBooleanType WriteARTImage(const ImageInfo *image_info,Image *image)
   QuantumInfo
     *quantum_info;
 
-  const PixelPacket
+  const Quantum
     *p;
 
   size_t
@@ -325,48 +312,45 @@ static MagickBooleanType WriteARTImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
+  assert(exception != (ExceptionInfo *) NULL);
+  assert(exception->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+  status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
   if (status == MagickFalse)
     return(status);
   if ((image->columns > 65535UL) || (image->rows > 65535UL))
     ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
+  if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+    (void) TransformImageColorspace(image,sRGBColorspace,exception);
+  (void) SetImageType(image,BilevelType,exception);
   image->endian=MSBEndian;
   image->depth=1;
   (void) WriteBlobLSBShort(image,0);
   (void) WriteBlobLSBShort(image,(unsigned short) image->columns);
   (void) WriteBlobLSBShort(image,0);
   (void) WriteBlobLSBShort(image,(unsigned short) image->rows);
-  if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
-    (void) TransformImageColorspace(image,sRGBColorspace);
-  length=(image->columns+7)/8;
-  pixels=(unsigned char *) AcquireQuantumMemory(length,sizeof(*pixels));
-  if (pixels == (unsigned char *) NULL)
-    ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
-  /*
-    Convert image to a bi-level image.
-  */
-  (void) SetImageType(image,BilevelType);
   quantum_info=AcquireQuantumInfo(image_info,image);
+  if (quantum_info == (QuantumInfo *) NULL)
+    ThrowWriterException(ImageError,"MemoryAllocationFailed");
+  pixels=(unsigned char *) GetQuantumPixels(quantum_info);
   for (y=0; y < (ssize_t) image->rows; y++)
   {
-    p=GetVirtualPixels(image,0,y,image->columns,1,&image->exception);
-    if (p == (const PixelPacket *) NULL)
+    p=GetVirtualPixels(image,0,y,image->columns,1,exception);
+    if (p == (const Quantum *) NULL)
       break;
-    (void) ExportQuantumPixels(image,(const CacheView *) NULL,quantum_info,
-      GrayQuantum,pixels,&image->exception);
+    length=ExportQuantumPixels(image,(CacheView *) NULL,quantum_info,
+      GrayQuantum,pixels,exception);
     count=WriteBlob(image,length,pixels);
     if (count != (ssize_t) length)
       break;
-    (void) WriteBlob(image,(size_t) (-(ssize_t) length) & 0x01,pixels);
+    count=WriteBlob(image,(size_t) (-(ssize_t) length) & 0x01,pixels);
     status=SetImageProgress(image,SaveImageTag,(MagickOffsetType) y,
       image->rows);
     if (status == MagickFalse)
       break;
   }
   quantum_info=DestroyQuantumInfo(quantum_info);
-  pixels=(unsigned char *) RelinquishMagickMemory(pixels);
   if (y < (ssize_t) image->rows)
     ThrowWriterException(CorruptImageError,"UnableToWriteImageData");
   if (CloseBlob(image) == MagickFalse)

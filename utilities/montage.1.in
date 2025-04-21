@@ -3,7 +3,7 @@
 montage \- create a composite image by combining several separate images. The images are tiled on the composite image optionally adorned with a border, frame, image name, and more.
 .SH SYNOPSIS
 .TP
-\fBmontage\fP \fIinput-file[s]\fP [\fIoptions\fP] \fIoutput-file\fP
+\fBmagick montage\fP \fIinput-file[s]\fP [\fIoptions\fP] \fIoutput-file\fP
 .SH OVERVIEW
 The \fBmontage\fP program is a member of the ImageMagick(1) suite of tools.  Use it to create a composite image by combining several separate images. The images are tiled on the composite image optionally adorned with a border, frame, image name, and more.
 
@@ -13,12 +13,11 @@ Image Settings:
   \-adjoin              join images into a single multi-image file
   \-affine matrix       affine transform matrix
   \-alpha option        on, activate, off, deactivate, set, opaque, copy
-  \                     transparent, extract, background, or shape
+                        transparent, extract, background, or shape
   \-authenticate value  decrypt image with this password
   \-blue-primary point  chromaticity blue primary point
   \-bordercolor color   border color
   \-caption string      assign a caption to an image
-  \-channel type        apply option to select image channels
   \-colors value        preferred number of colors in the image
   \-colorspace type     alternate image colorspace
   \-comment string      annotate image with comment
@@ -32,7 +31,6 @@ Image Settings:
   \-display server      query font from this X server
   \-dispose method      layer disposal method
   \-dither method       apply error diffusion to image
-  \-draw string         annotate the image with a graphic primitive
   \-encoding type       text encoding type
   \-endian type         endianness (MSB or LSB) of the image
   \-extract geometry    extract area from image
@@ -54,7 +52,6 @@ Image Settings:
   \-mattecolor color    frame color
   \-mode type           framing style
   \-monitor             monitor progress
-  \-origin geometry     image origin
   \-page geometry       size and location of an image canvas (setting)
   \-pointsize value     font point size
   \-profile filename    add, delete, or apply an image profile
@@ -98,7 +95,11 @@ Image Operators:
   \-auto-orient         automagically orient image
   \-blur geometry      reduce image noise and reduce detail levels
   \-border geometry     surround image with a border of color
+  \-channel mask        set the image channel mask
   \-crop geometry       preferred size and location of the cropped image
+  \-distort method args
+                        distort images according to given method and args
+  \-draw string         annotate the image with a graphic primitive
   \-extent geometry     set the image size
   \-flatten             flatten a sequence of images
   \-flip                flip image in the vertical direction

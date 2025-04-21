@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,25 +39,25 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/module.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/string-private.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/string-private.h"
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,6 +124,10 @@ static Image *ReadSCTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   char
     magick[2];
 
+  double
+    height,
+    width;
+
   Image
     *image;
 
@@ -133,34 +137,26 @@ static Image *ReadSCTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   MagickBooleanType
     status;
 
-  MagickRealType
-    height,
-    width;
+  MagickSizeType
+    extent;
 
   Quantum
-    pixel;
-
-  IndexPacket
-    *indexes;
-
-  ssize_t
-    i,
-    x;
-
-  PixelPacket
+    pixel,
     *q;
-
-  ssize_t
-    count,
-    y;
-
-  unsigned char
-    buffer[768];
 
   size_t
     separations,
     separations_mask,
     units;
+
+  ssize_t
+    count,
+    i,
+    x,
+    y;
+
+  unsigned char
+    buffer[768];
 
   /*
     Open image file.
@@ -172,7 +168,7 @@ static Image *ReadSCTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -203,10 +199,10 @@ static Image *ReadSCTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   /*
     Read parameter block.
   */
-  units=1UL*ReadBlobByte(image);
+  units=(size_t) ReadBlobByte(image);
   if (units == 0)
     image->units=PixelsPerCentimeterResolution;
-  separations=1UL*ReadBlobByte(image);
+  separations=(size_t) ReadBlobByte(image);
   separations_mask=ReadBlobMSBShort(image);
   count=ReadBlob(image,14,buffer);
   buffer[14]='\0';
@@ -221,38 +217,41 @@ static Image *ReadSCTImage(const ImageInfo *image_info,ExceptionInfo *exception)
   count=ReadBlob(image,200,buffer);
   count=ReadBlob(image,768,buffer);
   if (separations_mask == 0x0f)
-    SetImageColorspace(image,CMYKColorspace);
+    SetImageColorspace(image,CMYKColorspace,exception);
   if ((image->columns < 1) || (image->rows < 1) ||
       (width < MagickEpsilon) || (height < MagickEpsilon))
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   if (EOFBlob(image) != MagickFalse)
     ThrowReaderException(CorruptImageError,"UnexpectedEndOfFile");
-  image->x_resolution=1.0*image->columns/width;
-  image->y_resolution=1.0*image->rows/height;
+  image->resolution.x=1.0*image->columns/width;
+  image->resolution.y=1.0*image->rows/height;
   if (image_info->ping != MagickFalse)
     {
       (void) CloseBlob(image);
       return(GetFirstImageInList(image));
     }
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
+    return(DestroyImageList(image));
+  extent=(MagickSizeType) image->rows*image->columns*separations;
+  if (extent > GetBlobSize(image))
     {
-      InheritException(exception,&image->exception);
+      ThrowFileException(exception,CorruptImageError,"UnexpectedEndOfFile",
+        image->filename);
       return(DestroyImageList(image));
     }
   /*
     Convert SCT raster image to pixel packets.
   */
-  (void) SetImageBackgroundColor(image);
+  (void) SetImageBackgroundColor(image,exception);
   c=0;
   for (y=0; y < (ssize_t) image->rows; y++)
   {
     for (i=0; i < (ssize_t) separations; i++)
     {
       q=GetAuthenticPixels(image,0,y,image->columns,1,exception);
-      if (q == (PixelPacket *) NULL)
+      if (q == (Quantum *) NULL)
         break;
-      indexes=GetAuthenticIndexQueue(image);
       for (x=0; x < (ssize_t) image->columns; x++)
       {
         c=ReadBlobByte(image);
@@ -265,36 +264,37 @@ static Image *ReadSCTImage(const ImageInfo *image_info,ExceptionInfo *exception)
         {
           case 0:
           {
-            SetPixelRed(q,pixel);
-            SetPixelGreen(q,pixel);
-            SetPixelBlue(q,pixel);
+            SetPixelRed(image,pixel,q);
+            SetPixelGreen(image,pixel,q);
+            SetPixelBlue(image,pixel,q);
             break;
           }
           case 1:
           {
-            SetPixelGreen(q,pixel);
+            SetPixelGreen(image,pixel,q);
             break;
           }
           case 2:
           {
-            SetPixelBlue(q,pixel);
+            SetPixelBlue(image,pixel,q);
             break;
           }
-          case 3:
+          case 3: 
           {
             if (image->colorspace == CMYKColorspace)
-              SetPixelBlack(indexes+x,pixel);
+              SetPixelBlack(image,pixel,q);
             break;
           }
         }
-        q++;
+        q+=(ptrdiff_t) GetPixelChannels(image);
       }
       if (x < (ssize_t) image->columns)
         break;
       if (SyncAuthenticPixels(image,exception) == MagickFalse)
         break;
       if ((image->columns % 2) != 0)
-        (void) ReadBlobByte(image);  /* pad */
+        if (ReadBlobByte(image) == EOF)  /* pad */
+          break;
     }
     if (i < (ssize_t) separations)
       break;
@@ -341,12 +341,10 @@ ModuleExport size_t RegisterSCTImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("SCT");
+  entry=AcquireMagickInfo("SCT","SCT","Scitex HandShake");
   entry->decoder=(DecodeImageHandler *) ReadSCTImage;
   entry->magick=(IsImageFormatHandler *) IsSCT;
-  entry->adjoin=MagickFalse;
-  entry->description=ConstantString("Scitex HandShake");
-  entry->magick_module=ConstantString("SCT");
+  entry->flags^=CoderAdjoinFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

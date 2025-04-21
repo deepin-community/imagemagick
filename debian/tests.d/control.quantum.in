@@ -5,9 +5,12 @@ Tests: perlmagick-${IMVERSION}.${QUANTUMDEPTH}
 Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, fonts-urw-base35
 
 Tests: perlmagick-gd-${IMVERSION}.${QUANTUMDEPTH}
-Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, fonts-urw-base35, libgd-securityimage-perl, libimage-magick-perl
+Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, fonts-urw-base35, libgd-securityimage-perl, libimage-magick-perl, fonts-dejavu
 
 Tests: perlmagick-leak-${IMVERSION}.${QUANTUMDEPTH}
 Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, fonts-urw-base35, time, bash
 
+Tests: perlmagick-fonts-${IMVERSION}.${QUANTUMDEPTH}
+Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, fonts-urw-base35, libarray-compare-perl, bash
+Restrictions: allow-stderr
 

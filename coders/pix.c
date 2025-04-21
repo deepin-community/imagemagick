@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,25 +39,25 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/colormap.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/colormap.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,24 +91,19 @@ static Image *ReadPIXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   Image
     *image;
 
-  IndexPacket
-    index;
-
   MagickBooleanType
     status;
 
   Quantum
     blue,
     green,
+    index,
     red;
-
-  IndexPacket
-    *indexes;
 
   ssize_t
     x;
 
-  PixelPacket
+  Quantum
     *q;
 
   size_t
@@ -130,7 +125,7 @@ static Image *ReadPIXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -156,17 +151,14 @@ static Image *ReadPIXImage(const ImageInfo *image_info,ExceptionInfo *exception)
     image->columns=width;
     image->rows=height;
     if (bits_per_pixel == 8)
-      if (AcquireImageColormap(image,256) == MagickFalse)
+      if (AcquireImageColormap(image,256,exception) == MagickFalse)
         ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
     if ((image_info->ping != MagickFalse) && (image_info->number_scenes != 0))
       if (image->scene >= (image_info->scene+image_info->number_scenes-1))
         break;
-    status=SetImageExtent(image,image->columns,image->rows);
+    status=SetImageExtent(image,image->columns,image->rows,exception);
     if (status == MagickFalse)
-      {
-        InheritException(exception,&image->exception);
-        return(DestroyImageList(image));
-      }
+      return(DestroyImageList(image));
     status=ResetImagePixels(image,exception);
     if (status == MagickFalse)
       return(DestroyImageList(image));
@@ -176,14 +168,13 @@ static Image *ReadPIXImage(const ImageInfo *image_info,ExceptionInfo *exception)
     red=(Quantum) 0;
     green=(Quantum) 0;
     blue=(Quantum) 0;
-    index=(IndexPacket) 0;
+    index=0;
     length=0;
     for (y=0; y < (ssize_t) image->rows; y++)
     {
       q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-      if (q == (PixelPacket *) NULL)
+      if (q == (Quantum *) NULL)
         break;
-      indexes=GetAuthenticIndexQueue(image);
       for (x=0; x < (ssize_t) image->columns; x++)
       {
         if (length == 0)
@@ -205,12 +196,12 @@ static Image *ReadPIXImage(const ImageInfo *image_info,ExceptionInfo *exception)
               }
           }
         if (image->storage_class == PseudoClass)
-          SetPixelIndex(indexes+x,index);
-        SetPixelBlue(q,blue);
-        SetPixelGreen(q,green);
-        SetPixelRed(q,red);
+          SetPixelIndex(image,index,q);
+        SetPixelBlue(image,blue,q);
+        SetPixelGreen(image,green,q);
+        SetPixelRed(image,red,q);
         length--;
-        q++;
+        q+=(ptrdiff_t) GetPixelChannels(image);
       }
       if (x < (ssize_t) image->columns)
         break;
@@ -225,7 +216,7 @@ static Image *ReadPIXImage(const ImageInfo *image_info,ExceptionInfo *exception)
         }
     }
     if (image->storage_class == PseudoClass)
-      (void) SyncImage(image);
+      (void) SyncImage(image,exception);
     if (EOFBlob(image) != MagickFalse)
       {
         ThrowFileException(exception,CorruptImageError,"UnexpectedEndOfFile",
@@ -250,7 +241,7 @@ static Image *ReadPIXImage(const ImageInfo *image_info,ExceptionInfo *exception)
         /*
           Allocate next image structure.
         */
-        AcquireNextImage(image_info,image);
+        AcquireNextImage(image_info,image,exception);
         if (GetNextImageInList(image) == (Image *) NULL)
           {
             status=MagickFalse;
@@ -298,10 +289,8 @@ ModuleExport size_t RegisterPIXImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("PIX");
+  entry=AcquireMagickInfo("PIX","PIX","Alias/Wavefront RLE image format");
   entry->decoder=(DecodeImageHandler *) ReadPIXImage;
-  entry->description=ConstantString("Alias/Wavefront RLE image format");
-  entry->magick_module=ConstantString("PIX");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

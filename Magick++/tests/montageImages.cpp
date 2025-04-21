@@ -15,12 +15,14 @@ using namespace std;
 
 using namespace Magick;
 
-int main( int /*argc*/, char ** /*argv*/)
+int main( int /*argc*/, char ** argv)
 {
 
   // Initialize ImageMagick install location for Windows
-  // InitializeMagick(*argv);
-  InitializeMagick("");
+  MagickPlusPlusGenesis genesis(*argv);
+
+  const char *const p = getenv("MAGICK_FONT");
+  const string MAGICK_FONT(p ? p : "");
   
   int failures=0;
 
@@ -39,6 +41,7 @@ int main( int /*argc*/, char ** /*argv*/)
 
     vector<Image> montage;
     MontageFramed montageOpts;
+    montageOpts.font(MAGICK_FONT);
 
     // Default montage
     montageImages( &montage, imageList.begin(), imageList.end(), montageOpts );
@@ -72,12 +75,11 @@ int main( int /*argc*/, char ** /*argv*/)
     montage.clear();
     montageOpts.borderColor( "green" );
     montageOpts.borderWidth( 1 );
-    montageOpts.compose( OverCompositeOp );
     montageOpts.fileName( "Montage" );
     montageOpts.frameGeometry( "6x6+3+3" );
     montageOpts.geometry("50x50+2+2>");
     montageOpts.gravity( CenterGravity );
-    montageOpts.penColor( "yellow" );
+    montageOpts.strokeColor( "yellow" );
     montageOpts.shadow( true );
     montageOpts.texture( "granite:" );
     montageOpts.tile("2x1");

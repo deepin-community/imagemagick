@@ -1,0 +1,57 @@
+From: =?utf-8?q?Bastien_ROUCARI=C3=88S?= <roucaries.bastien@gmail.com>
+Date: Sat, 18 Mar 2017 15:47:28 +0100
+Subject: Fix remaining error in html files
+
+---
+ www/changelog.html | 4 ++++
+ www/download.html  | 5 ++++-
+ www/index.html     | 3 +--
+ 3 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/www/changelog.html b/www/changelog.html
+index a24ef44..7907bda 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
+@@ -72,6 +72,10 @@
+       </form>
+     </div>
+   </div>
++    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
++      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
++      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
++    </form>
+   </nav>
+ 
+   <div class="container">
+diff --git a/www/download.html b/www/download.html
+index b5317c9..b4c8e07 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -122,7 +122,10 @@
+         <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+       </form>
+     </div>
+-  </div>
++    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
++      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
++      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
++    </form>
+   </nav>
+ 
+ <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
+diff --git a/www/index.html b/www/index.html
+index 51cc883..fa35225 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -337,10 +337,9 @@
+      <a href="https://twitter.com/imagemagick" rel="noopener" target="_blank" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 300 300" width="2%" height="2%" role="img" focusable="false"><title>Twitter</title><path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66"/></svg></a>
+     <br/>
+     <small>Copyright © 1999 ImageMagick Studio LLC</small>
+-    </div>
+   </footer>
+ </div>
+-
++</div>
+   <!-- Javascript assets -->
+   <script src="assets/bootstrap.bundle.min.js" ></script>
+   </body>

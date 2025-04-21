@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,31 +39,32 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/color.h"
-#include "magick/color-private.h"
-#include "magick/colorspace-private.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/pixel-private.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/color.h"
+#include "MagickCore/color-private.h"
+#include "MagickCore/colorspace-private.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteNULLImage(const ImageInfo *,Image *) magick_attribute((__pure__));
+  WriteNULLImage(const ImageInfo *,Image *,ExceptionInfo *)
+    magick_attribute((__pure__));
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,16 +103,13 @@ static Image *ReadNULLImage(const ImageInfo *image_info,
   MagickBooleanType
     status;
 
-  MagickPixelPacket
+  PixelInfo
     background;
-
-  IndexPacket
-    *indexes;
 
   ssize_t
     x;
 
-  PixelPacket
+  Quantum
     *q;
 
   ssize_t
@@ -127,33 +125,26 @@ static Image *ReadNULLImage(const ImageInfo *image_info,
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   if (image->columns == 0)
     image->columns=1;
   if (image->rows == 0)
     image->rows=1;
-  status=SetImageExtent(image,image->columns,image->rows);
+  image->alpha_trait=BlendPixelTrait;
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
-    {
-      InheritException(exception,&image->exception);
-      return(DestroyImageList(image));
-    }
-  image->matte=MagickTrue;
-  GetMagickPixelPacket(image,&background);
-  background.opacity=(MagickRealType) TransparentOpacity;
-  if (image->colorspace == CMYKColorspace)
-    ConvertRGBToCMYK(&background);
+    return(DestroyImageList(image));
+  ConformPixelInfo(image,&image->background_color,&background,exception);
+  background.alpha=(double) TransparentAlpha;
   for (y=0; y < (ssize_t) image->rows; y++)
   {
     q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-    if (q == (PixelPacket *) NULL)
+    if (q == (Quantum *) NULL)
       break;
-    indexes=GetAuthenticIndexQueue(image);
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      SetPixelPacket(image,&background,q,indexes);
-      q++;
-      indexes++;
+      SetPixelViaPixelInfo(image,&background,q);
+      q+=(ptrdiff_t) GetPixelChannels(image);
     }
     if (SyncAuthenticPixels(image,exception) == MagickFalse)
       break;
@@ -189,13 +180,11 @@ ModuleExport size_t RegisterNULLImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("NULL");
+  entry=AcquireMagickInfo("NULL","NULL","Constant image of uniform color");
   entry->decoder=(DecodeImageHandler *) ReadNULLImage;
   entry->encoder=(EncodeImageHandler *) WriteNULLImage;
-  entry->adjoin=MagickFalse;
+  entry->flags^=CoderAdjoinFlag;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Constant image of uniform color");
-  entry->magick_module=ConstantString("NULL");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -241,7 +230,7 @@ ModuleExport void UnregisterNULLImage(void)
 %  The format of the WriteNULLImage method is:
 %
 %      MagickBooleanType WriteNULLImage(const ImageInfo *image_info,
-%        Image *image)
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -249,15 +238,20 @@ ModuleExport void UnregisterNULLImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
 static MagickBooleanType WriteNULLImage(const ImageInfo *image_info,
-  Image *image)
+  Image *image,ExceptionInfo *exception)
 {
   assert(image_info != (const ImageInfo *) NULL);
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
+  assert(exception != (ExceptionInfo *) NULL);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
+  (void) image_info;
+  (void) exception;
   return(MagickTrue);
 }

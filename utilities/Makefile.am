@@ -14,18 +14,9 @@
 #
 #  Makefile for building ImageMagick utilities.
 
+if WITH_UTILITIES
 UTILITIES_PGMS = \
-	utilities/animate \
-	utilities/compare \
-	utilities/composite \
-	utilities/conjure \
-	utilities/convert \
-	utilities/display \
-	utilities/identify \
-	utilities/import \
-	utilities/mogrify \
-	utilities/montage \
-	utilities/stream
+  utilities/magick
 
 UTILITIES_XFAIL_TESTS = \
   $(UTILITIES_TTF_XFAIL_TESTS) \
@@ -34,83 +25,81 @@ UTILITIES_XFAIL_TESTS = \
 if WIN32_NATIVE_BUILD
 UTILITIES_LDFLAGS_EXTRA = -municode
 else
-UTILITIES_LDFLAGS_EXTRA = 
+UTILITIES_LDFLAGS_EXTRA =
 endif
 
-utilities_animate_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_animate_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_animate_SOURCES	= utilities/animate.c
-
-utilities_compare_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_compare_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_compare_SOURCES	= utilities/compare.c
-
-utilities_composite_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_composite_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_composite_SOURCES	= utilities/composite.c
-
-utilities_conjure_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_conjure_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_conjure_SOURCES	= utilities/conjure.c
-
-utilities_convert_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_convert_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_convert_SOURCES	= utilities/convert.c
-
-utilities_display_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_display_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_display_SOURCES	= utilities/display.c
-
-utilities_identify_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_identify_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_identify_SOURCES	= utilities/identify.c
-
-utilities_import_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_import_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_import_SOURCES	= utilities/import.c
-
-utilities_mogrify_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_mogrify_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_mogrify_SOURCES	= utilities/mogrify.c
-
-utilities_montage_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_montage_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_montage_SOURCES	= utilities/montage.c
-
-utilities_stream_LDADD	= $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
-utilities_stream_LDFLAGS	= $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
-utilities_stream_SOURCES	= utilities/stream.c
+utilities_magick_LDADD    = $(MAGICKCORE_LIBS) $(MAGICKWAND_LIBS)
+utilities_magick_LDFLAGS  = $(LDFLAGS) $(UTILITIES_LDFLAGS_EXTRA)
+utilities_magick_SOURCES  = utilities/magick.c
+nodist_EXTRA_utilities_magick_SOURCES = dummy.cxx
 
 UTILITIES_MANS = \
-	utilities/ImageMagick.1 \
-	utilities/animate.1 \
-	utilities/compare.1 \
-	utilities/composite.1 \
-	utilities/conjure.1 \
-	utilities/convert.1 \
-	utilities/display.1 \
-	utilities/identify.1 \
-	utilities/import.1 \
-	utilities/mogrify.1 \
-	utilities/montage.1 \
-	utilities/stream.1
+  utilities/ImageMagick.1 \
+  utilities/animate.1 \
+  utilities/compare.1 \
+  utilities/composite.1 \
+  utilities/conjure.1 \
+  utilities/convert.1 \
+  utilities/display.1 \
+  utilities/identify.1 \
+  utilities/import.1 \
+  utilities/magick.1 \
+  utilities/magick-script.1 \
+  utilities/mogrify.1 \
+  utilities/montage.1 \
+  utilities/stream.1
 
 UTILITIES_CONFIGURE = \
-	utilities/ImageMagick.1.in \
-	utilities/animate.1.in \
-	utilities/compare.1.in \
-	utilities/composite.1.in \
-	utilities/conjure.1.in \
-	utilities/convert.1.in \
-	utilities/display.1.in \
-	utilities/identify.1.in \
-	utilities/import.1.in \
-	utilities/mogrify.1.in \
-	utilities/montage.1.in \
-	utilities/stream.1.in
+  utilities/ImageMagick.1.in \
+  utilities/animate.1.in \
+  utilities/compare.1.in \
+  utilities/composite.1.in \
+  utilities/conjure.1.in \
+  utilities/convert.1.in \
+  utilities/display.1.in \
+  utilities/identify.1.in \
+  utilities/import.1.in \
+  utilities/magick.1.in \
+  utilities/magick-script.1.in \
+  utilities/mogrify.1.in \
+  utilities/montage.1.in \
+  utilities/stream.1.in
 
 UTILITIES_EXTRA_DIST = \
-	$(UTILITIES_MANS) \
-	$(UTILITIES_TESTS) 
+  $(UTILITIES_MANS) \
+  $(UTILITIES_TESTS)
 
-UTILITIES_CLEANFILES = 
+UTILITIES_CLEANFILES =
+
+# Link these utilities to 'magick'.
+MAGICK_UTILITIES=animate compare composite conjure convert display identify import magick-script mogrify montage stream
+
+else
+UTILITIES_PGMS =
+UTILITIES_MANS =
+UTILITIES_CONFIGURE =
+UTILITIES_EXTRA_DIST =
+UTILITIES_CLEANFILES =
+MAGICK_UTILITIES=
+endif
+
+UTILITIES_INSTALL_EXEC_LOCAL_TARGETS=install-exec-local-utilities
+install-exec-local-utilities:
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	cd $(DESTDIR)$(bindir) ; \
+	magick=`echo "magick" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	for name in $(MAGICK_UTILITIES) ; \
+	do \
+	  target=`echo "$$name" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  rm -f $$target ; \
+	  $(LN_S) $$magick $$target ; \
+	done
+
+UTILITIES_UNINSTALL_LOCAL_TARGETS=uninstall-local-utilities
+uninstall-local-utilities:
+	cd $(DESTDIR)$(bindir) ; \
+	for name in $(MAGICK_UTILITIES) ; \
+	do \
+	  target=`echo "$$name" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  rm -f $$target ; \
+	done

@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,32 +39,32 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/colorspace.h"
-#include "magick/colorspace-private.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/colorspace.h"
+#include "MagickCore/colorspace-private.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteHRZImage(const ImageInfo *,Image *);
+  WriteHRZImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -100,7 +100,7 @@ static Image *ReadHRZImage(const ImageInfo *image_info,ExceptionInfo *exception)
   MagickBooleanType
     status;
 
-  PixelPacket
+  Quantum
     *q;
 
   size_t
@@ -125,7 +125,7 @@ static Image *ReadHRZImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -143,15 +143,12 @@ static Image *ReadHRZImage(const ImageInfo *image_info,ExceptionInfo *exception)
       (void) CloseBlob(image);
       return(GetFirstImageInList(image));
     }
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
-    {
-      InheritException(exception,&image->exception);
-      return(DestroyImageList(image));
-    }
+    return(DestroyImageList(image));
   pixels=(unsigned char *) AcquireQuantumMemory(image->columns,3*
     sizeof(*pixels));
-  if (pixels == (unsigned char *) NULL)
+  if (pixels == (unsigned char *) NULL) 
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
   length=(size_t) (3*image->columns);
   for (y=0; y < (ssize_t) image->rows; y++)
@@ -164,15 +161,15 @@ static Image *ReadHRZImage(const ImageInfo *image_info,ExceptionInfo *exception)
       }
     p=pixels;
     q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-    if (q == (PixelPacket *) NULL)
+    if (q == (Quantum *) NULL)
       break;
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      SetPixelRed(q,ScaleCharToQuantum(4**p++));
-      SetPixelGreen(q,ScaleCharToQuantum(4**p++));
-      SetPixelBlue(q,ScaleCharToQuantum(4**p++));
-      SetPixelOpacity(q,OpaqueOpacity);
-      q++;
+      SetPixelRed(image,ScaleCharToQuantum(4**p++),q);
+      SetPixelGreen(image,ScaleCharToQuantum(4**p++),q);
+      SetPixelBlue(image,ScaleCharToQuantum(4**p++),q);
+      SetPixelAlpha(image,OpaqueAlpha,q);
+      q+=(ptrdiff_t) GetPixelChannels(image);
     }
     if (SyncAuthenticPixels(image,exception) == MagickFalse)
       break;
@@ -217,12 +214,10 @@ ModuleExport size_t RegisterHRZImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("HRZ");
+  entry=AcquireMagickInfo("HRZ","HRZ","Slow Scan TeleVision");
   entry->decoder=(DecodeImageHandler *) ReadHRZImage;
   entry->encoder=(EncodeImageHandler *) WriteHRZImage;
-  entry->adjoin=MagickFalse;
-  entry->description=ConstantString("Slow Scan TeleVision");
-  entry->magick_module=ConstantString("HRZ");
+  entry->flags^=CoderAdjoinFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -266,7 +261,8 @@ ModuleExport void UnregisterHRZImage(void)
 %
 %  The format of the WriteHRZImage method is:
 %
-%      MagickBooleanType WriteHRZImage(const ImageInfo *image_info,Image *image)
+%      MagickBooleanType WriteHRZImage(const ImageInfo *image_info,
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -274,10 +270,13 @@ ModuleExport void UnregisterHRZImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
-static MagickBooleanType WriteHRZImage(const ImageInfo *image_info,Image *image)
+static MagickBooleanType WriteHRZImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
-  const PixelPacket
+  const Quantum
     *p;
 
   Image
@@ -302,16 +301,17 @@ static MagickBooleanType WriteHRZImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
+  assert(exception != (ExceptionInfo *) NULL);
+  assert(exception->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+  status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
   if (status == MagickFalse)
     return(status);
-  hrz_image=ResizeImage(image,256,240,image->filter,image->blur,
-    &image->exception);
+  hrz_image=ResizeImage(image,256,240,image->filter,exception);
   if (hrz_image == (Image *) NULL)
     return(MagickFalse);
-  (void) TransformImageColorspace(hrz_image,sRGBColorspace);
+  (void) TransformImageColorspace(hrz_image,sRGBColorspace,exception);
   /*
     Allocate memory for pixels.
   */
@@ -327,16 +327,16 @@ static MagickBooleanType WriteHRZImage(const ImageInfo *image_info,Image *image)
   */
   for (y=0; y < (ssize_t) hrz_image->rows; y++)
   {
-    p=GetVirtualPixels(hrz_image,0,y,hrz_image->columns,1,&image->exception);
-    if (p == (PixelPacket *) NULL)
+    p=GetVirtualPixels(hrz_image,0,y,hrz_image->columns,1,exception);
+    if (p == (const Quantum *) NULL)
       break;
     q=pixels;
     for (x=0; x < (ssize_t) hrz_image->columns; x++)
     {
-      *q++=ScaleQuantumToChar(GetPixelRed(p))/4;
-      *q++=ScaleQuantumToChar(GetPixelGreen(p))/4;
-      *q++=ScaleQuantumToChar(GetPixelBlue(p))/4;
-      p++;
+      *q++=ScaleQuantumToChar(GetPixelRed(hrz_image,p))/4;
+      *q++=ScaleQuantumToChar(GetPixelGreen(hrz_image,p))/4;
+      *q++=ScaleQuantumToChar(GetPixelBlue(hrz_image,p))/4;
+      p+=(ptrdiff_t) GetPixelChannels(hrz_image);
     }
     count=WriteBlob(image,(size_t) (q-pixels),pixels);
     if (count != (ssize_t) (q-pixels))

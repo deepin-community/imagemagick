@@ -60,12 +60,7 @@ Section: libs
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Enhances: libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}
-Provides: libmagickcore-extra, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-1-extra,
- libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-2-extra,
- libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-3-extra,
- libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-4-extra,
- libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-5-extra,
- libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-6-extra
+Provides: libmagickcore-extra
 Suggests: inkscape
 Recommends: libjxr-tools
 Description: low-level image manipulation library - extra codecs (${UCQUANTUMDEPTH})
@@ -84,14 +79,18 @@ Depends:
  libmagickcore-${IMVERSION}-arch-config (= ${binary:Version}),
  libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION} (= ${binary:Version}),
  libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra (= ${binary:Version}),
+ imagemagick-${IMVERSION}-common,
  libbz2-dev, libdjvulibre-dev,
  libexif-dev, libfreetype-dev, libjpeg-dev, libopenjp2-7-dev,
  liblcms2-dev, liblqr-1-0-dev, libltdl-dev, libopenexr-dev, libpng-dev,
- librsvg2-dev, libtiff-dev, libwmf-dev, libx11-dev, libxext-dev, libxml2-dev,
+ libtiff-dev, libwmf-dev, libx11-dev, libxext-dev, libxml2-dev,
  libxt-dev, zlib1g-dev,
+ libfftw3-dev,
  pkgconf,
  ${misc:Depends}
 ${PROVIDES_LIBMAGICKCORE_DEV}
+Breaks: libmagickcore-6.${QUANTUMDEPTH}-dev
+Replaces: libmagickcore-6.${QUANTUMDEPTH}-dev
 Description: low-level image manipulation library - development files (${UCQUANTUMDEPTH})
  The MagickCore API is a low-level interface between the C programming language
  and the ImageMagick image processing libraries and is recommended for
@@ -137,8 +136,8 @@ Depends: libmagickwand-${IMVERSION}-headers (= ${source:Version}),
  pkgconf,
  ${misc:Depends}
 ${PROVIDES_LIBMAGICKWAND_DEV}
-Replaces: libmagickwand-dev (<< 8:6.8.3.10-1~)
-Breaks: libmagickwand-dev (<< 8:6.8.3.10-1~)
+Replaces: libmagickwand-dev (<< 8:6.8.3.10-1~), libmagickwand-6.${QUANTUMDEPTH}-dev
+Breaks: libmagickwand-dev (<< 8:6.8.3.10-1~), libmagickwand-6.${QUANTUMDEPTH}-dev
 Description: image manipulation library - development files (${UCQUANTUMDEPTH})
  The MagickWand API is the recommended interface between the C programming
  language and the ImageMagick image processing libraries. Unlike the
@@ -178,8 +177,8 @@ Depends: libmagick++-${IMVERSION}-headers (= ${source:Version}),
  libmagickwand-${IMVERSION}.${QUANTUMDEPTH}-dev (= ${binary:Version}),
  pkgconf,
  ${misc:Depends}
-Replaces: libmagick++-dev (<< 8:6.8.3.10-1~)
-Breaks: libmagick++-dev (<< 8:6.8.3.10-1~)
+Replaces: libmagick++-dev (<< 8:6.8.3.10-1~), libmagick++-6.${QUANTUMDEPTH}-dev
+Breaks: libmagick++-dev (<< 8:6.8.3.10-1~), libmagick++-6.${QUANTUMDEPTH}-dev
 ${PROVIDES_LIBMAGICKPP_DEV}
 Description: C++ interface to ImageMagick - development files (${UCQUANTUMDEPTH})
  The Magick++ library is a set of C++ wrapper classes that provides access

@@ -7,10 +7,14 @@
 //
 // Copyright Bob Friesenhahn, 2000
 //
+// Copyright @ 2013 ImageMagick Studio LLC, a non-profit organization
+// dedicated to making software imaging solutions freely available.
+//
 // Usage: detrans color file...
 //
 
 #include <Magick++.h>
+#include <cstdlib>
 #include <iostream>
 using namespace std; 
 using namespace Magick;
@@ -23,7 +27,7 @@ int main(int argc,char **argv)
     }
 
   // Initialize ImageMagick install location for Windows
-  InitializeMagick(*argv);
+  MagickPlusPlusGenesis genesis(*argv);
 
   {
     Color color;
@@ -45,7 +49,7 @@ int main(int argc,char **argv)
           Image overlay( fname );
           Image base( overlay.size(), color );
           base.composite( overlay, 0, 0, OverCompositeOp );
-          base.matte( false );
+          base.alpha( false );
           base.write( fname );
         }
         catch( Exception &error_ ) 
