@@ -17,7 +17,7 @@
 %                               August 2013                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,36 +39,36 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/attribute.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/color-private.h"
-#include "magick/colormap.h"
-#include "magick/colorspace.h"
-#include "magick/colorspace-private.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
-#include "magick/utility.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/attribute.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/color-private.h"
+#include "MagickCore/colormap.h"
+#include "MagickCore/colorspace.h"
+#include "MagickCore/colorspace-private.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/utility.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteRGFImage(const ImageInfo *,Image *);
+  WriteRGFImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -101,32 +101,28 @@ static Image *ReadRGFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   Image
     *image;
 
+  int
+    bit;
+
   MagickBooleanType
     status;
-
-  IndexPacket
-    *indexes;
-
-  PixelPacket
-    *q;
 
   ssize_t
     i,
     x;
 
+  Quantum
+    *q;
+
   unsigned char
     *p;
-
-  size_t
-    bit,
-    byte;
 
   ssize_t
     y;
 
   unsigned char
+    byte,
     *data;
-
 
   /*
     Open image file.
@@ -138,7 +134,7 @@ static Image *ReadRGFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -156,7 +152,7 @@ static Image *ReadRGFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   /*
     Initialize image structure.
   */
-  if (AcquireImageColormap(image,image->colors) == MagickFalse)
+  if (AcquireImageColormap(image,image->colors,exception) == MagickFalse)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
   /*
     Initialize colormap.
@@ -172,12 +168,9 @@ static Image *ReadRGFImage(const ImageInfo *image_info,ExceptionInfo *exception)
       (void) CloseBlob(image);
       return(GetFirstImageInList(image));
     }
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
-    {
-      InheritException(exception,&image->exception);
-      return(DestroyImageList(image));
-    }
+    return(DestroyImageList(image));
   /*
     Read hex image data.
   */
@@ -198,20 +191,20 @@ static Image *ReadRGFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   for (y=0; y < (ssize_t) image->rows; y++)
   {
     q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-    if (q == (PixelPacket *) NULL)
+    if (q == (Quantum *) NULL)
       break;
-    indexes=GetAuthenticIndexQueue(image);
     bit=0;
     byte=0;
     for (x=0; x < (ssize_t) image->columns; x++)
     {
       if (bit == 0)
         byte=(size_t) (*p++);
-      SetPixelIndex(indexes+x,(Quantum) ((byte & 0x01) != 0 ? 0x01 : 0x00));
+      SetPixelIndex(image,(Quantum) ((byte & 0x01) != 0 ? 0x01 : 0x00),q);
       bit++;
       byte>>=1;
       if (bit == 8)
         bit=0;
+      q+=(ptrdiff_t) GetPixelChannels(image);
     }
     if (SyncAuthenticPixels(image,exception) == MagickFalse)
       break;
@@ -221,7 +214,7 @@ static Image *ReadRGFImage(const ImageInfo *image_info,ExceptionInfo *exception)
       break;
   }
   data=(unsigned char *) RelinquishMagickMemory(data);
-  (void) SyncImage(image);
+  (void) SyncImage(image,exception);
   if (CloseBlob(image) == MagickFalse)
     status=MagickFalse;
   if (status == MagickFalse)
@@ -257,13 +250,11 @@ ModuleExport size_t RegisterRGFImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("RGF");
+  entry=AcquireMagickInfo("RGF","RGF",
+    "LEGO Mindstorms EV3 Robot Graphic Format (black and white)");
   entry->decoder=(DecodeImageHandler *) ReadRGFImage;
   entry->encoder=(EncodeImageHandler *) WriteRGFImage;
-  entry->adjoin=MagickFalse;
-  entry->description=ConstantString(
-    "LEGO Mindstorms EV3 Robot Graphic Format (black and white)");
-  entry->magick_module=ConstantString("RGF");
+  entry->flags^=CoderAdjoinFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -308,7 +299,7 @@ ModuleExport void UnregisterRGFImage(void)
 %  The format of the WriteRGFImage method is:
 %
 %      MagickBooleanType WriteRGFImage(const ImageInfo *image_info,
-%        Image *image)
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -319,25 +310,24 @@ ModuleExport void UnregisterRGFImage(void)
 %    o exception: return any errors or warnings in this structure.
 %
 */
-static MagickBooleanType WriteRGFImage(const ImageInfo *image_info,Image *image)
+static MagickBooleanType WriteRGFImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
   MagickBooleanType
     status;
 
-  int
-    bit;
-
-  const PixelPacket
+  const Quantum
     *p;
 
   ssize_t
     x;
 
+  size_t
+    bit,
+    byte;
+
   ssize_t
     y;
-
-  unsigned char
-    byte;
 
   /*
     Open output image file.
@@ -346,37 +336,40 @@ static MagickBooleanType WriteRGFImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
+  assert(exception != (ExceptionInfo *) NULL);
+  assert(exception->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+  status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
   if (status == MagickFalse)
-    return(status);
+  return(status);
   if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
-    (void) TransformImageColorspace(image,sRGBColorspace);
-  if((image->columns > 255L) || (image->rows > 255L))
+    (void) TransformImageColorspace(image,sRGBColorspace,exception);
+  if ((image->columns > 255L) || (image->rows > 255L))
     ThrowWriterException(ImageError,"Dimensions must be less than 255x255");
   /*
     Write header (just the image dimensions)
-  */
+   */
   (void) WriteBlobByte(image,image->columns & 0xff);
   (void) WriteBlobByte(image,image->rows & 0xff);
   /*
     Convert MIFF to bit pixels.
   */
-  (void) SetImageType(image,BilevelType);
+  if (IsImageMonochrome(image) == MagickFalse)
+    (void) SetImageType(image,BilevelType,exception);
   x=0;
   y=0;
   for (y=0; y < (ssize_t) image->rows; y++)
   {
-    p=GetVirtualPixels(image,0,y,image->columns,1,&image->exception);
-    if (p == (const PixelPacket *) NULL)
+    p=GetVirtualPixels(image,0,y,image->columns,1,exception);
+    if (p == (const Quantum *) NULL)
       break;
     bit=0;
     byte=0;
     for (x=0; x < (ssize_t) image->columns; x++)
     {
       byte>>=1;
-      if (GetPixelLuma(image,p) < ((MagickRealType) QuantumRange/2.0))
+      if (GetPixelLuma(image,p) < ((double) QuantumRange/2.0))
         byte|=0x80;
       bit++;
       if (bit == 8)
@@ -384,16 +377,16 @@ static MagickBooleanType WriteRGFImage(const ImageInfo *image_info,Image *image)
           /*
             Write a bitmap byte to the image file.
           */
-       	  (void) WriteBlobByte(image,byte);
+          (void) WriteBlobByte(image,(unsigned char) byte);
           bit=0;
           byte=0;
         }
-      p++;
+      p+=(ptrdiff_t) GetPixelChannels(image);
     }
     if (bit != 0)
     {
       byte >>= 8 - bit;
-      (void) WriteBlobByte(image,byte);
+      (void) WriteBlobByte(image,(unsigned char) byte);
     }
     status=SetImageProgress(image,SaveImageTag,(MagickOffsetType) y,
       image->rows);

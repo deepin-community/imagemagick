@@ -18,14 +18,37 @@
 #
 . ./common.shi
 . ${srcdir}/tests/common.shi
-echo "1..8"
+echo "1..17"
 
-${CONVERT} pnm:- 'null:' < ${SRCDIR}/rose.pnm && echo "ok" || echo "not ok"
-${CONVERT} pnm:- miff:-  < ${SRCDIR}/rose.pnm | ${IDENTIFY} - && echo "ok" || echo "not ok"
-${CONVERT} pnm:- -  < ${SRCDIR}/rose.pnm | ${IDENTIFY} - && echo "ok" || echo "not ok"
-${CONVERT} - 'null:' < ${SRCDIR}/rose.pnm && echo "ok" || echo "not ok"
-${CONVERT} - miff:-  < ${SRCDIR}/rose.pnm | ${IDENTIFY} - && echo "ok" || echo "not ok"
-${CONVERT} - -  < ${SRCDIR}/rose.pnm | ${IDENTIFY} - && echo "ok" || echo "not ok"
-${CONVERT} ${SRCDIR}/rose.pnm - | ${IDENTIFY} - && echo "ok" || echo "not ok"
-${CONVERT} ${SRCDIR}/rose.pnm miff:- | ${IDENTIFY} - && echo "ok" || echo "not ok"
+${MAGICK} pnm:- null:   < ${SRCDIR}/rose.pnm && echo "ok" || echo "not ok"
+${MAGICK} pnm:- info:   < ${SRCDIR}/rose.pnm && echo "ok" || echo "not ok"
+${MAGICK} pnm:- miff:-  < ${SRCDIR}/rose.pnm | ${IDENTIFY} - && echo "ok" || echo "not ok"
+${MAGICK} pnm:- -       < ${SRCDIR}/rose.pnm | ${IDENTIFY} - && echo "ok" || echo "not ok"
+${MAGICK} ${SRCDIR}/rose.pnm -write null:  null: && echo "ok" || echo "not ok"
+${MAGICK} ${SRCDIR}/rose.pnm -write info:  null: && echo "ok" || echo "not ok"
+${MAGICK} ${SRCDIR}/rose.pnm -write miff:- null: | ${IDENTIFY} - && echo "ok" || echo "not ok"
+${MAGICK} ${SRCDIR}/rose.pnm -write -      null: | ${IDENTIFY} - && echo "ok" || echo "not ok"
 
+# IMv7 "magick" testing
+# -read option
+${MAGICK} -read ${SRCDIR}/rose.pnm info: && echo "ok" || echo "not ok"
+# -exit can be used instead of implicit write
+${MAGICK} ${SRCDIR}/rose.pnm -write info: -exit && echo "ok" || echo "not ok"
+# null: does not require an image during write
+${MAGICK} -write null: -exit && echo "ok" || echo "not ok"
+# implied write null: without image
+${MAGICK} ${SRCDIR}/rose.pnm -write info: +delete null: && echo "ok" || echo "not ok"
+# Write to file descriptor
+${MAGICK} ${SRCDIR}/rose.pnm fd:6  6>&1 | ${IDENTIFY} - && echo "ok" || echo "not ok"
+# Read from file descriptor
+exec 5<${SRCDIR}/rose.pnm
+${MAGICK} fd:5 info: && echo "ok" || echo "not ok"
+exec 5<&-
+# pipelined magick script
+echo "-read ${SRCDIR}/rose.pnm -write info:" | ${MAGICK} -script - && echo "ok" || echo "not ok"
+# pipelined magick script, input image pre-read
+echo "-write info:" | ${MAGICK} ${SRCDIR}/rose.pnm -script - && echo "ok" || echo "not ok"
+# pipelined script from file descriptor, read image from stdin
+echo "-read pnm:- -write info:" |\
+   ${MAGICK} -script fd:5 5<&0 <${SRCDIR}/rose.pnm && echo "ok" || echo "not ok"
+:

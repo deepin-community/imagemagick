@@ -1,0 +1,73 @@
+generate-config:
+  image: $SALSA_CI_IMAGES_BASE
+  needs:
+    - job: aptly
+      artifacts: true
+    - job: build
+      artifacts: true
+  script: |
+    set -x
+    cat debian/rdep-build-script.yml > generated-config.yml
+    apt-get update
+    apt-get install --no-install-recommends --yes dose-extra devscripts dctrl-tools libdpkg-perl curl
+    curl https://salsa.debian.org/debian/devscripts/-/raw/68eec00592a891e47c569a9ab1e80f88a193b201/scripts/debftbfs > /usr/bin/debftbfs
+    chmod +x /usr/bin/debftbfs
+    sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/debian.sources
+    sed -i 's/^Components: main$/Components: main contrib/' /etc/apt/sources.list.d/debian.sources
+    apt-get update
+    cat /etc/apt/sources.list.d/debian.sources > /dev/stderr
+    # sanity check
+    grep --quiet --line-regexp 'Suites: \(unstable\|sid\)' /etc/apt/sources.list.d/debian.sources
+    grep --quiet --line-regexp 'URIs: http://deb.debian.org/debian' /etc/apt/sources.list.d/debian.sources
+    {
+      for f in "$WORKING_DIR"/*.deb; do
+        dpkg-deb --field "$f" Package
+      done;
+      # We want to find what to rebuild for a transition so we are not only
+      # interested in the source packages requiring the binary packages we just
+      # built (the above) but also in the source packages requiring the binary
+      # packages built by the current version of this source package in
+      # unstable.
+      thissrc=$(awk '/^Source: / { print $2; exit; }' debian/control);
+      echo "acquiring binary packages built by $thissrc" > /dev/stderr;
+      # apt-cache might return more than one version of this source package but
+      # that is fine -- we rather overestimate than having false negatives
+      apt-cache showsrc "$thissrc" | sed -n 's/^Binary: //p' | sed 's/, /\n/g';
+    } | sort -u \
+    | xargs build-rdeps --exclude-component=non-free --exclude-component=non-free-firmware --distribution unstable --no-ftbfs --quiet \
+    | sort -u | while read pkg; do
+      echo "generating yaml recipe for $pkg" > /dev/stderr
+      cat << END >> generated-config.yml
+    
+    build-rdep-${pkg}:
+      variables:
+        REVERSE_DEP: ${pkg}
+        PARENT_APTLY_REPO: $APTLY_REPO
+      extends: .rdep-build-definition
+      artifacts:
+        paths:
+          - ${pkg}.build
+    END
+    echo "generated generated-config.yml with the following content:" > /dev/stderr
+    cat generated-config.yml > /dev/stderr
+    done
+  artifacts:
+    paths:
+      - generated-config.yml
+  except:
+    variables:
+      - $SALSA_CI_ENABLE_REVERSE_DEPENDENCY_BUILD !~ /^(1|yes|true)$/
+      - $CI_COMMIT_TAG != null && $SALSA_CI_ENABLE_PIPELINE_ON_TAGS !~ /^(1|yes|true)$/
+      - $CI_MERGE_REQUEST_ID != null
+
+child-pipeline:
+  needs: [generate-config]
+  trigger:
+    include:
+      - artifact: generated-config.yml
+        job: generate-config
+  variables:
+    PARENT_PIPELINE_ID: $CI_PIPELINE_ID
+  except:
+    variables:
+      - $SALSA_CI_ENABLE_REVERSE_DEPENDENCY_BUILD !~ /^(1|yes|true)$/

@@ -19,7 +19,7 @@ int main( int /*argc*/, char ** argv)
 {
 
   // Initialize ImageMagick install location for Windows
-  InitializeMagick(*argv);
+  MagickPlusPlusGenesis genesis(*argv);
 
   int failures=0;
 
@@ -39,11 +39,15 @@ int main( int /*argc*/, char ** argv)
     Image averaged;
     averageImages( &averaged, imageList.begin(), imageList.end() );
     // averaged.display();
-    if ( 0 && averaged.signature() != "d4b4ffb8b70c4e9b0e50445542deb26fbcdf8c393c793123cbc92fb35341e44d" &&
-         averaged.signature() != "62d46d6d239b9fbd3b8ff2271aed1b5dde6303e0d5228dd8d833f61a7b012a79" &&
-         averaged.signature() != "fdc76a2689d19061e1f7f6adfd79a2c04bc4608125a2cd2a1bce0d981774e13f" &&
-         averaged.signature() != "66dfb88c21405a6bf582c9a542d87fd14db176aae1f34bc30b0b3e2443b49aa8" &&
-         averaged.signature() != "f3bc318abc0b842c656b6545d1d7159eedb61f559a95fc5df671db7d0c0639de")
+    if (
+        ( averaged.signature() != "16fac0dc82f3901de623ce9ff991c368f6752acf6cb0c11170d78412c3729730") &&
+        ( averaged.signature() != "6574796b7b07d7400a7a310052eabf2b58f81952d1854a76ac9a23890ac2073b") &&
+        ( averaged.signature() != "ad4861b99339d84bed685eb42bbabe657abb60d48b8fc7ddf680af866dd45ad4") &&
+        ( averaged.signature() != "8e6e1a9b5f1eec5539b1f44347249f227f3e07f9acb07d80404ca6a19f88db7c") &&
+        ( averaged.signature() != "a88e978776d45b73bc8c9f37f6726cc9f14a3118b9a82384ee5acf488c5c2863") &&
+        ( averaged.signature() != "6bda37a8b6734ac271595f5b583d801cfb2479637401d056eae9be97127f558f") &&
+        ( averaged.signature() != "919a9e18a5e5ded83c2c4e5cfcd21d654802fcc14b06b02898d96fe28f04a1a1")
+       )
       {
 	cout << "Line: " << __LINE__
 	     << "  Averaging image failed, signature = "

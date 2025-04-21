@@ -1,0 +1,1092 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Wed, 5 Jun 2024 22:15:32 +0000
+Subject: Remove spurious div
+
+forwarded: not-needed
+---
+ index.html                             | 1 -
+ www/advanced-linux-installation.html   | 1 -
+ www/advanced-unix-installation.html    | 2 +-
+ www/advanced-windows-installation.html | 1 -
+ www/animate.html                       | 1 -
+ www/api.html                           | 2 +-
+ www/api/Image++.html                   | 1 +
+ www/api/animate.html                   | 2 ++
+ www/api/magick++-classes.html          | 1 +
+ www/architecture.html                  | 1 -
+ www/binary-releases.html               | 3 +--
+ www/changelog.html                     | 4 +++-
+ www/cipher.html                        | 1 -
+ www/cite.html                          | 1 -
+ www/clahe.html                         | 1 -
+ www/color-management.html              | 1 -
+ www/color-thresholding.html            | 1 -
+ www/color.html                         | 1 -
+ www/command-line-options.html          | 1 -
+ www/command-line-processing.html       | 1 -
+ www/command-line-tools.html            | 1 -
+ www/compare.html                       | 1 -
+ www/compose.html                       | 1 -
+ www/composite.html                     | 1 -
+ www/conjure.html                       | 1 -
+ www/connected-components.html          | 1 -
+ www/contact.html                       | 1 -
+ www/convert.html                       | 1 -
+ www/convex-hull.html                   | 1 -
+ www/defines.html                       | 1 -
+ www/develop.html                       | 1 -
+ www/display.html                       | 1 -
+ www/distribute-pixel-cache.html        | 1 -
+ www/download.html                      | 1 -
+ www/escape.html                        | 1 -
+ www/examples.html                      | 1 -
+ www/exception.html                     | 1 -
+ www/export.html                        | 1 -
+ www/formats.html                       | 1 -
+ www/fx.html                            | 1 -
+ www/gradient.html                      | 1 -
+ www/high-dynamic-range.html            | 1 -
+ www/history.html                       | 1 -
+ www/identify.html                      | 1 -
+ www/import.html                        | 1 -
+ www/index.html                         | 7 +++----
+ www/install-source.html                | 1 -
+ www/jp2.html                           | 1 -
+ www/license.html                       | 1 -
+ www/links.html                         | 1 -
+ www/magick++.html                      | 1 -
+ www/magick-cache.html                  | 5 ++---
+ www/magick-core.html                   | 1 -
+ www/magick-script.html                 | 1 -
+ www/magick-vector-graphics.html        | 1 -
+ www/magick-wand.html                   | 1 -
+ www/magick.html                        | 1 -
+ www/miff.html                          | 1 -
+ www/mirror.html                        | 1 -
+ www/mogrify.html                       | 1 -
+ www/montage.html                       | 1 -
+ www/motion-picture.html                | 1 -
+ www/multispectral-imagery.html         | 3 +--
+ www/news.html                          | 1 -
+ www/opencl.html                        | 1 -
+ www/openmp.html                        | 1 -
+ www/perl-magick.html                   | 1 -
+ www/porting.html                       | 1 -
+ www/privacy-policy.html                | 1 -
+ www/quantize.html                      | 1 -
+ www/resources.html                     | 1 -
+ www/search.html                        | 6 ++----
+ www/security-policy.html               | 1 -
+ www/sitemap.html                       | 1 -
+ www/stream.html                        | 1 -
+ www/support.html                       | 1 -
+ www/vpat.html                          | 1 -
+ www/webp.html                          | 1 -
+ 78 files changed, 18 insertions(+), 85 deletions(-)
+
+diff --git a/index.html b/index.html
+index a1760c7..7275bea 100644
+--- a/index.html
++++ b/index.html
+@@ -317,7 +317,6 @@
+ <p>Join the ImageMagick community by participating in the <a href="https://github.com/ImageMagick/ImageMagick/discussions" rel="noopener" target="_blank">discussion</a> service. Here, you can find answers to questions asked by other ImageMagick users or ask your own questions. If you have a technical question, a suggestion for an improvement, or a fix for a bug, you can also open an <a href="https://github.com/ImageMagick/ImageMagick/issues" rel="noopener" target="_blank">issue</a> to get help from the community.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
+index 835f9b5..9211cb7 100644
+--- a/www/advanced-linux-installation.html
++++ b/www/advanced-linux-installation.html
+@@ -659,7 +659,6 @@ no encode delegate for this image format </samp></pre>
+ <p>If PerlMagick fails to link with a message similar to <var>libperl.a is not found</var>, rerun <samp>configure</samp> with the <samp>--enable-shared</samp> or <samp>--enable-shared --with-modules</samp> options.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index fa9f234..36ebc13 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -632,7 +632,7 @@ no encode delegate for this image format
+ <p>If PerlMagick fails to link with a message similar to <var>libperl.a is not found</var>, rerun <code>configure</code> with the <code>--enable-shared</code> or <code>--enable-shared --with-modules</code> options.</p>
+ 
+ </div>
+-  </div>
++</div>
+   </main><!-- /.container -->
+   <footer class="magick-footer">
+     <div class="container-fluid">
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index 4af6a1c..7592973 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
+@@ -181,7 +181,6 @@ program will start a Wizard that allows configuration of ImageMagick and its ind
+ 
+ <p>Open the solution to start building ImageMagick. The binaries will be created in the <samp>Output\bin</samp> folder.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/animate.html b/www/animate.html
+index f9bcd43..c87ea3f 100644
+--- a/www/animate.html
++++ b/www/animate.html
+@@ -590,7 +590,6 @@ transparent, extract, background, or shape the alpha channel</td>
+   </tbody>
+ </table>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/api.html b/www/api.html
+index d00f767..063d4f5 100644
+--- a/www/api.html
++++ b/www/api.html
+@@ -195,7 +195,7 @@
+ <dd><a href="http://code.google.com/p/remotemagick/">RemoteMagick</a> is an XML-RPC web service that creates image thumbnails.</dd>
+ </dl>
+ </div>
+-    </div>
++</div>
+   </main><!-- /.container -->
+   <footer class="magick-footer">
+     <p><a href="security-policy.html">Security</a> •
+diff --git a/www/api/Image++.html b/www/api/Image++.html
+index 2201dd4..68d5214 100644
+--- a/www/api/Image++.html
++++ b/www/api/Image++.html
+@@ -3216,6 +3216,7 @@ the region set by a preceding getPixels or getConstPixels call.</font></td>
+   </tbody>
+ </table></ul>
+ </p>
++</div>
+ </div>
+   </main><!-- /.container -->
+   <footer class="magick-footer">
+diff --git a/www/api/animate.html b/www/api/animate.html
+index c7e0c53..03346e9 100644
+--- a/www/api/animate.html
++++ b/www/api/animate.html
+@@ -145,6 +145,7 @@
+ <br/>
+ <br/>
+ <div class="magick-header">
++</div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+@@ -172,3 +173,4 @@
+   <!-- Javascript assets -->
+   <script src="../assets/bootstrap.bundle.min.js" ></script>
+   </body>
++</html>
+\ No newline at end of file
+diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
+index 961cb61..642c248 100644
+--- a/www/api/magick++-classes.html
++++ b/www/api/magick++-classes.html
+@@ -146,6 +146,7 @@ containers of image frames.</td>
+ </tbody>
+ </table>
+ </ul>
++</div>
+ </div>
+   </main><!-- /.container -->
+   <footer class="magick-footer">
+diff --git a/www/architecture.html b/www/architecture.html
+index 8bc4b54..1f9249c 100644
+--- a/www/architecture.html
++++ b/www/architecture.html
+@@ -1660,7 +1660,6 @@ Image: logo:
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig </samp></pre>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/binary-releases.html b/www/binary-releases.html
+index 83401af..a66fcf0 100644
+--- a/www/binary-releases.html
++++ b/www/binary-releases.html
+@@ -469,8 +469,7 @@ objShell.Exec("convert ""e:/myimages/image.png"" ""e:/myimages/image.jpg""")
+ <p>Congratulations, you have a working ImageMagick distribution under Windows and you are ready to use ImageMagick to <a href="https://imagemagick.org/Usage/">convert, compose, or edit</a> your images or perhaps you'll want to use one of the <a href="api.html">Application Program Interfaces</a> for C, C++, Perl, and others.</p>
+ 
+ </div>
+-
+-    </div>
++</div>
+   </main><!-- /.container -->
+   <footer class="magick-footer">
+     <p><a href="security-policy.html">Security</a> •
+diff --git a/www/changelog.html b/www/changelog.html
+index 7907bda..459ab02 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
+@@ -1762,7 +1762,9 @@
+   <li> Remove OpenMP calls from colormap update loops.</li>
+ <dt>2011-08-01  7.0.0-0 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>
+   <li> New version 7.0.0-0.</li>
+-</li></dl></div>  </div>
++</dl>
++</div>
++</div>
+   </main><!-- /.container -->
+   <footer class="magick-footer">
+     <div class="container-fluid">
+diff --git a/www/cipher.html b/www/cipher.html
+index 48c3ccb..516c568 100644
+--- a/www/cipher.html
++++ b/www/cipher.html
+@@ -192,7 +192,6 @@ Examples <a href="https://usage.imagemagick.org/transform/#encipher#encipher"
+ >Encrypting Image Data</a>. </p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/cite.html b/www/cite.html
+index ea6ca9f..2ff29cb 100644
+--- a/www/cite.html
++++ b/www/cite.html
+@@ -154,7 +154,6 @@
+   date = {2024-01-04},
+ }</samp></pre>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/clahe.html b/www/clahe.html
+index f5af695..21361b4 100644
+--- a/www/clahe.html
++++ b/www/clahe.html
+@@ -161,7 +161,6 @@
+ <p>Notice the <samp>!</samp>.  That forces the tile size to exactly 300x300 pixels, whereas without the <samp>!</samp>, the tile size respects the aspect ratio of the image and results in tile dimensions of <samp>300x200</samp>.</p>
+  
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/color-management.html b/www/color-management.html
+index a843897..476472d 100644
+--- a/www/color-management.html
++++ b/www/color-management.html
+@@ -191,7 +191,6 @@ magick myimage_channels_*.png -set colorspace HSL -combine -colorspace RGB -set
+ <p>When specifying individual colors as <samp>rgb(...)</samp> or hex, these colors will still be interpreted as non-linear, that is, as sRGB colors. However if one wants to create linear colors, use <samp>icc-color(rgb,r,g,b)"</samp>, where <samp>r</samp>, <samp>g</samp>, and <samp>b</samp> are in the range 0 to 1. See the <a href="color.html" >Color</a> page.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/color-thresholding.html b/www/color-thresholding.html
+index 9844b21..7da0ab2 100644
+--- a/www/color-thresholding.html
++++ b/www/color-thresholding.html
+@@ -202,7 +202,6 @@ magick xc:"sRGB(205,100,45)" -colorspace gray txt:
+ 
+ <ul><img class="img-fluid img-thumbnail" src="../images/color-thresholding-gray.gif" alt="[Color Thresholding]" width="265" height="333" name="Color Thresholding" /></ul>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/color.html b/www/color.html
+index f4ad03b..68989de 100644
+--- a/www/color.html
++++ b/www/color.html
+@@ -5007,7 +5007,6 @@ device-cmyk(0.11, 0.48, 0.83, 0.00)</samp></pre>
+ </div>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index 36eec6d..b1e7c07 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
+@@ -8753,7 +8753,6 @@ grayscale values causing blended updates of the image the mask is attached to.
+ but with strict boolean masking. </p>
+ </div>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index ac1e360..6466a18 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
+@@ -705,7 +705,6 @@ image-2.jpg</pre>
+ 
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary cli"><samp>magick -define stream:buffer-size=0 logo: gif:- | magick display gif:-</samp></pre>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/command-line-tools.html b/www/command-line-tools.html
+index aa048e7..53c7f90 100644
+--- a/www/command-line-tools.html
++++ b/www/command-line-tools.html
+@@ -161,7 +161,6 @@
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary cli"><samp>magick identify -verbose myImage.png</samp></pre>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/compare.html b/www/compare.html
+index 4a8bd93..b2290e6 100644
+--- a/www/compare.html
++++ b/www/compare.html
+@@ -484,7 +484,6 @@ transparent, extract, background, or shape the alpha channel</td>
+   </tbody>
+ </table>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/compose.html b/www/compose.html
+index c63d738..9ee1b25 100644
+--- a/www/compose.html
++++ b/www/compose.html
+@@ -728,7 +728,6 @@ with a brief summary of what they do. For more details see the equivalent
+ <p>To print a complete list of all the available compose operators, use <a
+ href="command-line-options.html#list">-list compose</a>.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/composite.html b/www/composite.html
+index 6e3896f4..74a7ddd 100644
+--- a/www/composite.html
++++ b/www/composite.html
+@@ -588,7 +588,6 @@ transparent, extract, background, or shape the alpha channel</td>
+   </tbody>
+ </table>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/conjure.html b/www/conjure.html
+index 0b220d3..e6b9a02 100644
+--- a/www/conjure.html
++++ b/www/conjure.html
+@@ -1193,7 +1193,6 @@ fill="color name", channel="All, Default, Alpha, Black, Blue, CMYK, Cyan, Gray,
+ </tbody>
+ </table>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/connected-components.html b/www/connected-components.html
+index 013e56e..51ba91c 100644
+--- a/www/connected-components.html
++++ b/www/connected-components.html
+@@ -197,7 +197,6 @@
+ </samp></pre>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/contact.html b/www/contact.html
+index 38d4a59..ef42639 100644
+--- a/www/contact.html
++++ b/www/contact.html
+@@ -194,7 +194,6 @@
+   </div>
+   <br />
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+diff --git a/www/convert.html b/www/convert.html
+index 9fad3f8..27c627c 100644
+--- a/www/convert.html
++++ b/www/convert.html
+@@ -1427,7 +1427,6 @@ transparent, extract, background, or shape the alpha channel</td>
+ </table>
+ </div>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/convex-hull.html b/www/convex-hull.html
+index b100172..829a60d 100644
+--- a/www/convex-hull.html
++++ b/www/convex-hull.html
+@@ -193,7 +193,6 @@ magick [-fuzz <var>value</var>%] [-background <var>background-color</var>] -form
+ </p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/defines.html b/www/defines.html
+index 470fa37..806bbf8 100644
+--- a/www/defines.html
++++ b/www/defines.html
+@@ -1876,7 +1876,6 @@ use:</p>
+ 
+ </div>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/develop.html b/www/develop.html
+index d8c848e..cb50cad 100644
+--- a/www/develop.html
++++ b/www/develop.html
+@@ -284,7 +284,6 @@ With a language interface, use ImageMagick to modify or create images dynamicall
+ <dd class="col-md-8"><a href="http://code.google.com/p/remotemagick/">RemoteMagick</a> is an XML-RPC web service that creates image thumbnails.</dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/display.html b/www/display.html
+index df1f28f..e6e8af8 100644
+--- a/www/display.html
++++ b/www/display.html
+@@ -618,7 +618,6 @@ transparent, extract, background, or shape the alpha channel</td>
+ </table>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
+index 166ad0a..e6329e3 100644
+--- a/www/distribute-pixel-cache.html
++++ b/www/distribute-pixel-cache.html
+@@ -149,7 +149,6 @@ magick -limit memory 1GiB -limit map 2GiB -limit disk 4GiB \
+ <p>Your image processing tasks are likely to perform slower when utilizing a distributed pixel cache due to shuffling pixels between the client and the server over a network.  Algorithms that access virtual pixels (e.g. -sharpen) are noticeably slower, up to 3 times slower, than algorithms that only access authentic pixels (e.g. -negate) due to increased network traffic.</p>
+ <p>A client can only contact a compatible distributed pixel cache server.  Compatibility requires the same ImageMagick library interface, quantum depth, HDRI status, OS word size, endianness, and passphrase.  The distributed pixel cache checks these attributes and throws an exception if these requirements are not met.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/download.html b/www/download.html
+index d43207f..5111b56 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -556,7 +556,6 @@ objShell.Exec("magick ""e:/myimages/image.png"" ""e:/myimages/image.jpg""")</sam
+ <p>Congratulations, you have a working ImageMagick distribution under Windows and you are ready to use ImageMagick to <a href="../index.html">convert, compose, or edit</a> your images or perhaps you'll want to use one of the <a href="develop.html">Application Program Interfaces</a> for C, C++, Perl, and others.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/escape.html b/www/escape.html
+index f9f7aa7..e4e9bb2 100644
+--- a/www/escape.html
++++ b/www/escape.html
+@@ -995,7 +995,6 @@ ObjectData Record
+ Post ObjectData Descriptor Record
+   9:10   Confirmed ObjectData Size</samp></pre>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/examples.html b/www/examples.html
+index 362cd5c..0bab01d 100644
+--- a/www/examples.html
++++ b/www/examples.html
+@@ -138,7 +138,6 @@
+ 
+ <ul><img class="img-fluid img-thumbnail" src="../images/examples.jpg" alt="[ImageMagick Examples]" width="734" height="2972" name="imagemagick-examples" /></ul>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/exception.html b/www/exception.html
+index 5d1a9f6..26922bb 100644
+--- a/www/exception.html
++++ b/www/exception.html
+@@ -328,7 +328,6 @@
+ </table>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/export.html b/www/export.html
+index f2dbe12..6be542e 100644
+--- a/www/export.html
++++ b/www/export.html
+@@ -138,7 +138,6 @@
+ 
+ <p>The <a href="https://github.com/ImageMagick/ImageMagick/tree/ImageMagick-7/">ImageMagick</a> software distribution is classified as <a href="http://www.access.gpo.gov/bis/ear/txt/ccl5-pt2.txt">ECCN 5D002</a>.  However, ImageMagick Studio LLC makes no warranty or representation that this classification is accurate, current, or complete.  ImageMagick is exported under the <a href="http://www.access.gpo.gov/bis/ear/txt/740.txt">TSU exception in EAR 740.13(e)</a> which applies to software containing or designed for use with encryption software that is publicly available as open source. TSU further provides that <var>Posting encryption source code and corresponding object code on the Internet (e.g., FTP or World Wide Web site) where it may be downloaded by anyone neither establishes "knowledge" of a prohibited export or reexport for purposes of this paragraph, nor triggers any "red flags" necessitating the affirmative duty to inquire[...]</var>.  It is your obligation as the exporter to comply with the current applicable requirements of United States export rules and regulations.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/formats.html b/www/formats.html
+index 62cc507..5809eed 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -2218,7 +2218,6 @@ the supported image formats.</p>
+ </table></div>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/fx.html b/www/fx.html
+index 135d278..65152e3 100644
+--- a/www/fx.html
++++ b/www/fx.html
+@@ -522,7 +522,6 @@ Red channel of NW corner of image #1 is 0.184582
+ <p>The color-escape <samp>%[pixel:]</samp> or <samp>%[hex:]</samp> is evaluated once per image and per color channel in that image (<a href="command-line-options.html#channel">-channel</a> is ignored), The values generated are then converted into a color string (a named color or hex color value).  The symbols <samp>i</samp> and <samp>j</samp> are set to zero, and <samp>s</samp> and <samp>t</samp> refer to each successively current image and index.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/gradient.html b/www/gradient.html
+index 043fc0b..10ff11f 100644
+--- a/www/gradient.html
++++ b/www/gradient.html
+@@ -289,7 +289,6 @@ magick -size 256x128 -define gradient:radii=128,64 radial-gradient:black-white r
+ 
+ </div>
+ 
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
+index 7f0cdad..25fbe48 100644
+--- a/www/high-dynamic-range.html
++++ b/www/high-dynamic-range.html
+@@ -170,7 +170,6 @@ Features: HDRI
+   \( img_sdr.tif -depth 8 \)  \( img_hdr.tif -depth 16 \) uhdr:ultrahdr.jpg
+ </samp></pre>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/history.html b/www/history.html
+index b743344..f954d66 100644
+--- a/www/history.html
++++ b/www/history.html
+@@ -155,7 +155,6 @@
+ 
+ <p>Cristy<br />Principal ImageMagick Architect</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/identify.html b/www/identify.html
+index 702fe3e..b05ddbe 100644
+--- a/www/identify.html
++++ b/www/identify.html
+@@ -496,7 +496,6 @@ transparent, extract, background, or shape the alpha channel</td>
+ </table>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/import.html b/www/import.html
+index babfb6e..697799b 100644
+--- a/www/import.html
++++ b/www/import.html
+@@ -487,7 +487,6 @@
+ </table>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/index.html b/www/index.html
+index fa35225..6e5e525 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -313,10 +313,10 @@
+ <p><a href="../index.html" rel="noopener" target="_blank">Examples of ImageMagick Usage</a> demonstrates how to use the software from the <a href="command-line-processing.html">command line</a> to achieve various effects. There are also several scripts available on the <a href="http://www.fmwconcepts.com/imagemagick/" rel="noopener" target="_blank">Fred's ImageMagick Scripts</a> and <a href="../index.html" rel="noopener" target="_blank">Snibgo's ImageMagick Scripts</a> websites, which can be used to apply geometric transforms, blur and sharpen images, remove noise, and perform other operations. Additionally, there is a tool called <a href="https://github.com/dlemstra/Magick.NET" rel="noopener" target="_blank">Magick.NET</a> that allows users to access the functionality of ImageMagick without having to install the software on their own systems. Finally, the website also includes a <a href="../index.html" rel="noopener" target="_blank">Cookbook</a> with tips and examples for using ImageMagick on Windows systems.</p>
+ 
+ <h3><a class="anchor" id="community"></a>Community</h3>
+-<p>Join the ImageMagick community by participating in the <a href="https://github.com/ImageMagick/ImageMagick/discussions" rel="noopener" target="_blank">discussion</a> service. Here, you can find answers to questions asked by other ImageMagick users or ask your own questions. If you have a technical question, a suggestion for an improvement, or a fix for a bug, you can also open an <a href="https://github.com/ImageMagick/ImageMagick/issues" rel="noopener" target="_blank">issue</a> to get help from the community.</p>
+ 
++<h4><a class="anchor" id="community"></a>Community</h4>
++<p>Join the ImageMagick community by participating in the <a href="https://github.com/ImageMagick/ImageMagick/discussions" target="_blank">discussion</a> service. Here, you can find answers to questions asked by other ImageMagick users or ask your own questions. If you have a technical question, a suggestion for an improvement, or a fix for a bug, you can also open an <a href="https://github.com/ImageMagick/ImageMagick/issues" target="_blank">issue</a> to get help from the community.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+@@ -337,11 +337,10 @@
+      <a href="https://twitter.com/imagemagick" rel="noopener" target="_blank" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 300 300" width="2%" height="2%" role="img" focusable="false"><title>Twitter</title><path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66"/></svg></a>
+     <br/>
+     <small>Copyright © 1999 ImageMagick Studio LLC</small>
++  </div>
+   </footer>
+-</div>
+ </div>
+   <!-- Javascript assets -->
+   <script src="assets/bootstrap.bundle.min.js" ></script>
+   </body>
+ </html>
+-<!-- Magick Cache 1st March 2025 18:48 -->
+\ No newline at end of file
+diff --git a/www/install-source.html b/www/install-source.html
+index 6dcc1cb..59662a8 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
+@@ -229,7 +229,6 @@ magick logo: image.jpg</samp></pre>
+ <p>The above instructions will satisfy a great number of ImageMagick users, but we suspect a few will have additional questions or problems to consider.  For example, what does one do if ImageMagick fails to configure or compile?  Or what if you want to install ImageMagick in a place other than the <kbd>ImageMagick-7.1.1/VisualMagick/bin</kbd> folder?  You will find the answer to these questions, and more, in <a href="advanced-windows-installation.html">Advanced Windows Source Installation</a>.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/jp2.html b/www/jp2.html
+index 7b992f8..2ba3ce1 100644
+--- a/www/jp2.html
++++ b/www/jp2.html
+@@ -208,7 +208,6 @@
+   </tr>
+ </table></div>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/license.html b/www/license.html
+index 7834ab4..287159b 100644
+--- a/www/license.html
++++ b/www/license.html
+@@ -259,7 +259,6 @@
+    under the License.  </samp></pre>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/links.html b/www/links.html
+index f3715db..a9fadbd 100644
+--- a/www/links.html
++++ b/www/links.html
+@@ -218,7 +218,6 @@
+   <dd class="col-md-8"><a href="../index.html" rel="noopener" target="_blank">The Tao of the Spiritual Warrior</a> (<a href="https://youtu.be/2MiXdIs2DM0" rel="noopener" target="_blank">audiobook</a>)</dd>
+ </ul>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/magick++.html b/www/magick++.html
+index c4638f6..67aff51 100644
+--- a/www/magick++.html
++++ b/www/magick++.html
+@@ -239,7 +239,6 @@ int main(int argc,char **argv)
+ <a href="https://github.com/ImageMagick/ImageMagick/discussions">Magick++ community forum</a>.
+ </p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/magick-cache.html b/www/magick-cache.html
+index 53d60e4..b4d385a 100644
+--- a/www/magick-cache.html
++++ b/www/magick-cache.html
+@@ -8,8 +8,8 @@
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <title>ImageMagick – MagickCache: an Efficient Image Cache</title>
+-  <meta name="keywords" content="MagickCache: an Efficient Image Cache, Image Processing, Digital Image Editing, Image Conversion, Open-Source Software, Image Manipulation, Command-Line Image Tools" />
+-  <meta name="description" content="ImageMagick is a powerful, open-source software suite for creating, editing, converting, and manipulating images in over 200 formats. Ideal for web developers, graphic designers, and researchers, it offers versatile tools for image processing, including batch processing, format conversion, and complex image transformations." />
++  <meta name="keywords" content="magickcache:, an, efficient, image, cache, image processing, image manipulation, image conversion, graphic design tool, image editing" />
++  <meta name="description" content="Secure methods and tools to cache images, image sequences, video, audio or metadata in a local folder." />
+   <meta name="application-name" content="ImageMagick" />
+   <meta name="application-url" content="https://imagemagick.org" />
+   <meta name="copyright" content="Copyright (c) 1999 ImageMagick Studio LLC" />
+@@ -195,7 +195,6 @@ identified 1 resources</samp></pre>
+ <h4>Security</h4>
+ <p>MagickCache security is not crytographically strong.  Instead it generates a unique hash for each resource ensuring the resource ID cannot be discovered.  A resource is accessible to both the user of the cache and the cache owner provided they can present their respective passkeys.  They are also accessible to anyone with sufficient privileges to access the MagickCache  disk path.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/magick-core.html b/www/magick-core.html
+index 122d44d..e1a5edd 100644
+--- a/www/magick-core.html
++++ b/www/magick-core.html
+@@ -391,7 +391,6 @@ int main(int argc,char **argv)
+ 
+ <p>If OpenMP is being used (starting from version 5.0), the OpenMP implementation itself handles starting and stopping worker threads and allocating and freeing resources using its own methods. This means that after calling <samp>MagickCoreTerminus()</samp>, some OpenMP resources and worker threads might still remain allocated. To address this, the function <samp>omp_pause_resource_all(omp_pause_hard)</samp> can be invoked. This function, introduced in OpenMP version 5.0, ensures that any resources allocated by OpenMP (such as threads and thread-specific memory) are freed. It's recommended to call this function after <samp>MagickCoreTerminus()</samp> has completed its execution.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/magick-script.html b/www/magick-script.html
+index 4467dda..4268119 100644
+--- a/www/magick-script.html
++++ b/www/magick-script.html
+@@ -1343,7 +1343,6 @@ transparent, extract, background, or shape the alpha channel</td>
+ </table>
+ </div>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
+index 41cdea5..d4571b1 100644
+--- a/www/magick-vector-graphics.html
++++ b/www/magick-vector-graphics.html
+@@ -942,7 +942,6 @@ round</samp></pre></td>
+ </table></div>
+ <p>Note, the primitives are case sensitive, e.g., use <code>viewbox</code>, not <code>viewBox</code>.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/magick-wand.html b/www/magick-wand.html
+index bb5651c..5e33768 100644
+--- a/www/magick-wand.html
++++ b/www/magick-wand.html
+@@ -433,7 +433,6 @@ int main(int argc,char **argv)
+ <p>If OpenMP is being used (starting from version 5.0), the OpenMP implementation itself handles starting and stopping worker threads and allocating and freeing resources using its own methods. This means that after calling <samp>MagickWandTerminus()</samp>, some OpenMP resources and worker threads might still remain allocated. To address this, the function <samp>omp_pause_resource_all(omp_pause_hard)</samp> can be invoked. This function, introduced in OpenMP version 5.0, ensures that any resources allocated by OpenMP (such as threads and thread-specific memory) are freed. It's recommended to call this function after <samp>MagickWandTerminus()</samp> has completed its execution.</p>
+ <p><a href="../MagickWand/index.html">MagickWand Examples in C</a> illustrates how to use the ImageMagick MagickWand API. Each example is presented as a C function, complete with headers, so that it can be copied to a file and then included in your own C project.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/magick.html b/www/magick.html
+index 1dc8437..9061cb8 100644
+--- a/www/magick.html
++++ b/www/magick.html
+@@ -1407,7 +1407,6 @@ transparent, extract, background, or shape the alpha channel</td>
+ </table>
+ </div>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/miff.html b/www/miff.html
+index c23889a..dbc29fb 100644
+--- a/www/miff.html
++++ b/www/miff.html
+@@ -302,7 +302,6 @@ or fewer colors in the image, each byte of image data contains an index value. I
+ <p>MIFF files may contain more than one image.  Simply concatenate each individual image (composed of a header and image data) into one file.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/mirror.html b/www/mirror.html
+index 8ac3e5d..dae3be5 100644
+--- a/www/mirror.html
++++ b/www/mirror.html
+@@ -165,7 +165,6 @@
+ </dl>
+ <p>If you want to add a new mirror, please <a href="../www/https://imagemagick.org/script/contact.php">contact us</a>.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/mogrify.html b/www/mogrify.html
+index 9001c88..0f37f18 100644
+--- a/www/mogrify.html
++++ b/www/mogrify.html
+@@ -1409,7 +1409,6 @@ transparent, extract, background, or shape the alpha channel</td>
+ </table>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/montage.html b/www/montage.html
+index 813b4fe..edf9796 100644
+--- a/www/montage.html
++++ b/www/montage.html
+@@ -714,7 +714,6 @@ transparent, extract, background, or shape the alpha channel</td>
+ </table>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/motion-picture.html b/www/motion-picture.html
+index 3b823dd..1906faa 100644
+--- a/www/motion-picture.html
++++ b/www/motion-picture.html
+@@ -248,7 +248,6 @@ dpx:user.data
+ </samp></pre>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
+index aeb1856..12a9ef2 100644
+--- a/www/multispectral-imagery.html
++++ b/www/multispectral-imagery.html
+@@ -146,7 +146,7 @@
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>0,0: 10,20,30,40,50,60</samp></pre>
+ <p>Let's convert that to the TIFF image format:</p>
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>$ magick -size 1x1 -colorspace CMYK -define ftxt:format="\x,\y:\c\n" -define ftxt:hasalpha=false -define ftxt:nummeta=2 ftxt:multiMeta.txt multiMeta.tif</samp></pre>
+-<p>Let confirm that worked as expected:<p>
++<p>Let confirm that worked as expected:</p>
+ <pre class="pre-scrollable p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>$ identify -verbose multiMeta.tif
+ Image:
+   Filename: multiMeta.tif
+@@ -286,7 +286,6 @@ Image:
+ <p>You can preserve multispectral images by writing them to a format that supports meta channels such as TIFF or PSD.  If you write to other image formats that do not support multisprectal images, the channels are not preserved and instead lost-- e.g., PNG.  In this example, we read, resize, and  write a multispectral image:</p>
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>magick multiMeta.tif -resize 50% resizedMeta.tif</samp></pre>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/news.html b/www/news.html
+index 8136e5c..bfe07a5 100644
+--- a/www/news.html
++++ b/www/news.html
+@@ -178,7 +178,6 @@
+ 
+ <p>Now that ImageMagick version 7 is released, we continue to maintain the legacy release of ImageMagick, version 6, at <a href="../index.html">https://legacy.imagemagick.org</a>.  Learn how ImageMagick version 7 differs from previous versions with our <a href="porting.html">porting guide</a>.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/opencl.html b/www/opencl.html
+index a8f246a..04a542f 100644
+--- a/www/opencl.html
++++ b/www/opencl.html
+@@ -179,7 +179,6 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
+     /* looks like OpenCL is not supported  */
+   }</samp></pre>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/openmp.html b/www/openmp.html
+index 77bdddd..3aa7e1e 100644
+--- a/www/openmp.html
++++ b/www/openmp.html
+@@ -155,7 +155,6 @@ Performance[7]: 40i 4.274ips 0.857e 15.540u 0:02.340
+ Performance[8]: 40i 4.831ips 0.872e 15.680u 0:02.070</samp></pre>
+ <p>Better performance correlates with higher values of IPS (iterations-per-second).  In our example, 8 cores are optimal.  However, in certain cases it might be optimal to set the number of threads to 1 (e.g. <samp>-limit thread 1</samp>) or to disable OpenMP completely.  To disable this feature, add <samp>--disable-openmp</samp> to your configure script command line then rebuild and re-install ImageMagick.</p>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/perl-magick.html b/www/perl-magick.html
+index 8aa128c..e4491dd 100644
+--- a/www/perl-magick.html
++++ b/www/perl-magick.html
+@@ -2698,7 +2698,6 @@ XServerWarning
+ </samp></pre>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/porting.html b/www/porting.html
+index 49fc87f..e6212da 100644
+--- a/www/porting.html
++++ b/www/porting.html
+@@ -716,7 +716,6 @@ example "+annotate", "+resize", "+clut", and "+draw" .</p>
+ <li>The FilterImage() method has been removed.  Use ConvolveImage() instead.</li>
+ </ul>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/privacy-policy.html b/www/privacy-policy.html
+index 5721ac8..a9b1f18 100644
+--- a/www/privacy-policy.html
++++ b/www/privacy-policy.html
+@@ -137,7 +137,6 @@
+ <p  class="lead">As the organization overseeing the open-source ImageMagick software distribution, ImageMagick Studio LLC does not collect any personal identifier information (PII). In addition to the organization, the ImageMagick software distribution does not collect PII either.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/quantize.html b/www/quantize.html
+index fc258b7..9d9fe78 100644
+--- a/www/quantize.html
++++ b/www/quantize.html
+@@ -254,7 +254,6 @@ while number of nodes with (n2 &gt; 0) &gt; required maximum number of colors
+ </table></div>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/resources.html b/www/resources.html
+index 6fee268..ac0039b 100644
+--- a/www/resources.html
++++ b/www/resources.html
+@@ -428,7 +428,6 @@ $MAGICK_FONT_PATH</samp></pre>
+ <p>Define arguments for the <samp>MAGICK_MEMORY_LIMIT</samp>, <samp>MAGICK_DISK_LIMIT</samp>, and <samp>MAGICK_MEMORY_LIMIT</samp> environment variables with SI prefixes (.e.g <samp>100MB</samp>). <samp>MAGICK_WIDTH_LIMIT</samp>, <samp>MAGICK_HEIGHT_LIMIT</samp> and <samp>MAGICK_AREA_LIMIT</samp> accepts pixel suffixes such as MP for mega-pixels (e.g. 100MP).  Note, you can restrict limits relative to any <a href="../www/policy-open.xml">security policies</a>, but you cannot relax them.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/search.html b/www/search.html
+index 29a3ce1..694bf63 100644
+--- a/www/search.html
++++ b/www/search.html
+@@ -124,15 +124,14 @@
+     </div>
+   </div>
+   </nav>
+-
++<main>
+ <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
+   <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+     <a href="../index.html" class="d-flex align-items-center text-decoration-none">
+       <h1 class="mt-5 fs-4">Search</h1>
+     </a>
+   </header>
+-
+-  <main class="container">
++</div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+@@ -155,7 +154,6 @@
+     <small>Copyright © 1999 ImageMagick Studio LLC</small>
+     </div>
+   </footer>
+-</div>
+ 
+   <!-- Javascript assets -->
+   <script src="assets/bootstrap.bundle.min.js" ></script>
+diff --git a/www/security-policy.html b/www/security-policy.html
+index 71c40da..2db3021 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
+@@ -425,7 +425,6 @@ Path: [built-in]
+ </ol>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/sitemap.html b/www/sitemap.html
+index 7d62085..7285f59 100644
+--- a/www/sitemap.html
++++ b/www/sitemap.html
+@@ -406,7 +406,6 @@
+ <p>We continue to maintain the legacy release of ImageMagick, version 6, at <a href="../index.html">https://legacy.imagemagick.org</a>.  We maintain an archive of <a href="https://legacy.imagemagick.org/discourse-server/">legacy ImageMagick discussions</a>.</p>
+ </div>
+ 
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/stream.html b/www/stream.html
+index 9f5fb34..b50f604 100644
+--- a/www/stream.html
++++ b/www/stream.html
+@@ -330,7 +330,6 @@ magick display -depth 8 -size 640x480 rgb:pixels.dat
+ </table>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/support.html b/www/support.html
+index 330d0a6..3d5a3f4 100644
+--- a/www/support.html
++++ b/www/support.html
+@@ -196,7 +196,6 @@
+ 
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/vpat.html b/www/vpat.html
+index d147002..b6139ba 100644
+--- a/www/vpat.html
++++ b/www/vpat.html
+@@ -182,7 +182,6 @@
+ 
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">
+diff --git a/www/webp.html b/www/webp.html
+index 2f82005..d96de37 100644
+--- a/www/webp.html
++++ b/www/webp.html
+@@ -254,7 +254,6 @@
+ </tbody>
+ </table></div>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="text-center pt-5 my-5 text-body-secondary border-top">
+     <div class="container-fluid">

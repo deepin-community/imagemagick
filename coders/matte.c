@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,31 +39,31 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/attribute.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/constitute.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/attribute.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/constitute.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
   Forward declarations.
 */
 static MagickBooleanType
-  WriteMATTEImage(const ImageInfo *,Image *);
+  WriteMATTEImage(const ImageInfo *,Image *,ExceptionInfo *);
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,11 +93,9 @@ ModuleExport size_t RegisterMATTEImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("MATTE");
+  entry=AcquireMagickInfo("MATTE","MATTE","MATTE format");
   entry->encoder=(EncodeImageHandler *) WriteMATTEImage;
   entry->format_type=ExplicitFormatType;
-  entry->description=ConstantString("MATTE format");
-  entry->magick_module=ConstantString("MATTE");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -137,13 +135,13 @@ ModuleExport void UnregisterMATTEImage(void)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  Function WriteMATTEImage() writes an image of matte bytes to a file.  It
-%  consists of data from the matte component of the image [0..255].
+%  WriteMATTEImage() writes an image of matte bytes to a file.  It consists of
+%  data from the matte component of the image [0..255].
 %
 %  The format of the WriteMATTEImage method is:
 %
 %      MagickBooleanType WriteMATTEImage(const ImageInfo *image_info,
-%        Image *image)
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
@@ -151,13 +149,12 @@ ModuleExport void UnregisterMATTEImage(void)
 %
 %    o image:  The image.
 %
+%    o exception: return any errors or warnings in this structure.
+%
 */
 static MagickBooleanType WriteMATTEImage(const ImageInfo *image_info,
-  Image *image)
+  Image *image,ExceptionInfo *exception)
 {
-  ExceptionInfo
-    *exception;
-
   Image
     *matte_image;
 
@@ -167,43 +164,42 @@ static MagickBooleanType WriteMATTEImage(const ImageInfo *image_info,
   MagickBooleanType
     status;
 
-  const PixelPacket
+  const Quantum
     *p;
 
   ssize_t
     x;
 
-  PixelPacket
+  Quantum
     *q;
 
   ssize_t
     y;
 
-  if (image->matte == MagickFalse)
-    ThrowWriterException(CoderError,"ImageDoesNotHaveAAlphaChannel");
-  matte_image=CloneImage(image,0,0,MagickTrue,&image->exception);
+  if ((image->alpha_trait & BlendPixelTrait) == 0)
+    ThrowWriterException(CoderError,"ImageDoesNotHaveAnAlphaChannel");
+  matte_image=CloneImage(image,0,0,MagickTrue,exception);
   if (matte_image == (Image *) NULL)
     return(MagickFalse);
-  (void) SetImageType(matte_image,TrueColorMatteType);
-  matte_image->matte=MagickFalse;
+  (void) SetImageType(matte_image,TrueColorAlphaType,exception);
+  matte_image->alpha_trait=UndefinedPixelTrait;
   /*
     Convert image to matte pixels.
   */
-  exception=(&image->exception);
   for (y=0; y < (ssize_t) image->rows; y++)
   {
     p=GetVirtualPixels(image,0,y,image->columns,1,exception);
     q=QueueAuthenticPixels(matte_image,0,y,matte_image->columns,1,exception);
-    if ((p == (const PixelPacket *) NULL) || (q == (PixelPacket *) NULL))
+    if ((p == (const Quantum *) NULL) || (q == (Quantum *) NULL))
       break;
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      SetPixelRed(q,GetPixelOpacity(p));
-      SetPixelGreen(q,GetPixelOpacity(p));
-      SetPixelBlue(q,GetPixelOpacity(p));
-      SetPixelOpacity(q,OpaqueOpacity);
-      p++;
-      q++;
+      SetPixelRed(matte_image,GetPixelAlpha(image,p),q);
+      SetPixelGreen(matte_image,GetPixelAlpha(image,p),q);
+      SetPixelBlue(matte_image,GetPixelAlpha(image,p),q);
+      SetPixelAlpha(matte_image,OpaqueAlpha,q);
+      p+=(ptrdiff_t) GetPixelChannels(image);
+      q+=(ptrdiff_t) GetPixelChannels(matte_image);
     }
     if (SyncAuthenticPixels(matte_image,exception) == MagickFalse)
       break;
@@ -215,9 +211,9 @@ static MagickBooleanType WriteMATTEImage(const ImageInfo *image_info,
   write_info=CloneImageInfo(image_info);
   if ((*write_info->magick == '\0') ||
       (LocaleCompare(write_info->magick,"MATTE") == 0))
-    (void) FormatLocaleString(matte_image->filename,MaxTextExtent,
+    (void) FormatLocaleString(matte_image->filename,MagickPathExtent,
       "MIFF:%s",image->filename);
-  status=WriteImage(write_info,matte_image);
+  status=WriteImage(write_info,matte_image,exception);
   write_info=DestroyImageInfo(write_info);
   matte_image=DestroyImage(matte_image);
   return(status);

@@ -1,7 +1,9 @@
 // This may look like C code, but it is really -*- C++ -*-
 //
 // Copyright Bob Friesenhahn, 2001, 2002
-// Copyright Dirk Lemstra 2013-2014
+//
+// Copyright @ 2013 ImageMagick Studio LLC, a non-profit organization
+// dedicated to making software imaging solutions freely available.
 //
 // CoderInfo Definition
 //
@@ -21,9 +23,9 @@ namespace Magick
   public:
 
     enum MatchType {
-      AnyMatch,   // match any coder
-      TrueMatch,  // match coder if true
-      FalseMatch  // match coder if false
+      AnyMatch,  // match any coder
+      TrueMatch, // match coder if true
+      FalseMatch // match coder if false
     };
 
     // Default constructor
@@ -41,6 +43,12 @@ namespace Magick
     // Assignment operator
     CoderInfo& operator=(const CoderInfo &coder_);
 
+    // Format can read multi-threaded
+    bool canReadMultithreaded(void) const;
+
+    // Format can write multi-threaded
+    bool canWriteMultithreaded(void) const;
+
     // Format description
     std::string description(void) const;
 
@@ -56,24 +64,25 @@ namespace Magick
     // Format mime type
     std::string mimeType(void) const;
 
+    // Name of the module
+    std::string module(void) const;
+
     // Format name
     std::string name(void) const;
 
     // Unregisters this coder
     bool unregister(void) const;
 
-    //
-    // Implemementation methods
-    //
-    CoderInfo(const MagickCore::MagickInfo *magickInfo_);
-
   private:
-    std::string _name;
+    bool        _decoderThreadSupport;
     std::string _description;
-    std::string _mimeType;
+    bool        _encoderThreadSupport;
+    bool        _isMultiFrame;
     bool        _isReadable;
     bool        _isWritable;
-    bool        _isMultiFrame;
+    std::string _mimeType;
+    std::string _module;
+    std::string _name;
   };
 
 } // namespace Magick

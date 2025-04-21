@@ -1,0 +1,8 @@
+#!/bin/sh
+
+CONVERT=convert-im7.q16
+
+set -e
+$CONVERT rose: png:/dev/null
+$CONVERT rose: jpeg:/dev/null
+$CONVERT rose: bmp:/dev/null

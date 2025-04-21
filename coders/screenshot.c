@@ -10,14 +10,14 @@
 %     SSSSS   CCCC  R  R   EEEEE  EEEEE  N   N  SSSSS  H   H   OOO     T      %
 %                                                                             %
 %                                                                             %
-%                  Takes a screenshot from the monitor(s).                    %
+%                   Takes a screenshot of the monitor(s).                     %
 %                                                                             %
 %                              Software Design                                %
 %                                Dirk Lemstra                                 %
 %                                 April 2014                                  %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,41 +39,41 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
+#include "MagickCore/studio.h"
 #if defined(MAGICKCORE_WINGDI32_DELEGATE)
 #  if defined(__CYGWIN__)
 #    include <windows.h>
 #  else
      /* All MinGW needs ... */
-#    include "magick/nt-base-private.h"
+#    include "MagickCore/nt-base-private.h"
 #    include <wingdi.h>
 #  ifndef DISPLAY_DEVICE_ACTIVE
 #    define DISPLAY_DEVICE_ACTIVE    0x00000001
 #  endif
 #  endif
 #endif
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/module.h"
-#include "magick/nt-feature.h"
-#include "magick/option.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/token.h"
-#include "magick/transform.h"
-#include "magick/utility.h"
-#include "magick/xwindow.h"
-#include "magick/xwindow-private.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/nt-feature.h"
+#include "MagickCore/option.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/token.h"
+#include "MagickCore/transform.h"
+#include "MagickCore/utility.h"
+#include "MagickCore/xwindow.h"
+#include "MagickCore/xwindow-private.h"
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,7 +137,10 @@ static Image *ReadSCREENSHOTImage(const ImageInfo *image_info,
     MagickBooleanType
       status;
 
-    PixelPacket
+    RectangleInfo
+      geometry;
+
+    Quantum
       *q;
 
     ssize_t
@@ -162,20 +165,50 @@ static Image *ReadSCREENSHOTImage(const ImageInfo *image_info,
       if (hDC == (HDC) NULL)
         ThrowReaderException(CoderError,"UnableToCreateDC");
 
-      screen=AcquireImage(image_info);
-      screen->columns=(size_t) GetDeviceCaps(hDC,HORZRES);
-      screen->rows=(size_t) GetDeviceCaps(hDC,VERTRES);
+      screen=AcquireImage(image_info,exception);
+      geometry.x=0;
+      geometry.y=0;
+      geometry.width=(size_t) GetDeviceCaps(hDC,HORZRES);
+      geometry.height=(size_t) GetDeviceCaps(hDC,VERTRES);
+      if (image_info->extract != (char *) NULL)
+        {
+          geometry.x=MagickMin(screen->extract_info.x,geometry.width);
+          if (geometry.x < 0)
+            {
+              geometry.width=(size_t ) MagickMin(0,(ssize_t) geometry.width+
+                geometry.x);
+              geometry.x=0;
+            }
+          geometry.width=geometry.width-geometry.x;
+          if (screen->columns > 0)
+            geometry.width=MagickMin(geometry.width,screen->columns);
+          geometry.y=MagickMin(screen->extract_info.y,geometry.height);
+          if (geometry.y < 0)
+            {
+              geometry.width=(size_t ) MagickMin(0,(ssize_t) geometry.width+
+                geometry.y);
+              geometry.y=0;
+            }
+          geometry.height=geometry.height-geometry.y;
+          if (screen->rows > 0)
+            geometry.height=MagickMin(geometry.height,screen->rows);
+          /* Reset extract to prevent cropping */
+          *image_info->extract='\0';
+          screen->extract_info.x=0;
+          screen->extract_info.y=0;
+        }
+      if ((geometry.width == 0) || (geometry.height == 0))
+        ThrowReaderException(OptionError,"InvalidGeometry");
+      screen->columns=geometry.width;
+      screen->rows=geometry.height;
       screen->storage_class=DirectClass;
       if (image == (Image *) NULL)
         image=screen;
       else
         AppendImageToList(&image,screen);
-      status=SetImageExtent(screen,screen->columns,screen->rows);
+      status=SetImageExtent(screen,screen->columns,screen->rows,exception);
       if (status == MagickFalse)
-        {
-          InheritException(exception,&image->exception);
-          return(DestroyImageList(image));
-        }
+        return(DestroyImageList(image));
 
       bitmapDC=CreateCompatibleDC(hDC);
       if (bitmapDC == (HDC) NULL)
@@ -205,23 +238,23 @@ static Image *ReadSCREENSHOTImage(const ImageInfo *image_info,
           DeleteObject(bitmap);
           ThrowReaderException(CoderError,"UnableToCreateBitmap");
         }
-      BitBlt(bitmapDC,0,0,(int) screen->columns,(int) screen->rows,hDC,0,0,
-        SRCCOPY);
+      BitBlt(bitmapDC,0,0,(int) screen->columns,(int) screen->rows,hDC,
+        geometry.x,geometry.y,SRCCOPY);
       (void) SelectObject(bitmapDC,bitmapOld);
 
       for (y=0; y < (ssize_t) screen->rows; y++)
       {
         q=QueueAuthenticPixels(screen,0,y,screen->columns,1,exception);
-        if (q == (PixelPacket *) NULL)
+        if (q == (Quantum *) NULL)
           break;
         for (x=0; x < (ssize_t) screen->columns; x++)
         {
-          SetPixelRed(q,ScaleCharToQuantum(p->rgbRed));
-          SetPixelGreen(q,ScaleCharToQuantum(p->rgbGreen));
-          SetPixelBlue(q,ScaleCharToQuantum(p->rgbBlue));
-          SetPixelOpacity(q,OpaqueOpacity);
+          SetPixelRed(screen,ScaleCharToQuantum(p->rgbRed),q);
+          SetPixelGreen(screen,ScaleCharToQuantum(p->rgbGreen),q);
+          SetPixelBlue(screen,ScaleCharToQuantum(p->rgbBlue),q);
+          SetPixelAlpha(screen,OpaqueAlpha,q);
           p++;
-          q++;
+          q+=(ptrdiff_t) GetPixelChannels(screen);
         }
         if (SyncAuthenticPixels(screen,exception) == MagickFalse)
           break;
@@ -240,15 +273,14 @@ static Image *ReadSCREENSHOTImage(const ImageInfo *image_info,
     XImportInfo
       ximage_info;
 
-    (void) exception;
     XGetImportInfo(&ximage_info);
     option=GetImageOption(image_info,"x:screen");
     if (option != (const char *) NULL)
-      ximage_info.screen=IsMagickTrue(option);
+      ximage_info.screen=IsStringTrue(option);
     option=GetImageOption(image_info,"x:silent");
     if (option != (const char *) NULL)
-      ximage_info.silent=IsMagickTrue(option);
-    image=XImportImage(image_info,&ximage_info);
+      ximage_info.silent=IsStringTrue(option);
+    image=XImportImage(image_info,&ximage_info,exception);
     if ((image != (Image *) NULL) && (image_info->extract != (char *) NULL))
       {
         Image
@@ -302,11 +334,9 @@ ModuleExport size_t RegisterSCREENSHOTImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("SCREENSHOT");
+  entry=AcquireMagickInfo("SCREENSHOT","SCREENSHOT","Screen shot");
   entry->decoder=(DecodeImageHandler *) ReadSCREENSHOTImage;
   entry->format_type=ImplicitFormatType;
-  entry->description=ConstantString("Screen shot");
-  entry->magick_module=ConstantString("SCREENSHOT");
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright 1999 ImageMagick Studio LLC, a non-profit organization
+  Copyright @ 2015 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -27,6 +27,9 @@ typedef struct _PSDInfo
   char
     signature[4];
 
+  MagickBooleanType
+    has_merged_image;
+
   size_t
     rows,
     columns;
@@ -44,7 +47,9 @@ typedef struct _PSDInfo
 
 extern ModuleExport MagickBooleanType
   ReadPSDLayers(Image *,const ImageInfo *,const PSDInfo *,
-    const MagickBooleanType,ExceptionInfo *);
+    ExceptionInfo *),
+  WritePSDLayers(Image *,const ImageInfo *,const PSDInfo *,
+    ExceptionInfo *);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

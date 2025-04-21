@@ -17,7 +17,7 @@
 %                                 May 2003                                    %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,21 +39,20 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/pixel-accessor.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "MagickCore/module.h"
 
 /*
   Bricks pattern.
@@ -901,8 +900,7 @@ static const struct
     { "RIGHT30", "PBM", Right30Image, sizeof(Right30Image) },
     { "RIGHT45", "PBM", Right45Image, sizeof(Right45Image) },
     { "RIGHTSHINGLE", "PBM", RightShingleImage, sizeof(RightShingleImage) },
-    { "SMALLFISHSCALES", "PBM", SmallFishScalesImage,
-      sizeof(SmallFishScalesImage) },
+    { "SMALLFISHSCALES", "PBM", SmallFishScalesImage, sizeof(SmallFishScalesImage) },
     { "VERTICAL", "PBM", VerticalImage, sizeof(VerticalImage) },
     { "VERTICAL2", "PBM", Vertical2Image, sizeof(Vertical2Image) },
     { "VERTICAL3", "PBM", Vertical3Image, sizeof(Vertical3Image) },
@@ -965,7 +963,7 @@ static Image *ReadPATTERNImage(const ImageInfo *image_info,
     if (LocaleCompare(blob_info->filename,PatternImageList[i].name) == 0)
       {
         (void) CopyMagickString(blob_info->magick,PatternImageList[i].magick,
-          MaxTextExtent);
+          MagickPathExtent);
         blob=PatternImageList[i].blob;
         extent=PatternImageList[i].extent;
         break;
@@ -985,10 +983,10 @@ static Image *ReadPATTERNImage(const ImageInfo *image_info,
         Tile pattern across image canvas.
       */
       pattern_image=image;
-      image=AcquireImage(image_info);
-      (void) SetImageBackgroundColor(image);
-      (void) SetImageOpacity(pattern_image,OpaqueOpacity);
-      (void) TextureImage(image,pattern_image);
+      image=AcquireImage(image_info,exception);
+      (void) SetImageBackgroundColor(image,exception);
+      (void) SetImageAlpha(pattern_image,OpaqueAlpha,exception);
+      (void) TextureImage(image,pattern_image,exception);
       pattern_image=DestroyImage(pattern_image);
     }
   blob_info=DestroyImageInfo(blob_info);
@@ -1022,11 +1020,9 @@ ModuleExport size_t RegisterPATTERNImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("PATTERN");
+  entry=AcquireMagickInfo("PATTERN","PATTERN","Predefined pattern");
   entry->decoder=(DecodeImageHandler *) ReadPATTERNImage;
-  entry->adjoin=MagickFalse;
-  entry->description=ConstantString("Predefined pattern");
-  entry->magick_module=ConstantString("PATTERN");
+  entry->flags^=CoderAdjoinFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }

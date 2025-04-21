@@ -32,7 +32,7 @@ Test your installation by running:
     identify -version
 
 If you want to add support for extra features, such as HDRI, Perl, JPEG2000, 
-pango,fftw, TIFF or rsvg etc. you can configure the necessary options by running:
+pango,fftw, TIFF or rsvg etc. you can configure the necessary switches by running:
 
     brew edit imagemagick
 
@@ -75,8 +75,8 @@ against its message digest.
   
 Unpack and change into the top-level ImageMagick directory:
   
-    $magick> tar xvfz ImageMagick-6.5.9-0.tar.gz 
-    $magick> cd ImageMagick-6.5.9
+    $magick> tar xvfz ImageMagick-7.0.7-0.tar.gz 
+    $magick> cd ImageMagick-7.0.7
   
 Configure ImageMagick:
   

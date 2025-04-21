@@ -17,7 +17,7 @@
 %                                 July 1992                                   %
 %                                                                             %
 %                                                                             %
-%  Copyright 1999 ImageMagick Studio LLC, a non-profit organization           %
+%  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization         %
 %  dedicated to making software imaging solutions freely available.           %
 %                                                                             %
 %  You may not use this file except in compliance with the License.  You may  %
@@ -39,37 +39,39 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/attribute.h"
-#include "magick/blob.h"
-#include "magick/blob-private.h"
-#include "magick/cache.h"
-#include "magick/color.h"
-#include "magick/color-private.h"
-#include "magick/colormap.h"
-#include "magick/colorspace.h"
-#include "magick/colorspace-private.h"
-#include "magick/constitute.h"
-#include "magick/exception.h"
-#include "magick/exception-private.h"
-#include "magick/geometry.h"
-#include "magick/image.h"
-#include "magick/image-private.h"
-#include "magick/list.h"
-#include "magick/magick.h"
-#include "magick/memory_.h"
-#include "magick/monitor.h"
-#include "magick/monitor-private.h"
-#include "magick/option.h"
-#include "magick/pixel.h"
-#include "magick/pixel-accessor.h"
-#include "magick/property.h"
-#include "magick/quantum-private.h"
-#include "magick/static.h"
-#include "magick/string_.h"
-#include "magick/module.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/attribute.h"
+#include "MagickCore/property.h"
+#include "MagickCore/blob.h"
+#include "MagickCore/blob-private.h"
+#include "MagickCore/cache.h"
+#include "MagickCore/color.h"
+#include "MagickCore/color-private.h"
+#include "MagickCore/colormap.h"
+#include "MagickCore/colorspace.h"
+#include "MagickCore/colorspace-private.h"
+#include "MagickCore/constitute.h"
+#include "MagickCore/exception.h"
+#include "MagickCore/exception-private.h"
+#include "MagickCore/geometry.h"
+#include "MagickCore/image.h"
+#include "MagickCore/image-private.h"
+#include "MagickCore/list.h"
+#include "MagickCore/magick.h"
+#include "MagickCore/memory_.h"
+#include "MagickCore/module.h"
+#include "MagickCore/monitor.h"
+#include "MagickCore/monitor-private.h"
+#include "MagickCore/option.h"
+#include "MagickCore/pixel.h"
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/property.h"
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/static.h"
+#include "MagickCore/string_.h"
+#include "coders/coders-private.h"
 #if defined(MAGICKCORE_FPX_DELEGATE)
-#if !defined(vms) && !defined(macintosh) && !defined(MAGICKCORE_WINDOWS_SUPPORT)
+#if !defined(vms) && !defined(MAGICKCORE_WINDOWS_SUPPORT)
 #include <fpxlib.h>
 #else
 #include "Fpxlib.h"
@@ -81,7 +83,7 @@
   Forward declarations.
 */
 static MagickBooleanType
-  WriteFPXImage(const ImageInfo *,Image *);
+  WriteFPXImage(const ImageInfo *,Image *,ExceptionInfo *);
 #endif
 
 #if defined(MAGICKCORE_FPX_DELEGATE)
@@ -111,6 +113,29 @@ static MagickBooleanType
 %    o exception: return any errors or warnings in this structure.
 %
 */
+
+static void FPXRelinquishSummaryInfo(FPXSummaryInformation *summary_info)
+{
+  if (summary_info->title_valid)
+    (void) FPX_DeleteFPXStr(&summary_info->title);
+  if (summary_info->subject_valid)
+    (void) FPX_DeleteFPXStr(&summary_info->subject);
+  if (summary_info->author_valid)
+    (void) FPX_DeleteFPXStr(&summary_info->author);
+  if (summary_info->keywords_valid)
+    (void) FPX_DeleteFPXStr(&summary_info->keywords);
+  if (summary_info->comments_valid)
+    (void) FPX_DeleteFPXStr(&summary_info->comments);
+  if (summary_info->OLEtemplate_valid)
+    (void) FPX_DeleteFPXStr(&summary_info->OLEtemplate);
+  if (summary_info->last_author_valid)
+    (void) FPX_DeleteFPXStr(&summary_info->last_author);
+  if (summary_info->rev_number_valid)
+    (void) FPX_DeleteFPXStr(&summary_info->rev_number);
+  if (summary_info->appname_valid)
+    (void) FPX_DeleteFPXStr(&summary_info->appname);
+}
+
 static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
 {
   const char
@@ -140,20 +165,17 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   Image
     *image;
 
-  IndexPacket
-    index;
-
   MagickBooleanType
     status;
 
-  IndexPacket
-    *indexes;
+  Quantum
+    index;
 
   ssize_t
     i,
     x;
 
-  PixelPacket
+  Quantum
     *q;
 
   unsigned char
@@ -190,7 +212,7 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",
       image_info->filename);
-  image=AcquireImage(image_info);
+  image=AcquireImage(image_info,exception);
   status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
   if (status == MagickFalse)
     {
@@ -201,6 +223,7 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   /*
     Initialize FPX toolkit.
   */
+  (void) memset(&summary_info,0,sizeof(summary_info));
   fpx_status=FPX_InitSystem();
   if (fpx_status != FPX_OK)
     ThrowReaderException(CoderError,"UnableToInitializeFPXLibrary");
@@ -208,26 +231,18 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   fpx_status=FPX_SetToolkitMemoryLimit(&memory_limit);
   if (fpx_status != FPX_OK)
     {
+      FPXRelinquishSummaryInfo(&summary_info);
       FPX_ClearSystem();
       ThrowReaderException(CoderError,"UnableToInitializeFPXLibrary");
     }
   tile_width=64;
   tile_height=64;
   flashpix=(FPXImageHandle *) NULL;
-  {
-#if defined(macintosh)
-    FSSpec
-      fsspec;
-
-    FilenameToFSSpec(image->filename,&fsspec);
-    fpx_status=FPX_OpenImageByFilename((const FSSpec &) fsspec,(char *) NULL,
-#else
-    fpx_status=FPX_OpenImageByFilename(image->filename,(char *) NULL,
-#endif
-      &width,&height,&tile_width,&tile_height,&colorspace,&flashpix);
-  }
+  fpx_status=FPX_OpenImageByFilename(image->filename,(char *) NULL,&width,
+    &height,&tile_width,&tile_height,&colorspace,&flashpix);
   if (fpx_status == FPX_LOW_MEMORY_ERROR)
     {
+      FPXRelinquishSummaryInfo(&summary_info);
       FPX_ClearSystem();
       ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
     }
@@ -241,12 +256,11 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
     }
   if (colorspace.numberOfComponents == 0)
     {
+      FPXRelinquishSummaryInfo(&summary_info);
       FPX_ClearSystem();
       ThrowReaderException(CorruptImageError,"ImageTypeNotSupported");
     }
-  option=image_info->view;
-  if (option == (const char *) NULL)
-    option=GetImageOption(image_info,"fpx:view");
+  option=GetImageOption(image_info,"fpx:view");
   if (option == (const char *) NULL)
     {
       float
@@ -265,6 +279,7 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   fpx_status=FPX_GetSummaryInformation(flashpix,&summary_info);
   if (fpx_status != FPX_OK)
     {
+      FPXRelinquishSummaryInfo(&summary_info);
       FPX_ClearSystem();
       ThrowReaderException(DelegateError,"UnableToReadSummaryInfo");
     }
@@ -279,17 +294,18 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
           Note image label.
         */
         label=(char *) NULL;
-        if (~summary_info.title.length >= (MaxTextExtent-1))
+        if (~summary_info.title.length >= (MagickPathExtent-1))
           label=(char *) AcquireQuantumMemory(summary_info.title.length+
-            MaxTextExtent,sizeof(*label));
+            MagickPathExtent,sizeof(*label));
         if (label == (char *) NULL)
           {
+            FPXRelinquishSummaryInfo(&summary_info);
             FPX_ClearSystem();
             ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
           }
         (void) CopyMagickString(label,(char *) summary_info.title.ptr,
           summary_info.title.length+1);
-        (void) SetImageProperty(image,"label",label);
+        (void) SetImageProperty(image,"label",label,exception);
         label=DestroyString(label);
       }
   if (summary_info.comments_valid)
@@ -303,17 +319,18 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
           Note image comment.
         */
         comments=(char *) NULL;
-        if (~summary_info.comments.length >= (MaxTextExtent-1))
+        if (~summary_info.comments.length >= (MagickPathExtent-1))
           comments=(char *) AcquireQuantumMemory(summary_info.comments.length+
-            MaxTextExtent,sizeof(*comments));
+            MagickPathExtent,sizeof(*comments));
         if (comments == (char *) NULL)
           {
+            FPXRelinquishSummaryInfo(&summary_info);
             FPX_ClearSystem();
             ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
           }
         (void) CopyMagickString(comments,(char *) summary_info.comments.ptr,
           summary_info.comments.length+1);
-        (void) SetImageProperty(image,"comment",comments);
+        (void) SetImageProperty(image,"comment",comments,exception);
         comments=DestroyString(comments);
       }
   /*
@@ -322,7 +339,7 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   for (i=1; ; i++)
     if (((width >> i) < tile_width) || ((height >> i) < tile_height))
       break;
-  scene=i;
+  scene=(size_t) i;
   if (image_info->number_scenes != 0)
     while (scene > image_info->scene)
     {
@@ -335,20 +352,22 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
     {
       width>>=1;
       height>>=1;
-      scene--;
+      if (scene != 0)
+        scene--;
     }
   image->depth=8;
   image->columns=width;
   image->rows=height;
   if ((colorspace.numberOfComponents % 2) == 0)
-    image->matte=MagickTrue;
+    image->alpha_trait=BlendPixelTrait;
   if (colorspace.numberOfComponents == 1)
     {
       /*
         Create linear colormap.
       */
-      if (AcquireImageColormap(image,MaxColormapSize) == MagickFalse)
+      if (AcquireImageColormap(image,MaxColormapSize,exception) == MagickFalse)
         {
+          FPXRelinquishSummaryInfo(&summary_info);
           FPX_ClearSystem();
           ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
         }
@@ -356,22 +375,21 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (image_info->ping != MagickFalse)
     {
       (void) FPX_CloseImage(flashpix);
+      FPXRelinquishSummaryInfo(&summary_info);
       FPX_ClearSystem();
       return(GetFirstImageInList(image));
     }
-  status=SetImageExtent(image,image->columns,image->rows);
+  status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
-    {
-      InheritException(exception,&image->exception);
-      return(DestroyImageList(image));
-    }
+    return(DestroyImageList(image));
   /*
     Allocate memory for the image and pixel buffer.
   */
-  pixels=(unsigned char *) AcquireQuantumMemory(image->columns,(tile_height+
-    1UL)*colorspace.numberOfComponents*sizeof(*pixels));
+  pixels=(unsigned char *) AcquireQuantumMemory(image->columns,(tile_height+1)*
+    (size_t) colorspace.numberOfComponents*sizeof(*pixels));
   if (pixels == (unsigned char *) NULL)
     {
+      FPXRelinquishSummaryInfo(&summary_info);
       FPX_ClearSystem();
       (void) FPX_CloseImage(flashpix);
       ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
@@ -379,15 +397,15 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   /*
     Initialize FlashPix image description.
   */
-  fpx_info.numberOfComponents=colorspace.numberOfComponents;
+  fpx_info.numberOfComponents=(unsigned int) colorspace.numberOfComponents;
   for (i=0; i < 4; i++)
   {
     fpx_info.components[i].myColorType.myDataType=DATA_TYPE_UNSIGNED_BYTE;
     fpx_info.components[i].horzSubSampFactor=1;
     fpx_info.components[i].vertSubSampFactor=1;
-    fpx_info.components[i].columnStride=fpx_info.numberOfComponents;
-    fpx_info.components[i].lineStride=image->columns*
-      fpx_info.components[i].columnStride;
+    fpx_info.components[i].columnStride=(int) fpx_info.numberOfComponents;
+    fpx_info.components[i].lineStride=(image->columns*
+      (size_t) fpx_info.components[i].columnStride);
     fpx_info.components[i].theData=pixels+i;
   }
   fpx_info.components[0].myColorType.myColor=fpx_info.numberOfComponents > 2 ?
@@ -407,13 +425,12 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   for (y=0; y < (ssize_t) image->rows; y++)
   {
     q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
-    if (q == (PixelPacket *) NULL)
+    if (q == (Quantum *) NULL)
       break;
-    indexes=GetAuthenticIndexQueue(image);
     if ((y % tile_height) == 0)
       {
         /*
-          Read FPX image tile (with or without viewing affine).
+          Read FPX image tile (with or without viewing affine)..
         */
         if (option != (const char *) NULL)
           fpx_status=FPX_ReadImageRectangle(flashpix,0,y,image->columns,y+
@@ -421,12 +438,13 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
         else
           fpx_status=FPX_ReadImageTransformRectangle(flashpix,0.0F,
             (float) y/image->rows,(float) image->columns/image->rows,
-            (float) (y+tile_height-1)/image->rows,(ssize_t) image->columns,
-            (ssize_t) tile_height,&fpx_info);
+            (float) (y+tile_height-1)/image->rows,(int) image->columns,
+            (int) tile_height,&fpx_info);
         if (fpx_status == FPX_LOW_MEMORY_ERROR)
           {
             pixels=(unsigned char *) RelinquishMagickMemory(pixels);
             (void) FPX_CloseImage(flashpix);
+            FPXRelinquishSummaryInfo(&summary_info);
             FPX_ClearSystem();
             ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
           }
@@ -442,23 +460,23 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
     {
       if (fpx_info.numberOfComponents > 2)
         {
-          SetPixelRed(q,ScaleCharToQuantum(*r));
-          SetPixelGreen(q,ScaleCharToQuantum(*g));
-          SetPixelBlue(q,ScaleCharToQuantum(*b));
+          SetPixelRed(image,ScaleCharToQuantum(*r),q);
+          SetPixelGreen(image,ScaleCharToQuantum(*g),q);
+          SetPixelBlue(image,ScaleCharToQuantum(*b),q);
         }
       else
         {
           index=ScaleCharToQuantum(*r);
-          SetPixelIndex(indexes+x,index);
-          SetPixelRed(q,index);
-          SetPixelGreen(q,index);
-          SetPixelBlue(q,index);
+          SetPixelIndex(image,index,q);
+          SetPixelRed(image,index,q);
+          SetPixelGreen(image,index,q);
+          SetPixelBlue(image,index,q);
         }
-      SetPixelOpacity(q,OpaqueOpacity);
-      if (image->matte != MagickFalse)
-        SetPixelAlpha(q,ScaleCharToQuantum(*a));
-      q++;
-      r+=red_component->columnStride;
+      SetPixelAlpha(image,OpaqueAlpha,q);
+      if (image->alpha_trait != UndefinedPixelTrait)
+        SetPixelAlpha(image,ScaleCharToQuantum(*a),q);
+      q+=(ptrdiff_t) GetPixelChannels(image);
+      r+=(ptrdiff_t) red_component->columnStride;
       g+=green_component->columnStride;
       b+=blue_component->columnStride;
       a+=alpha_component->columnStride;
@@ -472,6 +490,7 @@ static Image *ReadFPXImage(const ImageInfo *image_info,ExceptionInfo *exception)
   }
   pixels=(unsigned char *) RelinquishMagickMemory(pixels);
   (void) FPX_CloseImage(flashpix);
+  FPXRelinquishSummaryInfo(&summary_info);
   FPX_ClearSystem();
   return(GetFirstImageInList(image));
 }
@@ -505,16 +524,13 @@ ModuleExport size_t RegisterFPXImage(void)
   MagickInfo
     *entry;
 
-  entry=SetMagickInfo("FPX");
+  entry=AcquireMagickInfo("FPX","FPX","FlashPix Format");
 #if defined(MAGICKCORE_FPX_DELEGATE)
   entry->decoder=(DecodeImageHandler *) ReadFPXImage;
   entry->encoder=(EncodeImageHandler *) WriteFPXImage;
 #endif
-  entry->adjoin=MagickFalse;
-  entry->seekable_stream=MagickTrue;
-  entry->blob_support=MagickFalse;
-  entry->description=ConstantString("FlashPix Format");
-  entry->magick_module=ConstantString("FPX");
+  entry->flags^=CoderAdjoinFlag;
+  entry->flags^=CoderBlobSupportFlag;
   (void) RegisterMagickInfo(entry);
   return(MagickImageCoderSignature);
 }
@@ -560,13 +576,16 @@ ModuleExport void UnregisterFPXImage(void)
 %
 %  The format of the WriteFPXImage method is:
 %
-%      MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
+%      MagickBooleanType WriteFPXImage(const ImageInfo *image_info,
+%        Image *image,ExceptionInfo *exception)
 %
 %  A description of each parameter follows.
 %
 %    o image_info: the image info.
 %
 %    o image:  The image.
+%
+%    o exception: return any errors or warnings in this structure.
 %
 */
 
@@ -751,7 +770,8 @@ static void SetSaturation(double saturation,FPXColorTwistMatrix *color_twist)
   *color_twist=result;
 }
 
-static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
+static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image,
+  ExceptionInfo *exception)
 {
   FPXBackground
     background_color;
@@ -772,6 +792,9 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
     *comment,
     *label,
     *option;
+
+  const Quantum
+    *p;
 
   FPXCompressionOption
     compression;
@@ -797,13 +820,11 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
   QuantumType
     quantum_type;
 
-  const PixelPacket
-    *p;
-
   ssize_t
     i;
 
   size_t
+    length,
     memory_limit;
 
   ssize_t
@@ -823,13 +844,15 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
   assert(image_info->signature == MagickCoreSignature);
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
+  assert(exception != (ExceptionInfo *) NULL);
+  assert(exception->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
-  status=OpenBlob(image_info,image,WriteBinaryBlobMode,&image->exception);
+  status=OpenBlob(image_info,image,WriteBinaryBlobMode,exception);
   if (status == MagickFalse)
     return(status);
   if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
-    (void) TransformImageColorspace(image,sRGBColorspace);
+    (void) TransformImageColorspace(image,sRGBColorspace,exception);
   (void) CloseBlob(image);
   /*
     Initialize FPX toolkit.
@@ -842,10 +865,10 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
   tile_width=64;
   tile_height=64;
   colorspace.numberOfComponents=3;
-  if (image->matte != MagickFalse)
+  if (image->alpha_trait != UndefinedPixelTrait)
     colorspace.numberOfComponents=4;
   if ((image_info->type != TrueColorType) &&
-      SetImageGray(image,&image->exception))
+      (IdentifyImageCoderGray(image,exception) != MagickFalse))
     {
       colorspace.numberOfComponents=1;
       colorspace.theComponents[0].myColor=MONOCHROME;
@@ -859,19 +882,9 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
     compression=JPEG_UNSPECIFIED;
   if (image_info->compression == JPEGCompression)
     compression=JPEG_UNSPECIFIED;
-  {
-#if defined(macintosh)
-    FSSpec
-      fsspec;
-
-    FilenameToFSSpec(filename,&fsspec);
-    fpx_status=FPX_CreateImageByFilename((const FSSpec &) fsspec,image->columns,
-#else
-    fpx_status=FPX_CreateImageByFilename(image->filename,image->columns,
-#endif
-      image->rows,tile_width,tile_height,colorspace,background_color,
-      compression,&flashpix);
-  }
+  fpx_status=FPX_CreateImageByFilename(image->filename,image->columns,
+    image->rows,tile_width,tile_height,colorspace,background_color,compression,
+    &flashpix);
   if (fpx_status != FPX_OK)
     return(status);
   if (compression == JPEG_UNSPECIFIED)
@@ -887,46 +900,25 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
   /*
     Set image summary info.
   */
-  summary_info.title_valid=MagickFalse;
-  summary_info.subject_valid=MagickFalse;
-  summary_info.author_valid=MagickFalse;
-  summary_info.comments_valid=MagickFalse;
-  summary_info.keywords_valid=MagickFalse;
-  summary_info.OLEtemplate_valid=MagickFalse;
-  summary_info.last_author_valid=MagickFalse;
-  summary_info.rev_number_valid=MagickFalse;
-  summary_info.edit_time_valid=MagickFalse;
-  summary_info.last_printed_valid=MagickFalse;
-  summary_info.create_dtm_valid=MagickFalse;
-  summary_info.last_save_dtm_valid=MagickFalse;
-  summary_info.page_count_valid=MagickFalse;
-  summary_info.word_count_valid=MagickFalse;
-  summary_info.char_count_valid=MagickFalse;
-  summary_info.thumbnail_valid=MagickFalse;
-  summary_info.appname_valid=MagickFalse;
-  summary_info.security_valid=MagickFalse;
-  summary_info.title.ptr=(unsigned char *) NULL;
-  label=GetImageProperty(image,"label");
+  (void) memset(&summary_info,0,sizeof(summary_info));
+  label=GetImageProperty(image,"label",exception);
   if (label != (const char *) NULL)
     {
-      size_t
-        length;
-
       /*
         Note image label.
       */
       summary_info.title_valid=MagickTrue;
       length=strlen(label);
       summary_info.title.length=length;
-      if (~length >= (MaxTextExtent-1))
+      if (~length >= (MagickPathExtent-1))
         summary_info.title.ptr=(unsigned char *) AcquireQuantumMemory(
-          length+MaxTextExtent,sizeof(*summary_info.title.ptr));
+          length+MagickPathExtent,sizeof(*summary_info.title.ptr));
       if (summary_info.title.ptr == (unsigned char *) NULL)
         ThrowWriterException(DelegateError,"UnableToSetImageTitle");
       (void) CopyMagickString((char *) summary_info.title.ptr,label,
-        MaxTextExtent);
+        MagickPathExtent);
     }
-  comment=GetImageProperty(image,"comment");
+  comment=GetImageProperty(image,"comment",exception);
   if (comment != (const char *) NULL)
     {
       /*
@@ -945,16 +937,16 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
   quantum_info=AcquireQuantumInfo(image_info,image);
   if (quantum_info == (QuantumInfo *) NULL)
     ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
-  pixels=GetQuantumPixels(quantum_info);
-  fpx_info.numberOfComponents=colorspace.numberOfComponents;
+  pixels=(unsigned char *) GetQuantumPixels(quantum_info);
+  fpx_info.numberOfComponents=(unsigned int) colorspace.numberOfComponents;
   for (i=0; i < (ssize_t) fpx_info.numberOfComponents; i++)
   {
     fpx_info.components[i].myColorType.myDataType=DATA_TYPE_UNSIGNED_BYTE;
     fpx_info.components[i].horzSubSampFactor=1;
     fpx_info.components[i].vertSubSampFactor=1;
-    fpx_info.components[i].columnStride=fpx_info.numberOfComponents;
-    fpx_info.components[i].lineStride=
-      image->columns*fpx_info.components[i].columnStride;
+    fpx_info.components[i].columnStride=(int) fpx_info.numberOfComponents;
+    fpx_info.components[i].lineStride=image->columns*
+      (size_t) fpx_info.components[i].columnStride;
     fpx_info.components[i].theData=pixels+i;
   }
   fpx_info.components[0].myColorType.myColor=fpx_info.numberOfComponents != 1 ?
@@ -966,21 +958,17 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
     Write image pixels.
   */
   quantum_type=RGBQuantum;
-  if (image->matte != MagickFalse)
+  if (image->alpha_trait != UndefinedPixelTrait)
     quantum_type=RGBAQuantum;
   if (fpx_info.numberOfComponents == 1)
     quantum_type=GrayQuantum;
   for (y=0; y < (ssize_t) image->rows; y++)
   {
-    size_t
-      length;
-
-    p=GetVirtualPixels(image,0,y,image->columns,1,&image->exception);
-    if (p == (const PixelPacket *) NULL)
+    p=GetVirtualPixels(image,0,y,image->columns,1,exception);
+    if (p == (const Quantum *) NULL)
       break;
-    length=ExportQuantumPixels(image,(const CacheView *) NULL,quantum_info,
-      quantum_type,pixels,&image->exception);
-    (void) length;
+    length=ExportQuantumPixels(image,(CacheView *) NULL,quantum_info,
+      quantum_type,pixels,exception);
     fpx_status=FPX_WriteImageLine(flashpix,&fpx_info);
     if (fpx_status != FPX_OK)
       break;
@@ -990,9 +978,7 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
       break;
   }
   quantum_info=DestroyQuantumInfo(quantum_info);
-  option=image_info->view;
-  if (option == (const char *) NULL)
-    option=GetImageOption(image_info,"fpx:view");
+  option=GetImageOption(image_info,"fpx:view");
   if (option != (const char *) NULL)
     {
       FPXAffineMatrix
@@ -1117,6 +1103,7 @@ static MagickBooleanType WriteFPXImage(const ImageInfo *image_info,Image *image)
         }
     }
   (void) FPX_CloseImage(flashpix);
+  FPXRelinquishSummaryInfo(&summary_info);
   FPX_ClearSystem();
   return(MagickTrue);
 }

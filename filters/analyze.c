@@ -36,8 +36,8 @@
 /*
   Include declarations.
 */
-#include "magick/studio.h"
-#include "magick/MagickCore.h"
+#include "MagickCore/studio.h"
+#include "MagickCore/MagickCore.h"
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,8 +104,8 @@ static inline int GetMagickNumberThreads(const Image *source,
       ((GetImagePixelCacheType(destination) != MemoryCache) &&
        (GetImagePixelCacheType(destination) != MapCache)))
     return(MagickMax(MagickMin(GetMagickResourceLimit(ThreadResource),2),1));
-  return(MagickMax(MagickMin((ssize_t) GetMagickResourceLimit(ThreadResource),
-    (ssize_t) (chunk)/64),1));
+  return(MagickMax(MagickMin((int) GetMagickResourceLimit(ThreadResource),
+    (int) (chunk)/64),1));
 }
 #endif
 
@@ -162,7 +162,7 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
 #endif
     for (y=0; y < (ssize_t) image->rows; y++)
     {
-      const PixelPacket
+      const Quantum
         *p;
 
       ssize_t
@@ -176,7 +176,7 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
       if (status == MagickFalse)
         continue;
       p=GetCacheViewVirtualPixels(image_view,0,y,image->columns,1,exception);
-      if (p == (const PixelPacket *) NULL)
+      if (p == (const Quantum *) NULL)
         {
           status=MagickFalse;
           continue;
@@ -190,15 +190,15 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
           h,
           s;
 
-        ConvertRGBToHSL(GetPixelRed(p),GetPixelGreen(p),GetPixelBlue(p),
-          &h,&s,&b);
-        b*=(MagickRealType) QuantumRange;
+        ConvertRGBToHSL(GetPixelRed(image,p),GetPixelGreen(image,p),
+          GetPixelBlue(image,p),&h,&s,&b);
+        b*=(double) QuantumRange;
         for (i=1; i <= 4; i++)
           local_brightness.sum[i]+=pow(b,(double) i);
-        s*=(MagickRealType) QuantumRange;
+        s*=(double) QuantumRange;
         for (i=1; i <= 4; i++)
           local_saturation.sum[i]+=pow(s,(double) i);
-        p++;
+        p+=(ptrdiff_t) GetPixelChannels(image);
       }
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp critical (analyzeImage)
@@ -213,12 +213,13 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
     area=(double) image->columns*image->rows;
     brightness.mean=brightness.sum[1]/area;
     (void) FormatLocaleString(text,MagickPathExtent,"%g",brightness.mean);
-    (void) SetImageProperty(image,"filter:brightness:mean",text);
+    (void) SetImageProperty(image,"filter:brightness:mean",text,exception);
     brightness.standard_deviation=sqrt(brightness.sum[2]/area-
       (brightness.sum[1]/area*brightness.sum[1]/area));
     (void) FormatLocaleString(text,MagickPathExtent,"%g",
       brightness.standard_deviation);
-    (void) SetImageProperty(image,"filter:brightness:standard-deviation",text);
+    (void) SetImageProperty(image,"filter:brightness:standard-deviation",text,
+      exception);
     if (fabs(brightness.standard_deviation) >= MagickEpsilon)
       brightness.kurtosis=(brightness.sum[4]/area-4.0*brightness.mean*
         brightness.sum[3]/area+6.0*brightness.mean*brightness.mean*
@@ -227,22 +228,23 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
         brightness.standard_deviation*brightness.standard_deviation*
         brightness.standard_deviation)-3.0;
     (void) FormatLocaleString(text,MagickPathExtent,"%g",brightness.kurtosis);
-    (void) SetImageProperty(image,"filter:brightness:kurtosis",text);
+    (void) SetImageProperty(image,"filter:brightness:kurtosis",text,exception);
     if (brightness.standard_deviation != 0)
       brightness.skewness=(brightness.sum[3]/area-3.0*brightness.mean*
         brightness.sum[2]/area+2.0*brightness.mean*brightness.mean*
         brightness.mean)/(brightness.standard_deviation*
         brightness.standard_deviation*brightness.standard_deviation);
     (void) FormatLocaleString(text,MagickPathExtent,"%g",brightness.skewness);
-    (void) SetImageProperty(image,"filter:brightness:skewness",text);
+    (void) SetImageProperty(image,"filter:brightness:skewness",text,exception);
     saturation.mean=saturation.sum[1]/area;
     (void) FormatLocaleString(text,MagickPathExtent,"%g",saturation.mean);
-    (void) SetImageProperty(image,"filter:saturation:mean",text);
+    (void) SetImageProperty(image,"filter:saturation:mean",text,exception);
     saturation.standard_deviation=sqrt(saturation.sum[2]/area-
       (saturation.sum[1]/area*saturation.sum[1]/area));
     (void) FormatLocaleString(text,MagickPathExtent,"%g",
       saturation.standard_deviation);
-    (void) SetImageProperty(image,"filter:saturation:standard-deviation",text);
+    (void) SetImageProperty(image,"filter:saturation:standard-deviation",text,
+      exception);
     if (fabs(saturation.standard_deviation) >= MagickEpsilon)
       saturation.kurtosis=(saturation.sum[4]/area-4.0*saturation.mean*
         saturation.sum[3]/area+6.0*saturation.mean*saturation.mean*
@@ -251,14 +253,14 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
         saturation.standard_deviation*saturation.standard_deviation*
         saturation.standard_deviation)-3.0;
     (void) FormatLocaleString(text,MagickPathExtent,"%g",saturation.kurtosis);
-    (void) SetImageProperty(image,"filter:saturation:kurtosis",text);
+    (void) SetImageProperty(image,"filter:saturation:kurtosis",text,exception);
     if (fabs(saturation.standard_deviation) >= MagickEpsilon)
       saturation.skewness=(saturation.sum[3]/area-3.0*saturation.mean*
         saturation.sum[2]/area+2.0*saturation.mean*saturation.mean*
         saturation.mean)/(saturation.standard_deviation*
         saturation.standard_deviation*saturation.standard_deviation);
     (void) FormatLocaleString(text,MagickPathExtent,"%g",saturation.skewness);
-    (void) SetImageProperty(image,"filter:saturation:skewness",text);
+    (void) SetImageProperty(image,"filter:saturation:skewness",text,exception);
     if (image->progress_monitor != (MagickProgressMonitor) NULL)
       {
         MagickBooleanType

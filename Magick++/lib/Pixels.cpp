@@ -1,7 +1,9 @@
 // This may look like C code, but it is really -*- C++ -*-
 //
 // Copyright Bob Friesenhahn, 1999, 2000, 2001, 2002, 2003
-// Copyright Dirk Lemstra 2014
+//
+// Copyright @ 2013 ImageMagick Studio LLC, a non-profit organization
+// dedicated to making software imaging solutions freely available.
 //
 // Pixels Implementation
 //
@@ -9,6 +11,7 @@
 #define MAGICKCORE_IMPLEMENTATION  1
 #define MAGICK_PLUSPLUS_IMPLEMENTATION 1
 
+#include <cstring>
 #include "Magick++/Include.h"
 #include <string> // This is here to compile with Visual C++
 #include "Magick++/Thread.h"
@@ -23,17 +26,17 @@ Magick::Pixels::Pixels(Magick::Image &image_)
     _rows(0)
 {
   GetPPException;
-  _view=AcquireVirtualCacheView(image_.image(),exceptionInfo);
+    _view=AcquireVirtualCacheView(image_.image(),exceptionInfo),
   ThrowPPException(image_.quiet());
 }
 
 Magick::Pixels::~Pixels(void)
 {
-  if (_view != (MagickCore::CacheView *) NULL)
+  if (_view)
     _view=DestroyCacheView(_view);
 }
 
-Magick::PixelPacket* Magick::Pixels::get(const ssize_t x_,const ssize_t y_,
+Magick::Quantum* Magick::Pixels::get(const ssize_t x_,const ssize_t y_,
   const size_t columns_,const size_t rows_)
 {
   _x=x_;
@@ -42,14 +45,14 @@ Magick::PixelPacket* Magick::Pixels::get(const ssize_t x_,const ssize_t y_,
   _rows=rows_;
 
   GetPPException;
-  PixelPacket* pixels=GetCacheViewAuthenticPixels(_view,x_,y_,columns_,rows_,
+  Quantum* pixels=GetCacheViewAuthenticPixels(_view,x_,y_,columns_,rows_,
     exceptionInfo);
   ThrowPPException(_image.quiet());
 
   return pixels;
 }
 
-const Magick::PixelPacket* Magick::Pixels::getConst(const ssize_t x_,
+const Magick::Quantum* Magick::Pixels::getConst(const ssize_t x_,
   const ssize_t y_,const size_t columns_,const size_t rows_)
 {
   _x=x_;
@@ -58,14 +61,21 @@ const Magick::PixelPacket* Magick::Pixels::getConst(const ssize_t x_,
   _rows=rows_;
 
   GetPPException;
-  const PixelPacket* pixels=GetCacheViewVirtualPixels(_view,x_,y_,columns_,
-    rows_,exceptionInfo);
+  const Quantum* pixels=GetCacheViewVirtualPixels(_view,x_,y_,columns_,rows_,
+    exceptionInfo);
   ThrowPPException(_image.quiet());
 
   return pixels;
 }
 
-Magick::PixelPacket* Magick::Pixels::set(const ssize_t x_,const ssize_t y_,
+ssize_t Magick::Pixels::offset(PixelChannel channel) const
+{
+  if (_image.constImage()->channel_map[channel].traits == UndefinedPixelTrait)
+    return -1;
+  return _image.constImage()->channel_map[channel].offset;
+}
+
+Magick::Quantum* Magick::Pixels::set(const ssize_t x_,const ssize_t y_,
   const size_t columns_,const size_t rows_)
 {
   _x=x_;
@@ -74,7 +84,7 @@ Magick::PixelPacket* Magick::Pixels::set(const ssize_t x_,const ssize_t y_,
   _rows=rows_;
 
   GetPPException;
-  PixelPacket* pixels=QueueCacheViewAuthenticPixels(_view,x_,y_,columns_,rows_,
+  Quantum* pixels=QueueCacheViewAuthenticPixels(_view,x_,y_,columns_,rows_,
     exceptionInfo);
   ThrowPPException(_image.quiet());
 
@@ -88,14 +98,12 @@ void Magick::Pixels::sync(void)
   ThrowPPException(_image.quiet());
 }
 
-Magick::IndexPacket* Magick::Pixels::indexes (void)
+// Return pixel meta content
+void* Magick::Pixels::metacontent(void)
 {
-  IndexPacket* pixel_indexes=GetCacheViewAuthenticIndexQueue(_view);
+  void* pixel_metacontent=GetCacheViewAuthenticMetacontent(_view);
 
-  if (!pixel_indexes)
-    _image.throwImageException();
-
-  return pixel_indexes;
+  return pixel_metacontent;
 }
 
 Magick::PixelData::PixelData(Magick::Image &image_,std::string map_,
@@ -142,8 +150,8 @@ void Magick::PixelData::init(Magick::Image &image_,const ::ssize_t x_,
   _length=0;
   _size=0;
   if ((x_ < 0) || (width_ == 0) || (y_ < 0) || (height_ == 0) ||
-      (x_ > (ssize_t) image_.columns()) || ((width_ + x_) > image_.columns())
-      || (y_ > (ssize_t) image_.rows()) || ((height_ + y_) > image_.rows())
+      (x_ > (ssize_t) image_.columns()) || (((ssize_t) width_ + x_) > (ssize_t) image_.columns())
+      || (y_ > (ssize_t) image_.rows()) || (((ssize_t) height_ + y_) > (ssize_t) image_.rows())
       || (map_.length() == 0))
     return;
 
@@ -158,9 +166,11 @@ void Magick::PixelData::init(Magick::Image &image_,const ::ssize_t x_,
     case FloatPixel:
       size=sizeof(float);
       break;
-    case IntegerPixel:
     case LongPixel:
       size=sizeof(unsigned int);
+      break;
+    case LongLongPixel:
+      size=sizeof(MagickSizeType);
       break;
     case QuantumPixel:
       size=sizeof(Quantum);
@@ -169,18 +179,18 @@ void Magick::PixelData::init(Magick::Image &image_,const ::ssize_t x_,
       size=sizeof(unsigned short);
       break;
     default:
-      throwExceptionExplicit(OptionError,"Invalid type");
+      throwExceptionExplicit(MagickCore::OptionError,"Invalid type");
       return;
   }
 
-  _length=width_*height_*map_.length();
-  _size=_length*size;
-  _data=AcquireMagickMemory(_size);
+  _length=(ssize_t) (width_*height_*map_.length());
+  _size=_length*(ssize_t) size;
+  _data=AcquireMagickMemory((size_t) _size);
 
   GetPPException;
-  MagickCore::ExportImagePixels(image_.constImage(),x_,y_,width_,height_,
+  MagickCore::ExportImagePixels(image_.image(),x_,y_,width_,height_,
     map_.c_str(),type_,_data,exceptionInfo);
-  if (exceptionInfo->severity != UndefinedException)
+  if (exceptionInfo->severity != MagickCore::UndefinedException)
     relinquish();
   ThrowPPException(image_.quiet());
 }
