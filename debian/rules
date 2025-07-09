@@ -17,7 +17,7 @@ export PPSOVERSION ?= 5
 export COMMONMINVERSION ?= 8:7.0.0~
 
 # poc arch for test empty means no test
-POC_ARCH ?= any-i386 any-amd64
+POC_ARCH ?= any-i386 any-amd64 sw_64
 VALGRIND_POC_ARCH ?=
 
 # for hardening
