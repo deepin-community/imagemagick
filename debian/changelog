@@ -1,3 +1,9 @@
+imagemagick (8:7.1.1.47+dfsg1-1deepin1) unstable; urgency=medium
+
+  * feat: add sw64 support 
+
+ -- hudeng <hudeng@deepin.org>  Wed, 09 Jul 2025 17:08:38 +0800
+
 imagemagick (8:7.1.1.47+dfsg1-1) unstable; urgency=medium
 
   * New upstream version
