@@ -71,6 +71,11 @@
 #include "MagickCore/utility.h"
 
 /*
+  Define declarations.
+*/
+#define MaximumLogarithmicColorspace  1024.0
+
+/*
   Typedef declarations.
 */
 typedef struct _TransformPacket
@@ -633,9 +638,9 @@ MagickExport void ConvertRGBToHSL(const double red,const double green,
       *hue=4.0+(QuantumScale*red-QuantumScale*green)/c;
   *hue*=60.0/360.0;
   if (*lightness <= 0.5)
-    *saturation=c*PerceptibleReciprocal(2.0*(*lightness));
+    *saturation=c*MagickSafeReciprocal(2.0*(*lightness));
   else
-    *saturation=c*PerceptibleReciprocal(2.0-2.0*(*lightness));
+    *saturation=c*MagickSafeReciprocal(2.0-2.0*(*lightness));
 }
 
 /*
@@ -1080,7 +1085,7 @@ static MagickBooleanType sRGBTransformImage(Image *image,
       gamma=DisplayGamma;
       value=GetImageProperty(image,"gamma",exception);
       if (value != (const char *) NULL)
-        gamma=PerceptibleReciprocal(StringToDouble(value,(char **) NULL));
+        gamma=MagickSafeReciprocal(StringToDouble(value,(char **) NULL));
       film_gamma=FilmGamma;
       value=GetImageProperty(image,"film-gamma",exception);
       if (value != (const char *) NULL)
@@ -1099,14 +1104,14 @@ static MagickBooleanType sRGBTransformImage(Image *image,
         ThrowBinaryException(ResourceLimitError,"MemoryAllocationFailed",
           image->filename);
       black=pow(10.0,(reference_black-reference_white)*(gamma/density)*0.002*
-        PerceptibleReciprocal(film_gamma));
+        MagickSafeReciprocal(film_gamma));
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static)
 #endif
       for (i=0; i <= (ssize_t) MaxMap; i++)
         logmap[i]=ScaleMapToQuantum(((double) MaxMap*(reference_white+
           log10(black+(1.0*i/MaxMap)*(1.0-black))/((gamma/density)*0.002*
-          PerceptibleReciprocal(film_gamma)))/1024.0));
+          MagickSafeReciprocal(film_gamma)))/MaximumLogarithmicColorspace));
       image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
       #pragma omp parallel for schedule(static) shared(status) \
@@ -2411,7 +2416,7 @@ static MagickBooleanType TransformsRGBImage(Image *image,
       gamma=DisplayGamma;
       value=GetImageProperty(image,"gamma",exception);
       if (value != (const char *) NULL)
-        gamma=PerceptibleReciprocal(StringToDouble(value,(char **) NULL));
+        gamma=MagickSafeReciprocal(StringToDouble(value,(char **) NULL));
       film_gamma=FilmGamma;
       value=GetImageProperty(image,"film-gamma",exception);
       if (value != (const char *) NULL)
@@ -2420,25 +2425,31 @@ static MagickBooleanType TransformsRGBImage(Image *image,
       value=GetImageProperty(image,"reference-black",exception);
       if (value != (const char *) NULL)
         reference_black=StringToDouble(value,(char **) NULL);
+      if (reference_black > MaximumLogarithmicColorspace)
+        reference_black=MaximumLogarithmicColorspace;
       reference_white=ReferenceWhite;
       value=GetImageProperty(image,"reference-white",exception);
       if (value != (const char *) NULL)
         reference_white=StringToDouble(value,(char **) NULL);
+      if (reference_white > MaximumLogarithmicColorspace)
+        reference_white=MaximumLogarithmicColorspace;
+      if (reference_black > reference_white)
+        reference_black=reference_white;
       logmap=(Quantum *) AcquireQuantumMemory((size_t) MaxMap+1UL,
         sizeof(*logmap));
       if (logmap == (Quantum *) NULL)
         ThrowBinaryException(ResourceLimitError,"MemoryAllocationFailed",
           image->filename);
       black=pow(10.0,(reference_black-reference_white)*(gamma/density)*0.002*
-        PerceptibleReciprocal(film_gamma));
-      for (i=0; i <= (ssize_t) (reference_black*MaxMap/1024.0); i++)
+        MagickSafeReciprocal(film_gamma));
+      for (i=0; i <= (ssize_t) (reference_black*MaxMap/MaximumLogarithmicColorspace); i++)
         logmap[i]=(Quantum) 0;
-      for ( ; i < (ssize_t) (reference_white*MaxMap/1024.0); i++)
+      for ( ; i < (ssize_t) (reference_white*MaxMap/MaximumLogarithmicColorspace); i++)
         logmap[i]=ClampToQuantum((double) QuantumRange/(1.0-black)*
-          (pow(10.0,(1024.0*i/MaxMap-reference_white)*(gamma/density)*0.002*
-          PerceptibleReciprocal(film_gamma))-black));
+          (pow(10.0,(MaximumLogarithmicColorspace*i/MaxMap-reference_white)*
+          (gamma/density)*0.002*MagickSafeReciprocal(film_gamma))-black));
       for ( ; i <= (ssize_t) MaxMap; i++)
-        logmap[i]=(double) QuantumRange;
+        logmap[i]=QuantumRange;
       if (image->storage_class == PseudoClass)
         {
           if (SyncImage(image,exception) == MagickFalse)
@@ -2787,12 +2798,12 @@ static MagickBooleanType TransformsRGBImage(Image *image,
           pixel.blue=x_map[red].z+y_map[green].z+z_map[blue].z;
           if (image->colorspace == YCCColorspace)
             {
-              pixel.red=(double) QuantumRange*(double)
-                YCCMap[RoundToYCC(1024.0*pixel.red/(double) MaxMap)];
-              pixel.green=(double) QuantumRange*(double)
-                YCCMap[RoundToYCC(1024.0*pixel.green/(double) MaxMap)];
-              pixel.blue=(double) QuantumRange*(double)
-                YCCMap[RoundToYCC(1024.0*pixel.blue/(double) MaxMap)];
+              pixel.red=(double) QuantumRange*(double) YCCMap[RoundToYCC(
+                MaximumLogarithmicColorspace*pixel.red/(double) MaxMap)];
+              pixel.green=(double) QuantumRange*(double) YCCMap[RoundToYCC(
+                MaximumLogarithmicColorspace*pixel.green/(double) MaxMap)];
+              pixel.blue=(double) QuantumRange*(double) YCCMap[RoundToYCC(
+                MaximumLogarithmicColorspace*pixel.blue/(double) MaxMap)];
             }
           else
             {
@@ -2853,12 +2864,12 @@ static MagickBooleanType TransformsRGBImage(Image *image,
         pixel.blue=x_map[red].z+y_map[green].z+z_map[blue].z;
         if (image->colorspace == YCCColorspace)
           {
-            pixel.red=(double) QuantumRange*(double) YCCMap[RoundToYCC(1024.0*
-              pixel.red/(double) MaxMap)];
-            pixel.green=(double) QuantumRange*(double) YCCMap[RoundToYCC(1024.0*
-              pixel.green/(double) MaxMap)];
-            pixel.blue=(double) QuantumRange*(double) YCCMap[RoundToYCC(1024.0*
-              pixel.blue/(double) MaxMap)];
+            pixel.red=(double) QuantumRange*(double) YCCMap[RoundToYCC(
+              MaximumLogarithmicColorspace*pixel.red/(double) MaxMap)];
+            pixel.green=(double) QuantumRange*(double) YCCMap[RoundToYCC(
+              MaximumLogarithmicColorspace*pixel.green/(double) MaxMap)];
+            pixel.blue=(double) QuantumRange*(double) YCCMap[RoundToYCC(
+              MaximumLogarithmicColorspace*pixel.blue/(double) MaxMap)];
           }
         else
           {

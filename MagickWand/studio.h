@@ -18,11 +18,7 @@
 #ifndef MAGICKWAND_STUDIO_H
 #define MAGICKWAND_STUDIO_H
 
-#if defined(__cplusplus) || defined(c_plusplus)
-extern "C" {
-#endif
-
-#if defined(WIN32) || defined(WIN64)
+#if defined(WIN32) || defined(WIN64) || defined(_WIN32_WINNT)
 #  define MAGICKWAND_WINDOWS_SUPPORT
 #else
 #  define MAGICKWAND_POSIX_SUPPORT
@@ -45,6 +41,15 @@ extern "C" {
 # if defined(__cplusplus) || defined(c_plusplus)
 #  undef inline
 # endif
+#endif
+
+#if defined(_OPENMP) && ((_OPENMP >= 200203) || defined(__OPENCC__))
+#  include <omp.h>
+#  define MAGICKCORE_OPENMP_SUPPORT  1
+#endif
+
+#if defined(__cplusplus) || defined(c_plusplus)
+extern "C" {
 #endif
 
 #if !defined(const)
@@ -135,11 +140,6 @@ extern "C" {
 #endif
 #if defined(MAGICKCORE_HAVE_OPENCL_CL_H)
 #  define MAGICKCORE_OPENCL_SUPPORT  1
-#endif
-
-#if defined(_OPENMP) && ((_OPENMP >= 200203) || defined(__OPENCC__))
-#  include <omp.h>
-#  define MAGICKCORE_OPENMP_SUPPORT  1
 #endif
 
 #if defined(MAGICKCORE_HAVE_PREAD) && defined(MAGICKCORE_HAVE_DECL_PREAD) && !MAGICKCORE_HAVE_DECL_PREAD

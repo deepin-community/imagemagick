@@ -579,6 +579,7 @@ libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-$
  IsPathAccessible@Base 8:7.1.1.21
  IsRightsAuthorized@Base 8:7.1.1.21
  IsSceneGeometry@Base 8:7.1.1.21
+ IsSourceDataEpochSet@Base 8:7.1.2.1
  IsStringFalse@Base 8:7.1.1.21
  IsStringTrue@Base 8:7.1.1.21
  IsTaintImage@Base 8:7.1.1.21

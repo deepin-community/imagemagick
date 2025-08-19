@@ -140,7 +140,7 @@ MagickExport Image *AcquireImage(const ImageInfo *image_info,
   Image
     *image;
 
-  int
+  MagickSizeType
     time_limit;
 
   MagickStatusType
@@ -187,9 +187,9 @@ MagickExport Image *AcquireImage(const ImageInfo *image_info,
   image->channel_map=AcquirePixelChannelMap();
   image->blob=CloneBlobInfo((BlobInfo *) NULL);
   image->timestamp=GetMagickTime();
-  time_limit=(int) GetMagickResourceLimit(TimeResource);
-  if (time_limit > 0)
-    image->ttl=image->timestamp+time_limit;
+  time_limit=GetMagickResourceLimit(TimeResource);
+  if (time_limit != MagickResourceInfinity)
+    image->ttl=image->timestamp+(time_t) time_limit;
   image->debug=(GetLogEventMask() & (ImageEvent | TransformEvent | CoderEvent))
     != 0 ? MagickTrue : MagickFalse;
   image->reference_count=1;
@@ -286,21 +286,19 @@ MagickExport Image *AcquireImage(const ImageInfo *image_info,
       if ((flags & GreaterValue) != 0)
         {
           if ((double) image->delay > floor(geometry_info.rho+0.5))
-            image->delay=(size_t) CastDoubleToLong(floor(
-              geometry_info.rho+0.5));
+            image->delay=(size_t) CastDoubleToSsizeT(floor(geometry_info.rho+0.5));
         }
       else
         if ((flags & LessValue) != 0)
           {
             if ((double) image->delay < floor(geometry_info.rho+0.5))
-              image->ticks_per_second=CastDoubleToLong(floor(
+              image->ticks_per_second=CastDoubleToSsizeT(floor(
                 geometry_info.sigma+0.5));
           }
         else
-          image->delay=(size_t) CastDoubleToLong(floor(geometry_info.rho+0.5));
+          image->delay=(size_t) CastDoubleToSsizeT(floor(geometry_info.rho+0.5));
       if ((flags & SigmaValue) != 0)
-        image->ticks_per_second=CastDoubleToLong(floor(
-          geometry_info.sigma+0.5));
+        image->ticks_per_second=CastDoubleToSsizeT(floor(geometry_info.sigma+0.5));
     }
   option=GetImageOption(image_info,"dispose");
   if (option != (const char *) NULL)
@@ -899,17 +897,17 @@ MagickExport Image *CloneImage(const Image *image,const size_t columns,
     scale_x=(double) columns/(double) image->columns;
   if (image->rows != 0)
     scale_y=(double) rows/(double) image->rows;
-  clone_image->page.width=(size_t) CastDoubleToLong(floor(scale_x*
+  clone_image->page.width=(size_t) CastDoubleToSsizeT(floor(scale_x*
     image->page.width+0.5));
-  clone_image->page.height=(size_t) CastDoubleToLong(floor(scale_y*
+  clone_image->page.height=(size_t) CastDoubleToSsizeT(floor(scale_y*
     image->page.height+0.5));
   if (MagickAbsoluteValue(scale_x-scale_y) < 2.0)
     scale_x=scale_y=MagickMin(scale_x,scale_y);
-  clone_image->page.x=CastDoubleToLong(ceil(scale_x*image->page.x-0.5));
-  clone_image->tile_offset.x=CastDoubleToLong(ceil(scale_x*
+  clone_image->page.x=CastDoubleToSsizeT(ceil(scale_x*image->page.x-0.5));
+  clone_image->tile_offset.x=CastDoubleToSsizeT(ceil(scale_x*
     image->tile_offset.x-0.5));
-  clone_image->page.y=CastDoubleToLong(ceil(scale_y*image->page.y-0.5));
-  clone_image->tile_offset.y=CastDoubleToLong(ceil(scale_y*
+  clone_image->page.y=CastDoubleToSsizeT(ceil(scale_y*image->page.y-0.5));
+  clone_image->tile_offset.y=CastDoubleToSsizeT(ceil(scale_y*
     image->tile_offset.y-0.5));
   clone_image->cache=ClonePixelCache(image->cache);
   if (SetImageExtent(clone_image,columns,rows,exception) == MagickFalse)
@@ -1653,128 +1651,116 @@ MagickExport size_t InterpretImageFilename(const ImageInfo *image_info,
   ExceptionInfo *exception)
 {
   char
-    *q;
+    *p = filename,
+    pattern[MagickPathExtent];
 
   const char
-    *p;
+    *cursor = format;
 
-  int
-    c;
-
-  MagickBooleanType
-    canonical;
-
-  ssize_t
-    field_width,
-    offset;
-
-  canonical=MagickFalse;
-  offset=0;
+  /*
+    Start with a copy of the format string.
+  */
+  assert(format != (const char *) NULL);
+  assert(filename != (char *) NULL);
   (void) CopyMagickString(filename,format,MagickPathExtent);
   if (IsStringTrue(GetImageOption(image_info,"filename:literal")) != MagickFalse)
     return(strlen(filename));
-  for (p=strchr(format,'%'); p != (char *) NULL; p=strchr(p+1,'%'))
+  while ((cursor=strchr(cursor,'%')) != (const char *) NULL)
   {
-    q=(char *) p+1;
-    if (*q == '%')
+    const char
+      *q = cursor;
+
+    ssize_t
+      offset = (ssize_t) (cursor-format);
+
+    cursor++;  /* move past '%' */
+    if (*cursor == '%')
       {
-        p=q+1;
+        /*
+          Escaped %%.
+        */
+        cursor++;
         continue;
       }
-    field_width=0;
-    if (*q == '0')
-      field_width=(ssize_t) strtol(q,&q,10);
-    switch (*q)
+    /*
+      Skip padding digits like %03d.
+    */
+    if (isdigit((int) ((unsigned char) *cursor)) != 0)
+      (void) strtol(cursor,(char **) &cursor,10);
+    switch (*cursor)
     {
       case 'd':
       case 'o':
       case 'x':
       {
-        q++;
-        c=(*q);
-        *q='\0';
-        (void) FormatLocaleString(filename+(p-format-offset),(size_t)
-          (MagickPathExtent-(p-format-offset)),p,value);
-        offset+=(4-field_width);
-        *q=c;
-        (void) ConcatenateMagickString(filename,q,MagickPathExtent);
-        canonical=MagickTrue;
-        if (*(q-1) != '%')
-          break;
-        p++;
+        ssize_t
+          count;
+
+        count=FormatLocaleString(pattern,sizeof(pattern),q,value);
+        if ((count <= 0) || (count >= MagickPathExtent) ||
+            ((offset+count) >= MagickPathExtent))
+          return(0);
+        (void) CopyMagickString(p+offset,pattern,(size_t) (MagickPathExtent-
+          offset));
+        cursor++;
         break;
       }
       case '[':
       {
-        char
-          pattern[MagickPathExtent];
-
         const char
-          *option;
+          *end = strchr(cursor,']'),
+          *option = (const char *) NULL;
 
-        char
-          *r;
-
-        ssize_t
-          i;
-
-        ssize_t
-          depth;
+        size_t
+          extent = (size_t) (end-cursor-1),
+          option_length,
+          tail_length;
 
         /*
-          Image option.
+          Handle %[key:value];
         */
-        if (strchr(p,']') == (char *) NULL)
+        if (end == (const char *) NULL)
           break;
-        depth=1;
-        r=q+1;
-        for (i=0; (i < (MagickPathExtent-1L)) && (*r != '\0'); i++)
-        {
-          if (*r == '[')
-            depth++;
-          if (*r == ']')
-            depth--;
-          if (depth <= 0)
-            break;
-          pattern[i]=(*r++);
-        }
-        pattern[i]='\0';
-        if (LocaleNCompare(pattern,"filename:",9) != 0)
+        if (extent >= sizeof(pattern))
           break;
-        option=(const char *) NULL;
+        (void) CopyMagickString(pattern,cursor+1,extent+1);
+        pattern[extent]='\0';
         if (image != (Image *) NULL)
-          option=GetImageProperty(image,pattern,exception);
-        if ((option == (const char *) NULL) && (image != (Image *) NULL))
-          option=GetImageArtifact(image,pattern);
-        if ((option == (const char *) NULL) &&
+          {
+            option=GetImageProperty(image,pattern,exception);
+            if (option == (const char *) NULL)
+              option=GetImageArtifact(image,pattern);
+          }
+        if ((option == (const char *) NULL) && 
             (image_info != (ImageInfo *) NULL))
           option=GetImageOption(image_info,pattern);
         if (option == (const char *) NULL)
           break;
-        q--;
-        c=(*q);
-        *q='\0';
-        (void) CopyMagickString(filename+(p-format-offset),option,(size_t)
-          (MagickPathExtent-(p-format-offset)));
-        offset+=(ssize_t) strlen(pattern)-(ssize_t) strlen(option)+3;
-        *q=c;
-        (void) ConcatenateMagickString(filename,r+1,MagickPathExtent);
-        canonical=MagickTrue;
-        if (*(q-1) != '%')
-          break;
-        p++;
+        option_length=strlen(option);
+        tail_length=strlen(end+1);
+        if ((offset+option_length+tail_length+1) > MagickPathExtent)
+          return(0);
+        (void) CopyMagickString(p+offset,option,(size_t) (MagickPathExtent-
+          offset));
+        (void) ConcatenateMagickString(p+offset+option_length,end+1,(size_t) (
+          MagickPathExtent-offset-option_length-tail_length-1));
+        cursor=end+1;
         break;
       }
       default:
         break;
     }
   }
-  if (canonical == MagickFalse)
-    (void) CopyMagickString(filename,format,MagickPathExtent);
-  else
-    for (q=filename; *q != '\0'; q++)
-      if ((*q == '%') && (*(q+1) == '%'))
-        (void) CopyMagickString(q,q+1,(size_t) (MagickPathExtent-(q-filename)));
+  for (p=filename; *p != '\0'; )
+  {
+    /*
+      Replace "%%" with "%".
+    */
+    if ((*p == '%') && (*(p+1) == '%'))
+      (void) memmove(p,p+1,strlen(p+1)+1);  /* shift left */
+    else
+      p++;
+  }
   return(strlen(filename));
 }
 

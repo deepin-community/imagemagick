@@ -8,10 +8,10 @@ Forwarded: https://github.com/ImageMagick/ImageMagick/issues/6850
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/coders/Makefile.am b/coders/Makefile.am
-index 179a94f..f5e84ee 100644
+index f98310d..9ff5d7a 100644
 --- a/coders/Makefile.am
 +++ b/coders/Makefile.am
-@@ -709,7 +709,7 @@ coders_art_la_LIBADD       = $(MAGICKCORE_LIBS)
+@@ -713,7 +713,7 @@ coders_art_la_LIBADD       = $(MAGICKCORE_LIBS)
  coders_ashlar_la_SOURCES   = coders/ashlar.c
  coders_ashlar_la_CPPFLAGS  = $(MAGICK_CODER_CPPFLAGS)
  coders_ashlar_la_LDFLAGS   = $(MODULECOMMONFLAGS)
@@ -20,7 +20,7 @@ index 179a94f..f5e84ee 100644
  
  # AVS coder module
  coders_avs_la_SOURCES      = coders/avs.c
-@@ -787,7 +787,7 @@ coders_cmyk_la_LIBADD      = $(MAGICKCORE_LIBS)
+@@ -791,7 +791,7 @@ coders_cmyk_la_LIBADD      = $(MAGICKCORE_LIBS)
  coders_cube_la_SOURCES     = coders/cube.c
  coders_cube_la_CPPFLAGS    = $(MAGICK_CODER_CPPFLAGS)
  coders_cube_la_LDFLAGS     = $(MODULECOMMONFLAGS)
@@ -29,7 +29,7 @@ index 179a94f..f5e84ee 100644
  
  # CUT coder module
  coders_cut_la_SOURCES      = coders/cut.c
-@@ -805,7 +805,7 @@ coders_dcm_la_LIBADD       = $(MAGICKCORE_LIBS) $(MATH_LIBS)
+@@ -809,7 +809,7 @@ coders_dcm_la_LIBADD       = $(MAGICKCORE_LIBS) $(MATH_LIBS)
  coders_dds_la_SOURCES      = coders/dds.c
  coders_dds_la_CPPFLAGS     = $(MAGICK_CODER_CPPFLAGS)
  coders_dds_la_LDFLAGS      = $(MODULECOMMONFLAGS)
@@ -38,7 +38,7 @@ index 179a94f..f5e84ee 100644
  
  # DEBUG coder module
  coders_debug_la_SOURCES    = coders/debug.c
-@@ -1021,7 +1021,7 @@ coders_jnx_la_LIBADD       = $(MAGICKCORE_LIBS)
+@@ -1025,7 +1025,7 @@ coders_jnx_la_LIBADD       = $(MAGICKCORE_LIBS)
  coders_json_la_SOURCES     = coders/json.c
  coders_json_la_CPPFLAGS    = $(MAGICK_CODER_CPPFLAGS)
  coders_json_la_LDFLAGS     = $(MODULECOMMONFLAGS)
@@ -47,7 +47,7 @@ index 179a94f..f5e84ee 100644
  
  # JXL coder module
  coders_jxl_la_SOURCES      = coders/jxl.c
-@@ -1255,7 +1255,7 @@ coders_ps3_la_LIBADD       = $(MAGICKCORE_LIBS) $(JBIG_LIBS) $(JPEG_LIBS) $(LZMA
+@@ -1259,7 +1259,7 @@ coders_ps3_la_LIBADD       = $(MAGICKCORE_LIBS) $(JBIG_LIBS) $(JPEG_LIBS) $(LZMA
  coders_psd_la_SOURCES      = coders/psd.c coders/psd-private.h
  coders_psd_la_CPPFLAGS     = $(MAGICK_CODER_CPPFLAGS)
  coders_psd_la_LDFLAGS      = $(MODULECOMMONFLAGS)
@@ -56,7 +56,7 @@ index 179a94f..f5e84ee 100644
  
  # PWP coder module
  coders_pwp_la_SOURCES      = coders/pwp.c
-@@ -1528,7 +1528,7 @@ coders_xwd_la_LIBADD       = $(MAGICKCORE_LIBS) $(X11_LIBS)
+@@ -1538,7 +1538,7 @@ coders_xwd_la_LIBADD       = $(MAGICKCORE_LIBS) $(X11_LIBS)
  coders_yaml_la_SOURCES     = coders/yaml.c
  coders_yaml_la_CPPFLAGS    = $(MAGICK_CODER_CPPFLAGS)
  coders_yaml_la_LDFLAGS     = $(MODULECOMMONFLAGS)

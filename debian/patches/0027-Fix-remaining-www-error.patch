@@ -12,7 +12,7 @@ Forwarded: not-needed
  5 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/www/connected-components.html b/www/connected-components.html
-index 51ba91c..4218b70 100644
+index 42f4681..688da2a 100644
 --- a/www/connected-components.html
 +++ b/www/connected-components.html
 @@ -154,7 +154,7 @@
@@ -25,7 +25,7 @@ index 51ba91c..4218b70 100644
  <p>You might want to eliminate small objects by merging them with their larger neighbors.  If so, use this command:</p>
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary cli"><samp>magick objects.gif -define connected-components:area-threshold=410 -connected-components 4 \
 diff --git a/www/escape.html b/www/escape.html
-index e4e9bb2..df6253e 100644
+index 51487e6..51850e9 100644
 --- a/www/escape.html
 +++ b/www/escape.html
 @@ -490,7 +490,7 @@ when enclosed in braces (long form):</p>
@@ -47,7 +47,7 @@ index e4e9bb2..df6253e 100644
    <tr>
      <td>%[opaque]</td>
 diff --git a/www/opencl.html b/www/opencl.html
-index 04a542f..c0a3676 100644
+index dd0a9b4..bfc394a 100644
 --- a/www/opencl.html
 +++ b/www/opencl.html
 @@ -169,7 +169,7 @@
@@ -60,7 +60,7 @@ index 04a542f..c0a3676 100644
  <p>In addition to the environment variables mentioned above, ImageMagick provides a set of APIs that allow developers to gain more fine-grained control of the OpenCL acceleration. For example, use the <samp>InitializeOpenCL()</samp> function to initialize the OpenCL environment:</p>
  
 diff --git a/www/sitemap.html b/www/sitemap.html
-index 7285f59..1765237 100644
+index ee1e8aa..5d5f378 100644
 --- a/www/sitemap.html
 +++ b/www/sitemap.html
 @@ -136,7 +136,7 @@
@@ -73,7 +73,7 @@ index 7285f59..1765237 100644
  <h2><a class="anchor" id="overview"></a>Overview</h2>
  
 diff --git a/www/support.html b/www/support.html
-index 3d5a3f4..1f053b4 100644
+index 8370015..566f761 100644
 --- a/www/support.html
 +++ b/www/support.html
 @@ -145,7 +145,7 @@

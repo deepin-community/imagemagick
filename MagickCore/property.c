@@ -131,6 +131,21 @@
 %    o clone_image: the clone image.
 %
 */
+
+typedef char
+  *(*CloneKeyFunc)(const char *),
+  *(*CloneValueFunc)(const char *);
+
+static inline void *ClonePropertyKey(void *key)
+{
+  return((void *) ((CloneKeyFunc) ConstantString)((const char *) key));
+}
+
+static inline void *ClonePropertyValue(void *value)
+{
+  return((void *) ((CloneValueFunc) ConstantString)((const char *) value));
+}
+
 MagickExport MagickBooleanType CloneImageProperties(Image *image,
   const Image *clone_image)
 {
@@ -195,8 +210,7 @@ MagickExport MagickBooleanType CloneImageProperties(Image *image,
       if (image->properties != (void *) NULL)
         DestroyImageProperties(image);
       image->properties=CloneSplayTree((SplayTreeInfo *)
-        clone_image->properties,(void *(*)(void *)) ConstantString,
-        (void *(*)(void *)) ConstantString);
+        clone_image->properties,ClonePropertyKey,ClonePropertyValue);
     }
   return(MagickTrue);
 }
@@ -446,7 +460,7 @@ static void GetIPTCProperty(const Image *image,const char *key,
     profile=GetImageProfile(image,"8bim");
   if (profile == (StringInfo *) NULL)
     return;
-  count=sscanf(key,"IPTC:%ld:%ld",&dataset,&record);
+  count=MagickSscanf(key,"IPTC:%ld:%ld",&dataset,&record);
   if (count != 2)
     return;
   attribute=(char *) NULL;
@@ -613,8 +627,8 @@ static void Get8BIMProperty(const Image *image,const char *key,
   profile=GetImageProfile(image,"8bim");
   if (profile == (StringInfo *) NULL)
     return;
-  count=(ssize_t) sscanf(key,"8BIM:%ld,%ld:%1024[^\n]\n%1024[^\n]",&start,&stop,
-    name,format);
+  count=(ssize_t) MagickSscanf(key,"8BIM:%ld,%ld:%1024[^\n]\n%1024[^\n]",
+    &start,&stop,name,format);
   if ((count != 2) && (count != 3) && (count != 4))
     return;
   if (count < 4)
@@ -3371,7 +3385,7 @@ MagickExport const char *GetMagickProperty(ImageInfo *image_info,
         {
           WarnNoImageReturn("\"%%[%s]\"",property);
           (void) FormatLocaleString(value,MagickPathExtent,"%.*g",
-            GetMagickPrecision(),(double) PerceptibleReciprocal(
+            GetMagickPrecision(),(double) MagickSafeReciprocal(
               image->resolution.x)*image->columns);
           break;
         }
@@ -3379,7 +3393,7 @@ MagickExport const char *GetMagickProperty(ImageInfo *image_info,
         {
           WarnNoImageReturn("\"%%[%s]\"",property);
           (void) FormatLocaleString(value,MagickPathExtent,"%.*g",
-            GetMagickPrecision(),(double) PerceptibleReciprocal(
+            GetMagickPrecision(),(double) MagickSafeReciprocal(
               image->resolution.y)*image->rows);
           break;
         }
@@ -4505,13 +4519,13 @@ MagickExport MagickBooleanType SetImageProperty(Image *image,
             if ((flags & LessValue) != 0)
               {
                 if ((double) image->delay < floor(geometry_info.rho+0.5))
-                  image->delay=(size_t) CastDoubleToLong(
-                    floor(geometry_info.sigma+0.5));
+                  image->delay=(size_t) CastDoubleToSsizeT(floor(
+                    geometry_info.sigma+0.5));
               }
             else
               image->delay=(size_t) floor(geometry_info.rho+0.5);
           if ((flags & SigmaValue) != 0)
-            image->ticks_per_second=CastDoubleToLong(floor(
+            image->ticks_per_second=CastDoubleToSsizeT(floor(
               geometry_info.sigma+0.5));
           return(MagickTrue);
         }

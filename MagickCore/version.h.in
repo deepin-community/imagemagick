@@ -39,7 +39,7 @@ extern "C" {
 #define MagickppLibAddendum  "@PACKAGE_VERSION_ADDENDUM@"
 #define MagickppLibInterface  @MAGICKPP_LIBRARY_CURRENT@
 #define MagickppLibMinInterface  @MAGICKPP_LIBRARY_CURRENT_MIN@
-#define MagickGitRevision  "22763"
+#define MagickGitRevision  "23308"
 #define MagickReleaseDate  "@PACKAGE_RELEASE_DATE@"
 #define MagickAuthoritativeLicense  \
   "https://imagemagick.org/script/license.php"

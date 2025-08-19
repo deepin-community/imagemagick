@@ -17,7 +17,7 @@ export PPSOVERSION ?= 5
 export COMMONMINVERSION ?= 8:7.0.0~
 
 # poc arch for test empty means no test
-POC_ARCH ?= any-i386 any-amd64 sw_64
+POC_ARCH ?= any-i386 any-amd64
 VALGRIND_POC_ARCH ?=
 
 # for hardening
@@ -898,6 +898,7 @@ override_dh_clean: $(foreach Q,$(QUANTUMDEPTH),override_dh_clean_quantum.$Q) ove
 #########################
 
 maint-html-is-sane:
-	find $(CURDIR) \
-		-maxdepth 3 -type f -and -name '*.html' -and -not -empty -print0 \
+	find $(CURDIR) -maxdepth 3 \
+		\( -path ./.pc -o -path ./.git \) -prune -and \
+		-type f -and -name '*.html' -and -not -empty -print0 \
 		| xargs -r -0 -t xmllint --noout --nonet

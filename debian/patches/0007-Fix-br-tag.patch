@@ -10,7 +10,7 @@ Forwarded: Yes, https://github.com/ImageMagick/ImageMagick/issues/304
  1 file changed, 134 insertions(+), 134 deletions(-)
 
 diff --git a/www/api/Image++.html b/www/api/Image++.html
-index b3ad18c..40349ce 100644
+index 0f7a037..817bb32 100644
 --- a/www/api/Image++.html
 +++ b/www/api/Image++.html
 @@ -240,7 +240,7 @@ has been placed within a Blob, it may be read into a Magick++ Image via

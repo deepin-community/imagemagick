@@ -2470,7 +2470,9 @@ if test "$with_jpeg" != 'no'; then
             AC_MSG_RESULT([no -- some components failed test])
             have_jpeg='no (failed tests)'
         else
-            JPEG_LIBS='-ljpeg'
+            if test -z "$JPEG_LIBS"; then
+              JPEG_LIBS='-ljpeg'
+            fi
             LIBS="$JPEG_LIBS $LIBS"
             AC_DEFINE([JPEG_DELEGATE],[1],[Define if you have JPEG library])
             AC_MSG_RESULT([yes])
@@ -2509,6 +2511,7 @@ fi
 
 if test "$have_jxl" = 'yes'; then
   AC_DEFINE([JXL_DELEGATE],[1],[Define if you have jpeg-xl library])
+  CFLAGS="$JXL_CFLAGS $CFLAGS"
 fi
 
 AM_CONDITIONAL([JXL_DELEGATE],[test "$have_jxl" = 'yes'])
@@ -3084,7 +3087,7 @@ dnl ===========================================================================
 
 # Check for functions
 #
-AC_CHECK_FUNCS([acosh _aligned_malloc aligned_malloc asinh atanh atoll atexit cabs carg cimag creal clock clock_getres clock_gettime ctime_r directio erf _exit execvp fchmod floor fork ftime ftruncate getc_unlocked getcwd getentropy getexecname getdtablesize getpagesize getpid getpwnam_r getrlimit getrusage gettimeofday gmtime_r isnan j0 j1 lltostr localtime_r lstat memmove memset mkdir mkstemp mmap munmap nanosleep newlocale _NSGetExecutablePath pclose _pclose poll popen _popen posix_fadvise posix_fallocate posix_madvise posix_memalign posix_spawnp pow pread putenv pwrite qsort_r raise rand_r readlink realpath select seekdir sendfile setlocale socket sqrt setvbuf stat strcasestr strchr strrchr strcspn strdup strpbrk strspn strstr strtod strtod_l strtol strtoul symlink sysconf sigemptyset sigaction spawnvp strerror strlcat strlcpy strcasecmp strncasecmp system telldir tempnam times ulltostr uselocale usleep utime utimensat vfprintf vfprintf_l vsprintf vsnprintf vsnprintf_l waitpid _wfopen _wstat])
+AC_CHECK_FUNCS([acosh _aligned_malloc aligned_malloc asinh atanh atoll atexit cabs carg cimag creal clock clock_getres clock_gettime ctime_r directio erf _exit execvp fchmod floor fork ftime ftruncate getc_unlocked getcwd getentropy getexecname getdtablesize getloadavg getpagesize getpid getpwnam_r getrlimit getrusage gettimeofday gmtime_r isnan j0 j1 lltostr localtime_r lstat memmove memset mkdir mkstemp mmap munmap nanosleep newlocale _NSGetExecutablePath pclose _pclose poll popen _popen posix_fadvise posix_fallocate posix_madvise posix_memalign posix_spawnp pow pread putenv pwrite qsort_r raise rand_r readlink realpath select seekdir sendfile setlocale socket sqrt setvbuf stat strcasestr strchr strrchr strcspn strdup strpbrk strspn strstr strtod strtod_l strtol strtoul symlink sysconf sigemptyset sigaction spawnvp strerror strlcat strlcpy strcasecmp strncasecmp system telldir tempnam times ulltostr uselocale usleep utime utimensat vfprintf vfprintf_l vsprintf vsnprintf vsnprintf_l waitpid _wfopen _wstat])
 
 # Substitute compiler name to build/link PerlMagick
 #
@@ -3460,7 +3463,7 @@ else
       ghostscript_font_dir=`echo "${PSDelegate}" | sed -e 's:/gs/.*:/gs:;s:^/::;s/./&:/;s:/:\\\\:g'`"\\fonts\\"
     fi
   else
-    # Linux / Mac OS X / Unix Build
+    # Linux / macOS / Unix Build
     for font_dir in "${prefix}/share/ghostscript/fonts/" '/usr/share/fonts/default/Type1/' '/usr/share/ghostscript/fonts/' '/usr/share/fonts/ghostscript/' '/usr/share/fonts/type1/gsfonts/' '/opt/local/share/ghostscript/fonts/' '/sw/share/ghostscript/fonts/' '/System/Library/Frameworks/Ghostscript.framework/Resources/fonts/'; do
       if test -f "${font_dir}a010013l.pfb"; then
         ghostscript_font_dir="${font_dir}"

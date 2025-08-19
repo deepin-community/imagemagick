@@ -85,7 +85,7 @@ forwarded: not-needed
  78 files changed, 18 insertions(+), 85 deletions(-)
 
 diff --git a/index.html b/index.html
-index a1760c7..7275bea 100644
+index 6fa0189..88366a5 100644
 --- a/index.html
 +++ b/index.html
 @@ -317,7 +317,6 @@
@@ -97,7 +97,7 @@ index a1760c7..7275bea 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
-index 835f9b5..9211cb7 100644
+index d48e262..19a2bbf 100644
 --- a/www/advanced-linux-installation.html
 +++ b/www/advanced-linux-installation.html
 @@ -659,7 +659,6 @@ no encode delegate for this image format </samp></pre>
@@ -109,7 +109,7 @@ index 835f9b5..9211cb7 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
-index fa9f234..36ebc13 100644
+index 62754a8..80b1deb 100644
 --- a/www/advanced-unix-installation.html
 +++ b/www/advanced-unix-installation.html
 @@ -632,7 +632,7 @@ no encode delegate for this image format
@@ -122,7 +122,7 @@ index fa9f234..36ebc13 100644
    <footer class="magick-footer">
      <div class="container-fluid">
 diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
-index 4af6a1c..7592973 100644
+index 6b41f19..a7664ab 100644
 --- a/www/advanced-windows-installation.html
 +++ b/www/advanced-windows-installation.html
 @@ -181,7 +181,6 @@ program will start a Wizard that allows configuration of ImageMagick and its ind
@@ -134,7 +134,7 @@ index 4af6a1c..7592973 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/animate.html b/www/animate.html
-index f9bcd43..c87ea3f 100644
+index aa64f20..571c3c3 100644
 --- a/www/animate.html
 +++ b/www/animate.html
 @@ -590,7 +590,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -159,7 +159,7 @@ index d00f767..063d4f5 100644
    <footer class="magick-footer">
      <p><a href="security-policy.html">Security</a> •
 diff --git a/www/api/Image++.html b/www/api/Image++.html
-index 2201dd4..68d5214 100644
+index e56d329..65aee2b 100644
 --- a/www/api/Image++.html
 +++ b/www/api/Image++.html
 @@ -3216,6 +3216,7 @@ the region set by a preceding getPixels or getConstPixels call.</font></td>
@@ -171,7 +171,7 @@ index 2201dd4..68d5214 100644
    </main><!-- /.container -->
    <footer class="magick-footer">
 diff --git a/www/api/animate.html b/www/api/animate.html
-index c7e0c53..03346e9 100644
+index 794d6c6..0663d53 100644
 --- a/www/api/animate.html
 +++ b/www/api/animate.html
 @@ -145,6 +145,7 @@
@@ -189,7 +189,7 @@ index c7e0c53..03346e9 100644
 +</html>
 \ No newline at end of file
 diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
-index 961cb61..642c248 100644
+index 32e5fe6..587943c 100644
 --- a/www/api/magick++-classes.html
 +++ b/www/api/magick++-classes.html
 @@ -146,6 +146,7 @@ containers of image frames.</td>
@@ -201,7 +201,7 @@ index 961cb61..642c248 100644
    </main><!-- /.container -->
    <footer class="magick-footer">
 diff --git a/www/architecture.html b/www/architecture.html
-index 8bc4b54..1f9249c 100644
+index 87c8c5b..cd61e31 100644
 --- a/www/architecture.html
 +++ b/www/architecture.html
 @@ -1660,7 +1660,6 @@ Image: logo:
@@ -227,7 +227,7 @@ index 83401af..a66fcf0 100644
    <footer class="magick-footer">
      <p><a href="security-policy.html">Security</a> •
 diff --git a/www/changelog.html b/www/changelog.html
-index 7907bda..459ab02 100644
+index 04be4df..21e4bf2 100644
 --- a/www/changelog.html
 +++ b/www/changelog.html
 @@ -1762,7 +1762,9 @@
@@ -242,7 +242,7 @@ index 7907bda..459ab02 100644
    <footer class="magick-footer">
      <div class="container-fluid">
 diff --git a/www/cipher.html b/www/cipher.html
-index 48c3ccb..516c568 100644
+index e638a0d..d698616 100644
 --- a/www/cipher.html
 +++ b/www/cipher.html
 @@ -192,7 +192,6 @@ Examples <a href="https://usage.imagemagick.org/transform/#encipher#encipher"
@@ -254,7 +254,7 @@ index 48c3ccb..516c568 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/cite.html b/www/cite.html
-index ea6ca9f..2ff29cb 100644
+index c2c4f41..02e6fc3 100644
 --- a/www/cite.html
 +++ b/www/cite.html
 @@ -154,7 +154,6 @@
@@ -266,7 +266,7 @@ index ea6ca9f..2ff29cb 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/clahe.html b/www/clahe.html
-index f5af695..21361b4 100644
+index 252f746..d5804e9 100644
 --- a/www/clahe.html
 +++ b/www/clahe.html
 @@ -161,7 +161,6 @@
@@ -278,11 +278,11 @@ index f5af695..21361b4 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/color-management.html b/www/color-management.html
-index a843897..476472d 100644
+index c60756a..b0d844a 100644
 --- a/www/color-management.html
 +++ b/www/color-management.html
 @@ -191,7 +191,6 @@ magick myimage_channels_*.png -set colorspace HSL -combine -colorspace RGB -set
- <p>When specifying individual colors as <samp>rgb(...)</samp> or hex, these colors will still be interpreted as non-linear, that is, as sRGB colors. However if one wants to create linear colors, use <samp>icc-color(rgb,r,g,b)"</samp>, where <samp>r</samp>, <samp>g</samp>, and <samp>b</samp> are in the range 0 to 1. See the <a href="color.html" >Color</a> page.</p>
+ <p>When specifying individual colors as <samp>rgb(...)</samp> or hex, these colors will still be interpreted as non-linear, that is, as sRGB colors. However if one wants to create linear colors, use <samp>icc-color(rgb,r,g,b)"</samp>, where <samp>r</samp>, <samp>g</samp>, and <samp>b</samp> are in the range 0 to 1. See the <a href="../www/color.html" >Color</a> page.</p>
  
  </div>
 -  </div>
@@ -290,7 +290,7 @@ index a843897..476472d 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/color-thresholding.html b/www/color-thresholding.html
-index 9844b21..7da0ab2 100644
+index 554930e..005664c 100644
 --- a/www/color-thresholding.html
 +++ b/www/color-thresholding.html
 @@ -202,7 +202,6 @@ magick xc:"sRGB(205,100,45)" -colorspace gray txt:
@@ -302,7 +302,7 @@ index 9844b21..7da0ab2 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/color.html b/www/color.html
-index f4ad03b..68989de 100644
+index dc5ea38..fc97d40 100644
 --- a/www/color.html
 +++ b/www/color.html
 @@ -5007,7 +5007,6 @@ device-cmyk(0.11, 0.48, 0.83, 0.00)</samp></pre>
@@ -314,10 +314,10 @@ index f4ad03b..68989de 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/command-line-options.html b/www/command-line-options.html
-index 36eec6d..b1e7c07 100644
+index 2d3883d..357a738 100644
 --- a/www/command-line-options.html
 +++ b/www/command-line-options.html
-@@ -8753,7 +8753,6 @@ grayscale values causing blended updates of the image the mask is attached to.
+@@ -8748,7 +8748,6 @@ grayscale values causing blended updates of the image the mask is attached to.
  but with strict boolean masking. </p>
  </div>
  </div>
@@ -326,10 +326,10 @@ index 36eec6d..b1e7c07 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/command-line-processing.html b/www/command-line-processing.html
-index ac1e360..6466a18 100644
+index 26f23c1..7d3e2f3 100644
 --- a/www/command-line-processing.html
 +++ b/www/command-line-processing.html
-@@ -705,7 +705,6 @@ image-2.jpg</pre>
+@@ -706,7 +706,6 @@ image-2.jpg</pre>
  
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary cli"><samp>magick -define stream:buffer-size=0 logo: gif:- | magick display gif:-</samp></pre>
  </div>
@@ -338,7 +338,7 @@ index ac1e360..6466a18 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/command-line-tools.html b/www/command-line-tools.html
-index aa048e7..53c7f90 100644
+index f0ebbc9..479e329 100644
 --- a/www/command-line-tools.html
 +++ b/www/command-line-tools.html
 @@ -161,7 +161,6 @@
@@ -350,7 +350,7 @@ index aa048e7..53c7f90 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/compare.html b/www/compare.html
-index 4a8bd93..b2290e6 100644
+index d7f47db..e3b37a2 100644
 --- a/www/compare.html
 +++ b/www/compare.html
 @@ -484,7 +484,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -362,7 +362,7 @@ index 4a8bd93..b2290e6 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/compose.html b/www/compose.html
-index c63d738..9ee1b25 100644
+index 75bed37..4b71125 100644
 --- a/www/compose.html
 +++ b/www/compose.html
 @@ -728,7 +728,6 @@ with a brief summary of what they do. For more details see the equivalent
@@ -374,7 +374,7 @@ index c63d738..9ee1b25 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/composite.html b/www/composite.html
-index 6e3896f4..74a7ddd 100644
+index 624788d..a7e2cab 100644
 --- a/www/composite.html
 +++ b/www/composite.html
 @@ -588,7 +588,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -386,7 +386,7 @@ index 6e3896f4..74a7ddd 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/conjure.html b/www/conjure.html
-index 0b220d3..e6b9a02 100644
+index c6a1712..33e2e74 100644
 --- a/www/conjure.html
 +++ b/www/conjure.html
 @@ -1193,7 +1193,6 @@ fill="color name", channel="All, Default, Alpha, Black, Blue, CMYK, Cyan, Gray,
@@ -398,7 +398,7 @@ index 0b220d3..e6b9a02 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/connected-components.html b/www/connected-components.html
-index 013e56e..51ba91c 100644
+index d9ace35..42f4681 100644
 --- a/www/connected-components.html
 +++ b/www/connected-components.html
 @@ -197,7 +197,6 @@
@@ -410,7 +410,7 @@ index 013e56e..51ba91c 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/contact.html b/www/contact.html
-index 38d4a59..ef42639 100644
+index 89060a1..257c117 100644
 --- a/www/contact.html
 +++ b/www/contact.html
 @@ -194,7 +194,6 @@
@@ -422,7 +422,7 @@ index 38d4a59..ef42639 100644
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
 diff --git a/www/convert.html b/www/convert.html
-index 9fad3f8..27c627c 100644
+index 8b0ada3..9dbad64 100644
 --- a/www/convert.html
 +++ b/www/convert.html
 @@ -1427,7 +1427,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -434,7 +434,7 @@ index 9fad3f8..27c627c 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/convex-hull.html b/www/convex-hull.html
-index b100172..829a60d 100644
+index d542724..13292f8 100644
 --- a/www/convex-hull.html
 +++ b/www/convex-hull.html
 @@ -193,7 +193,6 @@ magick [-fuzz <var>value</var>%] [-background <var>background-color</var>] -form
@@ -446,10 +446,10 @@ index b100172..829a60d 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/defines.html b/www/defines.html
-index 470fa37..806bbf8 100644
+index 16cf17f..4ce1eb1 100644
 --- a/www/defines.html
 +++ b/www/defines.html
-@@ -1876,7 +1876,6 @@ use:</p>
+@@ -1922,7 +1922,6 @@ use:</p>
  
  </div>
  </div>
@@ -458,7 +458,7 @@ index 470fa37..806bbf8 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/develop.html b/www/develop.html
-index d8c848e..cb50cad 100644
+index 4286be9..f09c0f6 100644
 --- a/www/develop.html
 +++ b/www/develop.html
 @@ -284,7 +284,6 @@ With a language interface, use ImageMagick to modify or create images dynamicall
@@ -470,7 +470,7 @@ index d8c848e..cb50cad 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/display.html b/www/display.html
-index df1f28f..e6e8af8 100644
+index 09e3bf7..7f6491d 100644
 --- a/www/display.html
 +++ b/www/display.html
 @@ -618,7 +618,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -482,7 +482,7 @@ index df1f28f..e6e8af8 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
-index 166ad0a..e6329e3 100644
+index 05f477d..e1b5c51 100644
 --- a/www/distribute-pixel-cache.html
 +++ b/www/distribute-pixel-cache.html
 @@ -149,7 +149,6 @@ magick -limit memory 1GiB -limit map 2GiB -limit disk 4GiB \
@@ -494,7 +494,7 @@ index 166ad0a..e6329e3 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/download.html b/www/download.html
-index d43207f..5111b56 100644
+index 59a2c0f..5f16802 100644
 --- a/www/download.html
 +++ b/www/download.html
 @@ -556,7 +556,6 @@ objShell.Exec("magick ""e:/myimages/image.png"" ""e:/myimages/image.jpg""")</sam
@@ -506,7 +506,7 @@ index d43207f..5111b56 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/escape.html b/www/escape.html
-index f9f7aa7..e4e9bb2 100644
+index f302b74..51487e6 100644
 --- a/www/escape.html
 +++ b/www/escape.html
 @@ -995,7 +995,6 @@ ObjectData Record
@@ -518,7 +518,7 @@ index f9f7aa7..e4e9bb2 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/examples.html b/www/examples.html
-index 362cd5c..0bab01d 100644
+index 33f61b0..688a081 100644
 --- a/www/examples.html
 +++ b/www/examples.html
 @@ -138,7 +138,6 @@
@@ -530,7 +530,7 @@ index 362cd5c..0bab01d 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/exception.html b/www/exception.html
-index 5d1a9f6..26922bb 100644
+index 111eb45..49608f9 100644
 --- a/www/exception.html
 +++ b/www/exception.html
 @@ -328,7 +328,6 @@
@@ -542,7 +542,7 @@ index 5d1a9f6..26922bb 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/export.html b/www/export.html
-index f2dbe12..6be542e 100644
+index d3dd01d..d642009 100644
 --- a/www/export.html
 +++ b/www/export.html
 @@ -138,7 +138,6 @@
@@ -554,10 +554,10 @@ index f2dbe12..6be542e 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/formats.html b/www/formats.html
-index 62cc507..5809eed 100644
+index edf95a2..161586a 100644
 --- a/www/formats.html
 +++ b/www/formats.html
-@@ -2218,7 +2218,6 @@ the supported image formats.</p>
+@@ -2225,7 +2225,6 @@ the supported image formats.</p>
  </table></div>
  
  </div>
@@ -566,7 +566,7 @@ index 62cc507..5809eed 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/fx.html b/www/fx.html
-index 135d278..65152e3 100644
+index 3de202a..a94e84b 100644
 --- a/www/fx.html
 +++ b/www/fx.html
 @@ -522,7 +522,6 @@ Red channel of NW corner of image #1 is 0.184582
@@ -578,7 +578,7 @@ index 135d278..65152e3 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/gradient.html b/www/gradient.html
-index 043fc0b..10ff11f 100644
+index cd58f2e..11d69c2 100644
 --- a/www/gradient.html
 +++ b/www/gradient.html
 @@ -289,7 +289,6 @@ magick -size 256x128 -define gradient:radii=128,64 radial-gradient:black-white r
@@ -590,7 +590,7 @@ index 043fc0b..10ff11f 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
-index 7f0cdad..25fbe48 100644
+index 51c1dba..60d6dc9 100644
 --- a/www/high-dynamic-range.html
 +++ b/www/high-dynamic-range.html
 @@ -170,7 +170,6 @@ Features: HDRI
@@ -602,7 +602,7 @@ index 7f0cdad..25fbe48 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/history.html b/www/history.html
-index b743344..f954d66 100644
+index 113cce0..8d7639f 100644
 --- a/www/history.html
 +++ b/www/history.html
 @@ -155,7 +155,6 @@
@@ -614,7 +614,7 @@ index b743344..f954d66 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/identify.html b/www/identify.html
-index 702fe3e..b05ddbe 100644
+index 9d006f2..6c83bcc 100644
 --- a/www/identify.html
 +++ b/www/identify.html
 @@ -496,7 +496,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -626,7 +626,7 @@ index 702fe3e..b05ddbe 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/import.html b/www/import.html
-index babfb6e..697799b 100644
+index 21f1fc8..4289238 100644
 --- a/www/import.html
 +++ b/www/import.html
 @@ -487,7 +487,6 @@
@@ -638,7 +638,7 @@ index babfb6e..697799b 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/index.html b/www/index.html
-index fa35225..6e5e525 100644
+index 4b74299..8e3e370 100644
 --- a/www/index.html
 +++ b/www/index.html
 @@ -313,10 +313,10 @@
@@ -666,10 +666,10 @@ index fa35225..6e5e525 100644
    <script src="assets/bootstrap.bundle.min.js" ></script>
    </body>
  </html>
--<!-- Magick Cache 1st March 2025 18:48 -->
+-<!-- Magick Cache 27th July 2025 10:00 -->
 \ No newline at end of file
 diff --git a/www/install-source.html b/www/install-source.html
-index 6dcc1cb..59662a8 100644
+index 8ab3a4c..de6f509 100644
 --- a/www/install-source.html
 +++ b/www/install-source.html
 @@ -229,7 +229,6 @@ magick logo: image.jpg</samp></pre>
@@ -681,7 +681,7 @@ index 6dcc1cb..59662a8 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/jp2.html b/www/jp2.html
-index 7b992f8..2ba3ce1 100644
+index e6dd84a..8637ed5 100644
 --- a/www/jp2.html
 +++ b/www/jp2.html
 @@ -208,7 +208,6 @@
@@ -693,7 +693,7 @@ index 7b992f8..2ba3ce1 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/license.html b/www/license.html
-index 7834ab4..287159b 100644
+index 6c220b7..f9a9b54 100644
 --- a/www/license.html
 +++ b/www/license.html
 @@ -259,7 +259,6 @@
@@ -705,7 +705,7 @@ index 7834ab4..287159b 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/links.html b/www/links.html
-index f3715db..a9fadbd 100644
+index 149b480..6bb6ae6 100644
 --- a/www/links.html
 +++ b/www/links.html
 @@ -218,7 +218,6 @@
@@ -717,7 +717,7 @@ index f3715db..a9fadbd 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/magick++.html b/www/magick++.html
-index c4638f6..67aff51 100644
+index 7e2ec72..686aca1 100644
 --- a/www/magick++.html
 +++ b/www/magick++.html
 @@ -239,7 +239,6 @@ int main(int argc,char **argv)
@@ -729,7 +729,7 @@ index c4638f6..67aff51 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/magick-cache.html b/www/magick-cache.html
-index 53d60e4..b4d385a 100644
+index 2753ebb..ccb854e 100644
 --- a/www/magick-cache.html
 +++ b/www/magick-cache.html
 @@ -8,8 +8,8 @@
@@ -752,7 +752,7 @@ index 53d60e4..b4d385a 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/magick-core.html b/www/magick-core.html
-index 122d44d..e1a5edd 100644
+index ed82f06..c2e7819 100644
 --- a/www/magick-core.html
 +++ b/www/magick-core.html
 @@ -391,7 +391,6 @@ int main(int argc,char **argv)
@@ -764,7 +764,7 @@ index 122d44d..e1a5edd 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/magick-script.html b/www/magick-script.html
-index 4467dda..4268119 100644
+index 1396099..6fb0fe2 100644
 --- a/www/magick-script.html
 +++ b/www/magick-script.html
 @@ -1343,7 +1343,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -776,7 +776,7 @@ index 4467dda..4268119 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
-index 41cdea5..d4571b1 100644
+index b27302f..cccb828 100644
 --- a/www/magick-vector-graphics.html
 +++ b/www/magick-vector-graphics.html
 @@ -942,7 +942,6 @@ round</samp></pre></td>
@@ -788,7 +788,7 @@ index 41cdea5..d4571b1 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/magick-wand.html b/www/magick-wand.html
-index bb5651c..5e33768 100644
+index 406bd2b..ebfcb17 100644
 --- a/www/magick-wand.html
 +++ b/www/magick-wand.html
 @@ -433,7 +433,6 @@ int main(int argc,char **argv)
@@ -800,7 +800,7 @@ index bb5651c..5e33768 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/magick.html b/www/magick.html
-index 1dc8437..9061cb8 100644
+index 1756621..23af7e7 100644
 --- a/www/magick.html
 +++ b/www/magick.html
 @@ -1407,7 +1407,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -812,7 +812,7 @@ index 1dc8437..9061cb8 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/miff.html b/www/miff.html
-index c23889a..dbc29fb 100644
+index b5c34a6..dabd6fc 100644
 --- a/www/miff.html
 +++ b/www/miff.html
 @@ -302,7 +302,6 @@ or fewer colors in the image, each byte of image data contains an index value. I
@@ -824,7 +824,7 @@ index c23889a..dbc29fb 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/mirror.html b/www/mirror.html
-index 8ac3e5d..dae3be5 100644
+index f7dd003..5013fa2 100644
 --- a/www/mirror.html
 +++ b/www/mirror.html
 @@ -165,7 +165,6 @@
@@ -836,7 +836,7 @@ index 8ac3e5d..dae3be5 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/mogrify.html b/www/mogrify.html
-index 9001c88..0f37f18 100644
+index adae3b1..e008314 100644
 --- a/www/mogrify.html
 +++ b/www/mogrify.html
 @@ -1409,7 +1409,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -848,7 +848,7 @@ index 9001c88..0f37f18 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/montage.html b/www/montage.html
-index 813b4fe..edf9796 100644
+index 315fabd..833d374 100644
 --- a/www/montage.html
 +++ b/www/montage.html
 @@ -714,7 +714,6 @@ transparent, extract, background, or shape the alpha channel</td>
@@ -860,7 +860,7 @@ index 813b4fe..edf9796 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/motion-picture.html b/www/motion-picture.html
-index 3b823dd..1906faa 100644
+index db2ac2d..37ddc57 100644
 --- a/www/motion-picture.html
 +++ b/www/motion-picture.html
 @@ -248,7 +248,6 @@ dpx:user.data
@@ -872,7 +872,7 @@ index 3b823dd..1906faa 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
-index aeb1856..12a9ef2 100644
+index ced2915..1182086 100644
 --- a/www/multispectral-imagery.html
 +++ b/www/multispectral-imagery.html
 @@ -146,7 +146,7 @@
@@ -893,7 +893,7 @@ index aeb1856..12a9ef2 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/news.html b/www/news.html
-index 8136e5c..bfe07a5 100644
+index 11327dd..ba0d9bc 100644
 --- a/www/news.html
 +++ b/www/news.html
 @@ -178,7 +178,6 @@
@@ -905,7 +905,7 @@ index 8136e5c..bfe07a5 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/opencl.html b/www/opencl.html
-index a8f246a..04a542f 100644
+index eba71fe..dd0a9b4 100644
 --- a/www/opencl.html
 +++ b/www/opencl.html
 @@ -179,7 +179,6 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
@@ -917,7 +917,7 @@ index a8f246a..04a542f 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/openmp.html b/www/openmp.html
-index 77bdddd..3aa7e1e 100644
+index 715d371..6e6ee43 100644
 --- a/www/openmp.html
 +++ b/www/openmp.html
 @@ -155,7 +155,6 @@ Performance[7]: 40i 4.274ips 0.857e 15.540u 0:02.340
@@ -929,7 +929,7 @@ index 77bdddd..3aa7e1e 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/perl-magick.html b/www/perl-magick.html
-index 8aa128c..e4491dd 100644
+index 79ce8c4..07bf6b0 100644
 --- a/www/perl-magick.html
 +++ b/www/perl-magick.html
 @@ -2698,7 +2698,6 @@ XServerWarning
@@ -941,7 +941,7 @@ index 8aa128c..e4491dd 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/porting.html b/www/porting.html
-index 49fc87f..e6212da 100644
+index 16889bf..7f88713 100644
 --- a/www/porting.html
 +++ b/www/porting.html
 @@ -716,7 +716,6 @@ example "+annotate", "+resize", "+clut", and "+draw" .</p>
@@ -953,7 +953,7 @@ index 49fc87f..e6212da 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/privacy-policy.html b/www/privacy-policy.html
-index 5721ac8..a9b1f18 100644
+index 1f3f820..c3e61e1 100644
 --- a/www/privacy-policy.html
 +++ b/www/privacy-policy.html
 @@ -137,7 +137,6 @@
@@ -965,7 +965,7 @@ index 5721ac8..a9b1f18 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/quantize.html b/www/quantize.html
-index fc258b7..9d9fe78 100644
+index b41e089..7ee0061 100644
 --- a/www/quantize.html
 +++ b/www/quantize.html
 @@ -254,7 +254,6 @@ while number of nodes with (n2 &gt; 0) &gt; required maximum number of colors
@@ -977,7 +977,7 @@ index fc258b7..9d9fe78 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/resources.html b/www/resources.html
-index 6fee268..ac0039b 100644
+index 85a6120..f636703 100644
 --- a/www/resources.html
 +++ b/www/resources.html
 @@ -428,7 +428,6 @@ $MAGICK_FONT_PATH</samp></pre>
@@ -989,7 +989,7 @@ index 6fee268..ac0039b 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/search.html b/www/search.html
-index 29a3ce1..694bf63 100644
+index 2e424b8..1816e8b 100644
 --- a/www/search.html
 +++ b/www/search.html
 @@ -124,15 +124,14 @@
@@ -1019,7 +1019,7 @@ index 29a3ce1..694bf63 100644
    <!-- Javascript assets -->
    <script src="assets/bootstrap.bundle.min.js" ></script>
 diff --git a/www/security-policy.html b/www/security-policy.html
-index 71c40da..2db3021 100644
+index f52657b..a2bccd3 100644
 --- a/www/security-policy.html
 +++ b/www/security-policy.html
 @@ -425,7 +425,6 @@ Path: [built-in]
@@ -1031,7 +1031,7 @@ index 71c40da..2db3021 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/sitemap.html b/www/sitemap.html
-index 7d62085..7285f59 100644
+index 677a3fb..ee1e8aa 100644
 --- a/www/sitemap.html
 +++ b/www/sitemap.html
 @@ -406,7 +406,6 @@
@@ -1043,7 +1043,7 @@ index 7d62085..7285f59 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/stream.html b/www/stream.html
-index 9f5fb34..b50f604 100644
+index 721f28f..d20af5e 100644
 --- a/www/stream.html
 +++ b/www/stream.html
 @@ -330,7 +330,6 @@ magick display -depth 8 -size 640x480 rgb:pixels.dat
@@ -1055,7 +1055,7 @@ index 9f5fb34..b50f604 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/support.html b/www/support.html
-index 330d0a6..3d5a3f4 100644
+index efb2947..8370015 100644
 --- a/www/support.html
 +++ b/www/support.html
 @@ -196,7 +196,6 @@
@@ -1067,7 +1067,7 @@ index 330d0a6..3d5a3f4 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/vpat.html b/www/vpat.html
-index d147002..b6139ba 100644
+index e514b26..99a530b 100644
 --- a/www/vpat.html
 +++ b/www/vpat.html
 @@ -182,7 +182,6 @@
@@ -1079,7 +1079,7 @@ index d147002..b6139ba 100644
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
 diff --git a/www/webp.html b/www/webp.html
-index 2f82005..d96de37 100644
+index 76c0850..eb8913e 100644
 --- a/www/webp.html
 +++ b/www/webp.html
 @@ -254,7 +254,6 @@

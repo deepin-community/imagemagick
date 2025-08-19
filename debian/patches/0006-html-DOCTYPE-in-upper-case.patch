@@ -145,7 +145,7 @@ forwarded: not-needed
  136 files changed, 136 insertions(+), 136 deletions(-)
 
 diff --git a/index.html b/index.html
-index 9120e08..36e55fa 100644
+index 4232fbe..efdcea2 100644
 --- a/index.html
 +++ b/index.html
 @@ -1,7 +1,7 @@
@@ -156,9 +156,9 @@ index 9120e08..36e55fa 100644
 +<!DOCTYPE html>
  <html lang="en" data-bs-theme="dark">
  <head>
-   <script src="www/assets/color-modes.js" ></script>
+   <script src="./www/assets/color-modes.js" ></script>
 diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
-index d549508..835f9b5 100644
+index be2e6f5..d48e262 100644
 --- a/www/advanced-linux-installation.html
 +++ b/www/advanced-linux-installation.html
 @@ -1,7 +1,7 @@
@@ -171,7 +171,7 @@ index d549508..835f9b5 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
-index f6d5c33..a76769c8c 100644
+index e502b0b..9057973 100644
 --- a/www/advanced-unix-installation.html
 +++ b/www/advanced-unix-installation.html
 @@ -2,7 +2,7 @@
@@ -184,7 +184,7 @@ index f6d5c33..a76769c8c 100644
  <head>
    <meta charset="utf-8"  />
 diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
-index 7f954b3..1ea504b 100644
+index 594db3b..693ce37 100644
 --- a/www/advanced-windows-installation.html
 +++ b/www/advanced-windows-installation.html
 @@ -1,7 +1,7 @@
@@ -197,7 +197,7 @@ index 7f954b3..1ea504b 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/animate.html b/www/animate.html
-index 2557a8c..c9e4cfa 100644
+index ed7f678..62f7837 100644
 --- a/www/animate.html
 +++ b/www/animate.html
 @@ -1,7 +1,7 @@
@@ -210,7 +210,7 @@ index 2557a8c..c9e4cfa 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/api/Image++.html b/www/api/Image++.html
-index 8806733..b3ad18c 100644
+index 74f160c..0f7a037 100644
 --- a/www/api/Image++.html
 +++ b/www/api/Image++.html
 @@ -2,7 +2,7 @@
@@ -223,7 +223,7 @@ index 8806733..b3ad18c 100644
  <head>
    <meta charset="utf-8"  />
 diff --git a/www/api/animate.html b/www/api/animate.html
-index 5955b4b..2f54d32 100644
+index 410a14c..2467425 100644
 --- a/www/api/animate.html
 +++ b/www/api/animate.html
 @@ -2,7 +2,7 @@
@@ -236,7 +236,7 @@ index 5955b4b..2f54d32 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/annotate.html b/www/api/annotate.html
-index ac02a85..8206be5 100644
+index 02a3878..d6fc593 100644
 --- a/www/api/annotate.html
 +++ b/www/api/annotate.html
 @@ -2,7 +2,7 @@
@@ -249,7 +249,7 @@ index ac02a85..8206be5 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/attribute.html b/www/api/attribute.html
-index 6daae14..411f59f 100644
+index da63cc9..2921648 100644
 --- a/www/api/attribute.html
 +++ b/www/api/attribute.html
 @@ -2,7 +2,7 @@
@@ -262,7 +262,7 @@ index 6daae14..411f59f 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/blob.html b/www/api/blob.html
-index f3256a4..6881378 100644
+index 411d373..19d2bea 100644
 --- a/www/api/blob.html
 +++ b/www/api/blob.html
 @@ -2,7 +2,7 @@
@@ -275,7 +275,7 @@ index f3256a4..6881378 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/cache-view.html b/www/api/cache-view.html
-index d8e69f4..88e3937 100644
+index 3f64f91..6dd4b6a 100644
 --- a/www/api/cache-view.html
 +++ b/www/api/cache-view.html
 @@ -2,7 +2,7 @@
@@ -288,7 +288,7 @@ index d8e69f4..88e3937 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/cache.html b/www/api/cache.html
-index e5d0ec3..5a13a59 100644
+index b2210ad..8c5c4cd 100644
 --- a/www/api/cache.html
 +++ b/www/api/cache.html
 @@ -2,7 +2,7 @@
@@ -301,7 +301,7 @@ index e5d0ec3..5a13a59 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/channel.html b/www/api/channel.html
-index 21eda37..652e7ea 100644
+index 184d311..4ae0ac5 100644
 --- a/www/api/channel.html
 +++ b/www/api/channel.html
 @@ -2,7 +2,7 @@
@@ -314,7 +314,7 @@ index 21eda37..652e7ea 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/cipher.html b/www/api/cipher.html
-index af06e8a..d6d3e16 100644
+index d606885..277aa6e 100644
 --- a/www/api/cipher.html
 +++ b/www/api/cipher.html
 @@ -2,7 +2,7 @@
@@ -327,7 +327,7 @@ index af06e8a..d6d3e16 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/color.html b/www/api/color.html
-index cd1d63c..782b2bc 100644
+index 7a1b7aa..1e11d34 100644
 --- a/www/api/color.html
 +++ b/www/api/color.html
 @@ -2,7 +2,7 @@
@@ -340,7 +340,7 @@ index cd1d63c..782b2bc 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/colormap.html b/www/api/colormap.html
-index 1496eb7..5e4e25d 100644
+index 470a83a..9a206d9 100644
 --- a/www/api/colormap.html
 +++ b/www/api/colormap.html
 @@ -2,7 +2,7 @@
@@ -353,7 +353,7 @@ index 1496eb7..5e4e25d 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/colorspace.html b/www/api/colorspace.html
-index 796bb5b..41fe661 100644
+index 2361783..cf7c9a0 100644
 --- a/www/api/colorspace.html
 +++ b/www/api/colorspace.html
 @@ -2,7 +2,7 @@
@@ -366,7 +366,7 @@ index 796bb5b..41fe661 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/compare.html b/www/api/compare.html
-index 05437e6..591ac1b 100644
+index a023b13..50938b4 100644
 --- a/www/api/compare.html
 +++ b/www/api/compare.html
 @@ -2,7 +2,7 @@
@@ -379,7 +379,7 @@ index 05437e6..591ac1b 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/composite.html b/www/api/composite.html
-index 65e01cb..18123e2 100644
+index 722ad47..60265f7 100644
 --- a/www/api/composite.html
 +++ b/www/api/composite.html
 @@ -2,7 +2,7 @@
@@ -392,7 +392,7 @@ index 65e01cb..18123e2 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/constitute.html b/www/api/constitute.html
-index 3dbadfa..3a00a3e 100644
+index 6f9b403..57636d2 100644
 --- a/www/api/constitute.html
 +++ b/www/api/constitute.html
 @@ -2,7 +2,7 @@
@@ -405,7 +405,7 @@ index 3dbadfa..3a00a3e 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/decorate.html b/www/api/decorate.html
-index bd63884..6534213 100644
+index 27ff89b..581f919 100644
 --- a/www/api/decorate.html
 +++ b/www/api/decorate.html
 @@ -2,7 +2,7 @@
@@ -418,7 +418,7 @@ index bd63884..6534213 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/deprecate.html b/www/api/deprecate.html
-index 9399280..d53006f 100644
+index a300d14..4666950 100644
 --- a/www/api/deprecate.html
 +++ b/www/api/deprecate.html
 @@ -2,7 +2,7 @@
@@ -431,7 +431,7 @@ index 9399280..d53006f 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/display.html b/www/api/display.html
-index 90b2c31..4ff5bc0 100644
+index f5ab209..6048edd 100644
 --- a/www/api/display.html
 +++ b/www/api/display.html
 @@ -2,7 +2,7 @@
@@ -444,7 +444,7 @@ index 90b2c31..4ff5bc0 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/distort.html b/www/api/distort.html
-index 217aabc..38d4cbe 100644
+index de7949b..aad48ff 100644
 --- a/www/api/distort.html
 +++ b/www/api/distort.html
 @@ -2,7 +2,7 @@
@@ -457,7 +457,7 @@ index 217aabc..38d4cbe 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/draw.html b/www/api/draw.html
-index 2cb4eaf..07d7d09 100644
+index eab8b8b..1929d5c 100644
 --- a/www/api/draw.html
 +++ b/www/api/draw.html
 @@ -2,7 +2,7 @@
@@ -470,7 +470,7 @@ index 2cb4eaf..07d7d09 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
-index 3484ea2..26444a7 100644
+index ae30e6a..844d0e6 100644
 --- a/www/api/drawing-wand.html
 +++ b/www/api/drawing-wand.html
 @@ -2,7 +2,7 @@
@@ -483,7 +483,7 @@ index 3484ea2..26444a7 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/effect.html b/www/api/effect.html
-index 79d5b4c..d29d7d6 100644
+index 7081db0..85c4663 100644
 --- a/www/api/effect.html
 +++ b/www/api/effect.html
 @@ -2,7 +2,7 @@
@@ -496,7 +496,7 @@ index 79d5b4c..d29d7d6 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/enhance.html b/www/api/enhance.html
-index 15c28a5..38b0540 100644
+index aa82570..93ac78f 100644
 --- a/www/api/enhance.html
 +++ b/www/api/enhance.html
 @@ -2,7 +2,7 @@
@@ -509,7 +509,7 @@ index 15c28a5..38b0540 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/exception.html b/www/api/exception.html
-index 53d6111..d18bea2 100644
+index 1a07a7e..aedde6a 100644
 --- a/www/api/exception.html
 +++ b/www/api/exception.html
 @@ -2,7 +2,7 @@
@@ -522,7 +522,7 @@ index 53d6111..d18bea2 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/feature.html b/www/api/feature.html
-index 5fc7b0a..0a5cdca 100644
+index 3d03231..c299de4 100644
 --- a/www/api/feature.html
 +++ b/www/api/feature.html
 @@ -2,7 +2,7 @@
@@ -535,7 +535,7 @@ index 5fc7b0a..0a5cdca 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/fourier.html b/www/api/fourier.html
-index 717f4f0..279a7d6 100644
+index 26b6458..5bb47a1 100644
 --- a/www/api/fourier.html
 +++ b/www/api/fourier.html
 @@ -2,7 +2,7 @@
@@ -548,7 +548,7 @@ index 717f4f0..279a7d6 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/fx.html b/www/api/fx.html
-index 9c81799..87c19f0 100644
+index 114a369..42c8232 100644
 --- a/www/api/fx.html
 +++ b/www/api/fx.html
 @@ -2,7 +2,7 @@
@@ -561,7 +561,7 @@ index 9c81799..87c19f0 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/histogram.html b/www/api/histogram.html
-index ffe1105..7fc829b 100644
+index 9f90dd8..d63abc7 100644
 --- a/www/api/histogram.html
 +++ b/www/api/histogram.html
 @@ -2,7 +2,7 @@
@@ -574,7 +574,7 @@ index ffe1105..7fc829b 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/image-view.html b/www/api/image-view.html
-index cf772e5..d976da2 100644
+index e621163..c08d8cc 100644
 --- a/www/api/image-view.html
 +++ b/www/api/image-view.html
 @@ -2,7 +2,7 @@
@@ -587,7 +587,7 @@ index cf772e5..d976da2 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/image.html b/www/api/image.html
-index d7bc2ab..fdbf59f 100644
+index a8ca17e..51a81f9 100644
 --- a/www/api/image.html
 +++ b/www/api/image.html
 @@ -2,7 +2,7 @@
@@ -600,7 +600,7 @@ index d7bc2ab..fdbf59f 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/layer.html b/www/api/layer.html
-index 6becc5d..d2eb0eb 100644
+index 1bbf14f..8d75115 100644
 --- a/www/api/layer.html
 +++ b/www/api/layer.html
 @@ -2,7 +2,7 @@
@@ -613,7 +613,7 @@ index 6becc5d..d2eb0eb 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/list.html b/www/api/list.html
-index 66525a0..e5275e7 100644
+index 732a285..707e26e 100644
 --- a/www/api/list.html
 +++ b/www/api/list.html
 @@ -2,7 +2,7 @@
@@ -626,7 +626,7 @@ index 66525a0..e5275e7 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
-index 3c3f1a5..8ee0b49 100644
+index 3813272..d2c82c3 100644
 --- a/www/api/magick++-classes.html
 +++ b/www/api/magick++-classes.html
 @@ -2,7 +2,7 @@
@@ -639,7 +639,7 @@ index 3c3f1a5..8ee0b49 100644
  <head>
    <meta charset="utf-8"  />
 diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
-index f0530a8..5b3c5b8 100644
+index f73f3e4..d8dc997 100644
 --- a/www/api/magick-deprecate.html
 +++ b/www/api/magick-deprecate.html
 @@ -2,7 +2,7 @@
@@ -652,7 +652,7 @@ index f0530a8..5b3c5b8 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/magick-image.html b/www/api/magick-image.html
-index f7b2b8b..1c27a76 100644
+index 80719c0..a314b01 100644
 --- a/www/api/magick-image.html
 +++ b/www/api/magick-image.html
 @@ -2,7 +2,7 @@
@@ -665,7 +665,7 @@ index f7b2b8b..1c27a76 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/magick-property.html b/www/api/magick-property.html
-index 40ffd18..8b5c785 100644
+index 8640809..51ae77c 100644
 --- a/www/api/magick-property.html
 +++ b/www/api/magick-property.html
 @@ -2,7 +2,7 @@
@@ -678,7 +678,7 @@ index 40ffd18..8b5c785 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
-index e14dc75..f18d773 100644
+index f4a894e..9db62aa 100644
 --- a/www/api/magick-wand.html
 +++ b/www/api/magick-wand.html
 @@ -2,7 +2,7 @@
@@ -691,7 +691,7 @@ index e14dc75..f18d773 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/magick.html b/www/api/magick.html
-index 90e77c6..261577a 100644
+index cbddf1e..fe22cd3 100644
 --- a/www/api/magick.html
 +++ b/www/api/magick.html
 @@ -2,7 +2,7 @@
@@ -704,7 +704,7 @@ index 90e77c6..261577a 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/memory.html b/www/api/memory.html
-index ed8b2b5..9c8a44a 100644
+index de0919d..959d232 100644
 --- a/www/api/memory.html
 +++ b/www/api/memory.html
 @@ -2,7 +2,7 @@
@@ -717,7 +717,7 @@ index ed8b2b5..9c8a44a 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/mime.html b/www/api/mime.html
-index 54599f1..5223493 100644
+index 8782c72..f2b1b5b 100644
 --- a/www/api/mime.html
 +++ b/www/api/mime.html
 @@ -2,7 +2,7 @@
@@ -730,7 +730,7 @@ index 54599f1..5223493 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/module.html b/www/api/module.html
-index e4cfdc1..aaa7319 100644
+index 9fecfa7..b92e779 100644
 --- a/www/api/module.html
 +++ b/www/api/module.html
 @@ -2,7 +2,7 @@
@@ -743,7 +743,7 @@ index e4cfdc1..aaa7319 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/mogrify.html b/www/api/mogrify.html
-index 9e0435b..15b637c 100644
+index 0fcfdf1..b725341 100644
 --- a/www/api/mogrify.html
 +++ b/www/api/mogrify.html
 @@ -2,7 +2,7 @@
@@ -756,7 +756,7 @@ index 9e0435b..15b637c 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/monitor.html b/www/api/monitor.html
-index c59fcd8..664f154 100644
+index 747481a..c690db1 100644
 --- a/www/api/monitor.html
 +++ b/www/api/monitor.html
 @@ -2,7 +2,7 @@
@@ -769,7 +769,7 @@ index c59fcd8..664f154 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/montage.html b/www/api/montage.html
-index 965715d..31259db 100644
+index eafb120..11ffb20 100644
 --- a/www/api/montage.html
 +++ b/www/api/montage.html
 @@ -2,7 +2,7 @@
@@ -782,7 +782,7 @@ index 965715d..31259db 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/morphology.html b/www/api/morphology.html
-index 12291d7..e3c973e 100644
+index 7c6e658..5740f5e 100644
 --- a/www/api/morphology.html
 +++ b/www/api/morphology.html
 @@ -2,7 +2,7 @@
@@ -795,7 +795,7 @@ index 12291d7..e3c973e 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/paint.html b/www/api/paint.html
-index 8a92d72..2df2018 100644
+index ed6b036..5e9f815 100644
 --- a/www/api/paint.html
 +++ b/www/api/paint.html
 @@ -2,7 +2,7 @@
@@ -808,7 +808,7 @@ index 8a92d72..2df2018 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
-index 2827c01..7ffcb4c 100644
+index 094bff3..6d05cd0 100644
 --- a/www/api/pixel-iterator.html
 +++ b/www/api/pixel-iterator.html
 @@ -2,7 +2,7 @@
@@ -821,7 +821,7 @@ index 2827c01..7ffcb4c 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
-index d72ce18..3ce0036 100644
+index 6954ecc..cde300b 100644
 --- a/www/api/pixel-wand.html
 +++ b/www/api/pixel-wand.html
 @@ -2,7 +2,7 @@
@@ -834,7 +834,7 @@ index d72ce18..3ce0036 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/profile.html b/www/api/profile.html
-index 0d58e21..7268539 100644
+index b9ab9a2..2ae25ef 100644
 --- a/www/api/profile.html
 +++ b/www/api/profile.html
 @@ -2,7 +2,7 @@
@@ -847,7 +847,7 @@ index 0d58e21..7268539 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/property.html b/www/api/property.html
-index 6997fc8..9132b3a 100644
+index ca1db63..ec7b3ee 100644
 --- a/www/api/property.html
 +++ b/www/api/property.html
 @@ -2,7 +2,7 @@
@@ -860,7 +860,7 @@ index 6997fc8..9132b3a 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/quantize.html b/www/api/quantize.html
-index 190f022..cd37bec 100644
+index 12328b3..5144b3b 100644
 --- a/www/api/quantize.html
 +++ b/www/api/quantize.html
 @@ -2,7 +2,7 @@
@@ -873,7 +873,7 @@ index 190f022..cd37bec 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/registry.html b/www/api/registry.html
-index 1a5cb98..bd28c33 100644
+index 9734f87..ee0aab0 100644
 --- a/www/api/registry.html
 +++ b/www/api/registry.html
 @@ -2,7 +2,7 @@
@@ -886,7 +886,7 @@ index 1a5cb98..bd28c33 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/resize.html b/www/api/resize.html
-index d6e126e..d5d8e1a 100644
+index f4a084e..d8ed47f 100644
 --- a/www/api/resize.html
 +++ b/www/api/resize.html
 @@ -2,7 +2,7 @@
@@ -899,7 +899,7 @@ index d6e126e..d5d8e1a 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/resource.html b/www/api/resource.html
-index 9badf79..04d2a7f 100644
+index a1b8d47..6d0fffd 100644
 --- a/www/api/resource.html
 +++ b/www/api/resource.html
 @@ -2,7 +2,7 @@
@@ -912,7 +912,7 @@ index 9badf79..04d2a7f 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/segment.html b/www/api/segment.html
-index 6e03386..894f151 100644
+index 75666d6..4d76d4c 100644
 --- a/www/api/segment.html
 +++ b/www/api/segment.html
 @@ -2,7 +2,7 @@
@@ -925,7 +925,7 @@ index 6e03386..894f151 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/shear.html b/www/api/shear.html
-index c7c3117..cd61e48 100644
+index fdcf028..1d601a8 100644
 --- a/www/api/shear.html
 +++ b/www/api/shear.html
 @@ -2,7 +2,7 @@
@@ -938,7 +938,7 @@ index c7c3117..cd61e48 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/signature.html b/www/api/signature.html
-index cc60bfa..56ee856 100644
+index 49c5036..f6db8f1 100644
 --- a/www/api/signature.html
 +++ b/www/api/signature.html
 @@ -2,7 +2,7 @@
@@ -951,7 +951,7 @@ index cc60bfa..56ee856 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/statistic.html b/www/api/statistic.html
-index 75f8284..b90496d 100644
+index 9383dd7..f143c91 100644
 --- a/www/api/statistic.html
 +++ b/www/api/statistic.html
 @@ -2,7 +2,7 @@
@@ -964,7 +964,7 @@ index 75f8284..b90496d 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/stream.html b/www/api/stream.html
-index b08d176..6b1daa0 100644
+index 4c4ee93..d3ac3d7 100644
 --- a/www/api/stream.html
 +++ b/www/api/stream.html
 @@ -2,7 +2,7 @@
@@ -977,7 +977,7 @@ index b08d176..6b1daa0 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/transform.html b/www/api/transform.html
-index 0568f94..285baae 100644
+index 439c54a..6eba464 100644
 --- a/www/api/transform.html
 +++ b/www/api/transform.html
 @@ -2,7 +2,7 @@
@@ -990,7 +990,7 @@ index 0568f94..285baae 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/version.html b/www/api/version.html
-index ebc875c..1fba015 100644
+index 9a73f34..e89c903 100644
 --- a/www/api/version.html
 +++ b/www/api/version.html
 @@ -2,7 +2,7 @@
@@ -1003,7 +1003,7 @@ index ebc875c..1fba015 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/vision.html b/www/api/vision.html
-index 21fc4cb..fdd88fd 100644
+index 1afd9c7..3e10d5a 100644
 --- a/www/api/vision.html
 +++ b/www/api/vision.html
 @@ -2,7 +2,7 @@
@@ -1016,7 +1016,7 @@ index 21fc4cb..fdd88fd 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/api/wand-view.html b/www/api/wand-view.html
-index 69400bd..5d0e0e3 100644
+index 6c38a37..49bc4af 100644
 --- a/www/api/wand-view.html
 +++ b/www/api/wand-view.html
 @@ -2,7 +2,7 @@
@@ -1029,7 +1029,7 @@ index 69400bd..5d0e0e3 100644
  <head>
    <script src="../assets/color-modes.js" ></script>
 diff --git a/www/architecture.html b/www/architecture.html
-index 944335f..b8b3184 100644
+index 210c84a..166019a 100644
 --- a/www/architecture.html
 +++ b/www/architecture.html
 @@ -1,7 +1,7 @@
@@ -1042,7 +1042,7 @@ index 944335f..b8b3184 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/changelog.html b/www/changelog.html
-index b141c35..a24ef44 100644
+index bb8bc5e..4bfba7a 100644
 --- a/www/changelog.html
 +++ b/www/changelog.html
 @@ -2,7 +2,7 @@
@@ -1055,7 +1055,7 @@ index b141c35..a24ef44 100644
  <head>
    <meta charset="utf-8"  />
 diff --git a/www/cipher.html b/www/cipher.html
-index 3b4a66b..48c3ccb 100644
+index 8dfea8f..e638a0d 100644
 --- a/www/cipher.html
 +++ b/www/cipher.html
 @@ -1,7 +1,7 @@
@@ -1068,7 +1068,7 @@ index 3b4a66b..48c3ccb 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/cite.html b/www/cite.html
-index 7b3a6a6..5e8f9ba 100644
+index 2efd31d..5cd51d0 100644
 --- a/www/cite.html
 +++ b/www/cite.html
 @@ -1,7 +1,7 @@
@@ -1081,7 +1081,7 @@ index 7b3a6a6..5e8f9ba 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/clahe.html b/www/clahe.html
-index 2499d4a..f5af695 100644
+index c019332..252f746 100644
 --- a/www/clahe.html
 +++ b/www/clahe.html
 @@ -1,7 +1,7 @@
@@ -1094,7 +1094,7 @@ index 2499d4a..f5af695 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/color-management.html b/www/color-management.html
-index 6dcc65d..33c2c31 100644
+index 00bfacd..0e27550 100644
 --- a/www/color-management.html
 +++ b/www/color-management.html
 @@ -1,7 +1,7 @@
@@ -1107,7 +1107,7 @@ index 6dcc65d..33c2c31 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/color-thresholding.html b/www/color-thresholding.html
-index 3fbd712..9844b21 100644
+index 7bf3178..554930e 100644
 --- a/www/color-thresholding.html
 +++ b/www/color-thresholding.html
 @@ -1,7 +1,7 @@
@@ -1120,7 +1120,7 @@ index 3fbd712..9844b21 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/color.html b/www/color.html
-index 9d78364..f4ad03b 100644
+index 4a612a6..dc5ea38 100644
 --- a/www/color.html
 +++ b/www/color.html
 @@ -1,7 +1,7 @@
@@ -1133,7 +1133,7 @@ index 9d78364..f4ad03b 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/command-line-options.html b/www/command-line-options.html
-index e1a69ac..3944387 100644
+index ecdf2a1..e424a8b 100644
 --- a/www/command-line-options.html
 +++ b/www/command-line-options.html
 @@ -1,7 +1,7 @@
@@ -1146,7 +1146,7 @@ index e1a69ac..3944387 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/command-line-processing.html b/www/command-line-processing.html
-index 8005d2f..ac1e360 100644
+index 32f2edd..26f23c1 100644
 --- a/www/command-line-processing.html
 +++ b/www/command-line-processing.html
 @@ -1,7 +1,7 @@
@@ -1159,7 +1159,7 @@ index 8005d2f..ac1e360 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/command-line-tools.html b/www/command-line-tools.html
-index d17f47b..aa048e7 100644
+index a5b7aca..f0ebbc9 100644
 --- a/www/command-line-tools.html
 +++ b/www/command-line-tools.html
 @@ -1,7 +1,7 @@
@@ -1172,7 +1172,7 @@ index d17f47b..aa048e7 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/compare.html b/www/compare.html
-index 9736cbe..96f0f6e 100644
+index 9599889..947f66b 100644
 --- a/www/compare.html
 +++ b/www/compare.html
 @@ -1,7 +1,7 @@
@@ -1185,7 +1185,7 @@ index 9736cbe..96f0f6e 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/compose.html b/www/compose.html
-index fb56bf8..c63d738 100644
+index c39c899..75bed37 100644
 --- a/www/compose.html
 +++ b/www/compose.html
 @@ -1,7 +1,7 @@
@@ -1198,7 +1198,7 @@ index fb56bf8..c63d738 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/composite.html b/www/composite.html
-index 137b427..6e3896f4 100644
+index c423ed5..624788d 100644
 --- a/www/composite.html
 +++ b/www/composite.html
 @@ -1,7 +1,7 @@
@@ -1211,7 +1211,7 @@ index 137b427..6e3896f4 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/conjure.html b/www/conjure.html
-index cc67476..0b220d3 100644
+index 8d9eb60..c6a1712 100644
 --- a/www/conjure.html
 +++ b/www/conjure.html
 @@ -1,7 +1,7 @@
@@ -1224,7 +1224,7 @@ index cc67476..0b220d3 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/connected-components.html b/www/connected-components.html
-index 0342f3c..013e56e 100644
+index d12e9ad..d9ace35 100644
 --- a/www/connected-components.html
 +++ b/www/connected-components.html
 @@ -1,7 +1,7 @@
@@ -1237,7 +1237,7 @@ index 0342f3c..013e56e 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/contact.html b/www/contact.html
-index 8d4ccfd..38d4a59 100644
+index 5e9dbb4..89060a1 100644
 --- a/www/contact.html
 +++ b/www/contact.html
 @@ -2,7 +2,7 @@
@@ -1250,7 +1250,7 @@ index 8d4ccfd..38d4a59 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/convert.html b/www/convert.html
-index 3a76528..9fad3f8 100644
+index bec6b76..8b0ada3 100644
 --- a/www/convert.html
 +++ b/www/convert.html
 @@ -1,7 +1,7 @@
@@ -1263,7 +1263,7 @@ index 3a76528..9fad3f8 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/convex-hull.html b/www/convex-hull.html
-index e95c6e8..b100172 100644
+index 7d4e7f0..d542724 100644
 --- a/www/convex-hull.html
 +++ b/www/convex-hull.html
 @@ -1,7 +1,7 @@
@@ -1276,7 +1276,7 @@ index e95c6e8..b100172 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/defines.html b/www/defines.html
-index 6096710..26684d1 100644
+index 36e6de5..d59989c 100644
 --- a/www/defines.html
 +++ b/www/defines.html
 @@ -1,7 +1,7 @@
@@ -1289,7 +1289,7 @@ index 6096710..26684d1 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/develop.html b/www/develop.html
-index 4cf65cf..d8c848e 100644
+index 917b0f3..4286be9 100644
 --- a/www/develop.html
 +++ b/www/develop.html
 @@ -1,7 +1,7 @@
@@ -1302,7 +1302,7 @@ index 4cf65cf..d8c848e 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/display.html b/www/display.html
-index b0b9a91..df1f28f 100644
+index d945bae..09e3bf7 100644
 --- a/www/display.html
 +++ b/www/display.html
 @@ -1,7 +1,7 @@
@@ -1315,7 +1315,7 @@ index b0b9a91..df1f28f 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
-index 60bcca9..166ad0a 100644
+index 2e2c6e3..05f477d 100644
 --- a/www/distribute-pixel-cache.html
 +++ b/www/distribute-pixel-cache.html
 @@ -1,7 +1,7 @@
@@ -1328,7 +1328,7 @@ index 60bcca9..166ad0a 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/download.html b/www/download.html
-index 3b52881..b5317c9 100644
+index fadb917..c2b0d37 100644
 --- a/www/download.html
 +++ b/www/download.html
 @@ -1,7 +1,7 @@
@@ -1341,7 +1341,7 @@ index 3b52881..b5317c9 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/escape.html b/www/escape.html
-index 2c8a3cf..f9f7aa7 100644
+index f6a6ff6..f302b74 100644
 --- a/www/escape.html
 +++ b/www/escape.html
 @@ -1,7 +1,7 @@
@@ -1354,7 +1354,7 @@ index 2c8a3cf..f9f7aa7 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/examples.html b/www/examples.html
-index ac39232..362cd5c 100644
+index 68badc8..33f61b0 100644
 --- a/www/examples.html
 +++ b/www/examples.html
 @@ -1,7 +1,7 @@
@@ -1367,7 +1367,7 @@ index ac39232..362cd5c 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/exception.html b/www/exception.html
-index d010af1..5d1a9f6 100644
+index 201dcce..111eb45 100644
 --- a/www/exception.html
 +++ b/www/exception.html
 @@ -1,7 +1,7 @@
@@ -1380,7 +1380,7 @@ index d010af1..5d1a9f6 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/export.html b/www/export.html
-index 8fd2724..f2dbe12 100644
+index 0c67a23..d3dd01d 100644
 --- a/www/export.html
 +++ b/www/export.html
 @@ -1,7 +1,7 @@
@@ -1393,7 +1393,7 @@ index 8fd2724..f2dbe12 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/formats.html b/www/formats.html
-index d45f15f..a9b9f47 100644
+index 2c2223f..fd58b13 100644
 --- a/www/formats.html
 +++ b/www/formats.html
 @@ -1,7 +1,7 @@
@@ -1406,7 +1406,7 @@ index d45f15f..a9b9f47 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/fx.html b/www/fx.html
-index b0e250f..135d278 100644
+index 4bb4adb..3de202a 100644
 --- a/www/fx.html
 +++ b/www/fx.html
 @@ -1,7 +1,7 @@
@@ -1419,7 +1419,7 @@ index b0e250f..135d278 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/gradient.html b/www/gradient.html
-index 334b920..8a9aeff 100644
+index 2d833e4..829571b 100644
 --- a/www/gradient.html
 +++ b/www/gradient.html
 @@ -1,7 +1,7 @@
@@ -1432,7 +1432,7 @@ index 334b920..8a9aeff 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
-index 0d8ed52..7f0cdad 100644
+index bbac113..51c1dba 100644
 --- a/www/high-dynamic-range.html
 +++ b/www/high-dynamic-range.html
 @@ -1,7 +1,7 @@
@@ -1445,7 +1445,7 @@ index 0d8ed52..7f0cdad 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/history.html b/www/history.html
-index 1a9c832..b743344 100644
+index 1f27e72..113cce0 100644
 --- a/www/history.html
 +++ b/www/history.html
 @@ -1,7 +1,7 @@
@@ -1458,7 +1458,7 @@ index 1a9c832..b743344 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/identify.html b/www/identify.html
-index 10b0d31..702fe3e 100644
+index 52372d2..9d006f2 100644
 --- a/www/identify.html
 +++ b/www/identify.html
 @@ -1,7 +1,7 @@
@@ -1471,7 +1471,7 @@ index 10b0d31..702fe3e 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/import.html b/www/import.html
-index 933f8ee..babfb6e 100644
+index 1738eef..21f1fc8 100644
 --- a/www/import.html
 +++ b/www/import.html
 @@ -1,7 +1,7 @@
@@ -1484,7 +1484,7 @@ index 933f8ee..babfb6e 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/index.html b/www/index.html
-index 77c4c9e..51cc883 100644
+index 6dc9e8e..56d63f5 100644
 --- a/www/index.html
 +++ b/www/index.html
 @@ -1,7 +1,7 @@
@@ -1497,7 +1497,7 @@ index 77c4c9e..51cc883 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/install-source.html b/www/install-source.html
-index 12795b3..6dcc1cb 100644
+index 68f56b5..8ab3a4c 100644
 --- a/www/install-source.html
 +++ b/www/install-source.html
 @@ -1,7 +1,7 @@
@@ -1510,7 +1510,7 @@ index 12795b3..6dcc1cb 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/jp2.html b/www/jp2.html
-index 02e51a7..7b992f8 100644
+index 1b12d4b..e6dd84a 100644
 --- a/www/jp2.html
 +++ b/www/jp2.html
 @@ -1,7 +1,7 @@
@@ -1523,7 +1523,7 @@ index 02e51a7..7b992f8 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/license.html b/www/license.html
-index fe1a012..7834ab4 100644
+index 4f158ad..6c220b7 100644
 --- a/www/license.html
 +++ b/www/license.html
 @@ -1,7 +1,7 @@
@@ -1536,7 +1536,7 @@ index fe1a012..7834ab4 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/links.html b/www/links.html
-index 36a7c92..f3715db 100644
+index 677c2bf..149b480 100644
 --- a/www/links.html
 +++ b/www/links.html
 @@ -1,7 +1,7 @@
@@ -1549,7 +1549,7 @@ index 36a7c92..f3715db 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/magick++.html b/www/magick++.html
-index 5d5ac1f..c4638f6 100644
+index 1219633..7e2ec72 100644
 --- a/www/magick++.html
 +++ b/www/magick++.html
 @@ -1,7 +1,7 @@
@@ -1562,7 +1562,7 @@ index 5d5ac1f..c4638f6 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/magick-cache.html b/www/magick-cache.html
-index bc1d0ab..53d60e4 100644
+index 6e81c1c..2753ebb 100644
 --- a/www/magick-cache.html
 +++ b/www/magick-cache.html
 @@ -1,7 +1,7 @@
@@ -1575,7 +1575,7 @@ index bc1d0ab..53d60e4 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/magick-core.html b/www/magick-core.html
-index 9abf87a..122d44d 100644
+index 3f9d665..ed82f06 100644
 --- a/www/magick-core.html
 +++ b/www/magick-core.html
 @@ -1,7 +1,7 @@
@@ -1588,7 +1588,7 @@ index 9abf87a..122d44d 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/magick-script.html b/www/magick-script.html
-index 2a3c239..4467dda 100644
+index d4a1ad4..1396099 100644
 --- a/www/magick-script.html
 +++ b/www/magick-script.html
 @@ -1,7 +1,7 @@
@@ -1601,7 +1601,7 @@ index 2a3c239..4467dda 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
-index 8d3d317..41cdea5 100644
+index 1789d5d..b27302f 100644
 --- a/www/magick-vector-graphics.html
 +++ b/www/magick-vector-graphics.html
 @@ -1,7 +1,7 @@
@@ -1614,7 +1614,7 @@ index 8d3d317..41cdea5 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/magick-wand.html b/www/magick-wand.html
-index ff2199a..bb5651c 100644
+index bef85bb..406bd2b 100644
 --- a/www/magick-wand.html
 +++ b/www/magick-wand.html
 @@ -1,7 +1,7 @@
@@ -1627,7 +1627,7 @@ index ff2199a..bb5651c 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/magick.html b/www/magick.html
-index 2eebb57..1dc8437 100644
+index ec5078c..1756621 100644
 --- a/www/magick.html
 +++ b/www/magick.html
 @@ -1,7 +1,7 @@
@@ -1640,7 +1640,7 @@ index 2eebb57..1dc8437 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/miff.html b/www/miff.html
-index e9375a1..c23889a 100644
+index 3c80a3b..b5c34a6 100644
 --- a/www/miff.html
 +++ b/www/miff.html
 @@ -1,7 +1,7 @@
@@ -1653,7 +1653,7 @@ index e9375a1..c23889a 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/mirror.html b/www/mirror.html
-index ee7eb08..8ac3e5d 100644
+index 7a282af..f7dd003 100644
 --- a/www/mirror.html
 +++ b/www/mirror.html
 @@ -1,7 +1,7 @@
@@ -1666,7 +1666,7 @@ index ee7eb08..8ac3e5d 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/mogrify.html b/www/mogrify.html
-index 41fff3d..9001c88 100644
+index 77b7eca..adae3b1 100644
 --- a/www/mogrify.html
 +++ b/www/mogrify.html
 @@ -1,7 +1,7 @@
@@ -1679,7 +1679,7 @@ index 41fff3d..9001c88 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/montage.html b/www/montage.html
-index 459a600..813b4fe 100644
+index 85a5fee..315fabd 100644
 --- a/www/montage.html
 +++ b/www/montage.html
 @@ -1,7 +1,7 @@
@@ -1692,7 +1692,7 @@ index 459a600..813b4fe 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/motion-picture.html b/www/motion-picture.html
-index 006fb53..3b823dd 100644
+index cb0628c..db2ac2d 100644
 --- a/www/motion-picture.html
 +++ b/www/motion-picture.html
 @@ -1,7 +1,7 @@
@@ -1705,7 +1705,7 @@ index 006fb53..3b823dd 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
-index 40052e8..aeb1856 100644
+index eda8959..ced2915 100644
 --- a/www/multispectral-imagery.html
 +++ b/www/multispectral-imagery.html
 @@ -1,7 +1,7 @@
@@ -1718,7 +1718,7 @@ index 40052e8..aeb1856 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/news.html b/www/news.html
-index 3e3ab31..8136e5c 100644
+index d705cc1..11327dd 100644
 --- a/www/news.html
 +++ b/www/news.html
 @@ -1,7 +1,7 @@
@@ -1731,7 +1731,7 @@ index 3e3ab31..8136e5c 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/opencl.html b/www/opencl.html
-index 15d9603..a8f246a 100644
+index 0a2631a..eba71fe 100644
 --- a/www/opencl.html
 +++ b/www/opencl.html
 @@ -1,7 +1,7 @@
@@ -1744,7 +1744,7 @@ index 15d9603..a8f246a 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/openmp.html b/www/openmp.html
-index 1d622ac..77bdddd 100644
+index f97af85..715d371 100644
 --- a/www/openmp.html
 +++ b/www/openmp.html
 @@ -1,7 +1,7 @@
@@ -1757,7 +1757,7 @@ index 1d622ac..77bdddd 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/perl-magick.html b/www/perl-magick.html
-index 1c8c4f8..5d5debb 100644
+index 03aa0b1..a7e2395 100644
 --- a/www/perl-magick.html
 +++ b/www/perl-magick.html
 @@ -1,7 +1,7 @@
@@ -1770,7 +1770,7 @@ index 1c8c4f8..5d5debb 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/porting.html b/www/porting.html
-index 931b1ba..49fc87f 100644
+index fb814d4..16889bf 100644
 --- a/www/porting.html
 +++ b/www/porting.html
 @@ -1,7 +1,7 @@
@@ -1783,7 +1783,7 @@ index 931b1ba..49fc87f 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/privacy-policy.html b/www/privacy-policy.html
-index 6259b11..5721ac8 100644
+index 819c32e..1f3f820 100644
 --- a/www/privacy-policy.html
 +++ b/www/privacy-policy.html
 @@ -1,7 +1,7 @@
@@ -1796,7 +1796,7 @@ index 6259b11..5721ac8 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/quantize.html b/www/quantize.html
-index c1906f9..fc258b7 100644
+index 0d8d3c7..b41e089 100644
 --- a/www/quantize.html
 +++ b/www/quantize.html
 @@ -1,7 +1,7 @@
@@ -1809,7 +1809,7 @@ index c1906f9..fc258b7 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/resources.html b/www/resources.html
-index 850527f..6fee268 100644
+index 8a97865..85a6120 100644
 --- a/www/resources.html
 +++ b/www/resources.html
 @@ -1,7 +1,7 @@
@@ -1822,7 +1822,7 @@ index 850527f..6fee268 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/search.html b/www/search.html
-index a2ffb1f..534aa25 100644
+index 8bb5acd..86c7bec 100644
 --- a/www/search.html
 +++ b/www/search.html
 @@ -1,7 +1,7 @@
@@ -1835,7 +1835,7 @@ index a2ffb1f..534aa25 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/security-policy.html b/www/security-policy.html
-index 5472959..cd2928c 100644
+index 1efdbbd..e0891fc 100644
 --- a/www/security-policy.html
 +++ b/www/security-policy.html
 @@ -1,7 +1,7 @@
@@ -1848,7 +1848,7 @@ index 5472959..cd2928c 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/sitemap.html b/www/sitemap.html
-index 99face9..7d62085 100644
+index 8f435d1..677a3fb 100644
 --- a/www/sitemap.html
 +++ b/www/sitemap.html
 @@ -1,7 +1,7 @@
@@ -1861,7 +1861,7 @@ index 99face9..7d62085 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/stream.html b/www/stream.html
-index 00ac192..9f5fb34 100644
+index 81dc3b7..721f28f 100644
 --- a/www/stream.html
 +++ b/www/stream.html
 @@ -1,7 +1,7 @@
@@ -1874,7 +1874,7 @@ index 00ac192..9f5fb34 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/support.html b/www/support.html
-index b81dd88..7463305 100644
+index 51e076b..c0ba847 100644
 --- a/www/support.html
 +++ b/www/support.html
 @@ -1,7 +1,7 @@
@@ -1887,7 +1887,7 @@ index b81dd88..7463305 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/vpat.html b/www/vpat.html
-index bebbe2e..d147002 100644
+index 4826fa3..e514b26 100644
 --- a/www/vpat.html
 +++ b/www/vpat.html
 @@ -1,7 +1,7 @@
@@ -1900,7 +1900,7 @@ index bebbe2e..d147002 100644
  <head>
    <script src="assets/color-modes.js" ></script>
 diff --git a/www/webp.html b/www/webp.html
-index ca835f5..1788dff 100644
+index c94d8f0..7bcc7f3 100644
 --- a/www/webp.html
 +++ b/www/webp.html
 @@ -1,7 +1,7 @@

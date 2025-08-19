@@ -54,7 +54,7 @@ index a66fcf0..aa989d8 100644
    <main class="container">
      <div class="magick-template">
 diff --git a/www/install-source.html b/www/install-source.html
-index 59662a8..e19de05 100644
+index de6f509..15747c1 100644
 --- a/www/install-source.html
 +++ b/www/install-source.html
 @@ -192,7 +192,7 @@ make</samp></pre>

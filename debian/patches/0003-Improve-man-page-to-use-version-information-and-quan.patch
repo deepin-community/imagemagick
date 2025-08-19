@@ -23,7 +23,7 @@ Forwarded: no
  13 files changed, 66 insertions(+), 63 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index f4b907b..17e11df 100644
+index f75837e..a8746a0 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -804,7 +804,10 @@ MAGICK_ABI_SUFFIX="Q${QUANTUM_DEPTH}"
@@ -39,7 +39,7 @@ index f4b907b..17e11df 100644
  # Set pixel cache threshold
  AC_ARG_WITH([cache],
 diff --git a/utilities/ImageMagick.1.in b/utilities/ImageMagick.1.in
-index 6b1cfe4..0ebfa64 100644
+index ca6ea4e..0658bdf 100644
 --- a/utilities/ImageMagick.1.in
 +++ b/utilities/ImageMagick.1.in
 @@ -1,12 +1,12 @@

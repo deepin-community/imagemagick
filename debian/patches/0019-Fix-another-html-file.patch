@@ -8,7 +8,7 @@ forwarded: not-needed
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/www/api/morphology.html b/www/api/morphology.html
-index 830dfa3..9b2e26d 100644
+index 4a554f8..8d00798 100644
 --- a/www/api/morphology.html
 +++ b/www/api/morphology.html
 @@ -598,13 +598,13 @@

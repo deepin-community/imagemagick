@@ -8,7 +8,7 @@ Forwarded: not-needed
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/www/security-policy.html b/www/security-policy.html
-index 74a5c17..71c40da 100644
+index 82c4b3c..f52657b 100644
 --- a/www/security-policy.html
 +++ b/www/security-policy.html
 @@ -146,15 +146,15 @@

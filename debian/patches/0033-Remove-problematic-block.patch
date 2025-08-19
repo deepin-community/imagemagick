@@ -1,0 +1,1820 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 17 Aug 2025 18:40:43 +0200
+Subject: Remove problematic block
+
+find . -name '*.html' -exec perl -0777 -i -pe 's|\n?<form .*</form>\n?||gs' {} \;
+---
+ www/api.html                     |  6 +----
+ www/api/Image++.html             |  6 +----
+ www/api/animate.html             |  6 +----
+ www/api/annotate.html            |  6 +----
+ www/api/attribute.html           |  6 +----
+ www/api/blob.html                |  6 +----
+ www/api/cache-view.html          |  6 +----
+ www/api/cache.html               |  6 +----
+ www/api/channel.html             |  6 +----
+ www/api/cipher.html              |  6 +----
+ www/api/color.html               |  6 +----
+ www/api/colormap.html            |  6 +----
+ www/api/colorspace.html          |  6 +----
+ www/api/compare.html             |  6 +----
+ www/api/composite.html           |  6 +----
+ www/api/constitute.html          |  6 +----
+ www/api/decorate.html            |  6 +----
+ www/api/deprecate.html           |  6 +----
+ www/api/display.html             |  6 +----
+ www/api/distort.html             |  6 +----
+ www/api/draw.html                |  6 +----
+ www/api/drawing-wand.html        |  6 +----
+ www/api/effect.html              |  6 +----
+ www/api/enhance.html             |  6 +----
+ www/api/exception.html           |  6 +----
+ www/api/feature.html             |  6 +----
+ www/api/fourier.html             |  6 +----
+ www/api/fx.html                  |  6 +----
+ www/api/histogram.html           |  6 +----
+ www/api/image-view.html          |  6 +----
+ www/api/image.html               |  6 +----
+ www/api/layer.html               |  6 +----
+ www/api/list.html                |  6 +----
+ www/api/magick++-classes.html    |  6 +----
+ www/api/magick-deprecate.html    |  6 +----
+ www/api/magick-image.html        |  6 +----
+ www/api/magick-property.html     |  6 +----
+ www/api/magick-wand.html         |  6 +----
+ www/api/magick.html              |  6 +----
+ www/api/memory.html              |  6 +----
+ www/api/mime.html                |  6 +----
+ www/api/module.html              |  6 +----
+ www/api/mogrify.html             |  6 +----
+ www/api/monitor.html             |  6 +----
+ www/api/montage.html             |  6 +----
+ www/api/morphology.html          |  6 +----
+ www/api/paint.html               |  6 +----
+ www/api/pixel-iterator.html      |  6 +----
+ www/api/pixel-wand.html          |  6 +----
+ www/api/profile.html             |  6 +----
+ www/api/property.html            |  6 +----
+ www/api/quantize.html            |  6 +----
+ www/api/registry.html            |  6 +----
+ www/api/resize.html              |  6 +----
+ www/api/resource.html            |  6 +----
+ www/api/segment.html             |  6 +----
+ www/api/shear.html               |  6 +----
+ www/api/signature.html           |  6 +----
+ www/api/statistic.html           |  6 +----
+ www/api/stream.html              |  6 +----
+ www/api/transform.html           |  6 +----
+ www/api/version.html             |  6 +----
+ www/api/vision.html              |  6 +----
+ www/api/wand-view.html           |  6 +----
+ www/binary-releases.html         |  6 +----
+ www/changelog.html               |  6 +----
+ www/cite.html                    |  6 +----
+ www/color-management.html        |  6 +----
+ www/color-thresholding.html      |  6 +----
+ www/command-line-options.html    |  6 +----
+ www/command-line-processing.html |  6 +----
+ www/command-line-tools.html      |  6 +----
+ www/composite.html               |  6 +----
+ www/conjure.html                 |  6 +----
+ www/connected-components.html    |  6 +----
+ www/contact.html                 | 49 +---------------------------------------
+ www/defines.html                 |  6 +----
+ www/develop.html                 |  6 +----
+ www/display.html                 |  6 +----
+ www/download.html                | 11 +--------
+ www/examples.html                |  6 +----
+ www/formats.html                 |  6 +----
+ www/import.html                  |  6 +----
+ www/index.html                   |  6 +----
+ www/license.html                 |  6 +----
+ www/magick++.html                |  6 +----
+ www/magick-core.html             |  6 +----
+ www/magick.html                  |  6 +----
+ www/mirror.html                  |  6 +----
+ www/mogrify.html                 |  6 +----
+ www/montage.html                 |  6 +----
+ www/motion-picture.html          |  6 +----
+ www/multispectral-imagery.html   |  6 +----
+ www/perl-magick.html             |  6 +----
+ www/porting.html                 |  6 +----
+ www/resources.html               |  6 +----
+ www/security-policy.html         |  6 +----
+ www/stream.html                  |  6 +----
+ 98 files changed, 98 insertions(+), 538 deletions(-)
+
+diff --git a/www/api.html b/www/api.html
+index 8248fc4..0b03bb3 100644
+--- a/www/api.html
++++ b/www/api.html
+@@ -66,11 +66,7 @@
+       </li>
+     </ul>
+     </div>
+-    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
+-      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+-    </form>
+-  </nav>
++      </nav>
+   <main class="container">
+     <div class="magick-template">
+ <div class="magick-header">
+diff --git a/www/api/Image++.html b/www/api/Image++.html
+index 974d52b..3a74315 100644
+--- a/www/api/Image++.html
++++ b/www/api/Image++.html
+@@ -66,11 +66,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../../../../../../../../../../../../../../../../../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/animate.html b/www/api/animate.html
+index 051013d..480ae31 100644
+--- a/www/api/animate.html
++++ b/www/api/animate.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/annotate.html b/www/api/annotate.html
+index 257d01e..6cb452e 100644
+--- a/www/api/annotate.html
++++ b/www/api/annotate.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/attribute.html b/www/api/attribute.html
+index 67e2673..fa632e6 100644
+--- a/www/api/attribute.html
++++ b/www/api/attribute.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/blob.html b/www/api/blob.html
+index 520e3d5..81d6da0 100644
+--- a/www/api/blob.html
++++ b/www/api/blob.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/cache-view.html b/www/api/cache-view.html
+index f60c57b..f4b7907 100644
+--- a/www/api/cache-view.html
++++ b/www/api/cache-view.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/cache.html b/www/api/cache.html
+index 9c9eb94..608e61f 100644
+--- a/www/api/cache.html
++++ b/www/api/cache.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/channel.html b/www/api/channel.html
+index 9ac7207..b14d309 100644
+--- a/www/api/channel.html
++++ b/www/api/channel.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/cipher.html b/www/api/cipher.html
+index ebcf3fd..4657fc9 100644
+--- a/www/api/cipher.html
++++ b/www/api/cipher.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/color.html b/www/api/color.html
+index 05c6c41..df3b912 100644
+--- a/www/api/color.html
++++ b/www/api/color.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/colormap.html b/www/api/colormap.html
+index 730ced0..b501ac9 100644
+--- a/www/api/colormap.html
++++ b/www/api/colormap.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/colorspace.html b/www/api/colorspace.html
+index cfc0765..6ac6554 100644
+--- a/www/api/colorspace.html
++++ b/www/api/colorspace.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/compare.html b/www/api/compare.html
+index 6aacb30..e0f258c 100644
+--- a/www/api/compare.html
++++ b/www/api/compare.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/composite.html b/www/api/composite.html
+index 975755d..68fb073 100644
+--- a/www/api/composite.html
++++ b/www/api/composite.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/constitute.html b/www/api/constitute.html
+index 9cb269e..4d906b5 100644
+--- a/www/api/constitute.html
++++ b/www/api/constitute.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/decorate.html b/www/api/decorate.html
+index 4addce0..feccabd 100644
+--- a/www/api/decorate.html
++++ b/www/api/decorate.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/deprecate.html b/www/api/deprecate.html
+index e4548f1..00ad1d6 100644
+--- a/www/api/deprecate.html
++++ b/www/api/deprecate.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/display.html b/www/api/display.html
+index 35a56a3..c5b1943 100644
+--- a/www/api/display.html
++++ b/www/api/display.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/distort.html b/www/api/distort.html
+index 2b2acc7..26590b9 100644
+--- a/www/api/distort.html
++++ b/www/api/distort.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/draw.html b/www/api/draw.html
+index cbae944..3d05e0d 100644
+--- a/www/api/draw.html
++++ b/www/api/draw.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
+index b8ea934..2c376e0 100644
+--- a/www/api/drawing-wand.html
++++ b/www/api/drawing-wand.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/effect.html b/www/api/effect.html
+index 957d8ee..d8c2715 100644
+--- a/www/api/effect.html
++++ b/www/api/effect.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/enhance.html b/www/api/enhance.html
+index 56311b1..76fffdc 100644
+--- a/www/api/enhance.html
++++ b/www/api/enhance.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/exception.html b/www/api/exception.html
+index ae41630..a42c671 100644
+--- a/www/api/exception.html
++++ b/www/api/exception.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/feature.html b/www/api/feature.html
+index 9fb1f92..3697dab 100644
+--- a/www/api/feature.html
++++ b/www/api/feature.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/fourier.html b/www/api/fourier.html
+index 8c87fb1..8a2f119 100644
+--- a/www/api/fourier.html
++++ b/www/api/fourier.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/fx.html b/www/api/fx.html
+index 17f8d7f..213ca18 100644
+--- a/www/api/fx.html
++++ b/www/api/fx.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/histogram.html b/www/api/histogram.html
+index 546f417..e804436 100644
+--- a/www/api/histogram.html
++++ b/www/api/histogram.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/image-view.html b/www/api/image-view.html
+index 847f681..cd850b2 100644
+--- a/www/api/image-view.html
++++ b/www/api/image-view.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/image.html b/www/api/image.html
+index 86719aa..2fac257 100644
+--- a/www/api/image.html
++++ b/www/api/image.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/layer.html b/www/api/layer.html
+index 279ef4f..4e31525 100644
+--- a/www/api/layer.html
++++ b/www/api/layer.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/list.html b/www/api/list.html
+index 322ff94..9a2325f 100644
+--- a/www/api/list.html
++++ b/www/api/list.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
+index dfedd97..3e0b3cf 100644
+--- a/www/api/magick++-classes.html
++++ b/www/api/magick++-classes.html
+@@ -66,11 +66,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../../../../../../../../../../../../../../../../../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
+index ee3283c..8c1e571 100644
+--- a/www/api/magick-deprecate.html
++++ b/www/api/magick-deprecate.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/magick-image.html b/www/api/magick-image.html
+index a8928f5..7388d52 100644
+--- a/www/api/magick-image.html
++++ b/www/api/magick-image.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/magick-property.html b/www/api/magick-property.html
+index 26c40ef..4ac69ed 100644
+--- a/www/api/magick-property.html
++++ b/www/api/magick-property.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
+index be4db9e..694b10c 100644
+--- a/www/api/magick-wand.html
++++ b/www/api/magick-wand.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/magick.html b/www/api/magick.html
+index 4839131..c817ae8 100644
+--- a/www/api/magick.html
++++ b/www/api/magick.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/memory.html b/www/api/memory.html
+index b5b896c..5bf8f48 100644
+--- a/www/api/memory.html
++++ b/www/api/memory.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/mime.html b/www/api/mime.html
+index eec75ed..88420df 100644
+--- a/www/api/mime.html
++++ b/www/api/mime.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/module.html b/www/api/module.html
+index 7fdb026..f964ede 100644
+--- a/www/api/module.html
++++ b/www/api/module.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/mogrify.html b/www/api/mogrify.html
+index a797bb4..b45daea 100644
+--- a/www/api/mogrify.html
++++ b/www/api/mogrify.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/monitor.html b/www/api/monitor.html
+index c693857..52fa365 100644
+--- a/www/api/monitor.html
++++ b/www/api/monitor.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/montage.html b/www/api/montage.html
+index cb4f37e..3bcc045 100644
+--- a/www/api/montage.html
++++ b/www/api/montage.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index 0652783..5cb0e9e 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/paint.html b/www/api/paint.html
+index 9d361c8..66cb7c5 100644
+--- a/www/api/paint.html
++++ b/www/api/paint.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
+index a99f8a2..9d109a3 100644
+--- a/www/api/pixel-iterator.html
++++ b/www/api/pixel-iterator.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
+index 741d0d6..3c1a9c8 100644
+--- a/www/api/pixel-wand.html
++++ b/www/api/pixel-wand.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/profile.html b/www/api/profile.html
+index 7ddc741..ede8ef8 100644
+--- a/www/api/profile.html
++++ b/www/api/profile.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/property.html b/www/api/property.html
+index 2d8bed7..555fcd4 100644
+--- a/www/api/property.html
++++ b/www/api/property.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/quantize.html b/www/api/quantize.html
+index 6dab6e9..43178e8 100644
+--- a/www/api/quantize.html
++++ b/www/api/quantize.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/registry.html b/www/api/registry.html
+index a582f14..f92ada9 100644
+--- a/www/api/registry.html
++++ b/www/api/registry.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/resize.html b/www/api/resize.html
+index 5e350a3..7e6939a 100644
+--- a/www/api/resize.html
++++ b/www/api/resize.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/resource.html b/www/api/resource.html
+index 7e6b531..2245d33 100644
+--- a/www/api/resource.html
++++ b/www/api/resource.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/segment.html b/www/api/segment.html
+index 295ba4a..858dd9e 100644
+--- a/www/api/segment.html
++++ b/www/api/segment.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/shear.html b/www/api/shear.html
+index d7d4aa9..797fb0b 100644
+--- a/www/api/shear.html
++++ b/www/api/shear.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/signature.html b/www/api/signature.html
+index 2935820..6fe60b0 100644
+--- a/www/api/signature.html
++++ b/www/api/signature.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/statistic.html b/www/api/statistic.html
+index 2807fbe..03434d7 100644
+--- a/www/api/statistic.html
++++ b/www/api/statistic.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/stream.html b/www/api/stream.html
+index 1be037e..3c4d310 100644
+--- a/www/api/stream.html
++++ b/www/api/stream.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/transform.html b/www/api/transform.html
+index ea84b39..afb2262 100644
+--- a/www/api/transform.html
++++ b/www/api/transform.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/version.html b/www/api/version.html
+index 7cb82dd..2b73488 100644
+--- a/www/api/version.html
++++ b/www/api/version.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/vision.html b/www/api/vision.html
+index 9937108..7e0a944 100644
+--- a/www/api/vision.html
++++ b/www/api/vision.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/api/wand-view.html b/www/api/wand-view.html
+index 7dac9f3..23d4837 100644
+--- a/www/api/wand-view.html
++++ b/www/api/wand-view.html
+@@ -118,11 +118,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/binary-releases.html b/www/binary-releases.html
+index aa989d8..164ef4a 100644
+--- a/www/binary-releases.html
++++ b/www/binary-releases.html
+@@ -61,11 +61,7 @@
+       </li>
+     </ul>
+     </div>
+-    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
+-      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+-    </form>
+-  </nav>
++      </nav>
+   </header>
+   <main class="container">
+     <div class="magick-template">
+diff --git a/www/changelog.html b/www/changelog.html
+index 2bf2c3c..5aafb0b 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
+@@ -68,11 +68,7 @@
+       </ul>
+     </div>
+   </div>
+-    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
+-      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+-    </form>
+-  </nav>
++      </nav>
+ 
+   <div class="container">
+ 
+diff --git a/www/cite.html b/www/cite.html
+index 607fb87..fcbc819 100644
+--- a/www/cite.html
++++ b/www/cite.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/color-management.html b/www/color-management.html
+index 71866ed..9db534c 100644
+--- a/www/color-management.html
++++ b/www/color-management.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/color-thresholding.html b/www/color-thresholding.html
+index ac2328c..f9231d9 100644
+--- a/www/color-thresholding.html
++++ b/www/color-thresholding.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index c71520d..a814638 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index f3fe549..12a6802 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/command-line-tools.html b/www/command-line-tools.html
+index 8b310f9..a0b3d64 100644
+--- a/www/command-line-tools.html
++++ b/www/command-line-tools.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/composite.html b/www/composite.html
+index 7bfb2ea..cb5845d 100644
+--- a/www/composite.html
++++ b/www/composite.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/conjure.html b/www/conjure.html
+index 662f845..1c5fc68 100644
+--- a/www/conjure.html
++++ b/www/conjure.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/connected-components.html b/www/connected-components.html
+index d73fe80..7e54988 100644
+--- a/www/connected-components.html
++++ b/www/connected-components.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/contact.html b/www/contact.html
+index 362467b..b7cf39e 100644
+--- a/www/contact.html
++++ b/www/contact.html
+@@ -139,54 +139,7 @@
+ 	<p>Enter this code, <samp>
+ 040d70</samp>, in the Authenticate field and fill in the remaining fields.  Press Send to forward your message to the ImageMagick wizards:</p>
+   <br/>
+-  <form method="post" name="post" id="post" action="../www/../www/../www/https://imagemagick.org/script/contact.php" enctype="application/x-www-form-urlencoded">
+-  <div>
+-  <table class="table table-sm table-hover table-striped table-responsive">
+-    <tr>
+-      <td><label id="authenticate" title="Your authentication code">Authenticate</label></td>
+-        <td valign="top"><input type="text" name="authenticate" size="32" maxlength="255" value="" /></td>
+-    </tr>
+-
+-    <tr>
+-      <td><label id="e-mail" title="Without a valid e-mail address, we cannot respond to your message">E-mail</label></td>
+-        <td valign="top"><input type="text" name="address" size="32" maxlength="255" value="" /></td>
+-    </tr>
+-
+-    <tr>
+-      <td><label id="name" title="Your name or nickname">Name</label></td>
+-        <td valign="top"><input type="text" name="name" size="32" maxlength="255" value="" /></td>
+-    </tr>
+-
+-    <tr>
+-      <td><label id="issues" title="We only accept these issues">Issue</label></td>
+-    <td valign="top"><select name="issue" >
+-<option value="">Choose an appropriate issue</option>
+-<option value="Bug Report">Bug Report</option>
+-<option value="ImageMagick Mirror">ImageMagick Mirror</option>
+-<option value="Source or Documentation Patch">Source or Documentation Patch</option>
+-<option value="Website Suggestion">Website Suggestion</option>
+-<option value="Security Issue">Security Issue</option>
+-<option value="License or Export Classification Issue">License or Export Classification Issue</option>
+-<option value="ImageMagick Support ($$)">ImageMagick Support ($$)</option>
+-<option value="ImageMagick Donation">ImageMagick Donation</option>
+-</select></td>
+-    </tr>
+-
+-    <tr>
+-      <td><label id="message" title="Your message must directly relate to the issue, otherwise do not expect a response">Message</label></td>
+-      <td><textarea style="font-size: 90%;" rows="24" cols="80" name="message"></textarea></td>
+-    </tr>
+-
+-    <tr>
+-      <td colspan="2" style="text-align: center"><br />
+-        <input type="submit" name="action" value="Send" />
+-        <input type="reset" name="Reset" value="Clear" />
+-      </td>
+-    </tr>
+-  </table>
+-  </div>
+-  </form>
+-  </fieldset>
++    </fieldset>
+   </div>
+   <br />
+ </div>
+diff --git a/www/defines.html b/www/defines.html
+index 251008b..015f5e9 100644
+--- a/www/defines.html
++++ b/www/defines.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/develop.html b/www/develop.html
+index 5a6bb92..8217ac4 100644
+--- a/www/develop.html
++++ b/www/develop.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/display.html b/www/display.html
+index 3afb312..a96ef89 100644
+--- a/www/display.html
++++ b/www/display.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/download.html b/www/download.html
+index fae4a51..92b3b65 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -117,16 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
+-    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
+-      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+-    </form>
+-    </div>
++          </div>
+   </nav>
+ 
+ <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
+diff --git a/www/examples.html b/www/examples.html
+index c76c83d..7769eff 100644
+--- a/www/examples.html
++++ b/www/examples.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/formats.html b/www/formats.html
+index 27a408c..1a05b7f 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/import.html b/www/import.html
+index c42b934..480dfbb 100644
+--- a/www/import.html
++++ b/www/import.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/index.html b/www/index.html
+index 7a3bb7a..84ae8f3 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/license.html b/www/license.html
+index 81a6f0c..fc87aa3 100644
+--- a/www/license.html
++++ b/www/license.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/magick++.html b/www/magick++.html
+index 7ed3ac0..693490e 100644
+--- a/www/magick++.html
++++ b/www/magick++.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/magick-core.html b/www/magick-core.html
+index e3dc90f..cbd4150 100644
+--- a/www/magick-core.html
++++ b/www/magick-core.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/magick.html b/www/magick.html
+index 22cac7c..9e4c699 100644
+--- a/www/magick.html
++++ b/www/magick.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/mirror.html b/www/mirror.html
+index 3071860..cd66be6 100644
+--- a/www/mirror.html
++++ b/www/mirror.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/mogrify.html b/www/mogrify.html
+index 719031d..82d617d 100644
+--- a/www/mogrify.html
++++ b/www/mogrify.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/montage.html b/www/montage.html
+index 1245e21..bac462c 100644
+--- a/www/montage.html
++++ b/www/montage.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/motion-picture.html b/www/motion-picture.html
+index af08c09..47b51e5 100644
+--- a/www/motion-picture.html
++++ b/www/motion-picture.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
+index bdb216f..d82745d 100644
+--- a/www/multispectral-imagery.html
++++ b/www/multispectral-imagery.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/perl-magick.html b/www/perl-magick.html
+index de27fcd..25ed47a 100644
+--- a/www/perl-magick.html
++++ b/www/perl-magick.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/porting.html b/www/porting.html
+index 798230b..04a5c1d 100644
+--- a/www/porting.html
++++ b/www/porting.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/resources.html b/www/resources.html
+index ce4cf8b..fd4aa43 100644
+--- a/www/resources.html
++++ b/www/resources.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/security-policy.html b/www/security-policy.html
+index bc971f3..63975ed 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+diff --git a/www/stream.html b/www/stream.html
+index e79bbb8..e8c26c6 100644
+--- a/www/stream.html
++++ b/www/stream.html
+@@ -117,11 +117,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../www/search.html">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
