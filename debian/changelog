@@ -1,8 +1,95 @@
-imagemagick (8:7.1.1.47+dfsg1-1deepin1) unstable; urgency=medium
+imagemagick (8:7.1.2.3+dfsg1-1) unstable; urgency=medium
 
-  * feat: add sw64 support 
+  * New upstream version.
+  * Fix CVE-2025-55212:
+    Passing a geometry string containing only a colon (":") to montage
+    -geometry leads GetGeometry() to set width/height to 0. Later,
+    ThumbnailImage() divides by these zero dimensions, triggering
+    a crash (SIGFPE/abort), resulting in a denial of service
+    (Closes: #1111587)
+  * Fix CVE-2025-55298:
+    A format string bug vulnerability exists in InterpretImageFilename
+    function where user input is directly passed to FormatLocaleString
+    without proper sanitization. An attacker can overwrite arbitrary
+    memory regions, enabling a wide range of attacks from heap overflow
+    to remote code execution.
+    (Closes: #1111586)
+  * Fix CVE-2025-57803:
+    A 32-bit integer overflow in the BMP encoder’s scanline-stride
+    computation collapses bytes_per_line (stride) to a tiny value while
+    the per-row writer still emits 3 × width bytes for 24-bpp images.
+    The row base pointer advances using the (overflowed) stride,
+    so the first row immediately writes past its slot
+    and into adjacent heap memory with attacker-controlled bytes.
+    (Closes: #1112469)
+  * Fix CVE-2025-57807:
+    ImageMagick versions include insecure functions: SeekBlob(),
+    which permits advancing the stream offset beyond the current end without
+    increasing capacity, and WriteBlob(), which then expands by
+    quantum + length (amortized) instead of offset + length, and copies
+    to data + offset. When offset ≫ extent, the copy targets memory
+    beyond the allocation, producing a deterministic heap write
+    on 64-bit builds
+    (Closes: #1114520)
 
- -- hudeng <hudeng@deepin.org>  Wed, 09 Jul 2025 17:08:38 +0800
+ -- Bastien Roucariès <rouca@debian.org>  Sat, 06 Sep 2025 01:44:14 +0200
+
+imagemagick (8:7.1.2.1+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version
+  * Fix CVE-2025-55004:
+    ImageMagick is vulnerable to heap-buffer overflow read
+    around the handling of images with separate alpha channels
+    when performing image magnification in ReadOneMNGIMage.
+    (Closes: #1111101)
+  * Fix CVE-2025-55005:
+    When preparing to transform from Log to sRGB colorspaces,
+    the logmap construction fails to handle cases where the
+    reference-black or reference-white value is larger than 1024.
+    This leads to corrupting memory beyond the end of the allocated
+    logmap buffer.
+    (Closes: #1111102)
+  * Fix CVE-2025-55154:
+    The magnified size calculations in ReadOneMNGIMage
+    (in coders/png.c) are unsafe and can overflow, leading to
+    memory corruption.
+    (Closes:  #1111103)
+  * Fix CVE-2025-55160:
+    There is undefined behavior (function-type-mismatch) in
+    splay tree cloning callback. This results in a deterministic
+    abort under UBSan (DoS in sanitizer builds),
+    with no crash in a non-sanitized build
+    (Closes:  #1111104)
+  * Conflicts with graphicsmagick-libmagick-dev-compat
+
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 17 Aug 2025 18:54:36 +0200
+
+Imagemagick (8:7.1.1.47+dfsg1-2) unstable; urgency=medium
+
+  * Fix CVE-2025-53014:
+    A heap buffer overflow was found in the `InterpretImageFilename`
+    function. The issue stems from an off-by-one error that
+    causes out-of-bounds memory access when processing format
+    strings containing consecutive percent signs (`%%`).
+    (Closes: #1109339)
+  * Fix CVE-2025-53015:
+    Infinite loop occur when writing during a specific XMP
+    file conversion command
+    (Closes: #1109339)
+  * Fix CVE-2025-53019:
+    `magick stream` command, specifying
+    multiple consecutive `%d` format specifiers in a
+    filename template causes a memory leak
+    (Closes: #1109339)
+  * Fix CVE-2025-53101:
+    `magick mogrify` command, specifying multiple consecutive
+    `%d` format specifiers in a filename template causes
+    internal pointer arithmetic to generate an address
+    below the beginning of the stack buffer, resulting
+    in a stack overflow through `vsnprintf()`
+    (Closes: #1109339)
+
+ -- Bastien Roucariès <rouca@debian.org>  Tue, 15 Jul 2025 22:29:23 +0200
 
 imagemagick (8:7.1.1.47+dfsg1-1) unstable; urgency=medium
 

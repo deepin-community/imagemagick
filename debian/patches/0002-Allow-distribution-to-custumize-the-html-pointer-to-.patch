@@ -19,10 +19,10 @@ Bug-debian: https://bugs.debian.org/727739
  9 files changed, 31 insertions(+), 16 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 478e34f..f4b907b 100644
+index 347a546..2a68752 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -3219,6 +3219,18 @@ esac
+@@ -3222,6 +3222,18 @@ esac
  AC_DEFINE_UNQUOTED([DOCUMENTATION_PATH],["$DEFINE_DOCUMENTATION_PATH"],[Directory where ImageMagick documents live.])
  AC_SUBST([DOCUMENTATION_PATH])
  

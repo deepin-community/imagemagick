@@ -1,0 +1,21 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Mon, 18 Aug 2025 00:07:25 +0200
+Subject: Fix remaining error in html
+
+---
+ www/Magick++/index.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/www/Magick++/index.html b/www/Magick++/index.html
+index 53ace97..f94dfed 100644
+--- a/www/Magick++/index.html
++++ b/www/Magick++/index.html
+@@ -8,7 +8,7 @@
+ </head>
+ <body>
+ <div class="doc-section">
+-<p align="center"><img src="Magick++.png" name="Graphic1" align="bottom" width="464" height="134" border="0"></p>
++<p align="center"><img src="Magick++.png" name="Graphic1" align="bottom" width="464" height="134" border="0" /></p>
+ <h1>ImageMagick Magick++ API</h1>
+ <P>Magick++ is the object-oriented C++ API to the <A HREF="../index.html">ImageMagick</A>
+ image-processing library, the most comprehensive open-source image

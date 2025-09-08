@@ -11,6 +11,7 @@ Files-Excluded: images/donate.*
  		www/assets/*.css
                 PerlMagick/t/ttf/input.ttf
                 PerlMagick/demo/Generic.ttf
+		index.html
 Comment: Remove non free image and doxygen files
 Upstream-Contact: http://www.imagemagick.org/discourse-server/
 

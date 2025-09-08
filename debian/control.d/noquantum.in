@@ -156,6 +156,7 @@ Depends: ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends},
 	 libimage-magick-${DEFAULTQUANTUMDEPTH}-perl:any
 Provides: perlmagick
 Suggests: imagemagick-${IMVERSION}-doc
+Conflicts: graphicsmagick-libmagick-dev-compat
 Recommends: fonts-tuffy 
 Description: Perl interface to the ImageMagick graphics routines
  PerlMagick is an objected-oriented Perl interface to ImageMagick.

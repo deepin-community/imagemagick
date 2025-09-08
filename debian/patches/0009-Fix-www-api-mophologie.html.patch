@@ -8,7 +8,7 @@ Forwarded: Yes, https://github.com/ImageMagick/ImageMagick/issues/304
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/www/api/morphology.html b/www/api/morphology.html
-index e3c973e..830dfa3 100644
+index 1ed43e2..c72d0e1 100644
 --- a/www/api/morphology.html
 +++ b/www/api/morphology.html
 @@ -553,7 +553,7 @@

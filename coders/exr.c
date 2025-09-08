@@ -56,6 +56,7 @@
 #include "MagickCore/quantum-private.h"
 #include "MagickCore/static.h"
 #include "MagickCore/string_.h"
+#include "MagickCore/string-private.h"
 #include "MagickCore/module.h"
 #include "MagickCore/resource_.h"
 #include "MagickCore/utility.h"
@@ -220,7 +221,7 @@ static MagickBooleanType InitializeEXRChannels(Image *image,exr_context_t ctxt,
       prefix_length=1+(size_t)(prefix-decoder.channels[0].channel_name);
       if (prefix_length < MagickPathExtent)
         {
-          CopyMagickString(channel_name,decoder.channels[0].channel_name
+          (void) CopyMagickString(channel_name,decoder.channels[0].channel_name
             ,prefix_length+1);
           channel=decoder.channels;
           for (c = 0; c < decoder.channel_count; ++c)
@@ -280,6 +281,8 @@ static MagickBooleanType InitializeEXRChannels(Image *image,exr_context_t ctxt,
     status=SetPixelMetaChannels(image,number_meta_channels,exception);
   if (status == MagickFalse)
     return(status);
+  if ((decoder.channel_count == 1) && (pixel_channels[0] == IndexPixelChannel))
+    image->colorspace=GRAYColorspace;
   *data=(uint8_t *) AcquireQuantumMemory(*pixel_size,pixel_count);
   if (*data == (uint8_t*)NULL)
     {
@@ -404,6 +407,10 @@ static MagickBooleanType ReadEXRScanlineImage(exr_context_t ctxt,int part_index,
     Quantum
       *q;
 
+    size_t
+      scans_count_to_read,
+      pixel_count_to_read;
+
     if (y != 0)
       {
         int
@@ -417,11 +424,13 @@ static MagickBooleanType ReadEXRScanlineImage(exr_context_t ctxt,int part_index,
       result=exr_decoding_run(ctxt,part_index,&decoder);
     if (result != EXR_ERR_SUCCESS)
       break;
-    q=QueueAuthenticPixels(image,0,y,image->columns,(size_t) scans_per_chunk,
+    scans_count_to_read=MagickMin((size_t) scans_per_chunk,image->rows-y);
+    pixel_count_to_read=scans_count_to_read*image->columns;
+    q=QueueAuthenticPixels(image,0,y,image->columns,scans_count_to_read,
       exception);
     if (q == (Quantum *) NULL)
       break;
-    status=ReadEXRPixels(image,decoder,pixel_channels,data,q,pixel_count,
+    status=ReadEXRPixels(image,decoder,pixel_channels,data,q,pixel_count_to_read,
       image->columns,0,exception);
     if (status == MagickFalse)
       break;
@@ -1104,7 +1113,7 @@ static MagickBooleanType WriteEXRImage(const ImageInfo *image_info,Image *image,
       /*
         Sampling factors, valid values are 1x1 or 2x2.
       */
-      if (sscanf(sampling_factor,"%d:%d:%d",factors,factors+1,factors+2) == 3)
+      if (MagickSscanf(sampling_factor,"%d:%d:%d",factors,factors+1,factors+2) == 3)
         {
           if ((factors[0] == factors[1]) && (factors[1] == factors[2]))
             factors[0]=1;
@@ -1113,7 +1122,7 @@ static MagickBooleanType WriteEXRImage(const ImageInfo *image_info,Image *image,
               factors[0]=2;
         }
       else
-        if (sscanf(sampling_factor,"%dx%d",factors,factors+1) == 2)
+        if (MagickSscanf(sampling_factor,"%dx%d",factors,factors+1) == 2)
           {
             if (factors[0] != factors[1])
               factors[0]=0;
@@ -1174,17 +1183,19 @@ static MagickBooleanType WriteEXRImage(const ImageInfo *image_info,Image *image,
       break;
     for (x=0; x < (ssize_t) image->columns; x++)
     {
-      ImfFloatToHalf(QuantumScale*(double) GetPixelRed(image,p),&half_quantum);
+      ImfFloatToHalf((float) (QuantumScale*(double) GetPixelRed(image,p)),
+        &half_quantum);
       scanline[x].r=half_quantum;
-      ImfFloatToHalf(QuantumScale*(double) GetPixelGreen(image,p),
+      ImfFloatToHalf((float) (QuantumScale*(double) GetPixelGreen(image,p)),
         &half_quantum);
       scanline[x].g=half_quantum;
-      ImfFloatToHalf(QuantumScale*(double) GetPixelBlue(image,p),&half_quantum);
+      ImfFloatToHalf((float) (QuantumScale*(double) GetPixelBlue(image,p)),
+        &half_quantum);
       scanline[x].b=half_quantum;
       if ((image->alpha_trait & BlendPixelTrait) == 0)
         ImfFloatToHalf(1.0,&half_quantum);
       else
-        ImfFloatToHalf(QuantumScale*(double) GetPixelAlpha(image,p),
+        ImfFloatToHalf((float) (QuantumScale*(double) GetPixelAlpha(image,p)),
           &half_quantum);
       scanline[x].a=half_quantum;
       p+=(ptrdiff_t) GetPixelChannels(image);

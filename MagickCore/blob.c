@@ -402,7 +402,7 @@ MagickExport MagickBooleanType BlobToFile(char *filename,const void *blob,
           break;
       }
   }
-  file=close(file);
+  file=close_utf8(file);
   if ((file == -1) || (i < length))
     {
       ThrowFileException(exception,BlobError,"UnableToWriteBlob",filename);
@@ -1516,7 +1516,7 @@ MagickExport void *FileToBlob(const char *filename,const size_t extent,
           break;
       }
       if (LocaleCompare(filename,"-") != 0)
-        file=close(file);
+        file=close_utf8(file);
       if (blob == (unsigned char *) NULL)
         {
           (void) ThrowMagickException(exception,GetMagickModule(),
@@ -1541,7 +1541,7 @@ MagickExport void *FileToBlob(const char *filename,const size_t extent,
       sizeof(*blob));
   if (blob == (unsigned char *) NULL)
     {
-      file=close(file);
+      file=close_utf8(file);
       (void) ThrowMagickException(exception,GetMagickModule(),
         ResourceLimitError,"MemoryAllocationFailed","`%s'",filename);
       return(NULL);
@@ -1568,7 +1568,7 @@ MagickExport void *FileToBlob(const char *filename,const size_t extent,
       }
       if (i < *length)
         {
-          file=close(file)-1;
+          file=close_utf8(file)-1;
           blob=(unsigned char *) RelinquishMagickMemory(blob);
           ThrowFileException(exception,BlobError,"UnableToReadBlob",filename);
           return(NULL);
@@ -1576,7 +1576,7 @@ MagickExport void *FileToBlob(const char *filename,const size_t extent,
     }
   blob[*length]='\0';
   if (LocaleCompare(filename,"-") != 0)
-    file=close(file);
+    file=close_utf8(file);
   if (file == -1)
     {
       blob=(unsigned char *) RelinquishMagickMemory(blob);
@@ -1630,7 +1630,7 @@ static inline ssize_t WriteBlobStream(Image *image,const size_t length,
   extent=(MagickSizeType) (blob_info->offset+(MagickOffsetType) length);
   if (extent >= blob_info->extent)
     {
-      extent=blob_info->extent+blob_info->quantum+length;
+      extent+=blob_info->quantum+length;
       blob_info->quantum<<=1;
       if (SetBlobExtent(image,extent) == MagickFalse)
         return(0);
@@ -1692,7 +1692,7 @@ MagickExport MagickBooleanType FileToImage(Image *image,const char *filename,
   blob=(unsigned char *) AcquireQuantumMemory(quantum,sizeof(*blob));
   if (blob == (unsigned char *) NULL)
     {
-      file=close(file);
+      file=close_utf8(file);
       ThrowFileException(exception,ResourceLimitError,"MemoryAllocationFailed",
         filename);
       return(MagickFalse);
@@ -1714,7 +1714,7 @@ MagickExport MagickBooleanType FileToImage(Image *image,const char *filename,
         break;
       }
   }
-  file=close(file);
+  file=close_utf8(file);
   if (file == -1)
     ThrowFileException(exception,BlobError,"UnableToWriteBlob",filename);
   blob=(unsigned char *) RelinquishMagickMemory(blob);
@@ -2381,7 +2381,7 @@ MagickExport MagickBooleanType ImageToFile(Image *image,char *filename,
   buffer=(unsigned char *) AcquireQuantumMemory(quantum,sizeof(*buffer));
   if (buffer == (unsigned char *) NULL)
     {
-      file=close(file)-1;
+      file=close_utf8(file)-1;
       (void) ThrowMagickException(exception,GetMagickModule(),
         ResourceLimitError,"MemoryAllocationError","`%s'",filename);
       return(MagickFalse);
@@ -2406,12 +2406,12 @@ MagickExport MagickBooleanType ImageToFile(Image *image,char *filename,
     p=(const unsigned char *) ReadBlobStream(image,quantum,buffer,&count);
   }
   if (LocaleCompare(filename,"-") != 0)
-    file=close(file);
+    file=close_utf8(file);
   buffer=(unsigned char *) RelinquishMagickMemory(buffer);
   if ((file == -1) || (i < length))
     {
       if (file != -1)
-        file=close(file);
+        file=close_utf8(file);
       ThrowFileException(exception,BlobError,"UnableToWriteBlob",filename);
       return(MagickFalse);
     }
@@ -2839,7 +2839,7 @@ MagickExport MagickBooleanType InjectImageBlob(const ImageInfo *image_info,
   if (buffer == (unsigned char *) NULL)
     {
       (void) RelinquishUniqueFileResource(filename);
-      file=close(file);
+      file=close_utf8(file);
       ThrowBinaryException(ResourceLimitError,"MemoryAllocationFailed",
         image->filename);
     }
@@ -2855,7 +2855,7 @@ MagickExport MagickBooleanType InjectImageBlob(const ImageInfo *image_info,
     status=WriteBlobStream(image,(size_t) count,buffer) == count ? MagickTrue :
       MagickFalse;
   }
-  file=close(file);
+  file=close_utf8(file);
   if (file == -1)
     ThrowFileException(exception,FileOpenError,"UnableToWriteBlob",filename);
   (void) RelinquishUniqueFileResource(filename);
@@ -4968,7 +4968,7 @@ MagickExport char *ReadBlobString(Image *image,char *string)
             blob_info->eof=MagickTrue;
             break;
           }
-        string[i++]=c;
+        string[i++]=(char) c;
         if (c == '\n')
           break;
       } while (i < (MaxTextExtent-2));
@@ -5089,7 +5089,7 @@ MagickExport MagickOffsetType SeekBlob(Image *image,
     case ZipStream:
     {
 #if defined(MAGICKCORE_ZLIB_DELEGATE)
-      if (gzseek(blob_info->file_info.gzfile,offset,whence) < 0)
+      if (gzseek(blob_info->file_info.gzfile,(long) offset,whence) < 0)
         return(-1);
 #endif
       blob_info->offset=TellBlob(image);
@@ -5912,21 +5912,16 @@ MagickExport ssize_t WriteBlob(Image *image,const size_t length,
     }
     case BlobStream:
     {
-      if ((blob_info->offset+(MagickOffsetType) length) >=
-          (MagickOffsetType) blob_info->extent)
+      MagickSizeType
+        extent;
+
+      extent=(MagickSizeType) (blob_info->offset+(MagickOffsetType) length);
+      if (extent >= blob_info->extent)
         {
-          if (blob_info->mapped != MagickFalse)
-            return(0);
-          blob_info->extent+=length+blob_info->quantum;
+          extent+=blob_info->quantum+length;
           blob_info->quantum<<=1;
-          blob_info->data=(unsigned char *) ResizeQuantumMemory(
-            blob_info->data,blob_info->extent+1,sizeof(*blob_info->data));
-          (void) SyncBlob(image);
-          if (blob_info->data == (unsigned char *) NULL)
-            {
-              (void) DetachBlob(blob_info);
-              return(0);
-            }
+          if (SetBlobExtent(image,extent) == MagickFalse)
+            return(0);
         }
       q=blob_info->data+blob_info->offset;
       (void) memcpy(q,p,length);
