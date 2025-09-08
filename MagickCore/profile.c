@@ -143,6 +143,23 @@ typedef struct _CMSExceptionInfo
 %    o clone_image: the clone image.
 %
 */
+
+typedef char
+  *(*CloneKeyFunc)(const char *);
+
+typedef StringInfo
+  *(*CloneValueFunc)(const StringInfo *);
+
+static inline void *CloneProfileKey(void *key)
+{
+  return((void *) ((CloneKeyFunc) ConstantString)((const char *) key));
+}
+
+static inline void *CloneProfileValue(void *value)
+{
+  return((void *) ((CloneValueFunc) CloneStringInfo)((const StringInfo *) value));
+}
+
 MagickExport MagickBooleanType CloneImageProfiles(Image *image,
   const Image *clone_image)
 {
@@ -157,7 +174,7 @@ MagickExport MagickBooleanType CloneImageProfiles(Image *image,
       if (image->profiles != (void *) NULL)
         DestroyImageProfiles(image);
       image->profiles=CloneSplayTree((SplayTreeInfo *) clone_image->profiles,
-        (void *(*)(void *)) ConstantString,(void *(*)(void *)) CloneStringInfo);
+        CloneProfileKey,CloneProfileValue);
     }
   return(MagickTrue);
 }
@@ -2115,12 +2132,12 @@ static inline signed short ReadProfileShort(const EndianType endian,
       value=(unsigned short) buffer[1] << 8;
       value|=(unsigned short) buffer[0];
       quantum.unsigned_value=value & 0xffff;
-      return(quantum.signed_value);
+      return((signed short) quantum.signed_value);
     }
   value=(unsigned short) buffer[0] << 8;
   value|=(unsigned short) buffer[1];
   quantum.unsigned_value=value & 0xffff;
-  return(quantum.signed_value);
+  return((signed short) quantum.signed_value);
 }
 
 static inline signed int ReadProfileLong(const EndianType endian,
@@ -2485,17 +2502,17 @@ static void Sync8BimProfile(const Image *image,const StringInfo *profile)
     if ((id == 0x3ED) && (count == 16))
       {
         if (image->units == PixelsPerCentimeterResolution)
-          WriteProfileLong(MSBEndian,(unsigned int) CastDoubleToLong(
+          WriteProfileLong(MSBEndian,(unsigned int) CastDoubleToSsizeT(
             image->resolution.x*2.54*65536.0),p);
         else
-          WriteProfileLong(MSBEndian,(unsigned int) CastDoubleToLong(
+          WriteProfileLong(MSBEndian,(unsigned int) CastDoubleToSsizeT(
             image->resolution.x*65536.0),p);
         WriteProfileShort(MSBEndian,(unsigned short) image->units,p+4);
         if (image->units == PixelsPerCentimeterResolution)
-          WriteProfileLong(MSBEndian,(unsigned int) CastDoubleToLong(
+          WriteProfileLong(MSBEndian,(unsigned int) CastDoubleToSsizeT(
             image->resolution.y*2.54*65536.0),p+8);
         else
-          WriteProfileLong(MSBEndian,(unsigned int) CastDoubleToLong(
+          WriteProfileLong(MSBEndian,(unsigned int) CastDoubleToSsizeT(
             image->resolution.y*65536.0),p+8);
         WriteProfileShort(MSBEndian,(unsigned short) image->units,p+12);
       }
@@ -2571,6 +2588,18 @@ static void GetXmpNumeratorAndDenominator(double value,
   *denominator=1;
   if (value <= MagickEpsilon)
     return;
+  if (value > (double) MAGICK_ULONG_MAX)
+    {
+      *numerator = MAGICK_ULONG_MAX;
+      *denominator = 1;
+      return;
+    }
+  if (floor(value) == value)
+    {
+      *numerator = (unsigned long) value;
+      *denominator = 1;
+      return;
+    }
   *numerator=1;
   df=1.0;
   while(fabs(df - value) > MagickEpsilon)

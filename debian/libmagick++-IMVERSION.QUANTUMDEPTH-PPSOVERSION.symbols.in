@@ -976,6 +976,7 @@ libMagick++-${IMVERSION}.${UCQUANTUMDEPTH}.so.${PPSOVERSION} libmagick++-${IMVER
  (c++)"Magick::Image::magick(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@Base" 8:7.1.1.21
  (c++)"Magick::Image::magnify()@Base" 8:7.1.1.21
  (c++)"Magick::Image::map(Magick::Image const&, bool)@Base" 8:7.1.1.21
+ (c++)"Magick::Image::map(Magick::Image const&, MagickCore::DitherMethod)@Base" 8:7.1.2.1
  (c++)"Magick::Image::masklightColor(Magick::Color)@Base" 8:7.1.1.21
  (c++)"Magick::Image::mask(MagickCore::PixelMask) const@Base" 8:7.1.1.21
  (c++)"Magick::Image::mask(Magick::Image const&, MagickCore::PixelMask)@Base" 8:7.1.1.21
@@ -1432,6 +1433,7 @@ libMagick++-${IMVERSION}.${UCQUANTUMDEPTH}.so.${PPSOVERSION} libmagick++-${IMVER
  (c++|subst)"Magick::Options::quantizeColors({c++:size_t})@Base" 8:7.1.1.21
  (c++)"Magick::Options::quantizeDither(bool)@Base" 8:7.1.1.21
  (c++)"Magick::Options::quantizeDither() const@Base" 8:7.1.1.21
+ (c++)"Magick::Options::quantizeDither(MagickCore::DitherMethod)@Base" 8:7.1.2.1
  (c++)"Magick::Options::quantizeDitherMethod() const@Base" 8:7.1.1.21
  (c++)"Magick::Options::quantizeDitherMethod(MagickCore::DitherMethod)@Base" 8:7.1.1.21
  (c++)"Magick::Options::quantizeInfo()@Base" 8:7.1.1.21

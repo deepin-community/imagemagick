@@ -327,6 +327,11 @@
 /* Define to 1 if you have the 'getexecname' function. */
 /* #undef HAVE_GETEXECNAME */
 
+/* Define to 1 if you have the 'getloadavg' function. */
+#ifndef MAGICKCORE_HAVE_GETLOADAVG
+#define MAGICKCORE_HAVE_GETLOADAVG 1
+#endif
+
 /* Define to 1 if you have the 'getpagesize' function. */
 #ifndef MAGICKCORE_HAVE_GETPAGESIZE
 #define MAGICKCORE_HAVE_GETPAGESIZE 1
@@ -1147,13 +1152,13 @@
 
 /* Directory where architecture-dependent files live. */
 #ifndef MAGICKCORE_LIBRARY_ABSOLUTE_PATH
-#define MAGICKCORE_LIBRARY_ABSOLUTE_PATH "/usr/lib64/ImageMagick-7.1.1/"
+#define MAGICKCORE_LIBRARY_ABSOLUTE_PATH "/usr/lib64/ImageMagick-7.1.2/"
 #endif
 
 /* Subdirectory of lib where ImageMagick architecture dependent files are
    installed. */
 #ifndef MAGICKCORE_LIBRARY_RELATIVE_PATH
-#define MAGICKCORE_LIBRARY_RELATIVE_PATH "ImageMagick-7.1.1"
+#define MAGICKCORE_LIBRARY_RELATIVE_PATH "ImageMagick-7.1.2"
 #endif
 
 /* Binaries in libraries path base name (will be during install linked to bin)
@@ -1232,7 +1237,7 @@
 
 /* Define to the full name and version of this package. */
 #ifndef MAGICKCORE_PACKAGE_STRING
-#define MAGICKCORE_PACKAGE_STRING "ImageMagick 7.1.1-47"
+#define MAGICKCORE_PACKAGE_STRING "ImageMagick 7.1.2-3"
 #endif
 
 /* Define to the one symbol short name of this package. */
@@ -1247,7 +1252,7 @@
 
 /* Define to the version of this package. */
 #ifndef MAGICKCORE_PACKAGE_VERSION
-#define MAGICKCORE_PACKAGE_VERSION "7.1.1-47"
+#define MAGICKCORE_PACKAGE_VERSION "7.1.2-3"
 #endif
 
 /* Define if you have PANGOCAIRO library */

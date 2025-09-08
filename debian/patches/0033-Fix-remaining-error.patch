@@ -1,0 +1,70 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 17 Aug 2025 18:44:59 +0200
+Subject: Fix remaining error
+
+forwarded: not-needed
+---
+ www/Magick++/CoderInfo.html | 6 +++---
+ www/Magick++/Geometry.html  | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/www/Magick++/CoderInfo.html b/www/Magick++/CoderInfo.html
+index b539e76..7315c71 100644
+--- a/www/Magick++/CoderInfo.html
++++ b/www/Magick++/CoderInfo.html
+@@ -75,7 +75,7 @@ cout &lt;&lt; endl;
+         <tr>
+           <td>
+             <p>
+-              <font size="2">const CoderInfo &coder_</font>
++              <font size="2">const CoderInfo &amp;coder_</font>
+             </p>
+           </td>
+           <td>
+@@ -87,7 +87,7 @@ cout &lt;&lt; endl;
+         <tr>
+           <td>
+             <p>
+-              <font size="2">const std::string &name_</font>
++              <font size="2">const std::string &amp;name_</font>
+             </p>
+           </td>
+           <td>
+@@ -211,4 +211,4 @@ cout &lt;&lt; endl;
+   </div>
+ </body>
+ 
+-</html>
+\ No newline at end of file
++</html>
+diff --git a/www/Magick++/Geometry.html b/www/Magick++/Geometry.html
+index 9f0f7fe..fc5d1b6 100644
+--- a/www/Magick++/Geometry.html
++++ b/www/Magick++/Geometry.html
+@@ -518,7 +518,7 @@ table:
+ 	</tr>
+ 	<tr>
+ 		<td width="44%">
+-			<p>const Geometry &geometry_</p>
++			<p>const Geometry &amp;geometry_</p>
+ 		</td>
+ 		<td width="37%">
+ 			<p>Copy constructor</p>
+@@ -526,7 +526,7 @@ table:
+ 	</tr>
+ 	<tr>
+ 		<td width="44%">
+-			<p>const std::string &geometry_</p>
++			<p>const std::string &amp;geometry_</p>
+ 		</td>
+ 		<td width="37%">
+ 			<p>Construct geometry from C++ string</p>
+@@ -542,7 +542,7 @@ table:
+ 	</tr>
+ 	<tr>
+ 		<td width="44%">
+-			<p>const MagickCore::RectangleInfo &rectangle_</p>
++			<p>const MagickCore::RectangleInfo &amp;rectangle_</p>
+ 		</td>
+ 		<td width="37%">
+ 			<p>Construct from RectangleInfo (for Magick++ use only)</p>

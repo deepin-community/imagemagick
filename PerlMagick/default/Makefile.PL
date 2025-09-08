@@ -163,7 +163,7 @@ foreach my $delegate (@tested_delegates) {
 # defaults for LIBS & INC & CCFLAGS params that we later pass to Writemakefile
 my $INC_magick = '-I../.. -I../.. -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_CHANNEL_MASK_DEPTH=32 -I"' . $Config{'usrinc'} . '/ImageMagick"';
 my $LIBS_magick = '-L../../MagickCore/.libs -lMagickCore-7.Q16HDRI -lm -L' . $Config{'archlib'} . '/CORE';
-my $CCFLAGS_magick = "$Config{'ccflags'} -I/usr/include/libxml2 -DWITH_GZFILEOP -I/usr/include/webp -I/usr/include/webp -I/usr/include/webp -DWITH_GZFILEOP -I/usr/include/libraw -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/openjpeg-2.5 -I/usr/include/libvmaf -I/usr/include/rav1e -I/usr/include/svt-av1 -DEB_DLL -I/usr/include/openjpeg-2.5 -I/usr/include/webp -DWITH_GZFILEOP -I/usr/include/freetype2 -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/libxml2 -DWITH_GZFILEOP -pthread -DWITH_GZFILEOP -fopenmp -Wall -g -O2 -mtune=haswell -fexceptions -pthread -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_CHANNEL_MASK_DEPTH=32";
+my $CCFLAGS_magick = "$Config{'ccflags'} -I/usr/include/libxml2 -DWITH_GZFILEOP -I/usr/include/webp -I/usr/include/webp -I/usr/include/webp -DWITH_GZFILEOP -I/usr/include/libraw -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/openjpeg-2.5 -DHWY_SHARED_DEFINE -I/usr/include/libvmaf -I/usr/include/rav1e -I/usr/include/svt-av1 -DEB_DLL -I/usr/include/openjpeg-2.5 -I/usr/include/webp -DWITH_GZFILEOP -I/usr/include/freetype2 -I/usr/include/libpng16 -DWITH_GZFILEOP -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread -I/usr/include/libxml2 -DWITH_GZFILEOP -pthread -DWITH_GZFILEOP -fopenmp -Wall -g -O2 -mtune=haswell -fexceptions -pthread -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_CHANNEL_MASK_DEPTH=32";
 my $LDFLAGS_magick   = "-L../../magick/.libs -lMagickCore-7.Q16HDRI $Config{'ldflags'} ";
 my $LDDLFLAGS_magick = "-L../../magick/.libs -lMagickCore-7.Q16HDRI $Config{'lddlflags'} ";
 
@@ -194,7 +194,7 @@ WriteMakefile
    'AUTHOR' => 'ImageMagick Studio LLC',
 
    # Module version
-   'VERSION' => '7.1.1',
+   'VERSION' => '7.1.2',
 
    # Prerequisite version
    'PREREQ_PM' => {'parent' => '0'},

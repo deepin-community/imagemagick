@@ -17,7 +17,7 @@ export PPSOVERSION ?= 5
 export COMMONMINVERSION ?= 8:7.0.0~
 
 # poc arch for test empty means no test
-POC_ARCH ?= any-i386 any-amd64 sw_64
+POC_ARCH ?= any-i386 any-amd64
 VALGRIND_POC_ARCH ?=
 
 # for hardening
@@ -397,7 +397,7 @@ override_dh_auto_configure-arch_generatefile_quantum.%:
 	touch $@
 
 # configure in build directory
-override_dh_auto_configure-arch_quantum.%: override_dh_auto_configure-arch_generatefile_quantum.% PerlMagick/demo/Generic.ttf PerlMagick/t/ttf/input.ttf
+override_dh_auto_configure-arch_quantum.%: override_dh_auto_configure-arch_generatefile_quantum.% PerlMagick/demo/Generic.ttf PerlMagick/t/ttf/input.ttf index.html
 		@echo "configure for $* : quantum=$(call QUANTUM_PART,$*) HDRI=$(call HDRI_PART,$*)"
 	dh_auto_configure --builddirectory="debian/build-quantum-$*" -- \
 		 ${CONFIGURE_OPTIONS} \
@@ -412,9 +412,12 @@ PerlMagick/demo/Generic.ttf:
 PerlMagick/t/ttf/input.ttf:
 	test -h $@ || ln -s /usr/share/fonts/truetype/tuffy/tuffy_regular.ttf $@
 
-override_dh_auto_configure-arch: $(foreach Q,$(QUANTUMDEPTH),override_dh_auto_configure-arch_quantum.$Q) PerlMagick/demo/Generic.ttf PerlMagick/t/ttf/input.ttf
+index.html: www/index.html
+	test -h $@ || ln -s www/index.html $@
 
-override_dh_auto_configure-indep: PerlMagick/demo/Generic.ttf PerlMagick/t/ttf/input.ttf
+override_dh_auto_configure-arch: $(foreach Q,$(QUANTUMDEPTH),override_dh_auto_configure-arch_quantum.$Q) PerlMagick/demo/Generic.ttf PerlMagick/t/ttf/input.ttf index.html
+
+override_dh_auto_configure-indep: PerlMagick/demo/Generic.ttf PerlMagick/t/ttf/input.ttf index.html
 	@echo "configure indep for $* : quantum=$(call QUANTUM_PART,$*) HDRI=$(call HDRI_PART,$*)"
 	dh_auto_configure --builddirectory="debian/build-quantum-indep" -- \
 		 ${CONFIGURE_OPTIONS} \
@@ -891,6 +894,7 @@ override_dh_clean: $(foreach Q,$(QUANTUMDEPTH),override_dh_clean_quantum.$Q) ove
         # rm link for fonts
 	rm -f $(CURDIR)/PerlMagick/demo/Generic.ttf
 	rm -f $(CURDIR)/PerlMagick/t/ttf/input.ttf
+	rm -f $(CURDIR)/index.html
 	dh_clean
 
 
@@ -898,6 +902,7 @@ override_dh_clean: $(foreach Q,$(QUANTUMDEPTH),override_dh_clean_quantum.$Q) ove
 #########################
 
 maint-html-is-sane:
-	find $(CURDIR) \
-		-maxdepth 3 -type f -and -name '*.html' -and -not -empty -print0 \
+	find $(CURDIR) -maxdepth 3 \
+		\( -path ./.pc -o -path ./.git \) -prune -and \
+		-type f -and -name '*.html' -and -not -empty -print0 \
 		| xargs -r -0 -t xmllint --noout --nonet

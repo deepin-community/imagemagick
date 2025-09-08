@@ -252,7 +252,7 @@ export CFLAGS="%{optflags} -DIMPNG_SETJMP_IS_THREAD_SAFE"
 %endif
 
 # Do *NOT* use %%{?_smp_mflags}, this causes PerlMagick to be silently misbuild
-make -j6
+make -j3
 # Generate API docs
 make html-local
 

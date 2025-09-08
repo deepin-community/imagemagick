@@ -185,7 +185,7 @@ index 0000000..4b878ce
 +  <policy domain="delegate" rights="none" pattern="HTTP" />
 +</policymap>
 diff --git a/configure.ac b/configure.ac
-index eef516c..73c74e5 100644
+index eb7b9ee..be44a36 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -827,10 +827,10 @@ m4_define([_MAGICK_SECURITY_POLICY],
