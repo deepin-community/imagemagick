@@ -4,7 +4,7 @@
 #  You may not use this file except in compliance with the License.  You may
 #  obtain a copy of the License at
 #
-#    https://imagemagick.org/script/license.php
+#    https://imagemagick.org/license/
 #
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
@@ -86,6 +86,16 @@ MAGICK_TARGET_OS=$host_os
 AC_SUBST([MAGICK_TARGET_OS])
 AC_DEFINE_UNQUOTED([MAGICK_TARGET_OS],[$MAGICK_TARGET_OS],[Target Host OS])
 
+case "$host_os" in
+  mingw* | msys*)
+    SHELL_QUOTE="&quot;"
+    ;;
+  *)
+    SHELL_QUOTE="&apos;"
+    ;;
+esac
+
+AC_SUBST([SHELL_QUOTE])
 
 # Substitute versioning
 AC_SUBST([MAGICK_MAJOR_VERSION],[magick_major_version])
@@ -1047,18 +1057,18 @@ AC_CHECK_SIZEOF([void *])
 ########
 AC_MSG_CHECKING([whether our compiler supports __func__])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],
- [{ const char *func = __func__; return(func != 0 ? 0 : 1); }],
+ [{ const char *func = __func__; return(func != 0 ? 0 : 1); }])],
  AC_MSG_RESULT([yes]),
  AC_MSG_RESULT([no])
  AC_MSG_CHECKING([whether our compiler supports __FUNCTION__])
- AC_COMPILE_IFELSE([],
-   [{ const char *func = __FUNCTION__; return(func != 0 ? 0 : 1); }],
+ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],
+   [{ const char *func = __FUNCTION__; return(func != 0 ? 0 : 1); }])],
    AC_MSG_RESULT([yes])
    AC_DEFINE(__func__, __FUNCTION__,
      [Define to appropriate substitute if compiler does not have __func__]),
    AC_MSG_RESULT([no])
    AC_DEFINE(__func__, __FILE__,
-     [Define to appropriate substitute if compiler does not have __func__])))])
+     [Define to appropriate substitute if compiler does not have __func__])))
 
 ########
 #
@@ -1455,7 +1465,7 @@ if test "$enable_ccmalloc" = 'yes'; then
         OLIBS="$LIBS"
         # Assume that gcc is used with ccmalloc.
         LIBS="$LIBS $CCMALLOC_PREFIX/lib/ccmalloc-gcc.o"
-        AC_CHECK_LIB([ccmalloc],[ccmalloc_malloc],[CCMALLOC_LIBS="$CCMALLOC_PREFIX/lib/ccmalloc-gcc.o -lccmalloc -ldl"],[,-ldl])
+        AC_CHECK_LIB([ccmalloc],[ccmalloc_malloc],[CCMALLOC_LIBS="$CCMALLOC_PREFIX/lib/ccmalloc-gcc.o -lccmalloc -ldl"],[],[-ldl])
         if test -n "$CCMALLOC_LIBS"; then
             LIBS="$OLIBS"
             LIBS="$LIBS $CCMALLOC_LIBS"
@@ -2274,7 +2284,7 @@ if test "$with_fontpath" != "yes" && test -z "$with_fontpath"; then
 else
     AC_DEFINE_UNQUOTED([MAGICK_FONT_PATH],["$with_fontpath"],[Define to prepend to default font search path.])
 fi
-if test "$with_fontpath=" != ''; then
+if test "$with_fontpath" != ''; then
     DISTCHECK_CONFIG_FLAGS="${DISTCHECK_CONFIG_FLAGS} --with-fontpath=$with_fontpath "
 fi
 
@@ -3313,6 +3323,7 @@ LaunchDelegateDefault='gimp'
 MKDIRDelegateDefault='mkdir'
 MrSIDDecodeDelegateDefault='mrsidgeodecode'
 MVDelegateDefault='mv'
+OpenDelegateDefault='open'
 PCLDelegateDefault='pcl6'
 if test "$native_win32_build" = 'yes'; then
     PSDelegateDefault='gswin32c'
@@ -3362,6 +3373,7 @@ AC_PATH_PROG([VIDEOEncodeDelegate],["$VIDEOEncodeDelegateDefault"],["$VIDEOEncod
 AC_PATH_PROG([MKDIRDelegate],["$MKDIRDelegateDefault"],["$MKDIRDelegateDefault"])
 AC_PATH_PROG([MrSIDDecodeDelegate],["$MrSIDDecodeDelegateDefault"],["$MrSIDDecodeDelegateDefault"])
 AC_PATH_PROG([MVDelegate],["$MVDelegateDefault"],["$MVDelegateDefault"])
+AC_PATH_PROG([OpenDelegate],["$OpenDelegateDefault"],["$OpenDelegateDefault"])
 AC_PATH_PROG([PCLDelegate],["$PCLDelegateDefault"],["$PCLDelegateDefault"])
 AC_PATH_PROGS([PSDelegate],[gsx gsc "$PSDelegateDefault"],["$PSDelegateDefault"])
 AC_PATH_PROG([RMDelegate],["$RMDelegateDefault"],["$RMDelegateDefault"])
@@ -3586,7 +3598,19 @@ magick_channel_mask_depth='32';
 if test "$enable_64bit_channel_masks" = 'yes'; then
     if test "$enable_force_cpp" = 'yes'; then
         AC_MSG_CHECKING([whether the compiler supports -x c++ option])
+        old_CC="$CC"
         old_CFLAGS="$CFLAGS"
+        cpp_CC=''
+        for option in $CC; do
+          case "$option" in
+            -std=c*|-std=gnu*)
+              ;;
+            *)
+              cpp_CC="$cpp_CC $option"
+              ;;
+          esac
+        done
+        CC="$cpp_CC"
         CFLAGS="$CFLAGS -x c++"
         AC_COMPILE_IFELSE([
           AC_LANG_PROGRAM([
@@ -3601,6 +3625,7 @@ if test "$enable_64bit_channel_masks" = 'yes'; then
           AC_MSG_RESULT([no])
         ])
         if test "$magick_channel_mask_depth" != '64'; then
+          CC="$old_CC"
           CFLAGS="$old_CFLAGS"
         fi
     else
@@ -3659,6 +3684,7 @@ if test "$with_frozenpaths" != 'yes'; then
   LaunchDelegate="$LaunchDelegateDefault"
   MogrifyDelegate="$MogrifyDelegateDefault"
   MrSIDDecodeDelegate="$MrSIDDecodeDelegateDefault"
+  OpenDelegate="$OpenDelegateDefault"
   PCLDelegate="$PCLDelegateDefault"
   PSDelegate="$PSDelegateDefault"
   RSVGDecodeDelegate="$RSVGDecodeDelegateDefault"
@@ -3699,6 +3725,7 @@ AC_SUBST([VIDEODecodeDelegate])
 AC_SUBST([VIDEOEncodeDelegate])
 AC_SUBST([MogrifyDelegate])
 AC_SUBST([MrSIDDecodeDelegate])
+AC_SUBST([OpenDelegate])
 AC_SUBST([PCLDelegate])
 AC_SUBST([PSDelegate])
 AC_SUBST([ShowImageDelegate])

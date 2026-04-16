@@ -22,7 +22,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -1114,7 +1114,7 @@ static Image *ReadWPGImage(const ImageInfo *image_info,ExceptionInfo *exception)
 
   if ((Header.FileId != 0x435057FF) || (Header.FileType != 0x16))
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
-  if (Header.EncryptKey!=0)
+  if (Header.EncryptKey != 0)
     ThrowReaderException(CoderError,"EncryptedWPGImageFileNotSupported");
 
   image->colors=0;
@@ -1172,8 +1172,7 @@ static Image *ReadWPGImage(const ImageInfo *image_info,ExceptionInfo *exception)
             case 0x0E:  /*Color palette */
               WPG_Palette.StartIndex=ReadBlobLSBShort(image);
               WPG_Palette.NumOfEntries=ReadBlobLSBShort(image);
-              if ((WPG_Palette.NumOfEntries-WPG_Palette.StartIndex) >
-                  (Rec2.RecordLength-2-2)/3)
+              if ((WPG_Palette.NumOfEntries-WPG_Palette.StartIndex) > (Rec.RecordLength-2-2)/3)
                 ThrowReaderException(CorruptImageError,"InvalidColormapIndex");
               if (WPG_Palette.StartIndex > WPG_Palette.NumOfEntries)
                 ThrowReaderException(CorruptImageError,"InvalidColormapIndex");

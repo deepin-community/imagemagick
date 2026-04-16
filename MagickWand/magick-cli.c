@@ -28,7 +28,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -147,7 +147,7 @@ WandExport MagickBooleanType MagickCommandGenesis(ImageInfo *image_info,
   iterations=1;
   status=MagickTrue;
   regard_warnings=MagickFalse;
-  for (i=1; i < (ssize_t) (argc-1); i++)
+  for (i=1; i < ((ssize_t) argc-1); i++)
   {
     option=argv[i];
     if ((strlen(option) == 1) || ((*option != '-') && (*option != '+')))
@@ -1263,7 +1263,7 @@ static MagickBooleanType ConcatenateImages(int argc,char **argv,
       return(MagickFalse);
     }
   status=MagickTrue;
-  for (i=2; i < (ssize_t) (argc-1); i++)
+  for (i=2; i < ((ssize_t) argc-1); i++)
   {
     input=fopen_utf8(argv[i],"rb");
     if (input == (FILE *) NULL)
@@ -1409,13 +1409,25 @@ Magick_Command_Cleanup:
          (cli_wand->image_info_stack->next != (CLIStack *) NULL))
     CLIOption(cli_wand,"}");
 
-  /* assert we have recovered the original structures */
-  assert(cli_wand->wand.image_info == image_info);
-  assert(cli_wand->wand.exception == exception);
+Magick_Command_Exit:
+  if ((cli_wand->wand.image_info != image_info) ||
+      (cli_wand->wand.exception != exception))
+    {
+      CLIStack
+        *node;
+      
+      /*
+        Pop image_info settings from stack.
+      */
+      node=(CLIStack *) cli_wand->image_info_stack;
+      cli_wand->image_info_stack=node->next;
+      (void) DestroyImageInfo(cli_wand->wand.image_info);
+      cli_wand->wand.image_info=(ImageInfo *) node->data;
+      node=(CLIStack *) RelinquishMagickMemory(node);
+    }
 
   /* Handle metadata for ImageMagickObject COM object for Windows VBS */
-  if ((cli_wand->wand.images != (Image *) NULL) &&
-      (metadata != (char **) NULL))
+  if ((cli_wand->wand.images != (Image *) NULL) && (metadata != (char **) NULL))
     {
       const char
         *format;
@@ -1427,8 +1439,9 @@ Magick_Command_Cleanup:
       text=InterpretImageProperties(image_info,cli_wand->wand.images,format,
         exception);
       if (text == (char *) NULL)
-        (void) ThrowMagickException(exception,GetMagickModule(),ResourceLimitError,
-          "MemoryAllocationFailed","`%s'", GetExceptionMessage(errno));
+        (void) ThrowMagickException(exception,GetMagickModule(),
+          ResourceLimitError,"MemoryAllocationFailed","`%s'",
+          GetExceptionMessage(errno));
       else
         {
           (void) ConcatenateString(&(*metadata),text);
@@ -1436,7 +1449,6 @@ Magick_Command_Cleanup:
         }
     }
 
-Magick_Command_Exit:
   cli_wand->location="Exiting";
   cli_wand->filename=argv[0];
   if (cli_wand->wand.debug != MagickFalse)

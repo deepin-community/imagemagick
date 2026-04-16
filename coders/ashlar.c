@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -172,13 +172,11 @@ typedef struct _AshlarInfo
 {
   size_t
     width,
-    height;
+    height,
+    number_nodes;
 
   ssize_t
     align;
-
-  size_t
-    number_nodes;
 
   MagickBooleanType
     best_fit;
@@ -548,9 +546,10 @@ static Image *ASHLARImage(ImageInfo *image_info,Image *image,
       }
       geometry.width=(size_t) geometry.width/7;
       geometry.height=(size_t) geometry.height/7;
-      geometry.x=(ssize_t) pow((double) geometry.width,0.25);
-      geometry.y=(ssize_t) pow((double) geometry.height,0.25);
-      image_info->extract=AcquireString("");
+      geometry.x=(ssize_t) pow((double) geometry.width,0.4);
+      geometry.y=(ssize_t) pow((double) geometry.height,0.4);
+      if (image_info->extract == (char *) NULL)
+        image_info->extract=AcquireString("");
       if (image_info->extract != (char *) NULL)
         (void) FormatLocaleString(image_info->extract,MagickPathExtent,
           "%gx%g%+g%+g",(double) geometry.width,(double) geometry.height,
@@ -577,7 +576,7 @@ static Image *ASHLARImage(ImageInfo *image_info,Image *image,
       if (tiles != (CanvasInfo *) NULL)
         tiles=(CanvasInfo *) RelinquishMagickMemory(tiles);
       if (nodes != (NodeInfo *) NULL)
-        nodes=(NodeInfo *) RelinquishMagickMemory(tiles);
+        nodes=(NodeInfo *) RelinquishMagickMemory(nodes);
       ashlar_image=DestroyImageList(ashlar_image);
       ThrowImageException(ResourceLimitError,"MemoryAllocationFailed");
     }
@@ -650,28 +649,31 @@ static Image *ASHLARImage(ImageInfo *image_info,Image *image,
     status=CompositeImage(ashlar_image,tile_image,image->compose,MagickTrue,
       tiles[i].x+geometry.x,tiles[i].y+geometry.y,exception);
     if (status == MagickFalse)
-      continue;
+      {
+        tile_image=DestroyImage(tile_image);
+        continue;
+      }
     if (value != (const char *) NULL)
       {
         char
           *label,
           offset[MagickPathExtent];
 
-        DrawInfo
-          *draw_info = CloneDrawInfo(image_info,(DrawInfo *) NULL);
-
         label=InterpretImageProperties((ImageInfo *) image_info,tile_image,
           value,exception);
         if (label != (const char *) NULL)
           {
+            DrawInfo
+              *draw_info = CloneDrawInfo(image_info,(DrawInfo *) NULL);
+
             (void) CloneString(&draw_info->text,label);
             label=DestroyString(label);
-            draw_info->pointsize=1.8*geometry.y;
             (void) FormatLocaleString(offset,MagickPathExtent,"%+g%+g",(double)
-              tiles[i].x+geometry.x,(double) tiles[i].height+tiles[i].y+
-              geometry.y/2.0);
+              tiles[i].x+geometry.x,(double) tiles[i].height+tiles[i].y-
+              geometry.y/2.0+4);
             (void) CloneString(&draw_info->geometry,offset);
             status=AnnotateImage(ashlar_image,draw_info,exception);
+            draw_info=DestroyDrawInfo(draw_info);
           }
       }
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
@@ -686,6 +688,8 @@ static Image *ASHLARImage(ImageInfo *image_info,Image *image,
     }
     tile_image=DestroyImage(tile_image);
   }
+  if (image_info->extract != (char *) NULL)
+    (void) ParseAbsoluteGeometry(image_info->extract,&extent);
   (void) SetImageExtent(ashlar_image,extent.width,extent.height,exception);
   nodes=(NodeInfo *) RelinquishMagickMemory(nodes);
   tiles=(CanvasInfo *) RelinquishMagickMemory(tiles);
@@ -732,7 +736,6 @@ static MagickBooleanType WriteASHLARImage(const ImageInfo *image_info,
   if (value != (const char *) NULL)
     tiles_per_page=(size_t) MagickMax(StringToInteger(value),1);
   ashlar_images=NewImageList();
-  write_info=CloneImageInfo(image_info);
   for (i=0; i < (ssize_t) GetImageListLength(image); i+=(ssize_t) tiles_per_page)
   {
     char
@@ -751,7 +754,9 @@ static MagickBooleanType WriteASHLARImage(const ImageInfo *image_info,
           ashlar_images=DestroyImageList(ashlar_images);
         break;
       }
+    write_info=CloneImageInfo(image_info);
     ashlar_image=ASHLARImage(write_info,clone_images,exception);
+    write_info=DestroyImageInfo(write_info);
     clone_images=DestroyImageList(clone_images);
     if (ashlar_image == (Image *) NULL)
       {
@@ -766,6 +771,7 @@ static MagickBooleanType WriteASHLARImage(const ImageInfo *image_info,
   ashlar_images=GetFirstImageInList(ashlar_images);
   (void) CopyMagickString(ashlar_images->filename,image_info->filename,
     MagickPathExtent);
+  write_info=CloneImageInfo(image_info);
   *write_info->magick='\0';
   (void) SetImageInfo(write_info,(unsigned int)
     GetImageListLength(ashlar_images),exception);

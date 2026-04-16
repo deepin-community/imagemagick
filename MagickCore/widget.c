@@ -24,7 +24,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -7773,8 +7773,7 @@ MagickPrivate int XMenuWidget(Display *display,XWindows *windows,
       toggle_info.raised=MagickTrue;
       XDrawTriangleEast(display,&windows->command,&toggle_info);
     }
-  windows->widget.y=submenu_info.active == 0 ? y-(int)
-    ((3*title_height) >> 2) : y;
+  windows->widget.y=submenu_info.active == 0 ? y-(int) (title_height >> 2) : y;
   if (submenu_info.active != 0)
     windows->widget.y=windows->command.y+submenu_info.y;
   XConstrainWindowPosition(display,&windows->widget);
@@ -8030,7 +8029,7 @@ MagickPrivate int XMenuWidget(Display *display,XWindows *windows,
                   if (MatteIsActive(submenu_info,event.xmotion) == MagickFalse)
                     {
                       selection_info.id=(~0);
-                        *item='\0';
+                      *item='\0';
                       state|=ExitState;
                       break;
                     }

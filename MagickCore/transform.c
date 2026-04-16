@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -177,7 +177,7 @@ MagickExport Image *AutoOrientImage(const Image *image,
 %
 %  The format of the ChopImage method is:
 %
-%      Image *ChopImage(const Image *image,const RectangleInfo *chop_info)
+%      Image *ChopImage(const Image *image,const RectangleInfo *chop_info,
 %        ExceptionInfo *exception)
 %
 %  A description of each parameter follows:
@@ -1262,7 +1262,7 @@ MagickExport Image *FlipImage(const Image *image,ExceptionInfo *exception)
       {
         PixelChannel channel = GetPixelChannelChannel(image,i);
         PixelTrait traits = GetPixelChannelTraits(image,channel);
-        PixelTrait flip_traits=GetPixelChannelTraits(flip_image,channel);
+        PixelTrait flip_traits = GetPixelChannelTraits(flip_image,channel);
         if ((traits == UndefinedPixelTrait) ||
             (flip_traits == UndefinedPixelTrait))
           continue;
@@ -2076,11 +2076,13 @@ MagickPrivate MagickBooleanType TransformImage(Image **image,
         }
       *image=transform_image;
     }
-  if (image_geometry == (const char *) NULL)
-    return(MagickTrue);
+  if (transform_image == (Image *) NULL)
+    return(MagickFalse);
   /*
     Scale image to a user specified size.
   */
+  if (image_geometry == (const char *) NULL)
+    return(MagickTrue);
   (void) ParseRegionGeometry(transform_image,image_geometry,&geometry,
     exception);
   if ((transform_image->columns == geometry.width) &&

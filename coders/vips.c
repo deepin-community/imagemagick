@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -238,10 +238,10 @@ static inline Quantum ReadVIPSPixelNONE(Image *image,
             c=(unsigned char) ReadBlobLong(image);
             break;
           case VIPSBandFormatFLOAT:
-            c=(unsigned char) ReadBlobFloat(image);
+            c=CastDoubleToUChar((double) ReadBlobFloat(image));
             break;
           case VIPSBandFormatDOUBLE:
-            c=(unsigned char) ReadBlobDouble(image);
+            c=CastDoubleToUChar(ReadBlobDouble(image));
             break;
           default:
             c=0;
@@ -266,10 +266,10 @@ static inline Quantum ReadVIPSPixelNONE(Image *image,
             s=(unsigned short) ReadBlobLong(image);
             break;
           case VIPSBandFormatFLOAT:
-            s=(unsigned short) ReadBlobFloat(image);
+            s=CastDoubleToUShort((double) ReadBlobFloat(image));
             break;
           case VIPSBandFormatDOUBLE:
-            s=(unsigned short) ReadBlobDouble(image);
+            s=CastDoubleToUShort(ReadBlobDouble(image));
             break;
           default:
             s=0;

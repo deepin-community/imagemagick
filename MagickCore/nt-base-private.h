@@ -5,7 +5,7 @@
   You may not use this file except in compliance with the License.  You may
   obtain a copy of the License at
 
-    https://imagemagick.org/script/license.php
+    https://imagemagick.org/license/
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -77,6 +77,7 @@ extern "C" {
 #  define setmode _setmode
 #  define stat    _stat64
 #  define tell    _telli64
+#  define wstat   _wstat64
 #endif
 
 #if !defined(XS_VERSION)
@@ -113,6 +114,9 @@ struct timezone
     tz_minuteswest,
     tz_dsttime;
 };
+
+typedef int
+  mode_t;
 #endif
 
 #endif
@@ -130,6 +134,9 @@ static inline void *NTAcquireQuantumMemory(const size_t count,
     }
   return(AcquireMagickMemory(size));
 }
+
+extern MagickExport char
+  *NTRealPathWide(const char *);
 
 extern MagickPrivate char
   *NTGetEnvironmentValue(const char *);
@@ -149,6 +156,18 @@ extern MagickPrivate DIR
 extern MagickPrivate double
   NTElapsedTime(void),
   NTErf(double);
+
+extern MagickExport FILE
+  *NTOpenFileWide(const char *,const char *),
+  *NTOpenPipeWide(const char *,const char *);
+
+extern MagickExport int
+  NTAccessWide(const char *,int),
+  NTOpenWide(const char *,int,mode_t),
+  NTRemoveWide(const char *),
+  NTRenameWide(const char *, const char *),
+  NTSetFileTimestamp(const char *,struct stat *),
+  NTStatWide(const char *,struct stat *);
 
 extern MagickPrivate int
 #if !defined(__MINGW32__)
@@ -187,6 +206,9 @@ extern MagickPrivate void
   *NTOpenLibrary(const char *),
   NTWindowsGenesis(void),
   NTWindowsTerminus(void);
+
+extern MagickExport wchar_t
+  *NTCreateWidePath(const char *);
 
 #endif /* !XS_VERSION */
 

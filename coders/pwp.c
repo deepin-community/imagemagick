@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -228,7 +228,7 @@ static Image *ReadPWPImage(const ImageInfo *image_info,ExceptionInfo *exception)
       }
     length=fwrite("SFW94A",1,6,file);
     (void) length;
-    filesize=65535UL*magick[2]+256L*magick[1]+magick[0];
+    filesize=65535*magick[2]+256L*magick[1]+magick[0];
     for (i=0; i < (ssize_t) filesize; i++)
     {
       c=ReadBlobByte(pwp_image);

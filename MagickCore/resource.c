@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -236,7 +236,7 @@ MagickExport MagickBooleanType AcquireMagickResource(const ResourceType type,
     {
       bi=MagickTrue;
       limit=resource_info.disk_limit;
-      if (((MagickSizeType) resource_info.disk+(MagickSizeType) request) > (MagickSizeType) resource_info.disk)
+      if (resource_info.disk <= (MagickOffsetMax-request))
         {
           resource_info.disk+=request;
           if ((limit == MagickResourceInfinity) ||
@@ -251,7 +251,7 @@ MagickExport MagickBooleanType AcquireMagickResource(const ResourceType type,
     case FileResource:
     {
       limit=resource_info.file_limit;
-      if (((MagickSizeType) resource_info.file+(MagickSizeType) request) > (MagickSizeType) resource_info.file)
+      if (resource_info.file <= (MagickOffsetMax-request))
         {
           resource_info.file+=request;
           if ((limit == MagickResourceInfinity) ||
@@ -282,7 +282,7 @@ MagickExport MagickBooleanType AcquireMagickResource(const ResourceType type,
     {
       bi=MagickTrue;
       limit=resource_info.map_limit;
-      if (((MagickSizeType) resource_info.map+(MagickSizeType) request) > (MagickSizeType) resource_info.map)
+      if (resource_info.map <= (MagickOffsetMax-request))
         {
           resource_info.map+=request;
           if ((limit == MagickResourceInfinity) ||
@@ -298,7 +298,7 @@ MagickExport MagickBooleanType AcquireMagickResource(const ResourceType type,
     {
       bi=MagickTrue;
       limit=resource_info.memory_limit;
-      if (((MagickSizeType) resource_info.memory+(MagickSizeType) request) > (MagickSizeType) resource_info.memory)
+      if (resource_info.memory <= (MagickOffsetMax-request))
         {
           resource_info.memory+=request;
           if ((limit == MagickResourceInfinity) ||
@@ -329,7 +329,7 @@ MagickExport MagickBooleanType AcquireMagickResource(const ResourceType type,
     case TimeResource:
     {
       limit=resource_info.time_limit;
-      if (((MagickSizeType) resource_info.time+(MagickSizeType) request) > (MagickSizeType) resource_info.time)
+      if (resource_info.time <= (MagickOffsetMax-request))
         {
           resource_info.time+=request;
           if ((limit == MagickResourceInfinity) ||
@@ -1353,6 +1353,43 @@ MagickPrivate MagickBooleanType ResourceComponentGenesis(void)
     }
   return(MagickTrue);
 }
+
+#ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
+/*
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%   R e s e t M a g i c k R e s o u r c e C o u n t e r s                     %
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  ResetMagickResourceCounters() resets the current resource usage counters
+%  to zero. This is useful for fuzzing to ensure deterministic behavior
+%  between iterations.
+%
+%  The format of the ResetMagickResourceCounters() method is:
+%
+%      void ResetMagickResourceCounters(void)
+%
+*/
+MagickExport void ResetMagickResourceCounters(void)
+{
+  resource_info.width=0;
+  resource_info.height=0;
+  resource_info.list_length=0;
+  resource_info.area=0;
+  resource_info.memory=0;
+  resource_info.map=0;
+  resource_info.disk=0;
+  resource_info.file=0;
+  resource_info.thread=0;
+  resource_info.throttle=0;
+  resource_info.time=0;
+}
+#endif
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

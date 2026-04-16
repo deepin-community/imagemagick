@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -829,7 +829,6 @@ static Image *ReadPICTImage(const ImageInfo *image_info,
 }
 
   char
-    geometry[MagickPathExtent],
     header_ole[4];
 
   Image
@@ -846,6 +845,10 @@ static Image *ReadPICTImage(const ImageInfo *image_info,
   MagickBooleanType
     jpeg,
     status;
+
+  MagickSizeType
+    blob_size,
+    size;
 
   PICTRectangle
     frame;
@@ -906,14 +909,23 @@ static Image *ReadPICTImage(const ImageInfo *image_info,
   */
   header_ole[0]=(char) ReadBlobByte(image);
   header_ole[1]=(char) ReadBlobByte(image);
-  header_ole[2]=(char) ReadBlobByte(image);
-  header_ole[3]=(char) ReadBlobByte(image);
-  if (!((header_ole[0] == 0x50) && (header_ole[1] == 0x49) &&
-      (header_ole[2] == 0x43) && (header_ole[3] == 0x54 )))
-    for (i=0; i < 508; i++)
-      if (ReadBlobByte(image) == EOF)
-        break;
-  (void) ReadBlobMSBShort(image);  /* skip picture size */
+  size=(((MagickSizeType) header_ole[0]) << 8) | (MagickSizeType) header_ole[1];
+  blob_size=GetBlobSize(image);
+  /*
+    This is a special case where the PICT file directly starts with the picture size.
+  */
+  if ((blob_size % ((MagickSizeType) 65536)) != size)
+    {
+      char
+        buffer[508];
+
+      header_ole[2]=(char) ReadBlobByte(image);
+      header_ole[3]=(char) ReadBlobByte(image);
+      if (!((header_ole[0] == 0x50) && (header_ole[1] == 0x49) &&
+          (header_ole[2] == 0x43) && (header_ole[3] == 0x54 )))
+        ReadBlob(image,sizeof(buffer),buffer);
+      (void) ReadBlobMSBShort(image);  /* skip picture size */
+    }
   if (ReadRectangle(image,&frame) == MagickFalse)
     ThrowPICTException(CorruptImageError,"ImproperImageHeader");
   while ((c=ReadBlobByte(image)) == 0) ;
@@ -1342,7 +1354,8 @@ static Image *ReadPICTImage(const ImageInfo *image_info,
               if ((tile_image->storage_class == DirectClass) &&
                   (pixmap.bits_per_pixel != 16))
                 {
-                  p+=(ptrdiff_t) (pixmap.component_count-1)*(ssize_t) tile_image->columns;
+                  p+=(ptrdiff_t) (pixmap.component_count-1)*(ssize_t)
+                    tile_image->columns;
                   if (p < pixels)
                     break;
                 }
@@ -1355,9 +1368,24 @@ static Image *ReadPICTImage(const ImageInfo *image_info,
             if ((jpeg == MagickFalse) && (EOFBlob(image) == MagickFalse))
               if ((code == 0x9a) || (code == 0x9b) ||
                   ((bytes_per_line & 0x8000) != 0))
+                {
+                  if ((source.right-source.left) != (destination.right-destination.left) ||
+                      (source.bottom-source.top) != (destination.bottom-destination.top))
+                    {
+                      Image *clone_image = tile_image;
+                      tile_image=ResizeImage(clone_image,(size_t)
+                        (destination.right-destination.left),(size_t)
+                        (destination.bottom-destination.top),UndefinedFilter,
+                        exception);
+                      if (tile_image == (Image *) NULL)
+                        tile_image=clone_image;
+                      else
+                        clone_image=DestroyImage(clone_image);
+                    }
                 (void) CompositeImage(image,tile_image,CopyCompositeOp,
                   MagickTrue,(ssize_t) destination.left,(ssize_t)
                   destination.top,exception);
+              }
             tile_image=DestroyImage(tile_image);
             break;
           }
@@ -1483,9 +1511,6 @@ static Image *ReadPICTImage(const ImageInfo *image_info,
           }
         if (tile_image == (Image *) NULL)
           continue;
-        (void) FormatLocaleString(geometry,MagickPathExtent,"%.20gx%.20g",
-          (double) MagickMax(image->columns,tile_image->columns),
-          (double) MagickMax(image->rows,tile_image->rows));
         (void) SetImageExtent(image,
           MagickMax(image->columns,tile_image->columns),
           MagickMax(image->rows,tile_image->rows),exception);

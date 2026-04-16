@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -222,7 +222,7 @@ static unsigned int PNMInteger(Image *image,CommentInfo *comment_info,
       }
     c=ReadBlobByte(image);
     if (c == EOF)
-      return(0);
+      return(value);
   }
   if (c == (int) '#')
     c=PNMComment(image,comment_info,exception);
@@ -252,6 +252,17 @@ static char *PNMString(Image *image,char *string,const size_t extent)
   }
   string[i]='\0';
   return(string);
+}
+
+static inline MagickBooleanType PNMEOFBlob(const Image *image,ssize_t x,ssize_t y)
+{
+  if (EOFBlob(image) == MagickFalse)
+    return(MagickFalse);
+  if (x < (ssize_t) image->columns-1)
+    return(MagickTrue);
+  if (y != (ssize_t) image->rows-1)
+    return(MagickTrue);
+  return(MagickFalse);
 }
 
 static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
@@ -533,7 +544,7 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
           {
             SetPixelGray(image,PNMInteger(image,&comment_info,2,exception) ==
               0 ? QuantumRange : 0,q);
-            if (EOFBlob(image) != MagickFalse)
+            if (PNMEOFBlob(image,x,y) != MagickFalse)
               break;
             q+=(ptrdiff_t) GetPixelChannels(image);
           }
@@ -546,7 +557,7 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
               if (status == MagickFalse)
                 break;
             }
-          if (EOFBlob(image) != MagickFalse)
+          if (PNMEOFBlob(image,x,y) != MagickFalse)
             break;
         }
         image->type=BilevelType;
@@ -576,7 +587,7 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
           {
             intensity=ScaleAnyToQuantum(PNMInteger(image,&comment_info,10,
               exception),max_value);
-            if (EOFBlob(image) != MagickFalse)
+            if (PNMEOFBlob(image,x,y) != MagickFalse)
               break;
             SetPixelGray(image,intensity,q);
             q+=(ptrdiff_t) GetPixelChannels(image);
@@ -590,7 +601,7 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
               if (status == MagickFalse)
                 break;
             }
-          if (EOFBlob(image) != MagickFalse)
+          if (PNMEOFBlob(image,x,y) != MagickFalse)
             break;
         }
         image->type=GrayscaleType;
@@ -619,7 +630,7 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
 
             pixel=ScaleAnyToQuantum(PNMInteger(image,&comment_info,10,
               exception),max_value);
-            if (EOFBlob(image) != MagickFalse)
+            if (PNMEOFBlob(image,x,y) != MagickFalse)
               break;
             SetPixelRed(image,pixel,q);
             pixel=ScaleAnyToQuantum(PNMInteger(image,&comment_info,10,
@@ -645,7 +656,7 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
               if (status == MagickFalse)
                 break;
             }
-          if (EOFBlob(image) != MagickFalse)
+          if (PNMEOFBlob(image,x,y) != MagickFalse)
             break;
         }
         if (is_gray != MagickFalse)
@@ -1589,12 +1600,6 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
     comment_info.comment=DestroyString(comment_info.comment);
     if (y < (ssize_t) image->rows)
       ThrowPNMException(CorruptImageError,"UnableToReadImageData");
-    if (EOFBlob(image) != MagickFalse)
-      {
-        (void) ThrowMagickException(exception,GetMagickModule(),
-          CorruptImageError,"UnexpectedEndOfFile","`%s'",image->filename);
-        break;
-      }
     /*
       Proceed to next image.
     */
@@ -1784,6 +1789,7 @@ static MagickBooleanType WritePNMImage(const ImageInfo *image_info,Image *image,
     *value;
 
   MagickBooleanType
+    added_newline,
     status;
 
   MagickOffsetType
@@ -1956,6 +1962,13 @@ static MagickBooleanType WritePNMImage(const ImageInfo *image_info,Image *image,
           image->rows);
         (void) WriteBlobString(image,buffer);
         quantum_type=GetQuantumType(image,exception);
+        if (quantum_type == IndexQuantum)
+          {
+            if (image->colorspace == CMYKColorspace)
+              quantum_type=CMYKQuantum;
+            else if (image->colorspace == GRAYColorspace)
+              quantum_type=GrayQuantum;
+          }
         switch (quantum_type)
         {
           case CMYKQuantum:
@@ -2015,6 +2028,7 @@ static MagickBooleanType WritePNMImage(const ImageInfo *image_info,Image *image,
         (void) SetImageType(image,BilevelType,exception);
         extent=1;
         q=pixels;
+        added_newline=MagickFalse;
         for (y=0; y < (ssize_t) image->rows; y++)
         {
           const Quantum
@@ -2037,12 +2051,19 @@ static MagickBooleanType WritePNMImage(const ImageInfo *image_info,Image *image,
                     *q++='\n';
                     (void) WriteBlob(image,(size_t) (q-pixels),pixels);
                     q=pixels;
+                    added_newline=MagickTrue;
                   }
               }
             *q++=(unsigned char) (GetPixelLuma(image,p) >= ((double)
               QuantumRange/2.0) ? '0' : '1');
             p+=(ptrdiff_t) GetPixelChannels(image);
           }
+          if (added_newline == MagickFalse)
+            {
+              *q++='\n';
+              (void) WriteBlob(image,(size_t) (q-pixels),pixels);
+              q=pixels;
+            }
           if (image->previous == (Image *) NULL)
             {
               status=SetImageProgress(image,SaveImageTag,(MagickOffsetType) y,
@@ -2074,6 +2095,7 @@ static MagickBooleanType WritePNMImage(const ImageInfo *image_info,Image *image,
           else
             (void) WriteBlobString(image,"4294967295\n");
         q=pixels;
+        added_newline=MagickFalse;
         for (y=0; y < (ssize_t) image->rows; y++)
         {
           const Quantum
@@ -2108,12 +2130,19 @@ static MagickBooleanType WritePNMImage(const ImageInfo *image_info,Image *image,
                     *q++='\n';
                     (void) WriteBlob(image,(size_t) (q-pixels),pixels);
                     q=pixels;
+                    added_newline=MagickTrue;
                   }
               }
             (void) memcpy((char *) q,buffer,extent);
             q+=(ptrdiff_t) extent;
             p+=(ptrdiff_t) GetPixelChannels(image);
           }
+          if (added_newline == MagickFalse)
+            {
+              *q++='\n';
+              (void) WriteBlob(image,(size_t) (q-pixels),pixels);
+              q=pixels;
+            }
           if (image->previous == (Image *) NULL)
             {
               status=SetImageProgress(image,SaveImageTag,(MagickOffsetType) y,
@@ -2147,6 +2176,7 @@ static MagickBooleanType WritePNMImage(const ImageInfo *image_info,Image *image,
           else
             (void) WriteBlobString(image,"4294967295\n");
         q=pixels;
+        added_newline=MagickFalse;
         for (y=0; y < (ssize_t) image->rows; y++)
         {
           const Quantum
@@ -2186,12 +2216,19 @@ static MagickBooleanType WritePNMImage(const ImageInfo *image_info,Image *image,
                     *q++='\n';
                     (void) WriteBlob(image,(size_t) (q-pixels),pixels);
                     q=pixels;
+                    added_newline=MagickTrue;
                   }
               }
             (void) memcpy((char *) q,buffer,extent);
             q+=(ptrdiff_t) extent;
             p+=(ptrdiff_t) GetPixelChannels(image);
           }
+          if (added_newline == MagickFalse)
+            {
+              *q++='\n';
+              (void) WriteBlob(image,(size_t) (q-pixels),pixels);
+              q=pixels;
+            }
           if (image->previous == (Image *) NULL)
             {
               status=SetImageProgress(image,SaveImageTag,(MagickOffsetType) y,

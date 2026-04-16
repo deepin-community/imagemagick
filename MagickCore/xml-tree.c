@@ -29,7 +29,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -359,6 +359,9 @@ MagickPrivate char *CanonicalXMLContent(const char *content,
 %
 */
 
+static XMLTreeInfo
+  *DestroyXMLTree_(XMLTreeInfo *,const size_t);
+
 static char **DestroyXMLTreeAttributes(char **attributes)
 {
   ssize_t
@@ -383,35 +386,37 @@ static char **DestroyXMLTreeAttributes(char **attributes)
   return((char **) NULL);
 }
 
-static void DestroyXMLTreeChild(XMLTreeInfo *xml_info)
+static void DestroyXMLTreeChild(XMLTreeInfo *xml_info,
+  const size_t depth)
 {
   XMLTreeInfo
     *child,
     *node;
 
   child=xml_info->child;
-  while(child != (XMLTreeInfo *) NULL)
+  while (child != (XMLTreeInfo *) NULL)
   {
     node=child;
     child=node->child;
     node->child=(XMLTreeInfo *) NULL;
-    (void) DestroyXMLTree(node);
+    (void) DestroyXMLTree_(node,depth+1);
   }
 }
 
-static void DestroyXMLTreeOrdered(XMLTreeInfo *xml_info)
+static void DestroyXMLTreeOrdered(XMLTreeInfo *xml_info,
+  const size_t depth)
 {
   XMLTreeInfo
     *node,
     *ordered;
 
   ordered=xml_info->ordered;
-  while(ordered != (XMLTreeInfo *) NULL)
+  while (ordered != (XMLTreeInfo *) NULL)
   {
     node=ordered;
     ordered=node->ordered;
     node->ordered=(XMLTreeInfo *) NULL;
-    (void) DestroyXMLTree(node);
+    (void) DestroyXMLTree_(node,depth+1);
   }
 }
 
@@ -476,21 +481,30 @@ static void DestroyXMLTreeRoot(XMLTreeInfo *xml_info)
     }
 }
 
-MagickExport XMLTreeInfo *DestroyXMLTree(XMLTreeInfo *xml_info)
+static XMLTreeInfo *DestroyXMLTree_(XMLTreeInfo *xml_info,
+  const size_t depth)
 {
   assert(xml_info != (XMLTreeInfo *) NULL);
   assert((xml_info->signature == MagickCoreSignature) ||
          (((XMLTreeRoot *) xml_info)->signature == MagickCoreSignature));
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
-  DestroyXMLTreeChild(xml_info);
-  DestroyXMLTreeOrdered(xml_info);
+  if (depth > MagickMaxRecursionDepth)
+    ThrowFatalException(ResourceLimitFatalError,
+      "MemoryAllocationFailed");
+  DestroyXMLTreeChild(xml_info,depth+1);
+  DestroyXMLTreeOrdered(xml_info,depth+1);
   DestroyXMLTreeRoot(xml_info);
   xml_info->attributes=DestroyXMLTreeAttributes(xml_info->attributes);
   xml_info->content=DestroyString(xml_info->content);
   xml_info->tag=DestroyString(xml_info->tag);
   xml_info=(XMLTreeInfo *) RelinquishMagickMemory(xml_info);
   return((XMLTreeInfo *) NULL);
+}
+
+MagickExport XMLTreeInfo *DestroyXMLTree(XMLTreeInfo *xml_info)
+{
+  return(DestroyXMLTree_(xml_info,0));
 }
 
 /*
@@ -1276,7 +1290,7 @@ static char *ConvertUTF16ToUTF8(const char *content,size_t *length)
     }
   }
   *length=(size_t) j;
-  utf8=(char *) ResizeQuantumMemory(utf8,*length,sizeof(*utf8));
+  utf8=(char *) ResizeQuantumMemory(utf8,(*length+1),sizeof(*utf8));
   if (utf8 != (char *) NULL)
     utf8[*length]='\0';
   return(utf8);
@@ -1905,6 +1919,13 @@ MagickExport XMLTreeInfo *NewXMLTree(const char *xml,ExceptionInfo *exception)
         "ParseError","UTF16 to UTF8 failed");
       return((XMLTreeInfo *) NULL);
     }
+  if (length == 0)
+    {
+      utf8=DestroyString(utf8);
+      (void) ThrowMagickException(exception,GetMagickModule(),OptionWarning,
+        "ParseError","root tag missing");
+      return((XMLTreeInfo *) NULL);
+    }
   terminal=utf8[length-1];
   utf8[length-1]='\0';
   p=utf8;
@@ -2024,7 +2045,7 @@ MagickExport XMLTreeInfo *NewXMLTree(const char *xml,ExceptionInfo *exception)
           }
         else
           {
-            while((*p != '\0') && (*p != '/') && (*p != '>'))
+            while ((*p != '\0') && (*p != '/') && (*p != '>'))
               p++;
           }
         if (*p == '/')
@@ -2273,18 +2294,14 @@ MagickExport XMLTreeInfo *NewXMLTreeTag(const char *tag)
   XMLTreeRoot
     *root;
 
-  root=(XMLTreeRoot *) AcquireMagickMemory(sizeof(*root));
-  if (root == (XMLTreeRoot *) NULL)
-    return((XMLTreeInfo *) NULL);
+  root=(XMLTreeRoot *) AcquireCriticalMemory(sizeof(*root));
   (void) memset(root,0,sizeof(*root));
   root->root.tag=(char *) NULL;
   if (tag != (char *) NULL)
     root->root.tag=ConstantString(tag);
   root->node=(&root->root);
   root->root.content=ConstantString("");
-  root->entities=(char **) AcquireMagickMemory(sizeof(predefined_entities));
-  if (root->entities == (char **) NULL)
-    return((XMLTreeInfo *) NULL);
+  root->entities=(char **) AcquireCriticalMemory(sizeof(predefined_entities));
   (void) memcpy(root->entities,predefined_entities,sizeof(predefined_entities));
   root->root.attributes=sentinel;
   root->attributes=(char ***) root->root.attributes;

@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -232,7 +232,7 @@ static Image *ReadVIDEOImage(const ImageInfo *image_info,
       if (option != (const char *) NULL)
         {
           FormatSanitizedDelegateOption(command,MagickPathExtent,
-            " -vsync \"%s\""," -vsync '%s'",option);
+            " -fps_mode \"%s\""," -fps_mode '%s'",option);
           (void) ConcatenateMagickString(options,command,MagickPathExtent);
         }
       option=GetImageOption(image_info,"video:pixel-format");
@@ -248,7 +248,7 @@ static Image *ReadVIDEOImage(const ImageInfo *image_info,
             MagickPathExtent);
       intermediate_format=GetIntermediateFormat(image_info);
       (void) FormatLocaleString(command,MagickPathExtent,
-        " -vcodec %s -lossless 1",intermediate_format);
+        " -vcodec %s",intermediate_format);
       (void) ConcatenateMagickString(options,command,MagickPathExtent);
       AcquireUniqueFilename(read_info->unique);
       (void) AcquireUniqueSymbolicLink(image_info->filename,
@@ -578,7 +578,8 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
     scene;
 
   ssize_t
-    i;
+    i,
+    length_of_delay_loop;
 
   unsigned char
     *blob;
@@ -620,7 +621,11 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
     length=0;
     scene=p->scene;
     delay=100.0*p->delay/MagickMax(1.0*p->ticks_per_second,1.0);
-    for (i=0; i < (ssize_t) MagickMax((1.0*delay+1.0)/3.0,1.0); i++)
+    if (LocaleNCompare(image_info->magick,"APNG",MagickPathExtent) == 0)
+      length_of_delay_loop=1;
+    else
+      length_of_delay_loop=(ssize_t) MagickMax((1.0*delay+1.0)/3.0,1.0);
+    for (i=0; i < length_of_delay_loop; i++)
     {
       p->scene=count;
       count++;
@@ -706,6 +711,21 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
             " -pix_fmt \"%s\""," -pix_fmt '%s'",option);
           (void) ConcatenateMagickString(options,command,MagickPathExtent);
         }
+      if (LocaleNCompare(image_info->magick,"APNG",MagickPathExtent) == 0)
+        {
+          double
+            time_per_frame;
+
+          time_per_frame=(double) clone_images->delay /
+            MagickMax((double) clone_images->ticks_per_second,1.0);
+          if (time_per_frame > 0.0)
+            {
+              (void) FormatLocaleString(command,MagickPathExtent,
+                " -filter:v \"setpts=(25*%.20g)*PTS\" -r 1/%.20g",
+                time_per_frame,time_per_frame);
+              (void) ConcatenateMagickString(options,command,MagickPathExtent);
+            }
+        }
       AcquireUniqueFilename(write_info->unique);
       (void) FormatLocaleString(command,MagickPathExtent,
         GetDelegateCommands(delegate_info),basename,intermediate_format,
@@ -735,7 +755,11 @@ static MagickBooleanType WriteVIDEOImage(const ImageInfo *image_info,
   for (p=clone_images; p != (Image *) NULL; p=GetNextImageInList(p))
   {
     delay=100.0*p->delay/MagickMax(1.0*p->ticks_per_second,1.0);
-    for (i=0; i < (ssize_t) MagickMax((1.0*delay+1.0)/3.0,1.0); i++)
+    if (LocaleNCompare(image_info->magick,"APNG",MagickPathExtent) == 0)
+      length_of_delay_loop=1;
+    else
+      length_of_delay_loop=(ssize_t) MagickMax((1.0*delay+1.0)/3.0,1.0);
+    for (i=0; i < length_of_delay_loop; i++)
     {
       (void) FormatLocaleString(p->filename,MagickPathExtent,"%s%.20g.%s",
         basename,(double) count++,intermediate_format);

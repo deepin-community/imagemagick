@@ -16,7 +16,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -618,27 +618,32 @@ static MagickBooleanType WriteUHDRImage(const ImageInfo *image_info,
   {
     /* Classify image as hdr/sdr intent basing on depth */
     int
-      bpp = image->depth >= hdrIntentMinDepth ? 2 : 1;
-
-    int
-      aligned_width = image->columns + (image->columns & 1);
-
-    int
-      aligned_height = image->rows + (image->rows & 1);
+      bpp;
 
     ssize_t
-      picSize = aligned_width * aligned_height * bpp * 1.5 /* 2x2 sub-sampling */;
+      aligned_height,
+      aligned_width;
+
+    size_t
+      picSize;
 
     void
       *crBuffer = NULL, *cbBuffer = NULL, *yBuffer = NULL;
 
+    if (((double) image->columns > sqrt(MAGICK_SSIZE_MAX/3.0)) ||
+        ((double) image->rows > sqrt(MAGICK_SSIZE_MAX/3.0)))
+      {
+        (void) ThrowMagickException(exception,GetMagickModule(),ImageError,
+          "WidthOrHeightExceedsLimit","%s",image->filename);
+        goto next_image;
+      }
+    bpp = image->depth >= hdrIntentMinDepth ? 2 : 1;
     if (IssRGBCompatibleColorspace(image->colorspace) && !IsGrayColorspace(image->colorspace))
     {
       if (image->depth >= hdrIntentMinDepth && hdr_ct == UHDR_CT_LINEAR)
         bpp = 8; /* rgbahalf float */
       else
         bpp = 4; /* rgba1010102 or rgba8888 */
-      picSize = aligned_width * aligned_height * bpp;
     }
     else if (IsYCbCrCompatibleColorspace(image->colorspace))
     {
@@ -657,23 +662,50 @@ static MagickBooleanType WriteUHDRImage(const ImageInfo *image_info,
       goto next_image;
     }
 
-    if (image->depth < hdrIntentMinDepth && image->depth != 8)
+    aligned_width = image->columns + (image->columns & 1);
+    aligned_height = image->rows + (image->rows & 1);
+    if (HeapOverflowSanityCheckGetSize(aligned_width,aligned_height,&picSize) != MagickFalse)
+      {
+        (void) ThrowMagickException(exception,GetMagickModule(),
+          CorruptImageError,"ImproperImageHeader","%s",image->filename);
+        goto next_image;
+      }
+    if (HeapOverflowSanityCheckGetSize(picSize,bpp,&picSize) != MagickFalse)
+      {
+        (void) ThrowMagickException(exception,GetMagickModule(),
+          CorruptImageError,"ImproperImageHeader","%s",image->filename);
+        goto next_image;
+      }
+    if (bpp < 4)
+      {
+        if (HeapOverflowSanityCheckGetSize(picSize,3,&picSize) != MagickFalse)
+          {
+            (void) ThrowMagickException(exception,GetMagickModule(),
+              CorruptImageError,"ImproperImageHeader","%s",image->filename);
+            goto next_image;
+          }
+        picSize/=2;
+      }
+
+    if ((image->depth < hdrIntentMinDepth) && (image->depth != 8))
     {
       (void) ThrowMagickException(exception, GetMagickModule(), ConfigureWarning,
         "Received image with unexpected bit depth","%s","ignoring ...");
       goto next_image;
     }
 
-    if (image->depth >= hdrIntentMinDepth && hdrImgDescriptor.planes[UHDR_PLANE_Y] != NULL)
+    if ((image->depth >= hdrIntentMinDepth) &&
+        (hdrImgDescriptor.planes[UHDR_PLANE_Y] != NULL))
     {
       (void) ThrowMagickException(exception, GetMagickModule(), ConfigureWarning,
         "Received multiple hdr intent resources, ","%s","overwriting ...");
       RelinquishMagickMemory(hdrImgDescriptor.planes[UHDR_PLANE_Y]);
       hdrImgDescriptor.planes[UHDR_PLANE_Y] = NULL;
     }
-    else if (image->depth == 8 && sdrImgDescriptor.planes[UHDR_PLANE_Y] != NULL)
+    else if ((image->depth == 8) &&
+             (sdrImgDescriptor.planes[UHDR_PLANE_Y] != NULL))
     {
-      (void) ThrowMagickException(exception, GetMagickModule(), ConfigureWarning,
+      (void) ThrowMagickException(exception,GetMagickModule(),ConfigureWarning,
         "Received multiple sdr intent resources, ","%s","overwriting ...");
       RelinquishMagickMemory(sdrImgDescriptor.planes[UHDR_PLANE_Y]);
       sdrImgDescriptor.planes[UHDR_PLANE_Y] = NULL;
@@ -820,7 +852,7 @@ static MagickBooleanType WriteUHDRImage(const ImageInfo *image_info,
             b = ScaleQuantumToShort(GetPixelBlue(image, p)) & 0xFFC0;
 
             rgbBase[y * hdrImgDescriptor.stride[UHDR_PLANE_PACKED] + x] =
-                (0x3 << 30) | (b << 14) | (g << 4) | (r >> 6);
+                (0x3U << 30) | (b << 14) | (g << 4) | (r >> 6);
           }
         }
         else if (image->depth == 8)

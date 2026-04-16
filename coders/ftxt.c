@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -197,11 +197,11 @@ static int ReadInt(Image * image,MagickBooleanType *eofInp,int *chPushed,
     if (p-buffer >= MaxTextExtent)
       {
         *eofInp=MagickTrue;
-        continue;
+        break;
       }
     chIn=ReadChar(image,chPushed);
   }
-  if (p==buffer)
+  if (p == buffer)
     {
       *eofInp=MagickTrue;
       return(0);
@@ -831,8 +831,8 @@ ModuleExport void UnregisterFTXTImage(void)
 %    o exception: return any errors or warnings in this structure.
 %
 */
-static MagickBooleanType WriteFTXTImage(const ImageInfo *image_info,Image *image,
-  ExceptionInfo *exception)
+static MagickBooleanType WriteFTXTImage(const ImageInfo *image_info,
+  Image *image,ExceptionInfo *exception)
 {
   char
     buffer[MaxTextExtent],
@@ -1038,7 +1038,8 @@ static MagickBooleanType WriteFTXTImage(const ImageInfo *image_info,Image *image
               buffer[1]='\0';
               (void) WriteBlobString(image,buffer);
             }
-          pFmt++;
+          if (*pFmt)
+            pFmt++;
         }
         p+=(ptrdiff_t) GetPixelChannels(image);
       }

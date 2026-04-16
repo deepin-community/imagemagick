@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -186,7 +186,11 @@ MagickExport Image *AcquireImage(const ImageInfo *image_info,
   image->channel_mask=AllChannels;
   image->channel_map=AcquirePixelChannelMap();
   image->blob=CloneBlobInfo((BlobInfo *) NULL);
+#ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
+  image->timestamp=0;  /* Deterministic for fuzzing */
+#else
   image->timestamp=time((time_t *) NULL);
+#endif
   time_limit=GetMagickResourceLimit(TimeResource);
   if (time_limit != MagickResourceInfinity)
     image->ttl=image->timestamp+(time_t) time_limit;
@@ -286,7 +290,8 @@ MagickExport Image *AcquireImage(const ImageInfo *image_info,
       if ((flags & GreaterValue) != 0)
         {
           if ((double) image->delay > floor(geometry_info.rho+0.5))
-            image->delay=(size_t) CastDoubleToSsizeT(floor(geometry_info.rho+0.5));
+            image->delay=(size_t) CastDoubleToSsizeT(floor(geometry_info.rho+
+              0.5));
         }
       else
         if ((flags & LessValue) != 0)
@@ -296,9 +301,11 @@ MagickExport Image *AcquireImage(const ImageInfo *image_info,
                 geometry_info.sigma+0.5));
           }
         else
-          image->delay=(size_t) CastDoubleToSsizeT(floor(geometry_info.rho+0.5));
+          image->delay=(size_t) CastDoubleToSsizeT(floor(geometry_info.rho+
+            0.5));
       if ((flags & SigmaValue) != 0)
-        image->ticks_per_second=CastDoubleToSsizeT(floor(geometry_info.sigma+0.5));
+        image->ticks_per_second=CastDoubleToSsizeT(floor(geometry_info.sigma+
+          0.5));
     }
   option=GetImageOption(image_info,"dispose");
   if (option != (const char *) NULL)
@@ -695,7 +702,8 @@ MagickExport MagickBooleanType ClipImagePath(Image *image,const char *pathname,
 #define ClipImagePathTag  "ClipPath/Image"
 
   char
-    *property;
+    *property,
+    *sanitized_pathname;
 
   const char
     *value;
@@ -725,8 +733,11 @@ MagickExport MagickBooleanType ClipImagePath(Image *image,const char *pathname,
   image_info=AcquireImageInfo();
   (void) CopyMagickString(image_info->filename,image->filename,
      MagickPathExtent);
-  (void) ConcatenateMagickString(image_info->filename,pathname,
+  (void) ConcatenateMagickString(image_info->filename,"_",MagickPathExtent);
+  sanitized_pathname=SanitizeString(pathname);
+  (void) ConcatenateMagickString(image_info->filename,sanitized_pathname,
     MagickPathExtent);
+  sanitized_pathname=DestroyString(sanitized_pathname);
   clip_mask=BlobToImage(image_info,value,strlen(value),exception);
   image_info=DestroyImageInfo(image_info);
   if (clip_mask == (Image *) NULL)
@@ -1033,7 +1044,7 @@ MagickExport ImageInfo *CloneImageInfo(const ImageInfo *image_info)
 %
 %      MagickBooleanType CopyImagePixels(Image *image,const Image *source_image,
 %        const RectangleInfo *geometry,const OffsetInfo *offset,
-%        ExceptionInfo *exception);
+%        ExceptionInfo *exception)
 %
 %  A description of each parameter follows:
 %
@@ -1732,7 +1743,8 @@ MagickExport size_t InterpretImageFilename(const ImageInfo *image_info,
               format_specifier[MagickPathExtent];
 
             size_t
-              length = cursor-specifier_start;
+              length = cursor-specifier_start,
+              pattern_length;
 
             ssize_t
               count;
@@ -1741,10 +1753,13 @@ MagickExport size_t InterpretImageFilename(const ImageInfo *image_info,
               "%%%.*s%c",(int) length,specifier_start,*cursor);
             count=FormatLocaleString(pattern,sizeof(pattern),format_specifier,
               value);
-            if ((count <= 0) || ((p-filename+count) >= MagickPathExtent))
+            pattern_length=strlen(pattern);
+            if ((count <= 0) || ((size_t) count != pattern_length))
+              return(0);
+            if ((p-filename+pattern_length) >= MagickPathExtent)
               return(0);
             (void) CopyMagickString(p,pattern,MagickPathExtent-(p-filename));
-            p+=strlen(pattern);
+            p+=pattern_length;
             cursor++;
             continue;
           }
@@ -2962,6 +2977,8 @@ MagickExport MagickBooleanType SetImageInfo(ImageInfo *image_info,
           image_info->affirm=MagickTrue;
           (void) CopyMagickString(image_info->magick,magic,MagickPathExtent);
           GetPathComponent(image_info->filename,CanonicalPath,component);
+          if (IsStringTrue(GetImageOption(image_info,"filename:literal")) != MagickFalse)
+            GetPathComponent(image_info->filename,SubcanonicalPath,component);
           (void) CopyMagickString(image_info->filename,component,
             MagickPathExtent);
         }

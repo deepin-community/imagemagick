@@ -5,7 +5,7 @@
   You may not use this file except in compliance with the License.  You may
   obtain a copy of the License at
 
-    https://imagemagick.org/script/license.php
+    https://imagemagick.org/license/
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -505,19 +505,19 @@ struct ReferenceTypes
 static const struct ReferenceTypes
   reference_types[] =
   {
-    { TrueColorType, 8 },
-    { TrueColorAlphaType, 8 },
+    { BilevelType, 1 },
+    { ColorSeparationType, 8 },
+    { ColorSeparationAlphaType, 8 },
     { GrayscaleType, 8 },
     { GrayscaleAlphaType, 8 },
     { PaletteType, 8 },
     { PaletteAlphaType, 8 },
     { PaletteBilevelAlphaType, 8 },
-    { BilevelType, 1 },
-    { ColorSeparationType, 8 },
-    { ColorSeparationAlphaType, 8 },
+    { TrueColorType, 8 },
     { TrueColorType, 10 },
     { TrueColorType, 12 },
     { TrueColorType, 16 },
+    { TrueColorAlphaType, 8 },
     { UndefinedType, 0 }
   };
 

@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -876,16 +876,21 @@ static double **AcquireBilateralTLS(const size_t number_threads,
   double
     **weights;
 
+  size_t
+    count;
+
   ssize_t
     i;
 
+  if (HeapOverflowSanityCheckGetSize(height,sizeof(**weights),&count) != MagickFalse)
+    return((double **) NULL);
   weights=(double **) AcquireQuantumMemory(number_threads+1,sizeof(*weights));
   if (weights == (double **) NULL)
     return((double **) NULL);
-  (void) memset(weights,0,number_threads*sizeof(*weights));
+  (void) memset(weights,0,(number_threads+1)*sizeof(*weights));
   for (i=0; i <= (ssize_t) number_threads; i++)
   {
-    weights[i]=(double *) AcquireQuantumMemory(width,height*sizeof(**weights));
+    weights[i]=(double *) AcquireQuantumMemory(width,count);
     if (weights[i] == (double *) NULL)
       return(DestroyBilateralTLS(number_threads,weights));
   }
@@ -949,7 +954,7 @@ MagickExport Image *BilateralBlurImage(const Image *image,const size_t width,
       blur_image=DestroyImage(blur_image);
       ThrowImageException(ResourceLimitError,"MemoryAllocationFailed");
     }
-  for (w=(-MaxIntensity); w < MaxIntensity; w++)
+  for (w=(-MaxIntensity); w <= MaxIntensity; w++)
     intensity_gaussian[w+MaxIntensity]=BlurGaussian((double) w,intensity_sigma);
   spatial_gaussian=weights[number_threads];
   {
@@ -1034,7 +1039,7 @@ MagickExport Image *BilateralBlurImage(const Image *image,const size_t width,
           double
             intensity;
 
-          r=p+(ssize_t) (GetPixelChannels(image)*MagickMax(width,1)*
+          r=p-(ssize_t) (GetPixelChannels(image)*MagickMax(width,1)*
             (size_t) (mid.y-v)+GetPixelChannels(image)*(size_t) (mid.x-u));
           intensity=ScaleQuantumToChar((const Quantum) GetPixelIntensity(image,r))-
             (double) ScaleQuantumToChar((const Quantum) GetPixelIntensity(image,p));
@@ -1079,8 +1084,8 @@ MagickExport Image *BilateralBlurImage(const Image *image,const size_t width,
             {
               for (u=0; u < (ssize_t) MagickMax(width,1); u++)
               {
-                r=p+GetPixelChannels(image)*MagickMax(width,1)*(size_t)
-                  (mid.y-v)+GetPixelChannels(image)*(size_t) (mid.x-u);
+                 r=p-(ssize_t) (GetPixelChannels(image)*MagickMax(width,1)*(size_t)
+                  (mid.y-v)+GetPixelChannels(image)*(size_t) (mid.x-u));
                 pixel+=weights[id][n]*(double) r[i];
                 gamma+=weights[id][n];
                 n++;
@@ -1101,8 +1106,8 @@ MagickExport Image *BilateralBlurImage(const Image *image,const size_t width,
               alpha,
               beta;
 
-            r=p+GetPixelChannels(image)*MagickMax(width,1)*(size_t) (mid.y-v)+
-              GetPixelChannels(image)*(size_t) (mid.x-u);
+            r=p-(ssize_t) (GetPixelChannels(image)*MagickMax(width,1)*(size_t) (mid.y-v)+
+              GetPixelChannels(image)*(size_t) (mid.x-u));
             alpha=(double) (QuantumScale*(double) GetPixelAlpha(image,p));
             beta=(double) (QuantumScale*(double) GetPixelAlpha(image,r));
             pixel+=weights[id][n]*(double) r[i];
@@ -1364,7 +1369,13 @@ MagickExport Image *DespeckleImage(const Image *image,ExceptionInfo *exception)
   /*
     Allocate image buffer.
   */
-  length=(size_t) ((image->columns+2)*(image->rows+2));
+  if ((image->columns > (MAGICK_SIZE_MAX-2)) ||
+      (image->rows > (MAGICK_SIZE_MAX-2)))
+    {
+      despeckle_image=DestroyImage(despeckle_image);
+      ThrowImageException(ResourceLimitError,"MemoryAllocationFailed");
+    }
+  length=(image->columns+2)*(image->rows+2);
   pixel_info=AcquireVirtualMemory(length,sizeof(*pixels));
   buffer_info=AcquireVirtualMemory(length,sizeof(*buffer));
   if ((pixel_info == (MemoryInfo *) NULL) ||

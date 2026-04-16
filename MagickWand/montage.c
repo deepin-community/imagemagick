@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -168,6 +168,7 @@ static MagickBooleanType MontageUsage(void)
       "  -monitor             monitor progress\n"
       "  -page geometry       size and location of an image canvas (setting)\n"
       "  -pointsize value     font point size\n"
+      "  -precision value     maximum number of significant digits to print\n"
       "  -profile filename    add, delete, or apply an image profile\n"
       "  -quality value       JPEG/MIFF/PNG compression level\n"
       "  -quantize colorspace reduce colors in this colorspace\n"
@@ -358,7 +359,7 @@ WandExport MagickBooleanType MontageImageCommand(ImageInfo *image_info,
   if (status == MagickFalse)
     ThrowMontageException(ResourceLimitError,"MemoryAllocationFailed",
       GetExceptionMessage(errno));
-  for (i=1; i < (ssize_t) (argc-1); i++)
+  for (i=1; i < ((ssize_t) argc-1); i++)
   {
     option=argv[i];
     if (LocaleCompare(option,"(") == 0)
@@ -393,7 +394,7 @@ WandExport MagickBooleanType MontageImageCommand(ImageInfo *image_info,
             Option is a file name: begin by reading image from specified file.
           */
           filename=argv[i];
-          if ((LocaleCompare(filename,"--") == 0) && (i < (ssize_t) (argc-1)))
+          if ((LocaleCompare(filename,"--") == 0) && (i < ((ssize_t) argc-1)))
             filename=argv[++i];
           (void) CloneString(&image_info->font,montage_info->font);
           if (first_scene == last_scene)
@@ -1349,6 +1350,17 @@ WandExport MagickBooleanType MontageImageCommand(ImageInfo *image_info,
               ThrowMontageInvalidArgumentException(option,argv[i]);
             break;
           }
+        if (LocaleCompare("precision",option+1) == 0)
+          {
+            if (*option == '+')
+              break;
+            i++;
+            if (i == (ssize_t) argc)
+              ThrowMontageException(OptionError,"MissingArgument",option);
+            if (IsGeometry(argv[i]) == MagickFalse)
+              ThrowMontageInvalidArgumentException(option,argv[i]);
+            break;
+          }
         if (LocaleCompare("profile",option+1) == 0)
           {
             i++;
@@ -1818,7 +1830,7 @@ WandExport MagickBooleanType MontageImageCommand(ImageInfo *image_info,
   }
   if (k != 0)
     ThrowMontageException(OptionError,"UnbalancedParenthesis",argv[i]);
-  if (i-- != (ssize_t) (argc-1))
+  if (i-- != ((ssize_t) argc-1))
     ThrowMontageException(OptionError,"MissingAnImageFilename",argv[i]);
   if (image == (Image *) NULL)
     ThrowMontageException(OptionError,"MissingAnImageFilename",argv[argc-1]);

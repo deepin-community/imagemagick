@@ -21,7 +21,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -269,7 +269,7 @@ WandExport ScriptTokenInfo * DestroyScriptTokenInfo(ScriptTokenInfo *token_info)
   assert(token_info->signature == MagickWandSignature);
 
   if ( token_info->opened != MagickFalse )
-    fclose(token_info->stream);
+    (void) fclose(token_info->stream);
 
   if (token_info->token != (char *) NULL )
     token_info->token=(char *) RelinquishMagickMemory(token_info->token);
