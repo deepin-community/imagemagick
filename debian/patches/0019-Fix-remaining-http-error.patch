@@ -12,10 +12,10 @@ forwarded: not-needed
  www/search.html                        | 5 -----
  6 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
-index 060f5f8..b6dc4b3 100644
---- a/www/advanced-unix-installation.html
-+++ b/www/advanced-unix-installation.html
+Index: imagemagick/www/advanced-unix-installation.html
+===================================================================
+--- imagemagick.orig/www/advanced-unix-installation.html	2025-10-28 17:08:50.426224934 +0100
++++ imagemagick/www/advanced-unix-installation.html	2025-10-28 17:08:50.422726724 +0100
 @@ -75,6 +75,7 @@
        <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
@@ -23,12 +23,12 @@ index 060f5f8..b6dc4b3 100644
 +  </div>
    </nav>
  
-   <div class="container">
-diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
-index 510a6e3..fee75bb 100644
---- a/www/advanced-windows-installation.html
-+++ b/www/advanced-windows-installation.html
-@@ -126,6 +126,7 @@
+   <main class="container">
+Index: imagemagick/www/advanced-windows-installation.html
+===================================================================
+--- imagemagick.orig/www/advanced-windows-installation.html	2025-10-28 17:08:50.426224934 +0100
++++ imagemagick/www/advanced-windows-installation.html	2025-10-28 17:08:50.422857482 +0100
+@@ -124,6 +124,7 @@
        <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
      </form>
@@ -36,11 +36,11 @@ index 510a6e3..fee75bb 100644
    </nav>
  
  <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
-diff --git a/www/animate.html b/www/animate.html
-index 7b6df3d..ca23030 100644
---- a/www/animate.html
-+++ b/www/animate.html
-@@ -126,6 +126,7 @@
+Index: imagemagick/www/animate.html
+===================================================================
+--- imagemagick.orig/www/animate.html	2025-10-28 17:08:50.426224934 +0100
++++ imagemagick/www/animate.html	2025-10-28 17:08:50.422944052 +0100
+@@ -124,6 +124,7 @@
        <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
      </form>
@@ -48,11 +48,11 @@ index 7b6df3d..ca23030 100644
    </nav>
  
  <div class="col-lg-8 mx-auto p-4 py-md-5 text-body-secondary">
-diff --git a/www/cite.html b/www/cite.html
-index b601038..ec070ee 100644
---- a/www/cite.html
-+++ b/www/cite.html
-@@ -143,7 +143,8 @@
+Index: imagemagick/www/cite.html
+===================================================================
+--- imagemagick.orig/www/cite.html	2025-10-28 17:08:50.426224934 +0100
++++ imagemagick/www/cite.html	2025-10-28 17:08:50.423058242 +0100
+@@ -141,7 +141,8 @@
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>1. ImageMagick Studio LLC. ImageMagick [Internet]. 2024. Available from: https://imagemagick.org</samp></pre>
  
  <h4>Citation in Harvard style</h4>
@@ -62,7 +62,7 @@ index b601038..ec070ee 100644
  <h4>Citation in Bibtex format</h4>
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>@software{imagemagick,
    author = {{ImageMagick Studio LLC}},
-@@ -152,6 +153,7 @@
+@@ -150,6 +151,7 @@
    version = {7.1.1},
    date = {2024-01-04},
  }</samp></pre>
@@ -70,11 +70,11 @@ index b601038..ec070ee 100644
    </div>
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
-diff --git a/www/download.html b/www/download.html
-index 5dd2404..e5ad285 100644
---- a/www/download.html
-+++ b/www/download.html
-@@ -184,6 +184,7 @@
+Index: imagemagick/www/download.html
+===================================================================
+--- imagemagick.orig/www/download.html	2025-10-28 17:08:50.426224934 +0100
++++ imagemagick/www/download.html	2025-10-28 17:08:50.423243506 +0100
+@@ -200,6 +200,7 @@
        <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
      </form>
@@ -82,7 +82,7 @@ index 5dd2404..e5ad285 100644
    </nav>
  
  <div class="col-lg-8 mx-auto text-body-secondary pt-5 pt-lg-5">
-@@ -580,7 +581,7 @@ display logo.gif</samp></pre>
+@@ -596,7 +597,7 @@
      <td>Portable Win32 static at 16 bits-per-pixel component with <a href="../www/high-dynamic-range.html">high dynamic-range imaging</a> enabled.  Just copy to your host and run (no installer, no Windows registry entries).</td>
    </tr>
  
@@ -91,11 +91,11 @@ index 5dd2404..e5ad285 100644
  </table></div>
  
  <p>Verify its <a href="../archive/binaries/digest.rdf">message digest</a>.</p>
-diff --git a/www/search.html b/www/search.html
-index 7747749..f4d50c1 100644
---- a/www/search.html
-+++ b/www/search.html
-@@ -133,11 +133,6 @@
+Index: imagemagick/www/search.html
+===================================================================
+--- imagemagick.orig/www/search.html	2025-10-28 17:08:50.426224934 +0100
++++ imagemagick/www/search.html	2025-10-28 17:08:50.423380866 +0100
+@@ -131,11 +131,6 @@
    </header>
  
    <main class="container">

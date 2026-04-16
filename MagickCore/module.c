@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -78,11 +78,14 @@ typedef void *ModuleHandle;
   Define declarations.
 */
 #if defined(MAGICKCORE_LTDL_DELEGATE)
+#  define FilterGlobExpression "*.la"
 #  define ModuleGlobExpression "*.la"
 #else
 #  if defined(_DEBUG)
+#    define FilterGlobExpression "FILTER_DB_*.dll"
 #    define ModuleGlobExpression "IM_MOD_DB_*.dll"
 #  else
+#    define FilterGlobExpression "FILTER_RL_*.dll"
 #    define ModuleGlobExpression "IM_MOD_RL_*.dll"
 #  endif
 #endif
@@ -454,7 +457,10 @@ MagickExport char **GetModuleList(const char *pattern,
   while ((MagickReadDirectory(directory,buffer,&entry) == 0) &&
          (entry != (struct dirent *) NULL))
   {
-    status=GlobExpression(entry->d_name,ModuleGlobExpression,MagickFalse);
+    if (type == MagickImageFilterModule)
+      status=GlobExpression(entry->d_name,FilterGlobExpression,MagickFalse);
+    else
+      status=GlobExpression(entry->d_name,ModuleGlobExpression,MagickFalse);
     if (status == MagickFalse)
       continue;
     if (GlobExpression(entry->d_name,pattern,MagickFalse) == MagickFalse)
@@ -475,6 +481,11 @@ MagickExport char **GetModuleList(const char *pattern,
     modules[i]=AcquireString((char *) NULL);
     GetPathComponent(entry->d_name,BasePath,modules[i]);
     if (LocaleNCompare("IM_MOD_",modules[i],7) == 0)
+      {
+        (void) CopyMagickString(modules[i],modules[i]+10,MagickPathExtent);
+        modules[i][strlen(modules[i])-1]='\0';
+      }
+    else if (LocaleNCompare("FILTER_",modules[i],7) == 0)
       {
         (void) CopyMagickString(modules[i],modules[i]+10,MagickPathExtent);
         modules[i][strlen(modules[i])-1]='\0';
@@ -559,7 +570,7 @@ static MagickBooleanType GetMagickModulePath(const char *filename,
     {
       (void) LogMagickEvent(ModuleEvent,GetMagickModule(),
         "Searching for filter module file \"%s\" ...",filename);
-      module_path=GetEnvironmentValue("MAGICK_CODER_FILTER_PATH");
+      module_path=GetEnvironmentValue("MAGICK_FILTER_MODULE_PATH");
 #if defined(MAGICKCORE_FILTER_PATH)
       if (module_path == (char *) NULL)
         module_path=AcquireString(MAGICKCORE_FILTER_PATH);
@@ -584,15 +595,16 @@ static MagickBooleanType GetMagickModulePath(const char *filename,
           (void) ConcatenateMagickString(path,DirectorySeparator,
             MagickPathExtent);
         (void) ConcatenateMagickString(path,filename,MagickPathExtent);
-#if defined(MAGICKCORE_HAVE_REALPATH)
         {
           char
-            resolved_path[PATH_MAX+1];
+            *real_path = realpath_utf8(path);
 
-          if (realpath(path,resolved_path) != (char *) NULL)
-            (void) CopyMagickString(path,resolved_path,MagickPathExtent);
+          if (real_path != (char *) NULL)
+            {
+              (void) CopyMagickString(path,real_path,MagickPathExtent);
+              real_path=DestroyString(real_path);
+            }
         }
-#endif
         if (IsPathAccessible(path) != MagickFalse)
           {
             module_path=DestroyString(module_path);
@@ -844,7 +856,7 @@ static MagickBooleanType GetMagickModulePath(const char *filename,
 %
 %  The format of the IsModuleTreeInstantiated() method is:
 %
-%      IsModuleTreeInstantiated()
+%      MagickBooleanType IsModuleTreeInstantiated(void)
 %
 */
 
@@ -1525,7 +1537,11 @@ static void TagToFilterModuleName(const char *tag,char *name)
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",tag);
 #if defined(MAGICKCORE_WINDOWS_SUPPORT)
-  (void) FormatLocaleString(name,MagickPathExtent,"FILTER_%s_.dll",tag);
+#if defined(_DEBUG)
+ (void) FormatLocaleString(name,MagickPathExtent,"FILTER_DB_%s_.dll",tag);
+#else
+ (void) FormatLocaleString(name,MagickPathExtent,"FILTER_RL_%s_.dll",tag);
+#endif
 #elif !defined(MAGICKCORE_LTDL_DELEGATE)
   (void) FormatLocaleString(name,MagickPathExtent,"%s.dll",tag);
 #else
@@ -1549,7 +1565,7 @@ static void TagToFilterModuleName(const char *tag,char *name)
 %
 %  The format of the TagToModuleName module is:
 %
-%      TagToModuleName(const char *tag,const char *format,char *module)
+%      void TagToModuleName(const char *tag,const char *format,char *module)
 %
 %  A description of each parameter follows:
 %

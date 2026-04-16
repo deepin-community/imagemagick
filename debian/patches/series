@@ -1,3 +1,5 @@
+doxygen-reproductible.patch
+configure-unreproductible.patch
 0001-Use-modern-idiom-for-autoconf.patch
 0002-Allow-distribution-to-custumize-the-html-pointer-to-.patch
 0003-Improve-man-page-to-use-version-information-and-quan.patch
@@ -26,10 +28,10 @@
 0026-Fix-remaining-www-error.patch
 0027-Fix-remaining-html-error.patch
 0028-Fix-html-error-1034333.patch
-0029-Remove-cse-script.patch
-0030-Remove-adsbygoogle.patch
 0031-Fix-remaining-html-error.patch
 0032-Remove-problematic-block.patch
 0033-Fix-remaining-error.patch
 0034-Fix-remaining-error-in-html.patch
-0035-Fix-remaining-error.patch
+0035-Fix-remaining-br-mismatch-tag.patch
+0037-Remove-remaining-form-block.patch
+0038-Fix-remaining-error.patch

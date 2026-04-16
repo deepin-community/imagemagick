@@ -22,7 +22,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -2016,13 +2016,9 @@ MagickExport MagickBooleanType ListDelegateInfo(FILE *file,
     (void) FormatLocaleFile(file,"%11s%c=%c%s  ",delegate_info[i]->decode ?
       delegate_info[i]->decode : "",delegate_info[i]->mode <= 0 ? '<' : ' ',
       delegate_info[i]->mode >= 0 ? '>' : ' ',delegate);
-    (void) StripMagickString(commands[0]);
     (void) FormatLocaleFile(file,"\"%s\"\n",commands[0]);
     for (j=1; commands[j] != (char *) NULL; j++)
-    {
-      (void) StripMagickString(commands[j]);
       (void) FormatLocaleFile(file,"                     \"%s\"\n",commands[j]);
-    }
     for (j=0; commands[j] != (char *) NULL; j++)
       commands[j]=DestroyString(commands[j]);
     commands=(char **) RelinquishMagickMemory(commands);

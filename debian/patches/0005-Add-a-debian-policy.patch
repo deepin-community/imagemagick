@@ -10,11 +10,11 @@ Install also other policy
  3 files changed, 160 insertions(+), 3 deletions(-)
  create mode 100644 config/policy-debian.xml
 
-diff --git a/config/Makefile.am b/config/Makefile.am
-index a3c12d6..1015263 100644
---- a/config/Makefile.am
-+++ b/config/Makefile.am
-@@ -62,6 +62,7 @@ CONFIG_EXTRA_DIST = \
+Index: imagemagick/config/Makefile.am
+===================================================================
+--- imagemagick.orig/config/Makefile.am	2026-03-20 21:43:31.614601991 +0100
++++ imagemagick/config/Makefile.am	2026-03-20 21:43:31.612132047 +0100
+@@ -62,6 +62,7 @@
    config/locale.xml \
    config/log.xml \
    config/mime.xml \
@@ -22,11 +22,10 @@ index a3c12d6..1015263 100644
    config/policy-limited.xml \
    config/policy-open.xml \
    config/policy-secure.xml \
-diff --git a/config/policy-debian.xml b/config/policy-debian.xml
-new file mode 100644
-index 0000000..4b878ce
---- /dev/null
-+++ b/config/policy-debian.xml
+Index: imagemagick/config/policy-debian.xml
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ imagemagick/config/policy-debian.xml	2026-03-20 21:43:31.612215549 +0100
 @@ -0,0 +1,156 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<!DOCTYPE policymap [
@@ -184,11 +183,11 @@ index 0000000..4b878ce
 +  <policy domain="delegate" rights="none" pattern="HTTPS" />
 +  <policy domain="delegate" rights="none" pattern="HTTP" />
 +</policymap>
-diff --git a/configure.ac b/configure.ac
-index eb7b9ee..be44a36 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -827,10 +827,10 @@ m4_define([_MAGICK_SECURITY_POLICY],
+Index: imagemagick/configure.ac
+===================================================================
+--- imagemagick.orig/configure.ac	2026-03-20 21:43:31.614601991 +0100
++++ imagemagick/configure.ac	2026-03-20 21:43:31.612532328 +0100
+@@ -837,10 +837,10 @@
  [m4_define([MAGICK_SECURITY_POLICY_DEFAULT], [m4_if($1, limited, limited, m4_if($1, secure, secure, open))])dnl
    AC_MSG_CHECKING([which variant of security policy to enforce])
    AC_ARG_WITH([security-policy],
@@ -201,7 +200,7 @@ index eb7b9ee..be44a36 100644
        security_policy=$withval
        ;;
      *)
-@@ -844,7 +844,7 @@ m4_define([_MAGICK_SECURITY_POLICY],
+@@ -854,7 +854,7 @@
    AC_MSG_RESULT([$security_policy])
  ]) # MAGICK_SECURITY_POLICY
  

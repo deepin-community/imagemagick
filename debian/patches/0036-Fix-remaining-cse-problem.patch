@@ -1,0 +1,176 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 18 Oct 2025 12:27:04 +0200
+Subject: Fix remaining cse problem
+
+forwarded: not-needed
+---
+ www/color-management.html   | 2 +-
+ www/color-thresholding.html | 2 +-
+ www/command-line-tools.html | 2 +-
+ www/compare.html            | 2 +-
+ www/composite.html          | 2 +-
+ www/convex-hull.html        | 2 +-
+ www/exception.html          | 2 +-
+ www/install-source.html     | 2 +-
+ www/magick-wand.html        | 2 +-
+ www/magick.html             | 2 +-
+ www/mogrify.html            | 2 +-
+ www/stream.html             | 2 +-
+ 12 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/www/color-management.html b/www/color-management.html
+index e317fe1..e872307 100644
+--- a/www/color-management.html
++++ b/www/color-management.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/color-thresholding.html b/www/color-thresholding.html
+index 791e98f..0af5c91 100644
+--- a/www/color-thresholding.html
++++ b/www/color-thresholding.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/command-line-tools.html b/www/command-line-tools.html
+index 997c777..b23e000 100644
+--- a/www/command-line-tools.html
++++ b/www/command-line-tools.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/compare.html b/www/compare.html
+index 1047e18..82e5b34 100644
+--- a/www/compare.html
++++ b/www/compare.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/composite.html b/www/composite.html
+index 8022f71..f6d0d62 100644
+--- a/www/composite.html
++++ b/www/composite.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/convex-hull.html b/www/convex-hull.html
+index 261275e..04b9a61 100644
+--- a/www/convex-hull.html
++++ b/www/convex-hull.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/exception.html b/www/exception.html
+index ab3ab09..861cf77 100644
+--- a/www/exception.html
++++ b/www/exception.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/install-source.html b/www/install-source.html
+index 5b0481f..9c4e89d 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/magick-wand.html b/www/magick-wand.html
+index 11e6268..178e632 100644
+--- a/www/magick-wand.html
++++ b/www/magick-wand.html
+@@ -125,7 +125,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/magick.html b/www/magick.html
+index 567f879..b3b47af 100644
+--- a/www/magick.html
++++ b/www/magick.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/mogrify.html b/www/mogrify.html
+index 16ab2be..50236df 100644
+--- a/www/mogrify.html
++++ b/www/mogrify.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>
+diff --git a/www/stream.html b/www/stream.html
+index c4ec25d..e15390e 100644
+--- a/www/stream.html
++++ b/www/stream.html
+@@ -124,7 +124,7 @@
+   }
+   </script>
+   <!-- Google Custom Search -->
+-  <script defer src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"></script>
++
+ </head>
+ <body>
+   <script>

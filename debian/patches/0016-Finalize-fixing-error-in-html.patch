@@ -15,11 +15,11 @@ Forwarded: no
  www/webp.html                       |   1 +
  9 files changed, 66 insertions(+), 100 deletions(-)
 
-diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
-index 253a310..060f5f8 100644
---- a/www/advanced-unix-installation.html
-+++ b/www/advanced-unix-installation.html
-@@ -656,8 +656,7 @@ no encode delegate for this image format
+Index: imagemagick/www/advanced-unix-installation.html
+===================================================================
+--- imagemagick.orig/www/advanced-unix-installation.html	2025-10-28 17:08:20.034501014 +0100
++++ imagemagick/www/advanced-unix-installation.html	2025-10-28 17:08:20.029756335 +0100
+@@ -642,8 +642,7 @@
    </footer>
  
    <!-- Javascript assets -->
@@ -30,10 +30,10 @@ index 253a310..060f5f8 100644
  </html>
  <!-- Magick Cache 13th February 2021 11:28 -->
 \ No newline at end of file
-diff --git a/www/api.html b/www/api.html
-index 6542f55..d00f767 100644
---- a/www/api.html
-+++ b/www/api.html
+Index: imagemagick/www/api.html
+===================================================================
+--- imagemagick.orig/www/api.html	2025-10-28 17:08:20.034501014 +0100
++++ imagemagick/www/api.html	2025-10-28 17:08:20.029876090 +0100
 @@ -218,7 +218,7 @@
    </footer>
  
@@ -43,11 +43,11 @@ index 6542f55..d00f767 100644
    <script>window.jQuery || document.write('&lt;script src="assets/jquery.min.js">&lt;\/script>')</script>
  </body>
  </html>
-diff --git a/www/architecture.html b/www/architecture.html
-index 895a465..3dbabcd 100644
---- a/www/architecture.html
-+++ b/www/architecture.html
-@@ -1459,63 +1459,40 @@ display logo.mgk
+Index: imagemagick/www/architecture.html
+===================================================================
+--- imagemagick.orig/www/architecture.html	2025-10-28 17:08:20.034501014 +0100
++++ imagemagick/www/architecture.html	2025-10-28 17:08:20.030048325 +0100
+@@ -1457,63 +1457,40 @@
  %    o exception: return any errors or warnings in this structure.
  %
  */
@@ -135,7 +135,7 @@ index 895a465..3dbabcd 100644
    (void) argc;
    (void) argv;
    status=MagickTrue;
-@@ -1525,40 +1502,42 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
+@@ -1523,40 +1500,42 @@
      CacheView
        *image_view;
  
@@ -198,7 +198,7 @@ index 895a465..3dbabcd 100644
        if (status == MagickFalse)
          continue;
        p=GetCacheViewVirtualPixels(image_view,0,y,image->columns,1,exception);
-@@ -1567,9 +1546,7 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
+@@ -1565,9 +1544,7 @@
            status=MagickFalse;
            continue;
          }
@@ -209,7 +209,7 @@ index 895a465..3dbabcd 100644
        {
          double
            b,
-@@ -1586,14 +1563,6 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,
+@@ -1584,14 +1561,6 @@
            local_saturation.sum[i]+=pow(s,(double) i);
          p+=GetPixelChannels(image);
        }
@@ -224,11 +224,11 @@ index 895a465..3dbabcd 100644
      }
      image_view=DestroyCacheView(image_view);
      area=(double) image->columns*image->rows;
-diff --git a/www/binary-releases.html b/www/binary-releases.html
-index 49a8f2a..83401af 100644
---- a/www/binary-releases.html
-+++ b/www/binary-releases.html
-@@ -488,7 +488,7 @@ objShell.Exec("convert ""e:/myimages/image.png"" ""e:/myimages/image.jpg""")
+Index: imagemagick/www/binary-releases.html
+===================================================================
+--- imagemagick.orig/www/binary-releases.html	2025-10-28 17:08:20.034501014 +0100
++++ imagemagick/www/binary-releases.html	2025-10-28 17:08:20.030237236 +0100
+@@ -488,7 +488,7 @@
    </footer>
  
    <!-- Javascript assets -->
@@ -237,11 +237,11 @@ index 49a8f2a..83401af 100644
    <script>window.jQuery || document.write('&lt;script src="assets/jquery.min.js">&lt;\/script>')</script>
  </body>
  </html>
-diff --git a/www/command-line-options.html b/www/command-line-options.html
-index 8ebf563..5ef1105 100644
---- a/www/command-line-options.html
-+++ b/www/command-line-options.html
-@@ -3364,8 +3364,6 @@ image sequence.</p>
+Index: imagemagick/www/command-line-options.html
+===================================================================
+--- imagemagick.orig/www/command-line-options.html	2025-10-28 17:08:20.034501014 +0100
++++ imagemagick/www/command-line-options.html	2025-10-28 17:08:20.030736093 +0100
+@@ -3377,8 +3377,6 @@
  <p>For more information, see the webpage, <a href="../www/cipher.html">ImageMagick: Encipher or
  Decipher an Image</a>.</p>
  
@@ -250,7 +250,7 @@ index 8ebf563..5ef1105 100644
  <div style="margin: auto;">
    <h2><a class="anchor" id="encoding"></a>-encoding <var>type</var></h2>
  </div>
-@@ -8017,7 +8015,8 @@ href="#stretch">-stretch</a>, and <a href="#style">-style</a>. </p>
+@@ -8030,7 +8028,8 @@
    <h2><a class="anchor" id="white-balance"></a>-white-balance</h2>
  </div>
  <p>Applies white balancing to an image according to a grayworld assumption in the LAB colorspace.</p>
@@ -260,11 +260,11 @@ index 8ebf563..5ef1105 100644
  
  <div style="margin: auto;">
    <h2><a class="anchor" id="white-point"></a>-white-point <var>x,y</var></h2>
-diff --git a/www/defines.html b/www/defines.html
-index 4f45f44..cede702 100644
---- a/www/defines.html
-+++ b/www/defines.html
-@@ -175,7 +175,7 @@ use:</p>
+Index: imagemagick/www/defines.html
+===================================================================
+--- imagemagick.orig/www/defines.html	2025-10-28 17:08:20.034501014 +0100
++++ imagemagick/www/defines.html	2025-10-28 17:08:20.031259825 +0100
+@@ -173,7 +173,7 @@
    </tr>
  
    <tr>
@@ -273,7 +273,7 @@ index 4f45f44..cede702 100644
    </tr>
  
    <tr>
-@@ -808,11 +808,11 @@ use:</p>
+@@ -806,11 +806,11 @@
    </tr>
  
    <tr>
@@ -287,7 +287,7 @@ index 4f45f44..cede702 100644
    </tr>
  
    <tr>
-@@ -820,7 +820,7 @@ use:</p>
+@@ -818,7 +818,7 @@
    </tr>
  
    <tr>
@@ -296,7 +296,7 @@ index 4f45f44..cede702 100644
    </tr>
  
    <tr>
-@@ -1358,7 +1358,6 @@ use:</p>
+@@ -1356,7 +1356,6 @@
      <td>png:exclude-chunk=<var>value</var></td>
      <td> </td>
    </tr>
@@ -304,7 +304,7 @@ index 4f45f44..cede702 100644
    <tr>
      <td>png:include-chunk=<var>value</var></td>
      <td>ancillary chunks to be excluded from or included in PNG output.
-@@ -1702,15 +1701,15 @@ use:</p>
+@@ -1700,15 +1699,15 @@
    </tr>
  
    <tr>
@@ -323,7 +323,7 @@ index 4f45f44..cede702 100644
    </tr>
  
    <tr>
-@@ -1732,7 +1731,6 @@ use:</p>
+@@ -1730,7 +1729,6 @@
      clockwise positive manner from its normal X-Y orientation.
      Supported in Imagemagick 6.9.2-5.</td>
     </tr>
@@ -331,7 +331,7 @@ index 4f45f44..cede702 100644
    <tr>
      <td>gradient:bounding-box=<var>WxH+X+Y</var></td>
      <td>Limit the gradient to a larger or smaller region than
-@@ -1895,19 +1893,19 @@ use:</p>
+@@ -1893,19 +1891,19 @@
    </tr>
  
    <tr>
@@ -355,11 +355,11 @@ index 4f45f44..cede702 100644
    </tr>
  
    <tr>
-diff --git a/www/download.html b/www/download.html
-index fdebdca..5dd2404 100644
---- a/www/download.html
-+++ b/www/download.html
-@@ -324,7 +324,7 @@ display logo.gif</samp></pre>
+Index: imagemagick/www/download.html
+===================================================================
+--- imagemagick.orig/www/download.html	2025-10-28 17:08:20.034501014 +0100
++++ imagemagick/www/download.html	2025-10-28 17:08:20.031398664 +0100
+@@ -340,7 +340,7 @@
      <td><a href="../archive/binaries/ImageMagick-x86_64-apple-darwin20.1.0.tar.gz">ImageMagick-x86_64-apple-darwin20.1.0.tar.gz</a></td>
      <td>macOS High Sierra</td>
    </tr>
@@ -368,11 +368,11 @@ index fdebdca..5dd2404 100644
  </table></div>
  
  <p>Verify its <a href="../archive/binaries/digest.rdf">message digest</a>.</p>
-diff --git a/www/support.html b/www/support.html
-index d4a39b5..40f27e4 100644
---- a/www/support.html
-+++ b/www/support.html
-@@ -181,7 +181,7 @@
+Index: imagemagick/www/support.html
+===================================================================
+--- imagemagick.orig/www/support.html	2025-10-28 17:08:20.034501014 +0100
++++ imagemagick/www/support.html	2025-10-28 17:08:20.031478859 +0100
+@@ -179,7 +179,7 @@
  <p>For direct monetary contributions, click on the donate button to contribute thru Paypal or with a credit card:</p>
  
  <ul>
@@ -381,11 +381,11 @@ index d4a39b5..40f27e4 100644
  </ul>
  
  <h2>Bitcoin</h2>
-diff --git a/www/webp.html b/www/webp.html
-index a134f3a..68ce305 100644
---- a/www/webp.html
-+++ b/www/webp.html
-@@ -251,6 +251,7 @@
+Index: imagemagick/www/webp.html
+===================================================================
+--- imagemagick.orig/www/webp.html	2025-10-28 17:08:20.034501014 +0100
++++ imagemagick/www/webp.html	2025-10-28 17:08:20.031539681 +0100
+@@ -249,6 +249,7 @@
      <td>use-sharp-yuv=<var>value</var></td>
      <td>if needed, use sharp (and slow) RGB->YUV conversion.</td>
    </tr>

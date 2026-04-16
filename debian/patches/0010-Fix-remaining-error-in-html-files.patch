@@ -8,10 +8,10 @@ Subject: Fix remaining error in html files
  www/index.html     | 3 +--
  3 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/www/changelog.html b/www/changelog.html
-index 7075947..ac7e2b3 100644
---- a/www/changelog.html
-+++ b/www/changelog.html
+Index: imagemagick/www/changelog.html
+===================================================================
+--- imagemagick.orig/www/changelog.html	2025-10-28 17:07:34.990954924 +0100
++++ imagemagick/www/changelog.html	2025-10-28 17:07:34.988591395 +0100
 @@ -72,6 +72,10 @@
        </form>
      </div>
@@ -22,12 +22,12 @@ index 7075947..ac7e2b3 100644
 +    </form>
    </nav>
  
-   <div class="container">
-diff --git a/www/download.html b/www/download.html
-index af2a699..fdebdca 100644
---- a/www/download.html
-+++ b/www/download.html
-@@ -180,7 +180,10 @@
+   <main class="container">
+Index: imagemagick/www/download.html
+===================================================================
+--- imagemagick.orig/www/download.html	2025-10-28 17:07:34.990954924 +0100
++++ imagemagick/www/download.html	2025-10-28 17:07:34.988793461 +0100
+@@ -196,7 +196,10 @@
          </li>
        </ul>
      </div>
@@ -39,12 +39,12 @@ index af2a699..fdebdca 100644
    </nav>
  
  <div class="col-lg-8 mx-auto text-body-secondary pt-5 pt-lg-5">
-diff --git a/www/index.html b/www/index.html
-index 67ccf0d..5141c8b 100644
---- a/www/index.html
-+++ b/www/index.html
-@@ -394,10 +394,9 @@
-      <a href="https://twitter.com/imagemagick" rel="noopener" target="_blank" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 300 300" width="2%" height="2%" role="img" focusable="false"><title>Twitter</title><path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66"/></svg></a>
+Index: imagemagick/www/index.html
+===================================================================
+--- imagemagick.orig/www/index.html	2025-10-28 17:07:34.990954924 +0100
++++ imagemagick/www/index.html	2025-10-28 17:07:34.988871103 +0100
+@@ -411,10 +411,9 @@
+      <a href="https://twitter.com/imagemagick" rel="noopener noreferrer" target="_blank" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 300 300" width="2%" height="2%" role="img" focusable="false"><title>Twitter</title><path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66"/></svg></a>
      <br>
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
 -    </div>
@@ -53,5 +53,5 @@ index 67ccf0d..5141c8b 100644
 -
 +</div>
    <!-- Javascript assets -->
-   <script src="assets/bootstrap.bundle.min.js" ></script>
-   </body>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+ ~                                                         
