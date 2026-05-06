@@ -24,7 +24,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -203,6 +203,82 @@ ModuleExport void UnregisterPS3Image(void)
 %
 */
 
+static inline void FilenameToTitle(const char *filename,char *title,
+  const size_t extent)
+{
+  int
+    depth = 0;
+
+  ssize_t
+    i,
+    offset = 0;
+
+  if (extent == 0)
+    return;
+  for (i=0; (filename[i] != '\0') && ((offset+1) < (ssize_t) extent); i++)
+  {
+    unsigned char
+      c = filename[i];
+
+    /*
+      Only allow printable ASCII.
+    */
+    if ((c < 32) || (c > 126))
+      {
+        title[offset++]='_';
+        continue;
+      }
+    /*
+      Percent signs break DSC parsing.
+    */
+    if (c == '%')
+      {
+        title[offset++]='_';
+        continue;
+      }
+    /*
+      Parentheses must remain balanced.
+    */
+    if (c == '(')
+      {
+        depth++;
+        title[offset++] = '(';
+        continue;
+      }
+    if (c == ')')
+      {
+        if (depth <= 0)
+          title[offset++]='_';
+        else
+          {
+            depth--;
+            title[offset++]=')';
+          }
+         continue;
+     }
+    /*
+      Everything else is allowed.
+    */
+    title[offset++]=c;
+  }
+  /*
+    If parentheses remain unbalanced, close them.
+  */
+  while ((depth > 0) && ((offset+1) < (ssize_t) extent)) {
+    title[offset++]=')';
+    depth--;
+  }
+  title[offset]='\0';
+  /*
+    Ensure non-empty result.
+  */
+  if (offset == 0)
+    {
+      (void) CopyMagickString(title,"Untitled",extent-1);
+      title[extent-1]='\0';
+    }
+}
+
 static MagickBooleanType Huffman2DEncodeImage(const ImageInfo *image_info,
   Image *image,Image *inject_image,ExceptionInfo *exception)
 {
@@ -249,22 +325,27 @@ static MagickBooleanType SerializeImage(const ImageInfo *image_info,
   const Quantum
     *p;
 
+  size_t
+    channels,
+    extent;
+
   ssize_t
-    x;
+    x,
+    y;
 
   unsigned char
     *q;
-
-  ssize_t
-    y;
 
   assert(image != (Image *) NULL);
   assert(image->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   status=MagickTrue;
-  *length=(image->colorspace == CMYKColorspace ? 4 : 3)*(size_t)
-    image->columns*image->rows;
+  channels=(image->colorspace == CMYKColorspace ? 4 : 3);
+  if (HeapOverflowSanityCheckGetSize(channels,(size_t) image->columns,&extent) != MagickFalse)
+    ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
+  if (HeapOverflowSanityCheckGetSize(extent,image->rows,length) != MagickFalse)
+    ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
   *pixel_info=AcquireVirtualMemory(*length,sizeof(*q));
   if (*pixel_info == (MemoryInfo *) NULL)
     ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
@@ -1007,6 +1088,9 @@ static MagickBooleanType WritePS3Image(const ImageInfo *image_info,Image *image,
     is_gray=IdentifyImageCoderGray(image,exception);
     if (page == 1)
       {
+        char
+          title[MagickPathExtent];
+
         /*
           Postscript header on the first page.
         */
@@ -1019,8 +1103,9 @@ static MagickBooleanType WritePS3Image(const ImageInfo *image_info,Image *image,
         (void) FormatLocaleString(buffer,MagickPathExtent,
           "%%%%Creator: ImageMagick %s\n",MagickLibVersionText);
         (void) WriteBlobString(image,buffer);
+        FilenameToTitle(image->filename,title,MagickPathExtent);
         (void) FormatLocaleString(buffer,MagickPathExtent,"%%%%Title: %s\n",
-          image->filename);
+          title);
         (void) WriteBlobString(image,buffer);
         timer=GetMagickTime();
         (void) FormatMagickTime(timer,sizeof(date),date);

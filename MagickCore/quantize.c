@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -2318,7 +2318,7 @@ MagickExport MagickBooleanType GetImageQuantizeError(Image *image,
 %
 %  The format of the GetQuantizeInfo method is:
 %
-%      GetQuantizeInfo(QuantizeInfo *quantize_info)
+%      void GetQuantizeInfo(QuantizeInfo *quantize_info)
 %
 %  A description of each parameter follows:
 %

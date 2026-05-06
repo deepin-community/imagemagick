@@ -24,7 +24,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -341,15 +341,15 @@ MagickExport DrawInfo *CloneDrawInfo(const ImageInfo *image_info,
         x;
 
       for (x=0; fabs(draw_info->dash_pattern[x]) >= MagickEpsilon; x++) ;
-      clone_info->dash_pattern=(double *) AcquireQuantumMemory((size_t) (2*x+2),
+      clone_info->dash_pattern=(double *) AcquireQuantumMemory((size_t) (x+1),
         sizeof(*clone_info->dash_pattern));
       if (clone_info->dash_pattern == (double *) NULL)
         ThrowFatalException(ResourceLimitFatalError,
           "UnableToAllocateDashPattern");
-      (void) memset(clone_info->dash_pattern,0,(size_t) (2*x+2)*
+      (void) memset(clone_info->dash_pattern,0,(size_t) (x+1)*
         sizeof(*clone_info->dash_pattern));
       (void) memcpy(clone_info->dash_pattern,draw_info->dash_pattern,(size_t)
-        (x+1)*sizeof(*clone_info->dash_pattern));
+        x*sizeof(*clone_info->dash_pattern));
     }
   clone_info->gradient=draw_info->gradient;
   if (draw_info->gradient.stops != (StopInfo *) NULL)
@@ -1612,7 +1612,7 @@ static Image *DrawClippingMask(Image *image,const DrawInfo *draw_info,
   clone_info=DestroyDrawInfo(clone_info);
   separate_mask=SeparateImage(clip_mask,AlphaChannel,exception);
   if (separate_mask == (Image *) NULL)
-    status=MagickFalse; 
+    status=MagickFalse;
   else
     {
       clip_mask=DestroyImage(clip_mask);
@@ -2301,7 +2301,7 @@ static MagickBooleanType CheckPrimitiveExtent(MVGInfo *mvg_info,
   extent=(double) mvg_info->offset+pad+(PrimitiveExtentPad+1)*(double) quantum;
   if (extent <= (double) *mvg_info->extent)
     return(MagickTrue);
-  if ((extent >= (double) MAGICK_SSIZE_MAX) || (IsNaN(extent) != 0))
+  if ((extent >= (double) GetMaxMemoryRequest()) || (IsNaN(extent) != 0))
     return(MagickFalse);
   if (mvg_info->offset > 0)
     {
@@ -3461,8 +3461,9 @@ static MagickBooleanType RenderMVGContent(Image *image,
                     continue;
                   break;
                 }
-                if ((q == (char *) NULL) || (*q == '\0') || 
-                    (p == (char *) NULL) || ((q-4) < p))
+                if ((q == (char *) NULL) || (*q == '\0') ||
+                    (p == (char *) NULL) || ((q-4) < p) ||
+                    ((q-p+4+1) > MagickPathExtent))
                   {
                     status=MagickFalse;
                     break;
@@ -3505,6 +3506,7 @@ static MagickBooleanType RenderMVGContent(Image *image,
                     (void) ThrowMagickException(exception,GetMagickModule(),
                       ResourceLimitError,"MemoryAllocationFailed","`%s'",
                       image->filename);
+                    status=MagickFalse;
                     break;
                   }
                 graphic_context[n]=CloneDrawInfo((ImageInfo *) NULL,
@@ -3513,6 +3515,13 @@ static MagickBooleanType RenderMVGContent(Image *image,
                   {
                     (void) GetNextToken(q,&q,extent,token);
                     (void) CloneString(&graphic_context[n]->id,token);
+                  }
+                if (n > MagickMaxRecursionDepth)
+                  {
+                    (void) ThrowMagickException(exception,GetMagickModule(),
+                      DrawError,"VectorGraphicsNestedTooDeeply","`%s'",
+                      image->filename);
+                    status=MagickFalse;
                   }
                 break;
               }
@@ -3569,7 +3578,8 @@ static MagickBooleanType RenderMVGContent(Image *image,
                     continue;
                   break;
                 }
-                if ((q == (char *) NULL) || (p == (char *) NULL) || ((q-4) < p))
+                if ((q == (char *) NULL) || (p == (char *) NULL) || ((q-4) < p) ||
+                    ((q-p+4+1) > MagickPathExtent))
                   {
                     status=MagickFalse;
                     break;
@@ -3679,6 +3689,7 @@ static MagickBooleanType RenderMVGContent(Image *image,
                 (void) ThrowMagickException(exception,GetMagickModule(),
                   ResourceLimitError,"MemoryAllocationFailed","`%s'",
                   image->filename);
+                status=MagickFalse;
                 break;
               }
             (void) GetNextToken(q,&q,extent,token);
@@ -4209,6 +4220,7 @@ static MagickBooleanType RenderMVGContent(Image *image,
             (void) ThrowMagickException(exception,GetMagickModule(),
               ResourceLimitError,"MemoryAllocationFailed","`%s'",
               image->filename);
+            status=MagickFalse;
             break;
           }
         mvg_info.offset=i;
@@ -4379,7 +4391,7 @@ static MagickBooleanType RenderMVGContent(Image *image,
       case PathPrimitive:
       {
         coordinates=(double) TracePath(&mvg_info,token,exception);
-        primitive_info=(*mvg_info.primitive_info); 
+        primitive_info=(*mvg_info.primitive_info);
         if (coordinates < 0.0)
           {
             status=MagickFalse;
@@ -5648,64 +5660,27 @@ MagickExport MagickBooleanType DrawPrimitive(Image *image,
       else
         if (*primitive_info->text != '\0')
           {
-            const char
-              *option;
-
-            MagickBooleanType
-              path_status;
-
-            struct stat
-              attributes;
-
             /*
               Read composite image.
             */
             (void) CopyMagickString(clone_info->filename,primitive_info->text,
               MagickPathExtent);
             (void) SetImageInfo(clone_info,1,exception);
-            option=GetImageOption(clone_info,"svg:embedding");
-            if ((option == (char *) NULL) &&
-                (IsStringTrue(option) == MagickFalse))
-              {
-                const MagickInfo
-                  *magick_info;
-
-                magick_info=GetMagickInfo(clone_info->magick,exception);
-                if ((magick_info != (const MagickInfo*) NULL) &&
-                    (LocaleCompare(magick_info->magick_module,"SVG") == 0))
-                  {
-                    (void) ThrowMagickException(exception,GetMagickModule(),
-                      CorruptImageError,"ImageTypeNotSupported","`%s'",
-                      clone_info->filename);
-                    clone_info=DestroyImageInfo(clone_info);
-                    break;
-                  }
-              }
             (void) CopyMagickString(clone_info->filename,primitive_info->text,
               MagickPathExtent);
             if (clone_info->size != (char *) NULL)
               clone_info->size=DestroyString(clone_info->size);
             if (clone_info->extract != (char *) NULL)
               clone_info->extract=DestroyString(clone_info->extract);
-            path_status=GetPathAttributes(clone_info->filename,&attributes);
-            if (path_status != MagickFalse)
-              {
-                if (S_ISCHR(attributes.st_mode) == 0)
-                  composite_images=ReadImage(clone_info,exception);
-                else
-                  (void) ThrowMagickException(exception,GetMagickModule(),
-                    FileOpenError,"UnableToOpenFile","`%s'",
-                      clone_info->filename);
-              }
+            if ((LocaleCompare(clone_info->magick,"ftp") != 0) &&
+                (LocaleCompare(clone_info->magick,"http") != 0) &&
+                (LocaleCompare(clone_info->magick,"https") != 0) &&
+                (LocaleCompare(clone_info->magick,"mvg") != 0) &&
+                (LocaleCompare(clone_info->magick,"vid") != 0))
+              composite_images=ReadImage(clone_info,exception);
             else
-              if ((LocaleCompare(clone_info->magick,"ftp") != 0) &&
-                  (LocaleCompare(clone_info->magick,"http") != 0) &&
-                  (LocaleCompare(clone_info->magick,"https") != 0) &&
-                  (LocaleCompare(clone_info->magick,"vid") != 0))
-                composite_images=ReadImage(clone_info,exception);
-              else
-                (void) ThrowMagickException(exception,GetMagickModule(),
-                  FileOpenError,"UnableToOpenFile","`%s'",clone_info->filename);
+              (void) ThrowMagickException(exception,GetMagickModule(),
+                FileOpenError,"UnableToOpenFile","`%s'",clone_info->filename);
           }
       clone_info=DestroyImageInfo(clone_info);
       if (composite_images == (Image *) NULL)
@@ -5930,6 +5905,8 @@ static MagickBooleanType DrawRoundLinecap(Image *image,
   ssize_t
     i;
 
+  if (primitive_info->coordinates < 1)
+    return(MagickFalse);
   for (i=0; i < 4; i++)
     linecap[i]=(*primitive_info);
   linecap[0].coordinates=4;
@@ -6439,7 +6416,7 @@ static MagickBooleanType TraceBezier(MVGInfo *mvg_info,
     for (j=i+1; j < (ssize_t) number_coordinates; j++)
     {
       alpha=fabs(primitive_info[j].point.x-primitive_info[i].point.x);
-      if (alpha > (double) MAGICK_SSIZE_MAX)
+      if (alpha > (double) GetMaxMemoryRequest())
         {
           (void) ThrowMagickException(mvg_info->exception,GetMagickModule(),
             ResourceLimitError,"MemoryAllocationFailed","`%s'","");
@@ -6448,18 +6425,18 @@ static MagickBooleanType TraceBezier(MVGInfo *mvg_info,
       if (alpha > (double) quantum)
         quantum=(size_t) alpha;
       alpha=fabs(primitive_info[j].point.y-primitive_info[i].point.y);
-      if (alpha > (double) MAGICK_SSIZE_MAX)
-        {
-          (void) ThrowMagickException(mvg_info->exception,GetMagickModule(),
-            ResourceLimitError,"MemoryAllocationFailed","`%s'","");
-          return(MagickFalse);
-        }
       if (alpha > (double) quantum)
         quantum=(size_t) alpha;
     }
   }
   primitive_info=(*mvg_info->primitive_info)+mvg_info->offset;
   quantum=MagickMin(quantum/number_coordinates,BezierQuantum);
+  if (quantum > (double) GetMaxMemoryRequest())
+    {
+      (void) ThrowMagickException(mvg_info->exception,GetMagickModule(),
+        ResourceLimitError,"MemoryAllocationFailed","`%s'","");
+      return(MagickFalse);
+    }
   coefficients=(double *) AcquireQuantumMemory(number_coordinates,
     sizeof(*coefficients));
   points=(PointInfo *) AcquireQuantumMemory(quantum,number_coordinates*
@@ -7172,12 +7149,6 @@ static MagickBooleanType TraceRectangle(PrimitiveInfo *primitive_info,
   ssize_t
     i;
 
-  if ((fabs(start.x-end.x) < MagickEpsilon) ||
-      (fabs(start.y-end.y) < MagickEpsilon))
-    {
-      primitive_info->coordinates=0;
-      return(MagickTrue);
-    }
   p=primitive_info;
   if (TracePoint(p,start) == MagickFalse)
     return(MagickFalse);

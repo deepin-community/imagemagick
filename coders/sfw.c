@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -250,12 +250,12 @@ static Image *ReadSFWImage(const ImageInfo *image_info,ExceptionInfo *exception)
   /*
     Read image into a buffer.
   */
-  if (GetBlobSize(image) != (size_t) GetBlobSize(image))
+  extent=(size_t) GetBlobSize(image)+MagickPathExtent;
+  if (GetBlobSize(image) != extent)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
   if (GetBlobSize(image) < 141)
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
-  buffer=(unsigned char *) AcquireQuantumMemory((size_t) GetBlobSize(image)+
-    MagickPathExtent,sizeof(*buffer));
+  buffer=(unsigned char *) AcquireQuantumMemory(extent,sizeof(*buffer));
   if (buffer == (unsigned char *) NULL)
     ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
   count=ReadBlob(image,(size_t) GetBlobSize(image),buffer);
@@ -317,9 +317,9 @@ static Image *ReadSFWImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if ((unique_file == -1) || (file == (FILE *) NULL))
     {
       buffer=(unsigned char *) RelinquishMagickMemory(buffer);
-      read_info=DestroyImageInfo(read_info);
       (void) CopyMagickString(image->filename,read_info->filename,
         MagickPathExtent);
+      read_info=DestroyImageInfo(read_info);
       ThrowFileException(exception,FileOpenError,"UnableToCreateTemporaryFile",
         image->filename);
       image=DestroyImageList(image);

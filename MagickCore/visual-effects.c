@@ -30,7 +30,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -704,16 +704,12 @@ MagickExport Image *ColorizeImage(const Image *image,const char *blend,
 %
 %    o image: the image.
 %
-%    o color_matrix:  the color matrix.
+%    o color_matrix:  the color matrix.  It is the callers responsibility to
+%      ensure the matrix has at least width * height values.
 %
 %    o exception: return any errors or warnings in this structure.
 %
 */
-/* FUTURE: modify to make use of a MagickMatrix Multiply function
-   That should be provided in "matrix.c"
-   (ASIDE: actually distorts should do this too but currently doesn't)
-*/
-
 MagickExport Image *ColorMatrixImage(const Image *image,
   const KernelInfo *color_matrix,ExceptionInfo *exception)
 {
@@ -3535,6 +3531,9 @@ MagickExport Image *WaveletDenoiseImage(const Image *image,
   MemoryInfo
     *pixels_info;
 
+  size_t
+    number_levels = 5;
+
   ssize_t
     channel;
 
@@ -3551,10 +3550,17 @@ MagickExport Image *WaveletDenoiseImage(const Image *image,
   assert(exception->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
+  number_pixels=(MagickSizeType) image->columns*image->rows;
+  while ((number_levels > 0) &&
+         (((size_t) 1 << (number_levels-1)) >= MagickMin(image->columns,image->rows)))
+    number_levels--;
 #if defined(MAGICKCORE_OPENCL_SUPPORT)
-  noise_image=AccelerateWaveletDenoiseImage(image,threshold,exception);
-  if (noise_image != (Image *) NULL)
-    return(noise_image);
+  if (number_levels >= 5)
+    {
+       noise_image=AccelerateWaveletDenoiseImage(image,threshold,exception);
+       if (noise_image != (Image *) NULL)
+         return(noise_image);
+    }
 #endif
   noise_image=CloneImage(image,0,0,MagickTrue,exception);
   if (noise_image == (Image *) NULL)
@@ -3566,7 +3572,7 @@ MagickExport Image *WaveletDenoiseImage(const Image *image,
     }
   if (AcquireMagickResource(WidthResource,4*image->columns) == MagickFalse)
     ThrowImageException(ResourceLimitError,"MemoryAllocationFailed");
-  pixels_info=AcquireVirtualMemory(3*image->columns,image->rows*
+  pixels_info=AcquireVirtualMemory(4*image->columns,image->rows*
     sizeof(*pixels));
   kernel=(float *) AcquireQuantumMemory(MagickMax(image->rows,image->columns)+1,
     GetOpenMPMaximumThreads()*sizeof(*kernel));
@@ -3580,19 +3586,16 @@ MagickExport Image *WaveletDenoiseImage(const Image *image,
     }
   pixels=(float *) GetVirtualMemoryBlob(pixels_info);
   status=MagickTrue;
-  number_pixels=(MagickSizeType) image->columns*image->rows;
   image_view=AcquireAuthenticCacheView(image,exception);
   noise_view=AcquireAuthenticCacheView(noise_image,exception);
   for (channel=0; channel < (ssize_t) GetPixelChannels(image); channel++)
   {
-    ssize_t
-      i;
-
     size_t
-      high_pass,
-      low_pass;
+      high_pass = 0,
+      low_pass = 0;
 
     ssize_t
+      i,
       level,
       y;
 
@@ -3642,7 +3645,7 @@ MagickExport Image *WaveletDenoiseImage(const Image *image,
       have high values in the noisy parts of the signal.
     */
     high_pass=0;
-    for (level=0; level < 5; level++)
+    for (level=0; level < (ssize_t) number_levels; level++)
     {
       double
         magnitude;

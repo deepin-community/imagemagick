@@ -26,10 +26,10 @@ find . -name '*.html' -exec perl -0777 -i -pe 's|\n?<form .*</form>\n?||gs' {} \
  www/stream.html               | 6 +-----
  20 files changed, 20 insertions(+), 100 deletions(-)
 
-diff --git a/www/api.html b/www/api.html
-index 8248fc4..0b03bb3 100644
---- a/www/api.html
-+++ b/www/api.html
+Index: imagemagick/www/api.html
+===================================================================
+--- imagemagick.orig/www/api.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/api.html	2025-10-28 17:11:55.788448900 +0100
 @@ -66,11 +66,7 @@
        </li>
      </ul>
@@ -43,10 +43,10 @@ index 8248fc4..0b03bb3 100644
    <main class="container">
      <div class="magick-template">
  <div class="magick-header">
-diff --git a/www/binary-releases.html b/www/binary-releases.html
-index aa989d8..164ef4a 100644
---- a/www/binary-releases.html
-+++ b/www/binary-releases.html
+Index: imagemagick/www/binary-releases.html
+===================================================================
+--- imagemagick.orig/www/binary-releases.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/binary-releases.html	2025-10-28 17:11:55.788541012 +0100
 @@ -61,11 +61,7 @@
        </li>
      </ul>
@@ -60,10 +60,10 @@ index aa989d8..164ef4a 100644
    </header>
    <main class="container">
      <div class="magick-template">
-diff --git a/www/changelog.html b/www/changelog.html
-index cb8bda3..3bcb6df 100644
---- a/www/changelog.html
-+++ b/www/changelog.html
+Index: imagemagick/www/changelog.html
+===================================================================
+--- imagemagick.orig/www/changelog.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/changelog.html	2025-10-28 17:11:55.788736330 +0100
 @@ -68,11 +68,7 @@
        </ul>
      </div>
@@ -75,30 +75,13 @@ index cb8bda3..3bcb6df 100644
 -  </nav>
 +      </nav>
  
-   <div class="container">
- 
-diff --git a/www/cite.html b/www/cite.html
-index c1dd5b8..90ae852 100644
---- a/www/cite.html
-+++ b/www/cite.html
-@@ -117,11 +117,7 @@
- 
-         </li>
-       </ul>
--      <form class="d-flex form-inline" action="../www/search.html">
--        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
--        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
--      </form>
--    </div>
-+          </div>
-   </div>
-   </nav>
- 
-diff --git a/www/color-management.html b/www/color-management.html
-index 6363c89..f06f818 100644
---- a/www/color-management.html
-+++ b/www/color-management.html
-@@ -117,11 +117,7 @@
+   <main class="container">
+   <div class="magick-template">
+Index: imagemagick/www/cite.html
+===================================================================
+--- imagemagick.orig/www/cite.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/cite.html	2025-10-28 17:11:55.788884796 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -111,11 +94,79 @@ index 6363c89..f06f818 100644
    </div>
    </nav>
  
-diff --git a/www/color-thresholding.html b/www/color-thresholding.html
-index 6de5f5f..7872783 100644
---- a/www/color-thresholding.html
-+++ b/www/color-thresholding.html
-@@ -117,11 +117,7 @@
+Index: imagemagick/www/color-management.html
+===================================================================
+--- imagemagick.orig/www/color-management.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/color-management.html	2025-10-28 17:11:55.788942516 +0100
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/color-thresholding.html
+===================================================================
+--- imagemagick.orig/www/color-thresholding.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/color-thresholding.html	2025-10-28 17:11:55.788997807 +0100
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/command-line-tools.html
+===================================================================
+--- imagemagick.orig/www/command-line-tools.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/command-line-tools.html	2025-10-28 17:11:55.789049078 +0100
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/composite.html
+===================================================================
+--- imagemagick.orig/www/composite.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/composite.html	2025-10-28 17:11:55.789110366 +0100
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/conjure.html
+===================================================================
+--- imagemagick.orig/www/conjure.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/conjure.html	2025-10-28 17:11:55.789205467 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -128,11 +179,11 @@ index 6de5f5f..7872783 100644
    </div>
    </nav>
  
-diff --git a/www/command-line-tools.html b/www/command-line-tools.html
-index 3ed8894..6461c39 100644
---- a/www/command-line-tools.html
-+++ b/www/command-line-tools.html
-@@ -117,11 +117,7 @@
+Index: imagemagick/www/connected-components.html
+===================================================================
+--- imagemagick.orig/www/connected-components.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/connected-components.html	2025-10-28 17:11:55.789302139 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -145,11 +196,11 @@ index 3ed8894..6461c39 100644
    </div>
    </nav>
  
-diff --git a/www/composite.html b/www/composite.html
-index 35af5d2..a9d1198 100644
---- a/www/composite.html
-+++ b/www/composite.html
-@@ -117,11 +117,7 @@
+Index: imagemagick/www/defines.html
+===================================================================
+--- imagemagick.orig/www/defines.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/defines.html	2025-10-28 17:11:55.789407758 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -162,11 +213,11 @@ index 35af5d2..a9d1198 100644
    </div>
    </nav>
  
-diff --git a/www/conjure.html b/www/conjure.html
-index df6f48e..b69fa71 100644
---- a/www/conjure.html
-+++ b/www/conjure.html
-@@ -117,11 +117,7 @@
+Index: imagemagick/www/import.html
+===================================================================
+--- imagemagick.orig/www/import.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/import.html	2025-10-28 17:11:55.789523171 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -179,11 +230,11 @@ index df6f48e..b69fa71 100644
    </div>
    </nav>
  
-diff --git a/www/connected-components.html b/www/connected-components.html
-index d9ea4e5..ef1bf85 100644
---- a/www/connected-components.html
-+++ b/www/connected-components.html
-@@ -117,11 +117,7 @@
+Index: imagemagick/www/magick++.html
+===================================================================
+--- imagemagick.orig/www/magick++.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/magick++.html	2025-10-28 17:11:55.789580318 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -196,11 +247,11 @@ index d9ea4e5..ef1bf85 100644
    </div>
    </nav>
  
-diff --git a/www/defines.html b/www/defines.html
-index a75c872..239a0bd 100644
---- a/www/defines.html
-+++ b/www/defines.html
-@@ -117,11 +117,7 @@
+Index: imagemagick/www/magick-core.html
+===================================================================
+--- imagemagick.orig/www/magick-core.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/magick-core.html	2025-10-28 17:11:55.789635733 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -213,11 +264,28 @@ index a75c872..239a0bd 100644
    </div>
    </nav>
  
-diff --git a/www/import.html b/www/import.html
-index 14a6fdf..57cc784 100644
---- a/www/import.html
-+++ b/www/import.html
-@@ -117,11 +117,7 @@
+Index: imagemagick/www/magick.html
+===================================================================
+--- imagemagick.orig/www/magick.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/magick.html	2025-10-28 17:11:55.789719941 +0100
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/mirror.html
+===================================================================
+--- imagemagick.orig/www/mirror.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/mirror.html	2025-10-28 17:11:55.789796682 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -230,11 +298,28 @@ index 14a6fdf..57cc784 100644
    </div>
    </nav>
  
-diff --git a/www/magick++.html b/www/magick++.html
-index 3dcc7b8..d77ec02 100644
---- a/www/magick++.html
-+++ b/www/magick++.html
-@@ -117,11 +117,7 @@
+Index: imagemagick/www/mogrify.html
+===================================================================
+--- imagemagick.orig/www/mogrify.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/mogrify.html	2025-10-28 17:11:55.789881775 +0100
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/montage.html
+===================================================================
+--- imagemagick.orig/www/montage.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/montage.html	2025-10-28 17:11:55.789979173 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -247,11 +332,11 @@ index 3dcc7b8..d77ec02 100644
    </div>
    </nav>
  
-diff --git a/www/magick-core.html b/www/magick-core.html
-index 89ec249..81e244c 100644
---- a/www/magick-core.html
-+++ b/www/magick-core.html
-@@ -117,11 +117,7 @@
+Index: imagemagick/www/resources.html
+===================================================================
+--- imagemagick.orig/www/resources.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/resources.html	2025-10-28 17:11:55.790050195 +0100
+@@ -115,11 +115,7 @@
  
          </li>
        </ul>
@@ -264,105 +349,20 @@ index 89ec249..81e244c 100644
    </div>
    </nav>
  
-diff --git a/www/magick.html b/www/magick.html
-index 4c92661..447fad1 100644
---- a/www/magick.html
-+++ b/www/magick.html
-@@ -117,11 +117,7 @@
- 
-         </li>
+Index: imagemagick/www/stream.html
+===================================================================
+--- imagemagick.orig/www/stream.html	2025-10-28 17:11:55.793339050 +0100
++++ imagemagick/www/stream.html	2025-10-28 17:11:55.790114917 +0100
+@@ -179,11 +179,7 @@
        </ul>
--      <form class="d-flex form-inline" action="../www/search.html">
--        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
--        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
--      </form>
--    </div>
-+          </div>
-   </div>
-   </nav>
- 
-diff --git a/www/mirror.html b/www/mirror.html
-index 3767387..da230d9 100644
---- a/www/mirror.html
-+++ b/www/mirror.html
-@@ -117,11 +117,7 @@
- 
-         </li>
-       </ul>
--      <form class="d-flex form-inline" action="../www/search.html">
--        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
--        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
--      </form>
--    </div>
-+          </div>
-   </div>
-   </nav>
- 
-diff --git a/www/mogrify.html b/www/mogrify.html
-index 04c4aa8..dbb7972 100644
---- a/www/mogrify.html
-+++ b/www/mogrify.html
-@@ -117,11 +117,7 @@
- 
-         </li>
-       </ul>
--      <form class="d-flex form-inline" action="../www/search.html">
--        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
--        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
--      </form>
--    </div>
-+          </div>
-   </div>
-   </nav>
- 
-diff --git a/www/montage.html b/www/montage.html
-index f656686..2a5b9fa 100644
---- a/www/montage.html
-+++ b/www/montage.html
-@@ -117,11 +117,7 @@
- 
-         </li>
-       </ul>
--      <form class="d-flex form-inline" action="../www/search.html">
--        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
--        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
--      </form>
--    </div>
-+          </div>
-   </div>
-   </nav>
- 
-diff --git a/www/resources.html b/www/resources.html
-index 764241b..8127661 100644
---- a/www/resources.html
-+++ b/www/resources.html
-@@ -117,11 +117,7 @@
- 
-         </li>
-       </ul>
--      <form class="d-flex form-inline" action="../www/search.html">
--        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
--        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
--      </form>
--    </div>
-+          </div>
-   </div>
-   </nav>
- 
-diff --git a/www/stream.html b/www/stream.html
-index 2d9229e..70e5e2c 100644
---- a/www/stream.html
-+++ b/www/stream.html
-@@ -117,11 +117,7 @@
- 
-         </li>
-       </ul>
--      <form class="d-flex form-inline" action="../www/search.html">
--        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
--        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
--      </form>
--    </div>
-+          </div>
-   </div>
-   </nav>
- 
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>

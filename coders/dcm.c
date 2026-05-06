@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -2705,6 +2705,7 @@ typedef struct _DCMInfo
 
   size_t
     bits_allocated,
+    bits_per_entry,
     bytes_per_pixel,
     depth,
     mask,
@@ -2838,7 +2839,7 @@ static signed short ReadDCMSignedShort(DCMStreamInfo *stream_info,Image *image)
 
 static MagickBooleanType ReadDCMPixels(Image *image,DCMInfo *info,
   DCMStreamInfo *stream_info,MagickBooleanType first_segment,
-  ExceptionInfo *exception)
+  EndianType endian,ExceptionInfo *exception)
 {
   int
     byte,
@@ -2920,7 +2921,7 @@ static MagickBooleanType ReadDCMPixels(Image *image,DCMInfo *info,
 
               scaled_value=pixel_value*info->rescale_slope+
                 info->rescale_intercept;
-              index=(int) scaled_value;
+              index=CastDoubleToInt(scaled_value);
               if (info->window_width != 0)
                 {
                   double
@@ -2935,19 +2936,23 @@ static MagickBooleanType ReadDCMPixels(Image *image,DCMInfo *info,
                     index=0;
                   else
                     if (scaled_value > window_max)
-                      index=(int) info->max_value;
+                      index=CastDoubleToInt((double) info->max_value);
                     else
-                      index=(int) (info->max_value*(((scaled_value-
-                        info->window_center-0.5)/(info->window_width-1))+0.5));
+                      index=CastDoubleToInt((double) info->max_value*(((
+                        scaled_value-info->window_center-0.5)*
+                        MagickSafeReciprocal(info->window_width-1.0))+0.5));
                 }
             }
           index&=(ssize_t) info->mask;
           index=(int) ConstrainColormapIndex(image,(ssize_t) index,exception);
           if (first_segment != MagickFalse)
             SetPixelIndex(image,(Quantum) index,q);
-          else
+          else if (endian == LSBEndian)
             SetPixelIndex(image,(Quantum) (((size_t) index) |
               (((size_t) GetPixelIndex(image,q)) << 8)),q);
+          else
+            SetPixelIndex(image,(Quantum) ((((size_t) index) << 8) |
+              (size_t) GetPixelIndex(image,q)),q);
           pixel.red=(unsigned int) image->colormap[index].red;
           pixel.green=(unsigned int) image->colormap[index].green;
           pixel.blue=(unsigned int) image->colormap[index].blue;
@@ -2985,7 +2990,7 @@ static MagickBooleanType ReadDCMPixels(Image *image,DCMInfo *info,
           SetPixelGreen(image,(Quantum) pixel.green,q);
           SetPixelBlue(image,(Quantum) pixel.blue,q);
         }
-      else
+      else if (endian == LSBEndian)
         {
           SetPixelRed(image,(Quantum) (((size_t) pixel.red) |
             (((size_t) GetPixelRed(image,q)) << 8)),q);
@@ -2993,6 +2998,15 @@ static MagickBooleanType ReadDCMPixels(Image *image,DCMInfo *info,
             (((size_t) GetPixelGreen(image,q)) << 8)),q);
           SetPixelBlue(image,(Quantum) (((size_t) pixel.blue) |
             (((size_t) GetPixelBlue(image,q)) << 8)),q);
+        }
+      else
+        {
+          SetPixelRed(image,(Quantum) ((((size_t) pixel.red) << 8) |
+            (size_t) GetPixelRed(image,q)),q);
+          SetPixelGreen(image,(Quantum) ((((size_t) pixel.green) << 8) |
+            (size_t) GetPixelGreen(image,q)),q);
+          SetPixelBlue(image,(Quantum) ((((size_t) pixel.blue) << 8) |
+            (size_t) GetPixelBlue(image,q)),q);
         }
       q+=(ptrdiff_t) GetPixelChannels(image);
     }
@@ -3159,6 +3173,7 @@ static Image *ReadDCMImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   (void) CopyMagickString(photometric,"MONOCHROME1 ",MagickPathExtent);
   info.bits_allocated=8;
+  info.bits_per_entry=1;
   info.bytes_per_pixel=1;
   info.depth=8;
   info.mask=0xffff;
@@ -3283,7 +3298,11 @@ static Image *ReadDCMImage(const ImageInfo *image_info,ExceptionInfo *exception)
             }
           (void) memcpy(clone_info->scale,info.scale,clone_info->scale_size*
             sizeof(*clone_info->scale));
-          AppendValueToLinkedList(stack,clone_info);
+          if (AppendValueToLinkedList(stack,clone_info) == MagickFalse)
+            {
+              clone_info=(DCMInfo *) RelinquishDCMInfo(clone_info);
+              ThrowDCMException(ResourceLimitError,"MemoryAllocationFailed")
+            }
           sequence_depth++;
         }
       datum=0;
@@ -3696,7 +3715,7 @@ static Image *ReadDCMImage(const ImageInfo *image_info,ExceptionInfo *exception)
                 else
                   index=(unsigned short) (*p | (*(p+1) << 8));
                 map.red[i]=(int) index;
-                p+=(ptrdiff_t) 2;
+                p+=(ptrdiff_t) info.bits_per_entry;
               }
               break;
             }
@@ -3728,7 +3747,7 @@ static Image *ReadDCMImage(const ImageInfo *image_info,ExceptionInfo *exception)
                 else
                   index=(unsigned short) (*p | (*(p+1) << 8));
                 map.green[i]=(int) index;
-                p+=(ptrdiff_t) 2;
+                p+=(ptrdiff_t) info.bits_per_entry;
               }
               break;
             }
@@ -3760,8 +3779,18 @@ static Image *ReadDCMImage(const ImageInfo *image_info,ExceptionInfo *exception)
                 else
                   index=(unsigned short) (*p | (*(p+1) << 8));
                 map.blue[i]=(int) index;
-                p+=(ptrdiff_t) 2;
+                p+=(ptrdiff_t) info.bits_per_entry;
               }
+              break;
+            }
+            case 0x3002:
+            {
+              /*
+                Bytes per entry.
+              */
+              info.bits_per_entry=(size_t) datum;
+              if ((info.bits_per_entry == 0) || (info.bits_per_entry > 2))
+                ThrowDCMException(CorruptImageError,"ImproperImageHeader")
               break;
             }
             default:
@@ -4244,6 +4273,9 @@ static Image *ReadDCMImage(const ImageInfo *image_info,ExceptionInfo *exception)
           const char
             *option;
 
+          EndianType
+            endian;
+
           /*
             Convert DCM Medical image to pixel packets.
           */
@@ -4270,18 +4302,22 @@ static Image *ReadDCMImage(const ImageInfo *image_info,ExceptionInfo *exception)
               info.rescale=MagickTrue;
             }
           option=GetImageOption(image_info,"dcm:rescale");
-          if (option != (char *) NULL)
-            info.rescale=IsStringTrue(option);
+          info.rescale=IsStringTrue(option);
           if ((info.window_center != 0) && (info.window_width == 0))
             info.window_width=info.window_center;
-          status=ReadDCMPixels(image,&info,stream_info,MagickTrue,exception);
+          endian=LSBEndian;
+          option=GetImageOption(image_info,"dcm:fix-byte-order");
+          if (IsStringTrue(option) != MagickFalse)
+            endian=MSBEndian;
+          status=ReadDCMPixels(image,&info,stream_info,MagickTrue,endian,
+            exception);
           if ((status != MagickFalse) && (stream_info->segment_count > 1))
             {
               if (stream_info->offset_count > 0)
                 (void) SeekBlob(image,(MagickOffsetType)
                   stream_info->offsets[0]+stream_info->segments[1],SEEK_SET);
               (void) ReadDCMPixels(image,&info,stream_info,MagickFalse,
-                exception);
+                endian,exception);
             }
         }
       if (IdentifyImageCoderGray(image,exception) != MagickFalse)
@@ -4298,7 +4334,7 @@ static Image *ReadDCMImage(const ImageInfo *image_info,ExceptionInfo *exception)
       if (image_info->number_scenes != 0)
         if (image->scene >= (image_info->scene+image_info->number_scenes-1))
           break;
-      if (scene < (ssize_t) (number_scenes-1))
+      if (scene < ((ssize_t) number_scenes-1))
         {
           /*
             Allocate next image structure.

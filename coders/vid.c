@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -344,7 +344,10 @@ static MagickBooleanType WriteVIDImage(const ImageInfo *image_info,Image *image,
     Create the visual image directory.
   */
   for (p=image; p != (Image *) NULL; p=GetNextImageInList(p))
+  {
+    (void) CopyMagickString(p->filename,p->magick_filename,MagickPathExtent);
     (void) SetImageProperty(p,"label",DefaultTileLabel,exception);
+  }
   montage_info=CloneMontageInfo(image_info,(MontageInfo *) NULL);
   montage_image=MontageImageList(image_info,montage_info,image,exception);
   montage_info=DestroyMontageInfo(montage_info);

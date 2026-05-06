@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -202,35 +202,12 @@ static size_t
   max_profile_size = 0,
   virtual_anonymous_memory = 0;
 
-#if defined _MSC_VER
-static void *MSCMalloc(size_t size)
-{
-  return(malloc(size));
-}
-
-static void *MSCRealloc(void* ptr, size_t size)
-{
-  return(realloc(ptr,size));
-}
-
-static void MSCFree(void* ptr)
-{
-  free(ptr);
-}
-#endif
-
 static MagickMemoryMethods
   memory_methods =
   {
-#if defined _MSC_VER
-    (AcquireMemoryHandler) MSCMalloc,
-    (ResizeMemoryHandler) MSCRealloc,
-    (DestroyMemoryHandler) MSCFree,
-#else
     (AcquireMemoryHandler) malloc,
     (ResizeMemoryHandler) realloc,
     (DestroyMemoryHandler) free,
-#endif
     (AcquireAlignedMemoryHandler) NULL,
     (RelinquishAlignedMemoryHandler) NULL
   };
@@ -626,6 +603,13 @@ MagickExport void *AcquireMagickMemory(const size_t size)
 */
 MagickExport void *AcquireCriticalMemory(const size_t size)
 {
+#if !defined(STDERR_FILENO)
+#define STDERR_FILENO 2
+#endif
+
+  static const char fatal_message[] =
+    "ImageMagick: fatal error: unable to acquire critical memory\n";
+
   void
     *memory;
 
@@ -633,9 +617,11 @@ MagickExport void *AcquireCriticalMemory(const size_t size)
     Fail if memory request cannot be fulfilled.
   */
   memory=AcquireMagickMemory(size);
-  if (memory == (void *) NULL)
-    ThrowFatalException(ResourceLimitFatalError,"MemoryAllocationFailed");
-  return(memory);
+  if (memory != (void *) NULL)
+    return(memory);
+  (void) write(STDERR_FILENO,fatal_message,sizeof(fatal_message)-1);
+  MagickCoreTerminus();
+  _exit(EXIT_FAILURE);
 }
 
 /*
@@ -1524,7 +1510,7 @@ MagickExport void *ResizeQuantumMemory(void *memory,const size_t count,
 %
 %  The format of the SetMagickAlignedMemoryMethods() method is:
 %
-%      SetMagickAlignedMemoryMethods(
+%      void SetMagickAlignedMemoryMethods(
 %        AcquireAlignedMemoryHandler acquire_aligned_memory_handler,
 %        RelinquishAlignedMemoryHandler relinquish_aligned_memory_handler)
 %
@@ -1561,7 +1547,7 @@ MagickExport void SetMagickAlignedMemoryMethods(
 %
 %  The format of the SetMagickMemoryMethods() method is:
 %
-%      SetMagickMemoryMethods(AcquireMemoryHandler acquire_memory_handler,
+%      void SetMagickMemoryMethods(AcquireMemoryHandler acquire_memory_handler,
 %        ResizeMemoryHandler resize_memory_handler,
 %        DestroyMemoryHandler destroy_memory_handler)
 %

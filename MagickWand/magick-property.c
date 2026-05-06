@@ -29,7 +29,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -2721,7 +2721,7 @@ WandExport MagickBooleanType MagickSetPointsize(MagickWand *wand,
 %
 %  The format of the MagickSetProgressMonitor method is:
 %
-%      MagickProgressMonitor MagickSetProgressMonitor(MagickWand *wand
+%      MagickProgressMonitor MagickSetProgressMonitor(MagickWand *wand,
 %        const MagickProgressMonitor progress_monitor,void *client_data)
 %
 %  A description of each parameter follows:
@@ -2871,7 +2871,7 @@ WandExport MagickBooleanType MagickSetSamplingFactors(MagickWand *wand,
       RelinquishMagickMemory(wand->image_info->sampling_factor);
   if (number_factors == 0)
     return(MagickTrue);
-  for (i=0; i < (ssize_t) (number_factors-1); i++)
+  for (i=0; i < ((ssize_t) number_factors-1); i++)
   {
     (void) FormatLocaleString(sampling_factor,MagickPathExtent,"%g:",
       sampling_factors[i]);

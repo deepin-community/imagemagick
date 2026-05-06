@@ -29,7 +29,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -8907,8 +8907,8 @@ Mogrify(ref,...)
                   */
                   mask_image=CloneImage(argument_list[10].image_reference,0,0,
                     MagickTrue,exception);
-                  (void) SetImageMask(composite_image,ReadPixelMask,mask_image,
-                    exception);
+                  (void) CompositeImage(composite_image,mask_image,
+                    CopyAlphaCompositeOp,clip_to_self,0,0,exception);
                   mask_image=DestroyImage(mask_image);
                 }
             }

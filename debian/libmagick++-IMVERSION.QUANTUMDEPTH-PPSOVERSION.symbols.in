@@ -1864,15 +1864,24 @@ libMagick++-${IMVERSION}.${UCQUANTUMDEPTH}.so.${PPSOVERSION} libmagick++-${IMVER
  (c++)"Magick::x11DisplayImage::x11DisplayImage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)@Base" 8:7.1.1.21
  (c++)"Magick::zoomImage::operator()(Magick::Image&) const@Base" 8:7.1.1.21
  (c++)"Magick::zoomImage::zoomImage(Magick::Geometry const&)@Base" 8:7.1.1.21
- (c++)"std::__cxx11::basic_stringbuf<char, std::char_traits<char>, std::allocator<char> >::~basic_stringbuf()@Base" 8:7.1.1.21
- (c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&)@Base" 8:7.1.1.21
- (c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > Magick::SecurityPolicy::toString<int>(int const&)@Base" 8:7.1.1.21
- (c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > Magick::SecurityPolicy::toString<unsigned long long>(unsigned long long const&)@Base" 8:7.1.1.33
+ (optional|c++)"std::_UninitDestroyGuard<Magick::ChannelMoments*, void>::~_UninitDestroyGuard()@Base" 8:7.1.2.15
+ (optional|c++)"std::_UninitDestroyGuard<Magick::ChannelPerceptualHash*, void>::~_UninitDestroyGuard()@Base" 8:7.1.2.15
+ (optional|c++)"std::_UninitDestroyGuard<Magick::ChannelStatistics*, void>::~_UninitDestroyGuard()@Base" 8:7.1.2.15
+ (optional|c++)"std::_UninitDestroyGuard<Magick::Drawable*, void>::~_UninitDestroyGuard()@Base" 8:7.1.2.15
+ (optional|c++)"std::_UninitDestroyGuard<Magick::PathArcArgs*, void>::~_UninitDestroyGuard()@Base" 8:7.1.2.15
+ (optional|c++)"std::_UninitDestroyGuard<Magick::PathCurvetoArgs*, void>::~_UninitDestroyGuard()@Base" 8:7.1.2.15
+ (optional|c++)"std::_UninitDestroyGuard<Magick::PathQuadraticCurvetoArgs*, void>::~_UninitDestroyGuard()@Base" 8:7.1.2.15
+ (optional|c++)"std::_UninitDestroyGuard<Magick::VPath*, void>::~_UninitDestroyGuard()@Base" 8:7.1.2.15
+ (optional|c++)"void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<true>(char const*, unsigned long)@Base" 8:7.1.2.15
+ (optional|c++)"std::__cxx11::basic_stringbuf<char, std::char_traits<char>, std::allocator<char> >::~basic_stringbuf()@Base" 8:7.1.1.21
+ (optional|c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&)@Base" 8:7.1.1.21
+ (optional|c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > Magick::SecurityPolicy::toString<int>(int const&)@Base" 8:7.1.1.21
+ (optional|c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > Magick::SecurityPolicy::toString<unsigned long long>(unsigned long long const&)@Base" 8:7.1.1.33
  (optional|c++)"std::_Vector_base<double, std::allocator<double> >::~_Vector_base()@Base" 8:7.1.1.33
- (c++)"std::_Vector_base<Magick::PathArcArgs, std::allocator<Magick::PathArcArgs> >::~_Vector_base()@Base" 8:7.1.1.21
- (c++)"std::_Vector_base<Magick::PathCurvetoArgs, std::allocator<Magick::PathCurvetoArgs> >::~_Vector_base()@Base" 8:7.1.1.21
- (c++)"std::_Vector_base<Magick::PathQuadraticCurvetoArgs, std::allocator<Magick::PathQuadraticCurvetoArgs> >::~_Vector_base()@Base" 8:7.1.1.21
- (c++)"std::_Vector_base<Magick::VPath, std::allocator<Magick::VPath> >::~_Vector_base()@Base" 8:7.1.1.21
+ (optional|c++)"std::_Vector_base<Magick::PathArcArgs, std::allocator<Magick::PathArcArgs> >::~_Vector_base()@Base" 8:7.1.1.21
+ (optional|c++)"std::_Vector_base<Magick::PathCurvetoArgs, std::allocator<Magick::PathCurvetoArgs> >::~_Vector_base()@Base" 8:7.1.1.21
+ (optional|c++)"std::_Vector_base<Magick::PathQuadraticCurvetoArgs, std::allocator<Magick::PathQuadraticCurvetoArgs> >::~_Vector_base()@Base" 8:7.1.1.21
+ (optional|c++)"std::_Vector_base<Magick::VPath, std::allocator<Magick::VPath> >::~_Vector_base()@Base" 8:7.1.1.21
  (optional|c++)"std::vector<double, std::allocator<double> >::~vector()@Base" 8:7.1.1.21
  (c++)"std::vector<Magick::ChannelPerceptualHash, std::allocator<Magick::ChannelPerceptualHash> >::~vector()@Base" 8:7.1.1.21
  (c++)"typeinfo for Magick::Blob@Base" 8:7.1.1.21

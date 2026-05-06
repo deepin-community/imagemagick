@@ -3,4 +3,4 @@ opts="uversionmangle=s/-(\d+)$/.$1/,\
       dversionmangle=s/@DEB_EXT@//,\
       pgpsigurlmangle=s/$/.asc/,\
       repacksuffix=+dfsg1" \
-https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-@ANY_VERSION@@ARCHIVE_EXT@
+https://download.imagemagick.org/archive/ImageMagick-@ANY_VERSION@@ARCHIVE_EXT@

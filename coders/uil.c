@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -352,11 +352,14 @@ static MagickBooleanType WriteUILImage(const ImageInfo *image_info,Image *image,
     for (x=0; x < (ssize_t) image->columns; x++)
     {
       k=((ssize_t) GetPixelIndex(image,p) % MaxCixels);
+      if (k < 0)
+        k=0;
       symbol[0]=Cixel[k];
       for (j=1; j < (int) characters_per_pixel; j++)
       {
-        k=(((int) GetPixelIndex(image,p)-k)/MaxCixels) %
-          MaxCixels;
+        k=(((int) GetPixelIndex(image,p)-k)/MaxCixels) % MaxCixels;
+        if (k < 0)
+          k=0;
         symbol[j]=Cixel[k];
       }
       symbol[j]='\0';

@@ -1,12 +1,12 @@
 /*
   Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
-  
+
   You may not use this file except in compliance with the License.  You may
   obtain a copy of the License at
-  
-    https://imagemagick.org/script/license.php
-  
+
+    https://imagemagick.org/license/
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -83,14 +83,14 @@ static inline char *GetMagickByteBufferDatum(MagickByteBuffer *buffer)
   return((char *) buffer->data);
 }
 
-static void CheckMagickByteBuffer(MagickByteBuffer *buffer,
+static inline void CheckMagickByteBuffer(MagickByteBuffer *buffer,
   const size_t length)
 {
   if ((buffer->offset+(ssize_t) length) > (ssize_t) sizeof(buffer->data))
     (void) GetMagickByteBufferDatum(buffer);
 }
 
-static MagickBooleanType CompareMagickByteBuffer(MagickByteBuffer *buffer,
+static inline MagickBooleanType CompareMagickByteBuffer(MagickByteBuffer *buffer,
   const char *p,const size_t length)
 {
   const char

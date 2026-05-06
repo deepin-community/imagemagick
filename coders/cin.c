@@ -26,7 +26,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -548,7 +548,7 @@ static Image *ReadCINImage(const ImageInfo *image_info,ExceptionInfo *exception)
   cin.image.green_primary_chromaticity[0]=ReadBlobFloat(image);
   offset+=4;
   if (IsFloatDefined(cin.image.green_primary_chromaticity[0]) != MagickFalse)
-    image->chromaticity.red_primary.x=cin.image.green_primary_chromaticity[0];
+    image->chromaticity.green_primary.x=cin.image.green_primary_chromaticity[0];
   cin.image.green_primary_chromaticity[1]=ReadBlobFloat(image);
   offset+=4;
   if (IsFloatDefined(cin.image.green_primary_chromaticity[1]) != MagickFalse)

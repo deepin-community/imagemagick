@@ -74,20 +74,14 @@ forwarded: not-needed
  www/cipher.html                        | 2 +-
  www/cite.html                          | 2 +-
  www/clahe.html                         | 2 +-
- www/color-management.html              | 2 +-
- www/color-thresholding.html            | 2 +-
  www/color.html                         | 2 +-
  www/command-line-options.html          | 2 +-
  www/command-line-processing.html       | 2 +-
- www/command-line-tools.html            | 2 +-
- www/compare.html                       | 2 +-
  www/compose.html                       | 2 +-
- www/composite.html                     | 2 +-
  www/conjure.html                       | 2 +-
  www/connected-components.html          | 2 +-
  www/contact.html                       | 2 +-
  www/convert.html                       | 2 +-
- www/convex-hull.html                   | 2 +-
  www/defines.html                       | 2 +-
  www/develop.html                       | 2 +-
  www/display.html                       | 2 +-
@@ -95,7 +89,6 @@ forwarded: not-needed
  www/download.html                      | 2 +-
  www/escape.html                        | 2 +-
  www/examples.html                      | 2 +-
- www/exception.html                     | 2 +-
  www/export.html                        | 2 +-
  www/formats.html                       | 2 +-
  www/fx.html                            | 2 +-
@@ -105,7 +98,6 @@ forwarded: not-needed
  www/identify.html                      | 2 +-
  www/import.html                        | 2 +-
  www/index.html                         | 2 +-
- www/install-source.html                | 2 +-
  www/jp2.html                           | 2 +-
  www/license.html                       | 2 +-
  www/links.html                         | 2 +-
@@ -114,11 +106,8 @@ forwarded: not-needed
  www/magick-core.html                   | 2 +-
  www/magick-script.html                 | 2 +-
  www/magick-vector-graphics.html        | 2 +-
- www/magick-wand.html                   | 2 +-
- www/magick.html                        | 2 +-
  www/miff.html                          | 2 +-
  www/mirror.html                        | 2 +-
- www/mogrify.html                       | 2 +-
  www/montage.html                       | 2 +-
  www/motion-picture.html                | 2 +-
  www/multispectral-imagery.html         | 2 +-
@@ -133,14 +122,13 @@ forwarded: not-needed
  www/search.html                        | 2 +-
  www/security-policy.html               | 2 +-
  www/sitemap.html                       | 2 +-
- www/stream.html                        | 2 +-
  www/support.html                       | 2 +-
  www/vpat.html                          | 2 +-
  www/webp.html                          | 2 +-
- 131 files changed, 131 insertions(+), 131 deletions(-)
+ 119 files changed, 119 insertions(+), 119 deletions(-)
 
 diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
-index bd85e9b..dbb7153 100644
+index e58487b..68273e8 100644
 --- a/www/advanced-linux-installation.html
 +++ b/www/advanced-linux-installation.html
 @@ -27,7 +27,7 @@
@@ -153,7 +141,7 @@ index bd85e9b..dbb7153 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
-index 593226a..ffbf115 100644
+index 6381885..befa79e 100644
 --- a/www/advanced-windows-installation.html
 +++ b/www/advanced-windows-installation.html
 @@ -27,7 +27,7 @@
@@ -166,7 +154,7 @@ index 593226a..ffbf115 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/animate.html b/www/animate.html
-index 37572c1..d862562 100644
+index 7036ba3..2061b19 100644
 --- a/www/animate.html
 +++ b/www/animate.html
 @@ -27,7 +27,7 @@
@@ -179,11 +167,11 @@ index 37572c1..d862562 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/animate.html b/www/api/animate.html
-index 16adb72..85e3999 100644
+index fe91df9..57a233f 100644
 --- a/www/api/animate.html
 +++ b/www/api/animate.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="animate.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -192,11 +180,11 @@ index 16adb72..85e3999 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/annotate.html b/www/api/annotate.html
-index 2eea1d3..1b82592 100644
+index 1cadd87..ff9be3b 100644
 --- a/www/api/annotate.html
 +++ b/www/api/annotate.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="annotate.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -205,11 +193,11 @@ index 2eea1d3..1b82592 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/attribute.html b/www/api/attribute.html
-index 9843823..a755012 100644
+index e999c6e..e78c44d 100644
 --- a/www/api/attribute.html
 +++ b/www/api/attribute.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="attribute.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -218,11 +206,11 @@ index 9843823..a755012 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/blob.html b/www/api/blob.html
-index a326805..acbbd6f 100644
+index 2bb9b9d..c05207c 100644
 --- a/www/api/blob.html
 +++ b/www/api/blob.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="blob.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -231,11 +219,11 @@ index a326805..acbbd6f 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/cache-view.html b/www/api/cache-view.html
-index 8d47063..3f92e15 100644
+index 4d555e4..a2703a5 100644
 --- a/www/api/cache-view.html
 +++ b/www/api/cache-view.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="cache-view.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -244,11 +232,11 @@ index 8d47063..3f92e15 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/cache.html b/www/api/cache.html
-index ff3327a..cfe0042 100644
+index b607178..15d6f03 100644
 --- a/www/api/cache.html
 +++ b/www/api/cache.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="cache.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -257,11 +245,11 @@ index ff3327a..cfe0042 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/channel.html b/www/api/channel.html
-index 681aee3..5bd0119 100644
+index e46a191..3034ff5 100644
 --- a/www/api/channel.html
 +++ b/www/api/channel.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="channel.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -270,11 +258,11 @@ index 681aee3..5bd0119 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/cipher.html b/www/api/cipher.html
-index 4fb0775..683889d 100644
+index 6828d76..2ba3e2b 100644
 --- a/www/api/cipher.html
 +++ b/www/api/cipher.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="cipher.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -283,11 +271,11 @@ index 4fb0775..683889d 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/color.html b/www/api/color.html
-index e7401e9..9009263 100644
+index 69a8dd6..57c1bb5 100644
 --- a/www/api/color.html
 +++ b/www/api/color.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="color.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -296,11 +284,11 @@ index e7401e9..9009263 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/colormap.html b/www/api/colormap.html
-index 7467a6d..3f3f1ce 100644
+index 2597e2c..36cd0fd 100644
 --- a/www/api/colormap.html
 +++ b/www/api/colormap.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="colormap.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -309,11 +297,11 @@ index 7467a6d..3f3f1ce 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/colorspace.html b/www/api/colorspace.html
-index ef64869..cacfe0a 100644
+index 7c05341..6249d8f 100644
 --- a/www/api/colorspace.html
 +++ b/www/api/colorspace.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="colorspace.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -322,11 +310,11 @@ index ef64869..cacfe0a 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/compare.html b/www/api/compare.html
-index 6888099..95d50b9 100644
+index 3868a9d..e4a9bab 100644
 --- a/www/api/compare.html
 +++ b/www/api/compare.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="compare.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -335,11 +323,11 @@ index 6888099..95d50b9 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/composite.html b/www/api/composite.html
-index 1955341..0167b2c 100644
+index b5ed5ac..4871e3d 100644
 --- a/www/api/composite.html
 +++ b/www/api/composite.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="composite.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -348,11 +336,11 @@ index 1955341..0167b2c 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/constitute.html b/www/api/constitute.html
-index 7c5ebaa..fb58583 100644
+index 436c9d1..963c635 100644
 --- a/www/api/constitute.html
 +++ b/www/api/constitute.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="constitute.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -361,11 +349,11 @@ index 7c5ebaa..fb58583 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/decorate.html b/www/api/decorate.html
-index a744f07..3d0c45e 100644
+index 31fe55a..6aaeb8a 100644
 --- a/www/api/decorate.html
 +++ b/www/api/decorate.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="decorate.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -374,11 +362,11 @@ index a744f07..3d0c45e 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/deprecate.html b/www/api/deprecate.html
-index 7f15fb3..eb38184 100644
+index 3de8a54..034e99e 100644
 --- a/www/api/deprecate.html
 +++ b/www/api/deprecate.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="deprecate.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -387,11 +375,11 @@ index 7f15fb3..eb38184 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/display.html b/www/api/display.html
-index fcbacdc..3da6ba6 100644
+index bdd112d..537402b 100644
 --- a/www/api/display.html
 +++ b/www/api/display.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="display.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -400,11 +388,11 @@ index fcbacdc..3da6ba6 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/distort.html b/www/api/distort.html
-index 6932607..366ff6f 100644
+index 859aab2..769aa6e 100644
 --- a/www/api/distort.html
 +++ b/www/api/distort.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="distort.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -413,11 +401,11 @@ index 6932607..366ff6f 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/draw.html b/www/api/draw.html
-index 50ff00e..b1e443c 100644
+index 0ef1903..91c842e 100644
 --- a/www/api/draw.html
 +++ b/www/api/draw.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="draw.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -426,11 +414,11 @@ index 50ff00e..b1e443c 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
-index 448c1da..5765b23 100644
+index 33d26d1..d9a8320 100644
 --- a/www/api/drawing-wand.html
 +++ b/www/api/drawing-wand.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="drawing-wand.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -439,11 +427,11 @@ index 448c1da..5765b23 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/effect.html b/www/api/effect.html
-index 7acad6e..cd02da2 100644
+index 0856d4a..be16f0b 100644
 --- a/www/api/effect.html
 +++ b/www/api/effect.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="effect.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -452,11 +440,11 @@ index 7acad6e..cd02da2 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/enhance.html b/www/api/enhance.html
-index bd58c1d..afad33c 100644
+index 6261725..7075a03 100644
 --- a/www/api/enhance.html
 +++ b/www/api/enhance.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="enhance.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -465,11 +453,11 @@ index bd58c1d..afad33c 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/exception.html b/www/api/exception.html
-index fa4dae9..1277cdd 100644
+index 74de9af..3b4b66f 100644
 --- a/www/api/exception.html
 +++ b/www/api/exception.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="exception.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -478,11 +466,11 @@ index fa4dae9..1277cdd 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/feature.html b/www/api/feature.html
-index ff48ae0..811c958 100644
+index c79ff7d..5543058 100644
 --- a/www/api/feature.html
 +++ b/www/api/feature.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="feature.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -491,11 +479,11 @@ index ff48ae0..811c958 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/fourier.html b/www/api/fourier.html
-index a97d71b..7fa1002 100644
+index df1fac2..c67ace8 100644
 --- a/www/api/fourier.html
 +++ b/www/api/fourier.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="fourier.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -504,11 +492,11 @@ index a97d71b..7fa1002 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/fx.html b/www/api/fx.html
-index 4b34c67..bce319a 100644
+index d5298bf..e48d5f7 100644
 --- a/www/api/fx.html
 +++ b/www/api/fx.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="fx.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -517,11 +505,11 @@ index 4b34c67..bce319a 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/histogram.html b/www/api/histogram.html
-index 3257728..6c46be1 100644
+index d927d89..2648c0a 100644
 --- a/www/api/histogram.html
 +++ b/www/api/histogram.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="histogram.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -530,11 +518,11 @@ index 3257728..6c46be1 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/image-view.html b/www/api/image-view.html
-index b23fc4d..634b224 100644
+index b22cf68..fb1faaf 100644
 --- a/www/api/image-view.html
 +++ b/www/api/image-view.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="image-view.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -543,11 +531,11 @@ index b23fc4d..634b224 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/image.html b/www/api/image.html
-index 984284c..afc9328 100644
+index a8c71ce..fe7b8d3 100644
 --- a/www/api/image.html
 +++ b/www/api/image.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="image.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -556,11 +544,11 @@ index 984284c..afc9328 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/layer.html b/www/api/layer.html
-index 4a7aff5..7e7efbc 100644
+index 9473deb..c32d6c0 100644
 --- a/www/api/layer.html
 +++ b/www/api/layer.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="layer.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -569,11 +557,11 @@ index 4a7aff5..7e7efbc 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/list.html b/www/api/list.html
-index d0a8f65..0bfcbfa 100644
+index 75d31d4..f29999b 100644
 --- a/www/api/list.html
 +++ b/www/api/list.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="list.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -582,11 +570,11 @@ index d0a8f65..0bfcbfa 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
-index 899fb41..70dbf78 100644
+index 24f5d5c..77a1aa0 100644
 --- a/www/api/magick-deprecate.html
 +++ b/www/api/magick-deprecate.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="magick-deprecate.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -595,11 +583,11 @@ index 899fb41..70dbf78 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/magick-image.html b/www/api/magick-image.html
-index 0c67448..352cf3d 100644
+index 2acb2fb..95979c9 100644
 --- a/www/api/magick-image.html
 +++ b/www/api/magick-image.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="magick-image.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -608,11 +596,11 @@ index 0c67448..352cf3d 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/magick-property.html b/www/api/magick-property.html
-index b59d7a7..f0089ba 100644
+index ac78391..cf1cd03 100644
 --- a/www/api/magick-property.html
 +++ b/www/api/magick-property.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="magick-property.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -621,11 +609,11 @@ index b59d7a7..f0089ba 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
-index e8af2e2..7304620 100644
+index bcb1863..347dba4 100644
 --- a/www/api/magick-wand.html
 +++ b/www/api/magick-wand.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="magick-wand.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -634,11 +622,11 @@ index e8af2e2..7304620 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/magick.html b/www/api/magick.html
-index 72299bd..5983448 100644
+index 9c6eae9..e79b695 100644
 --- a/www/api/magick.html
 +++ b/www/api/magick.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="magick.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -647,11 +635,11 @@ index 72299bd..5983448 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/memory.html b/www/api/memory.html
-index 5a02903..637bcd5 100644
+index 9863613..57fa932 100644
 --- a/www/api/memory.html
 +++ b/www/api/memory.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="memory.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -660,11 +648,11 @@ index 5a02903..637bcd5 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/mime.html b/www/api/mime.html
-index 1ce9382..1e84d04 100644
+index ac0e65a..f95abc3 100644
 --- a/www/api/mime.html
 +++ b/www/api/mime.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="mime.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -673,11 +661,11 @@ index 1ce9382..1e84d04 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/module.html b/www/api/module.html
-index b278930..798d86f 100644
+index 57b5198..48a746a 100644
 --- a/www/api/module.html
 +++ b/www/api/module.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="module.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -686,11 +674,11 @@ index b278930..798d86f 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/mogrify.html b/www/api/mogrify.html
-index 6dd9fb0..67fd5a3 100644
+index 8ceeb2e..ab1088c 100644
 --- a/www/api/mogrify.html
 +++ b/www/api/mogrify.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="mogrify.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -699,11 +687,11 @@ index 6dd9fb0..67fd5a3 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/monitor.html b/www/api/monitor.html
-index 1bba9fb..25cd130 100644
+index 3b9d8e4..e48d016 100644
 --- a/www/api/monitor.html
 +++ b/www/api/monitor.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="monitor.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -712,11 +700,11 @@ index 1bba9fb..25cd130 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/montage.html b/www/api/montage.html
-index 7cabacb..d780f09 100644
+index dc02323..4544e40 100644
 --- a/www/api/montage.html
 +++ b/www/api/montage.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="montage.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -725,11 +713,11 @@ index 7cabacb..d780f09 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/morphology.html b/www/api/morphology.html
-index 3649a8c..14d3758 100644
+index fbaa202..142bdda 100644
 --- a/www/api/morphology.html
 +++ b/www/api/morphology.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="morphology.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -738,11 +726,11 @@ index 3649a8c..14d3758 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/paint.html b/www/api/paint.html
-index f4f9ff4..3e109a4 100644
+index 0d8ae1d..8f65c62 100644
 --- a/www/api/paint.html
 +++ b/www/api/paint.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="paint.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -751,11 +739,11 @@ index f4f9ff4..3e109a4 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
-index 8889057..3db1f4d 100644
+index 2c55c31..9ac30ba 100644
 --- a/www/api/pixel-iterator.html
 +++ b/www/api/pixel-iterator.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="pixel-iterator.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -764,11 +752,11 @@ index 8889057..3db1f4d 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
-index 2cab32d..7b0eea6 100644
+index ba0b915..7103906 100644
 --- a/www/api/pixel-wand.html
 +++ b/www/api/pixel-wand.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="pixel-wand.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -777,11 +765,11 @@ index 2cab32d..7b0eea6 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/profile.html b/www/api/profile.html
-index a7df3cc..c701e51 100644
+index cd488fe..70e311b 100644
 --- a/www/api/profile.html
 +++ b/www/api/profile.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="profile.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -790,11 +778,11 @@ index a7df3cc..c701e51 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/property.html b/www/api/property.html
-index 3c3568d..2330139 100644
+index 7649823..b577317 100644
 --- a/www/api/property.html
 +++ b/www/api/property.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="property.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -803,11 +791,11 @@ index 3c3568d..2330139 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/quantize.html b/www/api/quantize.html
-index 1d7d2d7..23be854 100644
+index 42c8d07..dbfa90f 100644
 --- a/www/api/quantize.html
 +++ b/www/api/quantize.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="quantize.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -816,11 +804,11 @@ index 1d7d2d7..23be854 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/registry.html b/www/api/registry.html
-index 019889f..bb1a918 100644
+index 14a7365..9d9b315 100644
 --- a/www/api/registry.html
 +++ b/www/api/registry.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="registry.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -829,11 +817,11 @@ index 019889f..bb1a918 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/resize.html b/www/api/resize.html
-index 8a3b090..0a112cf 100644
+index 65c8dac..01f6d4b 100644
 --- a/www/api/resize.html
 +++ b/www/api/resize.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="resize.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -842,11 +830,11 @@ index 8a3b090..0a112cf 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/resource.html b/www/api/resource.html
-index 7e2a389..f8647ff 100644
+index bd7e23c..4fe4891 100644
 --- a/www/api/resource.html
 +++ b/www/api/resource.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="resource.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -855,11 +843,11 @@ index 7e2a389..f8647ff 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/segment.html b/www/api/segment.html
-index c4b3a5c..a8a8b91 100644
+index 6750c78..0b147df 100644
 --- a/www/api/segment.html
 +++ b/www/api/segment.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="segment.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -868,11 +856,11 @@ index c4b3a5c..a8a8b91 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/shear.html b/www/api/shear.html
-index 44d65d8..94e2a61 100644
+index cce1bc2..dc0a294 100644
 --- a/www/api/shear.html
 +++ b/www/api/shear.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="shear.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -881,11 +869,11 @@ index 44d65d8..94e2a61 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/signature.html b/www/api/signature.html
-index 2deb5e7..2886900 100644
+index 7cc2a96..3cd9b67 100644
 --- a/www/api/signature.html
 +++ b/www/api/signature.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="signature.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -894,11 +882,11 @@ index 2deb5e7..2886900 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/statistic.html b/www/api/statistic.html
-index d378fd8..9a9787c 100644
+index cebb927..c90756f 100644
 --- a/www/api/statistic.html
 +++ b/www/api/statistic.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="statistic.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -907,11 +895,11 @@ index d378fd8..9a9787c 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/stream.html b/www/api/stream.html
-index f5b86c4..8acc665 100644
+index 16e8eb7..d8b5666 100644
 --- a/www/api/stream.html
 +++ b/www/api/stream.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="stream.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -920,11 +908,11 @@ index f5b86c4..8acc665 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/transform.html b/www/api/transform.html
-index 767db26..36537a3 100644
+index 81878c1..950ccc6 100644
 --- a/www/api/transform.html
 +++ b/www/api/transform.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="transform.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -933,11 +921,11 @@ index 767db26..36537a3 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/version.html b/www/api/version.html
-index ca241e5..972f3e8 100644
+index 84a6260..198bfc4 100644
 --- a/www/api/version.html
 +++ b/www/api/version.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="version.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -946,11 +934,11 @@ index ca241e5..972f3e8 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/vision.html b/www/api/vision.html
-index e591b41..109892e 100644
+index 593a7cd..d0167c6 100644
 --- a/www/api/vision.html
 +++ b/www/api/vision.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="vision.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -959,11 +947,11 @@ index e591b41..109892e 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/api/wand-view.html b/www/api/wand-view.html
-index fb5b834..4bc2780 100644
+index 2e2d9b6..2e5f779 100644
 --- a/www/api/wand-view.html
 +++ b/www/api/wand-view.html
 @@ -28,7 +28,7 @@
-   <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+   <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
    <link href="wand-view.html" rel="canonical" />
    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
@@ -972,7 +960,7 @@ index fb5b834..4bc2780 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/architecture.html b/www/architecture.html
-index 0e08c02..c450eb8 100644
+index 3921106..19f53d8 100644
 --- a/www/architecture.html
 +++ b/www/architecture.html
 @@ -27,7 +27,7 @@
@@ -985,7 +973,7 @@ index 0e08c02..c450eb8 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/cipher.html b/www/cipher.html
-index e59792b..374e8c7 100644
+index a7ed420..bf1c0bb 100644
 --- a/www/cipher.html
 +++ b/www/cipher.html
 @@ -27,7 +27,7 @@
@@ -998,7 +986,7 @@ index e59792b..374e8c7 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/cite.html b/www/cite.html
-index 63d02aa..ada6d05 100644
+index 6a7858d..c5009a4 100644
 --- a/www/cite.html
 +++ b/www/cite.html
 @@ -27,7 +27,7 @@
@@ -1011,7 +999,7 @@ index 63d02aa..ada6d05 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/clahe.html b/www/clahe.html
-index 2aea7e8..e1dca19 100644
+index 7e32955..39cd7e5 100644
 --- a/www/clahe.html
 +++ b/www/clahe.html
 @@ -27,7 +27,7 @@
@@ -1023,34 +1011,8 @@ index 2aea7e8..e1dca19 100644
  </head>
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-diff --git a/www/color-management.html b/www/color-management.html
-index aefd6a8..3bab760 100644
---- a/www/color-management.html
-+++ b/www/color-management.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="color-management.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-diff --git a/www/color-thresholding.html b/www/color-thresholding.html
-index 189c751..677f09a 100644
---- a/www/color-thresholding.html
-+++ b/www/color-thresholding.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="color-thresholding.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/color.html b/www/color.html
-index 46f23d4..a9e09ff 100644
+index 423a161..bd0ca1e 100644
 --- a/www/color.html
 +++ b/www/color.html
 @@ -27,7 +27,7 @@
@@ -1063,10 +1025,10 @@ index 46f23d4..a9e09ff 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/command-line-options.html b/www/command-line-options.html
-index 5ef1105..6b209d5 100644
+index b041690..53b7868 100644
 --- a/www/command-line-options.html
 +++ b/www/command-line-options.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1076,10 +1038,10 @@ index 5ef1105..6b209d5 100644
  <body>
    <script>
 diff --git a/www/command-line-processing.html b/www/command-line-processing.html
-index 674dce1..d0d2564 100644
+index 7856b4d..6f54fe0 100644
 --- a/www/command-line-processing.html
 +++ b/www/command-line-processing.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1088,34 +1050,8 @@ index 674dce1..d0d2564 100644
  </head>
  <body>
    <script>
-diff --git a/www/command-line-tools.html b/www/command-line-tools.html
-index adbef16..d65f591 100644
---- a/www/command-line-tools.html
-+++ b/www/command-line-tools.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="command-line-tools.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-diff --git a/www/compare.html b/www/compare.html
-index 6d7b56c..41064d3 100644
---- a/www/compare.html
-+++ b/www/compare.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="compare.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/compose.html b/www/compose.html
-index 9b7736e..76d63ee 100644
+index a66a9d5..e9b4b46 100644
 --- a/www/compose.html
 +++ b/www/compose.html
 @@ -27,7 +27,7 @@
@@ -1127,21 +1063,8 @@ index 9b7736e..76d63ee 100644
  </head>
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-diff --git a/www/composite.html b/www/composite.html
-index e933017..4c63063 100644
---- a/www/composite.html
-+++ b/www/composite.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="composite.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/conjure.html b/www/conjure.html
-index bb114e2..d539ec6 100644
+index 382194f..25293ae 100644
 --- a/www/conjure.html
 +++ b/www/conjure.html
 @@ -27,7 +27,7 @@
@@ -1154,7 +1077,7 @@ index bb114e2..d539ec6 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/connected-components.html b/www/connected-components.html
-index a57b704..5cde8b1 100644
+index c71aabd..8d220cc 100644
 --- a/www/connected-components.html
 +++ b/www/connected-components.html
 @@ -27,7 +27,7 @@
@@ -1167,12 +1090,12 @@ index a57b704..5cde8b1 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/contact.html b/www/contact.html
-index 3170490..893386a 100644
+index 8d631c6..d6b26d1 100644
 --- a/www/contact.html
 +++ b/www/contact.html
 @@ -28,7 +28,7 @@
    <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="../www/../www/../www/../www/https://imagemagick.org/script/contact.php" rel="canonical" />
+   <link href="../www/../www/../www/../www/../www/https://imagemagick.org/script/contact.php" rel="canonical" />
    <link href="assets/bootstrap.min.css" rel="stylesheet" />
 -  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
 +
@@ -1180,7 +1103,7 @@ index 3170490..893386a 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/convert.html b/www/convert.html
-index fadc0f8..ca94d13 100644
+index 555e590..15e3126 100644
 --- a/www/convert.html
 +++ b/www/convert.html
 @@ -27,7 +27,7 @@
@@ -1192,21 +1115,8 @@ index fadc0f8..ca94d13 100644
  </head>
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-diff --git a/www/convex-hull.html b/www/convex-hull.html
-index 9cabc15..4fa6b68 100644
---- a/www/convex-hull.html
-+++ b/www/convex-hull.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="convex-hull.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/defines.html b/www/defines.html
-index bc6240d..a6c9cdb 100644
+index ecdc4c6..32ebb47 100644
 --- a/www/defines.html
 +++ b/www/defines.html
 @@ -27,7 +27,7 @@
@@ -1219,10 +1129,10 @@ index bc6240d..a6c9cdb 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/develop.html b/www/develop.html
-index eda4cfe..ada6b5e 100644
+index af2ae23..7b822c1 100644
 --- a/www/develop.html
 +++ b/www/develop.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1232,10 +1142,10 @@ index eda4cfe..ada6b5e 100644
  <body>
    <script>
 diff --git a/www/display.html b/www/display.html
-index 68d098d..f3bf474 100644
+index 990bd5a..4c61ba9 100644
 --- a/www/display.html
 +++ b/www/display.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1245,7 +1155,7 @@ index 68d098d..f3bf474 100644
  <body>
    <script>
 diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
-index 820d5b6..bff65ec 100644
+index cf874e6..09e9ee9 100644
 --- a/www/distribute-pixel-cache.html
 +++ b/www/distribute-pixel-cache.html
 @@ -27,7 +27,7 @@
@@ -1258,10 +1168,10 @@ index 820d5b6..bff65ec 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/download.html b/www/download.html
-index e5ad285..a7750f5 100644
+index c7dc609..21168fe 100644
 --- a/www/download.html
 +++ b/www/download.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1271,7 +1181,7 @@ index e5ad285..a7750f5 100644
  <body>
    <script>
 diff --git a/www/escape.html b/www/escape.html
-index 03834f1..e06dad7 100644
+index ad3e2bd..a9e93a1 100644
 --- a/www/escape.html
 +++ b/www/escape.html
 @@ -27,7 +27,7 @@
@@ -1284,10 +1194,10 @@ index 03834f1..e06dad7 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/examples.html b/www/examples.html
-index 116e0e5..d590b60 100644
+index fe2d023..9ddb9a0 100644
 --- a/www/examples.html
 +++ b/www/examples.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1296,21 +1206,8 @@ index 116e0e5..d590b60 100644
  </head>
  <body>
    <script>
-diff --git a/www/exception.html b/www/exception.html
-index 3d18526..0835b59 100644
---- a/www/exception.html
-+++ b/www/exception.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="exception.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/export.html b/www/export.html
-index d3af16a..fd17a7f 100644
+index 76b6b97..c7910ab 100644
 --- a/www/export.html
 +++ b/www/export.html
 @@ -107,7 +107,7 @@
@@ -1323,10 +1220,10 @@ index d3af16a..fd17a7f 100644
  <body>
    <script>
 diff --git a/www/formats.html b/www/formats.html
-index 2eec7bc..eb016a3 100644
+index e747a1f..f4e1da9 100644
 --- a/www/formats.html
 +++ b/www/formats.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1336,7 +1233,7 @@ index 2eec7bc..eb016a3 100644
  <body>
    <script>
 diff --git a/www/fx.html b/www/fx.html
-index 5534172..90b9d37 100644
+index 2ab0308..0658005 100644
 --- a/www/fx.html
 +++ b/www/fx.html
 @@ -27,7 +27,7 @@
@@ -1349,7 +1246,7 @@ index 5534172..90b9d37 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/gradient.html b/www/gradient.html
-index f359a9b..093f114 100644
+index 7f3cf37..4392756 100644
 --- a/www/gradient.html
 +++ b/www/gradient.html
 @@ -27,7 +27,7 @@
@@ -1362,7 +1259,7 @@ index f359a9b..093f114 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
-index f9a40ca..dcc31b1 100644
+index 38b28fb..bd04221 100644
 --- a/www/high-dynamic-range.html
 +++ b/www/high-dynamic-range.html
 @@ -27,7 +27,7 @@
@@ -1375,7 +1272,7 @@ index f9a40ca..dcc31b1 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/history.html b/www/history.html
-index 1689176..3d58937 100644
+index aa90307..9af2a78 100644
 --- a/www/history.html
 +++ b/www/history.html
 @@ -27,7 +27,7 @@
@@ -1388,7 +1285,7 @@ index 1689176..3d58937 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/identify.html b/www/identify.html
-index af6b613..0c96ccc 100644
+index f1da54a..ec80fa5 100644
 --- a/www/identify.html
 +++ b/www/identify.html
 @@ -27,7 +27,7 @@
@@ -1401,7 +1298,7 @@ index af6b613..0c96ccc 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/import.html b/www/import.html
-index 71a8057..e5f0bd5 100644
+index 160b0b1..118928d 100644
 --- a/www/import.html
 +++ b/www/import.html
 @@ -27,7 +27,7 @@
@@ -1414,10 +1311,10 @@ index 71a8057..e5f0bd5 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/index.html b/www/index.html
-index e76e70f..b7b369b 100644
+index bf50a39..9b428ef 100644
 --- a/www/index.html
 +++ b/www/index.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1426,21 +1323,8 @@ index e76e70f..b7b369b 100644
  </head>
  <body>
    <script>
-diff --git a/www/install-source.html b/www/install-source.html
-index e5bf52a..aa787d3 100644
---- a/www/install-source.html
-+++ b/www/install-source.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="install-source.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/jp2.html b/www/jp2.html
-index cce0c94..c0210d7 100644
+index 99c022e..8b5ee8c 100644
 --- a/www/jp2.html
 +++ b/www/jp2.html
 @@ -107,7 +107,7 @@
@@ -1453,10 +1337,10 @@ index cce0c94..c0210d7 100644
  <body>
    <script>
 diff --git a/www/license.html b/www/license.html
-index fc8cb3b..b02883c 100644
+index 2576064..66b4ce4 100644
 --- a/www/license.html
 +++ b/www/license.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1466,7 +1350,7 @@ index fc8cb3b..b02883c 100644
  <body>
    <script>
 diff --git a/www/links.html b/www/links.html
-index 5592f1a..67541a1 100644
+index 964015e..4ca8973 100644
 --- a/www/links.html
 +++ b/www/links.html
 @@ -27,7 +27,7 @@
@@ -1479,7 +1363,7 @@ index 5592f1a..67541a1 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/magick++.html b/www/magick++.html
-index 44199c3..1cf31fa 100644
+index da298d2..85f0e11 100644
 --- a/www/magick++.html
 +++ b/www/magick++.html
 @@ -27,7 +27,7 @@
@@ -1492,7 +1376,7 @@ index 44199c3..1cf31fa 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/magick-cache.html b/www/magick-cache.html
-index cab9335..8efdb3b 100644
+index 9262d9a..7ed0390 100644
 --- a/www/magick-cache.html
 +++ b/www/magick-cache.html
 @@ -27,7 +27,7 @@
@@ -1505,7 +1389,7 @@ index cab9335..8efdb3b 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/magick-core.html b/www/magick-core.html
-index b8ecc9d..aec603f 100644
+index 88aa2ff..40d5643 100644
 --- a/www/magick-core.html
 +++ b/www/magick-core.html
 @@ -27,7 +27,7 @@
@@ -1518,7 +1402,7 @@ index b8ecc9d..aec603f 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/magick-script.html b/www/magick-script.html
-index c9a861f..ac1d3c6 100644
+index 9696598..f6a41f8 100644
 --- a/www/magick-script.html
 +++ b/www/magick-script.html
 @@ -27,7 +27,7 @@
@@ -1531,7 +1415,7 @@ index c9a861f..ac1d3c6 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
-index 75ad52e..bb693ce 100644
+index d6f6320..f71e993 100644
 --- a/www/magick-vector-graphics.html
 +++ b/www/magick-vector-graphics.html
 @@ -27,7 +27,7 @@
@@ -1543,34 +1427,8 @@ index 75ad52e..bb693ce 100644
  </head>
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-diff --git a/www/magick-wand.html b/www/magick-wand.html
-index 789b36e..25cf03c 100644
---- a/www/magick-wand.html
-+++ b/www/magick-wand.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="magick-wand.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-diff --git a/www/magick.html b/www/magick.html
-index 50859a8..e3e6ed5 100644
---- a/www/magick.html
-+++ b/www/magick.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="magick.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/miff.html b/www/miff.html
-index e4eefa2..91e3572 100644
+index 7b00e85..da5a593 100644
 --- a/www/miff.html
 +++ b/www/miff.html
 @@ -27,7 +27,7 @@
@@ -1583,7 +1441,7 @@ index e4eefa2..91e3572 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/mirror.html b/www/mirror.html
-index 8268f40..b2e79c5 100644
+index 1083d74..0dde017 100644
 --- a/www/mirror.html
 +++ b/www/mirror.html
 @@ -27,7 +27,7 @@
@@ -1595,21 +1453,8 @@ index 8268f40..b2e79c5 100644
  </head>
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-diff --git a/www/mogrify.html b/www/mogrify.html
-index 4996e47..3594b3b 100644
---- a/www/mogrify.html
-+++ b/www/mogrify.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="mogrify.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/montage.html b/www/montage.html
-index 1dc3f1f..0b4e177 100644
+index e4780a8..d3cce39 100644
 --- a/www/montage.html
 +++ b/www/montage.html
 @@ -27,7 +27,7 @@
@@ -1622,7 +1467,7 @@ index 1dc3f1f..0b4e177 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/motion-picture.html b/www/motion-picture.html
-index 2237e98..4089aa9 100644
+index 0389c64..cc17216 100644
 --- a/www/motion-picture.html
 +++ b/www/motion-picture.html
 @@ -107,7 +107,7 @@
@@ -1635,7 +1480,7 @@ index 2237e98..4089aa9 100644
  <body>
    <script>
 diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
-index fcdb545..ceabd5c 100644
+index f2166eb..94047bb 100644
 --- a/www/multispectral-imagery.html
 +++ b/www/multispectral-imagery.html
 @@ -107,7 +107,7 @@
@@ -1648,7 +1493,7 @@ index fcdb545..ceabd5c 100644
  <body>
    <script>
 diff --git a/www/news.html b/www/news.html
-index 3924394..ba5d2c2 100644
+index 79bc5d2..d01bf57 100644
 --- a/www/news.html
 +++ b/www/news.html
 @@ -107,7 +107,7 @@
@@ -1661,7 +1506,7 @@ index 3924394..ba5d2c2 100644
  <body>
    <script>
 diff --git a/www/opencl.html b/www/opencl.html
-index cb8f318..7145b4f 100644
+index c4c01d2..046b436 100644
 --- a/www/opencl.html
 +++ b/www/opencl.html
 @@ -27,7 +27,7 @@
@@ -1674,10 +1519,10 @@ index cb8f318..7145b4f 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/openmp.html b/www/openmp.html
-index b94c730..adfde36 100644
+index d7f884a..ee759b7 100644
 --- a/www/openmp.html
 +++ b/www/openmp.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1687,7 +1532,7 @@ index b94c730..adfde36 100644
  <body>
    <script>
 diff --git a/www/perl-magick.html b/www/perl-magick.html
-index 73be247..da26fd2 100644
+index 4a61ac5..151f003 100644
 --- a/www/perl-magick.html
 +++ b/www/perl-magick.html
 @@ -108,7 +108,7 @@
@@ -1700,10 +1545,10 @@ index 73be247..da26fd2 100644
  <body>
    <script>
 diff --git a/www/porting.html b/www/porting.html
-index b8860c5..be74e29 100644
+index 77e6963..dc59781 100644
 --- a/www/porting.html
 +++ b/www/porting.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1713,7 +1558,7 @@ index b8860c5..be74e29 100644
  <body>
    <script>
 diff --git a/www/privacy-policy.html b/www/privacy-policy.html
-index f609d9f..98c7da8 100644
+index 9caa639..3b7b56f 100644
 --- a/www/privacy-policy.html
 +++ b/www/privacy-policy.html
 @@ -27,7 +27,7 @@
@@ -1726,7 +1571,7 @@ index f609d9f..98c7da8 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/quantize.html b/www/quantize.html
-index c3a22d2..8090aef 100644
+index 98e200b..2172cf9 100644
 --- a/www/quantize.html
 +++ b/www/quantize.html
 @@ -27,7 +27,7 @@
@@ -1739,7 +1584,7 @@ index c3a22d2..8090aef 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/resources.html b/www/resources.html
-index 0a6b953..fe2a1e2 100644
+index 7d2aeb5..1d65f7d 100644
 --- a/www/resources.html
 +++ b/www/resources.html
 @@ -27,7 +27,7 @@
@@ -1752,7 +1597,7 @@ index 0a6b953..fe2a1e2 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/search.html b/www/search.html
-index 9270a10..6e3fc44 100644
+index af9c76a..d14567b 100644
 --- a/www/search.html
 +++ b/www/search.html
 @@ -27,7 +27,7 @@
@@ -1765,10 +1610,10 @@ index 9270a10..6e3fc44 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/security-policy.html b/www/security-policy.html
-index c30a416..4269942 100644
+index 7cf3969..77b4f3d 100644
 --- a/www/security-policy.html
 +++ b/www/security-policy.html
-@@ -107,7 +107,7 @@
+@@ -124,7 +124,7 @@
    }
    </script>
    <!-- Google Custom Search -->
@@ -1778,7 +1623,7 @@ index c30a416..4269942 100644
  <body>
    <script>
 diff --git a/www/sitemap.html b/www/sitemap.html
-index 5425386..eda2f65 100644
+index 1617fbc..ec73490 100644
 --- a/www/sitemap.html
 +++ b/www/sitemap.html
 @@ -27,7 +27,7 @@
@@ -1790,21 +1635,8 @@ index 5425386..eda2f65 100644
  </head>
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-diff --git a/www/stream.html b/www/stream.html
-index fb585cf..83b8136 100644
---- a/www/stream.html
-+++ b/www/stream.html
-@@ -27,7 +27,7 @@
-   <link type="images/icon" sizes="16x16" href="../images/wand.ico" rel="shortcut icon" />
-   <link href="stream.html" rel="canonical" />
-   <link href="assets/bootstrap.min.css" rel="stylesheet" />
--  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
-+
- </head>
- <body>
-   <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/support.html b/www/support.html
-index d0a5e41..20a2068 100644
+index ba2d86a..bc16fe0 100644
 --- a/www/support.html
 +++ b/www/support.html
 @@ -27,7 +27,7 @@
@@ -1817,7 +1649,7 @@ index d0a5e41..20a2068 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/vpat.html b/www/vpat.html
-index 745c725..0d64925 100644
+index 3c640ca..874af92 100644
 --- a/www/vpat.html
 +++ b/www/vpat.html
 @@ -27,7 +27,7 @@
@@ -1830,7 +1662,7 @@ index 745c725..0d64925 100644
  <body>
    <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
 diff --git a/www/webp.html b/www/webp.html
-index c97934d..b2d6697 100644
+index d3ab437..df934c2 100644
 --- a/www/webp.html
 +++ b/www/webp.html
 @@ -27,7 +27,7 @@

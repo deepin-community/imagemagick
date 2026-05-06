@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -326,7 +326,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
   if (status == MagickFalse)
     ThrowCompareException(ResourceLimitError,"MemoryAllocationFailed",
       GetExceptionMessage(errno));
-  for (i=1; i < (ssize_t) (argc-1); i++)
+  for (i=1; i < ((ssize_t) argc-1); i++)
   {
     option=argv[i];
     if (LocaleCompare(option,"(") == 0)
@@ -356,7 +356,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
         */
         FireImageStack(MagickFalse,MagickFalse,pend);
         filename=argv[i];
-        if ((LocaleCompare(filename,"--") == 0) && (i < (ssize_t) (argc-1)))
+        if ((LocaleCompare(filename,"--") == 0) && (i < ((ssize_t) argc-1)))
           filename=argv[++i];
         images=ReadImages(image_info,filename,exception);
         status&=(MagickStatusType) ((images != (Image *) NULL) &&
@@ -1161,7 +1161,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
   }
   if (k != 0)
     ThrowCompareException(OptionError,"UnbalancedParenthesis",argv[i]);
-  if (i-- != (ssize_t) (argc-1))
+  if (i-- != ((ssize_t) argc-1))
     ThrowCompareException(OptionError,"MissingAnImageFilename",argv[i]);
   if ((image == (Image *) NULL) || (GetImageListLength(image) < 2))
     ThrowCompareException(OptionError,"MissingAnImageFilename",argv[i]);
@@ -1243,6 +1243,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
   switch (metric)
   {
     case AbsoluteErrorMetric:
+    case PixelDifferenceCountErrorMetric:
     {
       size_t
         columns,
@@ -1323,9 +1324,10 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
           switch (metric)
           {
             case AbsoluteErrorMetric:
+            case PixelDifferenceCountErrorMetric:
             {
               (void) FormatLocaleFile(stderr,"%.*g (%.*g)",GetMagickPrecision(),
-                ceil(scale*distortion),GetMagickPrecision(),distortion);
+                (scale*distortion),GetMagickPrecision(),distortion);
               break;
             }
             case MeanErrorPerPixelErrorMetric:
@@ -1514,6 +1516,65 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
                 GetMagickPrecision(),channel_distortion[MaxPixelChannels],
                 GetMagickPrecision(),channel_distortion[MaxPixelChannels],
                 GetMagickPrecision(),image->error.normalized_maximum_error);
+              break;
+            }
+            case PixelDifferenceCountErrorMetric:
+            {
+              switch (image->colorspace)
+              {
+                case RGBColorspace:
+                default:
+                {
+                  (void) FormatLocaleFile(stderr,"    red: %.*g\n",
+                    GetMagickPrecision(),scale*
+                    channel_distortion[RedPixelChannel]);
+                  (void) FormatLocaleFile(stderr,"    green: %.*g\n",
+                    GetMagickPrecision(),scale*
+                    channel_distortion[GreenPixelChannel]);
+                  (void) FormatLocaleFile(stderr,"    blue: %.*g\n",
+                    GetMagickPrecision(),scale*
+                    channel_distortion[BluePixelChannel]);
+                  if (image->alpha_trait != UndefinedPixelTrait)
+                    (void) FormatLocaleFile(stderr,"    alpha: %.*g\n",
+                      GetMagickPrecision(),scale*
+                      channel_distortion[AlphaPixelChannel]);
+                  break;
+                }
+                case CMYKColorspace:
+                {
+                  (void) FormatLocaleFile(stderr,"    cyan: %.*g\n",
+                    GetMagickPrecision(),channel_distortion[CyanPixelChannel]);
+                  (void) FormatLocaleFile(stderr,"    magenta: %.*g\n",
+                    GetMagickPrecision(),scale*
+                    channel_distortion[MagentaPixelChannel]);
+                  (void) FormatLocaleFile(stderr,"    yellow: %.*g\n",
+                    GetMagickPrecision(),scale*
+                    channel_distortion[YellowPixelChannel]);
+                  (void) FormatLocaleFile(stderr,"    black: %.*g\n",
+                    GetMagickPrecision(),scale*
+                    channel_distortion[BlackPixelChannel]);
+                  if (image->alpha_trait != UndefinedPixelTrait)
+                    (void) FormatLocaleFile(stderr,"    alpha: %.*g\n",
+                      GetMagickPrecision(),scale*
+                      channel_distortion[AlphaPixelChannel]);
+                  break;
+                }
+                case LinearGRAYColorspace:
+                case GRAYColorspace:
+                {
+                  (void) FormatLocaleFile(stderr,"    gray: %.*g\n",
+                    GetMagickPrecision(),scale*
+                    channel_distortion[GrayPixelChannel]);
+                  if (image->alpha_trait != UndefinedPixelTrait)
+                    (void) FormatLocaleFile(stderr,"    alpha: %.*g\n",
+                      GetMagickPrecision(),scale*
+                      channel_distortion[AlphaPixelChannel]);
+                  break;
+                }
+              }
+              (void) FormatLocaleFile(stderr,"    all: %.*g\n",
+                GetMagickPrecision(),scale*
+                channel_distortion[MaxPixelChannels]);
               break;
             }
             case UndefinedErrorMetric:

@@ -7,11 +7,11 @@ forwarded: not-needed
  www/formats.html | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/www/formats.html b/www/formats.html
-index 3376bed..2eec7bc 100644
---- a/www/formats.html
-+++ b/www/formats.html
-@@ -782,7 +782,7 @@ the supported image formats.</p>
+Index: imagemagick/www/formats.html
+===================================================================
+--- imagemagick.orig/www/formats.html	2025-10-28 17:09:19.057901887 +0100
++++ imagemagick/www/formats.html	2025-10-28 17:09:19.052786374 +0100
+@@ -798,7 +798,7 @@
      <td><a href="https://en.wikipedia.org/wiki/JPEG_XR">JXR</a></td>
      <td>RW</td>
      <td>JPEG extended range</td>

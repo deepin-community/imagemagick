@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -82,6 +82,10 @@
 /*
   Define declarations.
 */
+#define IsPathAuthorized(rights,filename) \
+  ((IsRightsAuthorized(PathPolicyDomain,rights,filename) != MagickFalse) && \
+   ((IsRightsAuthorized(SystemPolicyDomain,rights,"symlink::follow") != MagickFalse) || \
+    (is_symlink_utf8(filename) == MagickFalse)))
 #define MagickMaxBlobExtent  (8*8192)
 #if !defined(MAP_ANONYMOUS) && defined(MAP_ANON)
 # define MAP_ANONYMOUS  MAP_ANON
@@ -91,7 +95,7 @@
 #endif
 #if defined(__OS2__)
 #include <io.h>
-#define _O_BINARY O_BINARY
+#define _O_BINARY  O_BINARY
 #endif
 #if defined(MAGICKCORE_WINDOWS_SUPPORT)
 #  if !defined(fsync)
@@ -357,7 +361,8 @@ MagickExport void AttachCustomStream(BlobInfo *blob_info,
 %
 %  A description of each parameter follows:
 %
-%    o filename: Write the blob to this file.
+%    o filename: Write the blob to this file. The filename buffer length must
+%      be a minimum of MagickPathExtent characters.
 %
 %    o blob: the address of a blob.
 %
@@ -385,7 +390,7 @@ MagickExport MagickBooleanType BlobToFile(char *filename,const void *blob,
   if (*filename == '\0')
     file=AcquireUniqueFileResource(filename);
   else
-    file=open_utf8(filename,O_RDWR | O_CREAT | O_EXCL | O_BINARY,S_MODE);
+    file=open_utf8(filename,O_WRONLY | O_CREAT | O_EXCL | O_BINARY,P_MODE);
   if (file == -1)
     {
       ThrowFileException(exception,BlobError,"UnableToWriteBlob",filename);
@@ -1453,8 +1458,7 @@ MagickExport void *FileToBlob(const char *filename,const size_t extent,
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
   *length=0;
-  status=IsRightsAuthorized(PathPolicyDomain,ReadPolicyRights,filename);
-  if (status == MagickFalse)
+  if (IsPathAuthorized(ReadPolicyRights,filename) == MagickFalse)
     {
       errno=EPERM;
       (void) ThrowMagickException(exception,GetMagickModule(),PolicyError,
@@ -1464,17 +1468,28 @@ MagickExport void *FileToBlob(const char *filename,const size_t extent,
   file=fileno(stdin);
   if (LocaleCompare(filename,"-") != 0)
     {
+      int
+        flags = O_RDONLY | O_BINARY;
+
       status=GetPathAttributes(filename,&attributes);
       if ((status == MagickFalse) || (S_ISDIR(attributes.st_mode) != 0))
         {
           ThrowFileException(exception,BlobError,"UnableToReadBlob",filename);
           return(NULL);
         }
-      file=open_utf8(filename,O_RDONLY | O_BINARY,0);
+      file=open_utf8(filename,flags,0);
     }
   if (file == -1)
     {
       ThrowFileException(exception,BlobError,"UnableToOpenFile",filename);
+      return(NULL);
+    }
+  if (IsPathAuthorized(ReadPolicyRights,filename) == MagickFalse)
+    {
+      file=close_utf8(file)-1;
+      errno=EPERM;
+      (void) ThrowMagickException(exception,GetMagickModule(),PolicyError,
+        "NotAuthorized","`%s'",filename);
       return(NULL);
     }
   offset=(MagickOffsetType) lseek(file,0,SEEK_END);
@@ -1609,6 +1624,7 @@ MagickExport void *FileToBlob(const char *filename,const size_t extent,
 %    o filename: the filename.
 %
 */
+
 static inline ssize_t WriteBlobStream(Image *image,const size_t length,
   const void *magick_restrict data)
 {
@@ -1627,6 +1643,11 @@ static inline ssize_t WriteBlobStream(Image *image,const size_t length,
   blob_info=image->blob;
   if (blob_info->type != BlobStream)
     return(WriteBlob(image,length,(const unsigned char *) data));
+  if (blob_info->offset > (MagickOffsetType) (MAGICK_SSIZE_MAX-length))
+    {
+      errno=EOVERFLOW;
+      return(0);
+    }
   extent=(MagickSizeType) (blob_info->offset+(MagickOffsetType) length);
   if (extent >= blob_info->extent)
     {
@@ -1649,9 +1670,6 @@ MagickExport MagickBooleanType FileToImage(Image *image,const char *filename,
   int
     file;
 
-  MagickBooleanType
-    status;
-
   size_t
     length,
     quantum;
@@ -1670,8 +1688,7 @@ MagickExport MagickBooleanType FileToImage(Image *image,const char *filename,
   assert(filename != (const char *) NULL);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",filename);
-  status=IsRightsAuthorized(PathPolicyDomain,WritePolicyRights,filename);
-  if (status == MagickFalse)
+  if (IsPathAuthorized(ReadPolicyRights,filename) == MagickFalse)
     {
       errno=EPERM;
       (void) ThrowMagickException(exception,GetMagickModule(),PolicyError,
@@ -1680,10 +1697,23 @@ MagickExport MagickBooleanType FileToImage(Image *image,const char *filename,
     }
   file=fileno(stdin);
   if (LocaleCompare(filename,"-") != 0)
-    file=open_utf8(filename,O_RDONLY | O_BINARY,0);
+    {
+      int
+        flags = O_RDONLY | O_BINARY;
+
+      file=open_utf8(filename,flags,0);
+    }
   if (file == -1)
     {
       ThrowFileException(exception,BlobError,"UnableToOpenBlob",filename);
+      return(MagickFalse);
+    }
+  if (IsPathAuthorized(ReadPolicyRights,filename) == MagickFalse)
+    {
+      file=close_utf8(file);
+      errno=EPERM;
+      (void) ThrowMagickException(exception,GetMagickModule(),PolicyError,
+        "NotAuthorized","`%s'",filename);
       return(MagickFalse);
     }
   quantum=(size_t) MagickMaxBufferExtent;
@@ -2280,8 +2310,8 @@ MagickExport void ImageToCustomStream(const ImageInfo *image_info,Image *image,
           ssize_t
             count;
 
-          (void) FormatLocaleString(image->filename,MagickPathExtent,
-            "%s:%s",image->magick,unique);
+          (void) FormatLocaleString(image->filename,MagickPathExtent,"%s:%s",
+            image->magick,unique);
           status=WriteImage(clone_info,image,exception);
           if (status != MagickFalse)
             {
@@ -2369,7 +2399,7 @@ MagickExport MagickBooleanType ImageToFile(Image *image,char *filename,
     if (LocaleCompare(filename,"-") == 0)
       file=fileno(stdout);
     else
-      file=open_utf8(filename,O_RDWR | O_CREAT | O_EXCL | O_BINARY,S_MODE);
+      file=open_utf8(filename,O_RDWR | O_CREAT | O_EXCL | O_BINARY,P_MODE);
   if (file == -1)
     {
       ThrowFileException(exception,BlobError,"UnableToWriteBlob",filename);
@@ -3254,7 +3284,7 @@ static inline gzFile gzopen_utf8(const char *path,const char *mode)
    wchar_t
      *path_wide;
 
-   path_wide=create_wchar_path(path);
+   path_wide=NTCreateWidePath(path);
    if (path_wide == (wchar_t *) NULL)
      return((gzFile) NULL);
    file=gzopen_w(path_wide,mode);
@@ -3276,6 +3306,9 @@ MagickExport MagickBooleanType OpenBlob(const ImageInfo *image_info,
 
   const char
     *type;
+
+  int
+    flags = O_RDONLY;
 
   MagickBooleanType
     status;
@@ -3309,13 +3342,48 @@ MagickExport MagickBooleanType OpenBlob(const ImageInfo *image_info,
   blob_info->mode=mode;
   switch (mode)
   {
-    default: type="r"; break;
-    case ReadBlobMode: type="r"; break;
-    case ReadBinaryBlobMode: type="rb"; break;
-    case WriteBlobMode: type="w"; break;
-    case WriteBinaryBlobMode: type="w+b"; break;
-    case AppendBlobMode: type="a"; break;
-    case AppendBinaryBlobMode: type="a+b"; break;
+    case ReadBlobMode:
+    {
+      flags=O_RDONLY;
+      type="r";
+      break;
+    }
+    case ReadBinaryBlobMode:
+    {
+      flags=O_RDONLY | O_BINARY;
+      type="rb";
+      break;
+    }
+    case WriteBlobMode:
+    {
+      flags=O_WRONLY | O_CREAT | O_TRUNC;
+      type="w";
+      break;
+    }
+    case WriteBinaryBlobMode:
+    {
+      flags=O_RDWR | O_CREAT | O_TRUNC | O_BINARY;
+      type="w+b";
+      break;
+    }
+    case AppendBlobMode:
+    {
+      flags=O_WRONLY | O_CREAT | O_APPEND;
+      type="a";
+      break;
+    }
+    case AppendBinaryBlobMode:
+    {
+      flags=O_RDWR | O_CREAT | O_APPEND | O_BINARY;
+      type="a+b";
+      break;
+    }
+    default:
+    {
+      flags=O_RDONLY;
+      type="r";
+      break;
+    }
   }
   if (*type != 'r')
     blob_info->synchronize=image_info->synchronize;
@@ -3336,7 +3404,7 @@ MagickExport MagickBooleanType OpenBlob(const ImageInfo *image_info,
   rights=ReadPolicyRights;
   if (*type == 'w')
     rights=WritePolicyRights;
-  if (IsRightsAuthorized(PathPolicyDomain,rights,filename) == MagickFalse)
+  if (IsPathAuthorized(rights,filename) == MagickFalse)
     {
       errno=EPERM;
       (void) ThrowMagickException(exception,GetMagickModule(),PolicyError,
@@ -3460,7 +3528,13 @@ MagickExport MagickBooleanType OpenBlob(const ImageInfo *image_info,
   else
     if (*type == 'r')
       {
-        blob_info->file_info.file=(FILE *) fopen_utf8(filename,type);
+        int
+          file;
+
+        blob_info->file_info.file=(FILE *) NULL;
+        file=open_utf8(filename,flags,0);
+        if (file >= 0)
+          blob_info->file_info.file=fdopen(file,type);
         if (blob_info->file_info.file != (FILE *) NULL)
           {
             size_t
@@ -3580,13 +3654,26 @@ MagickExport MagickBooleanType OpenBlob(const ImageInfo *image_info,
         else
 #endif
           {
-            blob_info->file_info.file=(FILE *) fopen_utf8(filename,type);
+            int
+              file;
+
+            blob_info->file_info.file=(FILE *) NULL;
+            file=open_utf8(filename,flags,P_MODE);
+            if (file >= 0)
+              blob_info->file_info.file=fdopen(file,type);
             if (blob_info->file_info.file != (FILE *) NULL)
               {
                 blob_info->type=FileStream;
                 (void) SetStreamBuffering(image_info,blob_info);
               }
           }
+  if (IsPathAuthorized(rights,filename) == MagickFalse)
+    {
+      errno=EPERM;
+      (void) ThrowMagickException(exception,GetMagickModule(),PolicyError,
+        "NotAuthorized","`%s'",filename);
+      return(MagickFalse);
+    }
   blob_info->status=0;
   blob_info->error_number=0;
   if (blob_info->type != UndefinedStream)
@@ -5915,6 +6002,11 @@ MagickExport ssize_t WriteBlob(Image *image,const size_t length,
       MagickSizeType
         extent;
 
+      if (blob_info->offset > (MagickOffsetType) (MAGICK_SSIZE_MAX-length))
+        {
+          errno=EOVERFLOW;
+          return(0);
+        }
       extent=(MagickSizeType) (blob_info->offset+(MagickOffsetType) length);
       if (extent >= blob_info->extent)
         {

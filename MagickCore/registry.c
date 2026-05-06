@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -384,7 +384,7 @@ MagickExport void *RemoveImageRegistry(const char *key)
 %
 %  The format of the ResetImageRegistryIterator method is:
 %
-%      ResetImageRegistryIterator(void)
+%      void ResetImageRegistryIterator(void)
 %
 */
 MagickExport void ResetImageRegistryIterator(void)

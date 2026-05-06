@@ -1,0 +1,50 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 1 Mar 2026 13:30:58 +0100
+Subject: Allow doxygen to be reproductible
+
+forwarded: not-needed
+---
+ config/Magick++.dox.in   | 2 +-
+ config/MagickCore.dox.in | 2 +-
+ config/MagickWand.dox.in | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/config/Magick++.dox.in b/config/Magick++.dox.in
+index f46058f..a3d528c 100644
+--- a/config/Magick++.dox.in
++++ b/config/Magick++.dox.in
+@@ -140,7 +140,7 @@ INLINE_INHERITED_MEMB  = NO
+ # shortest path that makes the file name unique will be used
+ # The default value is: YES.
+ 
+-FULL_PATH_NAMES        = YES
++FULL_PATH_NAMES        = NO
+ 
+ # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
+ # Stripping is only done if one of the specified strings matches the left-hand
+diff --git a/config/MagickCore.dox.in b/config/MagickCore.dox.in
+index ced1aad..4a4cb0b 100644
+--- a/config/MagickCore.dox.in
++++ b/config/MagickCore.dox.in
+@@ -140,7 +140,7 @@ INLINE_INHERITED_MEMB  = NO
+ # shortest path that makes the file name unique will be used
+ # The default value is: YES.
+ 
+-FULL_PATH_NAMES        = YES
++FULL_PATH_NAMES        = NO
+ 
+ # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
+ # Stripping is only done if one of the specified strings matches the left-hand
+diff --git a/config/MagickWand.dox.in b/config/MagickWand.dox.in
+index 98b9934..7cbb152 100644
+--- a/config/MagickWand.dox.in
++++ b/config/MagickWand.dox.in
+@@ -140,7 +140,7 @@ INLINE_INHERITED_MEMB  = NO
+ # shortest path that makes the file name unique will be used
+ # The default value is: YES.
+ 
+-FULL_PATH_NAMES        = YES
++FULL_PATH_NAMES        = NO
+ 
+ # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
+ # Stripping is only done if one of the specified strings matches the left-hand

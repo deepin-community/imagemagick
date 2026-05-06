@@ -1,3 +1,398 @@
+imagemagick (8:7.1.2.21+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version
+  * Fix CVE-2026-42050:
+    Stack buffer overflow in XTileImage
+    A malicious MIFF file could trigger an overflow when a user opens
+    it in the display tool and right-clicks a tile to invoke the
+    Load/Update menu item.
+
+ -- Bastien Roucariès <rouca@debian.org>  Fri, 01 May 2026 16:29:15 +0200
+
+imagemagick (8:7.1.2.19+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version
+  * Fix CVE-2026-33899:
+    When `Magick` parses an XML file it is possible that
+    a single zero byte is written out of the bounds
+  * Fix CVE-2026-33900:
+    The viff encoder contains an integer truncation/wraparound issue on
+    32-bit builds that could trigger an out of bounds heap write,
+    potentially causing a crash.
+  * Fix CVE-2026-33901:
+    A heap buffer overflow occurs in the MVG decoder that could result in
+    an out of bounds write when processing a crafted image.
+  * Fix CVE-2026-33902:
+    A stack overflow vulnerability in ImageMagick's FX expression parser allows
+    an attacker to crash the process by providing a deeply nested expression.
+  * Fix CVE-2026-33905:
+    The -sample operation has an out of bounds read when an specific offset
+    is set through the `sample:offset` define that could lead to an out of
+    bounds read.
+  * Fix CVE-2026-33908:
+    Magick frees the memory of the XML tree via the `DestroyXMLTree()`
+    function; however, this process is executed recursively with no depth
+    limit imposed. When Magick processes an XML file with deeply nested
+    structures, it will exhaust the stack memory, resulting in a Denial of
+    Service (DoS) attack.
+  * Fix CVE-2026-34238:
+    An integer overflow in the despeckle operation causes a heap
+    buffer overflow on 32-bit builds that will result in an out of bounds write.
+  * Fix CVE-2026-40169:
+    A crafted image could result in an out of bounds heap write when writing a
+    yaml or json output, resulting in a crash.
+  * Fix CVE-2026-40183:
+    The JXL encoder has an heap write overflow when a user specifies
+    that the image should be encoded as 16 bit floats.
+  * Fix CVE-2026-40310:
+    A heap out-of-bounds write in the JP2 encoder with when a user specifies
+    an invalid sampling index.
+  * Fix CVE-2026-40311:
+    A heap use-after-free vulnerability that can cause a crash when reading
+    and printing values from an invalid XMP profile.
+  * Fix CVE-2026-40312:
+    An off by one error in the MSL decoder could result in a crash
+    when a malicous MSL file is read.
+
+ -- Bastien Roucariès <rouca@debian.org>  Tue, 14 Apr 2026 17:35:29 +0200
+
+imagemagick (8:7.1.2.18+dfsg1-1) unstable; urgency=high
+
+  * New upstream version
+  * Fix CVE-2026-32636:
+    The NewXMLTree method contains a bug that could result
+    in a crash due to an out of write bounds of a single
+    zero byte
+  * Fix rmagick regression in disolve (Closes: #1131687)
+
+ -- Bastien Roucariès <rouca@debian.org>  Fri, 20 Mar 2026 21:51:31 +0100
+
+imagemagick (8:7.1.2.16+dfsg1-1) unstable; urgency=high
+
+  * New upstream version
+  * Drop patch about double free in SVG applied upstream
+  * Fix CVE-2026-28493:
+    An integer overflow vulnerability exists in the SIXEL decoer.
+    The vulnerability allows an attacker to perform an out of bounds
+    via a specially crafted image.
+  * Fix CVE-2026-28494:
+    A stack buffer overflow exists in ImageMagick's morphology kernel
+    parsing functions. User-controlled kernel strings exceeding a buffer
+    are copied into fixed-size stack buffers via memcpy without bounds
+    checking, resulting in stack corruption.
+  * Fix CVE-2026-28686:
+    A heap-buffer-overflow vulnerability exists in the PCL
+    encode due to an undersized output buffer allocation.
+  * Fix CVE-2026-28687:
+    a heap use-after-free vulnerability in ImageMagick's
+    MSL decoder allows an attacker to trigger access to freed memory
+    by crafting an MSL file.
+  * Fix CVE-2026-28688:
+    A heap-use-after-free vulnerability exists in the MSL encoder,
+    where a cloned image is destroyed twice. The MSL coder does
+    not support writing MSL so the write capability has been removed
+  * Fix CVE-2026-28689:
+    Domain="path" authorization is checked before final file open/use.
+    A symlink swap between check-time and use-time bypasses policy-denied
+    read/write
+  * Fix CVE-2026-28690:
+    A stack buffer overflow vulnerability exists in the MNG encoder.
+    There is a bounds checks missing that could corrupting the stack
+    with attacker-controlled data.
+  * Fix CVE-2026-28691:
+    An uninitialized pointer dereference vulnerability exists in the
+    JBIG decoder due to a missing check.
+  * Fix CVE-2026-28692:
+    MAT decoder uses 32-bit arithmetic due to incorrect parenthesization
+    resulting in a heap over-read.
+  * Fix CVE-2026-28693:
+    An integer overflow in DIB coder can result in out of bounds read
+    or write
+  * Fix CVE-2026-30883:
+    An extremely large image profile could result in a heap overflow
+    when encoding a PNG image
+  * Fix CVE-2026-30929:
+    MagnifyImage uses a fixed-size stack buffer. When using a specific image
+    it is possible to overflow this buffer and corrupt the stack
+  * Fix CVE-2026-30931:
+    A heap-based buffer overflow in the UHDR encoder can happen due to
+    truncation of a value and it would allow an out of bounds write.
+  * Fix CVE-2026-30935:
+    BilateralBlurImage contains a heap buffer over-read caused by an incorrect
+    conversion. When processing a crafted image with the -bilateral-blur
+    operation an out of bounds read can occur.
+  * Fix CVE-2026-30936:
+    A crafted image could cause an out of bounds heap write inside
+    the WaveletDenoiseImage method. When processing a crafted image
+    with the -wavelet-denoise operation an out of bounds write can occur.
+  * Fix CVE-2026-30937:
+    A 32-bit unsigned integer overflow in the XWD (X Windows) encoder can
+    cause an undersized heap buffer allocation. When writing a extremely
+    large image an out of bounds heap write can occur.
+
+ -- Bastien Roucariès <rouca@debian.org>  Tue, 10 Mar 2026 21:35:45 +0100
+
+imagemagick (8:7.1.2.15+dfsg1-2) unstable; urgency=medium
+
+  * Fix bootstrap5 privacy breach by using local package
+  * Improve reproductibility
+
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 01 Mar 2026 18:34:01 +0100
+
+imagemagick (8:7.1.2.15+dfsg1-1) unstable; urgency=high
+
+  * New upstream release.
+  * Fix a double free in SVG
+  * Fix unreproductible doxygen documentation
+  * Fix CVE-2026-24481:
+    A heap information disclosure vulnerability exists
+    in ImageMagick's PSD (Adobe Photoshop) format handler.
+    When processing a maliciously crafted PSD file containing
+    ZIP-compressed layer data that decompresses to less than
+    the expected size, uninitialized heap memory is leaked
+    into the output image.
+  * Fix CVE-2026-24484:
+    Magick fails to check for multi-layer nested mvg
+    conversions to svg, leading to DoS.
+  * Fix CVE-2026-24485:
+    When a PCD file does not contain a valid Sync marker, the
+    DecodeImage() function becomes trapped in an infinite loop while
+    searching for the Sync marker, causing the program to become
+    unresponsive and continuously consume CPU resources, ultimately
+    leading to system resource exhaustion and Denial of Service
+    (DoS)
+  * Fix CVE-2026-25576:
+    A heap buffer over-read vulnerability exists in multiple
+    raw image format handles. The vulnerability occurs when
+    processing images with -extract dimensions larger than
+    -size dimensions, causing out-of-bounds memory reads
+    from a heap-allocated buffer.
+  * Fix CVE-2026-25637:
+    A memory leak in the ASHLAR image writer allows an attacker to exhaust
+    process memory by providing a crafted image that results in small
+    objects that are allocated but never freed.
+  * Fix CVE-2026-25638:
+    A memory leak exists in `coders/msl.c`. In the `WriteMSLImage`
+    function of the `msl.c` file, resources are allocated. But the
+    function returns early without releasing these allocated resources.
+  * Fix CVE-2026-25794:
+    `WriteUHDRImage` in `coders/uhdr.c` uses `int` arithmetic to compute
+    the pixel buffer size. Prior to version 7.1.2-15, when image
+    dimensions are large, the multiplication overflows 32-bit `int`,
+    causing an undersized heap allocation followed by an out-of-bounds
+    write.
+  * Fix CVE-2026-25795:
+    `ReadSFWImage()` (`coders/sfw.c`), when temporary file
+    creation fails, `read_info` is destroyed before its `filename`
+    member is accessed, causing a NULL pointer dereference and crash.
+  * Fix CVE-2026-25796:
+    In `ReadSTEGANOImage()` (`coders/stegano.c`), the `watermark` Image
+    object is not freed on three early-return paths, resulting in a
+    definite memory leak (~13.5KB+ per invocation) that can be exploited
+    for denial of service.
+  * Fix CVE-2026-25797:
+    The ps coders, responsible for writing PostScript files, fails to
+    sanitize the input before writing it into the PostScript header. An
+    attacker can provide a malicious file and inject arbitrary PostScript
+    code. When the resulting file is processed by a printer or a viewer
+    (like Ghostscript), the injected code is interpreted and executed. The
+    html encoder does not properly escape strings that are written to in
+    the html document. An attacker can provide a malicious file and
+    injection arbitrary html code.
+  * Fix CVE-2026-25798:
+    A NULL pointer dereference in ClonePixelCacheRepository allows a
+    remote attacker to crash any application linked against ImageMagick by
+    supplying a crafted image file, resulting in denial of service.
+  * Fix CVE-2026-25799:
+    A logic error in YUV sampling factor validation allows an invalid
+    sampling factor to bypass checks and trigger a division-by-zero during
+    image loading, resulting in a reliable denial-of-service.
+  * Fix CVE-2026-25897:
+    An Integer Overflow vulnerability exists in the sun decoder. On 32-bit
+    systems/builds, a carefully crafted image can lead to an out of bounds
+    heap write.
+  * Fix CVE-2026-25898:
+    The UIL and XPM image encoder do not validate the
+    pixel index value returned by `GetPixelIndex()` before using it as an
+    array subscript. In HDRI builds, `Quantum` is a floating-point type,
+    so pixel index values can be negative. An attacker can craft an image
+    with negative pixel index values to trigger a global buffer overflow
+    read during conversion, leading to information disclosure or a process
+    crash.
+  * Fix CVE-2026-25965:
+    ImageMagick’s path security policy is enforced on the raw filename
+    string before the filesystem resolves it. As a result, a policy rule
+    such as /etc/* can be bypassed by a path traversal. The OS resolves
+    the traversal and opens the sensitive file, but the policy matcher
+    only sees the unnormalized path and therefore allows the read. This
+    enables local file disclosure (LFI) even when policy-secure.xml is
+    applied.
+  * Fix CVE-2026-25966:
+    The shipped "secure" security policy includes a rule intended to
+    prevent reading/writing from standard streams. However, ImageMagick
+    also supports fd:<n> pseudo-filenames (e.g., fd:0, fd:1).
+    This path form is not blocked by the
+    secure policy templates, and therefore bypasses the protection goal of
+    "no stdin/stdout."
+  * Fix CVE-2026-25967:
+    A stack-based buffer overflow exists in the ImageMagick FTXT image
+    reader. A crafted FTXT file can cause out-of-bounds writes on the
+    stack, leading to a crash.
+  * Fix CVE-2026-25968:
+    A stack buffer overflow occurs when processing the an attribute in
+    msl.c. A long value overflows a fixed-size stack buffer, leading to
+    memory corruption.
+  * Fix CVE-2026-25969:
+    A memory leak exists in `coders/ashlar.c`. The `WriteASHLARImage`
+    allocates a structure. However, when an exception is thrown, the
+    allocated memory is not properly released, resulting in a potential
+    memory leak.
+  * Fix CVE-2026-25970:
+    A signed integer overflow vulnerability in ImageMagick's SIXEL decoder
+    allows an attacker to trigger memory corruption and denial of service
+    when processing a maliciously crafted SIXEL image file. The
+    vulnerability occurs during buffer reallocation operations where
+    pointer arithmetic using signed 32-bit integers overflows.
+  * Fix CVE-2026-25971:
+    Magick fails to check for circular references between two MSLs,
+    leading to a stack overflow.
+  * Fix CVE-2026-25982:
+    A heap out-of-bounds read vulnerability exists in the `coders/dcm.c`
+    module. When processing DICOM files with a specific configuration, the
+    decoder loop incorrectly reads bytes per iteration. This causes the
+    function to read past the end of the allocated buffer, potentially
+    leading to a Denial of Service or Information Disclosure.
+  * Fix CVE-2026-25983:
+    A crafted MSL script triggers a heap-use-after-free. The operation
+    element handler replaces and frees the image while the parser
+    continues reading from it, leading to a UAF in ReadBlobString during
+    further parsing.
+  * Fix CVE-2026-25985:
+    A crafted SVG file containing an malicious element causes ImageMagick
+    to attempt to allocate ~674 GB of memory, leading to an out-of-memory
+    abort.
+  * Fix CVE-2026-25986:
+    A heap buffer overflow write vulnerability exists in ReadYUVImage()
+    (coders/yuv.c) when processing malicious YUV 4:2:2 (NoInterlace)
+    images. The pixel-pair loop writes one pixel beyond the allocated row
+    buffer.
+  * Fix CVE-2026-25987:
+    A heap buffer over-read vulnerability exists in the MAP image decoder
+    when processing crafted MAP files, potentially leading to crashes or
+    unintended memory disclosure during image decoding.
+  * Fix CVE-2026-25988:
+    Sometimes msl.c fails to update the stack index, so an image is stored
+    in the wrong slot and never freed on error, causing leaks.
+  * Fix CVE-2026-25989:
+    A crafted SVG file can cause a denial of service. An off-by-one
+    boundary check (`>` instead of `>=`) that allows bypass the guard and
+    reach an undefined `(size_t)` cast.
+  * Fix CVE-2026-26066:
+    A crafted profile contain invalid IPTC data may cause an infinite loop
+    when writing it with `IPTCTEXT`.
+  * Fix CVE-2026-26283:
+    A `continue` statement in the JPEG extent binary search loop in the
+    jpeg encoder causes an infinite loop when writing persistently fails.
+  * Fix CVE-2026-26284:
+    ImageMagick lacks proper boundary checking when processing
+    Huffman-coded data from PCD (Photo CD) files. The decoder contains an
+    function that has an incorrect initialization that could cause an out
+    of bounds read.
+  * Fix CVE-2026-26983:
+    The MSL interpreter crashes when processing a invalid `<map>` element
+    that causes it to use an image after it has been freed.
+  * Fix CVE-2026-27798:
+    A heap buffer over-read vulnerability occurs when processing an image
+    with small dimension using the `-wavelet-denoise` operator.
+  * Fix CVE-2026-27799:
+    A heap buffer over-read vulnerability exists in the DJVU image format
+    handler. The vulnerability occurs due to integer truncation when
+    calculating the stride (row size) for pixel buffer allocation. The
+    stride calculation overflows a 32-bit signed integer, resulting in an
+    out-of-bounds memory reads.
+
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 01 Mar 2026 00:50:41 +0100
+
+imagemagick (8:7.1.2.13+dfsg1-1) unstable; urgency=high
+
+  * New upstream version
+  * Fix CVE-2026-22770 (Closes: #1126074)
+    The BilateralBlurImage method will allocate a set of
+    double buffers inside AcquireBilateralTLS.
+    The last element in the set is not properly initialized.
+    This will result in a release of an invalid pointer
+    inside DestroyBilateralTLS when the memory allocation fails
+  * Fix CVE-2026-23874 (Closes: #1126075)
+    a stack overflow was found via infinite recursion in
+    MSL (Magick Scripting Language) `<write>` command when
+    writing to MSL format.
+  * Fix CVE-2026-23876 (Closes: #1126076)
+    A heap buffer overflow vulnerability was found in the XBM
+    image decoder (ReadXBMImage) allows an attacker to write
+    controlled data past the allocated heap buffer when
+    processing a maliciously crafted image file.
+    Any operation that reads or identifies an image can
+    trigger the overflow, making it exploitable via common
+    image upload and processing pipelines.
+  * Fix CVE-2026-23952 (Closes: 1126077)
+    NULL pointer dereference was found in MSL parser via <comment>
+    tag before image load
+
+ -- Bastien Roucariès <rouca@debian.org>  Wed, 21 Jan 2026 22:54:51 +0100
+
+imagemagick (8:7.1.2.12+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version
+  * Fix CVE-2025-65955 (Closes: #1122827)
+    There is a vulnerability in ImageMagick’s Magick++ layer that
+    manifests when Options::fontFamily is invoked with an empty
+    string. Clearing a font family calls RelinquishMagickMemory on
+    _drawInfo->font, freeing the font string but leaving _drawInfo->font
+    pointing to freed memory while _drawInfo->family is set to that
+    (now-invalid) pointer. Any later cleanup or reuse of _drawInfo->font
+    re-frees or dereferences dangling memory. DestroyDrawInfo and other
+    setters (Options::font, Image::font) assume _drawInfo->font remains
+    valid, so destruction or subsequent updates trigger crashes or heap
+    corruption
+  * Fix CVE-2025-66628 (Closes: #1122584)
+    The TIM (PSX TIM) image parser contains a critical integer overflow
+    vulnerability in its ReadTIMImage function (coders/tim.c). The code
+    reads width and height (16-bit values) from the file header and
+    calculates image_size = 2 * width * height without checking for
+    overflow. On 32-bit systems (or where size_t is 32-bit), this
+    calculation can overflow if width and height are large (e.g., 65535),
+    wrapping around to a small value. This results in a small heap
+    allocation via AcquireQuantumMemory and later operations relying on
+    the dimensions can trigger an out of bounds read.
+
+ -- Bastien Roucariès <rouca@debian.org>  Sun, 28 Dec 2025 19:32:37 +0100
+
+imagemagick (8:7.1.2.8+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version
+  * Fix CVE-2025-62594:
+    ImageMagick is vulnerable to denial-of-service due to
+    unsigned integer underflow and division-by-zero in
+    the CLAHEImage function. When tile width or height is
+    zero, unsigned underflow occurs in pointer arithmetic,
+    leading to out-of-bounds memory access,
+    and division-by-zero causes immediate crashes.
+
+ -- Bastien Roucariès <rouca@debian.org>  Tue, 28 Oct 2025 17:06:16 +0100
+
+imagemagick (8:7.1.2.7+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Fix CVE-2025-62171 (Closes: #1118340)
+    An integer overflow vulnerability exists in the BMP decoder
+    on 32-bit systems. The vulnerability occurs in coders/bmp.c
+    when calculating the extent value by multiplying image columns
+    by bits per pixel. On 32-bit systems with size_t of 4 bytes,
+    a malicious BMP file with specific dimensions can cause
+    this multiplication to overflow and wrap to zero.
+
+ -- Bastien Roucariès <rouca@debian.org>  Sat, 18 Oct 2025 11:57:01 +0200
+
 imagemagick (8:7.1.2.3+dfsg1-1) unstable; urgency=medium
 
   * New upstream version.

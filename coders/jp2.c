@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -278,7 +278,7 @@ static MagickBooleanType JP2ComponentHasAlpha(const ImageInfo* image_info,
 
   if (comp.alpha != 0)
     return(MagickTrue);
-  option=GetImageOption(image_info, "jp2:assume-alpha");
+  option=GetImageOption(image_info,"jp2:assume-alpha");
   return(IsStringTrue(option));
 }
 
@@ -1103,10 +1103,12 @@ static MagickBooleanType WriteJP2Image(const ImageInfo *image_info,Image *image,
 
       flags=ParseGeometry(image_info->sampling_factor,&geometry_info);
       if ((flags & RhoValue) != 0)
-        parameters->subsampling_dx=(int) geometry_info.rho;
+        parameters->subsampling_dx=(int) MagickMax(
+          geometry_info.rho,1.0);
       parameters->subsampling_dy=parameters->subsampling_dx;
       if ((flags & SigmaValue) != 0)
-        parameters->subsampling_dy=(int) geometry_info.sigma;
+        parameters->subsampling_dy=(int) MagickMax(
+          geometry_info.sigma,1.0);
     }   
   property=GetImageProperty(image,"comment",exception);
   if (property != (const char *) NULL)

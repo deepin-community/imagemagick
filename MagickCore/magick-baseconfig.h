@@ -899,6 +899,9 @@
 #define MAGICKCORE_HAVE_SYS_IPC_H 1
 #endif
 
+/* Define to 1 if you have the <sys/loadavg.h> header file. */
+/* #undef HAVE_SYS_LOADAVG_H */
+
 /* Define to 1 if you have the <sys/mman.h> header file. */
 #ifndef MAGICKCORE_HAVE_SYS_MMAN_H
 #define MAGICKCORE_HAVE_SYS_MMAN_H 1
@@ -1237,7 +1240,7 @@
 
 /* Define to the full name and version of this package. */
 #ifndef MAGICKCORE_PACKAGE_STRING
-#define MAGICKCORE_PACKAGE_STRING "ImageMagick 7.1.2-3"
+#define MAGICKCORE_PACKAGE_STRING "ImageMagick 7.1.2-21"
 #endif
 
 /* Define to the one symbol short name of this package. */
@@ -1252,7 +1255,7 @@
 
 /* Define to the version of this package. */
 #ifndef MAGICKCORE_PACKAGE_VERSION
-#define MAGICKCORE_PACKAGE_VERSION "7.1.2-3"
+#define MAGICKCORE_PACKAGE_VERSION "7.1.2-21"
 #endif
 
 /* Define if you have PANGOCAIRO library */
