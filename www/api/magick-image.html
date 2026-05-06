@@ -19,19 +19,17 @@
   <meta itemprop='description' content="ImageMagick is a powerful, open-source software suite for creating, editing, converting, and manipulating images in over 200 formats. Ideal for web developers, graphic designers, and researchers, it offers versatile tools for image processing, including batch processing, format conversion, and complex image transformations." />
   <meta property='og:url' content='../../' />
   <meta property='og:name' content='ImageMagick' />
-  <meta property='og:image' content='../../../../../../../images/logo.png' />
+  <meta property='og:image' content='../../../../../../../../images/logo.png' />
   <meta property='og:type' content='website' />
   <meta property='og:site_name' content='ImageMagick' />
   <meta property='og:description' content="ImageMagick is a powerful, open-source software suite for creating, editing, converting, and manipulating images in over 200 formats. Ideal for web developers, graphic designers, and researchers, it offers versatile tools for image processing, including batch processing, format conversion, and complex image transformations." />
   <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
-  <link type="images/png" sizes="64x64" href="../../../../../../images/wand.png" rel="icon" />
-  <link type="images/icon" sizes="16x16" href="../../../../../../images/wand.ico" rel="shortcut icon" />
+  <link type="images/png" sizes="64x64" href="../../../../../../../images/wand.png" rel="icon" />
+  <link type="images/icon" sizes="16x16" href="../../../../../../../images/wand.ico" rel="shortcut icon" />
   <link href="magick-image.html" rel="canonical" />
   <link href="../assets/bootstrap.min.css" rel="stylesheet" />
-  <script async src="https://localhost/cse.js?cx=006134137889097767902:turn9fku95u"> </script>
 </head>
 <body>
-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="check2" viewBox="0 0 16 16">
       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -92,7 +90,7 @@
   </svg>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="../index.html"><img class="d-block" id="icon" alt="ImageMagick" width="32" height="32" src="../../../../../../images/wand.ico"/></a>
+    <a class="navbar-brand" href="../index.html"><img class="d-block" id="icon" alt="ImageMagick" width="32" height="32" src="../../../../../../../images/wand.ico"/></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#magick-navbars" aria-controls="magick-navbars" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -118,7 +116,7 @@
           <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
         </li>
       </ul>
-      <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
+      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
         <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
       </form>
@@ -1919,7 +1917,7 @@
 
 <pre class="bg-light text-dark mx-4"><samp>MagickBooleanType MagickConstituteImage(MagickWand *wand,
   const size_t columns,const size_t rows,const char *map,
-  const StorageType storage,void *pixels)
+  const StorageType storage,const void *pixels)
 </samp></pre>
 
 <p>A description of each parameter follows:</p>
@@ -2333,7 +2331,7 @@
 
 <pre class="bg-light text-dark mx-4"><samp>MagickBooleanType MagickEvaluateImage(MagickWand *wand,
   const MagickEvaluateOperator operator,const double value)
-MagickBooleanType MagickEvaluateImages(MagickWand *wand,
+MagickWand *MagickEvaluateImages(MagickWand *wand,
   const MagickEvaluateOperator operator)
 </samp></pre>
 
@@ -2764,7 +2762,7 @@ MagickBooleanType MagickEvaluateImages(MagickWand *wand,
 
 <p>The format of the MagickGetImageMask method is:</p>
 
-<pre class="bg-light text-dark mx-4"><samp>MagickWand *MagickGetImageMask(MagickWand *wand)
+<pre class="bg-light text-dark mx-4"><samp>MagickWand *MagickGetImageMask(MagickWand *wand, const PixelMask type)
 </samp></pre>
 
 <p>A description of each parameter follows:</p>
@@ -3317,9 +3315,9 @@ red_mean=channel_statistics[RedPixelChannel].mean;
 
 <p>Use MagickRelinquishMemory() to free the metrics when you are done with them.</p>
 
-<p>The format of the MagickGetImageDistortion method is:</p>
+<p>The format of the MagickGetImageDistortions method is:</p>
 
-<pre class="bg-light text-dark mx-4"><samp>double *MagickGetImageDistortion(MagickWand *wand,
+<pre class="bg-light text-dark mx-4"><samp>double *MagickGetImageDistortions(MagickWand *wand,
   const MagickWand *reference,const MetricType metric)
 </samp></pre>
 
@@ -4724,7 +4722,7 @@ red_mean=channel_statistics[RedPixelChannel].mean;
 <p>The format of the MagickMeanShiftImage method is:</p>
 
 <pre class="bg-light text-dark mx-4"><samp>MagickBooleanType MagickMeanShiftImage(MagickWand *wand,
-  const size_t number_terms,const double *terms)
+  const size_t width,const size_t height,const double color_distance)
 </samp></pre>
 
 <p>A description of each parameter follows:</p>
@@ -4845,7 +4843,7 @@ red_mean=channel_statistics[RedPixelChannel].mean;
 <p>The format of the MagickMontageImage method is:</p>
 
 <pre class="bg-light text-dark mx-4"><samp>MagickWand *MagickMontageImage(MagickWand *wand,
-  const DrawingWand drawing_wand,const char *tile_geometry,
+  const DrawingWand *drawing_wand,const char *tile_geometry,
   const char *thumbnail_geometry,const MontageMode mode,
   const char *frame)
 </samp></pre>
@@ -5927,7 +5925,7 @@ red_mean=channel_statistics[RedPixelChannel].mean;
 <p>The format of the MagickRollImage method is:</p>
 
 <pre class="bg-light text-dark mx-4"><samp>MagickBooleanType MagickRollImage(MagickWand *wand,const ssize_t x,
-  const size_t y)
+  const ssize_t y)
 </samp></pre>
 
 <p>A description of each parameter follows:</p>
@@ -6627,7 +6625,7 @@ red_mean=channel_statistics[RedPixelChannel].mean;
 <p>The format of the MagickSetImageExtent method is:</p>
 
 <pre class="bg-light text-dark mx-4"><samp>MagickBooleanType MagickSetImageExtent(MagickWand *wand,
-  const size_t columns,const unsigned rows)
+  const size_t columns,const size_t rows)
 </samp></pre>
 
 <p>A description of each parameter follows:</p>
@@ -6925,7 +6923,7 @@ red_mean=channel_statistics[RedPixelChannel].mean;
 <p>The format of the MagickSetImageMatte method is:</p>
 
 <pre class="bg-light text-dark mx-4"><samp>MagickBooleanType MagickSetImageMatte(MagickWand *wand,
-  const MagickBooleanType *matte)
+  const MagickBooleanType matte)
 </samp></pre>
 
 <p>A description of each parameter follows:</p>
@@ -7249,7 +7247,7 @@ void *client_data)
 <p>The format of the MagickSetImageTicksPerSecond method is:</p>
 
 <pre class="bg-light text-dark mx-4"><samp>MagickBooleanType MagickSetImageTicksPerSecond(MagickWand *wand,
-  const ssize_t ticks_per-second)
+  const ssize_t ticks_per_second)
 </samp></pre>
 
 <p>A description of each parameter follows:</p>
@@ -7832,7 +7830,7 @@ void *client_data)
 <p>The format of the MagickStatisticImage method is:</p>
 
 <pre class="bg-light text-dark mx-4"><samp>MagickBooleanType MagickStatisticImage(MagickWand *wand,
-  const StatisticType type,const double width,const size_t height)
+  const StatisticType type,const size_t width,const size_t height)
 </samp></pre>
 
 <p>A description of each parameter follows:</p>
@@ -8378,7 +8376,7 @@ MagickBooleanType MagickThresholdImageChannel(MagickWand *wand,
 
 <p>The format of the WhiteBalanceImage method is:</p>
 
-<pre class="bg-light text-dark mx-4"><samp>MagickBooleanType WhiteBalanceImage(MagickWand *wand)
+<pre class="bg-light text-dark mx-4"><samp>MagickBooleanType MagickWhiteBalanceImage(MagickWand *wand)
 </samp></pre>
 
 <p>A description of each parameter follows:</p>
@@ -8535,7 +8533,7 @@ MagickBooleanType MagickThresholdImageChannel(MagickWand *wand,
       <a href="../www/security-policy.html">Security</a> •
       <a href="../www/news.html">News</a>
      
-      <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../../../../../../images/wand.ico"/></a>
+      <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../../../../../../../images/wand.ico"/></a>
      
       <a href="../www/links.html">Related</a> •
       <a href="../www/sitemap.html">Sitemap</a>

@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -466,20 +466,20 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
           if (i < (ssize_t) image->colors)
             {
               image->colormap[i].red=(MagickRealType)
-                ScaleCharToQuantum((unsigned char) value);
+                ScaleCharToQuantum(CastDoubleToUChar(value));
               image->colormap[i].green=(MagickRealType)
-                ScaleCharToQuantum((unsigned char) value);
+                ScaleCharToQuantum(CastDoubleToUChar(value));
               image->colormap[i].blue=(MagickRealType)
-                ScaleCharToQuantum((unsigned char) value);
+                ScaleCharToQuantum(CastDoubleToUChar(value));
             }
           else
             if (i < (ssize_t) (2*image->colors))
               image->colormap[i % (ssize_t) image->colors].green=
-                (MagickRealType) ScaleCharToQuantum((unsigned char) value);
+                (MagickRealType) ScaleCharToQuantum(CastDoubleToUChar(value));
             else
               if (i < (ssize_t) (3*image->colors))
                 image->colormap[i % (ssize_t) image->colors].blue=
-                  (MagickRealType) ScaleCharToQuantum((unsigned char) value);
+                  (MagickRealType) ScaleCharToQuantum(CastDoubleToUChar(value));
         }
         viff_colormap=(unsigned char *) RelinquishMagickMemory(viff_colormap);
         break;
@@ -1098,6 +1098,8 @@ static MagickBooleanType WriteVIFFImage(const ImageInfo *image_info,
     /*
       Convert MIFF to VIFF raster pixels.
     */
+    if (packets != (MagickSizeType) ((size_t) packets))
+      ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
     pixel_info=AcquireVirtualMemory((size_t) packets,sizeof(*pixels));
     if (pixel_info == (MemoryInfo *) NULL)
       ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");

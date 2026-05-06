@@ -21,7 +21,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -902,10 +902,11 @@ static MagickBooleanType LoadMimeCache(LinkedListInfo *cache,const char *xml,
           *q;
 
         token=AcquireString(attribute);
-        (void) SubstituteString((char **) &token,"&lt;","<");
-        (void) SubstituteString((char **) &token,"&amp;","&");
-        (void) SubstituteString((char **) &token,"&quot;","\"");
-        (void) SubstituteString((char **) &token,"&apos;","'");
+        (void) SubstituteString(&token,"&lt;","<");
+        (void) SubstituteString(&token,"&gt;",">");
+        (void) SubstituteString(&token,"&amp;","&");
+        (void) SubstituteString(&token,"&quot;","\"");
+        (void) SubstituteString(&token,"&apos;","'");
         mime_info->magic=(unsigned char *) AcquireString(token);
         q=mime_info->magic;
         for (p=token; *p != '\0'; )

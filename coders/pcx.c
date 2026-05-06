@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -401,6 +401,15 @@ static Image *ReadPCXImage(const ImageInfo *image_info,ExceptionInfo *exception)
       ThrowPCXException(CorruptImageError,"ImproperImageHeader");
     if ((MagickSizeType) (pcx_packets/32+128) > GetBlobSize(image))
       ThrowPCXException(CorruptImageError,"ImproperImageHeader");
+    {
+      size_t bytes_per_line = image->columns*pcx_info.bits_per_pixel;
+      if (bytes_per_line != 0)
+        bytes_per_line+=7U;
+      if (bytes_per_line != 0)
+        bytes_per_line/=8U;
+      if ((bytes_per_line == 0) || (pcx_info.bytes_per_line < bytes_per_line))
+        ThrowPCXException(CorruptImageError,"ImproperImageHeader");
+    }
     scanline=(unsigned char *) AcquireQuantumMemory(MagickMax(image->columns,
       pcx_info.bytes_per_line),MagickMax(pcx_info.planes,8)*sizeof(*scanline));
     pixel_info=AcquireVirtualMemory(pcx_packets,2*sizeof(*pixels));
@@ -457,46 +466,6 @@ static Image *ReadPCXImage(const ImageInfo *image_info,ExceptionInfo *exception)
     if (image->storage_class == DirectClass)
       image->alpha_trait=pcx_info.planes > 3 ? BlendPixelTrait :
         UndefinedPixelTrait;
-    else
-      if ((pcx_info.version == 5) ||
-          ((pcx_info.bits_per_pixel*pcx_info.planes) == 1))
-        {
-          /*
-            Initialize image colormap.
-          */
-          if (image->colors > 256)
-            ThrowPCXException(CorruptImageError,"ColormapExceeds256Colors");
-          if ((pcx_info.bits_per_pixel*pcx_info.planes) == 1)
-            {
-              /*
-                Monochrome colormap.
-              */
-              image->colormap[0].red=(Quantum) 0;
-              image->colormap[0].green=(Quantum) 0;
-              image->colormap[0].blue=(Quantum) 0;
-              image->colormap[1].red=QuantumRange;
-              image->colormap[1].green=QuantumRange;
-              image->colormap[1].blue=QuantumRange;
-            }
-          else
-            if (image->colors > 16)
-              {
-                /*
-                  256 color images have their color map at the end of the file.
-                */
-                offset=SeekBlob(image,(MagickOffsetType) GetBlobSize(image)-3*
-                  image->colors-1,SEEK_SET);
-                pcx_info.colormap_signature=(unsigned char) ReadBlobByte(image);
-                count=ReadBlob(image,3*image->colors,pcx_colormap);
-                p=pcx_colormap;
-                for (i=0; i < (ssize_t) image->colors; i++)
-                {
-                  image->colormap[i].red=ScaleCharToQuantum(*p++);
-                  image->colormap[i].green=ScaleCharToQuantum(*p++);
-                  image->colormap[i].blue=ScaleCharToQuantum(*p++);
-                }
-            }
-        }
     /*
       Convert PCX raster image to pixel packets.
     */
@@ -649,7 +618,46 @@ static Image *ReadPCXImage(const ImageInfo *image_info,ExceptionInfo *exception)
         }
     }
     if (image->storage_class == PseudoClass)
-      (void) SyncImage(image,exception);
+      {
+        if ((pcx_info.version == 5) ||
+            ((pcx_info.bits_per_pixel*pcx_info.planes) == 1))
+          {
+            /*
+              Initialize image colormap.
+            */
+            if (image->colors > 256)
+              ThrowPCXException(CorruptImageError,"ColormapExceeds256Colors");
+            if ((pcx_info.bits_per_pixel*pcx_info.planes) == 1)
+              {
+                /*
+                  Monochrome colormap.
+                */
+                image->colormap[0].red=(Quantum) 0;
+                image->colormap[0].green=(Quantum) 0;
+                image->colormap[0].blue=(Quantum) 0;
+                image->colormap[1].red=QuantumRange;
+                image->colormap[1].green=QuantumRange;
+                image->colormap[1].blue=QuantumRange;
+              }
+            else
+              if (image->colors > 16)
+                {
+                  /*
+                    256 color images have their color map at the end of the file.
+                  */
+                  pcx_info.colormap_signature=(unsigned char) ReadBlobByte(image);
+                  count=ReadBlob(image,3*image->colors,pcx_colormap);
+                  p=pcx_colormap;
+                  for (i=0; i < (ssize_t) image->colors; i++)
+                  {
+                    image->colormap[i].red=ScaleCharToQuantum(*p++);
+                    image->colormap[i].green=ScaleCharToQuantum(*p++);
+                    image->colormap[i].blue=ScaleCharToQuantum(*p++);
+                  }
+              }
+          }
+        (void) SyncImage(image,exception);
+      }
     scanline=(unsigned char *) RelinquishMagickMemory(scanline);
     pixel_info=RelinquishVirtualMemory(pixel_info);
     if (EOFBlob(image) != MagickFalse)
@@ -934,10 +942,9 @@ static MagickBooleanType WritePCXImage(const ImageInfo *image_info,Image *image,
     pcx_info.encoding=image_info->compression == NoCompression ? 0 : 1;
     pcx_info.bits_per_pixel=8;
     if ((image->storage_class == PseudoClass) &&
-        (SetImageMonochrome(image,exception) != MagickFalse))
-      pcx_info.bits_per_pixel=1;
-    else
-      if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
+        (SetImageMonochrome(image,exception) != MagickFalse || image->colors <= 16))
+          pcx_info.bits_per_pixel=1;
+    else if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
         (void) TransformImageColorspace(image,sRGBColorspace,exception);
     pcx_info.left=0;
     pcx_info.top=0;
@@ -962,7 +969,10 @@ static MagickBooleanType WritePCXImage(const ImageInfo *image_info,Image *image,
     }
     pcx_info.reserved=0;
     pcx_info.planes=1;
-    if ((image->storage_class == DirectClass) || (image->colors > 256))
+    if ((image->storage_class == PseudoClass) && (image->colors <= 16) &&
+        (image->type != BilevelType))
+      pcx_info.planes=4;
+    else if ((image->storage_class == DirectClass) || (image->colors > 256))
       {
         pcx_info.planes=3;
         if (image->alpha_trait != UndefinedPixelTrait)
@@ -1118,6 +1128,54 @@ static MagickBooleanType WritePCXImage(const ImageInfo *image_info,Image *image,
                 if (status == MagickFalse)
                   break;
               }
+          }
+        else if (pcx_info.planes == 4)
+          {
+            const Quantum
+              *r;
+
+            unsigned char
+              bit,
+              byte;
+
+            for (y=0; y < (ssize_t) image->rows; y++)
+            {
+              p=GetVirtualPixels(image,0,y,image->columns,1,exception);
+              if (p == (const Quantum *) NULL)
+                break;
+              for (i=0; i < (ssize_t) pcx_info.planes; i++)
+              {
+                r=p;
+                byte=0;
+                bit=0;
+                q=pixels+(i*(ssize_t) pcx_info.bytes_per_line);
+                for (x=0; x < (ssize_t) image->columns; x++)
+                {
+                  bit<<=1;
+                  if (((ssize_t) GetPixelIndex(image,r) & ((ssize_t) 1 << i)) != 0)
+                    bit|=0x01;
+                  byte++;
+                  if (byte == 8)
+                    {
+                      *q++=bit;
+                      byte=0;
+                      bit=0;
+                    }
+                  r+=(ptrdiff_t) GetPixelChannels(image);
+                }
+                if (byte != 0)
+                  *q++=bit << (8-byte);
+              }
+              if (PCXWritePixels(&pcx_info,pixels,image) == MagickFalse)
+                break;
+              if (image->previous == (Image *) NULL)
+                {
+                  status=SetImageProgress(image,SaveImageTag,(MagickOffsetType) y,
+                    image->rows);
+                  if (status == MagickFalse)
+                    break;
+                }
+            }
           }
         else
           {

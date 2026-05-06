@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -315,8 +315,7 @@ static Image *ReadSUNImage(const ImageInfo *image_info,ExceptionInfo *exception)
     sun_info.maplength=ReadBlobMSBLong(image);
     if (sun_info.maplength > GetBlobSize(image))
       ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
-    extent=(size_t) (sun_info.height*sun_info.width);
-    if ((sun_info.height != 0) && (sun_info.width != (extent/sun_info.height)))
+    if (HeapOverflowSanityCheckGetSize(sun_info.width,sun_info.height,&extent) != MagickFalse)
       ThrowReaderException(CorruptImageError,"ImproperImageHeader");
     if ((sun_info.type != RT_STANDARD) && (sun_info.type != RT_ENCODED) &&
         (sun_info.type != RT_FORMAT_RGB))
@@ -466,6 +465,11 @@ static Image *ReadSUNImage(const ImageInfo *image_info,ExceptionInfo *exception)
       }
     bytes_per_line>>=4;
     if (HeapOverflowSanityCheckGetSize(height,bytes_per_line,&pixels_length) != MagickFalse)
+      {
+        sun_data=(unsigned char *) RelinquishMagickMemory(sun_data);
+        ThrowReaderException(ResourceLimitError,"ImproperImageHeader");
+      }
+    if (image->rows > (MAGICK_SIZE_MAX - pixels_length))
       {
         sun_data=(unsigned char *) RelinquishMagickMemory(sun_data);
         ThrowReaderException(ResourceLimitError,"ImproperImageHeader");

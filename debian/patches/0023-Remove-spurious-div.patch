@@ -69,11 +69,11 @@ forwarded: not-needed
  www/api/wand-view.html        | 1 -
  63 files changed, 66 deletions(-)
 
-diff --git a/www/api/Image++.html b/www/api/Image++.html
-index a64eb04..236b50f 100644
---- a/www/api/Image++.html
-+++ b/www/api/Image++.html
-@@ -3217,8 +3217,6 @@ the region set by a preceding getPixels or getConstPixels call.</font></td>
+Index: imagemagick/www/api/Image++.html
+===================================================================
+--- imagemagick.orig/www/api/Image++.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/Image++.html	2026-03-20 21:43:55.448728392 +0100
+@@ -3203,8 +3203,6 @@
  </table></ul>
  </p>
  </div>
@@ -82,11 +82,11 @@ index a64eb04..236b50f 100644
    </main><!-- /.container -->
    <footer class="magick-footer">
      <div class="container-fluid">
-diff --git a/www/api/animate.html b/www/api/animate.html
-index 2d444f6..22b7dd5 100644
---- a/www/api/animate.html
-+++ b/www/api/animate.html
-@@ -145,8 +145,6 @@
+Index: imagemagick/www/api/animate.html
+===================================================================
+--- imagemagick.orig/www/api/animate.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/animate.html	2026-03-20 21:43:55.449021173 +0100
+@@ -143,8 +143,6 @@
  <br/>
  <br/>
  <div class="magick-header">
@@ -95,16 +95,16 @@ index 2d444f6..22b7dd5 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-@@ -174,4 +172,3 @@
+@@ -172,4 +170,3 @@
    <!-- Javascript assets -->
    <script src="../assets/bootstrap.bundle.min.js" ></script>
    </body>
 -</html>
-diff --git a/www/api/annotate.html b/www/api/annotate.html
-index 9eab88c..564abf9 100644
---- a/www/api/annotate.html
-+++ b/www/api/annotate.html
-@@ -314,7 +314,6 @@
+Index: imagemagick/www/api/annotate.html
+===================================================================
+--- imagemagick.orig/www/api/annotate.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/annotate.html	2026-03-20 21:43:55.449113555 +0100
+@@ -312,7 +312,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -112,11 +112,11 @@ index 9eab88c..564abf9 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/attribute.html b/www/api/attribute.html
-index 59346c7..54aac22 100644
---- a/www/api/attribute.html
-+++ b/www/api/attribute.html
-@@ -514,7 +514,6 @@
+Index: imagemagick/www/api/attribute.html
+===================================================================
+--- imagemagick.orig/www/api/attribute.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/attribute.html	2026-03-20 21:43:55.449204078 +0100
+@@ -512,7 +512,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -124,11 +124,11 @@ index 59346c7..54aac22 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/blob.html b/www/api/blob.html
-index 4fd5d70..3310853 100644
---- a/www/api/blob.html
-+++ b/www/api/blob.html
-@@ -503,7 +503,6 @@
+Index: imagemagick/www/api/blob.html
+===================================================================
+--- imagemagick.orig/www/api/blob.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/blob.html	2026-03-20 21:43:55.449291215 +0100
+@@ -501,7 +501,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -136,11 +136,11 @@ index 4fd5d70..3310853 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/cache-view.html b/www/api/cache-view.html
-index b0e2a3c..f563485 100644
---- a/www/api/cache-view.html
-+++ b/www/api/cache-view.html
-@@ -729,7 +729,6 @@
+Index: imagemagick/www/api/cache-view.html
+===================================================================
+--- imagemagick.orig/www/api/cache-view.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/cache-view.html	2026-03-20 21:43:55.449384161 +0100
+@@ -727,7 +727,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -148,11 +148,11 @@ index b0e2a3c..f563485 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/cache.html b/www/api/cache.html
-index 26a5f5e..0eda2fd 100644
---- a/www/api/cache.html
-+++ b/www/api/cache.html
-@@ -601,7 +601,6 @@
+Index: imagemagick/www/api/cache.html
+===================================================================
+--- imagemagick.orig/www/api/cache.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/cache.html	2026-03-20 21:43:55.449526421 +0100
+@@ -599,7 +599,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -160,11 +160,11 @@ index 26a5f5e..0eda2fd 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/channel.html b/www/api/channel.html
-index 914954e..e443816 100644
---- a/www/api/channel.html
-+++ b/www/api/channel.html
-@@ -329,7 +329,6 @@
+Index: imagemagick/www/api/channel.html
+===================================================================
+--- imagemagick.orig/www/api/channel.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/channel.html	2026-03-20 21:43:55.449617687 +0100
+@@ -327,7 +327,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -172,11 +172,11 @@ index 914954e..e443816 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/cipher.html b/www/api/cipher.html
-index bd669b5..52766b9 100644
---- a/www/api/cipher.html
-+++ b/www/api/cipher.html
-@@ -378,7 +378,6 @@ MagickBooleanType EncipherImage(Image *image,const char *passphrase,
+Index: imagemagick/www/api/cipher.html
+===================================================================
+--- imagemagick.orig/www/api/cipher.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/cipher.html	2026-03-20 21:43:55.449695882 +0100
+@@ -376,7 +376,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -184,11 +184,11 @@ index bd669b5..52766b9 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/color.html b/www/api/color.html
-index 7d756d5..a2ca1ef 100644
---- a/www/api/color.html
-+++ b/www/api/color.html
-@@ -283,7 +283,6 @@
+Index: imagemagick/www/api/color.html
+===================================================================
+--- imagemagick.orig/www/api/color.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/color.html	2026-03-20 21:43:55.449774320 +0100
+@@ -281,7 +281,6 @@
  <p>return any errors or warnings in this structure.</p>
  
  </div>
@@ -196,11 +196,11 @@ index 7d756d5..a2ca1ef 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/colormap.html b/www/api/colormap.html
-index 90eb69a..ad570a4 100644
---- a/www/api/colormap.html
-+++ b/www/api/colormap.html
-@@ -209,7 +209,6 @@
+Index: imagemagick/www/api/colormap.html
+===================================================================
+--- imagemagick.orig/www/api/colormap.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/colormap.html	2026-03-20 21:43:55.449846788 +0100
+@@ -207,7 +207,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -208,11 +208,11 @@ index 90eb69a..ad570a4 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/colorspace.html b/www/api/colorspace.html
-index 1316a77..1f23654 100644
---- a/www/api/colorspace.html
-+++ b/www/api/colorspace.html
-@@ -419,7 +419,6 @@ exception);
+Index: imagemagick/www/api/colorspace.html
+===================================================================
+--- imagemagick.orig/www/api/colorspace.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/colorspace.html	2026-03-20 21:43:55.449920057 +0100
+@@ -417,7 +417,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -220,11 +220,11 @@ index 1316a77..1f23654 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/compare.html b/www/api/compare.html
-index 60f6165..e845784 100644
---- a/www/api/compare.html
-+++ b/www/api/compare.html
-@@ -184,7 +184,6 @@
+Index: imagemagick/www/api/compare.html
+===================================================================
+--- imagemagick.orig/www/api/compare.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/compare.html	2026-03-20 21:43:55.449996650 +0100
+@@ -182,7 +182,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -232,11 +232,11 @@ index 60f6165..e845784 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/composite.html b/www/api/composite.html
-index 0400d5a..550be0f 100644
---- a/www/api/composite.html
-+++ b/www/api/composite.html
-@@ -184,7 +184,6 @@
+Index: imagemagick/www/api/composite.html
+===================================================================
+--- imagemagick.orig/www/api/composite.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/composite.html	2026-03-20 21:43:55.450069668 +0100
+@@ -182,7 +182,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -244,11 +244,11 @@ index 0400d5a..550be0f 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/constitute.html b/www/api/constitute.html
-index 41db39e..0dd885e 100644
---- a/www/api/constitute.html
-+++ b/www/api/constitute.html
-@@ -372,7 +372,6 @@
+Index: imagemagick/www/api/constitute.html
+===================================================================
+--- imagemagick.orig/www/api/constitute.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/constitute.html	2026-03-20 21:43:55.450160722 +0100
+@@ -370,7 +370,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -256,11 +256,11 @@ index 41db39e..0dd885e 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/decorate.html b/www/api/decorate.html
-index 609ecd5..c40ab07 100644
---- a/www/api/decorate.html
-+++ b/www/api/decorate.html
-@@ -251,7 +251,6 @@
+Index: imagemagick/www/api/decorate.html
+===================================================================
+--- imagemagick.orig/www/api/decorate.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/decorate.html	2026-03-20 21:43:55.450278289 +0100
+@@ -249,7 +249,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -268,11 +268,11 @@ index 609ecd5..c40ab07 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/deprecate.html b/www/api/deprecate.html
-index 0c61993..9effa2a 100644
---- a/www/api/deprecate.html
-+++ b/www/api/deprecate.html
-@@ -199,7 +199,6 @@
+Index: imagemagick/www/api/deprecate.html
+===================================================================
+--- imagemagick.orig/www/api/deprecate.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/deprecate.html	2026-03-20 21:43:55.450350187 +0100
+@@ -197,7 +197,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -280,11 +280,11 @@ index 0c61993..9effa2a 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/display.html b/www/api/display.html
-index d62f82a..492e765 100644
---- a/www/api/display.html
-+++ b/www/api/display.html
-@@ -146,7 +146,6 @@
+Index: imagemagick/www/api/display.html
+===================================================================
+--- imagemagick.orig/www/api/display.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/display.html	2026-03-20 21:43:55.450420607 +0100
+@@ -144,7 +144,6 @@
  <br/>
  <div class="magick-header">
  </div>
@@ -292,11 +292,11 @@ index d62f82a..492e765 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/distort.html b/www/api/distort.html
-index 2e27842..3eb12ef 100644
---- a/www/api/distort.html
-+++ b/www/api/distort.html
-@@ -308,7 +308,6 @@
+Index: imagemagick/www/api/distort.html
+===================================================================
+--- imagemagick.orig/www/api/distort.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/distort.html	2026-03-20 21:43:55.450490561 +0100
+@@ -306,7 +306,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -304,11 +304,11 @@ index 2e27842..3eb12ef 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/draw.html b/www/api/draw.html
-index 823076f..aad0d69 100644
---- a/www/api/draw.html
-+++ b/www/api/draw.html
-@@ -510,7 +510,6 @@
+Index: imagemagick/www/api/draw.html
+===================================================================
+--- imagemagick.orig/www/api/draw.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/draw.html	2026-03-20 21:43:55.450570042 +0100
+@@ -508,7 +508,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -316,11 +316,11 @@ index 823076f..aad0d69 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
-index dd52a43..775d38f 100644
---- a/www/api/drawing-wand.html
-+++ b/www/api/drawing-wand.html
-@@ -3964,7 +3964,6 @@ $  TypeMetric *metrics)
+Index: imagemagick/www/api/drawing-wand.html
+===================================================================
+--- imagemagick.orig/www/api/drawing-wand.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/drawing-wand.html	2026-03-20 21:43:55.450941420 +0100
+@@ -3962,7 +3962,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -328,11 +328,11 @@ index dd52a43..775d38f 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/effect.html b/www/api/effect.html
-index 7856939..8f53ae3 100644
---- a/www/api/effect.html
-+++ b/www/api/effect.html
-@@ -822,7 +822,6 @@ ExceptionInfo *exception)
+Index: imagemagick/www/api/effect.html
+===================================================================
+--- imagemagick.orig/www/api/effect.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/effect.html	2026-03-20 21:43:55.451191928 +0100
+@@ -820,7 +820,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -340,11 +340,11 @@ index 7856939..8f53ae3 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/enhance.html b/www/api/enhance.html
-index b5bb0bf..a4979d0 100644
---- a/www/api/enhance.html
-+++ b/www/api/enhance.html
-@@ -898,7 +898,6 @@ const MagickBooleanType invert,ExceptionInfo *exception)
+Index: imagemagick/www/api/enhance.html
+===================================================================
+--- imagemagick.orig/www/api/enhance.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/enhance.html	2026-03-20 21:43:55.451299575 +0100
+@@ -896,7 +896,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -352,11 +352,11 @@ index b5bb0bf..a4979d0 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/exception.html b/www/api/exception.html
-index 1ab2179..c3b6f6b 100644
---- a/www/api/exception.html
-+++ b/www/api/exception.html
-@@ -535,7 +535,6 @@
+Index: imagemagick/www/api/exception.html
+===================================================================
+--- imagemagick.orig/www/api/exception.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/exception.html	2026-03-20 21:43:55.451412595 +0100
+@@ -533,7 +533,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -364,11 +364,11 @@ index 1ab2179..c3b6f6b 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/feature.html b/www/api/feature.html
-index eddd92e..7a21871 100644
---- a/www/api/feature.html
-+++ b/www/api/feature.html
-@@ -297,7 +297,6 @@ contrast=channel_features[RedPixelChannel].contrast[0];
+Index: imagemagick/www/api/feature.html
+===================================================================
+--- imagemagick.orig/www/api/feature.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/feature.html	2026-03-20 21:43:55.451494379 +0100
+@@ -295,7 +295,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -376,11 +376,11 @@ index eddd92e..7a21871 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/fourier.html b/www/api/fourier.html
-index c232313..9415a4a 100644
---- a/www/api/fourier.html
-+++ b/www/api/fourier.html
-@@ -243,7 +243,6 @@
+Index: imagemagick/www/api/fourier.html
+===================================================================
+--- imagemagick.orig/www/api/fourier.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/fourier.html	2026-03-20 21:43:55.451569707 +0100
+@@ -241,7 +241,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -388,11 +388,11 @@ index c232313..9415a4a 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/fx.html b/www/api/fx.html
-index 9db6866..542b792 100644
---- a/www/api/fx.html
-+++ b/www/api/fx.html
-@@ -195,7 +195,6 @@
+Index: imagemagick/www/api/fx.html
+===================================================================
+--- imagemagick.orig/www/api/fx.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/fx.html	2026-03-20 21:43:55.451657448 +0100
+@@ -193,7 +193,6 @@
  
  <p>/* For -fx, this sets p to ImgNum 0. for [fx:...], this sets p to the current image. Similarly img. </p>
  </div>
@@ -400,11 +400,11 @@ index 9db6866..542b792 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/histogram.html b/www/api/histogram.html
-index c9510ad..8b132e9 100644
---- a/www/api/histogram.html
-+++ b/www/api/histogram.html
-@@ -306,7 +306,6 @@
+Index: imagemagick/www/api/histogram.html
+===================================================================
+--- imagemagick.orig/www/api/histogram.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/histogram.html	2026-03-20 21:43:55.451742682 +0100
+@@ -304,7 +304,6 @@
  <p>return any errors or warnings in this structure.</p>
  
  </div>
@@ -412,11 +412,11 @@ index c9510ad..8b132e9 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/image-view.html b/www/api/image-view.html
-index c15ee9f..a967f92 100644
---- a/www/api/image-view.html
-+++ b/www/api/image-view.html
-@@ -692,7 +692,6 @@
+Index: imagemagick/www/api/image-view.html
+===================================================================
+--- imagemagick.orig/www/api/image-view.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/image-view.html	2026-03-20 21:43:55.451848517 +0100
+@@ -690,7 +690,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -424,11 +424,11 @@ index c15ee9f..a967f92 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/image.html b/www/api/image.html
-index aae57a7..01aca22 100644
---- a/www/api/image.html
-+++ b/www/api/image.html
-@@ -1251,7 +1251,6 @@ MagickBooleanType SyncImagesSettings(const ImageInfo *image_info,
+Index: imagemagick/www/api/image.html
+===================================================================
+--- imagemagick.orig/www/api/image.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/image.html	2026-03-20 21:43:55.451961798 +0100
+@@ -1249,7 +1249,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -436,238 +436,10 @@ index aae57a7..01aca22 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/layer.html b/www/api/layer.html
-index 6953e74..8f735d7 100644
---- a/www/api/layer.html
-+++ b/www/api/layer.html
-@@ -464,7 +464,6 @@ ExceptionInfo *exception);
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/list.html b/www/api/list.html
-index 7f7c87a..84fb9b9 100644
---- a/www/api/list.html
-+++ b/www/api/list.html
-@@ -804,7 +804,6 @@
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
-index bfed82f..4d9c807 100644
---- a/www/api/magick++-classes.html
-+++ b/www/api/magick++-classes.html
-@@ -147,7 +147,6 @@ containers of image frames.</td>
- </table>
- </ul>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="magick-footer">
-     <div class="container-fluid">
-diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
-index 8c17310..ab2c369 100644
---- a/www/api/magick-deprecate.html
-+++ b/www/api/magick-deprecate.html
-@@ -138,7 +138,6 @@
- <p class="text-center"><a href="#"></a></p>
- 
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/magick-image.html b/www/api/magick-image.html
-index 8985412..7a71f18 100644
---- a/www/api/magick-image.html
-+++ b/www/api/magick-image.html
-@@ -8528,7 +8528,6 @@ MagickBooleanType MagickThresholdImageChannel(MagickWand *wand,
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/magick-property.html b/www/api/magick-property.html
-index 51b4971..0a84df5 100644
---- a/www/api/magick-property.html
-+++ b/www/api/magick-property.html
-@@ -2054,7 +2054,6 @@ void *client_data)
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
-index 1f92b5b..2fb01c3 100644
---- a/www/api/magick-wand.html
-+++ b/www/api/magick-wand.html
-@@ -729,7 +729,6 @@
- </samp></pre>
- 
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/magick.html b/www/api/magick.html
-index 6a3198f..abab4dd 100644
---- a/www/api/magick.html
-+++ b/www/api/magick.html
-@@ -263,7 +263,6 @@
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/memory.html b/www/api/memory.html
-index 7c13202..ec50db3 100644
---- a/www/api/memory.html
-+++ b/www/api/memory.html
-@@ -596,7 +596,6 @@
- <p>Specifies the length of the memory buffer.</p>
- 
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/mime.html b/www/api/mime.html
-index bb18ee4..e6d3863 100644
---- a/www/api/mime.html
-+++ b/www/api/mime.html
-@@ -296,7 +296,6 @@
- <p>return any errors or warnings in this structure.</p>
- 
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/module.html b/www/api/module.html
-index 1466b07..b540a01 100644
---- a/www/api/module.html
-+++ b/www/api/module.html
-@@ -563,7 +563,6 @@
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/mogrify.html b/www/api/mogrify.html
-index 63c21a5..2135516 100644
---- a/www/api/mogrify.html
-+++ b/www/api/mogrify.html
-@@ -146,7 +146,6 @@
- <br/>
- <div class="magick-header">
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/monitor.html b/www/api/monitor.html
-index 0b53f6b..fcbc5c7 100644
---- a/www/api/monitor.html
-+++ b/www/api/monitor.html
-@@ -257,7 +257,6 @@ void *client_data)
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/montage.html b/www/api/montage.html
-index e274e81..c450290 100644
---- a/www/api/montage.html
-+++ b/www/api/montage.html
-@@ -146,7 +146,6 @@
- <br/>
- <div class="magick-header">
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/morphology.html b/www/api/morphology.html
-index 460498b..4d845e8 100644
---- a/www/api/morphology.html
-+++ b/www/api/morphology.html
-@@ -677,7 +677,6 @@
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/paint.html b/www/api/paint.html
-index 73d5162..bcb7371 100644
---- a/www/api/paint.html
-+++ b/www/api/paint.html
-@@ -357,7 +357,6 @@
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
-index 9c586ad..00be75b 100644
---- a/www/api/pixel-iterator.html
-+++ b/www/api/pixel-iterator.html
-@@ -568,7 +568,6 @@
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
-index 86032a5..818dd22 100644
---- a/www/api/pixel-wand.html
-+++ b/www/api/pixel-wand.html
-@@ -1637,7 +1637,6 @@
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/profile.html b/www/api/profile.html
-index 620dd88..1d2f105 100644
---- a/www/api/profile.html
-+++ b/www/api/profile.html
-@@ -410,7 +410,6 @@
- <dd>  </dd>
- </dl>
- </div>
--  </div>
-   </main><!-- /.container -->
-   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-     <div class="container-fluid">
-diff --git a/www/api/property.html b/www/api/property.html
-index e5e2edf..243bb93 100644
---- a/www/api/property.html
-+++ b/www/api/property.html
+Index: imagemagick/www/api/layer.html
+===================================================================
+--- imagemagick.orig/www/api/layer.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/layer.html	2026-03-20 21:43:55.452064126 +0100
 @@ -462,7 +462,6 @@
  <dd>  </dd>
  </dl>
@@ -676,11 +448,11 @@ index e5e2edf..243bb93 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/quantize.html b/www/api/quantize.html
-index 8ec57dc..78b8a85 100644
---- a/www/api/quantize.html
-+++ b/www/api/quantize.html
-@@ -588,7 +588,6 @@ pixel in the image.
+Index: imagemagick/www/api/list.html
+===================================================================
+--- imagemagick.orig/www/api/list.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/list.html	2026-03-20 21:43:55.452153783 +0100
+@@ -802,7 +802,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -688,11 +460,35 @@ index 8ec57dc..78b8a85 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/registry.html b/www/api/registry.html
-index 739c2ea..e563450 100644
---- a/www/api/registry.html
-+++ b/www/api/registry.html
-@@ -316,7 +316,6 @@
+Index: imagemagick/www/api/magick++-classes.html
+===================================================================
+--- imagemagick.orig/www/api/magick++-classes.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/magick++-classes.html	2026-03-20 21:43:55.452241714 +0100
+@@ -133,7 +133,6 @@
+ </table>
+ </ul>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="magick-footer">
+     <div class="container-fluid">
+Index: imagemagick/www/api/magick-deprecate.html
+===================================================================
+--- imagemagick.orig/www/api/magick-deprecate.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/magick-deprecate.html	2026-03-20 21:43:55.452310565 +0100
+@@ -136,7 +136,6 @@
+ <p class="text-center"><a href="#"></a></p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/magick-image.html
+===================================================================
+--- imagemagick.orig/www/api/magick-image.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/magick-image.html	2026-03-20 21:43:55.452691667 +0100
+@@ -8526,7 +8526,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -700,11 +496,11 @@ index 739c2ea..e563450 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/resize.html b/www/api/resize.html
-index 145ec70..5af6f8e 100644
---- a/www/api/resize.html
-+++ b/www/api/resize.html
-@@ -506,7 +506,6 @@
+Index: imagemagick/www/api/magick-property.html
+===================================================================
+--- imagemagick.orig/www/api/magick-property.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/magick-property.html	2026-03-20 21:43:55.453147360 +0100
+@@ -2052,7 +2052,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -712,11 +508,23 @@ index 145ec70..5af6f8e 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/resource.html b/www/api/resource.html
-index 9b43540..4dde14d 100644
---- a/www/api/resource.html
-+++ b/www/api/resource.html
-@@ -333,7 +333,6 @@
+Index: imagemagick/www/api/magick-wand.html
+===================================================================
+--- imagemagick.orig/www/api/magick-wand.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/magick-wand.html	2026-03-20 21:43:55.453302195 +0100
+@@ -727,7 +727,6 @@
+ </samp></pre>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/magick.html
+===================================================================
+--- imagemagick.orig/www/api/magick.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/magick.html	2026-03-20 21:43:55.453409445 +0100
+@@ -261,7 +261,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -724,11 +532,23 @@ index 9b43540..4dde14d 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/segment.html b/www/api/segment.html
-index c75565c..941fbf0 100644
---- a/www/api/segment.html
-+++ b/www/api/segment.html
-@@ -178,7 +178,6 @@
+Index: imagemagick/www/api/memory.html
+===================================================================
+--- imagemagick.orig/www/api/memory.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/memory.html	2026-03-20 21:43:55.453552066 +0100
+@@ -594,7 +594,6 @@
+ <p>Specifies the length of the memory buffer.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/mime.html
+===================================================================
+--- imagemagick.orig/www/api/mime.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/mime.html	2026-03-20 21:43:55.453652859 +0100
+@@ -294,7 +294,6 @@
  <p>return any errors or warnings in this structure.</p>
  
  </div>
@@ -736,11 +556,179 @@ index c75565c..941fbf0 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/shear.html b/www/api/shear.html
-index 4e535db..850f589 100644
---- a/www/api/shear.html
-+++ b/www/api/shear.html
-@@ -250,7 +250,6 @@
+Index: imagemagick/www/api/module.html
+===================================================================
+--- imagemagick.orig/www/api/module.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/module.html	2026-03-20 21:43:55.453741342 +0100
+@@ -561,7 +561,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/mogrify.html
+===================================================================
+--- imagemagick.orig/www/api/mogrify.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/mogrify.html	2026-03-20 21:43:55.453825659 +0100
+@@ -144,7 +144,6 @@
+ <br/>
+ <div class="magick-header">
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/monitor.html
+===================================================================
+--- imagemagick.orig/www/api/monitor.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/monitor.html	2026-03-20 21:43:55.453903466 +0100
+@@ -255,7 +255,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/montage.html
+===================================================================
+--- imagemagick.orig/www/api/montage.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/montage.html	2026-03-20 21:43:55.453984950 +0100
+@@ -144,7 +144,6 @@
+ <br/>
+ <div class="magick-header">
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/morphology.html
+===================================================================
+--- imagemagick.orig/www/api/morphology.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/morphology.html	2026-03-20 21:43:55.454098253 +0100
+@@ -675,7 +675,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/paint.html
+===================================================================
+--- imagemagick.orig/www/api/paint.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/paint.html	2026-03-20 21:43:55.454207675 +0100
+@@ -355,7 +355,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/pixel-iterator.html
+===================================================================
+--- imagemagick.orig/www/api/pixel-iterator.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/pixel-iterator.html	2026-03-20 21:43:55.454303414 +0100
+@@ -566,7 +566,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/pixel-wand.html
+===================================================================
+--- imagemagick.orig/www/api/pixel-wand.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/pixel-wand.html	2026-03-20 21:43:55.454424983 +0100
+@@ -1635,7 +1635,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/profile.html
+===================================================================
+--- imagemagick.orig/www/api/profile.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/profile.html	2026-03-20 21:43:55.454540972 +0100
+@@ -408,7 +408,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/property.html
+===================================================================
+--- imagemagick.orig/www/api/property.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/property.html	2026-03-20 21:43:55.454630422 +0100
+@@ -460,7 +460,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/quantize.html
+===================================================================
+--- imagemagick.orig/www/api/quantize.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/quantize.html	2026-03-20 21:43:55.454723510 +0100
+@@ -586,7 +586,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/registry.html
+===================================================================
+--- imagemagick.orig/www/api/registry.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/registry.html	2026-03-20 21:43:55.454817832 +0100
+@@ -314,7 +314,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/resize.html
+===================================================================
+--- imagemagick.orig/www/api/resize.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/resize.html	2026-03-20 21:43:55.454904723 +0100
+@@ -504,7 +504,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/resource.html
+===================================================================
+--- imagemagick.orig/www/api/resource.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/resource.html	2026-03-20 21:43:55.454994838 +0100
+@@ -331,7 +331,6 @@
+ <dd>  </dd>
+ </dl>
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/segment.html
+===================================================================
+--- imagemagick.orig/www/api/segment.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/segment.html	2026-03-20 21:43:55.455073788 +0100
+@@ -176,7 +176,6 @@
  <p>return any errors or warnings in this structure.</p>
  
  </div>
@@ -748,11 +736,23 @@ index 4e535db..850f589 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/signature.html b/www/api/signature.html
-index 565b8a9..bb816ca 100644
---- a/www/api/signature.html
-+++ b/www/api/signature.html
-@@ -171,7 +171,6 @@
+Index: imagemagick/www/api/shear.html
+===================================================================
+--- imagemagick.orig/www/api/shear.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/shear.html	2026-03-20 21:43:55.455152601 +0100
+@@ -248,7 +248,6 @@
+ <p>return any errors or warnings in this structure.</p>
+ 
+ </div>
+-  </div>
+   </main><!-- /.container -->
+   <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+     <div class="container-fluid">
+Index: imagemagick/www/api/signature.html
+===================================================================
+--- imagemagick.orig/www/api/signature.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/signature.html	2026-03-20 21:43:55.455228563 +0100
+@@ -169,7 +169,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -760,11 +760,11 @@ index 565b8a9..bb816ca 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/statistic.html b/www/api/statistic.html
-index 535554e..d8ca507 100644
---- a/www/api/statistic.html
-+++ b/www/api/statistic.html
-@@ -583,7 +583,6 @@ red_mean=channel_statistics[RedPixelChannel].mean;
+Index: imagemagick/www/api/statistic.html
+===================================================================
+--- imagemagick.orig/www/api/statistic.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/statistic.html	2026-03-20 21:43:55.455307051 +0100
+@@ -581,7 +581,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -772,11 +772,11 @@ index 535554e..d8ca507 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/stream.html b/www/api/stream.html
-index 19057d5..909b6b5 100644
---- a/www/api/stream.html
-+++ b/www/api/stream.html
-@@ -184,7 +184,6 @@
+Index: imagemagick/www/api/stream.html
+===================================================================
+--- imagemagick.orig/www/api/stream.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/stream.html	2026-03-20 21:43:55.455390946 +0100
+@@ -182,7 +182,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -784,11 +784,11 @@ index 19057d5..909b6b5 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/transform.html b/www/api/transform.html
-index 573f440..0f46534 100644
---- a/www/api/transform.html
-+++ b/www/api/transform.html
-@@ -601,7 +601,6 @@
+Index: imagemagick/www/api/transform.html
+===================================================================
+--- imagemagick.orig/www/api/transform.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/transform.html	2026-03-20 21:43:55.455476026 +0100
+@@ -599,7 +599,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -796,11 +796,11 @@ index 573f440..0f46534 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/version.html b/www/api/version.html
-index a34dcba..be2820b 100644
---- a/www/api/version.html
-+++ b/www/api/version.html
-@@ -177,7 +177,6 @@
+Index: imagemagick/www/api/version.html
+===================================================================
+--- imagemagick.orig/www/api/version.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/version.html	2026-03-20 21:43:55.455563464 +0100
+@@ -175,7 +175,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -808,11 +808,11 @@ index a34dcba..be2820b 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/vision.html b/www/api/vision.html
-index f67124a..bf43c63 100644
---- a/www/api/vision.html
-+++ b/www/api/vision.html
-@@ -211,7 +211,6 @@
+Index: imagemagick/www/api/vision.html
+===================================================================
+--- imagemagick.orig/www/api/vision.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/vision.html	2026-03-20 21:43:55.455634962 +0100
+@@ -209,7 +209,6 @@
  <dd>  </dd>
  </dl>
  </div>
@@ -820,11 +820,11 @@ index f67124a..bf43c63 100644
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-diff --git a/www/api/wand-view.html b/www/api/wand-view.html
-index 99c01a7..99613d3 100644
---- a/www/api/wand-view.html
-+++ b/www/api/wand-view.html
-@@ -614,7 +614,6 @@
+Index: imagemagick/www/api/wand-view.html
+===================================================================
+--- imagemagick.orig/www/api/wand-view.html	2026-03-20 21:43:55.456304756 +0100
++++ imagemagick/www/api/wand-view.html	2026-03-20 21:43:55.455718527 +0100
+@@ -612,7 +612,6 @@
  <dd>  </dd>
  </dl>
  </div>

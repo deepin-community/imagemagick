@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -150,15 +150,22 @@ static Image *ReadSTEGANOImage(const ImageInfo *image_info,
     return(DestroyImage(image));
   watermark->depth=MAGICKCORE_QUANTUM_DEPTH;
   if (AcquireImageColormap(image,MaxColormapSize,exception) == MagickFalse)
-    ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
+    {
+      watermark=DestroyImage(watermark);
+      ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
+    }
   if (image_info->ping != MagickFalse)
     {
+      watermark=DestroyImage(watermark);
       (void) CloseBlob(image);
       return(GetFirstImageInList(image));
     }
   status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
-    return(DestroyImageList(image));
+    {
+      watermark=DestroyImage(watermark);
+      return(DestroyImageList(image));
+    }
   for (y=0; y < (ssize_t) image->rows; y++)
   {
     q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
@@ -219,7 +226,7 @@ static Image *ReadSTEGANOImage(const ImageInfo *image_info,
         if (c == 3)
           c=0;
         k++;
-        if (k == (ssize_t) (watermark->columns*watermark->columns))
+        if (k == (ssize_t) (watermark->columns*watermark->rows))
           k=0;
         if (k == image->offset)
           j++;

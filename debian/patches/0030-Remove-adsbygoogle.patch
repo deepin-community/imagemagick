@@ -78,40 +78,29 @@ forwarded: not-needed
  www/cipher.html                        | 2 +-
  www/cite.html                          | 2 +-
  www/clahe.html                         | 2 +-
- www/color-management.html              | 2 +-
- www/color-thresholding.html            | 2 +-
  www/color.html                         | 2 +-
- www/command-line-tools.html            | 2 +-
- www/compare.html                       | 2 +-
  www/compose.html                       | 2 +-
- www/composite.html                     | 2 +-
  www/conjure.html                       | 2 +-
  www/connected-components.html          | 2 +-
  www/contact.html                       | 2 +-
  www/convert.html                       | 2 +-
- www/convex-hull.html                   | 2 +-
  www/defines.html                       | 2 +-
  www/distribute-pixel-cache.html        | 2 +-
  www/escape.html                        | 2 +-
- www/exception.html                     | 2 +-
  www/fx.html                            | 2 +-
  www/gradient.html                      | 2 +-
  www/high-dynamic-range.html            | 2 +-
  www/history.html                       | 2 +-
  www/identify.html                      | 2 +-
  www/import.html                        | 2 +-
- www/install-source.html                | 2 +-
  www/links.html                         | 2 +-
  www/magick++.html                      | 2 +-
  www/magick-cache.html                  | 2 +-
  www/magick-core.html                   | 2 +-
  www/magick-script.html                 | 2 +-
  www/magick-vector-graphics.html        | 2 +-
- www/magick-wand.html                   | 2 +-
- www/magick.html                        | 2 +-
  www/miff.html                          | 2 +-
  www/mirror.html                        | 2 +-
- www/mogrify.html                       | 2 +-
  www/montage.html                       | 2 +-
  www/opencl.html                        | 2 +-
  www/privacy-policy.html                | 2 +-
@@ -119,14 +108,13 @@ forwarded: not-needed
  www/resources.html                     | 2 +-
  www/search.html                        | 2 +-
  www/sitemap.html                       | 2 +-
- www/stream.html                        | 2 +-
  www/support.html                       | 2 +-
  www/vpat.html                          | 2 +-
  www/webp.html                          | 2 +-
- 117 files changed, 117 insertions(+), 117 deletions(-)
+ 105 files changed, 105 insertions(+), 105 deletions(-)
 
 diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
-index dbb7153..0e15753 100644
+index 68273e8..0fc2841 100644
 --- a/www/advanced-linux-installation.html
 +++ b/www/advanced-linux-installation.html
 @@ -30,7 +30,7 @@
@@ -139,7 +127,7 @@ index dbb7153..0e15753 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
-index 590d84e..e9c1098 100644
+index dbd4f7f..7b5acd4 100644
 --- a/www/advanced-unix-installation.html
 +++ b/www/advanced-unix-installation.html
 @@ -79,7 +79,7 @@
@@ -152,7 +140,7 @@ index 590d84e..e9c1098 100644
        style="display:block"
        data-ad-client="ca-pub-3129977114552745"
 diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
-index ffbf115..6e73dd3 100644
+index befa79e..986fccb 100644
 --- a/www/advanced-windows-installation.html
 +++ b/www/advanced-windows-installation.html
 @@ -30,7 +30,7 @@
@@ -165,7 +153,7 @@ index ffbf115..6e73dd3 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/animate.html b/www/animate.html
-index d862562..3c948d8 100644
+index 2061b19..e6bb552 100644
 --- a/www/animate.html
 +++ b/www/animate.html
 @@ -30,7 +30,7 @@
@@ -178,7 +166,7 @@ index d862562..3c948d8 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/Image++.html b/www/api/Image++.html
-index 04625b3..03b3363 100644
+index 365a813..cdb8f5f 100644
 --- a/www/api/Image++.html
 +++ b/www/api/Image++.html
 @@ -75,7 +75,7 @@
@@ -191,7 +179,7 @@ index 04625b3..03b3363 100644
        style="display:block"
        data-ad-client="ca-pub-3129977114552745"
 diff --git a/www/api/animate.html b/www/api/animate.html
-index 85e3999..a16f738 100644
+index 57a233f..0f70e35 100644
 --- a/www/api/animate.html
 +++ b/www/api/animate.html
 @@ -31,7 +31,7 @@
@@ -204,7 +192,7 @@ index 85e3999..a16f738 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/annotate.html b/www/api/annotate.html
-index 1b82592..5a4861b 100644
+index ff9be3b..8fe5e74 100644
 --- a/www/api/annotate.html
 +++ b/www/api/annotate.html
 @@ -31,7 +31,7 @@
@@ -217,7 +205,7 @@ index 1b82592..5a4861b 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/attribute.html b/www/api/attribute.html
-index a755012..36b739f 100644
+index e78c44d..f19bbdc 100644
 --- a/www/api/attribute.html
 +++ b/www/api/attribute.html
 @@ -31,7 +31,7 @@
@@ -230,7 +218,7 @@ index a755012..36b739f 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/blob.html b/www/api/blob.html
-index acbbd6f..93b1132 100644
+index c05207c..6dbfcc1 100644
 --- a/www/api/blob.html
 +++ b/www/api/blob.html
 @@ -31,7 +31,7 @@
@@ -243,7 +231,7 @@ index acbbd6f..93b1132 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/cache-view.html b/www/api/cache-view.html
-index 3f92e15..96cf615 100644
+index a2703a5..d5d8d5e 100644
 --- a/www/api/cache-view.html
 +++ b/www/api/cache-view.html
 @@ -31,7 +31,7 @@
@@ -256,7 +244,7 @@ index 3f92e15..96cf615 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/cache.html b/www/api/cache.html
-index cfe0042..141ebc2 100644
+index 15d6f03..b8d7b70 100644
 --- a/www/api/cache.html
 +++ b/www/api/cache.html
 @@ -31,7 +31,7 @@
@@ -269,7 +257,7 @@ index cfe0042..141ebc2 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/channel.html b/www/api/channel.html
-index 5bd0119..6af98de 100644
+index 3034ff5..488b572 100644
 --- a/www/api/channel.html
 +++ b/www/api/channel.html
 @@ -31,7 +31,7 @@
@@ -282,7 +270,7 @@ index 5bd0119..6af98de 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/cipher.html b/www/api/cipher.html
-index 683889d..712c666 100644
+index 2ba3e2b..c0b6ffe 100644
 --- a/www/api/cipher.html
 +++ b/www/api/cipher.html
 @@ -31,7 +31,7 @@
@@ -295,7 +283,7 @@ index 683889d..712c666 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/color.html b/www/api/color.html
-index 9009263..0bf24c1 100644
+index 57c1bb5..3bc396c 100644
 --- a/www/api/color.html
 +++ b/www/api/color.html
 @@ -31,7 +31,7 @@
@@ -308,7 +296,7 @@ index 9009263..0bf24c1 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/colormap.html b/www/api/colormap.html
-index 3f3f1ce..9a3c208 100644
+index 36cd0fd..b2530d4 100644
 --- a/www/api/colormap.html
 +++ b/www/api/colormap.html
 @@ -31,7 +31,7 @@
@@ -321,7 +309,7 @@ index 3f3f1ce..9a3c208 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/colorspace.html b/www/api/colorspace.html
-index cacfe0a..f9a0201 100644
+index 6249d8f..9edff76 100644
 --- a/www/api/colorspace.html
 +++ b/www/api/colorspace.html
 @@ -31,7 +31,7 @@
@@ -334,7 +322,7 @@ index cacfe0a..f9a0201 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/compare.html b/www/api/compare.html
-index 95d50b9..5c05e07 100644
+index e4a9bab..4c16383 100644
 --- a/www/api/compare.html
 +++ b/www/api/compare.html
 @@ -31,7 +31,7 @@
@@ -347,7 +335,7 @@ index 95d50b9..5c05e07 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/composite.html b/www/api/composite.html
-index 0167b2c..24d16e8 100644
+index 4871e3d..4f1ccb8 100644
 --- a/www/api/composite.html
 +++ b/www/api/composite.html
 @@ -31,7 +31,7 @@
@@ -360,7 +348,7 @@ index 0167b2c..24d16e8 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/constitute.html b/www/api/constitute.html
-index fb58583..9418682 100644
+index 963c635..07fb908 100644
 --- a/www/api/constitute.html
 +++ b/www/api/constitute.html
 @@ -31,7 +31,7 @@
@@ -373,7 +361,7 @@ index fb58583..9418682 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/decorate.html b/www/api/decorate.html
-index 3d0c45e..cd3a705 100644
+index 6aaeb8a..6acbc6f 100644
 --- a/www/api/decorate.html
 +++ b/www/api/decorate.html
 @@ -31,7 +31,7 @@
@@ -386,7 +374,7 @@ index 3d0c45e..cd3a705 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/deprecate.html b/www/api/deprecate.html
-index eb38184..f1ac0db 100644
+index 034e99e..1883fc8 100644
 --- a/www/api/deprecate.html
 +++ b/www/api/deprecate.html
 @@ -31,7 +31,7 @@
@@ -399,7 +387,7 @@ index eb38184..f1ac0db 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/display.html b/www/api/display.html
-index 3da6ba6..37ed05f 100644
+index 537402b..f5a7047 100644
 --- a/www/api/display.html
 +++ b/www/api/display.html
 @@ -31,7 +31,7 @@
@@ -412,7 +400,7 @@ index 3da6ba6..37ed05f 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/distort.html b/www/api/distort.html
-index 366ff6f..e02dbdf 100644
+index 769aa6e..79fd231 100644
 --- a/www/api/distort.html
 +++ b/www/api/distort.html
 @@ -31,7 +31,7 @@
@@ -425,7 +413,7 @@ index 366ff6f..e02dbdf 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/draw.html b/www/api/draw.html
-index b1e443c..89a19f4 100644
+index 91c842e..17d4c89 100644
 --- a/www/api/draw.html
 +++ b/www/api/draw.html
 @@ -31,7 +31,7 @@
@@ -438,7 +426,7 @@ index b1e443c..89a19f4 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
-index 5765b23..4886bd3 100644
+index d9a8320..1ac81c5 100644
 --- a/www/api/drawing-wand.html
 +++ b/www/api/drawing-wand.html
 @@ -31,7 +31,7 @@
@@ -451,7 +439,7 @@ index 5765b23..4886bd3 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/effect.html b/www/api/effect.html
-index cd02da2..dad1ff7 100644
+index be16f0b..e9732e7 100644
 --- a/www/api/effect.html
 +++ b/www/api/effect.html
 @@ -31,7 +31,7 @@
@@ -464,7 +452,7 @@ index cd02da2..dad1ff7 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/enhance.html b/www/api/enhance.html
-index afad33c..642f003 100644
+index 7075a03..84ce0e5 100644
 --- a/www/api/enhance.html
 +++ b/www/api/enhance.html
 @@ -31,7 +31,7 @@
@@ -477,7 +465,7 @@ index afad33c..642f003 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/exception.html b/www/api/exception.html
-index 1277cdd..c95ac6b 100644
+index 3b4b66f..753947a 100644
 --- a/www/api/exception.html
 +++ b/www/api/exception.html
 @@ -31,7 +31,7 @@
@@ -490,7 +478,7 @@ index 1277cdd..c95ac6b 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/feature.html b/www/api/feature.html
-index 811c958..6f3587c 100644
+index 5543058..604d0e5 100644
 --- a/www/api/feature.html
 +++ b/www/api/feature.html
 @@ -31,7 +31,7 @@
@@ -503,7 +491,7 @@ index 811c958..6f3587c 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/fourier.html b/www/api/fourier.html
-index 7fa1002..fa9ae7b 100644
+index c67ace8..cdfc9f8 100644
 --- a/www/api/fourier.html
 +++ b/www/api/fourier.html
 @@ -31,7 +31,7 @@
@@ -516,7 +504,7 @@ index 7fa1002..fa9ae7b 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/fx.html b/www/api/fx.html
-index bce319a..a17c716 100644
+index e48d5f7..d6e4999 100644
 --- a/www/api/fx.html
 +++ b/www/api/fx.html
 @@ -31,7 +31,7 @@
@@ -529,7 +517,7 @@ index bce319a..a17c716 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/histogram.html b/www/api/histogram.html
-index 6c46be1..c731234 100644
+index 2648c0a..6ee2616 100644
 --- a/www/api/histogram.html
 +++ b/www/api/histogram.html
 @@ -31,7 +31,7 @@
@@ -542,7 +530,7 @@ index 6c46be1..c731234 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/image-view.html b/www/api/image-view.html
-index 634b224..c6057dc 100644
+index fb1faaf..79b4145 100644
 --- a/www/api/image-view.html
 +++ b/www/api/image-view.html
 @@ -31,7 +31,7 @@
@@ -555,7 +543,7 @@ index 634b224..c6057dc 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/image.html b/www/api/image.html
-index afc9328..cb8c34b 100644
+index fe7b8d3..7743c2e 100644
 --- a/www/api/image.html
 +++ b/www/api/image.html
 @@ -31,7 +31,7 @@
@@ -568,7 +556,7 @@ index afc9328..cb8c34b 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/layer.html b/www/api/layer.html
-index 7e7efbc..f4f038a 100644
+index c32d6c0..e5992b8 100644
 --- a/www/api/layer.html
 +++ b/www/api/layer.html
 @@ -31,7 +31,7 @@
@@ -581,7 +569,7 @@ index 7e7efbc..f4f038a 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/list.html b/www/api/list.html
-index 0bfcbfa..ffadfd7 100644
+index f29999b..b798d7a 100644
 --- a/www/api/list.html
 +++ b/www/api/list.html
 @@ -31,7 +31,7 @@
@@ -594,7 +582,7 @@ index 0bfcbfa..ffadfd7 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
-index 55ac85f..f4ae6de 100644
+index d1fb43b..0840c62 100644
 --- a/www/api/magick++-classes.html
 +++ b/www/api/magick++-classes.html
 @@ -75,7 +75,7 @@
@@ -607,7 +595,7 @@ index 55ac85f..f4ae6de 100644
        style="display:block"
        data-ad-client="ca-pub-3129977114552745"
 diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
-index 70dbf78..677662f 100644
+index 77a1aa0..ef5468d 100644
 --- a/www/api/magick-deprecate.html
 +++ b/www/api/magick-deprecate.html
 @@ -31,7 +31,7 @@
@@ -620,7 +608,7 @@ index 70dbf78..677662f 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/magick-image.html b/www/api/magick-image.html
-index 352cf3d..2ba7c28 100644
+index 95979c9..e993ba3 100644
 --- a/www/api/magick-image.html
 +++ b/www/api/magick-image.html
 @@ -31,7 +31,7 @@
@@ -633,7 +621,7 @@ index 352cf3d..2ba7c28 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/magick-property.html b/www/api/magick-property.html
-index f0089ba..9bf1d1e 100644
+index cf1cd03..757e152 100644
 --- a/www/api/magick-property.html
 +++ b/www/api/magick-property.html
 @@ -31,7 +31,7 @@
@@ -646,7 +634,7 @@ index f0089ba..9bf1d1e 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
-index 7304620..e2177e7 100644
+index 347dba4..46309d6 100644
 --- a/www/api/magick-wand.html
 +++ b/www/api/magick-wand.html
 @@ -31,7 +31,7 @@
@@ -659,7 +647,7 @@ index 7304620..e2177e7 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/magick.html b/www/api/magick.html
-index 5983448..8d37ac3 100644
+index e79b695..3bcfa4b 100644
 --- a/www/api/magick.html
 +++ b/www/api/magick.html
 @@ -31,7 +31,7 @@
@@ -672,7 +660,7 @@ index 5983448..8d37ac3 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/memory.html b/www/api/memory.html
-index 637bcd5..57b1a44 100644
+index 57fa932..bcafad4 100644
 --- a/www/api/memory.html
 +++ b/www/api/memory.html
 @@ -31,7 +31,7 @@
@@ -685,7 +673,7 @@ index 637bcd5..57b1a44 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/mime.html b/www/api/mime.html
-index 1e84d04..7769112 100644
+index f95abc3..d8feb04 100644
 --- a/www/api/mime.html
 +++ b/www/api/mime.html
 @@ -31,7 +31,7 @@
@@ -698,7 +686,7 @@ index 1e84d04..7769112 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/module.html b/www/api/module.html
-index 798d86f..9af120a 100644
+index 48a746a..dcdbc36 100644
 --- a/www/api/module.html
 +++ b/www/api/module.html
 @@ -31,7 +31,7 @@
@@ -711,7 +699,7 @@ index 798d86f..9af120a 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/mogrify.html b/www/api/mogrify.html
-index 67fd5a3..7740365 100644
+index ab1088c..390e093 100644
 --- a/www/api/mogrify.html
 +++ b/www/api/mogrify.html
 @@ -31,7 +31,7 @@
@@ -724,7 +712,7 @@ index 67fd5a3..7740365 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/monitor.html b/www/api/monitor.html
-index 25cd130..b5c15fa 100644
+index e48d016..161249c 100644
 --- a/www/api/monitor.html
 +++ b/www/api/monitor.html
 @@ -31,7 +31,7 @@
@@ -737,7 +725,7 @@ index 25cd130..b5c15fa 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/montage.html b/www/api/montage.html
-index d780f09..d249d7b 100644
+index 4544e40..4c2f877 100644
 --- a/www/api/montage.html
 +++ b/www/api/montage.html
 @@ -31,7 +31,7 @@
@@ -750,7 +738,7 @@ index d780f09..d249d7b 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/morphology.html b/www/api/morphology.html
-index 14d3758..e42c84f 100644
+index 142bdda..915f673 100644
 --- a/www/api/morphology.html
 +++ b/www/api/morphology.html
 @@ -31,7 +31,7 @@
@@ -763,7 +751,7 @@ index 14d3758..e42c84f 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/paint.html b/www/api/paint.html
-index 3e109a4..2916fcd 100644
+index 8f65c62..0496486 100644
 --- a/www/api/paint.html
 +++ b/www/api/paint.html
 @@ -31,7 +31,7 @@
@@ -776,7 +764,7 @@ index 3e109a4..2916fcd 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
-index 3db1f4d..8d69a94 100644
+index 9ac30ba..bea3e49 100644
 --- a/www/api/pixel-iterator.html
 +++ b/www/api/pixel-iterator.html
 @@ -31,7 +31,7 @@
@@ -789,7 +777,7 @@ index 3db1f4d..8d69a94 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
-index 7b0eea6..758cda0 100644
+index 7103906..820801c 100644
 --- a/www/api/pixel-wand.html
 +++ b/www/api/pixel-wand.html
 @@ -31,7 +31,7 @@
@@ -802,7 +790,7 @@ index 7b0eea6..758cda0 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/profile.html b/www/api/profile.html
-index c701e51..96fca6f 100644
+index 70e311b..b71bebc 100644
 --- a/www/api/profile.html
 +++ b/www/api/profile.html
 @@ -31,7 +31,7 @@
@@ -815,7 +803,7 @@ index c701e51..96fca6f 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/property.html b/www/api/property.html
-index 2330139..82602d5 100644
+index b577317..061a9a0 100644
 --- a/www/api/property.html
 +++ b/www/api/property.html
 @@ -31,7 +31,7 @@
@@ -828,7 +816,7 @@ index 2330139..82602d5 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/quantize.html b/www/api/quantize.html
-index 23be854..dc95da2 100644
+index dbfa90f..34e6a0b 100644
 --- a/www/api/quantize.html
 +++ b/www/api/quantize.html
 @@ -31,7 +31,7 @@
@@ -841,7 +829,7 @@ index 23be854..dc95da2 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/registry.html b/www/api/registry.html
-index bb1a918..028ca0a 100644
+index 9d9b315..09d7cb6 100644
 --- a/www/api/registry.html
 +++ b/www/api/registry.html
 @@ -31,7 +31,7 @@
@@ -854,7 +842,7 @@ index bb1a918..028ca0a 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/resize.html b/www/api/resize.html
-index 0a112cf..c6d7c95 100644
+index 01f6d4b..bdeb65b 100644
 --- a/www/api/resize.html
 +++ b/www/api/resize.html
 @@ -31,7 +31,7 @@
@@ -867,7 +855,7 @@ index 0a112cf..c6d7c95 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/resource.html b/www/api/resource.html
-index f8647ff..f0c393a 100644
+index 4fe4891..065215e 100644
 --- a/www/api/resource.html
 +++ b/www/api/resource.html
 @@ -31,7 +31,7 @@
@@ -880,7 +868,7 @@ index f8647ff..f0c393a 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/segment.html b/www/api/segment.html
-index a8a8b91..cb007b3 100644
+index 0b147df..8cea414 100644
 --- a/www/api/segment.html
 +++ b/www/api/segment.html
 @@ -31,7 +31,7 @@
@@ -893,7 +881,7 @@ index a8a8b91..cb007b3 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/shear.html b/www/api/shear.html
-index 94e2a61..dc352fe 100644
+index dc0a294..e60943d 100644
 --- a/www/api/shear.html
 +++ b/www/api/shear.html
 @@ -31,7 +31,7 @@
@@ -906,7 +894,7 @@ index 94e2a61..dc352fe 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/signature.html b/www/api/signature.html
-index 2886900..de8a10d 100644
+index 3cd9b67..ba83628 100644
 --- a/www/api/signature.html
 +++ b/www/api/signature.html
 @@ -31,7 +31,7 @@
@@ -919,7 +907,7 @@ index 2886900..de8a10d 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/statistic.html b/www/api/statistic.html
-index 9a9787c..49e628f 100644
+index c90756f..27409b2 100644
 --- a/www/api/statistic.html
 +++ b/www/api/statistic.html
 @@ -31,7 +31,7 @@
@@ -932,7 +920,7 @@ index 9a9787c..49e628f 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/stream.html b/www/api/stream.html
-index 8acc665..2aa1f1d 100644
+index d8b5666..5bccc7c 100644
 --- a/www/api/stream.html
 +++ b/www/api/stream.html
 @@ -31,7 +31,7 @@
@@ -945,7 +933,7 @@ index 8acc665..2aa1f1d 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/transform.html b/www/api/transform.html
-index 36537a3..42c4e96 100644
+index 950ccc6..1709261 100644
 --- a/www/api/transform.html
 +++ b/www/api/transform.html
 @@ -31,7 +31,7 @@
@@ -958,7 +946,7 @@ index 36537a3..42c4e96 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/version.html b/www/api/version.html
-index 972f3e8..bc16598 100644
+index 198bfc4..b8c5971 100644
 --- a/www/api/version.html
 +++ b/www/api/version.html
 @@ -31,7 +31,7 @@
@@ -971,7 +959,7 @@ index 972f3e8..bc16598 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/vision.html b/www/api/vision.html
-index 109892e..706d804 100644
+index d0167c6..6f2e6cb 100644
 --- a/www/api/vision.html
 +++ b/www/api/vision.html
 @@ -31,7 +31,7 @@
@@ -984,7 +972,7 @@ index 109892e..706d804 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/api/wand-view.html b/www/api/wand-view.html
-index 4bc2780..7050ba4 100644
+index 2e5f779..21e2f54 100644
 --- a/www/api/wand-view.html
 +++ b/www/api/wand-view.html
 @@ -31,7 +31,7 @@
@@ -997,7 +985,7 @@ index 4bc2780..7050ba4 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/architecture.html b/www/architecture.html
-index c450eb8..202b47d 100644
+index 19f53d8..7885776 100644
 --- a/www/architecture.html
 +++ b/www/architecture.html
 @@ -30,7 +30,7 @@
@@ -1010,7 +998,7 @@ index c450eb8..202b47d 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/changelog.html b/www/changelog.html
-index 16ea9f2..85d73da 100644
+index 909e25e..0f24f65 100644
 --- a/www/changelog.html
 +++ b/www/changelog.html
 @@ -79,7 +79,7 @@
@@ -1023,7 +1011,7 @@ index 16ea9f2..85d73da 100644
        style="display:block"
        data-ad-client="ca-pub-3129977114552745"
 diff --git a/www/cipher.html b/www/cipher.html
-index 374e8c7..d5b4d71 100644
+index bf1c0bb..f658bc6 100644
 --- a/www/cipher.html
 +++ b/www/cipher.html
 @@ -30,7 +30,7 @@
@@ -1036,7 +1024,7 @@ index 374e8c7..d5b4d71 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/cite.html b/www/cite.html
-index ada6d05..c1dd5b8 100644
+index c5009a4..f32297b 100644
 --- a/www/cite.html
 +++ b/www/cite.html
 @@ -30,7 +30,7 @@
@@ -1049,7 +1037,7 @@ index ada6d05..c1dd5b8 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/clahe.html b/www/clahe.html
-index e1dca19..4efb7ca 100644
+index 39cd7e5..09c8572 100644
 --- a/www/clahe.html
 +++ b/www/clahe.html
 @@ -30,7 +30,7 @@
@@ -1061,34 +1049,8 @@ index e1dca19..4efb7ca 100644
    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/color-management.html b/www/color-management.html
-index 3bab760..6363c89 100644
---- a/www/color-management.html
-+++ b/www/color-management.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/color-thresholding.html b/www/color-thresholding.html
-index 677f09a..06bbd01 100644
---- a/www/color-thresholding.html
-+++ b/www/color-thresholding.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/color.html b/www/color.html
-index a9e09ff..3f99d6d 100644
+index bd0ca1e..7484256 100644
 --- a/www/color.html
 +++ b/www/color.html
 @@ -30,7 +30,7 @@
@@ -1100,34 +1062,8 @@ index a9e09ff..3f99d6d 100644
    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/command-line-tools.html b/www/command-line-tools.html
-index d65f591..0a7d569 100644
---- a/www/command-line-tools.html
-+++ b/www/command-line-tools.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/compare.html b/www/compare.html
-index 41064d3..33a0718 100644
---- a/www/compare.html
-+++ b/www/compare.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/compose.html b/www/compose.html
-index 76d63ee..784335d 100644
+index e9b4b46..754ccdb 100644
 --- a/www/compose.html
 +++ b/www/compose.html
 @@ -30,7 +30,7 @@
@@ -1139,21 +1075,8 @@ index 76d63ee..784335d 100644
    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/composite.html b/www/composite.html
-index 4c63063..35af5d2 100644
---- a/www/composite.html
-+++ b/www/composite.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/conjure.html b/www/conjure.html
-index d539ec6..df6f48e 100644
+index 25293ae..62da2ef 100644
 --- a/www/conjure.html
 +++ b/www/conjure.html
 @@ -30,7 +30,7 @@
@@ -1166,7 +1089,7 @@ index d539ec6..df6f48e 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/connected-components.html b/www/connected-components.html
-index 5cde8b1..d9ea4e5 100644
+index 8d220cc..a41fbf0 100644
 --- a/www/connected-components.html
 +++ b/www/connected-components.html
 @@ -30,7 +30,7 @@
@@ -1179,7 +1102,7 @@ index 5cde8b1..d9ea4e5 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/contact.html b/www/contact.html
-index 893386a..0d00929 100644
+index d6b26d1..7b0a9e8 100644
 --- a/www/contact.html
 +++ b/www/contact.html
 @@ -31,7 +31,7 @@
@@ -1192,7 +1115,7 @@ index 893386a..0d00929 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/convert.html b/www/convert.html
-index ca94d13..1569875 100644
+index 15e3126..310538d 100644
 --- a/www/convert.html
 +++ b/www/convert.html
 @@ -30,7 +30,7 @@
@@ -1204,21 +1127,8 @@ index ca94d13..1569875 100644
    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/convex-hull.html b/www/convex-hull.html
-index 4fa6b68..a0cb5cc 100644
---- a/www/convex-hull.html
-+++ b/www/convex-hull.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/defines.html b/www/defines.html
-index a6c9cdb..ce0d10c 100644
+index 32ebb47..cc59f64 100644
 --- a/www/defines.html
 +++ b/www/defines.html
 @@ -30,7 +30,7 @@
@@ -1231,7 +1141,7 @@ index a6c9cdb..ce0d10c 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
-index bff65ec..846096e 100644
+index 09e9ee9..181badd 100644
 --- a/www/distribute-pixel-cache.html
 +++ b/www/distribute-pixel-cache.html
 @@ -30,7 +30,7 @@
@@ -1244,7 +1154,7 @@ index bff65ec..846096e 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/escape.html b/www/escape.html
-index e06dad7..418e749 100644
+index a9e93a1..346b0ab 100644
 --- a/www/escape.html
 +++ b/www/escape.html
 @@ -30,7 +30,7 @@
@@ -1256,21 +1166,8 @@ index e06dad7..418e749 100644
    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/exception.html b/www/exception.html
-index 0835b59..e38b828 100644
---- a/www/exception.html
-+++ b/www/exception.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/fx.html b/www/fx.html
-index 90b9d37..0cbd4a4 100644
+index 0658005..effd396 100644
 --- a/www/fx.html
 +++ b/www/fx.html
 @@ -30,7 +30,7 @@
@@ -1283,7 +1180,7 @@ index 90b9d37..0cbd4a4 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/gradient.html b/www/gradient.html
-index 093f114..017f184 100644
+index 4392756..d161b70 100644
 --- a/www/gradient.html
 +++ b/www/gradient.html
 @@ -30,7 +30,7 @@
@@ -1296,7 +1193,7 @@ index 093f114..017f184 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
-index dcc31b1..8bd29fb 100644
+index bd04221..07b14fe 100644
 --- a/www/high-dynamic-range.html
 +++ b/www/high-dynamic-range.html
 @@ -30,7 +30,7 @@
@@ -1309,7 +1206,7 @@ index dcc31b1..8bd29fb 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/history.html b/www/history.html
-index 3d58937..b8faa12 100644
+index 9af2a78..7a4b6db 100644
 --- a/www/history.html
 +++ b/www/history.html
 @@ -30,7 +30,7 @@
@@ -1322,7 +1219,7 @@ index 3d58937..b8faa12 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/identify.html b/www/identify.html
-index 0c96ccc..8ffb971 100644
+index ec80fa5..6d826e2 100644
 --- a/www/identify.html
 +++ b/www/identify.html
 @@ -30,7 +30,7 @@
@@ -1335,7 +1232,7 @@ index 0c96ccc..8ffb971 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/import.html b/www/import.html
-index e5f0bd5..14a6fdf 100644
+index 118928d..bb70ef0 100644
 --- a/www/import.html
 +++ b/www/import.html
 @@ -30,7 +30,7 @@
@@ -1347,21 +1244,8 @@ index e5f0bd5..14a6fdf 100644
    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/install-source.html b/www/install-source.html
-index aa787d3..627ddcf 100644
---- a/www/install-source.html
-+++ b/www/install-source.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/links.html b/www/links.html
-index 67541a1..fdffdcf 100644
+index 4ca8973..66a9915 100644
 --- a/www/links.html
 +++ b/www/links.html
 @@ -30,7 +30,7 @@
@@ -1374,7 +1258,7 @@ index 67541a1..fdffdcf 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/magick++.html b/www/magick++.html
-index 1cf31fa..3dcc7b8 100644
+index 85f0e11..166c8df 100644
 --- a/www/magick++.html
 +++ b/www/magick++.html
 @@ -30,7 +30,7 @@
@@ -1387,7 +1271,7 @@ index 1cf31fa..3dcc7b8 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/magick-cache.html b/www/magick-cache.html
-index 8efdb3b..c769d5e 100644
+index 7ed0390..5f24ec1 100644
 --- a/www/magick-cache.html
 +++ b/www/magick-cache.html
 @@ -30,7 +30,7 @@
@@ -1400,7 +1284,7 @@ index 8efdb3b..c769d5e 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/magick-core.html b/www/magick-core.html
-index aec603f..89ec249 100644
+index 40d5643..58baa2a 100644
 --- a/www/magick-core.html
 +++ b/www/magick-core.html
 @@ -30,7 +30,7 @@
@@ -1413,7 +1297,7 @@ index aec603f..89ec249 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/magick-script.html b/www/magick-script.html
-index ac1d3c6..32fbca1 100644
+index f6a41f8..82d7f3b 100644
 --- a/www/magick-script.html
 +++ b/www/magick-script.html
 @@ -30,7 +30,7 @@
@@ -1426,7 +1310,7 @@ index ac1d3c6..32fbca1 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
-index bb693ce..8c25464 100644
+index f71e993..39a45f8 100644
 --- a/www/magick-vector-graphics.html
 +++ b/www/magick-vector-graphics.html
 @@ -30,7 +30,7 @@
@@ -1438,34 +1322,8 @@ index bb693ce..8c25464 100644
    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/magick-wand.html b/www/magick-wand.html
-index 25cf03c..6965507 100644
---- a/www/magick-wand.html
-+++ b/www/magick-wand.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/magick.html b/www/magick.html
-index e3e6ed5..4c92661 100644
---- a/www/magick.html
-+++ b/www/magick.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/miff.html b/www/miff.html
-index 91e3572..48d773d 100644
+index da5a593..055d8c8 100644
 --- a/www/miff.html
 +++ b/www/miff.html
 @@ -30,7 +30,7 @@
@@ -1478,7 +1336,7 @@ index 91e3572..48d773d 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/mirror.html b/www/mirror.html
-index b2e79c5..3767387 100644
+index 0dde017..6f56957 100644
 --- a/www/mirror.html
 +++ b/www/mirror.html
 @@ -30,7 +30,7 @@
@@ -1490,21 +1348,8 @@ index b2e79c5..3767387 100644
    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/mogrify.html b/www/mogrify.html
-index 3594b3b..04c4aa8 100644
---- a/www/mogrify.html
-+++ b/www/mogrify.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/montage.html b/www/montage.html
-index 0b4e177..0b74f9a 100644
+index d3cce39..9851d4f 100644
 --- a/www/montage.html
 +++ b/www/montage.html
 @@ -30,7 +30,7 @@
@@ -1517,7 +1362,7 @@ index 0b4e177..0b74f9a 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/opencl.html b/www/opencl.html
-index 7145b4f..74bc495 100644
+index 046b436..f3a76f7 100644
 --- a/www/opencl.html
 +++ b/www/opencl.html
 @@ -30,7 +30,7 @@
@@ -1530,7 +1375,7 @@ index 7145b4f..74bc495 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/privacy-policy.html b/www/privacy-policy.html
-index 98c7da8..2b184a0 100644
+index 3b7b56f..fb81b7c 100644
 --- a/www/privacy-policy.html
 +++ b/www/privacy-policy.html
 @@ -30,7 +30,7 @@
@@ -1543,7 +1388,7 @@ index 98c7da8..2b184a0 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/quantize.html b/www/quantize.html
-index 8090aef..6a5cc2b 100644
+index 2172cf9..5557976 100644
 --- a/www/quantize.html
 +++ b/www/quantize.html
 @@ -30,7 +30,7 @@
@@ -1556,7 +1401,7 @@ index 8090aef..6a5cc2b 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/resources.html b/www/resources.html
-index fe2a1e2..764241b 100644
+index 1d65f7d..323bfdc 100644
 --- a/www/resources.html
 +++ b/www/resources.html
 @@ -30,7 +30,7 @@
@@ -1569,7 +1414,7 @@ index fe2a1e2..764241b 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/search.html b/www/search.html
-index 6e3fc44..acca971 100644
+index d14567b..abe228b 100644
 --- a/www/search.html
 +++ b/www/search.html
 @@ -30,7 +30,7 @@
@@ -1582,7 +1427,7 @@ index 6e3fc44..acca971 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/sitemap.html b/www/sitemap.html
-index eda2f65..59ec1be 100644
+index ec73490..264ae83 100644
 --- a/www/sitemap.html
 +++ b/www/sitemap.html
 @@ -30,7 +30,7 @@
@@ -1594,21 +1439,8 @@ index eda2f65..59ec1be 100644
    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-diff --git a/www/stream.html b/www/stream.html
-index 83b8136..2d9229e 100644
---- a/www/stream.html
-+++ b/www/stream.html
-@@ -30,7 +30,7 @@
- 
- </head>
- <body>
--  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
-+
-   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-     <symbol id="check2" viewBox="0 0 16 16">
-       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/support.html b/www/support.html
-index 20a2068..acc1d62 100644
+index bc16fe0..b1e2993 100644
 --- a/www/support.html
 +++ b/www/support.html
 @@ -30,7 +30,7 @@
@@ -1621,7 +1453,7 @@ index 20a2068..acc1d62 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/vpat.html b/www/vpat.html
-index 0d64925..9e45ac2 100644
+index 874af92..0b6ed43 100644
 --- a/www/vpat.html
 +++ b/www/vpat.html
 @@ -30,7 +30,7 @@
@@ -1634,7 +1466,7 @@ index 0d64925..9e45ac2 100644
      <symbol id="check2" viewBox="0 0 16 16">
        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 diff --git a/www/webp.html b/www/webp.html
-index b2d6697..a374726 100644
+index df934c2..e56f771 100644
 --- a/www/webp.html
 +++ b/www/webp.html
 @@ -30,7 +30,7 @@

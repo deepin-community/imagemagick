@@ -353,11 +353,29 @@
     </xsl:copy>
   </xsl:template>
 
+  <xsl:template match="*[local-name(.) = 'script'][contains(@src,'/js/bootstrap.bundle.min.js')]">
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:attribute name="src">
+	<xsl:value-of select="'/usr/share/javascript/bootstrap5/js/bootstrap.bundle.min.js'"/>
+      </xsl:attribute>
+    </xsl:copy>
+  </xsl:template>
+
   <xsl:template match="*[local-name(.) = 'link'][contains(@href,'jquery.fancybox.css')]">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:attribute name="href">
 	<xsl:value-of select="'/usr/share/javascript/jquery-fancybox/jquery.fancybox.css'"/>
+      </xsl:attribute>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="*[local-name(.) = 'link'][contains(@href,'bootstrap.min.css')]">
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:attribute name="href">
+	<xsl:value-of select="'/usr/share/javascript/bootstrap5/css/bootstrap.min.css'"/>
       </xsl:attribute>
     </xsl:copy>
   </xsl:template>
@@ -405,4 +423,5 @@
   <!-- remove wand icon -->
   <xsl:template match="*[local-name(.)= 'link'][@rel='icon' and contains(@href,'http://')]" />
   <xsl:template match="*[local-name(.)= 'link'][@rel='icon' and contains(@href,'https://')]" />
+  <xsl:template match="*[local-name(.)= 'img'][@class='icon' and contains(@href,'https://imagemagick.org/magick++/cache.png')]" />
 </xsl:stylesheet>

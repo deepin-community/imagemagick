@@ -22,7 +22,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -860,6 +860,47 @@ MagickExport void SetQuantumImageType(Image *image,
       break;
     }
   }
+}
+
+/*
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%   S e t Q u a n t u m M e t a C h a n n e l                                 %
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  SetQuantumMetaChannel() sets the quantum meta-channel that will exported or
+%  imported when the quantum type is MultispectralQuantum. To unset the
+%  meta-channel, set the meta-channel to -1.
+%
+%  The format of the SetQuantumMetaChannel method is:
+%
+%      void SetQuantumMetaChannel(const Image *image,QuantumInfo *quantum_info,
+%        const ssize_t meta_channel)
+%
+%  A description of each parameter follows:
+%
+%    o image: the image.
+%
+%    o quantum_info: the quantum info.
+%
+%    o meta_channel: the meta channel.
+%
+*/
+MagickExport MagickBooleanType SetQuantumMetaChannel(const Image *image,
+  QuantumInfo *quantum_info, const ssize_t meta_channel) 
+{
+  assert(quantum_info != (QuantumInfo *) NULL);
+  assert(quantum_info->signature == MagickCoreSignature);
+  if ((meta_channel < -1) ||
+      (meta_channel >= (ssize_t) image->number_meta_channels))
+    return(MagickFalse);
+  quantum_info->meta_channel=meta_channel+1;
+  return(MagickTrue);
 }
 
 /*

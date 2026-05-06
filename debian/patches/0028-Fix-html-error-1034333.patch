@@ -78,40 +78,29 @@ bug-debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034333
  www/cipher.html                        | 2 +-
  www/cite.html                          | 2 +-
  www/clahe.html                         | 2 +-
- www/color-management.html              | 2 +-
- www/color-thresholding.html            | 2 +-
  www/color.html                         | 2 +-
- www/command-line-tools.html            | 2 +-
- www/compare.html                       | 2 +-
  www/compose.html                       | 2 +-
- www/composite.html                     | 2 +-
  www/conjure.html                       | 2 +-
  www/connected-components.html          | 2 +-
  www/contact.html                       | 2 +-
  www/convert.html                       | 2 +-
- www/convex-hull.html                   | 2 +-
  www/defines.html                       | 2 +-
  www/distribute-pixel-cache.html        | 2 +-
  www/escape.html                        | 2 +-
- www/exception.html                     | 2 +-
  www/fx.html                            | 2 +-
  www/gradient.html                      | 2 +-
  www/high-dynamic-range.html            | 2 +-
  www/history.html                       | 2 +-
  www/identify.html                      | 2 +-
  www/import.html                        | 2 +-
- www/install-source.html                | 2 +-
  www/links.html                         | 2 +-
  www/magick++.html                      | 2 +-
  www/magick-cache.html                  | 2 +-
  www/magick-core.html                   | 2 +-
  www/magick-script.html                 | 2 +-
  www/magick-vector-graphics.html        | 2 +-
- www/magick-wand.html                   | 2 +-
- www/magick.html                        | 2 +-
  www/miff.html                          | 2 +-
  www/mirror.html                        | 2 +-
- www/mogrify.html                       | 2 +-
  www/montage.html                       | 2 +-
  www/opencl.html                        | 2 +-
  www/privacy-policy.html                | 2 +-
@@ -119,17 +108,16 @@ bug-debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1034333
  www/resources.html                     | 2 +-
  www/search.html                        | 2 +-
  www/sitemap.html                       | 2 +-
- www/stream.html                        | 2 +-
  www/support.html                       | 4 ++--
  www/vpat.html                          | 2 +-
  www/webp.html                          | 2 +-
- 117 files changed, 118 insertions(+), 118 deletions(-)
+ 105 files changed, 106 insertions(+), 106 deletions(-)
 
-diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
-index 51c85fb..bd85e9b 100644
---- a/www/advanced-linux-installation.html
-+++ b/www/advanced-linux-installation.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/advanced-linux-installation.html
+===================================================================
+--- imagemagick.orig/www/advanced-linux-installation.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/advanced-linux-installation.html	2026-03-20 21:44:03.784327201 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -138,10 +126,10 @@ index 51c85fb..bd85e9b 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
-index c371911..590d84e 100644
---- a/www/advanced-unix-installation.html
-+++ b/www/advanced-unix-installation.html
+Index: imagemagick/www/advanced-unix-installation.html
+===================================================================
+--- imagemagick.orig/www/advanced-unix-installation.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/advanced-unix-installation.html	2026-03-20 21:44:03.785740361 +0100
 @@ -63,7 +63,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
@@ -151,11 +139,11 @@ index c371911..590d84e 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
-index e6b6659..593226a 100644
---- a/www/advanced-windows-installation.html
-+++ b/www/advanced-windows-installation.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/advanced-windows-installation.html
+===================================================================
+--- imagemagick.orig/www/advanced-windows-installation.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/advanced-windows-installation.html	2026-03-20 21:44:03.785881431 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -164,11 +152,11 @@ index e6b6659..593226a 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/animate.html b/www/animate.html
-index d33e8da..37572c1 100644
---- a/www/animate.html
-+++ b/www/animate.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/animate.html
+===================================================================
+--- imagemagick.orig/www/animate.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/animate.html	2026-03-20 21:44:03.786034266 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -177,10 +165,10 @@ index d33e8da..37572c1 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/api/Image++.html b/www/api/Image++.html
-index 9178366..04625b3 100644
---- a/www/api/Image++.html
-+++ b/www/api/Image++.html
+Index: imagemagick/www/api/Image++.html
+===================================================================
+--- imagemagick.orig/www/api/Image++.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/Image++.html	2026-03-20 21:44:03.786345245 +0100
 @@ -63,7 +63,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
@@ -189,12 +177,12 @@ index 9178366..04625b3 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../../../../../../../../../../../../../../../../../../../../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/animate.html b/www/api/animate.html
-index fb3d764..16adb72 100644
---- a/www/api/animate.html
-+++ b/www/api/animate.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../../../../../../../../../../../../../../../../../../../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/animate.html
+===================================================================
+--- imagemagick.orig/www/api/animate.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/animate.html	2026-03-20 21:44:03.786683918 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -202,12 +190,12 @@ index fb3d764..16adb72 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/annotate.html b/www/api/annotate.html
-index 564abf9..2eea1d3 100644
---- a/www/api/annotate.html
-+++ b/www/api/annotate.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/annotate.html
+===================================================================
+--- imagemagick.orig/www/api/annotate.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/annotate.html	2026-03-20 21:44:03.786901378 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -215,12 +203,12 @@ index 564abf9..2eea1d3 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/attribute.html b/www/api/attribute.html
-index 54aac22..9843823 100644
---- a/www/api/attribute.html
-+++ b/www/api/attribute.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/attribute.html
+===================================================================
+--- imagemagick.orig/www/api/attribute.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/attribute.html	2026-03-20 21:44:03.787064446 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -228,12 +216,12 @@ index 54aac22..9843823 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/blob.html b/www/api/blob.html
-index 3310853..a326805 100644
---- a/www/api/blob.html
-+++ b/www/api/blob.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/blob.html
+===================================================================
+--- imagemagick.orig/www/api/blob.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/blob.html	2026-03-20 21:44:03.787182725 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -241,12 +229,12 @@ index 3310853..a326805 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/cache-view.html b/www/api/cache-view.html
-index f563485..8d47063 100644
---- a/www/api/cache-view.html
-+++ b/www/api/cache-view.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/cache-view.html
+===================================================================
+--- imagemagick.orig/www/api/cache-view.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/cache-view.html	2026-03-20 21:44:03.787311232 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -254,12 +242,12 @@ index f563485..8d47063 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/cache.html b/www/api/cache.html
-index 0eda2fd..ff3327a 100644
---- a/www/api/cache.html
-+++ b/www/api/cache.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/cache.html
+===================================================================
+--- imagemagick.orig/www/api/cache.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/cache.html	2026-03-20 21:44:03.787441168 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -267,12 +255,12 @@ index 0eda2fd..ff3327a 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/channel.html b/www/api/channel.html
-index e443816..681aee3 100644
---- a/www/api/channel.html
-+++ b/www/api/channel.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/channel.html
+===================================================================
+--- imagemagick.orig/www/api/channel.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/channel.html	2026-03-20 21:44:03.787571680 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -280,12 +268,12 @@ index e443816..681aee3 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/cipher.html b/www/api/cipher.html
-index 52766b9..4fb0775 100644
---- a/www/api/cipher.html
-+++ b/www/api/cipher.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/cipher.html
+===================================================================
+--- imagemagick.orig/www/api/cipher.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/cipher.html	2026-03-20 21:44:03.787681998 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -293,12 +281,12 @@ index 52766b9..4fb0775 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/color.html b/www/api/color.html
-index a2ca1ef..e7401e9 100644
---- a/www/api/color.html
-+++ b/www/api/color.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/color.html
+===================================================================
+--- imagemagick.orig/www/api/color.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/color.html	2026-03-20 21:44:03.787783229 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -306,12 +294,12 @@ index a2ca1ef..e7401e9 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/colormap.html b/www/api/colormap.html
-index ad570a4..7467a6d 100644
---- a/www/api/colormap.html
-+++ b/www/api/colormap.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/colormap.html
+===================================================================
+--- imagemagick.orig/www/api/colormap.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/colormap.html	2026-03-20 21:44:03.787885707 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -319,12 +307,12 @@ index ad570a4..7467a6d 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/colorspace.html b/www/api/colorspace.html
-index 1f23654..ef64869 100644
---- a/www/api/colorspace.html
-+++ b/www/api/colorspace.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/colorspace.html
+===================================================================
+--- imagemagick.orig/www/api/colorspace.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/colorspace.html	2026-03-20 21:44:03.787986249 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -332,12 +320,12 @@ index 1f23654..ef64869 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/compare.html b/www/api/compare.html
-index e845784..6888099 100644
---- a/www/api/compare.html
-+++ b/www/api/compare.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/compare.html
+===================================================================
+--- imagemagick.orig/www/api/compare.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/compare.html	2026-03-20 21:44:03.788087481 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -345,12 +333,12 @@ index e845784..6888099 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/composite.html b/www/api/composite.html
-index 550be0f..1955341 100644
---- a/www/api/composite.html
-+++ b/www/api/composite.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/composite.html
+===================================================================
+--- imagemagick.orig/www/api/composite.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/composite.html	2026-03-20 21:44:03.788179339 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -358,12 +346,12 @@ index 550be0f..1955341 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/constitute.html b/www/api/constitute.html
-index 0dd885e..7c5ebaa 100644
---- a/www/api/constitute.html
-+++ b/www/api/constitute.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/constitute.html
+===================================================================
+--- imagemagick.orig/www/api/constitute.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/constitute.html	2026-03-20 21:44:03.788280436 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -371,12 +359,12 @@ index 0dd885e..7c5ebaa 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/decorate.html b/www/api/decorate.html
-index c40ab07..a744f07 100644
---- a/www/api/decorate.html
-+++ b/www/api/decorate.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/decorate.html
+===================================================================
+--- imagemagick.orig/www/api/decorate.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/decorate.html	2026-03-20 21:44:03.788382452 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -384,12 +372,12 @@ index c40ab07..a744f07 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/deprecate.html b/www/api/deprecate.html
-index 9effa2a..7f15fb3 100644
---- a/www/api/deprecate.html
-+++ b/www/api/deprecate.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/deprecate.html
+===================================================================
+--- imagemagick.orig/www/api/deprecate.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/deprecate.html	2026-03-20 21:44:03.788492108 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -397,12 +385,12 @@ index 9effa2a..7f15fb3 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/display.html b/www/api/display.html
-index 492e765..fcbacdc 100644
---- a/www/api/display.html
-+++ b/www/api/display.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/display.html
+===================================================================
+--- imagemagick.orig/www/api/display.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/display.html	2026-03-20 21:44:03.788590942 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -410,12 +398,12 @@ index 492e765..fcbacdc 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/distort.html b/www/api/distort.html
-index 3eb12ef..6932607 100644
---- a/www/api/distort.html
-+++ b/www/api/distort.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/distort.html
+===================================================================
+--- imagemagick.orig/www/api/distort.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/distort.html	2026-03-20 21:44:03.788708833 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -423,12 +411,12 @@ index 3eb12ef..6932607 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/draw.html b/www/api/draw.html
-index aad0d69..50ff00e 100644
---- a/www/api/draw.html
-+++ b/www/api/draw.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/draw.html
+===================================================================
+--- imagemagick.orig/www/api/draw.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/draw.html	2026-03-20 21:44:03.788816137 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -436,12 +424,12 @@ index aad0d69..50ff00e 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
-index 775d38f..448c1da 100644
---- a/www/api/drawing-wand.html
-+++ b/www/api/drawing-wand.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/drawing-wand.html
+===================================================================
+--- imagemagick.orig/www/api/drawing-wand.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/drawing-wand.html	2026-03-20 21:44:03.789080515 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -449,12 +437,12 @@ index 775d38f..448c1da 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/effect.html b/www/api/effect.html
-index 8f53ae3..7acad6e 100644
---- a/www/api/effect.html
-+++ b/www/api/effect.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/effect.html
+===================================================================
+--- imagemagick.orig/www/api/effect.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/effect.html	2026-03-20 21:44:03.789336858 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -462,12 +450,12 @@ index 8f53ae3..7acad6e 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/enhance.html b/www/api/enhance.html
-index a4979d0..bd58c1d 100644
---- a/www/api/enhance.html
-+++ b/www/api/enhance.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/enhance.html
+===================================================================
+--- imagemagick.orig/www/api/enhance.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/enhance.html	2026-03-20 21:44:03.789498018 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -475,12 +463,12 @@ index a4979d0..bd58c1d 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/exception.html b/www/api/exception.html
-index c3b6f6b..fa4dae9 100644
---- a/www/api/exception.html
-+++ b/www/api/exception.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/exception.html
+===================================================================
+--- imagemagick.orig/www/api/exception.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/exception.html	2026-03-20 21:44:03.789620583 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -488,12 +476,12 @@ index c3b6f6b..fa4dae9 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/feature.html b/www/api/feature.html
-index 7a21871..ff48ae0 100644
---- a/www/api/feature.html
-+++ b/www/api/feature.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/feature.html
+===================================================================
+--- imagemagick.orig/www/api/feature.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/feature.html	2026-03-20 21:44:03.789719089 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -501,12 +489,12 @@ index 7a21871..ff48ae0 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/fourier.html b/www/api/fourier.html
-index 9415a4a..a97d71b 100644
---- a/www/api/fourier.html
-+++ b/www/api/fourier.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/fourier.html
+===================================================================
+--- imagemagick.orig/www/api/fourier.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/fourier.html	2026-03-20 21:44:03.789810634 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -514,12 +502,12 @@ index 9415a4a..a97d71b 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/fx.html b/www/api/fx.html
-index 542b792..4b34c67 100644
---- a/www/api/fx.html
-+++ b/www/api/fx.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/fx.html
+===================================================================
+--- imagemagick.orig/www/api/fx.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/fx.html	2026-03-20 21:44:03.789900501 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -527,12 +515,12 @@ index 542b792..4b34c67 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/histogram.html b/www/api/histogram.html
-index 8b132e9..3257728 100644
---- a/www/api/histogram.html
-+++ b/www/api/histogram.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/histogram.html
+===================================================================
+--- imagemagick.orig/www/api/histogram.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/histogram.html	2026-03-20 21:44:03.789991207 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -540,12 +528,12 @@ index 8b132e9..3257728 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/image-view.html b/www/api/image-view.html
-index a967f92..b23fc4d 100644
---- a/www/api/image-view.html
-+++ b/www/api/image-view.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/image-view.html
+===================================================================
+--- imagemagick.orig/www/api/image-view.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/image-view.html	2026-03-20 21:44:03.790096242 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -553,12 +541,12 @@ index a967f92..b23fc4d 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/image.html b/www/api/image.html
-index 01aca22..984284c 100644
---- a/www/api/image.html
-+++ b/www/api/image.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/image.html
+===================================================================
+--- imagemagick.orig/www/api/image.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/image.html	2026-03-20 21:44:03.790221109 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -566,12 +554,12 @@ index 01aca22..984284c 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/layer.html b/www/api/layer.html
-index 8f735d7..4a7aff5 100644
---- a/www/api/layer.html
-+++ b/www/api/layer.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/layer.html
+===================================================================
+--- imagemagick.orig/www/api/layer.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/layer.html	2026-03-20 21:44:03.790345701 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -579,12 +567,12 @@ index 8f735d7..4a7aff5 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/list.html b/www/api/list.html
-index 84fb9b9..d0a8f65 100644
---- a/www/api/list.html
-+++ b/www/api/list.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/list.html
+===================================================================
+--- imagemagick.orig/www/api/list.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/list.html	2026-03-20 21:44:03.790465952 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -592,11 +580,11 @@ index 84fb9b9..d0a8f65 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
-index ba7deaa..55ac85f 100644
---- a/www/api/magick++-classes.html
-+++ b/www/api/magick++-classes.html
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/magick++-classes.html
+===================================================================
+--- imagemagick.orig/www/api/magick++-classes.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/magick++-classes.html	2026-03-20 21:44:03.790578593 +0100
 @@ -63,7 +63,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
@@ -605,12 +593,12 @@ index ba7deaa..55ac85f 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../../../../../../../../../../../../../../../../../../../../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
-index ab2c369..899fb41 100644
---- a/www/api/magick-deprecate.html
-+++ b/www/api/magick-deprecate.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../../../../../../../../../../../../../../../../../../../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/magick-deprecate.html
+===================================================================
+--- imagemagick.orig/www/api/magick-deprecate.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/magick-deprecate.html	2026-03-20 21:44:03.790666838 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -618,12 +606,12 @@ index ab2c369..899fb41 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/magick-image.html b/www/api/magick-image.html
-index 7a71f18..0c67448 100644
---- a/www/api/magick-image.html
-+++ b/www/api/magick-image.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/magick-image.html
+===================================================================
+--- imagemagick.orig/www/api/magick-image.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/magick-image.html	2026-03-20 21:44:03.791063793 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -631,12 +619,12 @@ index 7a71f18..0c67448 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/magick-property.html b/www/api/magick-property.html
-index 0a84df5..b59d7a7 100644
---- a/www/api/magick-property.html
-+++ b/www/api/magick-property.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/magick-property.html
+===================================================================
+--- imagemagick.orig/www/api/magick-property.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/magick-property.html	2026-03-20 21:44:03.791498453 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -644,12 +632,12 @@ index 0a84df5..b59d7a7 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
-index 2fb01c3..e8af2e2 100644
---- a/www/api/magick-wand.html
-+++ b/www/api/magick-wand.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/magick-wand.html
+===================================================================
+--- imagemagick.orig/www/api/magick-wand.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/magick-wand.html	2026-03-20 21:44:03.791657187 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -657,12 +645,12 @@ index 2fb01c3..e8af2e2 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/magick.html b/www/api/magick.html
-index abab4dd..72299bd 100644
---- a/www/api/magick.html
-+++ b/www/api/magick.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/magick.html
+===================================================================
+--- imagemagick.orig/www/api/magick.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/magick.html	2026-03-20 21:44:03.791763212 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -670,12 +658,12 @@ index abab4dd..72299bd 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/memory.html b/www/api/memory.html
-index ec50db3..5a02903 100644
---- a/www/api/memory.html
-+++ b/www/api/memory.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/memory.html
+===================================================================
+--- imagemagick.orig/www/api/memory.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/memory.html	2026-03-20 21:44:03.791911029 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -683,12 +671,12 @@ index ec50db3..5a02903 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/mime.html b/www/api/mime.html
-index e6d3863..1ce9382 100644
---- a/www/api/mime.html
-+++ b/www/api/mime.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/mime.html
+===================================================================
+--- imagemagick.orig/www/api/mime.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/mime.html	2026-03-20 21:44:03.792010581 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -696,12 +684,12 @@ index e6d3863..1ce9382 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/module.html b/www/api/module.html
-index b540a01..b278930 100644
---- a/www/api/module.html
-+++ b/www/api/module.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/module.html
+===================================================================
+--- imagemagick.orig/www/api/module.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/module.html	2026-03-20 21:44:03.792111647 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -709,12 +697,12 @@ index b540a01..b278930 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/mogrify.html b/www/api/mogrify.html
-index 2135516..6dd9fb0 100644
---- a/www/api/mogrify.html
-+++ b/www/api/mogrify.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/mogrify.html
+===================================================================
+--- imagemagick.orig/www/api/mogrify.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/mogrify.html	2026-03-20 21:44:03.792204944 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -722,12 +710,12 @@ index 2135516..6dd9fb0 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/monitor.html b/www/api/monitor.html
-index fcbc5c7..1bba9fb 100644
---- a/www/api/monitor.html
-+++ b/www/api/monitor.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/monitor.html
+===================================================================
+--- imagemagick.orig/www/api/monitor.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/monitor.html	2026-03-20 21:44:03.792306206 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -735,12 +723,12 @@ index fcbc5c7..1bba9fb 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/montage.html b/www/api/montage.html
-index c450290..7cabacb 100644
---- a/www/api/montage.html
-+++ b/www/api/montage.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/montage.html
+===================================================================
+--- imagemagick.orig/www/api/montage.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/montage.html	2026-03-20 21:44:03.792391451 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -748,12 +736,12 @@ index c450290..7cabacb 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/morphology.html b/www/api/morphology.html
-index 4d845e8..3649a8c 100644
---- a/www/api/morphology.html
-+++ b/www/api/morphology.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/morphology.html
+===================================================================
+--- imagemagick.orig/www/api/morphology.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/morphology.html	2026-03-20 21:44:03.792491152 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -761,12 +749,12 @@ index 4d845e8..3649a8c 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/paint.html b/www/api/paint.html
-index bcb7371..f4f9ff4 100644
---- a/www/api/paint.html
-+++ b/www/api/paint.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/paint.html
+===================================================================
+--- imagemagick.orig/www/api/paint.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/paint.html	2026-03-20 21:44:03.792599276 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -774,12 +762,12 @@ index bcb7371..f4f9ff4 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
-index 00be75b..8889057 100644
---- a/www/api/pixel-iterator.html
-+++ b/www/api/pixel-iterator.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/pixel-iterator.html
+===================================================================
+--- imagemagick.orig/www/api/pixel-iterator.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/pixel-iterator.html	2026-03-20 21:44:03.792697555 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -787,12 +775,12 @@ index 00be75b..8889057 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
-index 818dd22..2cab32d 100644
---- a/www/api/pixel-wand.html
-+++ b/www/api/pixel-wand.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/pixel-wand.html
+===================================================================
+--- imagemagick.orig/www/api/pixel-wand.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/pixel-wand.html	2026-03-20 21:44:03.792823776 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -800,12 +788,12 @@ index 818dd22..2cab32d 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/profile.html b/www/api/profile.html
-index 1d2f105..a7df3cc 100644
---- a/www/api/profile.html
-+++ b/www/api/profile.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/profile.html
+===================================================================
+--- imagemagick.orig/www/api/profile.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/profile.html	2026-03-20 21:44:03.792948035 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -813,12 +801,12 @@ index 1d2f105..a7df3cc 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/property.html b/www/api/property.html
-index 243bb93..3c3568d 100644
---- a/www/api/property.html
-+++ b/www/api/property.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/property.html
+===================================================================
+--- imagemagick.orig/www/api/property.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/property.html	2026-03-20 21:44:03.793042497 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -826,12 +814,12 @@ index 243bb93..3c3568d 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/quantize.html b/www/api/quantize.html
-index 78b8a85..1d7d2d7 100644
---- a/www/api/quantize.html
-+++ b/www/api/quantize.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/quantize.html
+===================================================================
+--- imagemagick.orig/www/api/quantize.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/quantize.html	2026-03-20 21:44:03.793146390 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -839,12 +827,12 @@ index 78b8a85..1d7d2d7 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/registry.html b/www/api/registry.html
-index e563450..019889f 100644
---- a/www/api/registry.html
-+++ b/www/api/registry.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/registry.html
+===================================================================
+--- imagemagick.orig/www/api/registry.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/registry.html	2026-03-20 21:44:03.793248738 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -852,12 +840,12 @@ index e563450..019889f 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/resize.html b/www/api/resize.html
-index 5af6f8e..8a3b090 100644
---- a/www/api/resize.html
-+++ b/www/api/resize.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/resize.html
+===================================================================
+--- imagemagick.orig/www/api/resize.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/resize.html	2026-03-20 21:44:03.793340579 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -865,12 +853,12 @@ index 5af6f8e..8a3b090 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/resource.html b/www/api/resource.html
-index 4dde14d..7e2a389 100644
---- a/www/api/resource.html
-+++ b/www/api/resource.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/resource.html
+===================================================================
+--- imagemagick.orig/www/api/resource.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/resource.html	2026-03-20 21:44:03.793437556 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -878,12 +866,12 @@ index 4dde14d..7e2a389 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/segment.html b/www/api/segment.html
-index 941fbf0..c4b3a5c 100644
---- a/www/api/segment.html
-+++ b/www/api/segment.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/segment.html
+===================================================================
+--- imagemagick.orig/www/api/segment.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/segment.html	2026-03-20 21:44:03.793633130 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -891,12 +879,12 @@ index 941fbf0..c4b3a5c 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/shear.html b/www/api/shear.html
-index 850f589..44d65d8 100644
---- a/www/api/shear.html
-+++ b/www/api/shear.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/shear.html
+===================================================================
+--- imagemagick.orig/www/api/shear.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/shear.html	2026-03-20 21:44:03.793746356 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -904,12 +892,12 @@ index 850f589..44d65d8 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/signature.html b/www/api/signature.html
-index bb816ca..2deb5e7 100644
---- a/www/api/signature.html
-+++ b/www/api/signature.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/signature.html
+===================================================================
+--- imagemagick.orig/www/api/signature.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/signature.html	2026-03-20 21:44:03.793834559 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -917,12 +905,12 @@ index bb816ca..2deb5e7 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/statistic.html b/www/api/statistic.html
-index d8ca507..d378fd8 100644
---- a/www/api/statistic.html
-+++ b/www/api/statistic.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/statistic.html
+===================================================================
+--- imagemagick.orig/www/api/statistic.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/statistic.html	2026-03-20 21:44:03.793919125 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -930,12 +918,12 @@ index d8ca507..d378fd8 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/stream.html b/www/api/stream.html
-index 909b6b5..f5b86c4 100644
---- a/www/api/stream.html
-+++ b/www/api/stream.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/stream.html
+===================================================================
+--- imagemagick.orig/www/api/stream.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/stream.html	2026-03-20 21:44:03.794015605 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -943,12 +931,12 @@ index 909b6b5..f5b86c4 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/transform.html b/www/api/transform.html
-index 0f46534..767db26 100644
---- a/www/api/transform.html
-+++ b/www/api/transform.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/transform.html
+===================================================================
+--- imagemagick.orig/www/api/transform.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/transform.html	2026-03-20 21:44:03.794118275 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -956,12 +944,12 @@ index 0f46534..767db26 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/version.html b/www/api/version.html
-index be2820b..ca241e5 100644
---- a/www/api/version.html
-+++ b/www/api/version.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/version.html
+===================================================================
+--- imagemagick.orig/www/api/version.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/version.html	2026-03-20 21:44:03.794203771 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -969,12 +957,12 @@ index be2820b..ca241e5 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/vision.html b/www/api/vision.html
-index bf43c63..e591b41 100644
---- a/www/api/vision.html
-+++ b/www/api/vision.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/vision.html
+===================================================================
+--- imagemagick.orig/www/api/vision.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/vision.html	2026-03-20 21:44:03.794285291 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -982,12 +970,12 @@ index bf43c63..e591b41 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/api/wand-view.html b/www/api/wand-view.html
-index 99613d3..fb5b834 100644
---- a/www/api/wand-view.html
-+++ b/www/api/wand-view.html
-@@ -115,7 +115,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/api/wand-view.html
+===================================================================
+--- imagemagick.orig/www/api/wand-view.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/api/wand-view.html	2026-03-20 21:44:03.794414012 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -995,12 +983,12 @@ index 99613d3..fb5b834 100644
 +
          </li>
        </ul>
-       <form class="d-flex form-inline" action="../../../../https://imagemagick.org/script/search.php">
-diff --git a/www/architecture.html b/www/architecture.html
-index a26dce4..0e08c02 100644
---- a/www/architecture.html
-+++ b/www/architecture.html
-@@ -114,7 +114,7 @@
+       <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+Index: imagemagick/www/architecture.html
+===================================================================
+--- imagemagick.orig/www/architecture.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/architecture.html	2026-03-20 21:44:03.794572818 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1009,10 +997,10 @@ index a26dce4..0e08c02 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/changelog.html b/www/changelog.html
-index 13d57a9..16ea9f2 100644
---- a/www/changelog.html
-+++ b/www/changelog.html
+Index: imagemagick/www/changelog.html
+===================================================================
+--- imagemagick.orig/www/changelog.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/changelog.html	2026-03-20 21:44:03.794811641 +0100
 @@ -63,7 +63,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
@@ -1022,11 +1010,11 @@ index 13d57a9..16ea9f2 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/cipher.html b/www/cipher.html
-index c6c917b..e59792b 100644
---- a/www/cipher.html
-+++ b/www/cipher.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/cipher.html
+===================================================================
+--- imagemagick.orig/www/cipher.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/cipher.html	2026-03-20 21:44:03.795006431 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1035,11 +1023,11 @@ index c6c917b..e59792b 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/cite.html b/www/cite.html
-index c7fb4c5..63d02aa 100644
---- a/www/cite.html
-+++ b/www/cite.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/cite.html
+===================================================================
+--- imagemagick.orig/www/cite.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/cite.html	2026-03-20 21:44:03.795104924 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1048,11 +1036,11 @@ index c7fb4c5..63d02aa 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/clahe.html b/www/clahe.html
-index 6f17041..2aea7e8 100644
---- a/www/clahe.html
-+++ b/www/clahe.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/clahe.html
+===================================================================
+--- imagemagick.orig/www/clahe.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/clahe.html	2026-03-20 21:44:03.795198817 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1061,37 +1049,11 @@ index 6f17041..2aea7e8 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/color-management.html b/www/color-management.html
-index eb856bf..aefd6a8 100644
---- a/www/color-management.html
-+++ b/www/color-management.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/color-thresholding.html b/www/color-thresholding.html
-index eafef41..189c751 100644
---- a/www/color-thresholding.html
-+++ b/www/color-thresholding.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/color.html b/www/color.html
-index 18439e1..46f23d4 100644
---- a/www/color.html
-+++ b/www/color.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/color.html
+===================================================================
+--- imagemagick.orig/www/color.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/color.html	2026-03-20 21:44:03.795402649 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1100,24 +1062,11 @@ index 18439e1..46f23d4 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/command-line-tools.html b/www/command-line-tools.html
-index e6da51c..adbef16 100644
---- a/www/command-line-tools.html
-+++ b/www/command-line-tools.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/compare.html b/www/compare.html
-index 565f631..6d7b56c 100644
---- a/www/compare.html
-+++ b/www/compare.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/compose.html
+===================================================================
+--- imagemagick.orig/www/compose.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/compose.html	2026-03-20 21:44:03.795574726 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1126,24 +1075,11 @@ index 565f631..6d7b56c 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/compose.html b/www/compose.html
-index 61e2aab..9b7736e 100644
---- a/www/compose.html
-+++ b/www/compose.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="search.html">
-diff --git a/www/composite.html b/www/composite.html
-index aa0ce42..e933017 100644
---- a/www/composite.html
-+++ b/www/composite.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/conjure.html
+===================================================================
+--- imagemagick.orig/www/conjure.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/conjure.html	2026-03-20 21:44:03.795675935 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1152,11 +1088,11 @@ index aa0ce42..e933017 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/conjure.html b/www/conjure.html
-index 87dd537..bb114e2 100644
---- a/www/conjure.html
-+++ b/www/conjure.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/connected-components.html
+===================================================================
+--- imagemagick.orig/www/connected-components.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/connected-components.html	2026-03-20 21:44:03.795798516 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1165,24 +1101,11 @@ index 87dd537..bb114e2 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/connected-components.html b/www/connected-components.html
-index b800816..a57b704 100644
---- a/www/connected-components.html
-+++ b/www/connected-components.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/contact.html b/www/contact.html
-index c177971..3170490 100644
---- a/www/contact.html
-+++ b/www/contact.html
-@@ -115,7 +115,7 @@
+Index: imagemagick/www/contact.html
+===================================================================
+--- imagemagick.orig/www/contact.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/contact.html	2026-03-20 21:44:03.795861666 +0100
+@@ -113,7 +113,7 @@
            <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1191,11 +1114,11 @@ index c177971..3170490 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/convert.html b/www/convert.html
-index df79d35..fadc0f8 100644
---- a/www/convert.html
-+++ b/www/convert.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/convert.html
+===================================================================
+--- imagemagick.orig/www/convert.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/convert.html	2026-03-20 21:44:03.795946787 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1204,24 +1127,11 @@ index df79d35..fadc0f8 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/convex-hull.html b/www/convex-hull.html
-index a68f6ae..9cabc15 100644
---- a/www/convex-hull.html
-+++ b/www/convex-hull.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="search.html">
-diff --git a/www/defines.html b/www/defines.html
-index 30249f7..bc6240d 100644
---- a/www/defines.html
-+++ b/www/defines.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/defines.html
+===================================================================
+--- imagemagick.orig/www/defines.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/defines.html	2026-03-20 21:44:03.796072910 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1230,11 +1140,11 @@ index 30249f7..bc6240d 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
-index 92a9ee4..820d5b6 100644
---- a/www/distribute-pixel-cache.html
-+++ b/www/distribute-pixel-cache.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/distribute-pixel-cache.html
+===================================================================
+--- imagemagick.orig/www/distribute-pixel-cache.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/distribute-pixel-cache.html	2026-03-20 21:44:03.796172754 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1243,11 +1153,11 @@ index 92a9ee4..820d5b6 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/escape.html b/www/escape.html
-index 1f7a52b..03834f1 100644
---- a/www/escape.html
-+++ b/www/escape.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/escape.html
+===================================================================
+--- imagemagick.orig/www/escape.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/escape.html	2026-03-20 21:44:03.796260384 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1256,11 +1166,11 @@ index 1f7a52b..03834f1 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/exception.html b/www/exception.html
-index 88f549f..3d18526 100644
---- a/www/exception.html
-+++ b/www/exception.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/fx.html
+===================================================================
+--- imagemagick.orig/www/fx.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/fx.html	2026-03-20 21:44:03.796360562 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1269,11 +1179,11 @@ index 88f549f..3d18526 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/fx.html b/www/fx.html
-index 87bbe2e..5534172 100644
---- a/www/fx.html
-+++ b/www/fx.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/gradient.html
+===================================================================
+--- imagemagick.orig/www/gradient.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/gradient.html	2026-03-20 21:44:03.796450276 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1282,11 +1192,11 @@ index 87bbe2e..5534172 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/gradient.html b/www/gradient.html
-index 39b0ad2..f359a9b 100644
---- a/www/gradient.html
-+++ b/www/gradient.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/high-dynamic-range.html
+===================================================================
+--- imagemagick.orig/www/high-dynamic-range.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/high-dynamic-range.html	2026-03-20 21:44:03.796518734 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1295,11 +1205,11 @@ index 39b0ad2..f359a9b 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
-index 89f6f04..f9a40ca 100644
---- a/www/high-dynamic-range.html
-+++ b/www/high-dynamic-range.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/history.html
+===================================================================
+--- imagemagick.orig/www/history.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/history.html	2026-03-20 21:44:03.796581088 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1308,11 +1218,11 @@ index 89f6f04..f9a40ca 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/history.html b/www/history.html
-index 6578b5e..1689176 100644
---- a/www/history.html
-+++ b/www/history.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/identify.html
+===================================================================
+--- imagemagick.orig/www/identify.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/identify.html	2026-03-20 21:44:03.796654432 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1321,24 +1231,11 @@ index 6578b5e..1689176 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/identify.html b/www/identify.html
-index db21ff8..af6b613 100644
---- a/www/identify.html
-+++ b/www/identify.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="search.html">
-diff --git a/www/import.html b/www/import.html
-index 11e8404..71a8057 100644
---- a/www/import.html
-+++ b/www/import.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/import.html
+===================================================================
+--- imagemagick.orig/www/import.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/import.html	2026-03-20 21:44:03.796743144 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1347,11 +1244,11 @@ index 11e8404..71a8057 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/install-source.html b/www/install-source.html
-index f207f27..e5bf52a 100644
---- a/www/install-source.html
-+++ b/www/install-source.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/links.html
+===================================================================
+--- imagemagick.orig/www/links.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/links.html	2026-03-20 21:44:03.796810134 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1360,24 +1257,11 @@ index f207f27..e5bf52a 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/links.html b/www/links.html
-index ef9c24d..5592f1a 100644
---- a/www/links.html
-+++ b/www/links.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="search.html">
-diff --git a/www/magick++.html b/www/magick++.html
-index 0c3d8f8..44199c3 100644
---- a/www/magick++.html
-+++ b/www/magick++.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/magick++.html
+===================================================================
+--- imagemagick.orig/www/magick++.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/magick++.html	2026-03-20 21:44:03.796872647 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1386,11 +1270,11 @@ index 0c3d8f8..44199c3 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/magick-cache.html b/www/magick-cache.html
-index 8a9c41d..cab9335 100644
---- a/www/magick-cache.html
-+++ b/www/magick-cache.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/magick-cache.html
+===================================================================
+--- imagemagick.orig/www/magick-cache.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/magick-cache.html	2026-03-20 21:44:03.796940163 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1399,11 +1283,11 @@ index 8a9c41d..cab9335 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/magick-core.html b/www/magick-core.html
-index 5136f8c..b8ecc9d 100644
---- a/www/magick-core.html
-+++ b/www/magick-core.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/magick-core.html
+===================================================================
+--- imagemagick.orig/www/magick-core.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/magick-core.html	2026-03-20 21:44:03.797005248 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1412,11 +1296,11 @@ index 5136f8c..b8ecc9d 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/magick-script.html b/www/magick-script.html
-index 8cfd126..c9a861f 100644
---- a/www/magick-script.html
-+++ b/www/magick-script.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/magick-script.html
+===================================================================
+--- imagemagick.orig/www/magick-script.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/magick-script.html	2026-03-20 21:44:03.797090990 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1425,11 +1309,11 @@ index 8cfd126..c9a861f 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
-index b73fc41..75ad52e 100644
---- a/www/magick-vector-graphics.html
-+++ b/www/magick-vector-graphics.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/magick-vector-graphics.html
+===================================================================
+--- imagemagick.orig/www/magick-vector-graphics.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/magick-vector-graphics.html	2026-03-20 21:44:03.797207908 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1438,11 +1322,11 @@ index b73fc41..75ad52e 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/magick-wand.html b/www/magick-wand.html
-index f3654f5..789b36e 100644
---- a/www/magick-wand.html
-+++ b/www/magick-wand.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/miff.html
+===================================================================
+--- imagemagick.orig/www/miff.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/miff.html	2026-03-20 21:44:03.797294051 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1451,11 +1335,11 @@ index f3654f5..789b36e 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/magick.html b/www/magick.html
-index ecc90cd..50859a8 100644
---- a/www/magick.html
-+++ b/www/magick.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/mirror.html
+===================================================================
+--- imagemagick.orig/www/mirror.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/mirror.html	2026-03-20 21:44:03.797359847 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1464,24 +1348,11 @@ index ecc90cd..50859a8 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/miff.html b/www/miff.html
-index 5c3dd68..e4eefa2 100644
---- a/www/miff.html
-+++ b/www/miff.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="search.html">
-diff --git a/www/mirror.html b/www/mirror.html
-index 1cadc5f..8268f40 100644
---- a/www/mirror.html
-+++ b/www/mirror.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/montage.html
+===================================================================
+--- imagemagick.orig/www/montage.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/montage.html	2026-03-20 21:44:03.797428129 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1490,11 +1361,50 @@ index 1cadc5f..8268f40 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/mogrify.html b/www/mogrify.html
-index ea66d47..4996e47 100644
---- a/www/mogrify.html
-+++ b/www/mogrify.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/opencl.html
+===================================================================
+--- imagemagick.orig/www/opencl.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/opencl.html	2026-03-20 21:44:03.797642885 +0100
+@@ -112,7 +112,7 @@
+           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+Index: imagemagick/www/privacy-policy.html
+===================================================================
+--- imagemagick.orig/www/privacy-policy.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/privacy-policy.html	2026-03-20 21:44:03.797788857 +0100
+@@ -112,7 +112,7 @@
+           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+Index: imagemagick/www/quantize.html
+===================================================================
+--- imagemagick.orig/www/quantize.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/quantize.html	2026-03-20 21:44:03.797913793 +0100
+@@ -112,7 +112,7 @@
+           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+         </li>
+         <li class="nav-item">
+-          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
++
+         </li>
+       </ul>
+       <form class="d-flex form-inline" action="search.html">
+Index: imagemagick/www/resources.html
+===================================================================
+--- imagemagick.orig/www/resources.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/resources.html	2026-03-20 21:44:03.798059485 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1503,24 +1413,11 @@ index ea66d47..4996e47 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/montage.html b/www/montage.html
-index 412df51..1dc3f1f 100644
---- a/www/montage.html
-+++ b/www/montage.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/opencl.html b/www/opencl.html
-index adbf97a..cb8f318 100644
---- a/www/opencl.html
-+++ b/www/opencl.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/search.html
+===================================================================
+--- imagemagick.orig/www/search.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/search.html	2026-03-20 21:44:03.798205126 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1529,11 +1426,11 @@ index adbf97a..cb8f318 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/privacy-policy.html b/www/privacy-policy.html
-index a21777b..f609d9f 100644
---- a/www/privacy-policy.html
-+++ b/www/privacy-policy.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/sitemap.html
+===================================================================
+--- imagemagick.orig/www/sitemap.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/sitemap.html	2026-03-20 21:44:03.798331328 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1542,11 +1439,11 @@ index a21777b..f609d9f 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/quantize.html b/www/quantize.html
-index 0dad79e..c3a22d2 100644
---- a/www/quantize.html
-+++ b/www/quantize.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/support.html
+===================================================================
+--- imagemagick.orig/www/support.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/support.html	2026-03-20 21:44:03.798468311 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1555,72 +1452,7 @@ index 0dad79e..c3a22d2 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/resources.html b/www/resources.html
-index cdefc29..0a6b953 100644
---- a/www/resources.html
-+++ b/www/resources.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/search.html b/www/search.html
-index 1a3f6aa..9270a10 100644
---- a/www/search.html
-+++ b/www/search.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="search.html">
-diff --git a/www/sitemap.html b/www/sitemap.html
-index f3be9ac..5425386 100644
---- a/www/sitemap.html
-+++ b/www/sitemap.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="search.html">
-diff --git a/www/stream.html b/www/stream.html
-index 30ec62d..fb585cf 100644
---- a/www/stream.html
-+++ b/www/stream.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="../www/search.html">
-diff --git a/www/support.html b/www/support.html
-index 3ce8275..d0a5e41 100644
---- a/www/support.html
-+++ b/www/support.html
-@@ -114,7 +114,7 @@
-           <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
-         </li>
-         <li class="nav-item">
--          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
-+
-         </li>
-       </ul>
-       <form class="d-flex form-inline" action="search.html">
-@@ -175,7 +175,7 @@
+@@ -173,7 +173,7 @@
  <h2>Github</a></h2>
  <p>ImageMagick Studio LLC is the organization that designs, maintains, and enhances the ImageMagick software suite. In the past, we paid for the privilege of producing free software out of our own pockets. Now, to help defray costs associated with network bandwidth, development software, computer hardware, taxes, legal, and other expenses, we accept donations from individuals or companies like yourself.</p>
  <ul>
@@ -1629,11 +1461,11 @@ index 3ce8275..d0a5e41 100644
  </ul>
  <h2><a href="https://www.paypal.com/biz/fund?id=9XPKRUWDXRR8J">Paypal</a></h2>
  <p>For direct monetary contributions, click on the donate button to contribute thru Paypal or with a credit card:</p>
-diff --git a/www/vpat.html b/www/vpat.html
-index 9b8fb92..745c725 100644
---- a/www/vpat.html
-+++ b/www/vpat.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/vpat.html
+===================================================================
+--- imagemagick.orig/www/vpat.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/vpat.html	2026-03-20 21:44:03.798598230 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">
@@ -1642,11 +1474,11 @@ index 9b8fb92..745c725 100644
          </li>
        </ul>
        <form class="d-flex form-inline" action="search.html">
-diff --git a/www/webp.html b/www/webp.html
-index 5122b1d..c97934d 100644
---- a/www/webp.html
-+++ b/www/webp.html
-@@ -114,7 +114,7 @@
+Index: imagemagick/www/webp.html
+===================================================================
+--- imagemagick.orig/www/webp.html	2026-03-20 21:44:03.798733482 +0100
++++ imagemagick/www/webp.html	2026-03-20 21:44:03.798711172 +0100
+@@ -112,7 +112,7 @@
            <a class="nav-link" rel="noopener" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
          </li>
          <li class="nav-item">

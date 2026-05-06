@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -596,8 +596,9 @@ static void Get8BIMProperty(const Image *image,const char *key,
   char
     *attribute,
     format[MagickPathExtent],
+    *macroman_resource = (char *) NULL,
     name[MagickPathExtent],
-    *resource;
+    *resource = (char *) NULL;
 
   const StringInfo
     *profile;
@@ -639,7 +640,6 @@ static void Get8BIMProperty(const Image *image,const char *key,
   if (*name == '#')
     sub_number=(ssize_t) StringToLong(&name[1]);
   sub_number=MagickMax(sub_number,1L);
-  resource=(char *) NULL;
   status=MagickFalse;
   length=GetStringInfoLength(profile);
   info=GetStringInfoDatum(profile);
@@ -658,6 +658,8 @@ static void Get8BIMProperty(const Image *image,const char *key,
       continue;
     if (id > (ssize_t) stop)
       continue;
+    if (macroman_resource != (char *) NULL)
+      macroman_resource=DestroyString(macroman_resource);
     if (resource != (char *) NULL)
       resource=DestroyString(resource);
     count=(ssize_t) ReadPropertyByte(&info,&length);
@@ -682,8 +684,12 @@ static void Get8BIMProperty(const Image *image,const char *key,
         length=0;
         continue;
       }
+    macroman_resource=(char *) ConvertMacRomanToUTF8((unsigned char *)
+      resource);
     if ((*name != '\0') && (*name != '#'))
-      if ((resource == (char *) NULL) || (LocaleCompare(name,resource) != 0))
+      if ((resource == (char *) NULL) || (macroman_resource == (char *) NULL) ||
+          ((LocaleCompare(name,resource) != 0) &&
+           (LocaleCompare(name,macroman_resource) != 0)))
         {
           /*
             No name match, scroll forward and try next.
@@ -736,6 +742,8 @@ static void Get8BIMProperty(const Image *image,const char *key,
         status=MagickTrue;
       }
   }
+  if (macroman_resource != (char *) NULL)
+    macroman_resource=DestroyString(macroman_resource);
   if (resource != (char *) NULL)
     resource=DestroyString(resource);
 }
@@ -1880,6 +1888,9 @@ static void GetXMPProperty(const Image *image,const char *property)
         char
           *xmp_namespace;
 
+        size_t
+          xmp_namespace_length;
+
         node=GetXMLTreeChild(description,(const char *) NULL);
         while (node != (XMLTreeInfo *) NULL)
         {
@@ -1890,8 +1901,13 @@ static void GetXMPProperty(const Image *image,const char *property)
             {
               xmp_namespace=ConstantString(GetXMLTreeTag(node));
               (void) SubstituteString(&xmp_namespace,"exif:","xmp:");
-              (void) AddValueToSplayTree((SplayTreeInfo *) image->properties,
-                xmp_namespace,ConstantString(content));
+              xmp_namespace_length=strlen(xmp_namespace);
+              if ((xmp_namespace_length <= 2) ||
+                  (*(xmp_namespace+(xmp_namespace_length-2)) != ':') ||
+                  (*(xmp_namespace+(xmp_namespace_length-1)) != '*'))
+                (void) AddValueToSplayTree((SplayTreeInfo *) image->properties,
+                 ConstantString(xmp_namespace),ConstantString(content));
+              xmp_namespace=DestroyString(xmp_namespace);
             }
           while (child != (XMLTreeInfo *) NULL)
           {
@@ -1900,8 +1916,14 @@ static void GetXMPProperty(const Image *image,const char *property)
               {
                 xmp_namespace=ConstantString(GetXMLTreeTag(node));
                 (void) SubstituteString(&xmp_namespace,"exif:","xmp:");
-                (void) AddValueToSplayTree((SplayTreeInfo *) image->properties,
-                  xmp_namespace,ConstantString(content));
+                xmp_namespace_length=strlen(xmp_namespace);
+                if ((xmp_namespace_length <= 2) ||
+                    (*(xmp_namespace+(xmp_namespace_length-2)) != ':') ||
+                    (*(xmp_namespace+(xmp_namespace_length-1)) != '*'))
+                  (void) AddValueToSplayTree((SplayTreeInfo *)
+                    image->properties,ConstantString(xmp_namespace),
+                    ConstantString(content));
+                xmp_namespace=DestroyString(xmp_namespace);
               }
             child=GetXMLTreeSibling(child);
           }
@@ -4334,7 +4356,7 @@ MagickExport char *RemoveImageProperty(Image *image,const char *property)
 %
 %  The format of the ResetImagePropertyIterator method is:
 %
-%      ResetImagePropertyIterator(Image *image)
+%      void ResetImagePropertyIterator(const Image *image)
 %
 %  A description of each parameter follows:
 %

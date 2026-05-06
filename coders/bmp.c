@@ -24,7 +24,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -515,11 +515,6 @@ static MagickBooleanType IsBMP(const unsigned char *magick,const size_t length)
 %    o exception: return any errors or warnings in this structure.
 %
 */
-
-static inline MagickBooleanType BMPOverflowCheck(size_t x,size_t y)
-{
-  return((y != 0) && (x > 4294967295UL/y) ? MagickTrue : MagickFalse);
-}
 
 static Image *ReadEmbedImage(const ImageInfo *image_info,Image *image,
   const char *magick,ExceptionInfo *exception)
@@ -1117,16 +1112,16 @@ static Image *ReadBMPImage(const ImageInfo *image_info,ExceptionInfo *exception)
       ThrowReaderException(CorruptImageError,"ImproperImageHeader");
     if (bmp_info.compression == BI_RLE4)
       bmp_info.bits_per_pixel<<=1;
-		extent=image->columns*bmp_info.bits_per_pixel;
-		bytes_per_line=4*((extent+31)/32);
-    if (BMPOverflowCheck(bytes_per_line,image->rows) != MagickFalse)
+    if (HeapOverflowSanityCheckGetSize(image->columns,bmp_info.bits_per_pixel,&extent) != MagickFalse)
+      ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
+    if (HeapOverflowSanityCheckGetSize(4,((extent+31)/32),&bytes_per_line) != MagickFalse)
+      ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
+    if (HeapOverflowSanityCheckGetSize(bytes_per_line,image->rows,&length) != MagickFalse)
       ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
-    length=bytes_per_line*image->rows;
     if ((MagickSizeType) (length/256) > blob_size)
       ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
     extent=MagickMax(bytes_per_line,image->columns+1UL);
-    if ((BMPOverflowCheck(image->rows,extent) != MagickFalse) ||
-        (BMPOverflowCheck(extent,sizeof(*pixels)) != MagickFalse))
+    if (HeapOverflowSanityCheck(extent,sizeof(*pixels)) != MagickFalse)
       ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
     pixel_info=AcquireVirtualMemory(image->rows,extent*sizeof(*pixels));
     if (pixel_info == (MemoryInfo *) NULL)
@@ -2040,9 +2035,9 @@ static MagickBooleanType WriteBMPImage(const ImageInfo *image_info,Image *image,
               }
           }
       }
-    extent=image->columns*(size_t) bmp_info.bits_per_pixel;
-    bytes_per_line=4*((extent+31)/32);
-    if (BMPOverflowCheck(bytes_per_line,image->rows) != MagickFalse)
+    if (HeapOverflowSanityCheckGetSize(image->columns,bmp_info.bits_per_pixel,&extent) != MagickFalse)
+      ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
+    if (HeapOverflowSanityCheckGetSize(4,((extent+31)/32),&bytes_per_line) != MagickFalse)
       ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
     bmp_info.ba_offset=0;
     if (type > 3)
@@ -2107,8 +2102,7 @@ static MagickBooleanType WriteBMPImage(const ImageInfo *image_info,Image *image,
     */
     extent=MagickMax(bytes_per_line,image->columns+1UL)*
       ((bmp_info.bits_per_pixel+7)/8);
-    if ((BMPOverflowCheck(image->rows,extent) != MagickFalse) ||
-        (BMPOverflowCheck(extent,sizeof(*pixels)) != MagickFalse))
+    if (HeapOverflowSanityCheck(extent,sizeof(*pixels)) != MagickFalse)
       ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
     pixel_info=AcquireVirtualMemory(image->rows,extent*sizeof(*pixels));
     if (pixel_info == (MemoryInfo *) NULL)

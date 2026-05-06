@@ -23,7 +23,7 @@
 %  You may not use this file except in compliance with the License.  You may  %
 %  obtain a copy of the License at                                            %
 %                                                                             %
-%    https://imagemagick.org/script/license.php                               %
+%    https://imagemagick.org/license/                                         %
 %                                                                             %
 %  Unless required by applicable law or agreed to in writing, software        %
 %  distributed under the License is distributed on an "AS IS" BASIS,          %
@@ -833,14 +833,14 @@ static MagickBooleanType WritePCLImage(const ImageInfo *image_info,Image *image,
       }
       case RLECompression:
       {
-        compress_pixels=(unsigned char *) AcquireQuantumMemory(length+256,
-          sizeof(*compress_pixels));
+        compress_pixels=(unsigned char *) AcquireQuantumMemory(length+
+          (length/127)+256,sizeof(*compress_pixels));
         if (compress_pixels == (unsigned char *) NULL)
           {
             pixels=(unsigned char *) RelinquishMagickMemory(pixels);
             ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
           }
-        (void) memset(compress_pixels,0,(length+256)*
+        (void) memset(compress_pixels,0,(length+(length/127)+256)*
           sizeof(*compress_pixels));
         (void) FormatLocaleString(buffer,MagickPathExtent,"\033*b2M");
         (void) WriteBlobString(image,buffer);

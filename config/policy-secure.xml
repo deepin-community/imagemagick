@@ -48,18 +48,18 @@
   <!-- Set maximum amount of memory in bytes to allocate for the pixel cache
        from the heap. When this limit is exceeded, the image pixels are cached
        to memory-mapped disk. -->
-  <policy domain="resource" name="memory" value="256MiB"/>
+  <policy domain="resource" name="memory" value="768MiB"/>
   <!-- Set maximum amount of memory map in bytes to allocate for the pixel
        cache. When this limit is exceeded, the image pixels are cached to
        disk. -->
-  <policy domain="resource" name="map" value="512MiB"/>
+  <policy domain="resource" name="map" value="2GiB"/>
   <!-- Set the maximum width * height of an image that can reside in the pixel
        cache memory. Images that exceed the area limit are cached to disk. -->
-  <policy domain="resource" name="area" value="16KP"/>
+  <policy domain="resource" name="area" value="8KP"/>
   <!-- Set maximum amount of disk space in bytes permitted for use by the pixel
        cache. When this limit is exceeded, the pixel cache is not be created
        and an exception is thrown. -->
-  <policy domain="resource" name="disk" value="1GiB"/>
+  <policy domain="resource" name="disk" value="2GiB"/>
   <!-- Set the maximum length of an image sequence.  When this limit is
        exceeded, an exception is thrown. -->
   <policy domain="resource" name="list-length" value="32"/>
@@ -90,12 +90,15 @@
   <policy domain="filter" rights="none" pattern="*"/>
   <!-- Don't read/write from/to stdin/stdout. -->
   <policy domain="path" rights="none" pattern="-"/>
-  <!-- don't read sensitive paths. -->
+  <policy domain="path" rights="none" pattern="fd:*"/>
+  <!-- Sensitive paths are not permitted. -->
   <policy domain="path" rights="none" pattern="/etc/*"/>
-  <!-- Indirect reads are not permitted. -->
+  <!-- Relative paths are not permitted. -->
+  <policy domain="path" rights="none" pattern="*../*"/>
+  <!-- Indirect reading is not permitted. -->
   <policy domain="path" rights="none" pattern="@*"/>
   <!-- These image types are security risks on read, but write is fine -->
-  <policy domain="module" rights="write" pattern="{MSL,MVG,PS,SVG,URL,XPS}"/>
+  <policy domain="module" rights="write" pattern="{MSL,MVG,PS,SVG,TXT,URL,XPS}"/>
   <!-- This policy sets the number of times to replace content of certain
        memory buffers and temporary files before they are freed or deleted. -->
   <policy domain="system" name="shred" value="1"/>
@@ -105,4 +108,6 @@
   <!-- Set the maximum amount of memory in bytes that are permitted for
        allocation requests. -->
   <policy domain="system" name="max-memory-request" value="256MiB"/>
+  <!-- If the basename of path is a symbolic link, the open fails -->
+  <policy domain="system" name="symlink" rights="none" pattern="follow"/>
 </policymap>
