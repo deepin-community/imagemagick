@@ -1363,7 +1363,7 @@ MagickExport MagickBooleanType IdentifyImage(Image *image,FILE *file,
       {
         q=d;
         while ((*q != '\xff') && (*q != '\0') &&
-               ((size_t) (q-d) < sizeof(image_info->filename)))
+               ((size_t) (q-d+1) < sizeof(image_info->filename)))
           q++;
         (void) CopyMagickString(image_info->filename,d,(size_t) (q-d+1));
         d=q;

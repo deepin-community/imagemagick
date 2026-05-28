@@ -58,6 +58,7 @@
 #include "MagickCore/option.h"
 #include "MagickCore/pixel-accessor.h"
 #include "MagickCore/quantum-private.h"
+#include "MagickCore/resource_.h"
 #include "MagickCore/static.h"
 #include "MagickCore/string_.h"
 #include "MagickCore/string-private.h"
@@ -177,6 +178,9 @@ static Image *ReadFLIFImage(const ImageInfo *image_info,
       ThrowReaderException(CorruptImageError,"CorruptImage");
     }
   image_count=flif_decoder_num_images(flifdec);
+  if (AcquireMagickResource(ListLengthResource,image_count) == MagickFalse)
+    ThrowFileException(exception,ResourceLimitError,"ListLengthExceedsLimit",
+      image->filename);
   flifimage=flif_decoder_get_image(flifdec,0);
   length=sizeof(unsigned short)*4*flif_image_get_width(flifimage);
   pixels=(unsigned short *) AcquireQuantumMemory(1,length);

@@ -2279,72 +2279,56 @@ MagickExport MagickBooleanType DrawGradientImage(Image *image,
 %
 */
 
-static MagickBooleanType CheckPrimitiveExtent(MVGInfo *mvg_info,
+static inline MagickBooleanType CheckPrimitiveExtent(MVGInfo *mvg_info,
   const double pad)
 {
-  char
-    **text = (char **) NULL;
-
   double
-    extent;
+    proposed_extent;
+
+  PrimitiveInfo
+    *primitive_info;
 
   size_t
-    quantum;
+    extent;
 
   ssize_t
     i;
 
-  /*
-    Check if there is enough storage for drawing primitives.
-  */
-  quantum=sizeof(**mvg_info->primitive_info);
-  extent=(double) mvg_info->offset+pad+(PrimitiveExtentPad+1)*(double) quantum;
-  if (extent <= (double) *mvg_info->extent)
-    return(MagickTrue);
-  if ((extent >= (double) GetMaxMemoryRequest()) || (IsNaN(extent) != 0))
+  if ((mvg_info == (MVGInfo *) NULL) ||
+      (mvg_info->primitive_info == (PrimitiveInfo **) NULL) ||
+      (*mvg_info->primitive_info == (PrimitiveInfo *) NULL) ||
+      (mvg_info->extent == (size_t *) NULL))
     return(MagickFalse);
-  if (mvg_info->offset > 0)
+  proposed_extent=mvg_info->offset+pad+PrimitiveExtentPad+1.0;
+  if ((proposed_extent <= 0.0) || (proposed_extent > (double) MAGICK_SIZE_MAX))
+    return(MagickFalse);
+  extent=CastDoubleToSizeT(ceil(proposed_extent));
+  if (extent <= *mvg_info->extent)
+    return(MagickTrue);
+  if (extent > (GetMaxMemoryRequest()/sizeof(PrimitiveInfo)))
+    return(MagickFalse);
+  primitive_info=(PrimitiveInfo *) ResizeQuantumMemory(
+    *mvg_info->primitive_info,extent,sizeof(PrimitiveInfo));
+  if (primitive_info == (PrimitiveInfo *) NULL)
     {
-      text=(char **) AcquireQuantumMemory((size_t) mvg_info->offset,
-        sizeof(*text));
-      if (text == (char **) NULL)
-        return(MagickFalse);
-      for (i=0; i < mvg_info->offset; i++)
-        text[i]=(*mvg_info->primitive_info)[i].text;
-    }
-  *mvg_info->primitive_info=(PrimitiveInfo *) ResizeQuantumMemory(
-    *mvg_info->primitive_info,(size_t) (extent+1),quantum);
-  if (*mvg_info->primitive_info != (PrimitiveInfo *) NULL)
-    {
-      if (text != (char **) NULL)
-        text=(char **) RelinquishMagickMemory(text);
-      *mvg_info->extent=(size_t) extent;
-      for (i=mvg_info->offset+1; i <= (ssize_t) extent; i++)
-      {
-        (*mvg_info->primitive_info)[i].primitive=UndefinedPrimitive;
-        (*mvg_info->primitive_info)[i].text=(char *) NULL;
-      }
-      return(MagickTrue);
+      /*
+        Leave old buffer intact; report failure.
+      */
+      ThrowMagickException(mvg_info->exception, GetMagickModule(),
+        ResourceLimitError,"MemoryAllocationFailed","`%s'","");
+      return(MagickFalse);
     }
   /*
-    Reallocation failed, allocate a primitive to facilitate unwinding.
+    Commit updated buffer.
   */
-  if (text != (char **) NULL)
-    {
-      for (i=0; i < mvg_info->offset; i++)
-        if (text[i] != (char *) NULL)
-          text[i]=DestroyString(text[i]);
-      text=(char **) RelinquishMagickMemory(text);
-    }
-  (void) ThrowMagickException(mvg_info->exception,GetMagickModule(),
-    ResourceLimitError,"MemoryAllocationFailed","`%s'","");
-  *mvg_info->primitive_info=(PrimitiveInfo *) AcquireCriticalMemory((size_t)
-    (PrimitiveExtentPad+1)*quantum);
-  (void) memset(*mvg_info->primitive_info,0,(size_t) ((PrimitiveExtentPad+1)*
-    quantum));
-  *mvg_info->extent=1;
-  mvg_info->offset=0;
-  return(MagickFalse);
+  for (i=(ssize_t) *mvg_info->extent; i < (ssize_t) extent; i++)
+  {
+    primitive_info[i].primitive=UndefinedPrimitive;
+    primitive_info[i].text=(char *) NULL;
+  }
+  *mvg_info->primitive_info=primitive_info;
+  *mvg_info->extent=extent;
+  return(MagickTrue);
 }
 
 static inline double GetDrawValue(const char *magick_restrict string,
@@ -3463,7 +3447,7 @@ static MagickBooleanType RenderMVGContent(Image *image,
                 }
                 if ((q == (char *) NULL) || (*q == '\0') ||
                     (p == (char *) NULL) || ((q-4) < p) ||
-                    ((q-p+4+1) > MagickPathExtent))
+                    ((size_t) (q-p+4+1) > extent))
                   {
                     status=MagickFalse;
                     break;
@@ -3578,8 +3562,8 @@ static MagickBooleanType RenderMVGContent(Image *image,
                     continue;
                   break;
                 }
-                if ((q == (char *) NULL) || (p == (char *) NULL) || ((q-4) < p) ||
-                    ((q-p+4+1) > MagickPathExtent))
+                if ((q == (char *) NULL) || (p == (char *) NULL) ||
+                    ((q-4) < p) || ((size_t) (q-p+4+1) > extent))
                   {
                     status=MagickFalse;
                     break;
@@ -4080,6 +4064,7 @@ static MagickBooleanType RenderMVGContent(Image *image,
     i=0;
     mvg_info.offset=i;
     j=0;
+    primitive_info[0].primitive=primitive_type;
     primitive_info[0].point.x=0.0;
     primitive_info[0].point.y=0.0;
     primitive_info[0].coordinates=0;

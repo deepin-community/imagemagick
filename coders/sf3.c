@@ -266,8 +266,10 @@ static Image *ReadSF3Image(const ImageInfo *image_info,ExceptionInfo *exception)
   width=ReadBlobLSBLong(image);
   height=ReadBlobLSBLong(image);
   layers = ReadBlobLSBLong(image);
-  if (width == 0 || height == 0 || layers == 0)
+  if ((width == 0) || (height == 0) || (layers == 0))
     ThrowReaderException(CorruptImageError,"NegativeOrZeroImageSize");
+  if (AcquireMagickResource(ListLengthResource,layers) == MagickFalse)
+    ThrowReaderException(ResourceLimitError,"ListLengthExceedsLimit");
   channels=(unsigned char) ReadBlobByte(image);
   format=(unsigned char) ReadBlobByte(image);
   

@@ -1822,10 +1822,9 @@ static Cache GetImagePixelCache(Image *image,const MagickBooleanType clone,
       /*
         Ensure the image matches the pixel cache morphology.
       */
-      if (image->type != UndefinedType)
-        image->type=UndefinedType;
       if (ValidatePixelCacheMorphology(image) == MagickFalse)
         {
+          image->type=UndefinedType;
           status=OpenPixelCache(image,IOMode,exception);
           cache_info=(CacheInfo *) image->cache;
           if (cache_info->file != -1)
@@ -5513,7 +5512,7 @@ MagickPrivate MagickBooleanType SyncAuthenticPixelCacheNexus(Image *image,
   assert(cache_info->signature == MagickCoreSignature);
   if (cache_info->type == UndefinedCache)
     return(MagickFalse);
-  if (image->mask_trait != UpdatePixelTrait)
+  if ((image->mask_trait & UpdatePixelTrait) != 0)
     {
       if (((image->channels & WriteMaskChannel) != 0) &&
           (ClipPixelCacheNexus(image,nexus_info,exception) == MagickFalse))

@@ -1,3 +1,45 @@
+imagemagick (8:7.1.2.23+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version
+  * Fix CVE-2026-42326:
+    Heap Buffer Over-Read in IPTC encoder.
+  * Fix CVE-2026-45031:
+    Policy Bypass in PSD decoder.
+  * Fix CVE-2026-45358:
+    Heap Buffer Over-Read of a single byte in meta encoder.
+  * Fix CVE-2026-45359:
+    Heap Buffer Over-Read in connected components when
+    the user supplies an invalid keep-top define.
+  * Fix CVE-2026-45624:
+    Heap Buffer Over-Read of 24 bytes in distort operation.
+  * Fix CVE-2026-45664:
+    Policy Bypass in MNG decoder.
+  * Fix CVE-2026-46520:
+    Heap Buffer Over-Write in IPL decoder when reading multiple
+    images of different dimensions.
+  * Fix CVE-2026-46521:
+    Heap Buffer Over-Write in MIFF encoder when using LZMA compression.
+  * Fix CVE-2026-46522:
+    Infinite Loop in the MIFF decoder can lead to CPU exhaustion.
+  * Fix CVE-2026-46523:
+    Use-After-Free in MSL decoder.
+  * Fix CVE-2026-46557:
+    Stack overflow in fx operation.
+  * Fix CVE-2026-46559:
+    Heap Buffer Over-Write of a single byte in the JP2 encoder.
+  * Fix CVE-2026-46692:
+    Heap Buffer Over-Write in distributed pixel cache server.
+  * Fix CVE-2026-46693:
+    A Race Condition in distributed pixel cache server
+    can result in file descriptor hijacking.
+  * Fix CVE-2026-47165:
+    Information Disclosure in distributed pixel cache server
+    because it is not using a challenge–response authentication model.
+  * Fix CVE-2026-47166:
+    Heap Buffer Over-Read in distributed pixel cache server.
+
+ -- Bastien Roucariès <rouca@debian.org>  Fri, 22 May 2026 16:53:26 +0200
+
 imagemagick (8:7.1.2.21+dfsg1-1) unstable; urgency=medium
 
   * New upstream version

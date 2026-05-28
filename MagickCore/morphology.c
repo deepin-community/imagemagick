@@ -92,19 +92,12 @@
 #define Maximize(assign,value) assign=MagickMax(assign,value)
 
 /* Integer Factorial Function - for a Binomial kernel */
-#if 1
 static inline size_t fact(size_t n)
 {
   size_t f,l;
   for(f=1, l=2; l <= n; f=f*l, l++);
   return(f);
 }
-#elif 1 /* glibc floating point alternatives */
-#define fact(n) (CastDoubleToSizeT(tgamma((double) n+1)))
-#else
-#define fact(n) (CastDoubleToSizeT(lgamma((double) n+1)))
-#endif
-
 
 /* Currently these are only internal to this module */
 static void
@@ -1304,6 +1297,9 @@ MagickExport KernelInfo *AcquireKernelBuiltIn(const KernelInfoType type,
       }
     case BinomialKernel:
       {
+        const size_t
+          max_order = (sizeof(size_t) > 4) ? 20 : 12;
+
         size_t
           order_f;
 
@@ -1312,6 +1308,10 @@ MagickExport KernelInfo *AcquireKernelBuiltIn(const KernelInfoType type,
         else
           kernel->width = kernel->height = CastDoubleToSizeT(args->rho)*2+1;
         kernel->x = kernel->y = (ssize_t) (kernel->width-1)/2;
+
+          /* Check if kernel order (width-1) would overflow fact() */
+        if ((kernel->width-1) > max_order)
+          return(DestroyKernelInfo(kernel));
 
         order_f = fact(kernel->width-1);
 
@@ -1323,8 +1323,10 @@ MagickExport KernelInfo *AcquireKernelBuiltIn(const KernelInfoType type,
 
         /* set all kernel values within diamond area to scale given */
         for ( i=0, v=0; v < (ssize_t)kernel->height; v++)
-          { size_t
+          {
+            size_t
               alpha = order_f / ( fact((size_t) v) * fact(kernel->height-(size_t) v-1) );
+
             for ( u=0; u < (ssize_t)kernel->width; u++, i++)
               kernel->positive_range += kernel->values[i] = (double)
                 (alpha * order_f / ( fact((size_t) u) * fact(kernel->height-(size_t) u-1) ));

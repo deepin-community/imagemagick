@@ -1506,6 +1506,11 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
                     ThrowMIFFException(CorruptImageError,
                       "UnableToReadImageData");
                   }
+                if (length == 0)
+                  {
+                    (void) BZ2_bzDecompressEnd(&bzip_info);
+                    ThrowMIFFException(CorruptImageError,"UnexpectedEndOfFile");
+                  }
               }
             code=BZ2_bzDecompress(&bzip_info);
             if ((code != BZ_OK) && (code != BZ_STREAM_END))
@@ -1544,6 +1549,11 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
                     lzma_end(&lzma_info);
                     ThrowMIFFException(CorruptImageError,
                       "UnableToReadImageData");
+                  }
+                if (length == 0)
+                  {
+                    lzma_end(&lzma_info);
+                    ThrowMIFFException(CorruptImageError,"UnexpectedEndOfFile");
                   }
               }
             code=(int) lzma_code(&lzma_info,LZMA_RUN);
@@ -1586,6 +1596,11 @@ static Image *ReadMIFFImage(const ImageInfo *image_info,
                     (void) inflateEnd(&zip_info);
                     ThrowMIFFException(CorruptImageError,
                       "UnableToReadImageData");
+                  }
+                if (length == 0)
+                  {
+                    (void) inflateEnd(&zip_info);
+                    ThrowMIFFException(CorruptImageError,"UnexpectedEndOfFile");
                   }
               }
             code=inflate(&zip_info,Z_SYNC_FLUSH);
@@ -2184,8 +2199,9 @@ static MagickBooleanType WriteMIFFImage(const ImageInfo *image_info,
         if (compression == RLECompression)
           packet_size++;
       }
-    length=MagickMax(BZipMaxExtent(packet_size*image->columns),ZipMaxExtent(
-      packet_size*image->columns));
+    length=MagickMax(MagickMax(BZipMaxExtent(packet_size*
+      image->columns),LZMAMaxExtent(packet_size*image->columns)),
+      ZipMaxExtent(packet_size*image->columns));
     if ((compression == BZipCompression) || (compression == ZipCompression))
       if (length != (size_t) ((unsigned int) length))
         compression=NoCompression;
@@ -2588,7 +2604,7 @@ static MagickBooleanType WriteMIFFImage(const ImageInfo *image_info,
         code=(int) lzma_easy_encoder(&lzma_info,(uint32_t) (image->quality/10),
           LZMA_CHECK_SHA256);
         if (code != LZMA_OK)
-          status=MagickTrue;
+          status=MagickFalse;
         break;
       }
 #endif

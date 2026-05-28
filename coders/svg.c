@@ -862,9 +862,15 @@ static char **SVGKeyValuePairs(SVGInfo *svg_info,const int key_sentinel,
     tokens[i]=(char *) AcquireMagickMemory((size_t) (q-p+2));
     if (tokens[i] == (char *) NULL)
       {
+        ssize_t
+          j;
+
         (void) ThrowMagickException(svg_info->exception,GetMagickModule(),
           ResourceLimitError,"MemoryAllocationFailed","`%s'",text);
-        break;
+        for (j=0; j < i; j++)
+          tokens[j]=DestroyString(tokens[j]);
+        tokens=(char **) RelinquishMagickMemory(tokens);
+        return(tokens);
       }
     (void) CopyMagickString(tokens[i],p,(size_t) (q-p+1));
     SVGStripString(MagickTrue,tokens[i]);
@@ -1117,6 +1123,12 @@ static void SVGProcessStyleElement(SVGInfo *svg_info,const xmlChar *name,
       case 'S':
       case 's':
       {
+        if (LocaleCompare(keyword,"shape-rendering") == 0)
+          {
+            (void) FormatLocaleFile(svg_info->file,"stroke-antialias %d\n",
+              LocaleCompare(value,"crispEdges") == 0);
+            break;
+          }
         if (LocaleCompare(keyword,"stop-color") == 0)
           {
             (void) CloneString(&svg_info->stop_color,value);
@@ -1134,12 +1146,6 @@ static void SVGProcessStyleElement(SVGInfo *svg_info,const xmlChar *name,
             else
               (void) FormatLocaleFile(svg_info->file,
                 "stroke \"%s\"\n",value);
-            break;
-          }
-        if (LocaleCompare(keyword,"stroke-antialiasing") == 0)
-          {
-            (void) FormatLocaleFile(svg_info->file,"stroke-antialias %d\n",
-              LocaleCompare(value,"true") == 0);
             break;
           }
         if (LocaleCompare(keyword,"stroke-dasharray") == 0)
@@ -2156,6 +2162,12 @@ static void SVGStartElement(void *context,const xmlChar *name,
         case 'S':
         case 's':
         {
+          if (LocaleCompare(keyword,"shape-rendering") == 0)
+            {
+              (void) FormatLocaleFile(svg_info->file,"stroke-antialias %d\n",
+                LocaleCompare(value,"crispEdges") == 0);
+              break;
+            }
           if (LocaleCompare(keyword,"stop-color") == 0)
             {
               (void) CloneString(&svg_info->stop_color,value);
@@ -2170,12 +2182,6 @@ static void SVGStartElement(void *context,const xmlChar *name,
                   break;
                 }
               (void) FormatLocaleFile(svg_info->file,"stroke \"%s\"\n",value);
-              break;
-            }
-          if (LocaleCompare(keyword,"stroke-antialiasing") == 0)
-            {
-              (void) FormatLocaleFile(svg_info->file,"stroke-antialias %d\n",
-                LocaleCompare(value,"true") == 0);
               break;
             }
           if (LocaleCompare(keyword,"stroke-dasharray") == 0)
@@ -3412,6 +3418,7 @@ ModuleExport size_t RegisterSVGImage(void)
   entry=AcquireMagickInfo("SVG","SVG","Scalable Vector Graphics");
   entry->decoder=(DecodeImageHandler *) ReadSVGImage;
   entry->encoder=(EncodeImageHandler *) WriteSVGImage;
+  entry->flags^=CoderBlobSupportFlag;
   entry->mime_type=ConstantString("image/svg+xml");
   if (*version != '\0')
     entry->version=ConstantString(version);

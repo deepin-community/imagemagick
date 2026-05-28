@@ -9,8 +9,8 @@ forwarded: not-needed
 
 Index: imagemagick/config/configure.xml.in
 ===================================================================
---- imagemagick.orig/config/configure.xml.in	2026-05-01 16:25:28.710719280 +0200
-+++ imagemagick/config/configure.xml.in	2026-05-01 16:25:28.710381916 +0200
+--- imagemagick.orig/config/configure.xml.in	2026-05-22 14:10:32.432504263 +0200
++++ imagemagick/config/configure.xml.in	2026-05-22 14:10:32.430377062 +0200
 @@ -11,18 +11,12 @@
  -->
  <configuremap>
@@ -31,7 +31,7 @@ Index: imagemagick/config/configure.xml.in
    <configure name="EXEC-PREFIX" value="@EXEC_PREFIX_DIR@"/>
    <configure name="EXECUTABLE_PATH" value="@EXECUTABLE_PATH@"/>
 @@ -31,13 +25,10 @@
-   <configure name="GIT_REVISION" value="23940" />
+   <configure name="GIT_REVISION" value="24055" />
    <configure name="HOST" value="@host@"/>
    <configure name="INCLUDE_PATH" value="@INCLUDE_PATH@"/>
 -  <configure name="LDFLAGS" value="@MAGICK_LDFLAGS@"/>
