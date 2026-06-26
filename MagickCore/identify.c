@@ -985,7 +985,7 @@ MagickExport MagickBooleanType IdentifyImage(Image *image,FILE *file,
   if (channel_moments != (ChannelMoments *) NULL)
     {
       scale=(double) ((1UL << image->depth)-1);
-      (void) FormatLocaleFile(file,"  Channel moments:\n");
+      (void) FormatLocaleFile(file,"  Channel Hu moments:\n");
       switch (colorspace)
       {
         case RGBColorspace:
@@ -1363,7 +1363,7 @@ MagickExport MagickBooleanType IdentifyImage(Image *image,FILE *file,
       {
         q=d;
         while ((*q != '\xff') && (*q != '\0') &&
-               ((size_t) (q-d) < sizeof(image_info->filename)))
+               ((size_t) (q-d+1) < sizeof(image_info->filename)))
           q++;
         (void) CopyMagickString(image_info->filename,d,(size_t) (q-d+1));
         d=q;

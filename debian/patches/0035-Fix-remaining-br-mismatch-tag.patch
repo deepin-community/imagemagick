@@ -36,11 +36,11 @@ forwarded: not-needed
  www/stream.html                  | 6 +++---
  30 files changed, 90 insertions(+), 90 deletions(-)
 
-Index: imagemagick/www/color-management.html
-===================================================================
---- imagemagick.orig/www/color-management.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/color-management.html	2026-03-20 21:44:13.896050399 +0100
-@@ -275,15 +275,15 @@
+diff --git a/www/color-management.html b/www/color-management.html
+index 429d67c..f43b235 100644
+--- a/www/color-management.html
++++ b/www/color-management.html
+@@ -275,15 +275,15 @@ magick myimage_channels_*.png -set colorspace HSL -combine -colorspace RGB -set
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -59,11 +59,11 @@ Index: imagemagick/www/color-management.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/color-thresholding.html
-===================================================================
---- imagemagick.orig/www/color-thresholding.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/color-thresholding.html	2026-03-20 21:44:13.896235209 +0100
-@@ -286,15 +286,15 @@
+diff --git a/www/color-thresholding.html b/www/color-thresholding.html
+index 22d9df5..233f1bf 100644
+--- a/www/color-thresholding.html
++++ b/www/color-thresholding.html
+@@ -286,15 +286,15 @@ magick xc:"sRGB(205,100,45)" -colorspace gray txt:
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -82,11 +82,11 @@ Index: imagemagick/www/color-thresholding.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/command-line-options.html
-===================================================================
---- imagemagick.orig/www/command-line-options.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/command-line-options.html	2026-03-20 21:44:13.896811021 +0100
-@@ -8114,15 +8114,15 @@
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index 688aa80..a14ee99 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
+@@ -8114,15 +8114,15 @@ but with strict boolean masking. </p>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -105,11 +105,11 @@ Index: imagemagick/www/command-line-options.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/command-line-processing.html
-===================================================================
---- imagemagick.orig/www/command-line-processing.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/command-line-processing.html	2026-03-20 21:44:13.897361651 +0100
-@@ -795,15 +795,15 @@
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index 01e4ed6..12fabd1 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
+@@ -795,15 +795,15 @@ image-2.jpg</pre>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -128,10 +128,10 @@ Index: imagemagick/www/command-line-processing.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/command-line-tools.html
-===================================================================
---- imagemagick.orig/www/command-line-tools.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/command-line-tools.html	2026-03-20 21:44:13.897605015 +0100
+diff --git a/www/command-line-tools.html b/www/command-line-tools.html
+index e212d31..9a5b553 100644
+--- a/www/command-line-tools.html
++++ b/www/command-line-tools.html
 @@ -245,15 +245,15 @@
       
        <a href="../www/links.html">Related</a> •
@@ -151,11 +151,11 @@ Index: imagemagick/www/command-line-tools.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/compare.html
-===================================================================
---- imagemagick.orig/www/compare.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/compare.html	2026-03-20 21:44:13.897715212 +0100
-@@ -585,15 +585,15 @@
+diff --git a/www/compare.html b/www/compare.html
+index 01df48e..f7f6b4c 100644
+--- a/www/compare.html
++++ b/www/compare.html
+@@ -585,15 +585,15 @@ transparent, extract, background, or shape the alpha channel</td>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -174,11 +174,11 @@ Index: imagemagick/www/compare.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/composite.html
-===================================================================
---- imagemagick.orig/www/composite.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/composite.html	2026-03-20 21:44:13.897819049 +0100
-@@ -672,15 +672,15 @@
+diff --git a/www/composite.html b/www/composite.html
+index 7b54611..bfaddfc 100644
+--- a/www/composite.html
++++ b/www/composite.html
+@@ -672,15 +672,15 @@ transparent, extract, background, or shape the alpha channel</td>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -197,11 +197,11 @@ Index: imagemagick/www/composite.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/convex-hull.html
-===================================================================
---- imagemagick.orig/www/convex-hull.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/convex-hull.html	2026-03-20 21:44:13.897916855 +0100
-@@ -281,15 +281,15 @@
+diff --git a/www/convex-hull.html b/www/convex-hull.html
+index de8dc96..890f151 100644
+--- a/www/convex-hull.html
++++ b/www/convex-hull.html
+@@ -281,15 +281,15 @@ magick [-fuzz <var>value</var>%] [-background <var>background-color</var>] -form
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -220,11 +220,11 @@ Index: imagemagick/www/convex-hull.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/develop.html
-===================================================================
---- imagemagick.orig/www/develop.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/develop.html	2026-03-20 21:44:13.898001042 +0100
-@@ -377,15 +377,15 @@
+diff --git a/www/develop.html b/www/develop.html
+index 2ccb250..cba2c17 100644
+--- a/www/develop.html
++++ b/www/develop.html
+@@ -377,15 +377,15 @@ With a language interface, use ImageMagick to modify or create images dynamicall
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -243,11 +243,11 @@ Index: imagemagick/www/develop.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/display.html
-===================================================================
---- imagemagick.orig/www/display.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/display.html	2026-03-20 21:44:13.898103317 +0100
-@@ -706,15 +706,15 @@
+diff --git a/www/display.html b/www/display.html
+index d394cde..7c18ac5 100644
+--- a/www/display.html
++++ b/www/display.html
+@@ -706,15 +706,15 @@ transparent, extract, background, or shape the alpha channel</td>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -266,11 +266,11 @@ Index: imagemagick/www/display.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/download.html
-===================================================================
---- imagemagick.orig/www/download.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/download.html	2026-03-20 21:44:13.898233849 +0100
-@@ -644,15 +644,15 @@
+diff --git a/www/download.html b/www/download.html
+index 837d776..b6ee51e 100644
+--- a/www/download.html
++++ b/www/download.html
+@@ -644,15 +644,15 @@ objShell.Exec("magick ""e:/myimages/image.png"" ""e:/myimages/image.jpg""")</sam
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -289,10 +289,10 @@ Index: imagemagick/www/download.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/examples.html
-===================================================================
---- imagemagick.orig/www/examples.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/examples.html	2026-03-20 21:44:13.898333926 +0100
+diff --git a/www/examples.html b/www/examples.html
+index 10469a6..2b53142 100644
+--- a/www/examples.html
++++ b/www/examples.html
 @@ -226,15 +226,15 @@
       
        <a href="../www/links.html">Related</a> •
@@ -312,10 +312,10 @@ Index: imagemagick/www/examples.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/exception.html
-===================================================================
---- imagemagick.orig/www/exception.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/exception.html	2026-03-20 21:44:13.898411031 +0100
+diff --git a/www/exception.html b/www/exception.html
+index 878f422..e384efe 100644
+--- a/www/exception.html
++++ b/www/exception.html
 @@ -416,15 +416,15 @@
       
        <a href="../www/links.html">Related</a> •
@@ -335,10 +335,10 @@ Index: imagemagick/www/exception.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/export.html
-===================================================================
---- imagemagick.orig/www/export.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/export.html	2026-03-20 21:44:13.898490939 +0100
+diff --git a/www/export.html b/www/export.html
+index 905244b..9a44153 100644
+--- a/www/export.html
++++ b/www/export.html
 @@ -208,15 +208,15 @@
       
        <a href="../www/links.html">Related</a> •
@@ -358,11 +358,11 @@ Index: imagemagick/www/export.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/formats.html
-===================================================================
---- imagemagick.orig/www/formats.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/formats.html	2026-03-20 21:44:13.898648394 +0100
-@@ -2313,15 +2313,15 @@
+diff --git a/www/formats.html b/www/formats.html
+index 48edadf..803335f 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -2313,15 +2313,15 @@ the supported image formats.</p>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -381,10 +381,10 @@ Index: imagemagick/www/formats.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/index.html
-===================================================================
---- imagemagick.orig/www/index.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/index.html	2026-03-20 21:44:13.898797752 +0100
+diff --git a/www/index.html b/www/index.html
+index b424677..f69411c 100644
+--- a/www/index.html
++++ b/www/index.html
 @@ -401,15 +401,15 @@
       
        <a href="../www/links.html">Related</a> •
@@ -404,11 +404,11 @@ Index: imagemagick/www/index.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
    </footer>
  </div>
-Index: imagemagick/www/install-source.html
-===================================================================
---- imagemagick.orig/www/install-source.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/install-source.html	2026-03-20 21:44:13.898892786 +0100
-@@ -317,15 +317,15 @@
+diff --git a/www/install-source.html b/www/install-source.html
+index 68f2928..7376b51 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
+@@ -317,15 +317,15 @@ magick logo: image.jpg</samp></pre>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -427,10 +427,10 @@ Index: imagemagick/www/install-source.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/jp2.html
-===================================================================
---- imagemagick.orig/www/jp2.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/jp2.html	2026-03-20 21:44:13.898980734 +0100
+diff --git a/www/jp2.html b/www/jp2.html
+index 639418e..fa3c0ed 100644
+--- a/www/jp2.html
++++ b/www/jp2.html
 @@ -278,15 +278,15 @@
       
        <a href="../www/links.html">Related</a> •
@@ -450,10 +450,10 @@ Index: imagemagick/www/jp2.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/license.html
-===================================================================
---- imagemagick.orig/www/license.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/license.html	2026-03-20 21:44:13.899065404 +0100
+diff --git a/www/license.html b/www/license.html
+index 8a5a590..54c5ab8 100644
+--- a/www/license.html
++++ b/www/license.html
 @@ -347,15 +347,15 @@
       
        <a href="../www/links.html">Related</a> •
@@ -473,11 +473,11 @@ Index: imagemagick/www/license.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/magick-wand.html
-===================================================================
---- imagemagick.orig/www/magick-wand.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/magick-wand.html	2026-03-20 21:44:13.899157243 +0100
-@@ -522,15 +522,15 @@
+diff --git a/www/magick-wand.html b/www/magick-wand.html
+index 139fa20..331a74d 100644
+--- a/www/magick-wand.html
++++ b/www/magick-wand.html
+@@ -522,15 +522,15 @@ int main(int argc,char **argv)
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -496,11 +496,11 @@ Index: imagemagick/www/magick-wand.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/magick.html
-===================================================================
---- imagemagick.orig/www/magick.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/magick.html	2026-03-20 21:44:13.899275808 +0100
-@@ -1491,15 +1491,15 @@
+diff --git a/www/magick.html b/www/magick.html
+index 85a0def..6931655 100644
+--- a/www/magick.html
++++ b/www/magick.html
+@@ -1491,15 +1491,15 @@ transparent, extract, background, or shape the alpha channel</td>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -519,11 +519,11 @@ Index: imagemagick/www/magick.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/mogrify.html
-===================================================================
---- imagemagick.orig/www/mogrify.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/mogrify.html	2026-03-20 21:44:13.899418926 +0100
-@@ -1493,15 +1493,15 @@
+diff --git a/www/mogrify.html b/www/mogrify.html
+index 3d16867..f3a6545 100644
+--- a/www/mogrify.html
++++ b/www/mogrify.html
+@@ -1493,15 +1493,15 @@ transparent, extract, background, or shape the alpha channel</td>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -542,11 +542,11 @@ Index: imagemagick/www/mogrify.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/motion-picture.html
-===================================================================
---- imagemagick.orig/www/motion-picture.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/motion-picture.html	2026-03-20 21:44:13.899538733 +0100
-@@ -318,15 +318,15 @@
+diff --git a/www/motion-picture.html b/www/motion-picture.html
+index 5656f89..327f0c6 100644
+--- a/www/motion-picture.html
++++ b/www/motion-picture.html
+@@ -318,15 +318,15 @@ dpx:user.data
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -565,11 +565,11 @@ Index: imagemagick/www/motion-picture.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/multispectral-imagery.html
-===================================================================
---- imagemagick.orig/www/multispectral-imagery.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/multispectral-imagery.html	2026-03-20 21:44:13.899624158 +0100
-@@ -356,15 +356,15 @@
+diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
+index 41df2bc..a7abe29 100644
+--- a/www/multispectral-imagery.html
++++ b/www/multispectral-imagery.html
+@@ -356,15 +356,15 @@ Image:
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -588,10 +588,10 @@ Index: imagemagick/www/multispectral-imagery.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/news.html
-===================================================================
---- imagemagick.orig/www/news.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/news.html	2026-03-20 21:44:13.899709866 +0100
+diff --git a/www/news.html b/www/news.html
+index ccc38689..a0a19d9 100644
+--- a/www/news.html
++++ b/www/news.html
 @@ -249,15 +249,15 @@
       
        <a href="../www/links.html">Related</a> •
@@ -611,11 +611,11 @@ Index: imagemagick/www/news.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/openmp.html
-===================================================================
---- imagemagick.orig/www/openmp.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/openmp.html	2026-03-20 21:44:13.899836912 +0100
-@@ -243,15 +243,15 @@
+diff --git a/www/openmp.html b/www/openmp.html
+index beb8b44..98f3d72 100644
+--- a/www/openmp.html
++++ b/www/openmp.html
+@@ -243,15 +243,15 @@ Performance[8]: 40i 4.831ips 0.872e 15.680u 0:02.070</samp></pre>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -634,11 +634,11 @@ Index: imagemagick/www/openmp.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/perl-magick.html
-===================================================================
---- imagemagick.orig/www/perl-magick.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/perl-magick.html	2026-03-20 21:44:13.899993675 +0100
-@@ -2769,15 +2769,15 @@
+diff --git a/www/perl-magick.html b/www/perl-magick.html
+index 46970aa..4217ff9 100644
+--- a/www/perl-magick.html
++++ b/www/perl-magick.html
+@@ -2769,15 +2769,15 @@ XServerWarning
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -657,11 +657,11 @@ Index: imagemagick/www/perl-magick.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/porting.html
-===================================================================
---- imagemagick.orig/www/porting.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/porting.html	2026-03-20 21:44:13.900176626 +0100
-@@ -804,15 +804,15 @@
+diff --git a/www/porting.html b/www/porting.html
+index 0e96650..4ee4d80 100644
+--- a/www/porting.html
++++ b/www/porting.html
+@@ -804,15 +804,15 @@ example "+annotate", "+resize", "+clut", and "+draw" .</p>
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -680,11 +680,11 @@ Index: imagemagick/www/porting.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/security-policy.html
-===================================================================
---- imagemagick.orig/www/security-policy.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/security-policy.html	2026-03-20 21:44:13.900310385 +0100
-@@ -516,15 +516,15 @@
+diff --git a/www/security-policy.html b/www/security-policy.html
+index c6f2233..9c6db82 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
+@@ -516,15 +516,15 @@ Path: [built-in]
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>
@@ -703,11 +703,11 @@ Index: imagemagick/www/security-policy.html
      <small>Copyright © 1999 ImageMagick Studio LLC</small>
      </div>
    </footer>
-Index: imagemagick/www/stream.html
-===================================================================
---- imagemagick.orig/www/stream.html	2026-03-20 21:44:13.900442158 +0100
-+++ imagemagick/www/stream.html	2026-03-20 21:44:13.900421470 +0100
-@@ -414,15 +414,15 @@
+diff --git a/www/stream.html b/www/stream.html
+index 784f265..8c28f55 100644
+--- a/www/stream.html
++++ b/www/stream.html
+@@ -414,15 +414,15 @@ magick display -depth 8 -size 640x480 rgb:pixels.dat
       
        <a href="../www/links.html">Related</a> •
        <a href="../www/sitemap.html">Sitemap</a>

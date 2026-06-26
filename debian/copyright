@@ -360,7 +360,7 @@ Copyright: 1987-1999, E. I. du Pont de Nemours and Company
 License: ImageMagick
 Comment: adapted from PerlMagick/demo/demo.pl
 
-Files: magick/nt-base.c
+Files: MagickCore/nt-base.c
 Copyright: 2000-2002, Ghostgum Software Pty Ltd.  All rights reserved.
            1987-1999, E. I. du Pont de Nemours and Company
            1999-2024, ImageMagick Studio LLC
@@ -368,7 +368,7 @@ License: ImageMagickLicensePartGsview
 Comment: ImageMagick Licence with part of gsview program
  Not compiled under debian
 
-Files: magick/utility.c
+Files: MagickCore/utility.c
 Copyright: 2000, Markus Friedl
            1987-1999, E. I. du Pont de Nemours and Company
            1999-2024, ImageMagick Studio LLC

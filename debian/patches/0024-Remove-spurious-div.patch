@@ -54,11 +54,11 @@ forwarded: not-needed
  www/webp.html                          | 1 -
  48 files changed, 15 insertions(+), 51 deletions(-)
 
-Index: imagemagick/www/advanced-linux-installation.html
-===================================================================
---- imagemagick.orig/www/advanced-linux-installation.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/advanced-linux-installation.html	2025-12-28 19:33:16.829821096 +0100
-@@ -657,7 +657,6 @@
+diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
+index 9c6757f..1211c43 100644
+--- a/www/advanced-linux-installation.html
++++ b/www/advanced-linux-installation.html
+@@ -657,7 +657,6 @@ no encode delegate for this image format </samp></pre>
  <p>If PerlMagick fails to link with a message similar to <var>libperl.a is not found</var>, rerun <samp>configure</samp> with the <samp>--enable-shared</samp> or <samp>--enable-shared --with-modules</samp> options.</p>
  
  </div>
@@ -66,11 +66,11 @@ Index: imagemagick/www/advanced-linux-installation.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/advanced-unix-installation.html
-===================================================================
---- imagemagick.orig/www/advanced-unix-installation.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/advanced-unix-installation.html	2025-12-28 19:33:16.830165534 +0100
-@@ -618,7 +618,7 @@
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index c43818f..ba39031 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
+@@ -618,7 +618,7 @@ no encode delegate for this image format
  <p>If PerlMagick fails to link with a message similar to <var>libperl.a is not found</var>, rerun <code>configure</code> with the <code>--enable-shared</code> or <code>--enable-shared --with-modules</code> options.</p>
  
  </div>
@@ -79,11 +79,11 @@ Index: imagemagick/www/advanced-unix-installation.html
    </main><!-- /.container -->
    <footer class="magick-footer">
      <div class="container-fluid">
-Index: imagemagick/www/advanced-windows-installation.html
-===================================================================
---- imagemagick.orig/www/advanced-windows-installation.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/advanced-windows-installation.html	2025-12-28 19:33:16.830370092 +0100
-@@ -179,7 +179,6 @@
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index 4a4c760..0117fb1 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
+@@ -179,7 +179,6 @@ program will start a Wizard that allows configuration of ImageMagick and its ind
  
  <p>Open the solution to start building ImageMagick. The binaries will be created in the <samp>Output\bin</samp> folder.</p>
  </div>
@@ -91,11 +91,11 @@ Index: imagemagick/www/advanced-windows-installation.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/animate.html
-===================================================================
---- imagemagick.orig/www/animate.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/animate.html	2025-12-28 19:33:16.830534406 +0100
-@@ -588,7 +588,6 @@
+diff --git a/www/animate.html b/www/animate.html
+index 628b1a9..3c37712 100644
+--- a/www/animate.html
++++ b/www/animate.html
+@@ -588,7 +588,6 @@ transparent, extract, background, or shape the alpha channel</td>
    </tbody>
  </table>
  </div>
@@ -103,10 +103,10 @@ Index: imagemagick/www/animate.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/api.html
-===================================================================
---- imagemagick.orig/www/api.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/api.html	2025-12-28 19:33:16.830698655 +0100
+diff --git a/www/api.html b/www/api.html
+index d00f767..063d4f5 100644
+--- a/www/api.html
++++ b/www/api.html
 @@ -195,7 +195,7 @@
  <dd><a href="http://code.google.com/p/remotemagick/">RemoteMagick</a> is an XML-RPC web service that creates image thumbnails.</dd>
  </dl>
@@ -116,22 +116,22 @@ Index: imagemagick/www/api.html
    </main><!-- /.container -->
    <footer class="magick-footer">
      <p><a href="security-policy.html">Security</a> •
-Index: imagemagick/www/api/Image++.html
-===================================================================
---- imagemagick.orig/www/api/Image++.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/api/Image++.html	2025-12-28 19:33:16.831122833 +0100
-@@ -3203,6 +3203,7 @@
+diff --git a/www/api/Image++.html b/www/api/Image++.html
+index aa20a36..c21a586 100644
+--- a/www/api/Image++.html
++++ b/www/api/Image++.html
+@@ -3202,6 +3202,7 @@ the region set by a preceding getPixels or getConstPixels call.</font></td>
+   </tbody>
  </table></ul>
  </p>
- </div>
 +</div>
+ </div>
    </main><!-- /.container -->
    <footer class="magick-footer">
-     <div class="container-fluid">
-Index: imagemagick/www/api/animate.html
-===================================================================
---- imagemagick.orig/www/api/animate.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/api/animate.html	2025-12-28 19:33:16.831549410 +0100
+diff --git a/www/api/animate.html b/www/api/animate.html
+index d6dfd29..2a0e4cc 100644
+--- a/www/api/animate.html
++++ b/www/api/animate.html
 @@ -143,6 +143,7 @@
  <br/>
  <br/>
@@ -146,23 +146,23 @@ Index: imagemagick/www/api/animate.html
    </body>
 +</html>
 \ No newline at end of file
-Index: imagemagick/www/api/magick++-classes.html
-===================================================================
---- imagemagick.orig/www/api/magick++-classes.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/api/magick++-classes.html	2025-12-28 19:33:16.831699237 +0100
-@@ -133,6 +133,7 @@
+diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
+index 8e9e071..abd187e 100644
+--- a/www/api/magick++-classes.html
++++ b/www/api/magick++-classes.html
+@@ -132,6 +132,7 @@ containers of image frames.</td>
+ </tbody>
  </table>
  </ul>
- </div>
 +</div>
+ </div>
    </main><!-- /.container -->
    <footer class="magick-footer">
-     <div class="container-fluid">
-Index: imagemagick/www/architecture.html
-===================================================================
---- imagemagick.orig/www/architecture.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/architecture.html	2025-12-28 19:33:16.831991390 +0100
-@@ -1658,7 +1658,6 @@
+diff --git a/www/architecture.html b/www/architecture.html
+index 531175b..1d0e18a 100644
+--- a/www/architecture.html
++++ b/www/architecture.html
+@@ -1658,7 +1658,6 @@ Image: logo:
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig </samp></pre>
  
  </div>
@@ -170,11 +170,11 @@ Index: imagemagick/www/architecture.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/binary-releases.html
-===================================================================
---- imagemagick.orig/www/binary-releases.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/binary-releases.html	2025-12-28 19:33:16.832270701 +0100
-@@ -469,8 +469,7 @@
+diff --git a/www/binary-releases.html b/www/binary-releases.html
+index 83401af..a66fcf0 100644
+--- a/www/binary-releases.html
++++ b/www/binary-releases.html
+@@ -469,8 +469,7 @@ objShell.Exec("convert ""e:/myimages/image.png"" ""e:/myimages/image.jpg""")
  <p>Congratulations, you have a working ImageMagick distribution under Windows and you are ready to use ImageMagick to <a href="https://imagemagick.org/Usage/">convert, compose, or edit</a> your images or perhaps you'll want to use one of the <a href="api.html">Application Program Interfaces</a> for C, C++, Perl, and others.</p>
  
  </div>
@@ -184,10 +184,10 @@ Index: imagemagick/www/binary-releases.html
    </main><!-- /.container -->
    <footer class="magick-footer">
      <p><a href="security-policy.html">Security</a> •
-Index: imagemagick/www/changelog.html
-===================================================================
---- imagemagick.orig/www/changelog.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/changelog.html	2025-12-28 19:33:16.832689604 +0100
+diff --git a/www/changelog.html b/www/changelog.html
+index 3d0d6ba..d07cb53 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
 @@ -1748,7 +1748,9 @@
    <li> Remove OpenMP calls from colormap update loops.</li>
  <dt>2011-08-01  7.0.0-0 Cristy  &lt;quetzlzacatenango@image...&gt;</dt>
@@ -199,11 +199,11 @@ Index: imagemagick/www/changelog.html
    </main><!-- /.container -->
    <footer class="magick-footer">
      <div class="container-fluid">
-Index: imagemagick/www/cipher.html
-===================================================================
---- imagemagick.orig/www/cipher.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/cipher.html	2025-12-28 19:33:16.833010793 +0100
-@@ -190,7 +190,6 @@
+diff --git a/www/cipher.html b/www/cipher.html
+index 1ceb779..adfd9d4 100644
+--- a/www/cipher.html
++++ b/www/cipher.html
+@@ -190,7 +190,6 @@ Examples <a href="https://usage.imagemagick.org/transform/#encipher#encipher"
  >Encrypting Image Data</a>. </p>
  
  </div>
@@ -211,10 +211,10 @@ Index: imagemagick/www/cipher.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/cite.html
-===================================================================
---- imagemagick.orig/www/cite.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/cite.html	2025-12-28 19:33:16.833146696 +0100
+diff --git a/www/cite.html b/www/cite.html
+index dc4648e..b304b39 100644
+--- a/www/cite.html
++++ b/www/cite.html
 @@ -152,7 +152,6 @@
    date = {2024-01-04},
  }</samp></pre>
@@ -223,10 +223,10 @@ Index: imagemagick/www/cite.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/clahe.html
-===================================================================
---- imagemagick.orig/www/clahe.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/clahe.html	2025-12-28 19:33:16.833271830 +0100
+diff --git a/www/clahe.html b/www/clahe.html
+index ccfa3f2..0f9a944 100644
+--- a/www/clahe.html
++++ b/www/clahe.html
 @@ -159,7 +159,6 @@
  <p>Notice the <samp>!</samp>.  That forces the tile size to exactly 300x300 pixels, whereas without the <samp>!</samp>, the tile size respects the aspect ratio of the image and results in tile dimensions of <samp>300x200</samp>.</p>
   
@@ -235,11 +235,11 @@ Index: imagemagick/www/clahe.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/color.html
-===================================================================
---- imagemagick.orig/www/color.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/color.html	2025-12-28 19:33:16.833541447 +0100
-@@ -5005,7 +5005,6 @@
+diff --git a/www/color.html b/www/color.html
+index b5eba68..0ee1525 100644
+--- a/www/color.html
++++ b/www/color.html
+@@ -5005,7 +5005,6 @@ device-cmyk(0.11, 0.48, 0.83, 0.00)</samp></pre>
  </div>
  
  </div>
@@ -247,11 +247,11 @@ Index: imagemagick/www/color.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/compose.html
-===================================================================
---- imagemagick.orig/www/compose.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/compose.html	2025-12-28 19:33:16.833882674 +0100
-@@ -726,7 +726,6 @@
+diff --git a/www/compose.html b/www/compose.html
+index 27d062d..427d3da 100644
+--- a/www/compose.html
++++ b/www/compose.html
+@@ -726,7 +726,6 @@ with a brief summary of what they do. For more details see the equivalent
  <p>To print a complete list of all the available compose operators, use <a
  href="command-line-options.html#list">-list compose</a>.</p>
  </div>
@@ -259,11 +259,11 @@ Index: imagemagick/www/compose.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/conjure.html
-===================================================================
---- imagemagick.orig/www/conjure.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/conjure.html	2025-12-28 19:33:16.834080762 +0100
-@@ -1191,7 +1191,6 @@
+diff --git a/www/conjure.html b/www/conjure.html
+index 88e4102..6930729 100644
+--- a/www/conjure.html
++++ b/www/conjure.html
+@@ -1191,7 +1191,6 @@ fill="color name", channel="All, Default, Alpha, Black, Blue, CMYK, Cyan, Gray,
  </tbody>
  </table>
  </div>
@@ -271,10 +271,10 @@ Index: imagemagick/www/conjure.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/connected-components.html
-===================================================================
---- imagemagick.orig/www/connected-components.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/connected-components.html	2025-12-28 19:33:16.834257310 +0100
+diff --git a/www/connected-components.html b/www/connected-components.html
+index 3b6b450..9334c67 100644
+--- a/www/connected-components.html
++++ b/www/connected-components.html
 @@ -195,7 +195,6 @@
  </samp></pre>
  
@@ -283,10 +283,10 @@ Index: imagemagick/www/connected-components.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/contact.html
-===================================================================
---- imagemagick.orig/www/contact.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/contact.html	2025-12-28 19:33:16.834396605 +0100
+diff --git a/www/contact.html b/www/contact.html
+index a0ae9b6..4462a62 100644
+--- a/www/contact.html
++++ b/www/contact.html
 @@ -192,7 +192,6 @@
    </div>
    <br />
@@ -295,11 +295,11 @@ Index: imagemagick/www/contact.html
    </main><!-- /.container -->
    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
      <div class="container-fluid">
-Index: imagemagick/www/convert.html
-===================================================================
---- imagemagick.orig/www/convert.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/convert.html	2025-12-28 19:33:16.834559075 +0100
-@@ -1425,7 +1425,6 @@
+diff --git a/www/convert.html b/www/convert.html
+index 5131222..9523501 100644
+--- a/www/convert.html
++++ b/www/convert.html
+@@ -1425,7 +1425,6 @@ transparent, extract, background, or shape the alpha channel</td>
  </table>
  </div>
  </div>
@@ -307,11 +307,11 @@ Index: imagemagick/www/convert.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/defines.html
-===================================================================
---- imagemagick.orig/www/defines.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/defines.html	2025-12-28 19:33:16.834822918 +0100
-@@ -1920,7 +1920,6 @@
+diff --git a/www/defines.html b/www/defines.html
+index 1b3d0ad..fce0578 100644
+--- a/www/defines.html
++++ b/www/defines.html
+@@ -1920,7 +1920,6 @@ use:</p>
  
  </div>
  </div>
@@ -319,11 +319,11 @@ Index: imagemagick/www/defines.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/distribute-pixel-cache.html
-===================================================================
---- imagemagick.orig/www/distribute-pixel-cache.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/distribute-pixel-cache.html	2025-12-28 19:33:16.835020761 +0100
-@@ -147,7 +147,6 @@
+diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
+index 7252b88..8502b8b 100644
+--- a/www/distribute-pixel-cache.html
++++ b/www/distribute-pixel-cache.html
+@@ -147,7 +147,6 @@ magick -limit memory 1GiB -limit map 2GiB -limit disk 4GiB \
  <p>Your image processing tasks are likely to perform slower when utilizing a distributed pixel cache due to shuffling pixels between the client and the server over a network.  Algorithms that access virtual pixels (e.g. -sharpen) are noticeably slower, up to 3 times slower, than algorithms that only access authentic pixels (e.g. -negate) due to increased network traffic.</p>
  <p>A client can only contact a compatible distributed pixel cache server.  Compatibility requires the same ImageMagick library interface, quantum depth, HDRI status, OS word size, endianness, and passphrase.  The distributed pixel cache checks these attributes and throws an exception if these requirements are not met.</p>
  </div>
@@ -331,11 +331,11 @@ Index: imagemagick/www/distribute-pixel-cache.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/escape.html
-===================================================================
---- imagemagick.orig/www/escape.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/escape.html	2025-12-28 19:33:16.835166062 +0100
-@@ -993,7 +993,6 @@
+diff --git a/www/escape.html b/www/escape.html
+index db6dda9..205b4c5 100644
+--- a/www/escape.html
++++ b/www/escape.html
+@@ -993,7 +993,6 @@ ObjectData Record
  Post ObjectData Descriptor Record
    9:10   Confirmed ObjectData Size</samp></pre>
  </div>
@@ -343,11 +343,11 @@ Index: imagemagick/www/escape.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/fx.html
-===================================================================
---- imagemagick.orig/www/fx.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/fx.html	2025-12-28 19:33:16.835345436 +0100
-@@ -520,7 +520,6 @@
+diff --git a/www/fx.html b/www/fx.html
+index c1ca5ef..b3d2391 100644
+--- a/www/fx.html
++++ b/www/fx.html
+@@ -520,7 +520,6 @@ Red channel of NW corner of image #1 is 0.184582
  <p>The color-escape <samp>%[pixel:]</samp> or <samp>%[hex:]</samp> is evaluated once per image and per color channel in that image (<a href="command-line-options.html#channel">-channel</a> is ignored), The values generated are then converted into a color string (a named color or hex color value).  The symbols <samp>i</samp> and <samp>j</samp> are set to zero, and <samp>s</samp> and <samp>t</samp> refer to each successively current image and index.</p>
  
  </div>
@@ -355,11 +355,11 @@ Index: imagemagick/www/fx.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/gradient.html
-===================================================================
---- imagemagick.orig/www/gradient.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/gradient.html	2025-12-28 19:33:16.835506490 +0100
-@@ -287,7 +287,6 @@
+diff --git a/www/gradient.html b/www/gradient.html
+index 4adc225..073f1ed 100644
+--- a/www/gradient.html
++++ b/www/gradient.html
+@@ -287,7 +287,6 @@ magick -size 256x128 -define gradient:radii=128,64 radial-gradient:black-white r
  
  </div>
  
@@ -367,11 +367,11 @@ Index: imagemagick/www/gradient.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/high-dynamic-range.html
-===================================================================
---- imagemagick.orig/www/high-dynamic-range.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/high-dynamic-range.html	2025-12-28 19:33:16.835638932 +0100
-@@ -168,7 +168,6 @@
+diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
+index 6517495..77e86a2 100644
+--- a/www/high-dynamic-range.html
++++ b/www/high-dynamic-range.html
+@@ -168,7 +168,6 @@ Features: HDRI
    \( img_sdr.tif -depth 8 \)  \( img_hdr.tif -depth 16 \) uhdr:ultrahdr.jpg
  </samp></pre>
  </div>
@@ -379,10 +379,10 @@ Index: imagemagick/www/high-dynamic-range.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/history.html
-===================================================================
---- imagemagick.orig/www/history.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/history.html	2025-12-28 19:33:16.835755569 +0100
+diff --git a/www/history.html b/www/history.html
+index 24e3195..4c3c722 100644
+--- a/www/history.html
++++ b/www/history.html
 @@ -153,7 +153,6 @@
  
  <p>Cristy<br />Principal ImageMagick Architect</p>
@@ -391,11 +391,11 @@ Index: imagemagick/www/history.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/identify.html
-===================================================================
---- imagemagick.orig/www/identify.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/identify.html	2025-12-28 19:33:16.835882739 +0100
-@@ -494,7 +494,6 @@
+diff --git a/www/identify.html b/www/identify.html
+index 396695e..9806a86 100644
+--- a/www/identify.html
++++ b/www/identify.html
+@@ -494,7 +494,6 @@ transparent, extract, background, or shape the alpha channel</td>
  </table>
  
  </div>
@@ -403,10 +403,10 @@ Index: imagemagick/www/identify.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/import.html
-===================================================================
---- imagemagick.orig/www/import.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/import.html	2025-12-28 19:33:16.836071684 +0100
+diff --git a/www/import.html b/www/import.html
+index be8e7d8..101058a 100644
+--- a/www/import.html
++++ b/www/import.html
 @@ -485,7 +485,6 @@
  </table>
  
@@ -415,10 +415,10 @@ Index: imagemagick/www/import.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/links.html
-===================================================================
---- imagemagick.orig/www/links.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/links.html	2025-12-28 19:33:16.836212957 +0100
+diff --git a/www/links.html b/www/links.html
+index 22a72ad..32c9ec4 100644
+--- a/www/links.html
++++ b/www/links.html
 @@ -216,7 +216,6 @@
    <dd class="col-md-8"><a href="../index.html" rel="noopener" target="_blank">The Tao of the Spiritual Warrior</a> (<a href="https://youtu.be/2MiXdIs2DM0" rel="noopener" target="_blank">audiobook</a>)</dd>
  </ul>
@@ -427,11 +427,11 @@ Index: imagemagick/www/links.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/magick++.html
-===================================================================
---- imagemagick.orig/www/magick++.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/magick++.html	2025-12-28 19:33:16.836330086 +0100
-@@ -237,7 +237,6 @@
+diff --git a/www/magick++.html b/www/magick++.html
+index a8cf663..9e695a9 100644
+--- a/www/magick++.html
++++ b/www/magick++.html
+@@ -237,7 +237,6 @@ int main(int argc,char **argv)
  <a href="https://github.com/ImageMagick/ImageMagick/discussions">Magick++ community forum</a>.
  </p>
  </div>
@@ -439,10 +439,10 @@ Index: imagemagick/www/magick++.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/magick-cache.html
-===================================================================
---- imagemagick.orig/www/magick-cache.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/magick-cache.html	2025-12-28 19:33:16.836462182 +0100
+diff --git a/www/magick-cache.html b/www/magick-cache.html
+index 45618b6..928195c 100644
+--- a/www/magick-cache.html
++++ b/www/magick-cache.html
 @@ -8,8 +8,8 @@
    <meta charset="utf-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -454,7 +454,7 @@ Index: imagemagick/www/magick-cache.html
    <meta name="application-name" content="ImageMagick" />
    <meta name="application-url" content="https://imagemagick.org" />
    <meta name="copyright" content="Copyright (c) 1999 ImageMagick Studio LLC" />
-@@ -193,7 +193,6 @@
+@@ -193,7 +193,6 @@ identified 1 resources</samp></pre>
  <h4>Security</h4>
  <p>MagickCache security is not crytographically strong.  Instead it generates a unique hash for each resource ensuring the resource ID cannot be discovered.  A resource is accessible to both the user of the cache and the cache owner provided they can present their respective passkeys.  They are also accessible to anyone with sufficient privileges to access the MagickCache  disk path.</p>
  </div>
@@ -462,11 +462,11 @@ Index: imagemagick/www/magick-cache.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/magick-core.html
-===================================================================
---- imagemagick.orig/www/magick-core.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/magick-core.html	2025-12-28 19:33:16.836618779 +0100
-@@ -389,7 +389,6 @@
+diff --git a/www/magick-core.html b/www/magick-core.html
+index 295f8ae..824f2da 100644
+--- a/www/magick-core.html
++++ b/www/magick-core.html
+@@ -389,7 +389,6 @@ int main(int argc,char **argv)
  
  <p>If OpenMP is being used (starting from version 5.0), the OpenMP implementation itself handles starting and stopping worker threads and allocating and freeing resources using its own methods. This means that after calling <samp>MagickCoreTerminus()</samp>, some OpenMP resources and worker threads might still remain allocated. To address this, the function <samp>omp_pause_resource_all(omp_pause_hard)</samp> can be invoked. This function, introduced in OpenMP version 5.0, ensures that any resources allocated by OpenMP (such as threads and thread-specific memory) are freed. It's recommended to call this function after <samp>MagickCoreTerminus()</samp> has completed its execution.</p>
  </div>
@@ -474,11 +474,11 @@ Index: imagemagick/www/magick-core.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/magick-script.html
-===================================================================
---- imagemagick.orig/www/magick-script.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/magick-script.html	2025-12-28 19:33:16.836799308 +0100
-@@ -1341,7 +1341,6 @@
+diff --git a/www/magick-script.html b/www/magick-script.html
+index 3a615e6..2908c4a 100644
+--- a/www/magick-script.html
++++ b/www/magick-script.html
+@@ -1341,7 +1341,6 @@ transparent, extract, background, or shape the alpha channel</td>
  </table>
  </div>
  </div>
@@ -486,11 +486,11 @@ Index: imagemagick/www/magick-script.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/magick-vector-graphics.html
-===================================================================
---- imagemagick.orig/www/magick-vector-graphics.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/magick-vector-graphics.html	2025-12-28 19:33:16.837022052 +0100
-@@ -940,7 +940,6 @@
+diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
+index c968352..813650b 100644
+--- a/www/magick-vector-graphics.html
++++ b/www/magick-vector-graphics.html
+@@ -940,7 +940,6 @@ round</samp></pre></td>
  </table></div>
  <p>Note, the primitives are case sensitive, e.g., use <code>viewbox</code>, not <code>viewBox</code>.</p>
  </div>
@@ -498,11 +498,11 @@ Index: imagemagick/www/magick-vector-graphics.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/miff.html
-===================================================================
---- imagemagick.orig/www/miff.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/miff.html	2025-12-28 19:33:16.837177591 +0100
-@@ -300,7 +300,6 @@
+diff --git a/www/miff.html b/www/miff.html
+index e5b9ebd..7e8eddc 100644
+--- a/www/miff.html
++++ b/www/miff.html
+@@ -300,7 +300,6 @@ or fewer colors in the image, each byte of image data contains an index value. I
  <p>MIFF files may contain more than one image.  Simply concatenate each individual image (composed of a header and image data) into one file.</p>
  
  </div>
@@ -510,10 +510,10 @@ Index: imagemagick/www/miff.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/mirror.html
-===================================================================
---- imagemagick.orig/www/mirror.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/mirror.html	2025-12-28 19:33:16.837306405 +0100
+diff --git a/www/mirror.html b/www/mirror.html
+index a617f08..2422553 100644
+--- a/www/mirror.html
++++ b/www/mirror.html
 @@ -163,7 +163,6 @@
  </dl>
  <p>If you want to add a new mirror, please <a href="../www/../www/../www/https://imagemagick.org/script/contact.php">contact us</a>.</p>
@@ -522,11 +522,11 @@ Index: imagemagick/www/mirror.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/montage.html
-===================================================================
---- imagemagick.orig/www/montage.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/montage.html	2025-12-28 19:33:16.837433537 +0100
-@@ -712,7 +712,6 @@
+diff --git a/www/montage.html b/www/montage.html
+index 440af67..8f43a25 100644
+--- a/www/montage.html
++++ b/www/montage.html
+@@ -712,7 +712,6 @@ transparent, extract, background, or shape the alpha channel</td>
  </table>
  
  </div>
@@ -534,10 +534,10 @@ Index: imagemagick/www/montage.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/multispectral-imagery.html
-===================================================================
---- imagemagick.orig/www/multispectral-imagery.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/multispectral-imagery.html	2025-12-28 19:33:16.837578399 +0100
+diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
+index 3c4aaf3..7aad733 100644
+--- a/www/multispectral-imagery.html
++++ b/www/multispectral-imagery.html
 @@ -206,7 +206,7 @@
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>0,0: 10,20,30,40,50,60</samp></pre>
  <p>Let's convert that to the TIFF image format:</p>
@@ -547,11 +547,11 @@ Index: imagemagick/www/multispectral-imagery.html
  <pre class="pre-scrollable p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>$ identify -verbose multiMeta.tif
  Image:
    Filename: multiMeta.tif
-Index: imagemagick/www/opencl.html
-===================================================================
---- imagemagick.orig/www/opencl.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/opencl.html	2025-12-28 19:33:16.837703168 +0100
-@@ -177,7 +177,6 @@
+diff --git a/www/opencl.html b/www/opencl.html
+index 942c08a..71c9743 100644
+--- a/www/opencl.html
++++ b/www/opencl.html
+@@ -177,7 +177,6 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
      /* looks like OpenCL is not supported  */
    }</samp></pre>
  </div>
@@ -559,10 +559,10 @@ Index: imagemagick/www/opencl.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/privacy-policy.html
-===================================================================
---- imagemagick.orig/www/privacy-policy.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/privacy-policy.html	2025-12-28 19:33:16.837817216 +0100
+diff --git a/www/privacy-policy.html b/www/privacy-policy.html
+index 545557c..2d443cb 100644
+--- a/www/privacy-policy.html
++++ b/www/privacy-policy.html
 @@ -135,7 +135,6 @@
  <p  class="lead">As the organization overseeing the open-source ImageMagick software distribution, ImageMagick Studio LLC does not collect any personal identifier information (PII). In addition to the organization, the ImageMagick software distribution does not collect PII either.</p>
  
@@ -571,11 +571,11 @@ Index: imagemagick/www/privacy-policy.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/quantize.html
-===================================================================
---- imagemagick.orig/www/quantize.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/quantize.html	2025-12-28 19:33:16.837948877 +0100
-@@ -252,7 +252,6 @@
+diff --git a/www/quantize.html b/www/quantize.html
+index a6e71fb..9d2d373 100644
+--- a/www/quantize.html
++++ b/www/quantize.html
+@@ -252,7 +252,6 @@ while number of nodes with (n2 &gt; 0) &gt; required maximum number of colors
  </table></div>
  
  </div>
@@ -583,11 +583,11 @@ Index: imagemagick/www/quantize.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/resources.html
-===================================================================
---- imagemagick.orig/www/resources.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/resources.html	2025-12-28 19:33:16.838108405 +0100
-@@ -426,7 +426,6 @@
+diff --git a/www/resources.html b/www/resources.html
+index ac37e50..55c7ff8 100644
+--- a/www/resources.html
++++ b/www/resources.html
+@@ -426,7 +426,6 @@ $MAGICK_FONT_PATH</samp></pre>
  <p>Define arguments for the <samp>MAGICK_MEMORY_LIMIT</samp>, <samp>MAGICK_DISK_LIMIT</samp>, and <samp>MAGICK_MEMORY_LIMIT</samp> environment variables with SI prefixes (.e.g <samp>100MB</samp>). <samp>MAGICK_WIDTH_LIMIT</samp>, <samp>MAGICK_HEIGHT_LIMIT</samp> and <samp>MAGICK_AREA_LIMIT</samp> accepts pixel suffixes such as MP for mega-pixels (e.g. 100MP).  Note, you can restrict limits relative to any <a href="../www/policy-open.xml">security policies</a>, but you cannot relax them.</p>
  
  </div>
@@ -595,10 +595,10 @@ Index: imagemagick/www/resources.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/search.html
-===================================================================
---- imagemagick.orig/www/search.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/search.html	2025-12-28 19:33:16.838290297 +0100
+diff --git a/www/search.html b/www/search.html
+index 3a0a12c..82bfe2e 100644
+--- a/www/search.html
++++ b/www/search.html
 @@ -122,15 +122,14 @@
      </div>
    </div>
@@ -625,10 +625,10 @@ Index: imagemagick/www/search.html
  
    <!-- Javascript assets -->
    <script src="assets/bootstrap.bundle.min.js" ></script>
-Index: imagemagick/www/sitemap.html
-===================================================================
---- imagemagick.orig/www/sitemap.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/sitemap.html	2025-12-28 19:33:16.838419933 +0100
+diff --git a/www/sitemap.html b/www/sitemap.html
+index cc0d758..0a520bc 100644
+--- a/www/sitemap.html
++++ b/www/sitemap.html
 @@ -405,7 +405,6 @@
  <p>We continue to maintain the legacy release of ImageMagick, version 6, at <a href="../index.html">https://legacy.imagemagick.org</a>.  We maintain an archive of <a href="https://legacy.imagemagick.org/discourse-server/">legacy ImageMagick discussions</a>.</p>
  </div>
@@ -637,10 +637,10 @@ Index: imagemagick/www/sitemap.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/support.html
-===================================================================
---- imagemagick.orig/www/support.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/support.html	2025-12-28 19:33:16.838546702 +0100
+diff --git a/www/support.html b/www/support.html
+index 93c8bad..7cadd89 100644
+--- a/www/support.html
++++ b/www/support.html
 @@ -194,7 +194,6 @@
  
  
@@ -649,10 +649,10 @@ Index: imagemagick/www/support.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/vpat.html
-===================================================================
---- imagemagick.orig/www/vpat.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/vpat.html	2025-12-28 19:33:16.838658122 +0100
+diff --git a/www/vpat.html b/www/vpat.html
+index 93bd127..b133d61 100644
+--- a/www/vpat.html
++++ b/www/vpat.html
 @@ -180,7 +180,6 @@
  
  
@@ -661,10 +661,10 @@ Index: imagemagick/www/vpat.html
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
      <div class="container-fluid">
-Index: imagemagick/www/webp.html
-===================================================================
---- imagemagick.orig/www/webp.html	2025-12-28 19:33:16.838857731 +0100
-+++ imagemagick/www/webp.html	2025-12-28 19:33:16.838833147 +0100
+diff --git a/www/webp.html b/www/webp.html
+index d7434fd..337e2f9 100644
+--- a/www/webp.html
++++ b/www/webp.html
 @@ -252,7 +252,6 @@
  </tbody>
  </table></div>

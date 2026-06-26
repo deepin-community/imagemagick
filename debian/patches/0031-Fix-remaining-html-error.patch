@@ -54,10 +54,10 @@ forwarded: not-needed
  www/webp.html                          |  6 +-----
  48 files changed, 56 insertions(+), 196 deletions(-)
 
-Index: imagemagick/www/Magick++/Montage.html
-===================================================================
---- imagemagick.orig/www/Magick++/Montage.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/Magick++/Montage.html	2025-10-28 17:11:37.401791986 +0100
+diff --git a/www/Magick++/Montage.html b/www/Magick++/Montage.html
+index dc26643..56ea42f 100644
+--- a/www/Magick++/Montage.html
++++ b/www/Magick++/Montage.html
 @@ -71,7 +71,7 @@
  <td>
  <p><font size="2">void</font></p></td>
@@ -94,10 +94,10 @@ Index: imagemagick/www/Magick++/Montage.html
  <td rowspan="2">
  <p><font size="2">Specifies a texture image to use as montage background. The built-in textures "<tt>granite:</tt>" and "<tt>plasma:</tt>" are available. A texture is the same as a background image.</font></p></td></tr>
  <tr>
-Index: imagemagick/www/advanced-linux-installation.html
-===================================================================
---- imagemagick.orig/www/advanced-linux-installation.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/advanced-linux-installation.html	2025-10-28 17:11:37.405602013 +0100
+diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
+index 162bd12..4380502 100644
+--- a/www/advanced-linux-installation.html
++++ b/www/advanced-linux-installation.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -109,10 +109,10 @@ Index: imagemagick/www/advanced-linux-installation.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/advanced-unix-installation.html
-===================================================================
---- imagemagick.orig/www/advanced-unix-installation.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/advanced-unix-installation.html	2025-10-28 17:11:37.405785150 +0100
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index 8359978..34b9046 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
 @@ -66,15 +66,7 @@
  
          </li>
@@ -129,10 +129,10 @@ Index: imagemagick/www/advanced-unix-installation.html
    </div>
    </nav>
  
-Index: imagemagick/www/advanced-windows-installation.html
-===================================================================
---- imagemagick.orig/www/advanced-windows-installation.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/advanced-windows-installation.html	2025-10-28 17:11:37.405927769 +0100
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index a61e65f..cec1ae7 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
 @@ -115,15 +115,7 @@
  
          </li>
@@ -149,10 +149,10 @@ Index: imagemagick/www/advanced-windows-installation.html
    </div>
    </nav>
  
-Index: imagemagick/www/animate.html
-===================================================================
---- imagemagick.orig/www/animate.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/animate.html	2025-10-28 17:11:37.406047745 +0100
+diff --git a/www/animate.html b/www/animate.html
+index f108f61..c1c3485 100644
+--- a/www/animate.html
++++ b/www/animate.html
 @@ -115,15 +115,7 @@
  
          </li>
@@ -169,10 +169,10 @@ Index: imagemagick/www/animate.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/channel.html
-===================================================================
---- imagemagick.orig/www/api/channel.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/api/channel.html	2025-10-28 17:11:37.406175513 +0100
+diff --git a/www/api/channel.html b/www/api/channel.html
+index 2ca6d66..583ce69 100644
+--- a/www/api/channel.html
++++ b/www/api/channel.html
 @@ -162,7 +162,7 @@
  <pre class="bg-light text-dark mx-4"><samp>    -channel-fx "red; green; blue"
  </samp></pre>
@@ -191,10 +191,10 @@ Index: imagemagick/www/api/channel.html
  
  <dd>
  </dd>
-Index: imagemagick/www/api/magick-image.html
-===================================================================
---- imagemagick.orig/www/api/magick-image.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/api/magick-image.html	2025-10-28 17:11:37.406795331 +0100
+diff --git a/www/api/magick-image.html b/www/api/magick-image.html
+index 2ee803d..1566fb5 100644
+--- a/www/api/magick-image.html
++++ b/www/api/magick-image.html
 @@ -1082,12 +1082,12 @@
  <pre class="bg-light text-dark mx-4"><samp>    -channel-fx "red; green; blue"
  </samp></pre>
@@ -210,10 +210,10 @@ Index: imagemagick/www/api/magick-image.html
  
  <dd>
  </dd>
-Index: imagemagick/www/architecture.html
-===================================================================
---- imagemagick.orig/www/architecture.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/architecture.html	2025-10-28 17:11:37.407657013 +0100
+diff --git a/www/architecture.html b/www/architecture.html
+index 4ad293e..4d836f0 100644
+--- a/www/architecture.html
++++ b/www/architecture.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -225,7 +225,7 @@ Index: imagemagick/www/architecture.html
      </div>
    </div>
    </nav>
-@@ -997,13 +993,13 @@
+@@ -997,13 +993,13 @@ __kernel void Convolve(const __global CLPixelType *source,__constant float *filt
  #include "filter/image-private.h"
  #include "filter/monitor-private.h"
  #include "filter/quantum-private.h"
@@ -241,7 +241,7 @@ Index: imagemagick/www/architecture.html
  /*
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %                                                                             %
-@@ -1038,7 +1034,7 @@
+@@ -1038,7 +1034,7 @@ static MagickBooleanType IsMGK(const unsigned char *magick,const size_t length)
      return(MagickTrue);
    return(MagickFalse);
  }
@@ -250,7 +250,7 @@ Index: imagemagick/www/architecture.html
  /*
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %                                                                             %
-@@ -1123,7 +1119,7 @@
+@@ -1123,7 +1119,7 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
    if (IsMGK(buffer,7) == MagickFalse)
      ThrowReaderException(CorruptImageError,"ImproperImageHeader");
    (void) ReadBlobString(image,buffer);
@@ -259,7 +259,7 @@ Index: imagemagick/www/architecture.html
    if (count &lt;= 0)
      ThrowReaderException(CorruptImageError,"ImproperImageHeader");
    do
-@@ -1134,7 +1130,7 @@
+@@ -1134,7 +1130,7 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
      image->columns=columns;
      image->rows=rows;
      image->depth=8;
@@ -268,7 +268,7 @@ Index: imagemagick/www/architecture.html
        if (image->scene >= (image_info->scene+image_info->number_scenes-1))
          break;
      /*
-@@ -1165,7 +1161,7 @@
+@@ -1165,7 +1161,7 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
        if (SyncAuthenticPixels(image,exception) == MagickFalse)
          break;
        if (image->previous == (Image *) NULL)
@@ -277,7 +277,7 @@ Index: imagemagick/www/architecture.html
              (QuantumTick(y,image->rows) != MagickFalse))
            {
              status=image->progress_monitor(LoadImageTag,y,image->rows,
-@@ -1189,7 +1185,7 @@
+@@ -1189,7 +1185,7 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
          break;
      *buffer='\0';
      (void) ReadBlobString(image,buffer);
@@ -286,7 +286,7 @@ Index: imagemagick/www/architecture.html
      if (count > 0)
        {
          /*
-@@ -1214,7 +1210,7 @@
+@@ -1214,7 +1210,7 @@ static Image *ReadMGKImage(const ImageInfo *image_info,ExceptionInfo *exception)
    (void) CloseBlob(image);
    return(GetFirstImageInList(image));
  }
@@ -295,7 +295,7 @@ Index: imagemagick/www/architecture.html
  /*
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %                                                                             %
-@@ -1250,7 +1246,7 @@
+@@ -1250,7 +1246,7 @@ ModuleExport unsigned long RegisterMGKImage(void)
    (void) RegisterMagickInfo(entry);
    return(MagickImageCoderSignature);
  }
@@ -304,7 +304,7 @@ Index: imagemagick/www/architecture.html
  /*
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %                                                                             %
-@@ -1274,7 +1270,7 @@
+@@ -1274,7 +1270,7 @@ ModuleExport void UnregisterMGKImage(void)
  {
    (void) UnregisterMagickInfo("MGK");
  }
@@ -313,7 +313,7 @@ Index: imagemagick/www/architecture.html
  /*
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %                                                                             %
-@@ -1376,7 +1372,7 @@
+@@ -1376,7 +1372,7 @@ static MagickBooleanType WriteMGKImage(const ImageInfo *image_info,Image *image,
        }
        (void) WriteBlob(image,(size_t) (q-pixels),pixels);
        if (image->previous == (Image *) NULL)
@@ -322,7 +322,7 @@ Index: imagemagick/www/architecture.html
              (QuantumTick(y,image->rows) != MagickFalse))
            {
              status=image->progress_monitor(SaveImageTag,y,image->rows,
-@@ -1423,7 +1419,7 @@
+@@ -1423,7 +1419,7 @@ display logo.mgk
  #include &lt;math.h>
  #include "MagickCore/studio.h"
  #include "MagickCore/MagickCore.h"
@@ -331,7 +331,7 @@ Index: imagemagick/www/architecture.html
  /*
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %                                                                             %
-@@ -1552,7 +1548,7 @@
+@@ -1552,7 +1548,7 @@ ModuleExport size_t analyzeImage(Image **images,const int argc,const char **argv
            s;
  
          ConvertRGBToHSL(GetPixelRed(image,p),GetPixelGreen(image,p),
@@ -340,10 +340,10 @@ Index: imagemagick/www/architecture.html
          b*=QuantumRange;
          for (i=1; i &lt;= 4; i++)
            local_brightness.sum[i]+=pow(b,(double) i);
-Index: imagemagick/www/changelog.html
-===================================================================
---- imagemagick.orig/www/changelog.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/changelog.html	2025-10-28 17:11:37.408075841 +0100
+diff --git a/www/changelog.html b/www/changelog.html
+index 3069e11..5e6b593 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
 @@ -66,10 +66,6 @@
  
          </li>
@@ -372,10 +372,10 @@ Index: imagemagick/www/changelog.html
    <li> Release ImageMagick version 7.0.5-6, GIT revision 20039:9371904:20170512.</li>
  <dt>2017-05-10  7.0.5-6 John Cupitt &lt;jcupitt@gmail.com&gt;</dt>
    <li> Revise DICOM window and rescale handling (reference    https://github.com/ImageMagick/ImageMagick/pull/484)</li>
-Index: imagemagick/www/cipher.html
-===================================================================
---- imagemagick.orig/www/cipher.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/cipher.html	2025-10-28 17:11:37.408308823 +0100
+diff --git a/www/cipher.html b/www/cipher.html
+index 4285d37..148a3f5 100644
+--- a/www/cipher.html
++++ b/www/cipher.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -387,10 +387,10 @@ Index: imagemagick/www/cipher.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/clahe.html
-===================================================================
---- imagemagick.orig/www/clahe.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/clahe.html	2025-10-28 17:11:37.408392261 +0100
+diff --git a/www/clahe.html b/www/clahe.html
+index 0066972..c56a136 100644
+--- a/www/clahe.html
++++ b/www/clahe.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -410,10 +410,10 @@ Index: imagemagick/www/clahe.html
  <ul>
    <a href="../images/mountains.jpg"><img src="../images/mountains.jpg" width="500" height="333" alt="label" /></a>
  </ul>
-Index: imagemagick/www/color-thresholding.html
-===================================================================
---- imagemagick.orig/www/color-thresholding.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/color-thresholding.html	2025-10-28 17:11:37.408484462 +0100
+diff --git a/www/color-thresholding.html b/www/color-thresholding.html
+index 4da925d..ece0ce9 100644
+--- a/www/color-thresholding.html
++++ b/www/color-thresholding.html
 @@ -233,7 +233,7 @@
  
  <p>Now, pick two RGB colors: <samp>sRGB(159,150,0)</samp> and <samp>sRGB(205,100,45):</samp></p>
@@ -423,10 +423,10 @@ Index: imagemagick/www/color-thresholding.html
  
  <ul><img class="img-fluid img-thumbnail" src="../images/color-thresholding-rgb.gif" alt="[Color Thresholding]" width="265" height="333" name="color-thresholding" /></ul>
  
-Index: imagemagick/www/color.html
-===================================================================
---- imagemagick.orig/www/color.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/color.html	2025-10-28 17:11:37.408725825 +0100
+diff --git a/www/color.html b/www/color.html
+index 323b9fc..aa33c78 100644
+--- a/www/color.html
++++ b/www/color.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -438,11 +438,11 @@ Index: imagemagick/www/color.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/command-line-options.html
-===================================================================
---- imagemagick.orig/www/command-line-options.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/command-line-options.html	2025-10-28 17:11:37.409563610 +0100
-@@ -1384,14 +1384,14 @@
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index 3b69ff8..688aa80 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
+@@ -1384,14 +1384,14 @@ abbreviated as a concatenation of the letters '<samp>R</samp>', '<samp>G</samp>'
  '<samp>B</samp>', '<samp>A</samp>', '<samp>O</samp>', '<samp>C</samp>',
  '<samp>M</samp>', '<samp>Y</samp>', '<samp>K</samp>'.</p>
  
@@ -459,7 +459,7 @@ Index: imagemagick/www/command-line-options.html
  </ul>
  
  <p>For example, to only select the <samp>Red</samp> and <samp>Blue</samp> channels
-@@ -3610,7 +3610,7 @@
+@@ -3610,7 +3610,7 @@ image is centered on an 800x600 black canvas: </p>
    -gravity center -extent 800x600 -quality 92 output.jpg
  </samp></pre>
  
@@ -468,7 +468,7 @@ Index: imagemagick/www/command-line-options.html
  
  <p>The following command crops a JPEG image so that it has a 4:3 ratio:</p>
  
-@@ -7893,7 +7893,7 @@
+@@ -7893,7 +7893,7 @@ radius that will provide meaningful results for the Gaussian distribution.
  
  <p class="magick-description">Soften the edges of the image in vignette style.</p>
  
@@ -477,11 +477,11 @@ Index: imagemagick/www/command-line-options.html
  
  <div style="margin: auto;">
    <h2><a class="anchor" id="virtual-pixel"></a>-virtual-pixel <var>method</var></h2>
-Index: imagemagick/www/command-line-processing.html
-===================================================================
---- imagemagick.orig/www/command-line-processing.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/command-line-processing.html	2025-10-28 17:11:37.410159159 +0100
-@@ -617,6 +617,7 @@
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index 0b22e90..01e4ed6 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
+@@ -617,6 +617,7 @@ setting for more specifics.</p>
    <tr>
      <td><var>area</var>@</td>
      <td>Resize image to have specified area in pixels. Aspect ratio is preserved.</td>
@@ -489,10 +489,10 @@ Index: imagemagick/www/command-line-processing.html
    <tr>
      <td><var>x</var>:<var>y</var></td>
      <td>Here x and y denotes an aspect ratio (e.g. 3:2 = 1.5).</td>
-Index: imagemagick/www/command-line-tools.html
-===================================================================
---- imagemagick.orig/www/command-line-tools.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/command-line-tools.html	2025-10-28 17:11:37.410285735 +0100
+diff --git a/www/command-line-tools.html b/www/command-line-tools.html
+index 9958fa0..042e7c2 100644
+--- a/www/command-line-tools.html
++++ b/www/command-line-tools.html
 @@ -235,7 +235,7 @@
    <dt class="col-md-4"><a class="anchor" id="stream"></a><a href="stream.html">magick stream</a></dt><dd class="col-md-8">a lightweight tool to stream one or more pixel components of the image or portion of the image to your choice of storage formats.  It writes the pixel components as they are read from the input image a row at a time making <samp>stream</samp> desirable when working with large images or when you require raw pixel components.</dd>
  </dl>
@@ -502,11 +502,11 @@ Index: imagemagick/www/command-line-tools.html
  
  </div>
      <a aria-label="About ImageMagick" class="btn btn-outline-warning mt-3" href="../index.html">About ImageMagick</a>
-Index: imagemagick/www/compare.html
-===================================================================
---- imagemagick.orig/www/compare.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/compare.html	2025-10-28 17:11:37.410365486 +0100
-@@ -571,7 +571,6 @@
+diff --git a/www/compare.html b/www/compare.html
+index 01b5d08..01df48e 100644
+--- a/www/compare.html
++++ b/www/compare.html
+@@ -571,7 +571,6 @@ transparent, extract, background, or shape the alpha channel</td>
      <td><a href="command-line-options.html#write-mask">-write-mask <var>filename</var></a></td>
      <td>associate a write mask with the image</td>
    </tr>
@@ -514,10 +514,10 @@ Index: imagemagick/www/compare.html
    </tbody>
  </table>
  </div>
-Index: imagemagick/www/compose.html
-===================================================================
---- imagemagick.orig/www/compose.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/compose.html	2025-10-28 17:11:37.410433213 +0100
+diff --git a/www/compose.html b/www/compose.html
+index 1851a7a..f0f7ab0 100644
+--- a/www/compose.html
++++ b/www/compose.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -529,7 +529,7 @@ Index: imagemagick/www/compose.html
      </div>
    </div>
    </nav>
-@@ -380,6 +376,7 @@
+@@ -380,6 +376,7 @@ the rest of the image outside the overlaid area.  </p>
      <td>interpolate</td>
      <td>This mode somehow combines multiply and screen mode (looks very similar for very dark or bright colors). </td>
    </tr>
@@ -537,10 +537,10 @@ Index: imagemagick/www/compose.html
  </table>
  
  <p>Typically these use the default 'Over' alpha blending when transparencies
-Index: imagemagick/www/contact.html
-===================================================================
---- imagemagick.orig/www/contact.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/contact.html	2025-10-28 17:11:37.410496743 +0100
+diff --git a/www/contact.html b/www/contact.html
+index 353057a..eaa15eb 100644
+--- a/www/contact.html
++++ b/www/contact.html
 @@ -116,10 +116,6 @@
  
          </li>
@@ -552,10 +552,10 @@ Index: imagemagick/www/contact.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/convert.html
-===================================================================
---- imagemagick.orig/www/convert.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/convert.html	2025-10-28 17:11:37.410568983 +0100
+diff --git a/www/convert.html b/www/convert.html
+index 00f2fda..98a9f9e 100644
+--- a/www/convert.html
++++ b/www/convert.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -567,11 +567,11 @@ Index: imagemagick/www/convert.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/convex-hull.html
-===================================================================
---- imagemagick.orig/www/convex-hull.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/convex-hull.html	2025-10-28 17:11:37.410649574 +0100
-@@ -257,7 +257,7 @@
+diff --git a/www/convex-hull.html b/www/convex-hull.html
+index e807278..de8dc96 100644
+--- a/www/convex-hull.html
++++ b/www/convex-hull.html
+@@ -257,7 +257,7 @@ magick [-fuzz <var>value</var>%] [-background <var>background-color</var>] -form
  <ul><img class="img-fluid img-thumbnail" src="../images/convex-hull-barn-closure.jpg" alt="[Convex Hull Barn Closure]" width="250" height="250" name="convert-hull-barn-closure" /></ul>
  
  <h2><a class="anchor" id="box"></a>Minimum Bounding Box</h2>
@@ -580,11 +580,11 @@ Index: imagemagick/www/convex-hull.html
  
  <pre class="code">magick barn_rot20.png -fuzz 10% -background gray25 -set MBR "%[minimum-bounding-box]" -fill none -stroke red -strokewidth 1 -draw "polygon %[MBR]" barn-mbr.png</pre>
  
-Index: imagemagick/www/defines.html
-===================================================================
---- imagemagick.orig/www/defines.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/defines.html	2025-10-28 17:11:37.410738645 +0100
-@@ -169,7 +169,7 @@
+diff --git a/www/defines.html b/www/defines.html
+index 2e61c1c..84455d1 100644
+--- a/www/defines.html
++++ b/www/defines.html
+@@ -169,7 +169,7 @@ use:</p>
  
  <table class="table table-sm table-hover table-striped table-responsive">
    <tr>
@@ -593,7 +593,7 @@ Index: imagemagick/www/defines.html
    </tr>
  
    <tr>
-@@ -814,7 +814,7 @@
+@@ -814,7 +814,7 @@ use:</p>
    </tr>
  
    <tr>
@@ -602,7 +602,7 @@ Index: imagemagick/www/defines.html
    </tr>
  
    <tr>
-@@ -1046,7 +1046,7 @@
+@@ -1046,7 +1046,7 @@ use:</p>
  
    <tr>
      <td>identify:convex-hull=<var>true</var></td>
@@ -611,10 +611,10 @@ Index: imagemagick/www/defines.html
    </tr>
  
    <tr>
-Index: imagemagick/www/distribute-pixel-cache.html
-===================================================================
---- imagemagick.orig/www/distribute-pixel-cache.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/distribute-pixel-cache.html	2025-10-28 17:11:37.410840133 +0100
+diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
+index 2a9f829..3202b17 100644
+--- a/www/distribute-pixel-cache.html
++++ b/www/distribute-pixel-cache.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -626,10 +626,10 @@ Index: imagemagick/www/distribute-pixel-cache.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/escape.html
-===================================================================
---- imagemagick.orig/www/escape.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/escape.html	2025-10-28 17:11:37.410907759 +0100
+diff --git a/www/escape.html b/www/escape.html
+index 7a8afff..b3910b5 100644
+--- a/www/escape.html
++++ b/www/escape.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -641,11 +641,11 @@ Index: imagemagick/www/escape.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/formats.html
-===================================================================
---- imagemagick.orig/www/formats.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/formats.html	2025-10-28 17:11:37.411049592 +0100
-@@ -253,7 +253,7 @@
+diff --git a/www/formats.html b/www/formats.html
+index 6dd66e2..48edadf 100644
+--- a/www/formats.html
++++ b/www/formats.html
+@@ -253,7 +253,7 @@ Imagemagick is <a href="../www/high-dynamic-range.html">HDRI</a>-enabled.  Essen
  B channels are stored with a 50% gray bias, to allow it to handle the
  negatives required by the format.</p>
  
@@ -654,10 +654,10 @@ Index: imagemagick/www/formats.html
  
  <p>Again, it may not make sense for some image processing operators to work
  directly in LAB space, but ImageMagick permits it and generally returns
-Index: imagemagick/www/fx.html
-===================================================================
---- imagemagick.orig/www/fx.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/fx.html	2025-10-28 17:11:37.411190913 +0100
+diff --git a/www/fx.html b/www/fx.html
+index a15e56b..91493e1 100644
+--- a/www/fx.html
++++ b/www/fx.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -687,10 +687,10 @@ Index: imagemagick/www/fx.html
  </ul>
  <br/>
  
-Index: imagemagick/www/gradient.html
-===================================================================
---- imagemagick.orig/www/gradient.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/gradient.html	2025-10-28 17:11:37.411271722 +0100
+diff --git a/www/gradient.html b/www/gradient.html
+index d41ebfb..587ad78 100644
+--- a/www/gradient.html
++++ b/www/gradient.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -702,10 +702,10 @@ Index: imagemagick/www/gradient.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/high-dynamic-range.html
-===================================================================
---- imagemagick.orig/www/high-dynamic-range.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/high-dynamic-range.html	2025-10-28 17:11:37.411320559 +0100
+diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
+index 7a37b53..200e753 100644
+--- a/www/high-dynamic-range.html
++++ b/www/high-dynamic-range.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -717,10 +717,10 @@ Index: imagemagick/www/high-dynamic-range.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/history.html
-===================================================================
---- imagemagick.orig/www/history.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/history.html	2025-10-28 17:11:37.411363144 +0100
+diff --git a/www/history.html b/www/history.html
+index fa708bb..0500657 100644
+--- a/www/history.html
++++ b/www/history.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -732,10 +732,10 @@ Index: imagemagick/www/history.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/identify.html
-===================================================================
---- imagemagick.orig/www/identify.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/identify.html	2025-10-28 17:11:37.411412677 +0100
+diff --git a/www/identify.html b/www/identify.html
+index b8eb7a5..75532e7 100644
+--- a/www/identify.html
++++ b/www/identify.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -747,11 +747,11 @@ Index: imagemagick/www/identify.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/install-source.html
-===================================================================
---- imagemagick.orig/www/install-source.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/install-source.html	2025-10-28 17:11:37.411473583 +0100
-@@ -272,7 +272,7 @@
+diff --git a/www/install-source.html b/www/install-source.html
+index 7c2c5aa..68f2928 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
+@@ -272,7 +272,7 @@ make</samp></pre>
  <p>We recommend you first uninstall an existing ImageMagick, else you might be surprised that your <samp>magick</samp> commands go to the old version.</p>
  <p>Building ImageMagick source for Windows can be done with a modern version of Microsoft Visual Studio IDE.  Users have reported success with the Borland C++ compiler as well.  If you don't have a compiler you can still install a self-installing <a href="download.html">binary release</a>.</p>
  
@@ -760,7 +760,7 @@ Index: imagemagick/www/install-source.html
  
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>git clone https://github.com/ImageMagick/ImageMagick-Windows.git ImageMagick-Windows-7</samp></pre>
  
-@@ -295,7 +295,7 @@
+@@ -295,7 +295,7 @@ to compile the program and on completion run the program.</p>
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>cd ImageMagick-7.1.2
  magick logo: image.jpg</samp></pre>
  
@@ -769,10 +769,10 @@ Index: imagemagick/www/install-source.html
  <p>For a more comprehensive test, run the ImageMagick validation suite:</p>
  
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>validate
-Index: imagemagick/www/links.html
-===================================================================
---- imagemagick.orig/www/links.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/links.html	2025-10-28 17:11:37.411526665 +0100
+diff --git a/www/links.html b/www/links.html
+index 33c9475..f350c66 100644
+--- a/www/links.html
++++ b/www/links.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -784,10 +784,10 @@ Index: imagemagick/www/links.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/magick-cache.html
-===================================================================
---- imagemagick.orig/www/magick-cache.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/magick-cache.html	2025-10-28 17:11:37.411575452 +0100
+diff --git a/www/magick-cache.html b/www/magick-cache.html
+index 743e473..57ad2f5 100644
+--- a/www/magick-cache.html
++++ b/www/magick-cache.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -808,17 +808,17 @@ Index: imagemagick/www/magick-cache.html
  <h4>Put content in the MagickCache</h4>
  <p>Let's add a movie cast image to our newly created cache:</p>
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>$ magick-cache put /opt/magick-cache movies/images/mission-impossible/cast/rebecca-ferguson 20210508-rebecca-ferguson.jpg</samp></pre>
-@@ -221,4 +217,4 @@
+@@ -221,4 +217,4 @@ identified 1 resources</samp></pre>
    <script src="assets/bootstrap.bundle.min.js" ></script>
    </body>
  </html>
 -<!-- Magick Cache 1st March 2025 19:23 -->
 \ No newline at end of file
 +<!-- Magick Cache 1st March 2025 19:23 -->
-Index: imagemagick/www/magick-script.html
-===================================================================
---- imagemagick.orig/www/magick-script.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/magick-script.html	2025-10-28 17:11:37.411657512 +0100
+diff --git a/www/magick-script.html b/www/magick-script.html
+index 9d70860..b79cae8 100644
+--- a/www/magick-script.html
++++ b/www/magick-script.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -839,17 +839,17 @@ Index: imagemagick/www/magick-script.html
  -size 100x100 xc:red ( rose: -rotate -90 ) +append  -write show:
  </samp></pre>
  
-@@ -1369,4 +1365,4 @@
+@@ -1369,4 +1365,4 @@ transparent, extract, background, or shape the alpha channel</td>
    <script src="assets/bootstrap.bundle.min.js" ></script>
    </body>
  </html>
 -<!-- Magick Cache 1st March 2025 19:18 -->
 \ No newline at end of file
 +<!-- Magick Cache 1st March 2025 19:18 -->
-Index: imagemagick/www/magick-vector-graphics.html
-===================================================================
---- imagemagick.orig/www/magick-vector-graphics.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/magick-vector-graphics.html	2025-10-28 17:11:37.411763740 +0100
+diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
+index 9fe88da..c91e808 100644
+--- a/www/magick-vector-graphics.html
++++ b/www/magick-vector-graphics.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -861,11 +861,11 @@ Index: imagemagick/www/magick-vector-graphics.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/magick-wand.html
-===================================================================
---- imagemagick.orig/www/magick-wand.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/magick-wand.html	2025-10-28 17:11:37.411846375 +0100
-@@ -432,12 +432,12 @@
+diff --git a/www/magick-wand.html b/www/magick-wand.html
+index 8a9af18..139fa20 100644
+--- a/www/magick-wand.html
++++ b/www/magick-wand.html
+@@ -432,12 +432,12 @@ static MagickBooleanType SigmoidalContrast(WandView *contrast_view,
    pixels=GetWandViewPixels(contrast_view);
    for (x=0; x &lt; (ssize_t) extent.width; x++)
    {
@@ -880,10 +880,10 @@ Index: imagemagick/www/magick-wand.html
    }
    return(MagickTrue);
  }
-Index: imagemagick/www/miff.html
-===================================================================
---- imagemagick.orig/www/miff.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/miff.html	2025-10-28 17:11:37.411908669 +0100
+diff --git a/www/miff.html b/www/miff.html
+index 9449405..bf01bde 100644
+--- a/www/miff.html
++++ b/www/miff.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -895,10 +895,10 @@ Index: imagemagick/www/miff.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/montage.html
-===================================================================
---- imagemagick.orig/www/montage.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/montage.html	2025-10-28 17:11:37.411971484 +0100
+diff --git a/www/montage.html b/www/montage.html
+index a20d01f..a0b3233 100644
+--- a/www/montage.html
++++ b/www/montage.html
 @@ -175,7 +175,7 @@
  <p>You can find additional examples of using <samp>montage</samp> at <a href="https://usage.imagemagick.org/montage/">Examples of ImageMagick Usage</a> and <a href="../index.html">Examples of ImageMagick Usage</a>.</p>
  
@@ -908,11 +908,11 @@ Index: imagemagick/www/montage.html
  
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary cli"><samp>magick '*.png' -resize 320x320 -label %f ashlar:ashlar.png</samp></pre>
  
-Index: imagemagick/www/multispectral-imagery.html
-===================================================================
---- imagemagick.orig/www/multispectral-imagery.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/multispectral-imagery.html	2025-10-28 17:11:37.412043255 +0100
-@@ -332,11 +332,11 @@
+diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
+index 7aad733..41df2bc 100644
+--- a/www/multispectral-imagery.html
++++ b/www/multispectral-imagery.html
+@@ -332,11 +332,11 @@ Image:
    Filesize: 306B
    Number pixels: 1
  </samp></pre>
@@ -927,10 +927,10 @@ Index: imagemagick/www/multispectral-imagery.html
  <p>And in this example, we create two meta channels:</p>
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>magick lena.png \( mandril3.jpg -colorspace gray \) -channel-fx '| gray=>meta' \( zelda1.jpg -colorspace gray \) -channel-fx '| gray=>meta1' meta.tif</samp></pre>
  <p>In this example, we blend two meta channels into a single alpha channel:</p>
-Index: imagemagick/www/news.html
-===================================================================
---- imagemagick.orig/www/news.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/news.html	2025-10-28 17:11:37.412096874 +0100
+diff --git a/www/news.html b/www/news.html
+index 10de8a7..ccc38689 100644
+--- a/www/news.html
++++ b/www/news.html
 @@ -200,7 +200,7 @@
  
  <p>The <samp>magick convert</samp> command is deprecated, use <samp>magick</samp> instead.  The deprecated command still works, however, it now posts a warning it is deprecated.</p>
@@ -957,10 +957,10 @@ Index: imagemagick/www/news.html
  </div>
    </main><!-- /.container -->
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
-Index: imagemagick/www/opencl.html
-===================================================================
---- imagemagick.orig/www/opencl.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/opencl.html	2025-10-28 17:11:37.412151182 +0100
+diff --git a/www/opencl.html b/www/opencl.html
+index b3ffc1a..77cdfce 100644
+--- a/www/opencl.html
++++ b/www/opencl.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -972,10 +972,10 @@ Index: imagemagick/www/opencl.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/privacy-policy.html
-===================================================================
---- imagemagick.orig/www/privacy-policy.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/privacy-policy.html	2025-10-28 17:11:37.412198040 +0100
+diff --git a/www/privacy-policy.html b/www/privacy-policy.html
+index b7084fc..878d2eb 100644
+--- a/www/privacy-policy.html
++++ b/www/privacy-policy.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -987,10 +987,10 @@ Index: imagemagick/www/privacy-policy.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/quantize.html
-===================================================================
---- imagemagick.orig/www/quantize.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/quantize.html	2025-10-28 17:11:37.412239771 +0100
+diff --git a/www/quantize.html b/www/quantize.html
+index 46a4af8..9f142f8 100644
+--- a/www/quantize.html
++++ b/www/quantize.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1002,10 +1002,10 @@ Index: imagemagick/www/quantize.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/search.html
-===================================================================
---- imagemagick.orig/www/search.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/search.html	2025-10-28 17:11:37.412272451 +0100
+diff --git a/www/search.html b/www/search.html
+index e25a11e..212187f 100644
+--- a/www/search.html
++++ b/www/search.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1017,10 +1017,10 @@ Index: imagemagick/www/search.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/sitemap.html
-===================================================================
---- imagemagick.orig/www/sitemap.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/sitemap.html	2025-10-28 17:11:37.412308195 +0100
+diff --git a/www/sitemap.html b/www/sitemap.html
+index ca76c12..f5aaa13 100644
+--- a/www/sitemap.html
++++ b/www/sitemap.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1032,10 +1032,10 @@ Index: imagemagick/www/sitemap.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/support.html
-===================================================================
---- imagemagick.orig/www/support.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/support.html	2025-10-28 17:11:37.412348712 +0100
+diff --git a/www/support.html b/www/support.html
+index 5f735fc..bd3b244 100644
+--- a/www/support.html
++++ b/www/support.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1072,10 +1072,10 @@ Index: imagemagick/www/support.html
 -<!-- Magick Cache 1st March 2025 19:22 -->
 \ No newline at end of file
 +<!-- Magick Cache 1st March 2025 19:22 -->
-Index: imagemagick/www/vpat.html
-===================================================================
---- imagemagick.orig/www/vpat.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/vpat.html	2025-10-28 17:11:37.412393541 +0100
+diff --git a/www/vpat.html b/www/vpat.html
+index 206a549..0da69c7 100644
+--- a/www/vpat.html
++++ b/www/vpat.html
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1087,10 +1087,10 @@ Index: imagemagick/www/vpat.html
      </div>
    </div>
    </nav>
-Index: imagemagick/www/webp.html
-===================================================================
---- imagemagick.orig/www/webp.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/webp.html	2025-10-28 17:11:37.412429124 +0100
+diff --git a/www/webp.html b/www/webp.html
+index 0d3ee2f..7ff9c47 100644
+--- a/www/webp.html
++++ b/www/webp.html
 @@ -115,10 +115,6 @@
  
          </li>

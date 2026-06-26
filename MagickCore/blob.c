@@ -64,6 +64,7 @@
 #include "MagickCore/nt-base-private.h"
 #include "MagickCore/option.h"
 #include "MagickCore/policy.h"
+#include "MagickCore/policy-private.h"
 #include "MagickCore/resource_.h"
 #include "MagickCore/semaphore.h"
 #include "MagickCore/string_.h"
@@ -84,7 +85,7 @@
 */
 #define IsPathAuthorized(rights,filename) \
   ((IsRightsAuthorized(PathPolicyDomain,rights,filename) != MagickFalse) && \
-   ((IsRightsAuthorized(SystemPolicyDomain,rights,"symlink::follow") != MagickFalse) || \
+   ((IsRightsAuthorizedByName(SystemPolicyDomain,"symlink",rights,"follow") != MagickFalse) || \
     (is_symlink_utf8(filename) == MagickFalse)))
 #define MagickMaxBlobExtent  (8*8192)
 #if !defined(MAP_ANONYMOUS) && defined(MAP_ANON)
@@ -3518,6 +3519,13 @@ MagickExport MagickBooleanType OpenBlob(const ImageInfo *image_info,
             }
           (void) CopyMagickString(image->filename,filename,MagickPathExtent);
         }
+      if (IsPathAuthorized(rights,filename) == MagickFalse)
+        {
+          errno=EPERM;
+          (void) ThrowMagickException(exception,GetMagickModule(),
+            PolicyError,"NotAuthorized","`%s'",filename);
+          return(MagickFalse);
+        }
     }
   if (image_info->file != (FILE *) NULL)
     {
@@ -3603,7 +3611,6 @@ MagickExport MagickBooleanType OpenBlob(const ImageInfo *image_info,
                 length=(size_t) blob_info->properties.st_size;
                 if ((magick_info != (const MagickInfo *) NULL) &&
                     (GetMagickBlobSupport(magick_info) != MagickFalse) &&
-                    (length > MagickMaxBufferExtent) &&
                     (AcquireMagickResource(MapResource,length) != MagickFalse))
                   {
                     void
@@ -3670,8 +3677,8 @@ MagickExport MagickBooleanType OpenBlob(const ImageInfo *image_info,
   if (IsPathAuthorized(rights,filename) == MagickFalse)
     {
       errno=EPERM;
-      (void) ThrowMagickException(exception,GetMagickModule(),PolicyError,
-        "NotAuthorized","`%s'",filename);
+      (void) ThrowMagickException(exception,GetMagickModule(),
+        PolicyError,"NotAuthorized","`%s'",filename);
       return(MagickFalse);
     }
   blob_info->status=0;

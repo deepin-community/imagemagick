@@ -7,11 +7,11 @@ Forwarded: yes, https://github.com/ImageMagick/ImageMagick/issues/305
  configure.ac | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-Index: imagemagick/configure.ac
-===================================================================
---- imagemagick.orig/configure.ac	2026-03-20 21:43:21.243856415 +0100
-+++ imagemagick/configure.ac	2026-03-20 21:43:21.241896866 +0100
-@@ -216,9 +216,9 @@
+diff --git a/configure.ac b/configure.ac
+index 548268e..d5947fe 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -216,9 +216,9 @@ AC_SUBST([SBIN_DIR])
  eval "eval LIBEXEC_DIR=$libexecdir"
  AC_SUBST([LIBEXEC_DIR])
  eval "eval DATA_DIR=$datadir"
@@ -24,7 +24,7 @@ Index: imagemagick/configure.ac
  eval "eval SYSCONF_DIR=$sysconfdir"
  AC_SUBST([SYSCONF_DIR])
  eval "eval SHAREDSTATE_DIR=$sharedstatedir"
-@@ -3222,9 +3222,8 @@
+@@ -3222,9 +3222,8 @@ AC_SUBST([FILTER_PATH])
  
  #
  # Path to ImageMagick documentation files

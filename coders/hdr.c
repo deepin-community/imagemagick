@@ -340,6 +340,9 @@ static Image *ReadHDRImage(const ImageInfo *image_info,ExceptionInfo *exception)
 
                   if (MagickSscanf(value,"%d +X %d",&height,&width) == 2)
                     {
+                      if ((width <= 0) || (height <= 0))
+                        ThrowReaderException(CorruptImageError,
+                          "ImproperImageHeader");
                       image->columns=(size_t) width;
                       image->rows=(size_t) height;
                     }
@@ -361,8 +364,6 @@ static Image *ReadHDRImage(const ImageInfo *image_info,ExceptionInfo *exception)
       while (isspace((int) ((unsigned char) c)) != 0)
         c=ReadBlobByte(image);
   }
-  if ((image->columns == 0) || (image->rows == 0))
-    ThrowReaderException(CorruptImageError,"NegativeOrZeroImageSize");
   if (LocaleCompare(format,"32-bit_rle_rgbe") == 0)
     (void) SetImageColorspace(image,RGBColorspace,exception);
   else if (LocaleCompare(format,"32-bit_rle_xyze") == 0)

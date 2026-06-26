@@ -8,7 +8,7 @@ Forwarded: https://github.com/ImageMagick/ImageMagick/issues/6850
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/coders/Makefile.am b/coders/Makefile.am
-index f98310d..9ff5d7a 100644
+index be1ebd5..034d79e 100644
 --- a/coders/Makefile.am
 +++ b/coders/Makefile.am
 @@ -713,7 +713,7 @@ coders_art_la_LIBADD       = $(MAGICKCORE_LIBS)

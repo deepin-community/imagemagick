@@ -316,6 +316,8 @@ MagickExport Image *PingImage(const ImageInfo *image_info,
   image=ReadStream(ping_info,&PingStream,exception);
   if (image != (Image *) NULL)
     {
+      if ((image->columns == 0) || (image->rows == 0))
+        ThrowReaderException(CorruptImageError,"ImproperImageHeader");
       ResetTimer(&image->timer);
       if (ping_info->verbose != MagickFalse)
         (void) IdentifyImage(image,stdout,MagickFalse,exception);
@@ -825,6 +827,17 @@ MagickExport Image *ReadImage(const ImageInfo *image_info,
       "notify the developers",image->magick,exception->severity);
   if (IsBlobTemporary(image) != MagickFalse)
     (void) RelinquishUniqueFileResource(read_info->filename);
+  if (read_info->ping != MagickFalse)
+    {
+      for (next=image; next != (Image *) NULL; next=GetNextImageInList(next))
+      {
+        if ((image->columns == 0) || (image->rows == 0))
+          {
+            read_info=DestroyImageInfo(read_info);
+            ThrowReaderException(ImageError,"NegativeOrZeroImageSize");
+          }
+      }
+    }
   if ((IsSceneGeometry(read_info->scenes,MagickFalse) != MagickFalse) &&
       (GetImageListLength(image) != 1))
     {
@@ -1279,7 +1292,8 @@ MagickExport MagickBooleanType WriteImage(const ImageInfo *image_info,
             image->endian=(*(char *) &lsb_first) == 1 ? LSBEndian : MSBEndian;
          }
     }
-  if (SyncImagePixelCache(image,exception) == MagickFalse)
+  if ((image->ping != MagickFalse) &&
+      (SyncImagePixelCache(image,exception) == MagickFalse))
     {
       write_info=DestroyImageInfo(write_info);
       return(MagickFalse);

@@ -858,6 +858,7 @@ libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-$
  SetQuantumAlphaType@Base 8:7.1.1.21
  SetQuantumDepth@Base 8:7.1.1.21
  SetQuantumEndian@Base 8:7.1.1.21
+ SetQuantumExtent@Base 8:7.1.2.25
  SetQuantumFormat@Base 8:7.1.1.21
  SetQuantumImageType@Base 8:7.1.1.21
  SetQuantumMetaChannel@Base 8:7.1.2.15

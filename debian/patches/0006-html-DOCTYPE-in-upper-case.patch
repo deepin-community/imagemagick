@@ -113,10 +113,10 @@ forwarded: not-needed
  www/webp.html                          | 2 +-
  105 files changed, 105 insertions(+), 105 deletions(-)
 
-Index: imagemagick/www/advanced-linux-installation.html
-===================================================================
---- imagemagick.orig/www/advanced-linux-installation.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/advanced-linux-installation.html	2026-03-20 21:43:34.620312368 +0100
+diff --git a/www/advanced-linux-installation.html b/www/advanced-linux-installation.html
+index 8f144d5..9c6757f 100644
+--- a/www/advanced-linux-installation.html
++++ b/www/advanced-linux-installation.html
 @@ -1,7 +1,7 @@
  
  
@@ -126,10 +126,10 @@ Index: imagemagick/www/advanced-linux-installation.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/advanced-unix-installation.html
-===================================================================
---- imagemagick.orig/www/advanced-unix-installation.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/advanced-unix-installation.html	2026-03-20 21:43:34.620564510 +0100
+diff --git a/www/advanced-unix-installation.html b/www/advanced-unix-installation.html
+index 949baa4..13d5183 100644
+--- a/www/advanced-unix-installation.html
++++ b/www/advanced-unix-installation.html
 @@ -2,7 +2,7 @@
  
  
@@ -139,10 +139,10 @@ Index: imagemagick/www/advanced-unix-installation.html
  <html lang="en">
  <head>
    <meta charset="utf-8"  />
-Index: imagemagick/www/advanced-windows-installation.html
-===================================================================
---- imagemagick.orig/www/advanced-windows-installation.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/advanced-windows-installation.html	2026-03-20 21:43:34.620678272 +0100
+diff --git a/www/advanced-windows-installation.html b/www/advanced-windows-installation.html
+index c96f134..9623fb6 100644
+--- a/www/advanced-windows-installation.html
++++ b/www/advanced-windows-installation.html
 @@ -1,7 +1,7 @@
  
  
@@ -152,10 +152,10 @@ Index: imagemagick/www/advanced-windows-installation.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/animate.html
-===================================================================
---- imagemagick.orig/www/animate.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/animate.html	2026-03-20 21:43:34.620864801 +0100
+diff --git a/www/animate.html b/www/animate.html
+index 04d49ff..45fff6a 100644
+--- a/www/animate.html
++++ b/www/animate.html
 @@ -1,7 +1,7 @@
  
  
@@ -165,10 +165,10 @@ Index: imagemagick/www/animate.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/api/Image++.html
-===================================================================
---- imagemagick.orig/www/api/Image++.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/Image++.html	2026-03-20 21:43:34.621158055 +0100
+diff --git a/www/api/Image++.html b/www/api/Image++.html
+index 411c4db..7940bbf 100644
+--- a/www/api/Image++.html
++++ b/www/api/Image++.html
 @@ -2,7 +2,7 @@
  
  
@@ -178,10 +178,10 @@ Index: imagemagick/www/api/Image++.html
  <html lang="en">
  <head>
    <meta charset="utf-8"  />
-Index: imagemagick/www/api/animate.html
-===================================================================
---- imagemagick.orig/www/api/animate.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/animate.html	2026-03-20 21:43:34.621419830 +0100
+diff --git a/www/api/animate.html b/www/api/animate.html
+index 29437a6..dfbedc7 100644
+--- a/www/api/animate.html
++++ b/www/api/animate.html
 @@ -2,7 +2,7 @@
  
  
@@ -191,10 +191,10 @@ Index: imagemagick/www/api/animate.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/annotate.html
-===================================================================
---- imagemagick.orig/www/api/annotate.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/annotate.html	2026-03-20 21:43:34.621536513 +0100
+diff --git a/www/api/annotate.html b/www/api/annotate.html
+index e768ff7..bda8ada 100644
+--- a/www/api/annotate.html
++++ b/www/api/annotate.html
 @@ -2,7 +2,7 @@
  
  
@@ -204,10 +204,10 @@ Index: imagemagick/www/api/annotate.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/attribute.html
-===================================================================
---- imagemagick.orig/www/api/attribute.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/attribute.html	2026-03-20 21:43:34.621622503 +0100
+diff --git a/www/api/attribute.html b/www/api/attribute.html
+index d9cc596..f3788ec 100644
+--- a/www/api/attribute.html
++++ b/www/api/attribute.html
 @@ -2,7 +2,7 @@
  
  
@@ -217,10 +217,10 @@ Index: imagemagick/www/api/attribute.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/blob.html
-===================================================================
---- imagemagick.orig/www/api/blob.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/blob.html	2026-03-20 21:43:34.621705432 +0100
+diff --git a/www/api/blob.html b/www/api/blob.html
+index 0a1d62d..3b36490 100644
+--- a/www/api/blob.html
++++ b/www/api/blob.html
 @@ -2,7 +2,7 @@
  
  
@@ -230,10 +230,10 @@ Index: imagemagick/www/api/blob.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/cache-view.html
-===================================================================
---- imagemagick.orig/www/api/cache-view.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/cache-view.html	2026-03-20 21:43:34.621792034 +0100
+diff --git a/www/api/cache-view.html b/www/api/cache-view.html
+index 62a80da..f4262a4 100644
+--- a/www/api/cache-view.html
++++ b/www/api/cache-view.html
 @@ -2,7 +2,7 @@
  
  
@@ -243,10 +243,10 @@ Index: imagemagick/www/api/cache-view.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/cache.html
-===================================================================
---- imagemagick.orig/www/api/cache.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/cache.html	2026-03-20 21:43:34.621886950 +0100
+diff --git a/www/api/cache.html b/www/api/cache.html
+index 0f9adb8..ee312c4 100644
+--- a/www/api/cache.html
++++ b/www/api/cache.html
 @@ -2,7 +2,7 @@
  
  
@@ -256,10 +256,10 @@ Index: imagemagick/www/api/cache.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/channel.html
-===================================================================
---- imagemagick.orig/www/api/channel.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/channel.html	2026-03-20 21:43:34.621972431 +0100
+diff --git a/www/api/channel.html b/www/api/channel.html
+index 5d9e7ba..d845bc9 100644
+--- a/www/api/channel.html
++++ b/www/api/channel.html
 @@ -2,7 +2,7 @@
  
  
@@ -269,10 +269,10 @@ Index: imagemagick/www/api/channel.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/cipher.html
-===================================================================
---- imagemagick.orig/www/api/cipher.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/cipher.html	2026-03-20 21:43:34.622049529 +0100
+diff --git a/www/api/cipher.html b/www/api/cipher.html
+index 5ee5987..9b74b72 100644
+--- a/www/api/cipher.html
++++ b/www/api/cipher.html
 @@ -2,7 +2,7 @@
  
  
@@ -282,10 +282,10 @@ Index: imagemagick/www/api/cipher.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/color.html
-===================================================================
---- imagemagick.orig/www/api/color.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/color.html	2026-03-20 21:43:34.622126124 +0100
+diff --git a/www/api/color.html b/www/api/color.html
+index f8b9157..8a18abb 100644
+--- a/www/api/color.html
++++ b/www/api/color.html
 @@ -2,7 +2,7 @@
  
  
@@ -295,10 +295,10 @@ Index: imagemagick/www/api/color.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/colormap.html
-===================================================================
---- imagemagick.orig/www/api/colormap.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/colormap.html	2026-03-20 21:43:34.622197039 +0100
+diff --git a/www/api/colormap.html b/www/api/colormap.html
+index 37bc876..ddcec96 100644
+--- a/www/api/colormap.html
++++ b/www/api/colormap.html
 @@ -2,7 +2,7 @@
  
  
@@ -308,10 +308,10 @@ Index: imagemagick/www/api/colormap.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/colorspace.html
-===================================================================
---- imagemagick.orig/www/api/colorspace.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/colorspace.html	2026-03-20 21:43:34.622280878 +0100
+diff --git a/www/api/colorspace.html b/www/api/colorspace.html
+index b9b5eff..37597b5 100644
+--- a/www/api/colorspace.html
++++ b/www/api/colorspace.html
 @@ -2,7 +2,7 @@
  
  
@@ -321,10 +321,10 @@ Index: imagemagick/www/api/colorspace.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/compare.html
-===================================================================
---- imagemagick.orig/www/api/compare.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/compare.html	2026-03-20 21:43:34.622360471 +0100
+diff --git a/www/api/compare.html b/www/api/compare.html
+index 2280367..e5d8dce 100644
+--- a/www/api/compare.html
++++ b/www/api/compare.html
 @@ -2,7 +2,7 @@
  
  
@@ -334,10 +334,10 @@ Index: imagemagick/www/api/compare.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/composite.html
-===================================================================
---- imagemagick.orig/www/api/composite.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/composite.html	2026-03-20 21:43:34.622442515 +0100
+diff --git a/www/api/composite.html b/www/api/composite.html
+index d228e12..d47c197 100644
+--- a/www/api/composite.html
++++ b/www/api/composite.html
 @@ -2,7 +2,7 @@
  
  
@@ -347,10 +347,10 @@ Index: imagemagick/www/api/composite.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/constitute.html
-===================================================================
---- imagemagick.orig/www/api/constitute.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/constitute.html	2026-03-20 21:43:34.622548358 +0100
+diff --git a/www/api/constitute.html b/www/api/constitute.html
+index 9ba8d69..ad3f935 100644
+--- a/www/api/constitute.html
++++ b/www/api/constitute.html
 @@ -2,7 +2,7 @@
  
  
@@ -360,10 +360,10 @@ Index: imagemagick/www/api/constitute.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/decorate.html
-===================================================================
---- imagemagick.orig/www/api/decorate.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/decorate.html	2026-03-20 21:43:34.622662077 +0100
+diff --git a/www/api/decorate.html b/www/api/decorate.html
+index 43af4ff..62fa004 100644
+--- a/www/api/decorate.html
++++ b/www/api/decorate.html
 @@ -2,7 +2,7 @@
  
  
@@ -373,10 +373,10 @@ Index: imagemagick/www/api/decorate.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/deprecate.html
-===================================================================
---- imagemagick.orig/www/api/deprecate.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/deprecate.html	2026-03-20 21:43:34.622735727 +0100
+diff --git a/www/api/deprecate.html b/www/api/deprecate.html
+index be6cb8f..3dbf600 100644
+--- a/www/api/deprecate.html
++++ b/www/api/deprecate.html
 @@ -2,7 +2,7 @@
  
  
@@ -386,10 +386,10 @@ Index: imagemagick/www/api/deprecate.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/display.html
-===================================================================
---- imagemagick.orig/www/api/display.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/display.html	2026-03-20 21:43:34.622804367 +0100
+diff --git a/www/api/display.html b/www/api/display.html
+index c9cd6a6..1916adb 100644
+--- a/www/api/display.html
++++ b/www/api/display.html
 @@ -2,7 +2,7 @@
  
  
@@ -399,10 +399,10 @@ Index: imagemagick/www/api/display.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/distort.html
-===================================================================
---- imagemagick.orig/www/api/distort.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/distort.html	2026-03-20 21:43:34.622876082 +0100
+diff --git a/www/api/distort.html b/www/api/distort.html
+index bf217ad..5c14701 100644
+--- a/www/api/distort.html
++++ b/www/api/distort.html
 @@ -2,7 +2,7 @@
  
  
@@ -412,10 +412,10 @@ Index: imagemagick/www/api/distort.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/draw.html
-===================================================================
---- imagemagick.orig/www/api/draw.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/draw.html	2026-03-20 21:43:34.622956768 +0100
+diff --git a/www/api/draw.html b/www/api/draw.html
+index 9ae9024..4ef9a9b 100644
+--- a/www/api/draw.html
++++ b/www/api/draw.html
 @@ -2,7 +2,7 @@
  
  
@@ -425,10 +425,10 @@ Index: imagemagick/www/api/draw.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/drawing-wand.html
-===================================================================
---- imagemagick.orig/www/api/drawing-wand.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/drawing-wand.html	2026-03-20 21:43:34.623154021 +0100
+diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
+index 37ac5e9..191d123 100644
+--- a/www/api/drawing-wand.html
++++ b/www/api/drawing-wand.html
 @@ -2,7 +2,7 @@
  
  
@@ -438,10 +438,10 @@ Index: imagemagick/www/api/drawing-wand.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/effect.html
-===================================================================
---- imagemagick.orig/www/api/effect.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/effect.html	2026-03-20 21:43:34.623332674 +0100
+diff --git a/www/api/effect.html b/www/api/effect.html
+index 1bf0031..d2e75d8 100644
+--- a/www/api/effect.html
++++ b/www/api/effect.html
 @@ -2,7 +2,7 @@
  
  
@@ -451,10 +451,10 @@ Index: imagemagick/www/api/effect.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/enhance.html
-===================================================================
---- imagemagick.orig/www/api/enhance.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/enhance.html	2026-03-20 21:43:34.623444661 +0100
+diff --git a/www/api/enhance.html b/www/api/enhance.html
+index 483281b..0287427 100644
+--- a/www/api/enhance.html
++++ b/www/api/enhance.html
 @@ -2,7 +2,7 @@
  
  
@@ -464,10 +464,10 @@ Index: imagemagick/www/api/enhance.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/exception.html
-===================================================================
---- imagemagick.orig/www/api/exception.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/exception.html	2026-03-20 21:43:34.623538881 +0100
+diff --git a/www/api/exception.html b/www/api/exception.html
+index c344c38..493fb44 100644
+--- a/www/api/exception.html
++++ b/www/api/exception.html
 @@ -2,7 +2,7 @@
  
  
@@ -477,10 +477,10 @@ Index: imagemagick/www/api/exception.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/feature.html
-===================================================================
---- imagemagick.orig/www/api/feature.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/feature.html	2026-03-20 21:43:34.623617962 +0100
+diff --git a/www/api/feature.html b/www/api/feature.html
+index 9060f0a..e740304 100644
+--- a/www/api/feature.html
++++ b/www/api/feature.html
 @@ -2,7 +2,7 @@
  
  
@@ -490,10 +490,10 @@ Index: imagemagick/www/api/feature.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/fourier.html
-===================================================================
---- imagemagick.orig/www/api/fourier.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/fourier.html	2026-03-20 21:43:34.623691603 +0100
+diff --git a/www/api/fourier.html b/www/api/fourier.html
+index 8f04260..c05e48a 100644
+--- a/www/api/fourier.html
++++ b/www/api/fourier.html
 @@ -2,7 +2,7 @@
  
  
@@ -503,10 +503,10 @@ Index: imagemagick/www/api/fourier.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/fx.html
-===================================================================
---- imagemagick.orig/www/api/fx.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/fx.html	2026-03-20 21:43:34.623765035 +0100
+diff --git a/www/api/fx.html b/www/api/fx.html
+index 2d14168..1f773b6 100644
+--- a/www/api/fx.html
++++ b/www/api/fx.html
 @@ -2,7 +2,7 @@
  
  
@@ -516,10 +516,10 @@ Index: imagemagick/www/api/fx.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/histogram.html
-===================================================================
---- imagemagick.orig/www/api/histogram.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/histogram.html	2026-03-20 21:43:34.623840841 +0100
+diff --git a/www/api/histogram.html b/www/api/histogram.html
+index c4618ac..32f5c7e 100644
+--- a/www/api/histogram.html
++++ b/www/api/histogram.html
 @@ -2,7 +2,7 @@
  
  
@@ -529,10 +529,10 @@ Index: imagemagick/www/api/histogram.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/image-view.html
-===================================================================
---- imagemagick.orig/www/api/image-view.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/image-view.html	2026-03-20 21:43:34.623930735 +0100
+diff --git a/www/api/image-view.html b/www/api/image-view.html
+index 7aede3c..885fea3 100644
+--- a/www/api/image-view.html
++++ b/www/api/image-view.html
 @@ -2,7 +2,7 @@
  
  
@@ -542,10 +542,10 @@ Index: imagemagick/www/api/image-view.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/image.html
-===================================================================
---- imagemagick.orig/www/api/image.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/image.html	2026-03-20 21:43:34.624039565 +0100
+diff --git a/www/api/image.html b/www/api/image.html
+index 0f95f19..2a7121e 100644
+--- a/www/api/image.html
++++ b/www/api/image.html
 @@ -2,7 +2,7 @@
  
  
@@ -555,10 +555,10 @@ Index: imagemagick/www/api/image.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/layer.html
-===================================================================
---- imagemagick.orig/www/api/layer.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/layer.html	2026-03-20 21:43:34.624146301 +0100
+diff --git a/www/api/layer.html b/www/api/layer.html
+index 43d278b..92698e1 100644
+--- a/www/api/layer.html
++++ b/www/api/layer.html
 @@ -2,7 +2,7 @@
  
  
@@ -568,10 +568,10 @@ Index: imagemagick/www/api/layer.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/list.html
-===================================================================
---- imagemagick.orig/www/api/list.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/list.html	2026-03-20 21:43:34.624253489 +0100
+diff --git a/www/api/list.html b/www/api/list.html
+index 77f9f1d..c71af65 100644
+--- a/www/api/list.html
++++ b/www/api/list.html
 @@ -2,7 +2,7 @@
  
  
@@ -581,10 +581,10 @@ Index: imagemagick/www/api/list.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/magick++-classes.html
-===================================================================
---- imagemagick.orig/www/api/magick++-classes.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/magick++-classes.html	2026-03-20 21:43:34.624347065 +0100
+diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
+index 037b504..f14bd69 100644
+--- a/www/api/magick++-classes.html
++++ b/www/api/magick++-classes.html
 @@ -2,7 +2,7 @@
  
  
@@ -594,10 +594,10 @@ Index: imagemagick/www/api/magick++-classes.html
  <html lang="en">
  <head>
    <meta charset="utf-8"  />
-Index: imagemagick/www/api/magick-deprecate.html
-===================================================================
---- imagemagick.orig/www/api/magick-deprecate.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/magick-deprecate.html	2026-03-20 21:43:34.624414388 +0100
+diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
+index 8f02f29..a9f1573 100644
+--- a/www/api/magick-deprecate.html
++++ b/www/api/magick-deprecate.html
 @@ -2,7 +2,7 @@
  
  
@@ -607,10 +607,10 @@ Index: imagemagick/www/api/magick-deprecate.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/magick-image.html
-===================================================================
---- imagemagick.orig/www/api/magick-image.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/magick-image.html	2026-03-20 21:43:34.624731608 +0100
+diff --git a/www/api/magick-image.html b/www/api/magick-image.html
+index 97eda13..f3b1b54 100644
+--- a/www/api/magick-image.html
++++ b/www/api/magick-image.html
 @@ -2,7 +2,7 @@
  
  
@@ -620,10 +620,10 @@ Index: imagemagick/www/api/magick-image.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/magick-property.html
-===================================================================
---- imagemagick.orig/www/api/magick-property.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/magick-property.html	2026-03-20 21:43:34.625104955 +0100
+diff --git a/www/api/magick-property.html b/www/api/magick-property.html
+index f13fd6e..2de9c08 100644
+--- a/www/api/magick-property.html
++++ b/www/api/magick-property.html
 @@ -2,7 +2,7 @@
  
  
@@ -633,10 +633,10 @@ Index: imagemagick/www/api/magick-property.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/magick-wand.html
-===================================================================
---- imagemagick.orig/www/api/magick-wand.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/magick-wand.html	2026-03-20 21:43:34.625227422 +0100
+diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
+index f324c30..552eded 100644
+--- a/www/api/magick-wand.html
++++ b/www/api/magick-wand.html
 @@ -2,7 +2,7 @@
  
  
@@ -646,10 +646,10 @@ Index: imagemagick/www/api/magick-wand.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/magick.html
-===================================================================
---- imagemagick.orig/www/api/magick.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/magick.html	2026-03-20 21:43:34.625312757 +0100
+diff --git a/www/api/magick.html b/www/api/magick.html
+index 658bf3c..e80d924 100644
+--- a/www/api/magick.html
++++ b/www/api/magick.html
 @@ -2,7 +2,7 @@
  
  
@@ -659,10 +659,10 @@ Index: imagemagick/www/api/magick.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/memory.html
-===================================================================
---- imagemagick.orig/www/api/memory.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/memory.html	2026-03-20 21:43:34.625396985 +0100
+diff --git a/www/api/memory.html b/www/api/memory.html
+index 4e7aff1..257d978 100644
+--- a/www/api/memory.html
++++ b/www/api/memory.html
 @@ -2,7 +2,7 @@
  
  
@@ -672,10 +672,10 @@ Index: imagemagick/www/api/memory.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/mime.html
-===================================================================
---- imagemagick.orig/www/api/mime.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/mime.html	2026-03-20 21:43:34.625625832 +0100
+diff --git a/www/api/mime.html b/www/api/mime.html
+index 670a42b..ca07850 100644
+--- a/www/api/mime.html
++++ b/www/api/mime.html
 @@ -2,7 +2,7 @@
  
  
@@ -685,10 +685,10 @@ Index: imagemagick/www/api/mime.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/module.html
-===================================================================
---- imagemagick.orig/www/api/module.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/module.html	2026-03-20 21:43:34.625793366 +0100
+diff --git a/www/api/module.html b/www/api/module.html
+index 8bae4ba..6501dfb 100644
+--- a/www/api/module.html
++++ b/www/api/module.html
 @@ -2,7 +2,7 @@
  
  
@@ -698,10 +698,10 @@ Index: imagemagick/www/api/module.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/mogrify.html
-===================================================================
---- imagemagick.orig/www/api/mogrify.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/mogrify.html	2026-03-20 21:43:34.625933323 +0100
+diff --git a/www/api/mogrify.html b/www/api/mogrify.html
+index 0759212..3583cee 100644
+--- a/www/api/mogrify.html
++++ b/www/api/mogrify.html
 @@ -2,7 +2,7 @@
  
  
@@ -711,10 +711,10 @@ Index: imagemagick/www/api/mogrify.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/monitor.html
-===================================================================
---- imagemagick.orig/www/api/monitor.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/monitor.html	2026-03-20 21:43:34.626065898 +0100
+diff --git a/www/api/monitor.html b/www/api/monitor.html
+index c661905..863316f 100644
+--- a/www/api/monitor.html
++++ b/www/api/monitor.html
 @@ -2,7 +2,7 @@
  
  
@@ -724,10 +724,10 @@ Index: imagemagick/www/api/monitor.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/montage.html
-===================================================================
---- imagemagick.orig/www/api/montage.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/montage.html	2026-03-20 21:43:34.626185385 +0100
+diff --git a/www/api/montage.html b/www/api/montage.html
+index 0fa7b7e..23fd473 100644
+--- a/www/api/montage.html
++++ b/www/api/montage.html
 @@ -2,7 +2,7 @@
  
  
@@ -737,10 +737,10 @@ Index: imagemagick/www/api/montage.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/morphology.html
-===================================================================
---- imagemagick.orig/www/api/morphology.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/morphology.html	2026-03-20 21:43:34.626411101 +0100
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index 8ad5b45..ab730f9 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
 @@ -2,7 +2,7 @@
  
  
@@ -750,10 +750,10 @@ Index: imagemagick/www/api/morphology.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/paint.html
-===================================================================
---- imagemagick.orig/www/api/paint.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/paint.html	2026-03-20 21:43:34.626564769 +0100
+diff --git a/www/api/paint.html b/www/api/paint.html
+index 4bf6bde..edbcfdf 100644
+--- a/www/api/paint.html
++++ b/www/api/paint.html
 @@ -2,7 +2,7 @@
  
  
@@ -763,10 +763,10 @@ Index: imagemagick/www/api/paint.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/pixel-iterator.html
-===================================================================
---- imagemagick.orig/www/api/pixel-iterator.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/pixel-iterator.html	2026-03-20 21:43:34.626689798 +0100
+diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
+index d934a5b..13b6b2c 100644
+--- a/www/api/pixel-iterator.html
++++ b/www/api/pixel-iterator.html
 @@ -2,7 +2,7 @@
  
  
@@ -776,10 +776,10 @@ Index: imagemagick/www/api/pixel-iterator.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/pixel-wand.html
-===================================================================
---- imagemagick.orig/www/api/pixel-wand.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/pixel-wand.html	2026-03-20 21:43:34.626858071 +0100
+diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
+index edfff15..564094f 100644
+--- a/www/api/pixel-wand.html
++++ b/www/api/pixel-wand.html
 @@ -2,7 +2,7 @@
  
  
@@ -789,10 +789,10 @@ Index: imagemagick/www/api/pixel-wand.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/profile.html
-===================================================================
---- imagemagick.orig/www/api/profile.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/profile.html	2026-03-20 21:43:34.627026431 +0100
+diff --git a/www/api/profile.html b/www/api/profile.html
+index e525824..3511747 100644
+--- a/www/api/profile.html
++++ b/www/api/profile.html
 @@ -2,7 +2,7 @@
  
  
@@ -802,10 +802,10 @@ Index: imagemagick/www/api/profile.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/property.html
-===================================================================
---- imagemagick.orig/www/api/property.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/property.html	2026-03-20 21:43:34.627149328 +0100
+diff --git a/www/api/property.html b/www/api/property.html
+index d35bdbb..1c49210 100644
+--- a/www/api/property.html
++++ b/www/api/property.html
 @@ -2,7 +2,7 @@
  
  
@@ -815,10 +815,10 @@ Index: imagemagick/www/api/property.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/quantize.html
-===================================================================
---- imagemagick.orig/www/api/quantize.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/quantize.html	2026-03-20 21:43:34.627321006 +0100
+diff --git a/www/api/quantize.html b/www/api/quantize.html
+index b2e217c..8c8c42a 100644
+--- a/www/api/quantize.html
++++ b/www/api/quantize.html
 @@ -2,7 +2,7 @@
  
  
@@ -828,10 +828,10 @@ Index: imagemagick/www/api/quantize.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/registry.html
-===================================================================
---- imagemagick.orig/www/api/registry.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/registry.html	2026-03-20 21:43:34.627505359 +0100
+diff --git a/www/api/registry.html b/www/api/registry.html
+index 181a6e3..4676f6e 100644
+--- a/www/api/registry.html
++++ b/www/api/registry.html
 @@ -2,7 +2,7 @@
  
  
@@ -841,10 +841,10 @@ Index: imagemagick/www/api/registry.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/resize.html
-===================================================================
---- imagemagick.orig/www/api/resize.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/resize.html	2026-03-20 21:43:34.627634684 +0100
+diff --git a/www/api/resize.html b/www/api/resize.html
+index 2e48e18..5ceac00 100644
+--- a/www/api/resize.html
++++ b/www/api/resize.html
 @@ -2,7 +2,7 @@
  
  
@@ -854,10 +854,10 @@ Index: imagemagick/www/api/resize.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/resource.html
-===================================================================
---- imagemagick.orig/www/api/resource.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/resource.html	2026-03-20 21:43:34.627756496 +0100
+diff --git a/www/api/resource.html b/www/api/resource.html
+index a1afd65..97cbdc2 100644
+--- a/www/api/resource.html
++++ b/www/api/resource.html
 @@ -2,7 +2,7 @@
  
  
@@ -867,10 +867,10 @@ Index: imagemagick/www/api/resource.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/segment.html
-===================================================================
---- imagemagick.orig/www/api/segment.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/segment.html	2026-03-20 21:43:34.627854950 +0100
+diff --git a/www/api/segment.html b/www/api/segment.html
+index dc3afe6..4bcd73c 100644
+--- a/www/api/segment.html
++++ b/www/api/segment.html
 @@ -2,7 +2,7 @@
  
  
@@ -880,10 +880,10 @@ Index: imagemagick/www/api/segment.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/shear.html
-===================================================================
---- imagemagick.orig/www/api/shear.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/shear.html	2026-03-20 21:43:34.627957243 +0100
+diff --git a/www/api/shear.html b/www/api/shear.html
+index 3f7816b..5ad6516 100644
+--- a/www/api/shear.html
++++ b/www/api/shear.html
 @@ -2,7 +2,7 @@
  
  
@@ -893,10 +893,10 @@ Index: imagemagick/www/api/shear.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/signature.html
-===================================================================
---- imagemagick.orig/www/api/signature.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/signature.html	2026-03-20 21:43:34.628061103 +0100
+diff --git a/www/api/signature.html b/www/api/signature.html
+index 091a682..0ff4e5c 100644
+--- a/www/api/signature.html
++++ b/www/api/signature.html
 @@ -2,7 +2,7 @@
  
  
@@ -906,10 +906,10 @@ Index: imagemagick/www/api/signature.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/statistic.html
-===================================================================
---- imagemagick.orig/www/api/statistic.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/statistic.html	2026-03-20 21:43:34.628163408 +0100
+diff --git a/www/api/statistic.html b/www/api/statistic.html
+index 0bb54b4..fea3f60 100644
+--- a/www/api/statistic.html
++++ b/www/api/statistic.html
 @@ -2,7 +2,7 @@
  
  
@@ -919,10 +919,10 @@ Index: imagemagick/www/api/statistic.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/stream.html
-===================================================================
---- imagemagick.orig/www/api/stream.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/stream.html	2026-03-20 21:43:34.628283602 +0100
+diff --git a/www/api/stream.html b/www/api/stream.html
+index 3f52718..2c96e38 100644
+--- a/www/api/stream.html
++++ b/www/api/stream.html
 @@ -2,7 +2,7 @@
  
  
@@ -932,10 +932,10 @@ Index: imagemagick/www/api/stream.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/transform.html
-===================================================================
---- imagemagick.orig/www/api/transform.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/transform.html	2026-03-20 21:43:34.628390378 +0100
+diff --git a/www/api/transform.html b/www/api/transform.html
+index e8ca502..3653d11 100644
+--- a/www/api/transform.html
++++ b/www/api/transform.html
 @@ -2,7 +2,7 @@
  
  
@@ -945,10 +945,10 @@ Index: imagemagick/www/api/transform.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/version.html
-===================================================================
---- imagemagick.orig/www/api/version.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/version.html	2026-03-20 21:43:34.628506409 +0100
+diff --git a/www/api/version.html b/www/api/version.html
+index b24ba4e..d64ca4b 100644
+--- a/www/api/version.html
++++ b/www/api/version.html
 @@ -2,7 +2,7 @@
  
  
@@ -958,10 +958,10 @@ Index: imagemagick/www/api/version.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/vision.html
-===================================================================
---- imagemagick.orig/www/api/vision.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/vision.html	2026-03-20 21:43:34.628579643 +0100
+diff --git a/www/api/vision.html b/www/api/vision.html
+index 808a64f..a91e53a 100644
+--- a/www/api/vision.html
++++ b/www/api/vision.html
 @@ -2,7 +2,7 @@
  
  
@@ -971,10 +971,10 @@ Index: imagemagick/www/api/vision.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/api/wand-view.html
-===================================================================
---- imagemagick.orig/www/api/wand-view.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/api/wand-view.html	2026-03-20 21:43:34.628658060 +0100
+diff --git a/www/api/wand-view.html b/www/api/wand-view.html
+index e1eceb4..99b9067 100644
+--- a/www/api/wand-view.html
++++ b/www/api/wand-view.html
 @@ -2,7 +2,7 @@
  
  
@@ -984,10 +984,10 @@ Index: imagemagick/www/api/wand-view.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="../assets/color-modes.js" ></script>
-Index: imagemagick/www/architecture.html
-===================================================================
---- imagemagick.orig/www/architecture.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/architecture.html	2026-03-20 21:43:34.628807905 +0100
+diff --git a/www/architecture.html b/www/architecture.html
+index cde7c8b..7561fcd 100644
+--- a/www/architecture.html
++++ b/www/architecture.html
 @@ -1,7 +1,7 @@
  
  
@@ -997,10 +997,10 @@ Index: imagemagick/www/architecture.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/changelog.html
-===================================================================
---- imagemagick.orig/www/changelog.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/changelog.html	2026-03-20 21:43:34.629051697 +0100
+diff --git a/www/changelog.html b/www/changelog.html
+index d74672a..16c178a 100644
+--- a/www/changelog.html
++++ b/www/changelog.html
 @@ -2,7 +2,7 @@
  
  
@@ -1010,10 +1010,10 @@ Index: imagemagick/www/changelog.html
  <html lang="en">
  <head>
    <meta charset="utf-8"  />
-Index: imagemagick/www/cipher.html
-===================================================================
---- imagemagick.orig/www/cipher.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/cipher.html	2026-03-20 21:43:34.629241948 +0100
+diff --git a/www/cipher.html b/www/cipher.html
+index 96c00d3..1ceb779 100644
+--- a/www/cipher.html
++++ b/www/cipher.html
 @@ -1,7 +1,7 @@
  
  
@@ -1023,10 +1023,10 @@ Index: imagemagick/www/cipher.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/cite.html
-===================================================================
---- imagemagick.orig/www/cite.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/cite.html	2026-03-20 21:43:34.629323899 +0100
+diff --git a/www/cite.html b/www/cite.html
+index 5722f1a..e8fe36d 100644
+--- a/www/cite.html
++++ b/www/cite.html
 @@ -1,7 +1,7 @@
  
  
@@ -1036,10 +1036,10 @@ Index: imagemagick/www/cite.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/clahe.html
-===================================================================
---- imagemagick.orig/www/clahe.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/clahe.html	2026-03-20 21:43:34.629389779 +0100
+diff --git a/www/clahe.html b/www/clahe.html
+index 86d312e..ccfa3f2 100644
+--- a/www/clahe.html
++++ b/www/clahe.html
 @@ -1,7 +1,7 @@
  
  
@@ -1049,10 +1049,10 @@ Index: imagemagick/www/clahe.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/color.html
-===================================================================
---- imagemagick.orig/www/color.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/color.html	2026-03-20 21:43:34.629539995 +0100
+diff --git a/www/color.html b/www/color.html
+index 851ceb9..b5eba68 100644
+--- a/www/color.html
++++ b/www/color.html
 @@ -1,7 +1,7 @@
  
  
@@ -1062,10 +1062,10 @@ Index: imagemagick/www/color.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/compose.html
-===================================================================
---- imagemagick.orig/www/compose.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/compose.html	2026-03-20 21:43:34.629692881 +0100
+diff --git a/www/compose.html b/www/compose.html
+index 3d0fc90..27d062d 100644
+--- a/www/compose.html
++++ b/www/compose.html
 @@ -1,7 +1,7 @@
  
  
@@ -1075,10 +1075,10 @@ Index: imagemagick/www/compose.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/conjure.html
-===================================================================
---- imagemagick.orig/www/conjure.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/conjure.html	2026-03-20 21:43:34.629783020 +0100
+diff --git a/www/conjure.html b/www/conjure.html
+index 2a659fc..88e4102 100644
+--- a/www/conjure.html
++++ b/www/conjure.html
 @@ -1,7 +1,7 @@
  
  
@@ -1088,10 +1088,10 @@ Index: imagemagick/www/conjure.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/connected-components.html
-===================================================================
---- imagemagick.orig/www/connected-components.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/connected-components.html	2026-03-20 21:43:34.629864616 +0100
+diff --git a/www/connected-components.html b/www/connected-components.html
+index 41dbb208..3b6b450 100644
+--- a/www/connected-components.html
++++ b/www/connected-components.html
 @@ -1,7 +1,7 @@
  
  
@@ -1101,10 +1101,10 @@ Index: imagemagick/www/connected-components.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/contact.html
-===================================================================
---- imagemagick.orig/www/contact.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/contact.html	2026-03-20 21:43:34.629921827 +0100
+diff --git a/www/contact.html b/www/contact.html
+index e7f4b9c..a0ae9b6 100644
+--- a/www/contact.html
++++ b/www/contact.html
 @@ -2,7 +2,7 @@
  
  
@@ -1114,10 +1114,10 @@ Index: imagemagick/www/contact.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/convert.html
-===================================================================
---- imagemagick.orig/www/convert.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/convert.html	2026-03-20 21:43:34.629999243 +0100
+diff --git a/www/convert.html b/www/convert.html
+index 8dbcadb..5131222 100644
+--- a/www/convert.html
++++ b/www/convert.html
 @@ -1,7 +1,7 @@
  
  
@@ -1127,10 +1127,10 @@ Index: imagemagick/www/convert.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/defines.html
-===================================================================
---- imagemagick.orig/www/defines.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/defines.html	2026-03-20 21:43:34.630111913 +0100
+diff --git a/www/defines.html b/www/defines.html
+index ccf4b60..9683b09 100644
+--- a/www/defines.html
++++ b/www/defines.html
 @@ -1,7 +1,7 @@
  
  
@@ -1140,10 +1140,10 @@ Index: imagemagick/www/defines.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/distribute-pixel-cache.html
-===================================================================
---- imagemagick.orig/www/distribute-pixel-cache.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/distribute-pixel-cache.html	2026-03-20 21:43:34.630246251 +0100
+diff --git a/www/distribute-pixel-cache.html b/www/distribute-pixel-cache.html
+index 005cd10..7252b88 100644
+--- a/www/distribute-pixel-cache.html
++++ b/www/distribute-pixel-cache.html
 @@ -1,7 +1,7 @@
  
  
@@ -1153,10 +1153,10 @@ Index: imagemagick/www/distribute-pixel-cache.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/escape.html
-===================================================================
---- imagemagick.orig/www/escape.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/escape.html	2026-03-20 21:43:34.630315230 +0100
+diff --git a/www/escape.html b/www/escape.html
+index 87b01fa..db6dda9 100644
+--- a/www/escape.html
++++ b/www/escape.html
 @@ -1,7 +1,7 @@
  
  
@@ -1166,10 +1166,10 @@ Index: imagemagick/www/escape.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/fx.html
-===================================================================
---- imagemagick.orig/www/fx.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/fx.html	2026-03-20 21:43:34.630402122 +0100
+diff --git a/www/fx.html b/www/fx.html
+index 648ebd6..c1ca5ef 100644
+--- a/www/fx.html
++++ b/www/fx.html
 @@ -1,7 +1,7 @@
  
  
@@ -1179,10 +1179,10 @@ Index: imagemagick/www/fx.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/gradient.html
-===================================================================
---- imagemagick.orig/www/gradient.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/gradient.html	2026-03-20 21:43:34.630482828 +0100
+diff --git a/www/gradient.html b/www/gradient.html
+index 681681c..333c8f3 100644
+--- a/www/gradient.html
++++ b/www/gradient.html
 @@ -1,7 +1,7 @@
  
  
@@ -1192,10 +1192,10 @@ Index: imagemagick/www/gradient.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/high-dynamic-range.html
-===================================================================
---- imagemagick.orig/www/high-dynamic-range.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/high-dynamic-range.html	2026-03-20 21:43:34.630542086 +0100
+diff --git a/www/high-dynamic-range.html b/www/high-dynamic-range.html
+index 7a28857..6517495 100644
+--- a/www/high-dynamic-range.html
++++ b/www/high-dynamic-range.html
 @@ -1,7 +1,7 @@
  
  
@@ -1205,10 +1205,10 @@ Index: imagemagick/www/high-dynamic-range.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/history.html
-===================================================================
---- imagemagick.orig/www/history.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/history.html	2026-03-20 21:43:34.630600458 +0100
+diff --git a/www/history.html b/www/history.html
+index e7d1fec..24e3195 100644
+--- a/www/history.html
++++ b/www/history.html
 @@ -1,7 +1,7 @@
  
  
@@ -1218,10 +1218,10 @@ Index: imagemagick/www/history.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/identify.html
-===================================================================
---- imagemagick.orig/www/identify.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/identify.html	2026-03-20 21:43:34.630662368 +0100
+diff --git a/www/identify.html b/www/identify.html
+index 22afe09..396695e 100644
+--- a/www/identify.html
++++ b/www/identify.html
 @@ -1,7 +1,7 @@
  
  
@@ -1231,10 +1231,10 @@ Index: imagemagick/www/identify.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/import.html
-===================================================================
---- imagemagick.orig/www/import.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/import.html	2026-03-20 21:43:34.630727252 +0100
+diff --git a/www/import.html b/www/import.html
+index 8bfd186..be8e7d8 100644
+--- a/www/import.html
++++ b/www/import.html
 @@ -1,7 +1,7 @@
  
  
@@ -1244,10 +1244,10 @@ Index: imagemagick/www/import.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/links.html
-===================================================================
---- imagemagick.orig/www/links.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/links.html	2026-03-20 21:43:34.630787686 +0100
+diff --git a/www/links.html b/www/links.html
+index 21453c3..22a72ad 100644
+--- a/www/links.html
++++ b/www/links.html
 @@ -1,7 +1,7 @@
  
  
@@ -1257,10 +1257,10 @@ Index: imagemagick/www/links.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/magick++.html
-===================================================================
---- imagemagick.orig/www/magick++.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/magick++.html	2026-03-20 21:43:34.630843825 +0100
+diff --git a/www/magick++.html b/www/magick++.html
+index a1771a6..a8cf663 100644
+--- a/www/magick++.html
++++ b/www/magick++.html
 @@ -1,7 +1,7 @@
  
  
@@ -1270,10 +1270,10 @@ Index: imagemagick/www/magick++.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/magick-cache.html
-===================================================================
---- imagemagick.orig/www/magick-cache.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/magick-cache.html	2026-03-20 21:43:34.630903263 +0100
+diff --git a/www/magick-cache.html b/www/magick-cache.html
+index 609ab90..45618b6 100644
+--- a/www/magick-cache.html
++++ b/www/magick-cache.html
 @@ -1,7 +1,7 @@
  
  
@@ -1283,10 +1283,10 @@ Index: imagemagick/www/magick-cache.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/magick-core.html
-===================================================================
---- imagemagick.orig/www/magick-core.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/magick-core.html	2026-03-20 21:43:34.630962121 +0100
+diff --git a/www/magick-core.html b/www/magick-core.html
+index e13a544..295f8ae 100644
+--- a/www/magick-core.html
++++ b/www/magick-core.html
 @@ -1,7 +1,7 @@
  
  
@@ -1296,10 +1296,10 @@ Index: imagemagick/www/magick-core.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/magick-script.html
-===================================================================
---- imagemagick.orig/www/magick-script.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/magick-script.html	2026-03-20 21:43:34.631039009 +0100
+diff --git a/www/magick-script.html b/www/magick-script.html
+index 73d244c..3a615e6 100644
+--- a/www/magick-script.html
++++ b/www/magick-script.html
 @@ -1,7 +1,7 @@
  
  
@@ -1309,10 +1309,10 @@ Index: imagemagick/www/magick-script.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/magick-vector-graphics.html
-===================================================================
---- imagemagick.orig/www/magick-vector-graphics.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/magick-vector-graphics.html	2026-03-20 21:43:34.631122638 +0100
+diff --git a/www/magick-vector-graphics.html b/www/magick-vector-graphics.html
+index da6b58a..c968352 100644
+--- a/www/magick-vector-graphics.html
++++ b/www/magick-vector-graphics.html
 @@ -1,7 +1,7 @@
  
  
@@ -1322,10 +1322,10 @@ Index: imagemagick/www/magick-vector-graphics.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/miff.html
-===================================================================
---- imagemagick.orig/www/miff.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/miff.html	2026-03-20 21:43:34.631196251 +0100
+diff --git a/www/miff.html b/www/miff.html
+index c7ed932..e5b9ebd 100644
+--- a/www/miff.html
++++ b/www/miff.html
 @@ -1,7 +1,7 @@
  
  
@@ -1335,10 +1335,10 @@ Index: imagemagick/www/miff.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/mirror.html
-===================================================================
---- imagemagick.orig/www/mirror.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/mirror.html	2026-03-20 21:43:34.631302991 +0100
+diff --git a/www/mirror.html b/www/mirror.html
+index a8a2a7f..a617f08 100644
+--- a/www/mirror.html
++++ b/www/mirror.html
 @@ -1,7 +1,7 @@
  
  
@@ -1348,10 +1348,10 @@ Index: imagemagick/www/mirror.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/montage.html
-===================================================================
---- imagemagick.orig/www/montage.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/montage.html	2026-03-20 21:43:34.631368081 +0100
+diff --git a/www/montage.html b/www/montage.html
+index b6ee181..440af67 100644
+--- a/www/montage.html
++++ b/www/montage.html
 @@ -1,7 +1,7 @@
  
  
@@ -1361,10 +1361,10 @@ Index: imagemagick/www/montage.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/opencl.html
-===================================================================
---- imagemagick.orig/www/opencl.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/opencl.html	2026-03-20 21:43:34.631433511 +0100
+diff --git a/www/opencl.html b/www/opencl.html
+index 5c1d663..942c08a 100644
+--- a/www/opencl.html
++++ b/www/opencl.html
 @@ -1,7 +1,7 @@
  
  
@@ -1374,10 +1374,10 @@ Index: imagemagick/www/opencl.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/privacy-policy.html
-===================================================================
---- imagemagick.orig/www/privacy-policy.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/privacy-policy.html	2026-03-20 21:43:34.631485661 +0100
+diff --git a/www/privacy-policy.html b/www/privacy-policy.html
+index 1d4f5d7..545557c 100644
+--- a/www/privacy-policy.html
++++ b/www/privacy-policy.html
 @@ -1,7 +1,7 @@
  
  
@@ -1387,10 +1387,10 @@ Index: imagemagick/www/privacy-policy.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/quantize.html
-===================================================================
---- imagemagick.orig/www/quantize.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/quantize.html	2026-03-20 21:43:34.631542090 +0100
+diff --git a/www/quantize.html b/www/quantize.html
+index e71ceb7..a6e71fb 100644
+--- a/www/quantize.html
++++ b/www/quantize.html
 @@ -1,7 +1,7 @@
  
  
@@ -1400,10 +1400,10 @@ Index: imagemagick/www/quantize.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/resources.html
-===================================================================
---- imagemagick.orig/www/resources.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/resources.html	2026-03-20 21:43:34.631607328 +0100
+diff --git a/www/resources.html b/www/resources.html
+index 581e1c2..ac37e50 100644
+--- a/www/resources.html
++++ b/www/resources.html
 @@ -1,7 +1,7 @@
  
  
@@ -1413,10 +1413,10 @@ Index: imagemagick/www/resources.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/search.html
-===================================================================
---- imagemagick.orig/www/search.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/search.html	2026-03-20 21:43:34.631666716 +0100
+diff --git a/www/search.html b/www/search.html
+index 2378147..f5eda79 100644
+--- a/www/search.html
++++ b/www/search.html
 @@ -1,7 +1,7 @@
  
  
@@ -1426,10 +1426,10 @@ Index: imagemagick/www/search.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/sitemap.html
-===================================================================
---- imagemagick.orig/www/sitemap.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/sitemap.html	2026-03-20 21:43:34.631728998 +0100
+diff --git a/www/sitemap.html b/www/sitemap.html
+index 0bcc892..cc0d758 100644
+--- a/www/sitemap.html
++++ b/www/sitemap.html
 @@ -1,7 +1,7 @@
  
  
@@ -1439,10 +1439,10 @@ Index: imagemagick/www/sitemap.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/support.html
-===================================================================
---- imagemagick.orig/www/support.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/support.html	2026-03-20 21:43:34.631790088 +0100
+diff --git a/www/support.html b/www/support.html
+index c7540c0..35731e4 100644
+--- a/www/support.html
++++ b/www/support.html
 @@ -1,7 +1,7 @@
  
  
@@ -1452,10 +1452,10 @@ Index: imagemagick/www/support.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/vpat.html
-===================================================================
---- imagemagick.orig/www/vpat.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/vpat.html	2026-03-20 21:43:34.631846910 +0100
+diff --git a/www/vpat.html b/www/vpat.html
+index 6064600..93bd127 100644
+--- a/www/vpat.html
++++ b/www/vpat.html
 @@ -1,7 +1,7 @@
  
  
@@ -1465,10 +1465,10 @@ Index: imagemagick/www/vpat.html
  <html lang="en" data-bs-theme="dark">
  <head>
    <script src="assets/color-modes.js" ></script>
-Index: imagemagick/www/webp.html
-===================================================================
---- imagemagick.orig/www/webp.html	2026-03-20 21:43:34.632248524 +0100
-+++ imagemagick/www/webp.html	2026-03-20 21:43:34.631903820 +0100
+diff --git a/www/webp.html b/www/webp.html
+index f2a97ea..10d664f 100644
+--- a/www/webp.html
++++ b/www/webp.html
 @@ -1,7 +1,7 @@
  
  

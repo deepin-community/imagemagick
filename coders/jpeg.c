@@ -1639,6 +1639,9 @@ static MagickBooleanType ReadMPOImages(const ImageInfo *image_info,
     count,
     j = 0;
 
+  MagickBooleanType
+    is_blob_readable;
+
   unsigned char
     alt_signature[SIGNATURE_SIZE] = {0xff, 0xd8, 0xff, 0xe1},
     buffer[BUFFER_SIZE],
@@ -1654,8 +1657,10 @@ static MagickBooleanType ReadMPOImages(const ImageInfo *image_info,
       image=DestroyImageList(image);
       return(MagickFalse);
     }
+  is_blob_readable=MagickTrue;
   (void) SeekBlob(image,offset,SEEK_SET);
-  while ((count=ReadBlob(image,BUFFER_SIZE,buffer)) != 0)
+  while ((is_blob_readable != MagickFalse) &&
+         (count=ReadBlob(image,BUFFER_SIZE,buffer)) != 0)
   {
     ssize_t
       i;
@@ -1678,6 +1683,7 @@ static MagickBooleanType ReadMPOImages(const ImageInfo *image_info,
       offset+=i-SIGNATURE_SIZE+1;
       old_offset=offset;
       (void) CloseBlob(image);
+      is_blob_readable=MagickFalse;
       jpeg_image=ReadOneJPEGImage(image_info,jpeg_info,&offset,exception);
       if (jpeg_image != (Image *) NULL)
         AppendImageToList(&images,jpeg_image);
@@ -1686,6 +1692,7 @@ static MagickBooleanType ReadMPOImages(const ImageInfo *image_info,
       status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
       if (status == MagickFalse)
         break;
+      is_blob_readable=MagickTrue;
       (void) SeekBlob(image,offset,SEEK_SET);
       count=0;
       j=0;
@@ -2472,13 +2479,13 @@ static MagickBooleanType WriteJPEGImage_(const ImageInfo *image_info,
   (void) memset(client_info,0,sizeof(*client_info));
   (void) memset(jpeg_info,0,sizeof(*jpeg_info));
   (void) memset(&jpeg_error,0,sizeof(jpeg_error));
-  volatile_image=image;
-  jpeg_info->client_data=(void *) volatile_image;
   jpeg_info->err=jpeg_std_error(&jpeg_error);
   jpeg_info->err->emit_message=(void (*)(j_common_ptr,int)) JPEGWarningHandler;
   jpeg_info->err->error_exit=(void (*)(j_common_ptr)) JPEGErrorHandler;
   client_info->exception=exception;
+  volatile_image=image;
   client_info->image=volatile_image;
+  jpeg_info->client_data=(void *) client_info;
   memory_info=(MemoryInfo *) NULL;
   if (setjmp(client_info->error_recovery) != 0)
     {
@@ -2489,7 +2496,6 @@ static MagickBooleanType WriteJPEGImage_(const ImageInfo *image_info,
         jps_image=DestroyImage(jps_image);
       return(MagickFalse);
     }
-  jpeg_info->client_data=(void *) client_info;
   jpeg_create_compress(jpeg_info);
   JPEGDestinationManager(jpeg_info,image);
   if ((image->columns != (unsigned int) image->columns) ||

@@ -226,7 +226,6 @@ static Image *ReadFITSImage(const ImageInfo *image_info,
   typedef struct _FITSInfo
   {
     MagickBooleanType
-      extend,
       simple;
 
     int
@@ -306,7 +305,6 @@ static Image *ReadFITSImage(const ImageInfo *image_info,
     Initialize image header.
   */
   (void) memset(&fits_info,0,sizeof(fits_info));
-  fits_info.extend=MagickFalse;
   fits_info.simple=MagickFalse;
   fits_info.bits_per_pixel=8;
   fits_info.columns=1;
@@ -353,9 +351,6 @@ static Image *ReadFITSImage(const ImageInfo *image_info,
           }
         if (LocaleCompare(keyword,"end") == 0)
           break;
-        if (LocaleCompare(keyword,"extend") == 0)
-          fits_info.extend=(*p == 'T') || (*p == 't') ? MagickTrue :
-            MagickFalse;
         if (LocaleCompare(keyword,"simple") == 0)
           fits_info.simple=(*p == 'T') || (*p == 't') ? MagickTrue :
             MagickFalse;
@@ -397,8 +392,6 @@ static Image *ReadFITSImage(const ImageInfo *image_info,
       c=0;
       while (((TellBlob(image) % FITSBlocksize) != 0) && (c != EOF))
         c=ReadBlobByte(image);
-      if (fits_info.extend == MagickFalse)
-        break;
       if ((fits_info.bits_per_pixel != 8) &&
           (fits_info.bits_per_pixel != 16) &&
           (fits_info.bits_per_pixel != 32) &&
@@ -444,6 +437,9 @@ static Image *ReadFITSImage(const ImageInfo *image_info,
           FITSBlocksize;
         (void) SeekBlob(image,(MagickOffsetType) number_pixels,SEEK_CUR);
       }
+    if (AcquireMagickResource(ListLengthResource,fits_info.number_planes) == MagickFalse)
+      ThrowFileException(exception,ResourceLimitError,"ListLengthExceedsLimit",
+        image->filename);
     for (scene=0; scene < (ssize_t) fits_info.number_planes; scene++)
     {
       image->columns=(size_t) fits_info.columns;

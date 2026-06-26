@@ -598,7 +598,7 @@ static MagickBooleanType IsPolicyCacheInstantiated(ExceptionInfo *exception)
 {
   if (policy_cache == (LinkedListInfo *) NULL)
     {
-      GetMaxMemoryRequest();  /* avoid OMP deadlock */
+      (void) GetMaxMemoryRequest();  /* avoid OMP deadlock */
       if (policy_semaphore == (SemaphoreInfo *) NULL)
         ActivateSemaphoreInfo(&policy_semaphore);
       LockSemaphoreInfo(policy_semaphore);
@@ -623,10 +623,15 @@ static MagickBooleanType IsPolicyCacheInstantiated(ExceptionInfo *exception)
 %  IsRightsAuthorized() returns MagickTrue if the policy authorizes the
 %  requested rights for the specified domain.
 %
+%  Policy evaluation uses a “last match wins” model.  Be careful when adding
+%  new rules: any later policy can override earlier denies or allows. Place
+%  broad deny rules first, followed by specific exceptions, and review
+%  ordering to avoid accidental authorization.
+%
 %  The format of the IsRightsAuthorized method is:
 %
 %      MagickBooleanType IsRightsAuthorized(const PolicyDomain domain,
-%        const PolicyRights rights,const char *qualified_pattern)
+%        const PolicyRights rights,const char *pattern)
 %
 %  A description of each parameter follows:
 %
@@ -634,136 +639,147 @@ static MagickBooleanType IsPolicyCacheInstantiated(ExceptionInfo *exception)
 %
 %    o rights: the policy rights.
 %
-%    o qualified_pattern: the pattern.
+%    o pattern: the pattern.
 %
 */
 
-static inline MagickBooleanType ParseNamespace(const char *qualified_pattern,
-  char **name,char **pattern)
-{
-  const char
-    *p,
-    *separator;
-
-  size_t
-    length;
-
-  if ((qualified_pattern == (const char *) NULL) || (name == (char **) NULL) ||
-      (pattern == (char **) NULL))
-    return(MagickFalse);
-  *name=(char *) NULL;
-  *pattern=(char *) NULL;
-  separator=strstr(qualified_pattern,"::");
-  if (separator == (const char *) NULL)
-    {
-      *pattern=AcquireString(qualified_pattern);
-      return(*pattern != (char *) NULL ? MagickTrue : MagickFalse);
-    }
-  length=(size_t) (separator-qualified_pattern);
-  *name=(char *) AcquireQuantumMemory(length+1,sizeof(char));
-  if (*name == (char *) NULL)
-    return(MagickFalse);
-  (void) CopyMagickString(*name,qualified_pattern,length+1);
-  p=separator+2;
-  *pattern=AcquireString(p);
-  if (*pattern == (char *) NULL)
-    {
-      *name=DestroyString(*name);
-      *name=(char *) NULL;
-      return(MagickFalse);
-    }
-  return(MagickTrue);
-}
-
-MagickExport MagickBooleanType IsRightsAuthorized(const PolicyDomain domain,
-  const PolicyRights rights,const char *qualified_pattern)
+MagickPrivate MagickBooleanType IsRightsAuthorizedByName(
+  const PolicyDomain domain,const char *name,const PolicyRights rights,
+  const char *pattern)
 {
   char
-    *name = (char *) NULL,
-    *pattern = (char *) NULL,
-    *real_pattern = (char *) NULL;
+    *canonical_directory = (char *) NULL,
+    *canonical_path = (char *) NULL,
+    *canonical_candidate = (char *) NULL,
+    directory[MagickPathExtent],
+    filename[MagickPathExtent];
 
-  const PolicyInfo
-    **policies = (const PolicyInfo **) NULL;
+  ElementInfo
+    *p;
 
   ExceptionInfo
     *exception;
 
   MagickBooleanType
-    matched_any = MagickFalse;
+    matched_any = MagickFalse,
+    paths_provisioned = MagickFalse,
+    status;
 
   PolicyRights
     effective_rights = AllPolicyRights;  /* rights authorized unless denied */
 
-  size_t
-    count = 0;
-
-  ssize_t
-    i;
-
-  if ((GetLogEventMask() & PolicyEvent) != 0)
-    (void) LogMagickEvent(PolicyEvent,GetMagickModule(),
-      "Domain: %s; rights=%s; pattern=\"%s\" ...",
-      CommandOptionToMnemonic(MagickPolicyDomainOptions,domain),
-      CommandOptionToMnemonic(MagickPolicyRightsOptions,rights),
-      qualified_pattern);
   /*
     Load policies.
   */
+  if ((GetLogEventMask() & PolicyEvent) != 0)
+    (void) LogMagickEvent(PolicyEvent,GetMagickModule(),
+      "Domain: %s; name: %s; rights=%s; pattern=\"%s\"; ...",
+      CommandOptionToMnemonic(MagickPolicyDomainOptions,domain),
+      name == (const char *) NULL ? "undefined" : name,
+      CommandOptionToMnemonic(MagickPolicyRightsOptions,rights),
+      pattern == (const char *) NULL ? "undefined" : pattern);
   exception=AcquireExceptionInfo();
-  policies=GetPolicyInfoList("*",&count,exception);
+  status=IsPolicyCacheInstantiated(exception);
   exception=DestroyExceptionInfo(exception);
-  if (policies == (const PolicyInfo **) NULL)
-    return(MagickTrue);
-  if (ParseNamespace(qualified_pattern,&name,&pattern) == MagickFalse)
-    return(MagickFalse);
+  if (status == MagickFalse)
+    {
+      if ((GetLogEventMask() & PolicyEvent) != 0)
+        (void) LogMagickEvent(PolicyEvent,GetMagickModule(),
+          "  authorized: true (no security policies found)");
+      return(MagickTrue);
+    }
   /*
     Evaluate policies in order; last match wins.
   */
-  for (i=0; i < (ssize_t) count; i++)
+  LockSemaphoreInfo(policy_semaphore);
+  ResetLinkedListIterator(policy_cache);
+  p=GetHeadElementInLinkedList(policy_cache);
+  for ( ; p != (ElementInfo *) NULL; p=p->next)
   {
     const PolicyInfo
-      *policy = policies[i];
+      *policy = (PolicyInfo *) p->value;
 
     MagickBooleanType
-      match;
+      match = MagickFalse;
 
     if (policy->domain != domain)
       continue;
     if ((name != (char *) NULL) && (LocaleCompare(name,policy->name) != 0))
       continue;
-    if ((policy->domain == PathPolicyDomain) &&
-        (real_pattern == (const char *) NULL))
-      real_pattern=realpath_utf8(pattern);
-    match=GlobExpression(real_pattern != (char*) NULL ? real_pattern : pattern,
-      policy->pattern,MagickFalse);
+    match=GlobExpression(pattern,policy->pattern,MagickFalse);
+    if (policy->domain == PathPolicyDomain)
+      {
+        if (paths_provisioned == MagickFalse)
+          {
+            /*
+              Generate directory, basename, and canonical path.
+            */
+            paths_provisioned=MagickTrue;
+            GetPathComponent(pattern,HeadPath,directory);
+            GetPathComponent(pattern,TailPath,filename);
+            canonical_directory=realpath_utf8(directory);
+            if ((canonical_directory != (char *) NULL) && (*filename != '\0'))
+              {
+                size_t
+                  length;
+
+                length=strlen(canonical_directory)+strlen(filename)+2;
+                canonical_candidate=(char *) AcquireCriticalMemory(length*
+                  sizeof(*canonical_candidate));
+                if (canonical_candidate != (char *) NULL)
+                  (void) FormatLocaleString(canonical_candidate,length,"%s%s%s",
+                    canonical_directory,DirectorySeparator,filename);
+              }
+            canonical_path=realpath_utf8(pattern);
+          }
+        /*
+          Match against directory, basename, and canonical path.
+        */
+        if ((canonical_directory != (char *) NULL) && (match == MagickFalse))
+          match=GlobExpression(canonical_directory,policy->pattern,MagickFalse);
+        if ((canonical_candidate != (char *) NULL) && (match == MagickFalse))
+          match=GlobExpression(canonical_candidate,policy->pattern,MagickFalse);
+        if ((canonical_path != (char *) NULL) && (match == MagickFalse))
+          match=GlobExpression(canonical_path,policy->pattern,MagickFalse);
+      }
     if (match == MagickFalse)
       continue;
     matched_any=MagickTrue;
     effective_rights=policy->rights;
   }
-  policies=(const PolicyInfo **) RelinquishMagickMemory((void *) policies);
-  if (pattern != (char *) NULL)
-    pattern=DestroyString(pattern);
-  if (name != (char *) NULL)
-    name=DestroyString(name);
-  if (real_pattern != (char *) NULL)
-    real_pattern=DestroyString(real_pattern);
+  UnlockSemaphoreInfo(policy_semaphore);
+  if (canonical_directory != (char *) NULL)
+    canonical_directory=DestroyString(canonical_directory);
+  if (canonical_candidate != (char *) NULL)
+    canonical_candidate=DestroyString(canonical_candidate);
+  if (canonical_path != (char *) NULL)
+    canonical_path=DestroyString(canonical_path);
   /*
     Is rights authorized?
   */
-  if (matched_any == MagickFalse)
-    return(MagickTrue);
-  if ((rights & ReadPolicyRights) &&
-      !(effective_rights & ReadPolicyRights))
-   return(MagickFalse);
-  if ((rights & WritePolicyRights) &&
-      !(effective_rights & WritePolicyRights))
-   return(MagickFalse);
-  if ((rights & ExecutePolicyRights) &&
-      !(effective_rights & ExecutePolicyRights))
-    return(MagickFalse);
-  return(MagickTrue);
+  status=MagickTrue;
+  if (matched_any != MagickFalse)
+    {
+      if (((rights & ReadPolicyRights) != 0) &&
+          ((effective_rights & ReadPolicyRights) == 0))
+        status=MagickFalse;
+      if (((rights & WritePolicyRights) != 0) &&
+          ((effective_rights & WritePolicyRights) == 0))
+        status=MagickFalse;
+      if (((rights & ExecutePolicyRights) != 0) &&
+          ((effective_rights & ExecutePolicyRights) == 0))
+        status=MagickFalse;
+    }
+  if ((GetLogEventMask() & PolicyEvent) != 0)
+    (void) LogMagickEvent(PolicyEvent,GetMagickModule(),
+      "  authorized: %s",status == MagickFalse ? "false" : "true");
+  return(status);
+}
+
+MagickExport MagickBooleanType IsRightsAuthorized(const PolicyDomain domain,
+  const PolicyRights rights,const char *pattern)
+{
+  return(IsRightsAuthorizedByName(domain,(const char *) NULL,rights,pattern));
 }
 
 /*

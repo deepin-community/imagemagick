@@ -266,8 +266,10 @@ static Image *ReadSF3Image(const ImageInfo *image_info,ExceptionInfo *exception)
   width=ReadBlobLSBLong(image);
   height=ReadBlobLSBLong(image);
   layers = ReadBlobLSBLong(image);
-  if (width == 0 || height == 0 || layers == 0)
+  if ((width == 0) || (height == 0) || (layers == 0))
     ThrowReaderException(CorruptImageError,"NegativeOrZeroImageSize");
+  if (AcquireMagickResource(ListLengthResource,layers) == MagickFalse)
+    ThrowReaderException(ResourceLimitError,"ListLengthExceedsLimit");
   channels=(unsigned char) ReadBlobByte(image);
   format=(unsigned char) ReadBlobByte(image);
   
@@ -737,8 +739,13 @@ static MagickBooleanType WriteSF3Image(const ImageInfo *image_info,Image *image,
   scene=0;
   do
   {
-    const Quantum
-      *magick_restrict p;
+    const Quantum *magick_restrict p;
+    if (SetQuantumExtent(image,quantum_info) == MagickFalse)
+      {
+        (void) ThrowMagickException(exception,GetMagickModule(),
+          ResourceLimitError,"MemoryAllocationFailed","`%s'",image->filename);
+        break;
+      }
     pixels=(unsigned char *) GetQuantumPixels(quantum_info);
     for (y=0; y < (ssize_t) image->rows; y++)
       {
@@ -746,7 +753,7 @@ static MagickBooleanType WriteSF3Image(const ImageInfo *image_info,Image *image,
         if (p == (const Quantum *) NULL)
           break;
         length=ExportQuantumPixels(image,(CacheView *)NULL,quantum_info,
-                                   quantum_type,pixels,exception);
+           quantum_type,pixels,exception);
         checksum=crc32(checksum,pixels,length);
         count=WriteBlob(image,length,pixels);
         if (count != (ssize_t) length)

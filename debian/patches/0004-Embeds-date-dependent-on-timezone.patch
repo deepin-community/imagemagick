@@ -11,7 +11,7 @@ Bug-debian: https://bugs.debian.org/983303
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure.ac b/configure.ac
-index 253433f..eb7b9ee 100644
+index 1fbfbce..813be4f 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -37,7 +37,7 @@ m4_define([magick_git_revision],

@@ -93,10 +93,10 @@ forwarded: not-needed
  www/security-policy.html         |  6 +----
  87 files changed, 87 insertions(+), 495 deletions(-)
 
-Index: imagemagick/www/api/Image++.html
-===================================================================
---- imagemagick.orig/www/api/Image++.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/Image++.html	2026-03-20 21:44:17.249158526 +0100
+diff --git a/www/api/Image++.html b/www/api/Image++.html
+index eff3c59..9bd832c 100644
+--- a/www/api/Image++.html
++++ b/www/api/Image++.html
 @@ -66,11 +66,7 @@
  
          </li>
@@ -110,10 +110,10 @@ Index: imagemagick/www/api/Image++.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/animate.html
-===================================================================
---- imagemagick.orig/www/api/animate.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/animate.html	2026-03-20 21:44:17.249348059 +0100
+diff --git a/www/api/animate.html b/www/api/animate.html
+index d2921be..17f0338 100644
+--- a/www/api/animate.html
++++ b/www/api/animate.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -127,10 +127,10 @@ Index: imagemagick/www/api/animate.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/annotate.html
-===================================================================
---- imagemagick.orig/www/api/annotate.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/annotate.html	2026-03-20 21:44:17.249410088 +0100
+diff --git a/www/api/annotate.html b/www/api/annotate.html
+index 3c07389..ce98c54 100644
+--- a/www/api/annotate.html
++++ b/www/api/annotate.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -144,10 +144,10 @@ Index: imagemagick/www/api/annotate.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/attribute.html
-===================================================================
---- imagemagick.orig/www/api/attribute.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/attribute.html	2026-03-20 21:44:17.249483113 +0100
+diff --git a/www/api/attribute.html b/www/api/attribute.html
+index cb7f78a..36621c0 100644
+--- a/www/api/attribute.html
++++ b/www/api/attribute.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -161,10 +161,10 @@ Index: imagemagick/www/api/attribute.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/blob.html
-===================================================================
---- imagemagick.orig/www/api/blob.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/blob.html	2026-03-20 21:44:17.249544815 +0100
+diff --git a/www/api/blob.html b/www/api/blob.html
+index 04bc7c2..67ff894 100644
+--- a/www/api/blob.html
++++ b/www/api/blob.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -178,10 +178,10 @@ Index: imagemagick/www/api/blob.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/cache-view.html
-===================================================================
---- imagemagick.orig/www/api/cache-view.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/cache-view.html	2026-03-20 21:44:17.249612081 +0100
+diff --git a/www/api/cache-view.html b/www/api/cache-view.html
+index c5a2b37..5f973f7 100644
+--- a/www/api/cache-view.html
++++ b/www/api/cache-view.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -195,10 +195,10 @@ Index: imagemagick/www/api/cache-view.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/cache.html
-===================================================================
---- imagemagick.orig/www/api/cache.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/cache.html	2026-03-20 21:44:17.249686405 +0100
+diff --git a/www/api/cache.html b/www/api/cache.html
+index 5b203f3..75f48d8 100644
+--- a/www/api/cache.html
++++ b/www/api/cache.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -212,10 +212,10 @@ Index: imagemagick/www/api/cache.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/channel.html
-===================================================================
---- imagemagick.orig/www/api/channel.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/channel.html	2026-03-20 21:44:17.249757145 +0100
+diff --git a/www/api/channel.html b/www/api/channel.html
+index 583ce69..dd4e5e5 100644
+--- a/www/api/channel.html
++++ b/www/api/channel.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -229,10 +229,10 @@ Index: imagemagick/www/api/channel.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/cipher.html
-===================================================================
---- imagemagick.orig/www/api/cipher.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/cipher.html	2026-03-20 21:44:17.249810059 +0100
+diff --git a/www/api/cipher.html b/www/api/cipher.html
+index 3c58d25..449b3b6 100644
+--- a/www/api/cipher.html
++++ b/www/api/cipher.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -246,10 +246,10 @@ Index: imagemagick/www/api/cipher.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/color.html
-===================================================================
---- imagemagick.orig/www/api/color.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/color.html	2026-03-20 21:44:17.249864479 +0100
+diff --git a/www/api/color.html b/www/api/color.html
+index 5002082..4b1f815 100644
+--- a/www/api/color.html
++++ b/www/api/color.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -263,10 +263,10 @@ Index: imagemagick/www/api/color.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/colormap.html
-===================================================================
---- imagemagick.orig/www/api/colormap.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/colormap.html	2026-03-20 21:44:17.249915668 +0100
+diff --git a/www/api/colormap.html b/www/api/colormap.html
+index 0ab54a4..aa7d861 100644
+--- a/www/api/colormap.html
++++ b/www/api/colormap.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -280,10 +280,10 @@ Index: imagemagick/www/api/colormap.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/colorspace.html
-===================================================================
---- imagemagick.orig/www/api/colorspace.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/colorspace.html	2026-03-20 21:44:17.249973593 +0100
+diff --git a/www/api/colorspace.html b/www/api/colorspace.html
+index 7bbae16..944e8b8 100644
+--- a/www/api/colorspace.html
++++ b/www/api/colorspace.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -297,10 +297,10 @@ Index: imagemagick/www/api/colorspace.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/compare.html
-===================================================================
---- imagemagick.orig/www/api/compare.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/compare.html	2026-03-20 21:44:17.250027893 +0100
+diff --git a/www/api/compare.html b/www/api/compare.html
+index 413267f..a64ed5a 100644
+--- a/www/api/compare.html
++++ b/www/api/compare.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -314,10 +314,10 @@ Index: imagemagick/www/api/compare.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/composite.html
-===================================================================
---- imagemagick.orig/www/api/composite.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/composite.html	2026-03-20 21:44:17.250076667 +0100
+diff --git a/www/api/composite.html b/www/api/composite.html
+index 8d4806d..ff4a2b0 100644
+--- a/www/api/composite.html
++++ b/www/api/composite.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -331,10 +331,10 @@ Index: imagemagick/www/api/composite.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/constitute.html
-===================================================================
---- imagemagick.orig/www/api/constitute.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/constitute.html	2026-03-20 21:44:17.250137439 +0100
+diff --git a/www/api/constitute.html b/www/api/constitute.html
+index e1be0e6..9e392ba 100644
+--- a/www/api/constitute.html
++++ b/www/api/constitute.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -348,10 +348,10 @@ Index: imagemagick/www/api/constitute.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/decorate.html
-===================================================================
---- imagemagick.orig/www/api/decorate.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/decorate.html	2026-03-20 21:44:17.250191439 +0100
+diff --git a/www/api/decorate.html b/www/api/decorate.html
+index c1f206b..fd451e7 100644
+--- a/www/api/decorate.html
++++ b/www/api/decorate.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -365,10 +365,10 @@ Index: imagemagick/www/api/decorate.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/deprecate.html
-===================================================================
---- imagemagick.orig/www/api/deprecate.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/deprecate.html	2026-03-20 21:44:17.250240465 +0100
+diff --git a/www/api/deprecate.html b/www/api/deprecate.html
+index 2ec1d59..55a6536 100644
+--- a/www/api/deprecate.html
++++ b/www/api/deprecate.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -382,10 +382,10 @@ Index: imagemagick/www/api/deprecate.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/display.html
-===================================================================
---- imagemagick.orig/www/api/display.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/display.html	2026-03-20 21:44:17.250297521 +0100
+diff --git a/www/api/display.html b/www/api/display.html
+index 42ab08d..0df28bc 100644
+--- a/www/api/display.html
++++ b/www/api/display.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -399,10 +399,10 @@ Index: imagemagick/www/api/display.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/distort.html
-===================================================================
---- imagemagick.orig/www/api/distort.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/distort.html	2026-03-20 21:44:17.250348307 +0100
+diff --git a/www/api/distort.html b/www/api/distort.html
+index e084c12..2e2dd96 100644
+--- a/www/api/distort.html
++++ b/www/api/distort.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -416,10 +416,10 @@ Index: imagemagick/www/api/distort.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/draw.html
-===================================================================
---- imagemagick.orig/www/api/draw.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/draw.html	2026-03-20 21:44:17.250404319 +0100
+diff --git a/www/api/draw.html b/www/api/draw.html
+index 0257fa6..73e965f 100644
+--- a/www/api/draw.html
++++ b/www/api/draw.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -433,10 +433,10 @@ Index: imagemagick/www/api/draw.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/drawing-wand.html
-===================================================================
---- imagemagick.orig/www/api/drawing-wand.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/drawing-wand.html	2026-03-20 21:44:17.250554114 +0100
+diff --git a/www/api/drawing-wand.html b/www/api/drawing-wand.html
+index c8a37ac..6a9e1ec 100644
+--- a/www/api/drawing-wand.html
++++ b/www/api/drawing-wand.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -450,10 +450,10 @@ Index: imagemagick/www/api/drawing-wand.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/effect.html
-===================================================================
---- imagemagick.orig/www/api/effect.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/effect.html	2026-03-20 21:44:17.250686018 +0100
+diff --git a/www/api/effect.html b/www/api/effect.html
+index 503f800..6926bcf 100644
+--- a/www/api/effect.html
++++ b/www/api/effect.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -467,10 +467,10 @@ Index: imagemagick/www/api/effect.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/enhance.html
-===================================================================
---- imagemagick.orig/www/api/enhance.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/enhance.html	2026-03-20 21:44:17.250762585 +0100
+diff --git a/www/api/enhance.html b/www/api/enhance.html
+index 0a2a5be..d4ca06f 100644
+--- a/www/api/enhance.html
++++ b/www/api/enhance.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -484,10 +484,10 @@ Index: imagemagick/www/api/enhance.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/exception.html
-===================================================================
---- imagemagick.orig/www/api/exception.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/exception.html	2026-03-20 21:44:17.250832783 +0100
+diff --git a/www/api/exception.html b/www/api/exception.html
+index 55223b7..1eda731 100644
+--- a/www/api/exception.html
++++ b/www/api/exception.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -501,10 +501,10 @@ Index: imagemagick/www/api/exception.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/feature.html
-===================================================================
---- imagemagick.orig/www/api/feature.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/feature.html	2026-03-20 21:44:17.250896847 +0100
+diff --git a/www/api/feature.html b/www/api/feature.html
+index 9b84d76..a7d81cf 100644
+--- a/www/api/feature.html
++++ b/www/api/feature.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -518,10 +518,10 @@ Index: imagemagick/www/api/feature.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/fourier.html
-===================================================================
---- imagemagick.orig/www/api/fourier.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/fourier.html	2026-03-20 21:44:17.250951150 +0100
+diff --git a/www/api/fourier.html b/www/api/fourier.html
+index e5f1455..f2c6085 100644
+--- a/www/api/fourier.html
++++ b/www/api/fourier.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -535,10 +535,10 @@ Index: imagemagick/www/api/fourier.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/fx.html
-===================================================================
---- imagemagick.orig/www/api/fx.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/fx.html	2026-03-20 21:44:17.251002047 +0100
+diff --git a/www/api/fx.html b/www/api/fx.html
+index 03ce4c7..b729a97 100644
+--- a/www/api/fx.html
++++ b/www/api/fx.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -552,10 +552,10 @@ Index: imagemagick/www/api/fx.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/histogram.html
-===================================================================
---- imagemagick.orig/www/api/histogram.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/histogram.html	2026-03-20 21:44:17.251054917 +0100
+diff --git a/www/api/histogram.html b/www/api/histogram.html
+index 9cac547..909282e 100644
+--- a/www/api/histogram.html
++++ b/www/api/histogram.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -569,10 +569,10 @@ Index: imagemagick/www/api/histogram.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/image-view.html
-===================================================================
---- imagemagick.orig/www/api/image-view.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/image-view.html	2026-03-20 21:44:17.251120511 +0100
+diff --git a/www/api/image-view.html b/www/api/image-view.html
+index 99f29e2..91e5037 100644
+--- a/www/api/image-view.html
++++ b/www/api/image-view.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -586,10 +586,10 @@ Index: imagemagick/www/api/image-view.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/image.html
-===================================================================
---- imagemagick.orig/www/api/image.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/image.html	2026-03-20 21:44:17.251201387 +0100
+diff --git a/www/api/image.html b/www/api/image.html
+index 368fb4e..ca4d475 100644
+--- a/www/api/image.html
++++ b/www/api/image.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -603,10 +603,10 @@ Index: imagemagick/www/api/image.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/layer.html
-===================================================================
---- imagemagick.orig/www/api/layer.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/layer.html	2026-03-20 21:44:17.251272372 +0100
+diff --git a/www/api/layer.html b/www/api/layer.html
+index 941e839..a40d7c9 100644
+--- a/www/api/layer.html
++++ b/www/api/layer.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -620,10 +620,10 @@ Index: imagemagick/www/api/layer.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/list.html
-===================================================================
---- imagemagick.orig/www/api/list.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/list.html	2026-03-20 21:44:17.251336417 +0100
+diff --git a/www/api/list.html b/www/api/list.html
+index 677319f..8fdeedf 100644
+--- a/www/api/list.html
++++ b/www/api/list.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -637,10 +637,10 @@ Index: imagemagick/www/api/list.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/magick++-classes.html
-===================================================================
---- imagemagick.orig/www/api/magick++-classes.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/magick++-classes.html	2026-03-20 21:44:17.251397832 +0100
+diff --git a/www/api/magick++-classes.html b/www/api/magick++-classes.html
+index 0b23a81..914c7d8 100644
+--- a/www/api/magick++-classes.html
++++ b/www/api/magick++-classes.html
 @@ -66,11 +66,7 @@
  
          </li>
@@ -654,10 +654,10 @@ Index: imagemagick/www/api/magick++-classes.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/magick-deprecate.html
-===================================================================
---- imagemagick.orig/www/api/magick-deprecate.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/magick-deprecate.html	2026-03-20 21:44:17.251445704 +0100
+diff --git a/www/api/magick-deprecate.html b/www/api/magick-deprecate.html
+index 3ae6736..7216fe1 100644
+--- a/www/api/magick-deprecate.html
++++ b/www/api/magick-deprecate.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -671,10 +671,10 @@ Index: imagemagick/www/api/magick-deprecate.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/magick-image.html
-===================================================================
---- imagemagick.orig/www/api/magick-image.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/magick-image.html	2026-03-20 21:44:17.251691458 +0100
+diff --git a/www/api/magick-image.html b/www/api/magick-image.html
+index 1566fb5..65c0147 100644
+--- a/www/api/magick-image.html
++++ b/www/api/magick-image.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -688,10 +688,10 @@ Index: imagemagick/www/api/magick-image.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/magick-property.html
-===================================================================
---- imagemagick.orig/www/api/magick-property.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/magick-property.html	2026-03-20 21:44:17.251935910 +0100
+diff --git a/www/api/magick-property.html b/www/api/magick-property.html
+index 962d035..ac8c94e 100644
+--- a/www/api/magick-property.html
++++ b/www/api/magick-property.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -705,10 +705,10 @@ Index: imagemagick/www/api/magick-property.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/magick-wand.html
-===================================================================
---- imagemagick.orig/www/api/magick-wand.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/magick-wand.html	2026-03-20 21:44:17.252022444 +0100
+diff --git a/www/api/magick-wand.html b/www/api/magick-wand.html
+index d070807..6697860 100644
+--- a/www/api/magick-wand.html
++++ b/www/api/magick-wand.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -722,10 +722,10 @@ Index: imagemagick/www/api/magick-wand.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/magick.html
-===================================================================
---- imagemagick.orig/www/api/magick.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/magick.html	2026-03-20 21:44:17.252082094 +0100
+diff --git a/www/api/magick.html b/www/api/magick.html
+index fecadf4..625a2d5 100644
+--- a/www/api/magick.html
++++ b/www/api/magick.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -739,10 +739,10 @@ Index: imagemagick/www/api/magick.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/memory.html
-===================================================================
---- imagemagick.orig/www/api/memory.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/memory.html	2026-03-20 21:44:17.252163000 +0100
+diff --git a/www/api/memory.html b/www/api/memory.html
+index ca48cf2..b6ea41c 100644
+--- a/www/api/memory.html
++++ b/www/api/memory.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -756,10 +756,10 @@ Index: imagemagick/www/api/memory.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/mime.html
-===================================================================
---- imagemagick.orig/www/api/mime.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/mime.html	2026-03-20 21:44:17.252232721 +0100
+diff --git a/www/api/mime.html b/www/api/mime.html
+index 8fd1448..d973f2f 100644
+--- a/www/api/mime.html
++++ b/www/api/mime.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -773,10 +773,10 @@ Index: imagemagick/www/api/mime.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/module.html
-===================================================================
---- imagemagick.orig/www/api/module.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/module.html	2026-03-20 21:44:17.252289225 +0100
+diff --git a/www/api/module.html b/www/api/module.html
+index c1b0911..ca5a27c 100644
+--- a/www/api/module.html
++++ b/www/api/module.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -790,10 +790,10 @@ Index: imagemagick/www/api/module.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/mogrify.html
-===================================================================
---- imagemagick.orig/www/api/mogrify.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/mogrify.html	2026-03-20 21:44:17.252341619 +0100
+diff --git a/www/api/mogrify.html b/www/api/mogrify.html
+index edc44e5..8f4e01d 100644
+--- a/www/api/mogrify.html
++++ b/www/api/mogrify.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -807,10 +807,10 @@ Index: imagemagick/www/api/mogrify.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/monitor.html
-===================================================================
---- imagemagick.orig/www/api/monitor.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/monitor.html	2026-03-20 21:44:17.252388798 +0100
+diff --git a/www/api/monitor.html b/www/api/monitor.html
+index de7457b..84f47f4 100644
+--- a/www/api/monitor.html
++++ b/www/api/monitor.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -824,10 +824,10 @@ Index: imagemagick/www/api/monitor.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/montage.html
-===================================================================
---- imagemagick.orig/www/api/montage.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/montage.html	2026-03-20 21:44:17.252437271 +0100
+diff --git a/www/api/montage.html b/www/api/montage.html
+index 018ee43..2b4847f 100644
+--- a/www/api/montage.html
++++ b/www/api/montage.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -841,10 +841,10 @@ Index: imagemagick/www/api/montage.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/morphology.html
-===================================================================
---- imagemagick.orig/www/api/morphology.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/morphology.html	2026-03-20 21:44:17.252493900 +0100
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index 588a9dc..2a73a78 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -858,10 +858,10 @@ Index: imagemagick/www/api/morphology.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/paint.html
-===================================================================
---- imagemagick.orig/www/api/paint.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/paint.html	2026-03-20 21:44:17.252555356 +0100
+diff --git a/www/api/paint.html b/www/api/paint.html
+index c348d8a..126a41d 100644
+--- a/www/api/paint.html
++++ b/www/api/paint.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -875,10 +875,10 @@ Index: imagemagick/www/api/paint.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/pixel-iterator.html
-===================================================================
---- imagemagick.orig/www/api/pixel-iterator.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/pixel-iterator.html	2026-03-20 21:44:17.252610591 +0100
+diff --git a/www/api/pixel-iterator.html b/www/api/pixel-iterator.html
+index 4ab3de0..d70ca8f 100644
+--- a/www/api/pixel-iterator.html
++++ b/www/api/pixel-iterator.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -892,10 +892,10 @@ Index: imagemagick/www/api/pixel-iterator.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/pixel-wand.html
-===================================================================
---- imagemagick.orig/www/api/pixel-wand.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/pixel-wand.html	2026-03-20 21:44:17.252682231 +0100
+diff --git a/www/api/pixel-wand.html b/www/api/pixel-wand.html
+index 1063867..9ac1dbe 100644
+--- a/www/api/pixel-wand.html
++++ b/www/api/pixel-wand.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -909,10 +909,10 @@ Index: imagemagick/www/api/pixel-wand.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/profile.html
-===================================================================
---- imagemagick.orig/www/api/profile.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/profile.html	2026-03-20 21:44:17.252753962 +0100
+diff --git a/www/api/profile.html b/www/api/profile.html
+index 66e8f0c..3763f33 100644
+--- a/www/api/profile.html
++++ b/www/api/profile.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -926,10 +926,10 @@ Index: imagemagick/www/api/profile.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/property.html
-===================================================================
---- imagemagick.orig/www/api/property.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/property.html	2026-03-20 21:44:17.252811049 +0100
+diff --git a/www/api/property.html b/www/api/property.html
+index 952bb62..0d3cbca 100644
+--- a/www/api/property.html
++++ b/www/api/property.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -943,10 +943,10 @@ Index: imagemagick/www/api/property.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/quantize.html
-===================================================================
---- imagemagick.orig/www/api/quantize.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/quantize.html	2026-03-20 21:44:17.252873597 +0100
+diff --git a/www/api/quantize.html b/www/api/quantize.html
+index e0a9a7d..ecadeb1 100644
+--- a/www/api/quantize.html
++++ b/www/api/quantize.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -960,10 +960,10 @@ Index: imagemagick/www/api/quantize.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/registry.html
-===================================================================
---- imagemagick.orig/www/api/registry.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/registry.html	2026-03-20 21:44:17.252933791 +0100
+diff --git a/www/api/registry.html b/www/api/registry.html
+index 118b2d8..5cdbb69 100644
+--- a/www/api/registry.html
++++ b/www/api/registry.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -977,10 +977,10 @@ Index: imagemagick/www/api/registry.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/resize.html
-===================================================================
---- imagemagick.orig/www/api/resize.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/resize.html	2026-03-20 21:44:17.252989687 +0100
+diff --git a/www/api/resize.html b/www/api/resize.html
+index 41a045c..810f16d 100644
+--- a/www/api/resize.html
++++ b/www/api/resize.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -994,10 +994,10 @@ Index: imagemagick/www/api/resize.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/resource.html
-===================================================================
---- imagemagick.orig/www/api/resource.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/resource.html	2026-03-20 21:44:17.253046901 +0100
+diff --git a/www/api/resource.html b/www/api/resource.html
+index 37de8fb..094dd0f 100644
+--- a/www/api/resource.html
++++ b/www/api/resource.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1011,10 +1011,10 @@ Index: imagemagick/www/api/resource.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/segment.html
-===================================================================
---- imagemagick.orig/www/api/segment.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/segment.html	2026-03-20 21:44:17.253098588 +0100
+diff --git a/www/api/segment.html b/www/api/segment.html
+index bbb7c23..eb1b0f7 100644
+--- a/www/api/segment.html
++++ b/www/api/segment.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1028,10 +1028,10 @@ Index: imagemagick/www/api/segment.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/shear.html
-===================================================================
---- imagemagick.orig/www/api/shear.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/shear.html	2026-03-20 21:44:17.253149090 +0100
+diff --git a/www/api/shear.html b/www/api/shear.html
+index c51ea2b..15244ed 100644
+--- a/www/api/shear.html
++++ b/www/api/shear.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1045,10 +1045,10 @@ Index: imagemagick/www/api/shear.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/signature.html
-===================================================================
---- imagemagick.orig/www/api/signature.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/signature.html	2026-03-20 21:44:17.253200505 +0100
+diff --git a/www/api/signature.html b/www/api/signature.html
+index 416082f..f466e29 100644
+--- a/www/api/signature.html
++++ b/www/api/signature.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1062,10 +1062,10 @@ Index: imagemagick/www/api/signature.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/statistic.html
-===================================================================
---- imagemagick.orig/www/api/statistic.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/statistic.html	2026-03-20 21:44:17.253252344 +0100
+diff --git a/www/api/statistic.html b/www/api/statistic.html
+index 83d31a9..fbf0861 100644
+--- a/www/api/statistic.html
++++ b/www/api/statistic.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1079,10 +1079,10 @@ Index: imagemagick/www/api/statistic.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/stream.html
-===================================================================
---- imagemagick.orig/www/api/stream.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/stream.html	2026-03-20 21:44:17.253306804 +0100
+diff --git a/www/api/stream.html b/www/api/stream.html
+index 30b7b5a..93d6192 100644
+--- a/www/api/stream.html
++++ b/www/api/stream.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1096,10 +1096,10 @@ Index: imagemagick/www/api/stream.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/transform.html
-===================================================================
---- imagemagick.orig/www/api/transform.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/transform.html	2026-03-20 21:44:17.253361972 +0100
+diff --git a/www/api/transform.html b/www/api/transform.html
+index befdb14..ce48149 100644
+--- a/www/api/transform.html
++++ b/www/api/transform.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1113,10 +1113,10 @@ Index: imagemagick/www/api/transform.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/version.html
-===================================================================
---- imagemagick.orig/www/api/version.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/version.html	2026-03-20 21:44:17.253416833 +0100
+diff --git a/www/api/version.html b/www/api/version.html
+index 3fbd4a1..1f682df 100644
+--- a/www/api/version.html
++++ b/www/api/version.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1130,10 +1130,10 @@ Index: imagemagick/www/api/version.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/vision.html
-===================================================================
---- imagemagick.orig/www/api/vision.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/vision.html	2026-03-20 21:44:17.253476595 +0100
+diff --git a/www/api/vision.html b/www/api/vision.html
+index 5ff7aa6..7b861a4 100644
+--- a/www/api/vision.html
++++ b/www/api/vision.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1147,10 +1147,10 @@ Index: imagemagick/www/api/vision.html
    </div>
    </nav>
  
-Index: imagemagick/www/api/wand-view.html
-===================================================================
---- imagemagick.orig/www/api/wand-view.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/api/wand-view.html	2026-03-20 21:44:17.253540219 +0100
+diff --git a/www/api/wand-view.html b/www/api/wand-view.html
+index 4d967a9..d85507b 100644
+--- a/www/api/wand-view.html
++++ b/www/api/wand-view.html
 @@ -116,11 +116,7 @@
  
          </li>
@@ -1164,10 +1164,10 @@ Index: imagemagick/www/api/wand-view.html
    </div>
    </nav>
  
-Index: imagemagick/www/command-line-options.html
-===================================================================
---- imagemagick.orig/www/command-line-options.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/command-line-options.html	2026-03-20 21:44:17.253870764 +0100
+diff --git a/www/command-line-options.html b/www/command-line-options.html
+index a14ee99..9a7f4ba 100644
+--- a/www/command-line-options.html
++++ b/www/command-line-options.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1181,10 +1181,10 @@ Index: imagemagick/www/command-line-options.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/command-line-processing.html
-===================================================================
---- imagemagick.orig/www/command-line-processing.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/command-line-processing.html	2026-03-20 21:44:17.254182314 +0100
+diff --git a/www/command-line-processing.html b/www/command-line-processing.html
+index 12fabd1..eca0dab 100644
+--- a/www/command-line-processing.html
++++ b/www/command-line-processing.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1198,10 +1198,10 @@ Index: imagemagick/www/command-line-processing.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/compare.html
-===================================================================
---- imagemagick.orig/www/compare.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/compare.html	2026-03-20 21:44:17.254272735 +0100
+diff --git a/www/compare.html b/www/compare.html
+index f7f6b4c..f669808 100644
+--- a/www/compare.html
++++ b/www/compare.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1215,10 +1215,10 @@ Index: imagemagick/www/compare.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/contact.html
-===================================================================
---- imagemagick.orig/www/contact.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/contact.html	2026-03-20 21:44:17.254348049 +0100
+diff --git a/www/contact.html b/www/contact.html
+index eaa15eb..3799d83 100644
+--- a/www/contact.html
++++ b/www/contact.html
 @@ -137,54 +137,7 @@
  	<p>Enter this code, <samp>
  040d70</samp>, in the Authenticate field and fill in the remaining fields.  Press Send to forward your message to the ImageMagick wizards:</p>
@@ -1275,10 +1275,10 @@ Index: imagemagick/www/contact.html
    </div>
    <br />
  </div>
-Index: imagemagick/www/convex-hull.html
-===================================================================
---- imagemagick.orig/www/convex-hull.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/convex-hull.html	2026-03-20 21:44:17.254424274 +0100
+diff --git a/www/convex-hull.html b/www/convex-hull.html
+index 890f151..3b5516c 100644
+--- a/www/convex-hull.html
++++ b/www/convex-hull.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1292,10 +1292,10 @@ Index: imagemagick/www/convex-hull.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/develop.html
-===================================================================
---- imagemagick.orig/www/develop.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/develop.html	2026-03-20 21:44:17.254504600 +0100
+diff --git a/www/develop.html b/www/develop.html
+index cba2c17..fa121f4 100644
+--- a/www/develop.html
++++ b/www/develop.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1309,10 +1309,10 @@ Index: imagemagick/www/develop.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/display.html
-===================================================================
---- imagemagick.orig/www/display.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/display.html	2026-03-20 21:44:17.254588434 +0100
+diff --git a/www/display.html b/www/display.html
+index 7c18ac5..9e79a47 100644
+--- a/www/display.html
++++ b/www/display.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1326,10 +1326,10 @@ Index: imagemagick/www/display.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/download.html
-===================================================================
---- imagemagick.orig/www/download.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/download.html	2026-03-20 21:44:17.254674682 +0100
+diff --git a/www/download.html b/www/download.html
+index b6ee51e..35ede1e 100644
+--- a/www/download.html
++++ b/www/download.html
 @@ -179,28 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1360,10 +1360,10 @@ Index: imagemagick/www/download.html
    </nav>
  
  <div class="col-lg-8 mx-auto text-body-secondary pt-5 pt-lg-5">
-Index: imagemagick/www/examples.html
-===================================================================
---- imagemagick.orig/www/examples.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/examples.html	2026-03-20 21:44:17.254738206 +0100
+diff --git a/www/examples.html b/www/examples.html
+index 2b53142..49984c7 100644
+--- a/www/examples.html
++++ b/www/examples.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1377,10 +1377,10 @@ Index: imagemagick/www/examples.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/exception.html
-===================================================================
---- imagemagick.orig/www/exception.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/exception.html	2026-03-20 21:44:17.254795380 +0100
+diff --git a/www/exception.html b/www/exception.html
+index e384efe..4a14fdc 100644
+--- a/www/exception.html
++++ b/www/exception.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1394,10 +1394,10 @@ Index: imagemagick/www/exception.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/export.html
-===================================================================
---- imagemagick.orig/www/export.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/export.html	2026-03-20 21:44:17.254853127 +0100
+diff --git a/www/export.html b/www/export.html
+index 9a44153..05c6826 100644
+--- a/www/export.html
++++ b/www/export.html
 @@ -162,11 +162,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1411,10 +1411,10 @@ Index: imagemagick/www/export.html
          <li class="nav-item dropdown ms-2">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/formats.html
-===================================================================
---- imagemagick.orig/www/formats.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/formats.html	2026-03-20 21:44:17.254949551 +0100
+diff --git a/www/formats.html b/www/formats.html
+index 803335f..4e0dbb7 100644
+--- a/www/formats.html
++++ b/www/formats.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1428,10 +1428,10 @@ Index: imagemagick/www/formats.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/index.html
-===================================================================
---- imagemagick.orig/www/index.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/index.html	2026-03-20 21:44:17.255053912 +0100
+diff --git a/www/index.html b/www/index.html
+index f69411c..12db2ab 100644
+--- a/www/index.html
++++ b/www/index.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1445,10 +1445,10 @@ Index: imagemagick/www/index.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/install-source.html
-===================================================================
---- imagemagick.orig/www/install-source.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/install-source.html	2026-03-20 21:44:17.255113398 +0100
+diff --git a/www/install-source.html b/www/install-source.html
+index 7376b51..6e13b26 100644
+--- a/www/install-source.html
++++ b/www/install-source.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1462,10 +1462,10 @@ Index: imagemagick/www/install-source.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/jp2.html
-===================================================================
---- imagemagick.orig/www/jp2.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/jp2.html	2026-03-20 21:44:17.255169171 +0100
+diff --git a/www/jp2.html b/www/jp2.html
+index fa3c0ed..adb555a 100644
+--- a/www/jp2.html
++++ b/www/jp2.html
 @@ -162,11 +162,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1479,10 +1479,10 @@ Index: imagemagick/www/jp2.html
          <li class="nav-item dropdown ms-2">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/license.html
-===================================================================
---- imagemagick.orig/www/license.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/license.html	2026-03-20 21:44:17.255226318 +0100
+diff --git a/www/license.html b/www/license.html
+index 54c5ab8..3da97f2 100644
+--- a/www/license.html
++++ b/www/license.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1496,10 +1496,10 @@ Index: imagemagick/www/license.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/magick-wand.html
-===================================================================
---- imagemagick.orig/www/magick-wand.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/magick-wand.html	2026-03-20 21:44:17.255291852 +0100
+diff --git a/www/magick-wand.html b/www/magick-wand.html
+index 331a74d..13c8946 100644
+--- a/www/magick-wand.html
++++ b/www/magick-wand.html
 @@ -180,11 +180,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1513,10 +1513,10 @@ Index: imagemagick/www/magick-wand.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/motion-picture.html
-===================================================================
---- imagemagick.orig/www/motion-picture.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/motion-picture.html	2026-03-20 21:44:17.255351468 +0100
+diff --git a/www/motion-picture.html b/www/motion-picture.html
+index 327f0c6..d80adf3 100644
+--- a/www/motion-picture.html
++++ b/www/motion-picture.html
 @@ -162,11 +162,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1530,10 +1530,10 @@ Index: imagemagick/www/motion-picture.html
          <li class="nav-item dropdown ms-2">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/multispectral-imagery.html
-===================================================================
---- imagemagick.orig/www/multispectral-imagery.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/multispectral-imagery.html	2026-03-20 21:44:17.255408311 +0100
+diff --git a/www/multispectral-imagery.html b/www/multispectral-imagery.html
+index a7abe29..5e5b6b2 100644
+--- a/www/multispectral-imagery.html
++++ b/www/multispectral-imagery.html
 @@ -162,11 +162,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1547,10 +1547,10 @@ Index: imagemagick/www/multispectral-imagery.html
          <li class="nav-item dropdown ms-2">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/news.html
-===================================================================
---- imagemagick.orig/www/news.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/news.html	2026-03-20 21:44:17.255464137 +0100
+diff --git a/www/news.html b/www/news.html
+index a0a19d9..52e2d0f 100644
+--- a/www/news.html
++++ b/www/news.html
 @@ -162,11 +162,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1564,10 +1564,10 @@ Index: imagemagick/www/news.html
          <li class="nav-item dropdown ms-2">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/openmp.html
-===================================================================
---- imagemagick.orig/www/openmp.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/openmp.html	2026-03-20 21:44:17.255516325 +0100
+diff --git a/www/openmp.html b/www/openmp.html
+index 98f3d72..9ddb0d5 100644
+--- a/www/openmp.html
++++ b/www/openmp.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1581,10 +1581,10 @@ Index: imagemagick/www/openmp.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/perl-magick.html
-===================================================================
---- imagemagick.orig/www/perl-magick.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/perl-magick.html	2026-03-20 21:44:17.255619799 +0100
+diff --git a/www/perl-magick.html b/www/perl-magick.html
+index 4217ff9..9d74ec0 100644
+--- a/www/perl-magick.html
++++ b/www/perl-magick.html
 @@ -163,11 +163,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1598,10 +1598,10 @@ Index: imagemagick/www/perl-magick.html
          <li class="nav-item dropdown ms-2">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/porting.html
-===================================================================
---- imagemagick.orig/www/porting.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/porting.html	2026-03-20 21:44:17.255753444 +0100
+diff --git a/www/porting.html b/www/porting.html
+index 4ee4d80..e6a172d 100644
+--- a/www/porting.html
++++ b/www/porting.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">
@@ -1615,10 +1615,10 @@ Index: imagemagick/www/porting.html
          <li class="nav-item dropdown ms-3">
            <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <span id="currentThemeIcon">🌓</span>
-Index: imagemagick/www/security-policy.html
-===================================================================
---- imagemagick.orig/www/security-policy.html	2026-03-20 21:44:17.255852784 +0100
-+++ imagemagick/www/security-policy.html	2026-03-20 21:44:17.255833354 +0100
+diff --git a/www/security-policy.html b/www/security-policy.html
+index 9c6db82..c6347e3 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
 @@ -179,11 +179,7 @@
        </ul>
        <ul class="navbar-nav ms-auto">

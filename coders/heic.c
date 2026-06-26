@@ -687,7 +687,7 @@ static MagickBooleanType ReadHEICSequenceFrames(const ImageInfo *image_info,
   if (track == (heif_track *) NULL)
     return(MagickFalse);
   error=heif_track_get_image_resolution(track,&track_width,&track_height);
-  if (error.code != 0)
+  if (error.code != heif_error_Ok)
     {
       heif_track_release(track);
       return(MagickFalse);
@@ -696,10 +696,11 @@ static MagickBooleanType ReadHEICSequenceFrames(const ImageInfo *image_info,
   if (timescale == 0)
     timescale=1;
   decode_options=heif_decoding_options_alloc();
+#if LIBHEIF_NUMERIC_VERSION >= HEIC_COMPUTE_NUMERIC_VERSION(1,21,0)
+  decode_options->ignore_sequence_editlist=1;
   /*
     Detect alpha from the track and set up chroma format.
   */
-#if LIBHEIF_NUMERIC_VERSION >= HEIC_COMPUTE_NUMERIC_VERSION(1,21,0)
   has_alpha=heif_track_has_alpha_channel(track);
   image->alpha_trait=UndefinedPixelTrait;
   if (has_alpha != 0)
@@ -730,6 +731,9 @@ static MagickBooleanType ReadHEICSequenceFrames(const ImageInfo *image_info,
 
     if (AcquireMagickResource(ListLengthResource,scene+1) == MagickFalse)
       {
+        (void) ThrowMagickException(exception,GetMagickModule(),
+          ResourceLimitError,"ListLengthExceedsLimit","`%s'",
+          image_info->filename);
         status=MagickFalse;
         break;
       }
@@ -738,7 +742,7 @@ static MagickBooleanType ReadHEICSequenceFrames(const ImageInfo *image_info,
       chroma,decode_options);
     if (error.code == heif_error_End_of_sequence)
       break;
-    if (error.code != 0)
+    if (error.code != heif_error_Ok)
       {
         (void) ThrowMagickException(exception,GetMagickModule(),
           CorruptImageError,error.message,"(%d.%d) `%s'",error.code,
@@ -782,13 +786,8 @@ static MagickBooleanType ReadHEICSequenceFrames(const ImageInfo *image_info,
         image->alpha_trait=BlendPixelTrait;
         image->dispose=BackgroundDispose;
       }
-    if (image_info->ping != MagickFalse)
-      {
-        heif_image_release(heif_image);
-        scene++;
-        continue;
-      }
-    if (HEICSkipImage(image_info,image) != MagickFalse)
+    if ((image_info->ping != MagickFalse) || 
+        (HEICSkipImage(image_info,image) != MagickFalse))
       {
         heif_image_release(heif_image);
         scene++;
@@ -924,12 +923,8 @@ static void ReadHEICDepthImage(const ImageInfo *image_info,Image *image,
   heif_image_handle_release(depth_handle);
 }
 
-static Image *ReadHEICImage(const ImageInfo *image_info,
-  ExceptionInfo *exception)
+static Image *ReadHEICImage(const ImageInfo *image_info,ExceptionInfo *exception)
 {
-  enum heif_filetype_result
-    filetype_check;
-
   heif_item_id
     primary_image_id;
 
@@ -970,8 +965,12 @@ static Image *ReadHEICImage(const ImageInfo *image_info,
     return(DestroyImageList(image));
   if (ReadBlob(image,sizeof(magic),magic) != sizeof(magic))
     ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
-  filetype_check=heif_check_filetype(magic,sizeof(magic));
-  if (filetype_check == heif_filetype_no)
+#if LIBHEIF_NUMERIC_VERSION >= HEIC_COMPUTE_NUMERIC_VERSION(1,18,0)
+  error=heif_has_compatible_filetype(magic,sizeof(magic));
+  if (error.code != heif_error_Ok)
+#else
+  if (heif_check_filetype(magic,sizeof(magic)) == heif_filetype_no)
+#endif
     ThrowReaderException(CoderError,"ImageTypeNotSupported");
   (void) CloseBlob(image);
 #if LIBHEIF_NUMERIC_VERSION >= HEIC_COMPUTE_NUMERIC_VERSION(1,11,0)

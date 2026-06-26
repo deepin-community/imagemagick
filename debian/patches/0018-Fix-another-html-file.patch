@@ -7,10 +7,10 @@ forwarded: not-needed
  www/api/morphology.html | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Index: imagemagick/www/api/morphology.html
-===================================================================
---- imagemagick.orig/www/api/morphology.html	2025-10-28 17:08:37.582739984 +0100
-+++ imagemagick/www/api/morphology.html	2025-10-28 17:08:37.579679240 +0100
+diff --git a/www/api/morphology.html b/www/api/morphology.html
+index 897235e..9c2b388 100644
+--- a/www/api/morphology.html
++++ b/www/api/morphology.html
 @@ -596,13 +596,13 @@
  <pre class="bg-light text-dark mx-4"><samp>       zero.  If the kernel is normalized regardless of any flags.
  </samp></pre>

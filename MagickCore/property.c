@@ -1565,6 +1565,8 @@ static void GetEXIFProperty(const Image *image,const char *property,
               if ((tag_value == GPS_LATITUDE) || (tag_value == GPS_LONGITUDE) ||
                   (tag_value == GPS_TIMESTAMP))
                 {
+                  if (number_bytes < 24)
+                    break;  /* reads three rationals */
                   components=1;
                   EXIFGPSFractions("%.20g/%.20g,%.20g/%.20g,%.20g/%.20g",
                     (double) ReadPropertyUnsignedLong(endian,p),
@@ -2185,7 +2187,7 @@ static char *TraceSVGClippath(const unsigned char *blob,size_t length,
     " width=\"%.20g\" height=\"%.20g\">\n"
     "<g>\n"
     "<path fill-rule=\"evenodd\" style=\"fill:#000000;stroke:#000000;"
-    "stroke-width:0;stroke-antialiasing:false\" d=\"\n"),(double) columns,
+    "stroke-width:0;shape-rendering:crispEdges\" d=\"\n"),(double) columns,
     (double) rows);
   (void) ConcatenateString(&path,message);
   (void) memset(point,0,sizeof(point));

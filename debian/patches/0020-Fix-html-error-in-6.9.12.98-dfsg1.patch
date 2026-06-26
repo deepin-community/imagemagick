@@ -7,10 +7,10 @@ Forwarded: not-needed
  www/security-policy.html | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-Index: imagemagick/www/security-policy.html
-===================================================================
---- imagemagick.orig/www/security-policy.html	2026-03-01 00:26:19.596248355 +0100
-+++ imagemagick/www/security-policy.html	2026-03-01 00:26:19.595856410 +0100
+diff --git a/www/security-policy.html b/www/security-policy.html
+index cd88f41..c6f2233 100644
+--- a/www/security-policy.html
++++ b/www/security-policy.html
 @@ -223,15 +223,15 @@
  
  <p>Keep in mind that what is considered reasonable for one environment may not be suitable for another. For example, you may have ImageMagick sandboxed in a secure environment, while someone else may use it to process images on a publicly accessible website. Or, ImageMagick may be running on a host with a lot of memory, while another instance is running on a device with limited resources. In the case of the host with large memory, it may make sense to allow large image processing, but not on the device with limited resources. If you are using ImageMagick on a public website, you may want to increase security by disabling certain coders such as MVG or HTTPS.</p>
@@ -30,7 +30,7 @@ Index: imagemagick/www/security-policy.html
  <dt><a href="https://imagemagick.org/source/policy-websafe.xml">websafe</a></dt>
  <dd>  This security protocol designed for web-safe usage focuses on situations where ImageMagick is applied in publicly accessible contexts, like websites.  It deactivates the capability to read from or write to any image formats other than web-safe formats like GIF, JPEG, and PNG. Additionally, this policy prohibits the execution of image filters and indirect reads, thereby thwarting potential security breaches. By implementing these limitations, the web-safe policy fortifies the safeguarding of systems accessible to the public, reducing the risk of exploiting ImageMagick's capabilities for potential attacks.</dd>
  </ul>
-@@ -487,7 +487,7 @@
+@@ -487,7 +487,7 @@ Path: [built-in]
  
  <p>If you spot a vulnerability in ImageMagick, first determine if the vulnerability can be mitigated by the security policy. ImageMagick, by default, is open. Use the security policy to add constraints to meet the requirements of your local security governance. If you feel confident that the security policy does not address the vulnerability, post the vulnerability as a <a href="https://github.com/ImageMagick/ImageMagick/security/advisories/new">security advisory</a>. Most vulnerabilities are reviewed and resolved within 48 hours.</p>
  

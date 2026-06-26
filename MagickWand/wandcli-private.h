@@ -27,8 +27,12 @@ extern "C" {
        "`%s'",option)
 
 #define CLIWandExceptionArg(severity,tag,option,arg) \
-  (void) CLIThrowException(cli_wand,GetMagickModule(),severity,tag, \
-       "'%s' '%s'",option, arg)
+  { \
+    char *message = GetExceptionMessage(errno); \
+    (void) CLIThrowException(cli_wand,GetMagickModule(),severity,tag, \
+      "'%s' '%s'",option, arg == (char *) NULL ? message : arg); \
+    message=DestroyString(message); \
+  }
 
 #define CLIWandWarnReplaced(message) \
   if ( (cli_wand->process_flags & ProcessWarnDeprecated) != 0 ) \
@@ -36,9 +40,10 @@ extern "C" {
        "ReplacedOption", "'%s', use \"%s\"",option,message)
 
 #define CLIWandExceptionFile(severity,tag,context) \
-{ char *message=GetExceptionMessage(errno); \
+{  \
+  char *message=GetExceptionMessage(errno); \
   (void) CLIThrowException(cli_wand,GetMagickModule(),severity,tag, \
-       "'%s': %s",context,message); \
+    "'%s': %s",context,message); \
   message=DestroyString(message); \
 }
 

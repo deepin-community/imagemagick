@@ -11,10 +11,10 @@ forwarded: not-needed
  2 files changed, 4 deletions(-)
 
 diff --git a/MagickWand/deprecate.c b/MagickWand/deprecate.c
-index 99d3a0d..ee7c678 100644
+index 8d5bcf3..7d745bb 100644
 --- a/MagickWand/deprecate.c
 +++ b/MagickWand/deprecate.c
-@@ -551,8 +551,6 @@ WandExport MagickBooleanType ConvertImageCommand(ImageInfo *image_info,
+@@ -553,8 +553,6 @@ WandExport MagickBooleanType ConvertImageCommand(ImageInfo *image_info,
    assert(exception != (ExceptionInfo *) NULL);
    if (IsEventLogging() != MagickFalse)
      (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
@@ -24,7 +24,7 @@ index 99d3a0d..ee7c678 100644
      {
        option=argv[1];
 diff --git a/MagickWand/magick-cli.c b/MagickWand/magick-cli.c
-index 9bb2316..b5cb2a0 100644
+index 9e097cd..8f18edb 100644
 --- a/MagickWand/magick-cli.c
 +++ b/MagickWand/magick-cli.c
 @@ -1315,8 +1315,6 @@ WandExport MagickBooleanType MagickImageCommand(ImageInfo *image_info,int argc,
