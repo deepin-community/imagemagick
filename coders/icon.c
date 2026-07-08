@@ -223,7 +223,7 @@ static Image *Read1XImage(Image *image,ExceptionInfo *exception)
     ssize_t
       y;
 
-    for (y=0; y < (ssize_t) image->columns; y++)
+    for (y=0; y < (ssize_t) image->rows; y++)
     {
       Quantum
         *q;
@@ -256,6 +256,8 @@ static Image *Read1XImage(Image *image,ExceptionInfo *exception)
         }
       }
       if (SyncAuthenticPixels(image,exception) == MagickFalse)
+        break;
+      if (EOFBlob(image) != MagickFalse)
         break;
     }
   }
@@ -467,7 +469,7 @@ static Image *ReadICONImage(const ImageInfo *image_info,
             "InsufficientImageDataInFile");
         (void) ReadBlobLSBLong(image); /* colors_important */
         image->alpha_trait=BlendPixelTrait;
-        image->columns=(size_t) GetICONSize( directory->icons[i]->width,
+        image->columns=(size_t) GetICONSize(directory->icons[i]->width,
           (size_t) width);
         image->rows=(size_t) GetICONSize(directory->icons[i]->height,
           (size_t) height);
@@ -591,6 +593,8 @@ static Image *ReadICONImage(const ImageInfo *image_info,
                 (void) ReadBlobByte(image);
               if (SyncAuthenticPixels(image,exception) == MagickFalse)
                 break;
+              if (EOFBlob(image) != MagickFalse)
+                break;
               if (image->previous == (Image *) NULL)
                 {
                   status=SetImageProgress(image,LoadImageTag,(MagickOffsetType)
@@ -629,6 +633,8 @@ static Image *ReadICONImage(const ImageInfo *image_info,
                 (void) ReadBlobByte(image);
               if (SyncAuthenticPixels(image,exception) == MagickFalse)
                 break;
+              if (EOFBlob(image) != MagickFalse)
+                break;
               if (image->previous == (Image *) NULL)
                 {
                   status=SetImageProgress(image,LoadImageTag,(MagickOffsetType)
@@ -658,6 +664,8 @@ static Image *ReadICONImage(const ImageInfo *image_info,
               for (x=0; x < (ssize_t) scanline_pad; x++)
                 (void) ReadBlobByte(image);
               if (SyncAuthenticPixels(image,exception) == MagickFalse)
+                break;
+              if (EOFBlob(image) != MagickFalse)
                 break;
               if (image->previous == (Image *) NULL)
                 {
@@ -689,6 +697,8 @@ static Image *ReadICONImage(const ImageInfo *image_info,
               for (x=0; x < (ssize_t) scanline_pad; x++)
                 (void) ReadBlobByte(image);
               if (SyncAuthenticPixels(image,exception) == MagickFalse)
+                break;
+              if (EOFBlob(image) != MagickFalse)
                 break;
               if (image->previous == (Image *) NULL)
                 {
@@ -728,6 +738,8 @@ static Image *ReadICONImage(const ImageInfo *image_info,
                 for (x=0; x < (ssize_t) scanline_pad; x++)
                   (void) ReadBlobByte(image);
               if (SyncAuthenticPixels(image,exception) == MagickFalse)
+                break;
+              if (EOFBlob(image) != MagickFalse)
                 break;
               if (image->previous == (Image *) NULL)
                 {
@@ -779,6 +791,8 @@ static Image *ReadICONImage(const ImageInfo *image_info,
                 for (x=0; x < (ssize_t) ((32-(image->columns % 32))/8); x++)
                   (void) ReadBlobByte(image);
               if (SyncAuthenticPixels(image,exception) == MagickFalse)
+                break;
+              if (EOFBlob(image) != MagickFalse)
                 break;
             }
           }
@@ -1013,7 +1027,8 @@ static MagickBooleanType WriteICONImage(const ImageInfo *image_info,
 #define ThrowICONWriterException(exception,message) \
 { \
   directory=RelinquishIconDirectory(directory); \
-  images=DestroyImageList(images); \
+  if (images != (Image *) NULL) \
+    images=DestroyImageList(images); \
   ThrowWriterException(exception,message) \
 }
 
@@ -1113,7 +1128,11 @@ static MagickBooleanType WriteICONImage(const ImageInfo *image_info,
   frame=(images != (Image *) NULL) ? images : image;
   directory=AcquireIconDirectory(number_scenes);
   if (directory == (IconDirectory *) NULL)
-    ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
+    {
+      if (images != (Image *) NULL) 
+        images=DestroyImageList(images);
+      ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
+    }
   png_size=0;
   option=GetImageOption(image_info,"icon:png-compression-size");
   if (option != (const char*)NULL)

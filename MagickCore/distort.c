@@ -423,20 +423,30 @@ static double *GenerateCoefficients(const Image *image,
       break;
     case PolynomialDistortion:
       /* number of coefficients depend on the given polynomial 'order' */
+      if (number_arguments < 1)
+        {
+          (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+                 "InvalidArgument","%s : '%s'","Polynomial",
+                 "Needs at least 1 argument");
+          return((double *) NULL);
+        }
       i = poly_number_terms(arguments[0]);
       number_coefficients = 2 + i*number_values;
-      if ( i == 0 ) {
-        (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
-                   "InvalidArgument","%s : '%s'","Polynomial",
-                   "Invalid order, should be integer 1 to 5, or 1.5");
-        return((double *) NULL);
-      }
-      if ( number_arguments < 1+i*cp_size ) {
-        (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
-               "InvalidArgument", "%s : 'require at least %.20g CPs'",
-               "Polynomial", (double) i);
-        return((double *) NULL);
-      }
+      if (i == 0)
+        {
+          (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+                     "InvalidArgument","%s : '%s'","Polynomial",
+                     "Invalid order, should be integer 1 to 5, or 1.5");
+          return((double *) NULL);
+        }
+      if ((number_arguments < (1+i*cp_size)) ||
+          (((number_arguments-1) % cp_size) != 0)) 
+        {
+          (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+                 "InvalidArgument", "%s : 'require at least %.20g CPs'",
+                 "Polynomial", (double) i);
+          return((double *) NULL);
+        }
       break;
     case BilinearReverseDistortion:
       number_coefficients=4*number_values;
@@ -1365,11 +1375,18 @@ static double *GenerateCoefficients(const Image *image,
          Coeff 2,3  center of distortion of input image
          Coefficients 4,5 Center of Distortion of dest (determined later)
       */
+      if (number_arguments < 1) {
+        coeff=(double *) RelinquishMagickMemory(coeff);
+        (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
+            "InvalidArgument", "%s : 'Needs at least 1 argument'",
+            CommandOptionToMnemonic(MagickDistortOptions,*method));
+        return((double *) NULL);
+      }
       if ( arguments[0] < MagickEpsilon || arguments[0] > 160.0 ) {
+        coeff=(double *) RelinquishMagickMemory(coeff);
         (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
             "InvalidArgument", "%s : Invalid FOV Angle",
-            CommandOptionToMnemonic(MagickDistortOptions, *method) );
-        coeff=(double *) RelinquishMagickMemory(coeff);
+            CommandOptionToMnemonic(MagickDistortOptions,*method));
         return((double *) NULL);
       }
       coeff[0] = DegreesToRadians(arguments[0]);

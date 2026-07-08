@@ -1,0 +1,1634 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 18 Oct 2025 12:28:30 +0200
+Subject: Remove remaining form block
+
+forwarded: not-needed
+---
+ www/api/Image++.html             |  6 +----
+ www/api/animate.html             |  6 +----
+ www/api/annotate.html            |  6 +----
+ www/api/attribute.html           |  6 +----
+ www/api/blob.html                |  6 +----
+ www/api/cache-view.html          |  6 +----
+ www/api/cache.html               |  6 +----
+ www/api/channel.html             |  6 +----
+ www/api/cipher.html              |  6 +----
+ www/api/color.html               |  6 +----
+ www/api/colormap.html            |  6 +----
+ www/api/colorspace.html          |  6 +----
+ www/api/compare.html             |  6 +----
+ www/api/composite.html           |  6 +----
+ www/api/constitute.html          |  6 +----
+ www/api/decorate.html            |  6 +----
+ www/api/deprecate.html           |  6 +----
+ www/api/display.html             |  6 +----
+ www/api/distort.html             |  6 +----
+ www/api/draw.html                |  6 +----
+ www/api/drawing-wand.html        |  6 +----
+ www/api/effect.html              |  6 +----
+ www/api/enhance.html             |  6 +----
+ www/api/exception.html           |  6 +----
+ www/api/feature.html             |  6 +----
+ www/api/fourier.html             |  6 +----
+ www/api/fx.html                  |  6 +----
+ www/api/histogram.html           |  6 +----
+ www/api/image-view.html          |  6 +----
+ www/api/image.html               |  6 +----
+ www/api/layer.html               |  6 +----
+ www/api/list.html                |  6 +----
+ www/api/magick++-classes.html    |  6 +----
+ www/api/magick-deprecate.html    |  6 +----
+ www/api/magick-image.html        |  6 +----
+ www/api/magick-property.html     |  6 +----
+ www/api/magick-wand.html         |  6 +----
+ www/api/magick.html              |  6 +----
+ www/api/memory.html              |  6 +----
+ www/api/mime.html                |  6 +----
+ www/api/module.html              |  6 +----
+ www/api/mogrify.html             |  6 +----
+ www/api/monitor.html             |  6 +----
+ www/api/montage.html             |  6 +----
+ www/api/morphology.html          |  6 +----
+ www/api/paint.html               |  6 +----
+ www/api/pixel-iterator.html      |  6 +----
+ www/api/pixel-wand.html          |  6 +----
+ www/api/profile.html             |  6 +----
+ www/api/property.html            |  6 +----
+ www/api/quantize.html            |  6 +----
+ www/api/registry.html            |  6 +----
+ www/api/resize.html              |  6 +----
+ www/api/resource.html            |  6 +----
+ www/api/segment.html             |  6 +----
+ www/api/shear.html               |  6 +----
+ www/api/signature.html           |  6 +----
+ www/api/statistic.html           |  6 +----
+ www/api/stream.html              |  6 +----
+ www/api/transform.html           |  6 +----
+ www/api/version.html             |  6 +----
+ www/api/vision.html              |  6 +----
+ www/api/wand-view.html           |  6 +----
+ www/command-line-options.html    |  6 +----
+ www/command-line-processing.html |  6 +----
+ www/compare.html                 |  6 +----
+ www/contact.html                 | 49 +---------------------------------------
+ www/convex-hull.html             |  6 +----
+ www/develop.html                 |  6 +----
+ www/display.html                 |  6 +----
+ www/download.html                | 23 +------------------
+ www/examples.html                |  6 +----
+ www/exception.html               |  6 +----
+ www/export.html                  |  6 +----
+ www/formats.html                 |  6 +----
+ www/index.html                   |  6 +----
+ www/install-source.html          |  6 +----
+ www/jp2.html                     |  6 +----
+ www/license.html                 |  6 +----
+ www/magick-wand.html             |  6 +----
+ www/motion-picture.html          |  6 +----
+ www/multispectral-imagery.html   |  6 +----
+ www/news.html                    |  6 +----
+ www/openmp.html                  |  6 +----
+ www/perl-magick.html             |  6 +----
+ www/porting.html                 |  6 +----
+ www/security-policy.html         |  6 +----
+ 87 files changed, 87 insertions(+), 495 deletions(-)
+
+Index: imagemagick/www/api/Image++.html
+===================================================================
+--- imagemagick.orig/www/api/Image++.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/Image++.html	2026-07-07 10:22:16.208716707 +0200
+@@ -66,11 +66,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../../../../../../../../../../../../../../../../../../../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/animate.html
+===================================================================
+--- imagemagick.orig/www/api/animate.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/animate.html	2026-07-07 10:22:16.209098619 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/annotate.html
+===================================================================
+--- imagemagick.orig/www/api/annotate.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/annotate.html	2026-07-07 10:22:16.209206820 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/attribute.html
+===================================================================
+--- imagemagick.orig/www/api/attribute.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/attribute.html	2026-07-07 10:22:16.209323050 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/blob.html
+===================================================================
+--- imagemagick.orig/www/api/blob.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/blob.html	2026-07-07 10:22:16.209427662 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/cache-view.html
+===================================================================
+--- imagemagick.orig/www/api/cache-view.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/cache-view.html	2026-07-07 10:22:16.209546980 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/cache.html
+===================================================================
+--- imagemagick.orig/www/api/cache.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/cache.html	2026-07-07 10:22:16.209650019 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/channel.html
+===================================================================
+--- imagemagick.orig/www/api/channel.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/channel.html	2026-07-07 10:22:16.209750592 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/cipher.html
+===================================================================
+--- imagemagick.orig/www/api/cipher.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/cipher.html	2026-07-07 10:22:16.209817625 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/color.html
+===================================================================
+--- imagemagick.orig/www/api/color.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/color.html	2026-07-07 10:22:16.209880862 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/colormap.html
+===================================================================
+--- imagemagick.orig/www/api/colormap.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/colormap.html	2026-07-07 10:22:16.209940792 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/colorspace.html
+===================================================================
+--- imagemagick.orig/www/api/colorspace.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/colorspace.html	2026-07-07 10:22:16.210003648 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/compare.html
+===================================================================
+--- imagemagick.orig/www/api/compare.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/compare.html	2026-07-07 10:22:16.210067328 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/composite.html
+===================================================================
+--- imagemagick.orig/www/api/composite.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/composite.html	2026-07-07 10:22:16.210123450 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/constitute.html
+===================================================================
+--- imagemagick.orig/www/api/constitute.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/constitute.html	2026-07-07 10:22:16.210191864 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/decorate.html
+===================================================================
+--- imagemagick.orig/www/api/decorate.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/decorate.html	2026-07-07 10:22:16.210257107 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/deprecate.html
+===================================================================
+--- imagemagick.orig/www/api/deprecate.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/deprecate.html	2026-07-07 10:22:16.210311145 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/display.html
+===================================================================
+--- imagemagick.orig/www/api/display.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/display.html	2026-07-07 10:22:16.210363225 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/distort.html
+===================================================================
+--- imagemagick.orig/www/api/distort.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/distort.html	2026-07-07 10:22:16.210420598 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/draw.html
+===================================================================
+--- imagemagick.orig/www/api/draw.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/draw.html	2026-07-07 10:22:16.210481646 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/drawing-wand.html
+===================================================================
+--- imagemagick.orig/www/api/drawing-wand.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/drawing-wand.html	2026-07-07 10:22:16.210695909 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/effect.html
+===================================================================
+--- imagemagick.orig/www/api/effect.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/effect.html	2026-07-07 10:22:16.210891674 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/enhance.html
+===================================================================
+--- imagemagick.orig/www/api/enhance.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/enhance.html	2026-07-07 10:22:16.211016440 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/exception.html
+===================================================================
+--- imagemagick.orig/www/api/exception.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/exception.html	2026-07-07 10:22:16.211112331 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/feature.html
+===================================================================
+--- imagemagick.orig/www/api/feature.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/feature.html	2026-07-07 10:22:16.211181604 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/fourier.html
+===================================================================
+--- imagemagick.orig/www/api/fourier.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/fourier.html	2026-07-07 10:22:16.211242319 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/fx.html
+===================================================================
+--- imagemagick.orig/www/api/fx.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/fx.html	2026-07-07 10:22:16.211298078 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/histogram.html
+===================================================================
+--- imagemagick.orig/www/api/histogram.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/histogram.html	2026-07-07 10:22:16.211357026 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/image-view.html
+===================================================================
+--- imagemagick.orig/www/api/image-view.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/image-view.html	2026-07-07 10:22:16.211425894 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/image.html
+===================================================================
+--- imagemagick.orig/www/api/image.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/image.html	2026-07-07 10:22:16.211523903 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/layer.html
+===================================================================
+--- imagemagick.orig/www/api/layer.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/layer.html	2026-07-07 10:22:16.211619214 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/list.html
+===================================================================
+--- imagemagick.orig/www/api/list.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/list.html	2026-07-07 10:22:16.211698386 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/magick++-classes.html
+===================================================================
+--- imagemagick.orig/www/api/magick++-classes.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/magick++-classes.html	2026-07-07 10:22:16.211771667 +0200
+@@ -66,11 +66,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../../../../../../../../../../../../../../../../../../../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/magick-deprecate.html
+===================================================================
+--- imagemagick.orig/www/api/magick-deprecate.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/magick-deprecate.html	2026-07-07 10:22:16.211820938 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/magick-image.html
+===================================================================
+--- imagemagick.orig/www/api/magick-image.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/magick-image.html	2026-07-07 10:22:16.212174803 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/magick-property.html
+===================================================================
+--- imagemagick.orig/www/api/magick-property.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/magick-property.html	2026-07-07 10:22:16.212571547 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/magick-wand.html
+===================================================================
+--- imagemagick.orig/www/api/magick-wand.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/magick-wand.html	2026-07-07 10:22:16.212700921 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/magick.html
+===================================================================
+--- imagemagick.orig/www/api/magick.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/magick.html	2026-07-07 10:22:16.212772351 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/memory.html
+===================================================================
+--- imagemagick.orig/www/api/memory.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/memory.html	2026-07-07 10:22:16.212836967 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/mime.html
+===================================================================
+--- imagemagick.orig/www/api/mime.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/mime.html	2026-07-07 10:22:16.212902432 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/module.html
+===================================================================
+--- imagemagick.orig/www/api/module.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/module.html	2026-07-07 10:22:16.212966176 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/mogrify.html
+===================================================================
+--- imagemagick.orig/www/api/mogrify.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/mogrify.html	2026-07-07 10:22:16.213024759 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/monitor.html
+===================================================================
+--- imagemagick.orig/www/api/monitor.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/monitor.html	2026-07-07 10:22:16.213076543 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/montage.html
+===================================================================
+--- imagemagick.orig/www/api/montage.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/montage.html	2026-07-07 10:22:16.213128640 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/morphology.html
+===================================================================
+--- imagemagick.orig/www/api/morphology.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/morphology.html	2026-07-07 10:22:16.213198206 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/paint.html
+===================================================================
+--- imagemagick.orig/www/api/paint.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/paint.html	2026-07-07 10:22:16.213277096 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/pixel-iterator.html
+===================================================================
+--- imagemagick.orig/www/api/pixel-iterator.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/pixel-iterator.html	2026-07-07 10:22:16.213341210 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/pixel-wand.html
+===================================================================
+--- imagemagick.orig/www/api/pixel-wand.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/pixel-wand.html	2026-07-07 10:22:16.213432594 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/profile.html
+===================================================================
+--- imagemagick.orig/www/api/profile.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/profile.html	2026-07-07 10:22:16.213526252 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/property.html
+===================================================================
+--- imagemagick.orig/www/api/property.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/property.html	2026-07-07 10:22:16.213590323 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/quantize.html
+===================================================================
+--- imagemagick.orig/www/api/quantize.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/quantize.html	2026-07-07 10:22:16.213666480 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/registry.html
+===================================================================
+--- imagemagick.orig/www/api/registry.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/registry.html	2026-07-07 10:22:16.213754222 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/resize.html
+===================================================================
+--- imagemagick.orig/www/api/resize.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/resize.html	2026-07-07 10:22:16.213815805 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/resource.html
+===================================================================
+--- imagemagick.orig/www/api/resource.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/resource.html	2026-07-07 10:22:16.213878489 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/segment.html
+===================================================================
+--- imagemagick.orig/www/api/segment.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/segment.html	2026-07-07 10:22:16.213931496 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/shear.html
+===================================================================
+--- imagemagick.orig/www/api/shear.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/shear.html	2026-07-07 10:22:16.213986625 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/signature.html
+===================================================================
+--- imagemagick.orig/www/api/signature.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/signature.html	2026-07-07 10:22:16.214040418 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/statistic.html
+===================================================================
+--- imagemagick.orig/www/api/statistic.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/statistic.html	2026-07-07 10:22:16.214104606 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/stream.html
+===================================================================
+--- imagemagick.orig/www/api/stream.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/stream.html	2026-07-07 10:22:16.214170496 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/transform.html
+===================================================================
+--- imagemagick.orig/www/api/transform.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/transform.html	2026-07-07 10:22:16.214228921 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/version.html
+===================================================================
+--- imagemagick.orig/www/api/version.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/version.html	2026-07-07 10:22:16.214289447 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/vision.html
+===================================================================
+--- imagemagick.orig/www/api/vision.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/vision.html	2026-07-07 10:22:16.214342393 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/api/wand-view.html
+===================================================================
+--- imagemagick.orig/www/api/wand-view.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/api/wand-view.html	2026-07-07 10:22:16.214404509 +0200
+@@ -116,11 +116,7 @@
+ 
+         </li>
+       </ul>
+-      <form class="d-flex form-inline" action="../../../../../https://imagemagick.org/script/search.php">
+-        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-      </form>
+-    </div>
++          </div>
+   </div>
+   </nav>
+ 
+Index: imagemagick/www/command-line-options.html
+===================================================================
+--- imagemagick.orig/www/command-line-options.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/command-line-options.html	2026-07-07 10:22:16.214908210 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/command-line-processing.html
+===================================================================
+--- imagemagick.orig/www/command-line-processing.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/command-line-processing.html	2026-07-07 10:22:16.215630593 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/compare.html
+===================================================================
+--- imagemagick.orig/www/compare.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/compare.html	2026-07-07 10:22:16.215767259 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/contact.html
+===================================================================
+--- imagemagick.orig/www/contact.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/contact.html	2026-07-07 10:22:16.215859785 +0200
+@@ -137,54 +137,7 @@
+ 	<p>Enter this code, <samp>
+ 040d70</samp>, in the Authenticate field and fill in the remaining fields.  Press Send to forward your message to the ImageMagick wizards:</p>
+   <br/>
+-  <form method="post" name="post" id="post" action="../www/../www/../www/../www/../www/https://imagemagick.org/script/contact.php" enctype="application/x-www-form-urlencoded">
+-  <div>
+-  <table class="table table-sm table-hover table-striped table-responsive">
+-    <tr>
+-      <td><label id="authenticate" title="Your authentication code">Authenticate</label></td>
+-        <td valign="top"><input type="text" name="authenticate" size="32" maxlength="255" value="" /></td>
+-    </tr>
+-
+-    <tr>
+-      <td><label id="e-mail" title="Without a valid e-mail address, we cannot respond to your message">E-mail</label></td>
+-        <td valign="top"><input type="text" name="address" size="32" maxlength="255" value="" /></td>
+-    </tr>
+-
+-    <tr>
+-      <td><label id="name" title="Your name or nickname">Name</label></td>
+-        <td valign="top"><input type="text" name="name" size="32" maxlength="255" value="" /></td>
+-    </tr>
+-
+-    <tr>
+-      <td><label id="issues" title="We only accept these issues">Issue</label></td>
+-    <td valign="top"><select name="issue" >
+-<option value="">Choose an appropriate issue</option>
+-<option value="Bug Report">Bug Report</option>
+-<option value="ImageMagick Mirror">ImageMagick Mirror</option>
+-<option value="Source or Documentation Patch">Source or Documentation Patch</option>
+-<option value="Website Suggestion">Website Suggestion</option>
+-<option value="Security Issue">Security Issue</option>
+-<option value="License or Export Classification Issue">License or Export Classification Issue</option>
+-<option value="ImageMagick Support ($$)">ImageMagick Support ($$)</option>
+-<option value="ImageMagick Donation">ImageMagick Donation</option>
+-</select></td>
+-    </tr>
+-
+-    <tr>
+-      <td><label id="message" title="Your message must directly relate to the issue, otherwise do not expect a response">Message</label></td>
+-      <td><textarea style="font-size: 90%;" rows="24" cols="80" name="message"></textarea></td>
+-    </tr>
+-
+-    <tr>
+-      <td colspan="2" style="text-align: center"><br />
+-        <input type="submit" name="action" value="Send" />
+-        <input type="reset" name="Reset" value="Clear" />
+-      </td>
+-    </tr>
+-  </table>
+-  </div>
+-  </form>
+-  </fieldset>
++    </fieldset>
+   </div>
+   <br />
+ </div>
+Index: imagemagick/www/convex-hull.html
+===================================================================
+--- imagemagick.orig/www/convex-hull.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/convex-hull.html	2026-07-07 10:22:16.215931654 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/develop.html
+===================================================================
+--- imagemagick.orig/www/develop.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/develop.html	2026-07-07 10:22:16.216000134 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/display.html
+===================================================================
+--- imagemagick.orig/www/display.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/display.html	2026-07-07 10:22:16.216086247 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/download.html
+===================================================================
+--- imagemagick.orig/www/download.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/download.html	2026-07-07 10:22:16.216198890 +0200
+@@ -179,28 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
+-        <li class="nav-item dropdown ms-3">
+-          <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+-            <span id="currentThemeIcon">🌓</span>
+-          </a>
+-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="themeDropdown">
+-            <li><a class="dropdown-item" href="#" onclick="setTheme('light')">☀️ Light</a></li>
+-            <li><a class="dropdown-item" href="#" onclick="setTheme('dark')">🌙 Dark</a></li>
+-            <li><a class="dropdown-item" href="#" onclick="setTheme('auto')">🌓 Auto</a></li>
+-          </ul>
+-        </li>
+-      </ul>
+-    </div>
+-    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
+-      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+-    </form>
+-    </div>
++              </div>
+   </nav>
+ 
+ <div class="col-lg-8 mx-auto text-body-secondary pt-5 pt-lg-5">
+Index: imagemagick/www/examples.html
+===================================================================
+--- imagemagick.orig/www/examples.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/examples.html	2026-07-07 10:22:16.216285997 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/exception.html
+===================================================================
+--- imagemagick.orig/www/exception.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/exception.html	2026-07-07 10:22:16.216350612 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/export.html
+===================================================================
+--- imagemagick.orig/www/export.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/export.html	2026-07-07 10:22:16.216412935 +0200
+@@ -162,11 +162,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item dropdown">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-            <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-2">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/formats.html
+===================================================================
+--- imagemagick.orig/www/formats.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/formats.html	2026-07-07 10:22:16.216547178 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/index.html
+===================================================================
+--- imagemagick.orig/www/index.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/index.html	2026-07-07 10:22:16.216714989 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/install-source.html
+===================================================================
+--- imagemagick.orig/www/install-source.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/install-source.html	2026-07-07 10:22:16.216790306 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/jp2.html
+===================================================================
+--- imagemagick.orig/www/jp2.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/jp2.html	2026-07-07 10:22:16.216855941 +0200
+@@ -162,11 +162,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item dropdown">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-            <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-2">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/license.html
+===================================================================
+--- imagemagick.orig/www/license.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/license.html	2026-07-07 10:22:16.216927163 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/magick-wand.html
+===================================================================
+--- imagemagick.orig/www/magick-wand.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/magick-wand.html	2026-07-07 10:22:16.217019738 +0200
+@@ -180,11 +180,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/motion-picture.html
+===================================================================
+--- imagemagick.orig/www/motion-picture.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/motion-picture.html	2026-07-07 10:22:16.217101307 +0200
+@@ -162,11 +162,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item dropdown">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-            <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-2">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/multispectral-imagery.html
+===================================================================
+--- imagemagick.orig/www/multispectral-imagery.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/multispectral-imagery.html	2026-07-07 10:22:16.217194754 +0200
+@@ -162,11 +162,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item dropdown">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-            <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-2">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/news.html
+===================================================================
+--- imagemagick.orig/www/news.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/news.html	2026-07-07 10:22:16.217268200 +0200
+@@ -162,11 +162,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item dropdown">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-            <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-2">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/openmp.html
+===================================================================
+--- imagemagick.orig/www/openmp.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/openmp.html	2026-07-07 10:22:16.217328760 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/perl-magick.html
+===================================================================
+--- imagemagick.orig/www/perl-magick.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/perl-magick.html	2026-07-07 10:22:16.217493615 +0200
+@@ -163,11 +163,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item dropdown">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+-            <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-2">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/porting.html
+===================================================================
+--- imagemagick.orig/www/porting.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/porting.html	2026-07-07 10:22:16.217701641 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>
+Index: imagemagick/www/security-policy.html
+===================================================================
+--- imagemagick.orig/www/security-policy.html	2026-07-07 10:22:16.220429314 +0200
++++ imagemagick/www/security-policy.html	2026-07-07 10:22:16.217827403 +0200
+@@ -179,11 +179,7 @@
+       </ul>
+       <ul class="navbar-nav ms-auto">
+         <li class="nav-item ms-3">
+-          <form class="d-flex form-inline" action="../www/search.html">
+-            <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
+-            <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+-          </form>
+-        </li>
++                  </li>
+         <li class="nav-item dropdown ms-3">
+           <a class="nav-link dropdown-toggle" href="#" id="themeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <span id="currentThemeIcon">🌓</span>

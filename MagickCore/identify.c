@@ -54,6 +54,7 @@
 #include "MagickCore/color.h"
 #include "MagickCore/configure.h"
 #include "MagickCore/constitute.h"
+#include "MagickCore/constitute-private.h"
 #include "MagickCore/decorate.h"
 #include "MagickCore/delegate.h"
 #include "MagickCore/draw.h"
@@ -985,7 +986,7 @@ MagickExport MagickBooleanType IdentifyImage(Image *image,FILE *file,
   if (channel_moments != (ChannelMoments *) NULL)
     {
       scale=(double) ((1UL << image->depth)-1);
-      (void) FormatLocaleFile(file,"  Channel moments:\n");
+      (void) FormatLocaleFile(file,"  Channel Hu moments:\n");
       switch (colorspace)
       {
         case RGBColorspace:
@@ -1363,13 +1364,13 @@ MagickExport MagickBooleanType IdentifyImage(Image *image,FILE *file,
       {
         q=d;
         while ((*q != '\xff') && (*q != '\0') &&
-               ((size_t) (q-d) < sizeof(image_info->filename)))
+               ((size_t) (q-d+1) < sizeof(image_info->filename)))
           q++;
         (void) CopyMagickString(image_info->filename,d,(size_t) (q-d+1));
         d=q;
         (void) FormatLocaleFile(file,"    %s",image_info->filename);
         handler=SetWarningHandler((WarningHandler) NULL);
-        tile=ReadImage(image_info,exception);
+        tile=StrictReadImage(image_info,exception);
         (void) SetWarningHandler(handler);
         if (tile == (Image *) NULL)
           {

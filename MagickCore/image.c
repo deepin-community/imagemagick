@@ -86,6 +86,7 @@
 #include "MagickCore/property.h"
 #include "MagickCore/quantize.h"
 #include "MagickCore/random_.h"
+#include "MagickCore/registry.h"
 #include "MagickCore/resource_.h"
 #include "MagickCore/segment.h"
 #include "MagickCore/semaphore.h"
@@ -753,7 +754,6 @@ MagickExport MagickBooleanType ClipImagePath(Image *image,const char *pathname,
   (void) FormatLocaleString(clip_mask->magick_filename,MagickPathExtent,
     "8BIM:1999,2998:%s\nPS",pathname);
   (void) SetImageMask(image,WritePixelMask,clip_mask,exception);
-  image->mask_trait=UpdatePixelTrait;
   clip_mask=DestroyImage(clip_mask);
   return(MagickTrue);
 }
@@ -1665,7 +1665,7 @@ static inline MagickBooleanType IsValidFormatSpecifier(const char *start,
     specifier = end[-1];
 
   size_t
-    length = end-start;
+    length = (size_t) (end-start);
 
   /*
     Is this a valid format specifier?
@@ -1698,6 +1698,7 @@ MagickExport size_t InterpretImageFilename(const ImageInfo *image_info,
   ExceptionInfo *exception)
 {
   char
+    *literal,
     *p = filename,
     pattern[MagickPathExtent];
 
@@ -1706,11 +1707,17 @@ MagickExport size_t InterpretImageFilename(const ImageInfo *image_info,
 
   assert(format != (const char *) NULL);
   assert(filename != (char *) NULL);
-  if (IsStringTrue(GetImageOption(image_info,"filename:literal")) != MagickFalse)
+  literal=(char *) GetImageRegistry(StringRegistryType,"filename:literal",
+    exception);
+  if (IsStringTrue(literal) != MagickFalse)
     {
+      if (literal != (char *) NULL)
+        literal=DestroyString(literal);
       (void) CopyMagickString(filename,format,MagickPathExtent);
       return(strlen(filename));
     }
+  if (literal != (char *) NULL)
+    literal=DestroyString(literal);
   while ((*cursor != '\0') && ((p-filename) < ((ssize_t) MagickPathExtent-1)))
   {
     const char
@@ -1743,7 +1750,7 @@ MagickExport size_t InterpretImageFilename(const ImageInfo *image_info,
               format_specifier[MagickPathExtent];
 
             size_t
-              length = cursor-specifier_start,
+              length = (size_t) (cursor-specifier_start),
               pattern_length;
 
             ssize_t
@@ -1758,7 +1765,8 @@ MagickExport size_t InterpretImageFilename(const ImageInfo *image_info,
               return(0);
             if ((p-filename+pattern_length) >= MagickPathExtent)
               return(0);
-            (void) CopyMagickString(p,pattern,MagickPathExtent-(p-filename));
+            (void) CopyMagickString(p,pattern,(size_t) (MagickPathExtent-
+              (p-filename)));
             p+=pattern_length;
             cursor++;
             continue;
@@ -1804,7 +1812,8 @@ MagickExport size_t InterpretImageFilename(const ImageInfo *image_info,
         option_length=strlen(option);
         if ((p-filename+option_length) >= MagickPathExtent)
           return(0);
-        (void) CopyMagickString(p,option,MagickPathExtent-(p-filename));
+        (void) CopyMagickString(p,option,(size_t) (MagickPathExtent-
+          (p-filename)));
         p+=option_length;
         cursor=end+1;
         continue;
@@ -2387,6 +2396,9 @@ MagickExport MagickBooleanType SetImageAlpha(Image *image,const Quantum alpha,
   MagickBooleanType
     status;
 
+  PixelTrait
+    original_mask;
+
   ssize_t
     y;
 
@@ -2395,6 +2407,9 @@ MagickExport MagickBooleanType SetImageAlpha(Image *image,const Quantum alpha,
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   image->alpha_trait=BlendPixelTrait;
+  /* Disable mask to make sure that all pixels are changed */
+  original_mask=image->mask_trait;
+  image->mask_trait=UndefinedPixelTrait;
   status=MagickTrue;
   image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
@@ -2427,6 +2442,7 @@ MagickExport MagickBooleanType SetImageAlpha(Image *image,const Quantum alpha,
       status=MagickFalse;
   }
   image_view=DestroyCacheView(image_view);
+  image->mask_trait=original_mask;
   return(status);
 }
 
@@ -2708,6 +2724,9 @@ MagickExport MagickBooleanType SetImageExtent(Image *image,const size_t columns,
 {
   if ((columns == 0) || (rows == 0))
     ThrowBinaryException(ImageError,"NegativeOrZeroImageSize",image->filename);
+  if ((columns > (size_t) MAGICK_SSIZE_MAX) ||
+      (rows > (size_t) MAGICK_SSIZE_MAX))
+    ThrowBinaryException(ImageError,"ImageSizeLimitExceeded",image->filename);
   image->columns=columns;
   image->rows=rows;
   if (image->depth == 0)
@@ -2974,13 +2993,17 @@ MagickExport MagickBooleanType SetImageInfo(ImageInfo *image_info,
            (delegate_info != (const DelegateInfo *) NULL)) &&
           (IsMagickConflict(magic) == MagickFalse))
         {
+          char *literal = (char *) GetImageRegistry(StringRegistryType,
+            "filename:literal",exception);
           image_info->affirm=MagickTrue;
           (void) CopyMagickString(image_info->magick,magic,MagickPathExtent);
           GetPathComponent(image_info->filename,CanonicalPath,component);
-          if (IsStringTrue(GetImageOption(image_info,"filename:literal")) != MagickFalse)
+          if (IsStringTrue(literal) != MagickFalse)
             GetPathComponent(image_info->filename,SubcanonicalPath,component);
           (void) CopyMagickString(image_info->filename,component,
             MagickPathExtent);
+          if (literal != (char *) NULL)
+            literal=DestroyString(literal);
         }
     }
   sans_exception=DestroyExceptionInfo(sans_exception);
@@ -3274,6 +3297,7 @@ MagickExport MagickBooleanType SetImageMask(Image *image,const PixelMask type,
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
   assert(image->signature == MagickCoreSignature);
+  image->mask_trait=UndefinedPixelTrait;
   if (mask == (const Image *) NULL)
     {
       switch (type)
@@ -3320,7 +3344,6 @@ MagickExport MagickBooleanType SetImageMask(Image *image,const PixelMask type,
   if (SyncImagePixelCache(image,exception) == MagickFalse)
     return(MagickFalse);
   status=MagickTrue;
-  image->mask_trait=UpdatePixelTrait;
   mask_view=AcquireVirtualCacheView(mask,exception);
   image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
@@ -3379,9 +3402,9 @@ MagickExport MagickBooleanType SetImageMask(Image *image,const PixelMask type,
     if (SyncCacheViewAuthenticPixels(image_view,exception) == MagickFalse)
       status=MagickFalse;
   }
-  image->mask_trait=UndefinedPixelTrait;
   mask_view=DestroyCacheView(mask_view);
   image_view=DestroyCacheView(image_view);
+  image->mask_trait=UpdatePixelTrait;
   return(status);
 }
 
@@ -3434,6 +3457,7 @@ MagickExport MagickBooleanType SetImageRegionMask(Image *image,
   assert(image->signature == MagickCoreSignature);
   if (IsEventLogging() != MagickFalse)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
+  image->mask_trait=UndefinedPixelTrait;
   if (region == (const RectangleInfo *) NULL)
     {
       switch (type)
@@ -3480,7 +3504,6 @@ MagickExport MagickBooleanType SetImageRegionMask(Image *image,
   if (SyncImagePixelCache(image,exception) == MagickFalse)
     return(MagickFalse);
   status=MagickTrue;
-  image->mask_trait=UpdatePixelTrait;
   image_view=AcquireAuthenticCacheView(image,exception);
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(status) \
@@ -3534,7 +3557,7 @@ MagickExport MagickBooleanType SetImageRegionMask(Image *image,
     if (SyncCacheViewAuthenticPixels(image_view,exception) == MagickFalse)
       status=MagickFalse;
   }
-  image->mask_trait=UndefinedPixelTrait;
+  image->mask_trait=UpdatePixelTrait;
   image_view=DestroyCacheView(image_view);
   return(status);
 }

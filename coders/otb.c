@@ -153,8 +153,6 @@ static Image *ReadOTBImage(const ImageInfo *image_info,ExceptionInfo *exception)
       image->columns=(size_t) ReadBlobMSBShort(image);
       image->rows=(size_t) ReadBlobMSBShort(image);
     }
-  if ((image->columns == 0) || (image->rows == 0))
-    ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   depth=(unsigned char) ReadBlobByte(image);
   if (depth != 1)
     ThrowReaderException(CoderError,"OnlyLevelZerofilesSupported");
@@ -165,6 +163,9 @@ static Image *ReadOTBImage(const ImageInfo *image_info,ExceptionInfo *exception)
       (void) CloseBlob(image);
       return(GetFirstImageInList(image));
     }
+  if ((image->columns > GetBlobSize(image)) ||
+      (image->rows > GetBlobSize(image)))
+    ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
   status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
     return(DestroyImageList(image));

@@ -854,7 +854,7 @@ static Image *ExtractPostscript(Image *image,const ImageInfo *image_info,
   if(exception->severity != UndefinedException) goto FINISH_UNL;
   (void) CopyMagickString(clone_info->magick,GetMagicName(magic_info),
     MagickPathExtent);
-  if ((LocaleCompare(clone_info->magick,"PFB") != 0) ||
+  if ((LocaleCompare(clone_info->magick,"PFB") != 0) &&
       (LocaleCompare(clone_info->magick,"8BIMTEXT") != 0))
     {
       ThrowException(exception,CorruptImageError,
@@ -1234,6 +1234,10 @@ static Image *ReadWPGImage(const ImageInfo *image_info,ExceptionInfo *exception)
               bpp=(int) BitmapHeader2.Depth;
 
             UnpackRaster:
+              if ((image->columns > GetBlobSize(image)) ||
+                  (image->rows > GetBlobSize(image)))
+                ThrowReaderException(CorruptImageError,
+                  "InsufficientImageDataInFile");
               status=SetImageExtent(image,image->columns,image->rows,exception);
               if (status == MagickFalse)
                 break;
@@ -1462,6 +1466,10 @@ static Image *ReadWPGImage(const ImageInfo *image_info,ExceptionInfo *exception)
               image->rows=Bitmap2Header1.Height;
               if (image_info->ping != MagickFalse)
                 return(image);
+              if ((image->columns > GetBlobSize(image)) ||
+                  (image->rows > GetBlobSize(image)))
+                ThrowReaderException(CorruptImageError,
+                  "InsufficientImageDataInFile");
               status=SetImageExtent(image,image->columns,image->rows,exception);
               if (status != MagickFalse)
                 status=ResetImagePixels(image,exception);

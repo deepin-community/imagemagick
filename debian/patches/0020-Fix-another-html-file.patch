@@ -1,0 +1,29 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 18 Jun 2023 19:23:43 +0000
+Subject: Fix another html file
+
+forwarded: not-needed
+---
+ www/api/morphology.html | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+Index: imagemagick/www/api/morphology.html
+===================================================================
+--- imagemagick.orig/www/api/morphology.html	2026-07-07 10:22:12.359578372 +0200
++++ imagemagick/www/api/morphology.html	2026-07-07 10:22:12.356914217 +0200
+@@ -596,13 +596,13 @@
+ <pre class="bg-light text-dark mx-4"><samp>       zero.  If the kernel is normalized regardless of any flags.
+ </samp></pre>
+ 
+-<p>o normalize_flags: </dd>
++<dd>o normalize_flags: </dd>
+ 
+ <pre class="bg-light text-dark mx-4"><samp>       specifically: NormalizeValue, CorrelateNormalizeValue,
+                      and/or PercentValue
+ </samp></pre>
+ 
+-<p></dd>
++<dd></dd>
+ </dl>
+ <h2><a href="../../api/MagickCore/morphology_8c.html" id="ShowKernelInfo">ShowKernelInfo</a></h2>
+ 

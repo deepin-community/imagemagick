@@ -875,25 +875,29 @@ static ElementTypeE TypeOfOpr (int op)
   return (ElementTypeE) 0;
 }
 
-static char * SetPtrShortExp (FxInfo * pfx, char * pExp, size_t len)
+static char * SetPtrShortExp (FxInfo *pfx, char *pExp, size_t len)
 {
   #define MaxLen 20
 
   size_t slen;
-  char * p;
+  char *p;
 
   *pfx->ShortExp = '\0';
 
   if (pExp && len) {
-    slen = CopyMagickString (pfx->ShortExp, pExp, len);
+    slen = CopyMagickString(pfx->ShortExp, pExp, MagickPathExtent);
+
     if (slen > MaxLen) {
-      (void) CopyMagickString (pfx->ShortExp+MaxLen, "...", 4);
+      (void) CopyMagickString(pfx->ShortExp + MaxLen, "...", 4);
     }
-    p = strchr (pfx->ShortExp, '\n');
-    if (p) (void) CopyMagickString (p, "...", 4);
-    p = strchr (pfx->ShortExp, '\r');
-    if (p) (void) CopyMagickString (p, "...", 4);
+
+    p = strchr(pfx->ShortExp, '\n');
+    if (p) (void) CopyMagickString(p, "...", 4);
+
+    p = strchr(pfx->ShortExp, '\r');
+    if (p) (void) CopyMagickString(p, "...", 4);
   }
+
   return pfx->ShortExp;
 }
 
@@ -2249,12 +2253,22 @@ static MagickBooleanType GetOperand (
       }
       return MagickTrue;
     } else if (OprIsUnaryPrefix (op)) {
+      MagickBooleanType operand_ok;
       if (!PushOperatorStack (pfx, (int) op)) return MagickFalse;
       pfx->pex++;
       SkipSpaces (pfx);
       if (!*pfx->pex) return MagickFalse;
-
-      if (!GetOperand (pfx, UserSymbol, NewUserSymbol, UserSymNdx, needPopAll)) {
+      if (pfx->teDepth >= MagickMaxRecursionDepth) {
+        (void) ThrowMagickException (
+          pfx->exception, GetMagickModule(), OptionError,
+          "Expression too deeply nested", "(depth %i exceeds limit %i)",
+          pfx->teDepth, MagickMaxRecursionDepth);
+        return MagickFalse;
+      }
+      pfx->teDepth++;
+      operand_ok=GetOperand (pfx, UserSymbol, NewUserSymbol, UserSymNdx, needPopAll);
+      pfx->teDepth--;
+      if (!operand_ok) {
         (void) ThrowMagickException (
           pfx->exception, GetMagickModule(), OptionError,
           "After unary, bad operand at", "'%s'",

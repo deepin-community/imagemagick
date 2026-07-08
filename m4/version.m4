@@ -27,7 +27,7 @@ m4_define([magick_name], [ImageMagick])
 m4_define([magick_major_version], [7])
 m4_define([magick_minor_version], [1])
 m4_define([magick_micro_version], [2])
-m4_define([magick_patchlevel_version], [21])
+m4_define([magick_patchlevel_version], [27])
 m4_define([magick_is_beta], [n])
 m4_define([magick_bugreport],
           [https://github.com/ImageMagick/ImageMagick/issues])
@@ -49,7 +49,7 @@ m4_define([magick_tarname], [ImageMagick])
 #
 # Bump the minor release # whenever there is an SOVersion bump.
 m4_define([magick_library_current], [10])
-m4_define([magick_library_revision], [2])
+m4_define([magick_library_revision], [3])
 m4_define([magick_library_age], [0])
  
 m4_define([magickpp_library_current], [5])

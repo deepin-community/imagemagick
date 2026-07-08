@@ -1141,7 +1141,7 @@ static MagickBooleanType ReadPSDChannelRLE(Image *image,
     if ((MagickOffsetType) length < sizes[y])
       length=(size_t) sizes[y];
 
-  if (length > (row_size+2048)) /* arbitrary number */
+  if (length > (2*row_size+1))
     {
       pixels=(unsigned char *) RelinquishMagickMemory(pixels);
       ThrowBinaryException(ResourceLimitError,"InvalidLength",image->filename);
@@ -1580,7 +1580,7 @@ static MagickBooleanType SetPSDMetaChannels(Image *image,const PSDInfo *psd_info
     number_meta_channels;
 
   if (image->storage_class == PseudoClass)
-    return(MagickFalse);
+    return(MagickTrue);
   number_meta_channels=(ssize_t) channels-psd_info->min_channels;
   if ((image->alpha_trait & BlendPixelTrait) != 0)
     number_meta_channels--;
@@ -1719,7 +1719,8 @@ static MagickBooleanType CheckPSDChannels(const Image *image,
     PixelChannel
       channel;
 
-    if (layer_info->channel_info[i].size >= blob_size)
+    if ((layer_info->channel_info[i].size < 2) ||
+        (layer_info->channel_info[i].size >= blob_size))
       return(MagickFalse);
     if (layer_info->channel_info[i].supported == MagickFalse)
       continue;
@@ -1966,6 +1967,10 @@ static MagickBooleanType ReadPSDLayersInternal(Image *image,
           "  negative layer count corrected for");
       image->alpha_trait=BlendPixelTrait;
     }
+
+  if (AcquireMagickResource(ListLengthResource,number_layers) == MagickFalse)
+    ThrowBinaryException(ResourceLimitError,"ListLengthExceedsLimit",
+      image->filename);
 
   /*
     We only need to know if the image has an alpha channel

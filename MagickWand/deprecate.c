@@ -47,6 +47,7 @@
 #include "MagickWand/wand.h"
 #include "MagickCore/exception-private.h"
 #include "MagickCore/monitor-private.h"
+#include "MagickCore/policy-private.h"
 #include "MagickCore/string-private.h"
 #include "MagickCore/thread-private.h"
 #include "MagickCore/utility-private.h"
@@ -106,6 +107,8 @@ static MagickBooleanType ConcatenateImages(int argc,char **argv,
   /*
     Open output file.
   */
+  if (IsPathAuthorized(WritePolicyRights,argv[argc-1]) == MagickFalse)
+    ThrowPolicyException(argv[argc-1],MagickFalse);
   output=fopen_utf8(argv[argc-1],"wb");
   if (output == (FILE *) NULL)
     {
@@ -116,6 +119,8 @@ static MagickBooleanType ConcatenateImages(int argc,char **argv,
   status=MagickTrue;
   for (i=2; i < ((ssize_t) argc-1); i++)
   {
+    if (IsPathAuthorized(ReadPolicyRights,argv[i]) == MagickFalse)
+      ThrowPolicyException(argv[i],MagickFalse);
     input=fopen_utf8(argv[i],"rb");
     if (input == (FILE *) NULL)
       {
@@ -502,8 +507,10 @@ WandExport MagickBooleanType ConvertImageCommand(ImageInfo *image_info,
 }
 #define ThrowConvertException(asperity,tag,option) \
 { \
-  (void) ThrowMagickException(exception,GetMagickModule(),asperity,tag,"`%s'", \
-    option); \
+  char *message = GetExceptionMessage(errno);     \
+  (void) ThrowMagickException(exception,GetMagickModule(),asperity,tag, \
+    "`%s'",option == (char *) NULL ? message : option); \
+  message=DestroyString(message); \
   DestroyConvert(); \
   return(MagickFalse); \
 }
@@ -589,7 +596,7 @@ WandExport MagickBooleanType ConvertImageCommand(ImageInfo *image_info,
   status=ExpandFilenames(&argc,&argv);
   if (status == MagickFalse)
     ThrowConvertException(ResourceLimitError,"MemoryAllocationFailed",
-      GetExceptionMessage(errno));
+      (char *) NULL);
   if ((argc > 2) && (LocaleCompare("-concatenate",argv[1]) == 0))
     return(ConcatenateImages(argc,argv,exception));
   for (i=1; i < ((ssize_t) argc-1); i++)
@@ -3380,7 +3387,7 @@ WandExport MagickBooleanType ConvertImageCommand(ImageInfo *image_info,
       text=InterpretImageProperties(image_info,image,format,exception);
       if (text == (char *) NULL)
         ThrowConvertException(ResourceLimitError,"MemoryAllocationFailed",
-          GetExceptionMessage(errno));
+          (char *) NULL);
       (void) ConcatenateString(&(*metadata),text);
       text=DestroyString(text);
     }

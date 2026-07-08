@@ -797,7 +797,8 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
     *object;
 
   char
-    *c;
+    *c,
+    *d;
 
   const char
     *artifact,
@@ -1177,7 +1178,11 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
       {
         while ((isspace((int) ((unsigned char) *c)) != 0) || (*c == ','))
           c++;
-        first=(ssize_t) strtol(c,&c,10);
+        d=c;
+        first=(ssize_t) strtol(c,&d,10);
+        if (d == c)
+          break;
+        c=d;
         if (first < 0)
           first+=(ssize_t) component_image->colors;
         last=first;
@@ -1209,6 +1214,10 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
         Keep top objects.
       */
       top_ids=(ssize_t) StringToLong(artifact);
+      if (top_ids < 0)
+        top_ids=0;
+      if (top_ids >= (ssize_t) component_image->colors)
+        top_ids=(ssize_t) component_image->colors-1;
       top_objects=(CCObjectInfo *) AcquireQuantumMemory(component_image->colors,
         sizeof(*top_objects));
       if (top_objects == (CCObjectInfo *) NULL)
@@ -1273,7 +1282,11 @@ MagickExport Image *ConnectedComponentsImage(const Image *image,
       */
       while ((isspace((int) ((unsigned char) *c)) != 0) || (*c == ','))
         c++;
-      first=(ssize_t) strtol(c,&c,10);
+      d=c;
+      first=(ssize_t) strtol(c,&d,10);
+      if (d == c)
+        break;
+      c=d;
       if (first < 0)
         first+=(ssize_t) component_image->colors;
       last=first;

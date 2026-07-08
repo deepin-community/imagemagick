@@ -75,6 +75,9 @@
 #include "MagickCore/thread-private.h"
 #include "MagickCore/utility.h"
 #include "MagickCore/utility-private.h"
+#if defined(MAGICKCORE_HAVE_ERRNO_H)
+#  include <errno.h>
+#endif
 #if defined(MAGICKCORE_HAVE_SYS_LOADAVG_H)
 #  include <sys/loadavg.h>
 #endif
@@ -451,25 +454,39 @@ static MagickBooleanType ClipPixelCacheNexus(Image *image,
     for (x=0; x < (ssize_t) nexus_info->region.width; x++)
     {
       double
-        mask_alpha;
+        mask;
 
       ssize_t
         i;
 
-      mask_alpha=QuantumScale*(double) GetPixelWriteMask(image,p);
-      if (fabs(mask_alpha) >= MagickEpsilon)
+      mask=(double) GetPixelWriteMask(image,p);
+      if (fabs(mask) >= MagickEpsilon)
         {
+          double
+            mask_alpha,
+            dst_alpha;
+
+          Quantum
+            src_alpha;
+
+          src_alpha=GetPixelAlpha(image,p);
+          mask_alpha=QuantumScale*mask*(double) src_alpha;
+          dst_alpha=(double) GetPixelAlpha(image,q);
           for (i=0; i < (ssize_t) image->number_channels; i++)
           {
+            PixelTrait
+              traits;
+
             PixelChannel channel = GetPixelChannelChannel(image,i);
-            PixelTrait traits = GetPixelChannelTraits(image,channel);
+            if (channel == AlphaPixelChannel)
+              continue;
+            traits=GetPixelChannelTraits(image,channel);
             if ((traits & UpdatePixelTrait) == 0)
               continue;
-            q[i]=ClampToQuantum(MagickOver_((double) p[i],mask_alpha*(double)
-              GetPixelAlpha(image,p),(double) q[i],(double)
-              GetPixelAlpha(image,q)));
+            q[i]=ClampToQuantum(MagickOver_((double) p[i],mask_alpha,
+              (double) q[i],dst_alpha));
           }
-          SetPixelAlpha(image,GetPixelAlpha(image,p),q);
+          SetPixelAlpha(image,src_alpha,q);
         }
       p+=(ptrdiff_t) GetPixelChannels(image);
       q+=(ptrdiff_t) GetPixelChannels(image);
@@ -624,10 +641,15 @@ static MagickBooleanType ClonePixelCacheOnDisk(
 #if defined(MAGICKCORE_HAVE_LINUX_SENDFILE)
       if (cache_info->length < 0x7ffff000)
         {
-          count=sendfile(clone_info->file,cache_info->file,(off_t *) NULL,
-            (size_t) cache_info->length);
+          do
+          {
+            count=sendfile(clone_info->file,cache_info->file,(off_t *) NULL,
+              (size_t) cache_info->length);
+          } while ((count < 0) && (errno == EINTR));
           if (count == (ssize_t) cache_info->length)
             return(MagickTrue);
+          if (count < 0)
+            return(MagickFalse);
           if ((lseek(cache_info->file,0,SEEK_SET) < 0) ||
               (lseek(clone_info->file,0,SEEK_SET) < 0))
             return(MagickFalse);
@@ -639,20 +661,46 @@ static MagickBooleanType ClonePixelCacheOnDisk(
   if (buffer == (unsigned char *) NULL)
     ThrowFatalException(ResourceLimitFatalError,"MemoryAllocationFailed");
   extent=0;
-  while ((count=read(cache_info->file,buffer,quantum)) > 0)
+  while (extent < cache_info->length)
   {
-    ssize_t
-      number_bytes;
+    size_t
+      length;
 
-    number_bytes=write(clone_info->file,buffer,(size_t) count);
-    if (number_bytes != count)
-      break;
-    extent+=(size_t) number_bytes;
+    length=(size_t) MagickMin((MagickSizeType) quantum,cache_info->length-
+      extent);
+    do
+    {
+      count=read(cache_info->file,buffer,length);
+    } while ((count < 0) && (errno == EINTR));
+    if (count <= 0)
+      {
+        buffer=(unsigned char *) RelinquishMagickMemory(buffer);
+        return(MagickFalse);
+      }
+    {
+      ssize_t
+        number_bytes,
+        offset = 0;
+
+      while (offset < count)
+      {
+        do
+        {
+          number_bytes=write(clone_info->file,buffer+offset,(size_t) (count-
+            offset));
+        } while ((number_bytes < 0) && (errno == EINTR));
+        if (number_bytes <= 0)
+          {
+            buffer=(unsigned char *) RelinquishMagickMemory(buffer);
+            return(MagickFalse);
+          }
+        offset+=number_bytes;
+      }
+      extent+=(MagickSizeType) offset;
+    }
   }
   buffer=(unsigned char *) RelinquishMagickMemory(buffer);
-  if (extent != cache_info->length)
-    return(MagickFalse);
-  return(MagickTrue);
+  return(extent == cache_info->length ? MagickTrue : MagickFalse);
 }
 
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
@@ -1686,8 +1734,8 @@ static MagickBooleanType GetDynamicThrottlePolicy(void)
           dynamic_throttle=IsStringTrue(value);
           value=DestroyString(value);
         }
-    check_policy=MagickFalse;
-  }
+      check_policy=MagickFalse;
+    }
   return(dynamic_throttle);
 }
 
@@ -1822,10 +1870,9 @@ static Cache GetImagePixelCache(Image *image,const MagickBooleanType clone,
       /*
         Ensure the image matches the pixel cache morphology.
       */
-      if (image->type != UndefinedType)
-        image->type=UndefinedType;
       if (ValidatePixelCacheMorphology(image) == MagickFalse)
         {
+          image->type=UndefinedType;
           status=OpenPixelCache(image,IOMode,exception);
           cache_info=(CacheInfo *) image->cache;
           if (cache_info->file != -1)
@@ -4307,12 +4354,17 @@ MagickPrivate Quantum *QueueAuthenticPixelCacheNexus(Image *image,
     }
   if (IsValidPixelOffset(y,cache_info->columns) == MagickFalse)
     return((Quantum *) NULL);
-  offset=y*(MagickOffsetType) cache_info->columns+x;
+  offset=y*(MagickOffsetType) cache_info->columns;
+  if (IsOffsetOverflow(offset,(MagickOffsetType) x) == MagickFalse)
+    return((Quantum *) NULL);
+  offset+=x;
   if (offset < 0)
     return((Quantum *) NULL);
   number_pixels=(MagickSizeType) cache_info->columns*cache_info->rows;
-  offset+=((MagickOffsetType) rows-1)*(MagickOffsetType) cache_info->columns+
-    (MagickOffsetType) columns-1;
+  offset+=((MagickOffsetType) rows-1)*(MagickOffsetType) cache_info->columns;
+  if (IsOffsetOverflow(offset,(MagickOffsetType) columns-1) == MagickFalse)
+    return((Quantum *) NULL);
+  offset+=(MagickOffsetType) columns-1;
   if ((MagickSizeType) offset >= number_pixels)
     return((Quantum *) NULL);
   /*
@@ -5513,7 +5565,7 @@ MagickPrivate MagickBooleanType SyncAuthenticPixelCacheNexus(Image *image,
   assert(cache_info->signature == MagickCoreSignature);
   if (cache_info->type == UndefinedCache)
     return(MagickFalse);
-  if (image->mask_trait != UpdatePixelTrait)
+  if ((image->mask_trait & UpdatePixelTrait) != 0)
     {
       if (((image->channels & WriteMaskChannel) != 0) &&
           (ClipPixelCacheNexus(image,nexus_info,exception) == MagickFalse))

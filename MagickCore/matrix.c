@@ -49,6 +49,7 @@
 #include "MagickCore/matrix.h"
 #include "MagickCore/matrix-private.h"
 #include "MagickCore/memory_.h"
+#include "MagickCore/memory-private.h"
 #include "MagickCore/nt-base-private.h"
 #include "MagickCore/pixel-accessor.h"
 #include "MagickCore/resource_.h"
@@ -236,14 +237,15 @@ MagickExport MatrixInfo *AcquireMatrixInfo(const size_t columns,
   matrix_info->type=MemoryCache;
   status=AcquireMagickResource(AreaResource,matrix_info->length);
   if ((status != MagickFalse) &&
-      (matrix_info->length == (MagickSizeType) ((size_t) matrix_info->length)))
+      (matrix_info->length == (MagickSizeType) ((size_t) matrix_info->length)) &&
+      ((size_t) matrix_info->length <= GetMaxMemoryRequest()))
     {
       status=AcquireMagickResource(MemoryResource,matrix_info->length);
       if (status != MagickFalse)
         {
           matrix_info->mapped=MagickFalse;
-          matrix_info->elements=AcquireMagickMemory((size_t)
-            matrix_info->length);
+          matrix_info->elements=MagickAssumeAligned(AcquireAlignedMemory(1,
+            (size_t) matrix_info->length));
           if (matrix_info->elements == NULL)
             {
               matrix_info->mapped=MagickTrue;
@@ -378,7 +380,7 @@ MagickExport MatrixInfo *DestroyMatrixInfo(MatrixInfo *matrix_info)
     case MemoryCache:
     {
       if (matrix_info->mapped == MagickFalse)
-        matrix_info->elements=RelinquishMagickMemory(matrix_info->elements);
+        matrix_info->elements=RelinquishAlignedMemory(matrix_info->elements);
       else
         {
           (void) UnmapBlob(matrix_info->elements,(size_t) matrix_info->length);

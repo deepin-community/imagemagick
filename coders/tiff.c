@@ -559,11 +559,7 @@ static void TIFFErrors(const char *module,const char *format,va_list error)
   ExceptionInfo
     *exception;
 
-#if defined(MAGICKCORE_HAVE_VSNPRINTF)
   (void) vsnprintf(message,MagickPathExtent-2,format,error);
-#else
-  (void) vsprintf(message,format,error);
-#endif
   message[MagickPathExtent-2]='\0';
   (void) ConcatenateMagickString(message,".",MagickPathExtent);
   exception=(ExceptionInfo *) GetMagickThreadValue(tiff_exception);
@@ -912,11 +908,7 @@ static void TIFFWarnings(const char *module,const char *format,va_list warning)
   ExceptionInfo
     *exception;
 
-#if defined(MAGICKCORE_HAVE_VSNPRINTF)
   (void) vsnprintf(message,MagickPathExtent-2,format,warning);
-#else
-  (void) vsprintf(message,format,warning);
-#endif
   message[MagickPathExtent-2]='\0';
   (void) ConcatenateMagickString(message,".",MagickPathExtent);
   exception=(ExceptionInfo *) GetMagickThreadValue(tiff_exception);
@@ -1226,6 +1218,9 @@ static Image *ReadTIFFImage(const ImageInfo *image_info,
     rows_per_strip,
     width;
 
+  uint64
+    dng_version;
+
   unsigned char
     *pixels;
 
@@ -1265,6 +1260,34 @@ static Image *ReadTIFFImage(const ImageInfo *image_info,
       TIFFClose(tiff);
       image=DestroyImageList(image);
       return((Image *) NULL);
+    }
+  if (TIFFGetField(tiff,TIFFTAG_DNGVERSION,&dng_version) == 1)
+    {
+      Image
+        *dng_image = (Image *) NULL;
+
+      /*
+        Redirect to DNG image reader.
+      */
+      ImageInfo *read_info = CloneImageInfo(image_info);
+      (void) CopyMagickString(read_info->magick,"DNG",MagickPathExtent);
+      TIFFClose(tiff);
+      if (*read_info->filename != '\0')
+        dng_image=ReadImage(read_info,exception);
+      else
+        {
+          status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
+          if (status != MagickFalse)
+            {
+              status=ImageToFile(image,read_info->filename,exception);
+              if (status != MagickFalse)
+                dng_image=ReadImage(read_info,exception);
+              (void) RelinquishUniqueFileResource(read_info->filename);
+            }
+        }
+      read_info=DestroyImageInfo(read_info);
+      image=DestroyImageList(image);
+      return(dng_image);
     }
   if (image_info->number_scenes != 0)
     {
@@ -1744,7 +1767,9 @@ static Image *ReadTIFFImage(const ImageInfo *image_info,
       {
         if (photometric == PHOTOMETRIC_SEPARATED)
           method=GetJPEGMethod(image,tiff,photometric,bits_per_sample);
-        else if (method != ReadStripMethod)
+        else if ((method != ReadStripMethod) ||
+                 (compress_tag == COMPRESSION_OJPEG) ||
+                 (photometric == PHOTOMETRIC_YCBCR))
           method=ReadGenericMethod;
       }
 #if defined(WORDS_BIGENDIAN)
@@ -2696,6 +2721,7 @@ static MagickBooleanType WriteGROUP4Image(const ImageInfo *image_info,
     file=fdopen(unique_file,"wb");
   if ((unique_file == -1) || (file == (FILE *) NULL))
     {
+      huffman_image=DestroyImage(huffman_image);
       ThrowFileException(exception,FileOpenError,"UnableToCreateTemporaryFile",
         filename);
       return(MagickFalse);
@@ -3231,8 +3257,11 @@ static MagickBooleanType TIFFWritePhotoshopLayers(Image* image,
     return(MagickTrue);
   clone_info=CloneImageInfo(image_info);
   if (clone_info == (ImageInfo *) NULL)
-    ThrowBinaryException(ResourceLimitError,"MemoryAllocationFailed",
-      image->filename);
+    {
+      base_image=DestroyImage(base_image);
+      ThrowBinaryException(ResourceLimitError,"MemoryAllocationFailed",
+        image->filename);
+    }
   profile.offset=0;
   profile.quantum=MagickMinBlobExtent;
   layers=AcquireProfileStringInfo("tiff:37724",profile.quantum,
@@ -3629,7 +3658,10 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
       (void) TIFFSetField(tiff,TIFFTAG_SUBFILETYPE,FILETYPE_REDUCEDIMAGE);
     if ((image->columns != (uint32) image->columns) ||
         (image->rows != (uint32) image->rows))
-      ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
+      {
+        quantum_info=DestroyQuantumInfo(quantum_info);
+        ThrowWriterException(ImageError,"WidthOrHeightExceedsLimit");
+      }
     (void) TIFFSetField(tiff,TIFFTAG_IMAGELENGTH,(uint32) image->rows);
     (void) TIFFSetField(tiff,TIFFTAG_IMAGEWIDTH,(uint32) image->columns);
     switch (compression)
@@ -3732,8 +3764,11 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
               (void) SetImageStorageClass(image,DirectClass,exception);
               status=SetQuantumDepth(image,quantum_info,8);
               if (status == MagickFalse)
-                ThrowWriterException(ResourceLimitError,
-                  "MemoryAllocationFailed");
+                {
+                  quantum_info=DestroyQuantumInfo(quantum_info);
+                  ThrowWriterException(ResourceLimitError,
+                    "MemoryAllocationFailed");
+                }
             }
           else
             photometric=PHOTOMETRIC_RGB;
@@ -3766,8 +3801,11 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
                     depth<<=1;
                   status=SetQuantumDepth(image,quantum_info,depth);
                   if (status == MagickFalse)
-                    ThrowWriterException(ResourceLimitError,
-                      "MemoryAllocationFailed");
+                    {
+                      quantum_info=DestroyQuantumInfo(quantum_info);
+                      ThrowWriterException(ResourceLimitError,
+                        "MemoryAllocationFailed");
+                    }
                 }
           }
       }
@@ -4111,7 +4149,10 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
       Write image scanlines.
     */
     if (GetTIFFInfo(image_info,tiff,&tiff_info) == MagickFalse)
-      ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
+      {
+        quantum_info=DestroyQuantumInfo(quantum_info);
+        ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
+      }
     if (compress_tag == COMPRESSION_CCITTFAX4)
       (void) TIFFSetField(tiff,TIFFTAG_ROWSPERSTRIP,(uint32) image->rows);
     (void) SetQuantumEndian(image,quantum_info,LSBEndian);
@@ -4226,6 +4267,7 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
               green=(uint16 *) RelinquishMagickMemory(green);
             if (blue != (uint16 *) NULL)
               blue=(uint16 *) RelinquishMagickMemory(blue);
+            quantum_info=DestroyQuantumInfo(quantum_info);
             ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
           }
         /*

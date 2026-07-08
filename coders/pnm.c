@@ -402,7 +402,11 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
         for (c=ReadBlobByte(image); c != EOF; c=ReadBlobByte(image))
         {
           while (isspace((int) ((unsigned char) c)) != 0)
+          {
             c=ReadBlobByte(image);
+            if (c == EOF)
+              break;
+          }
           if (c == '#')
             {
               /*
@@ -412,9 +416,15 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
               {
                 c=PNMComment(image,&comment_info,exception);
                 c=ReadBlobByte(image);
+                if (c == EOF)
+                  break;
               }
               while (isspace((int) ((unsigned char) c)) != 0)
+              {
                 c=ReadBlobByte(image);
+                if (c == EOF)
+                  break;
+              }
             }
           p=keyword;
           do
@@ -422,18 +432,26 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
             if ((size_t) (p-keyword) < (MagickPathExtent-1))
               *p++=(char) c;
             c=ReadBlobByte(image);
+            if (c == EOF)
+              break;
           } while (isalnum((int) ((unsigned char) c)));
           *p='\0';
           if (LocaleCompare(keyword,"endhdr") == 0)
             break;
           while (isspace((int) ((unsigned char) c)) != 0)
+          {
             c=ReadBlobByte(image);
+            if (c == EOF)
+              break;
+          }
           p=value;
           while (isalnum((int) ((unsigned char) c)) || (c == '_'))
           {
             if ((size_t) (p-value) < (MagickPathExtent-1))
               *p++=(char) c;
             c=ReadBlobByte(image);
+            if (c == EOF)
+              break;
           }
           *p='\0';
           /*
@@ -493,8 +511,6 @@ static Image *ReadPNMImage(const ImageInfo *image_info,ExceptionInfo *exception)
       }
     if (quantum_type == UndefinedQuantum)
       quantum_type=RGBQuantum;
-    if ((image->columns == 0) || (image->rows == 0))
-      ThrowPNMException(CorruptImageError,"NegativeOrZeroImageSize");
     if ((max_value == 0) || (max_value > 4294967295UL))
       ThrowPNMException(CorruptImageError,"ImproperImageHeader");
     for (depth=1; GetQuantumRange(depth) < max_value; depth++) ;

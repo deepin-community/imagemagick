@@ -221,9 +221,10 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
 }
 #define ThrowCompareException(asperity,tag,option) \
 { \
-  if (exception->severity < (asperity)) \
-    (void) ThrowMagickException(exception,GetMagickModule(),asperity,tag, \
-      "`%s'",option); \
+  char *message = GetExceptionMessage(errno);     \
+  (void) ThrowMagickException(exception,GetMagickModule(),asperity,tag, \
+    "`%s'",option == (char *) NULL ? message : option); \
+  message=DestroyString(message); \
   DestroyCompare(); \
   return(MagickFalse); \
 }
@@ -325,7 +326,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
   status=ExpandFilenames(&argc,&argv);
   if (status == MagickFalse)
     ThrowCompareException(ResourceLimitError,"MemoryAllocationFailed",
-      GetExceptionMessage(errno));
+      (char *) NULL);
   for (i=1; i < ((ssize_t) argc-1); i++)
   {
     option=argv[i];
@@ -1243,6 +1244,10 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
   switch (metric)
   {
     case AbsoluteErrorMetric:
+    {
+      scale=1.0;
+      break;
+    }
     case PixelDifferenceCountErrorMetric:
     {
       size_t
@@ -1280,6 +1285,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
     }
     case PerceptualHashErrorMetric:
     {
+      scale=1.0;
       if (subimage_search == MagickFalse)
         {
           double
@@ -1610,7 +1616,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
             exception);
           if (text == (char *) NULL)
             ThrowCompareException(ResourceLimitError,"MemoryAllocationFailed",
-              GetExceptionMessage(errno));
+              (char *) NULL);
           (void) ConcatenateString(&(*metadata),text);
           text=DestroyString(text);
         }

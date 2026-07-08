@@ -224,6 +224,7 @@ PROVIDES_PKG_MAGICK_PERL_DEFAULTQ=libimage-magick-defaultquantum-perl, perlmagic
 PROVIDES_MAGICK_PERL_DEFAULTQ=Provides: ${PROVIDES_PKG_MAGICK_PERL_DEFAULTQ}
 DELPLACEHOLDER=XXXXX_DELETE_XXXXX
 
+
 # update package files
 update_pkg.%:
 	# control
@@ -279,6 +280,12 @@ update_pkg.%:
 	UCQUANTUMDEPTH=$(call UC,$*) \
 	$(DH_EXEC_SUBST) $(CURDIR)/debian/tests.d/perlmagick-fonts-IMVERSION.QUANTUMDEPTH.in > $(CURDIR)/debian/tests/perlmagick-fonts-$(IMVERSION).$*
 	chmod +x $(CURDIR)/debian/tests/perlmagick-fonts-$(IMVERSION).$*
+	QUANTUM=$(call QUANTUM_PART,$*) \
+	HDRI=$(call HDRI_PART,$*) \
+	QUANTUMDEPTH=$* \
+	UCQUANTUMDEPTH=$(call UC,$*) \
+	$(DH_EXEC_SUBST) $(CURDIR)/debian/tests.d/policy-IMVERSION.QUANTUMDEPTH.in > $(CURDIR)/debian/tests/policy-$(IMVERSION).$*
+	chmod +x $(CURDIR)/debian/tests/policy-$(IMVERSION).$*
 	# clean up
 	rm -f $(CURDIR)/debian/control.d/quantum.$*
 

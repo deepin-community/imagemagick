@@ -2028,7 +2028,11 @@ static MagickBooleanType FloydSteinbergImageDepth(Image *image,
         channel=GetPixelChannelChannel(image,i);
         traits=GetPixelChannelTraits(image,channel);
         if ((traits & UpdatePixelTrait) == 0)
-          continue;
+          {
+            u++;
+            v++;
+            continue;
+          }
         pixel=(double) q[i]+distortion[u];
         q[i]=ScaleAnyToQuantum(ScaleQuantumToAny(ClampPixel((MagickRealType)
           pixel),range),range);
@@ -2384,7 +2388,6 @@ MagickExport MagickBooleanType SetImageType(Image *image,const ImageType type,
       if ((image->alpha_trait & BlendPixelTrait) == 0)
         (void) SetImageAlphaChannel(image,OpaqueAlphaChannel,exception);
       quantize_info=AcquireQuantizeInfo(image_info);
-      quantize_info->colorspace=TransparentColorspace;
       status=QuantizeImage(quantize_info,image,exception);
       quantize_info=DestroyQuantizeInfo(quantize_info);
       break;

@@ -312,7 +312,6 @@ static MagickBooleanType GetAESimilarity(const Image *image,
     *reconstruct_view;
 
   double
-    area,
     fuzz;
 
   MagickBooleanType
@@ -323,7 +322,6 @@ static MagickBooleanType GetAESimilarity(const Image *image,
     rows;
 
   ssize_t
-    k,
     y;
 
   /*
@@ -334,7 +332,7 @@ static MagickBooleanType GetAESimilarity(const Image *image,
   SetImageCompareBounds(image,reconstruct_image,&columns,&rows);
   image_view=AcquireVirtualCacheView(image,exception);
   reconstruct_view=AcquireVirtualCacheView(reconstruct_image,exception);
-#if defined(MAGICKCORE_OPENMP_SUPPORT)
+#if defined(MMAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(similarity,status) \
     magick_number_threads(image,image,rows,1)
 #endif
@@ -364,9 +362,6 @@ static MagickBooleanType GetAESimilarity(const Image *image,
       double
         Da,
         Sa;
-
-      size_t
-        count = 0;
 
       ssize_t
         i;
@@ -399,12 +394,11 @@ static MagickBooleanType GetAESimilarity(const Image *image,
           error=Sa*p[i]-Da*GetPixelChannel(reconstruct_image,channel,q);
         if (MagickSafeSignificantError(error*error,fuzz) != MagickFalse)
           {
-            channel_similarity[i]++;
-            count++;
+            double ae = fabs(error);
+            channel_similarity[i]+=ae;
+            channel_similarity[CompositePixelChannel]+=ae;
           }
       }
-      if (count != 0)
-        channel_similarity[CompositePixelChannel]++;
       p+=(ptrdiff_t) GetPixelChannels(image);
       q+=(ptrdiff_t) GetPixelChannels(reconstruct_image);
     }
@@ -430,12 +424,9 @@ static MagickBooleanType GetAESimilarity(const Image *image,
         channel_similarity[CompositePixelChannel];
     }
   }
+  similarity[CompositePixelChannel]/=(double) GetImageChannels(image);
   reconstruct_view=DestroyCacheView(reconstruct_view);
   image_view=DestroyCacheView(image_view);
-  area=MagickSafeReciprocal((double) columns*rows);
-  for (k=0; k < (ssize_t) GetPixelChannels(image); k++)
-    similarity[k]*=area;
-  similarity[CompositePixelChannel]*=area;
   return(status);
 }
 
@@ -1553,7 +1544,7 @@ static MagickBooleanType GetPDCSimilarity(const Image *image,
   SetImageCompareBounds(image,reconstruct_image,&columns,&rows);
   image_view=AcquireVirtualCacheView(image,exception);
   reconstruct_view=AcquireVirtualCacheView(reconstruct_image,exception);
-#if defined(MMAGICKCORE_OPENMP_SUPPORT)
+#if defined(MAGICKCORE_OPENMP_SUPPORT)
   #pragma omp parallel for schedule(static) shared(similarity,status) \
     magick_number_threads(image,image,rows,1)
 #endif
@@ -1909,8 +1900,6 @@ static MagickBooleanType GetPSNRSimilarity(const Image *image,
 static MagickBooleanType GetPHASHSimilarity(const Image *image,
   const Image *reconstruct_image,double *similarity,ExceptionInfo *exception)
 {
-#define PHASHNormalizationFactor  389.373723242
-
   ChannelPerceptualHash
     *channel_phash,
     *reconstruct_phash;
@@ -1919,7 +1908,7 @@ static MagickBooleanType GetPHASHSimilarity(const Image *image,
     *artifact;
 
   ssize_t
-    k;
+    i;
 
   /*
     Compute the perceptual hash similarity.
@@ -1934,64 +1923,60 @@ static MagickBooleanType GetPHASHSimilarity(const Image *image,
         channel_phash);
       return(MagickFalse);
     }
-  for (k=0; k < MaxPixelChannels; k++)
+  for (i=0; i < (ssize_t) GetPixelChannels(image); i++)
   {
     double
-      difference;
+      difference = 0.0;
 
     ssize_t
-      i;
+      j;
 
-    PixelChannel channel = GetPixelChannelChannel(image,k);
+    PixelChannel channel = GetPixelChannelChannel(image,i);
     PixelTrait traits = GetPixelChannelTraits(image,channel);
     PixelTrait reconstruct_traits = GetPixelChannelTraits(reconstruct_image,
       channel);
     if (((traits & UpdatePixelTrait) == 0) ||
         ((reconstruct_traits & UpdatePixelTrait) == 0))
       continue;
-    difference=0.0;
-    for (i=0; i < MaximumNumberOfImageMoments; i++)
+    for (j=0; j < (ssize_t) channel_phash[0].number_colorspaces; j++)
     {
       double
         alpha,
         beta;
 
       ssize_t
-        j;
+        k;
 
-      for (j=0; j < (ssize_t) channel_phash[0].number_colorspaces; j++)
+      for (k=0; k < MaximumNumberOfPerceptualHashes; k++)
       {
         double
           error;
 
-        alpha=channel_phash[k].phash[j][i];
-        beta=reconstruct_phash[k].phash[j][i];
+        alpha=channel_phash[i].phash[j][k];
+        beta=reconstruct_phash[i].phash[j][k];
         error=beta-alpha;
         if (IsNaN(error) != 0)
           error=0.0;
-        difference+=error*error/PHASHNormalizationFactor;
+        difference+=error*error;
       }
     }
-    similarity[k]+=difference;
+    similarity[i]+=difference;
     similarity[CompositePixelChannel]+=difference;
   }
   similarity[CompositePixelChannel]/=(double) GetImageChannels(image);
   artifact=GetImageArtifact(image,"phash:normalize");
   if (IsStringTrue(artifact) != MagickFalse)
     {
-      ssize_t
-        j;
-
-      for (j=0; j < (ssize_t) GetPixelChannels(image); j++)
+      for (i=0; i < (ssize_t) GetPixelChannels(image); i++)
       {
-        PixelChannel channel = GetPixelChannelChannel(image,j);
+        PixelChannel channel = GetPixelChannelChannel(image,i);
         PixelTrait traits = GetPixelChannelTraits(image,channel);
         PixelTrait reconstruct_traits = GetPixelChannelTraits(reconstruct_image,
           channel);
         if (((traits & UpdatePixelTrait) == 0) ||
             ((reconstruct_traits & UpdatePixelTrait) == 0))
           continue;
-        similarity[j]=sqrt(similarity[j]/channel_phash[0].number_colorspaces);
+        similarity[i]=sqrt(similarity[i]/channel_phash[0].number_colorspaces);
       }
       similarity[CompositePixelChannel]=sqrt(similarity[CompositePixelChannel]/
         channel_phash[0].number_colorspaces);
@@ -4766,8 +4751,8 @@ MagickExport Image *SimilarityImage(const Image *image,const Image *reconstruct,
         "GeometryDoesNotContainImage","`%s'",image->filename);
       return((Image *) NULL);
     }
-  similarity_image=CloneImage(image,image->columns,image->rows,MagickTrue,
-    exception);
+  similarity_image=CloneImage(image,image->columns-reconstruct->columns+1,
+    image->rows-reconstruct->rows+1,MagickTrue,exception);
   if (similarity_image == (Image *) NULL)
     return((Image *) NULL);
   similarity_image->depth=32;

@@ -6,10 +6,10 @@ Subject: Fix remaining error in html
  www/Magick++/index.html | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/www/Magick++/index.html b/www/Magick++/index.html
-index 53ace97..f94dfed 100644
---- a/www/Magick++/index.html
-+++ b/www/Magick++/index.html
+Index: imagemagick/www/Magick++/index.html
+===================================================================
+--- imagemagick.orig/www/Magick++/index.html	2026-07-07 10:22:15.813054228 +0200
++++ imagemagick/www/Magick++/index.html	2026-07-07 10:22:15.810824918 +0200
 @@ -8,7 +8,7 @@
  </head>
  <body>
