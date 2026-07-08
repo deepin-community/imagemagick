@@ -723,6 +723,8 @@ static Image *ReadCINImage(const ImageInfo *image_info,ExceptionInfo *exception)
         }
     }
   image->depth=cin.image.channel[0].bits_per_pixel;
+  if ((image->depth == 0) || (image->depth > 64))
+    ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   image->columns=cin.image.channel[0].pixels_per_line;
   image->rows=cin.image.channel[0].lines_per_image;
   if (image_info->ping != MagickFalse)
@@ -730,6 +732,8 @@ static Image *ReadCINImage(const ImageInfo *image_info,ExceptionInfo *exception)
       (void) CloseBlob(image);
       return(image);
     }
+  if (HeapOverflowSanityCheck(image->columns,3*image->depth) != MagickFalse)
+    ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
   if (((MagickSizeType) image->columns*image->rows/8) > GetBlobSize(image))
     ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
   for ( ; offset < (MagickOffsetType) cin.file.image_offset; offset++)

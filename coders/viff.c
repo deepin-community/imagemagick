@@ -242,9 +242,6 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
     *p,
     *pixels;
 
-  unsigned long
-    lsb_first;
-
   ViffInfo
     viff_info;
 
@@ -322,10 +319,10 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
     if (EOFBlob(image) != MagickFalse)
       ThrowReaderException(CorruptImageError,"UnexpectedEndOfFile");
     number_pixels=(MagickSizeType) viff_info.columns*viff_info.rows;
+    if (HeapOverflowSanityCheck(viff_info.columns,viff_info.rows) != MagickFalse)
+        ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
     if (number_pixels > 8*GetBlobSize(image))
       ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
-    if (number_pixels != (size_t) number_pixels)
-      ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
     if (number_pixels == 0)
       ThrowReaderException(CoderError,"ImageColumnOrRowSizeIsNotSupported");
     image->columns=viff_info.rows;
@@ -334,10 +331,6 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
       MAGICKCORE_QUANTUM_DEPTH;
     image->alpha_trait=viff_info.number_data_bands == 4 ? BlendPixelTrait :
       UndefinedPixelTrait;
-    status=SetImageExtent(image,image->columns,image->rows,exception);
-    if (status == MagickFalse)
-      return(DestroyImageList(image));
-    (void) SetImageBackgroundColor(image,exception);
     /*
       Verify that we can read this VIFF image.
     */
@@ -369,6 +362,10 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
       ThrowReaderException(CoderError,"NumberOfImagesIsNotSupported");
     if (viff_info.map_rows == 0)
       viff_info.map_scheme=VFF_MS_NONE;
+    status=SetImageExtent(image,image->columns,image->rows,exception);
+    if (status == MagickFalse)
+      return(DestroyImageList(image));
+    (void) SetImageBackgroundColor(image,exception);
     switch ((int) viff_info.map_scheme)
     {
       case VFF_MS_NONE:
@@ -432,8 +429,7 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
             ThrowReaderException(CorruptImageError,
               "InsufficientImageDataInFile");
           }
-        lsb_first=1;
-        if (*(char *) &lsb_first &&
+        if (GetHostEndian() == LSBEndian &&
             ((viff_info.machine_dependency != VFF_DEP_DECORDER) &&
              (viff_info.machine_dependency != VFF_DEP_NSORDER)))
           switch ((int) viff_info.map_storage_type)
@@ -535,8 +531,7 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
         pixels=(unsigned char *) RelinquishMagickMemory(pixels);
         ThrowReaderException(CorruptImageError,"ImproperImageHeader");
       }
-    lsb_first=1;
-    if (*(char *) &lsb_first &&
+    if (GetHostEndian() == LSBEndian &&
         ((viff_info.machine_dependency != VFF_DEP_DECORDER) &&
          (viff_info.machine_dependency != VFF_DEP_NSORDER)))
       switch ((int) viff_info.data_storage_type)
@@ -618,7 +613,7 @@ static Image *ReadVIFFImage(const ImageInfo *image_info,
       }
       if (viff_info.map_scheme == VFF_MS_NONE)
         value=(value-min_value)*scale_factor;
-      *p=(unsigned char) ClampToQuantum(value);
+      *p=CastDoubleToUChar(ClampToQuantum(value));
       p++;
     }
     /*
@@ -1148,7 +1143,10 @@ static MagickBooleanType WriteVIFFImage(const ImageInfo *image_info,
           viff_colormap=(unsigned char *) AcquireQuantumMemory(image->colors,
             3*sizeof(*viff_colormap));
           if (viff_colormap == (unsigned char *) NULL)
-            ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
+            {
+              pixel_info=RelinquishVirtualMemory(pixel_info);
+              ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
+            }
           q=viff_colormap;
           for (i=0; i < (ssize_t) image->colors; i++)
             *q++=ScaleQuantumToChar(ClampToQuantum(image->colormap[i].red));
@@ -1235,7 +1233,7 @@ static MagickBooleanType WriteVIFFImage(const ImageInfo *image_info,
                 break;
               for (x=0; x < (ssize_t) image->columns; x++)
               {
-                *q++=(unsigned char) ClampToQuantum(GetPixelLuma(image,p));
+                *q++=CastDoubleToUChar(ClampToQuantum(GetPixelLuma(image,p)));
                 p+=(ptrdiff_t) GetPixelChannels(image);
               }
               if (image->previous == (Image *) NULL)

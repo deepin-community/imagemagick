@@ -310,8 +310,6 @@ static Image *ReadPALMImage(const ImageInfo *image_info,
     image->rows=ReadBlobMSBShort(image);
     if (EOFBlob(image) != MagickFalse)
       ThrowReaderException(CorruptImageError,"ImproperImageHeader");
-    if ((image->columns == 0) || (image->rows == 0))
-      ThrowReaderException(CorruptImageError,"NegativeOrZeroImageSize");
     status=SetImageExtent(image,image->columns,image->rows,exception);
     if (status == MagickFalse)
       return(DestroyImageList(image));
@@ -535,6 +533,8 @@ static Image *ReadPALMImage(const ImageInfo *image_info,
             if (status == MagickFalse)
               break;
           }
+        if (EOFBlob(image) != MagickFalse)
+          break;
       }
     if (flags & PALM_HAS_TRANSPARENCY_FLAG)
       {

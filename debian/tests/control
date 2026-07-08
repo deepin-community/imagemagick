@@ -14,6 +14,10 @@ Tests: perlmagick-fonts-7.q16
 Depends: libimage-magick-q16-perl, libmagickcore-7.q16-10-extra, libaliased-perl, fonts-urw-base35, libarray-compare-perl, bash
 Restrictions: allow-stderr
 
+Tests: policy-7.q16
+Depends: @, curl, busybox, iproute2
+Restrictions: allow-stderr
+
 Tests: rose-7.q16hdri
 Depends: imagemagick-7.q16hdri, libmagickcore-7.q16hdri-10-extra, netpbm
 
@@ -28,6 +32,10 @@ Depends: libimage-magick-q16hdri-perl, libmagickcore-7.q16hdri-10-extra, libalia
 
 Tests: perlmagick-fonts-7.q16hdri
 Depends: libimage-magick-q16hdri-perl, libmagickcore-7.q16hdri-10-extra, libaliased-perl, fonts-urw-base35, libarray-compare-perl, bash
+Restrictions: allow-stderr
+
+Tests: policy-7.q16hdri
+Depends: @, curl, busybox, iproute2
 Restrictions: allow-stderr
 
 

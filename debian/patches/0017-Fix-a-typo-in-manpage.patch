@@ -1,0 +1,162 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Mon, 27 Jul 2020 10:44:26 +0200
+Subject: Fix a typo in manpage
+
+debian-bug: 953279
+---
+ utilities/animate.1.in   | 2 +-
+ utilities/compare.1.in   | 2 +-
+ utilities/composite.1.in | 2 +-
+ utilities/conjure.1.in   | 2 +-
+ utilities/convert.1.in   | 2 +-
+ utilities/display.1.in   | 2 +-
+ utilities/identify.1.in  | 2 +-
+ utilities/import.1.in    | 2 +-
+ utilities/mogrify.1.in   | 2 +-
+ utilities/montage.1.in   | 2 +-
+ utilities/stream.1.in    | 2 +-
+ 11 files changed, 11 insertions(+), 11 deletions(-)
+
+Index: imagemagick/utilities/animate.1.in
+===================================================================
+--- imagemagick.orig/utilities/animate.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/animate.1.in	2026-07-07 10:22:11.945445302 +0200
+@@ -95,7 +95,7 @@
+ Buttons: 
+   1    press to map or unmap the Command widget
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/compare.1.in
+===================================================================
+--- imagemagick.orig/utilities/compare.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/compare.1.in	2026-07-07 10:22:11.945541726 +0200
+@@ -102,7 +102,7 @@
+ 
+ The compare program returns 2 on error, 0 if the images are similar, or a value between 0 and 1 if they are not similar.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/composite.1.in
+===================================================================
+--- imagemagick.orig/utilities/composite.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/composite.1.in	2026-07-07 10:22:11.945599731 +0200
+@@ -109,7 +109,7 @@
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/conjure.1.in
+===================================================================
+--- imagemagick.orig/utilities/conjure.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/conjure.1.in	2026-07-07 10:22:11.945646967 +0200
+@@ -27,7 +27,7 @@
+ 
+     conjure \-size 100x100 \-color blue \-foo bar script.msl
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/convert.1.in
+===================================================================
+--- imagemagick.orig/utilities/convert.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/convert.1.in	2026-07-07 10:22:11.945706419 +0200
+@@ -333,7 +333,7 @@
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/display.1.in
+===================================================================
+--- imagemagick.orig/utilities/display.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/display.1.in	2026-07-07 10:22:11.945769357 +0200
+@@ -133,7 +133,7 @@
+ 
+   display -density 72 drawing.svg
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/identify.1.in
+===================================================================
+--- imagemagick.orig/utilities/identify.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/identify.1.in	2026-07-07 10:22:11.945819783 +0200
+@@ -73,7 +73,7 @@
+ .SH NOTE
+ Although some options appear to modify the file to be identified, the identify command is strictly \fBread only\fP. For instance, the crop option crops the in-memory image and then describes the result.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/import.1.in
+===================================================================
+--- imagemagick.orig/utilities/import.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/import.1.in	2026-07-07 10:22:11.945865926 +0200
+@@ -94,7 +94,7 @@
+ 
+ By default, 'file' is written in the Postscript image format.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/mogrify.1.in
+===================================================================
+--- imagemagick.orig/utilities/mogrify.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/mogrify.1.in	2026-07-07 10:22:11.945922681 +0200
+@@ -329,7 +329,7 @@
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/montage.1.in
+===================================================================
+--- imagemagick.orig/utilities/montage.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/montage.1.in	2026-07-07 10:22:11.945981500 +0200
+@@ -142,7 +142,7 @@
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 
+Index: imagemagick/utilities/stream.1.in
+===================================================================
+--- imagemagick.orig/utilities/stream.1.in	2026-07-07 10:22:11.949052049 +0200
++++ imagemagick/utilities/stream.1.in	2026-07-07 10:22:11.946034792 +0200
+@@ -52,7 +52,7 @@
+ 
+ By default, the image format of `file' is determined by its magic number.  To specify a particular image format, precede the filename with an image format name and a colon (i.e. ps:image) or specify the image type as the filename suffix (i.e. image.ps).  Specify 'file' as '-' for standard input or output.
+ .SH SEE ALSO
+-ImageMagick-ims@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
++ImageMagick-im@MAGICK_MAJOR_VERSION@.@MAGICK_ABI_SUFFIX_LC@(1)
+ 
+ .SH COPYRIGHT
+ 

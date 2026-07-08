@@ -630,6 +630,13 @@ static MagickBooleanType WriteIPLImage(const ImageInfo *image_info,Image *image,
       /*
   Convert MIFF to IPL raster pixels.
       */
+      if (SetQuantumExtent(image,quantum_info) == MagickFalse)
+        {
+          (void) ThrowMagickException(exception,GetMagickModule(),
+            CorruptImageError,"AnErrorHasOccurredWritingToFile","`%s'",
+            image->filename);
+          break;
+        }
       pixels=(unsigned char *) GetQuantumPixels(quantum_info);
   if(ipl_info.colors == 1){
   /* Red frame */

@@ -712,6 +712,9 @@ static Image *ReadMATImageV4(const ImageInfo *image_info,Image *image,
             : image);
         goto skip_reading_current;
       }
+    if ((image->columns > GetBlobSize(image)) ||
+        (image->rows > GetBlobSize(image)))
+      ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
     status=SetImageExtent(image,image->columns,image->rows,exception);
     if (status == MagickFalse)
       return(DestroyImageList(image));
@@ -751,8 +754,15 @@ static Image *ReadMATImageV4(const ImageInfo *image_info,Image *image,
     if (HDR.Type[0] != 0)
       SetQuantumEndian(image,quantum_info,MSBEndian);
     status=SetQuantumFormat(image,quantum_info,format_type);
-    status=SetQuantumDepth(image,quantum_info,depth);
-    status=SetQuantumEndian(image,quantum_info,endian);
+    if (status != MagickFalse)
+      status=SetQuantumDepth(image,quantum_info,depth);
+    if (status != MagickFalse)
+      status=SetQuantumEndian(image,quantum_info,endian);
+    if (status == MagickFalse)
+      {
+        quantum_info=DestroyQuantumInfo(quantum_info);
+        ThrowReaderException(ResourceLimitError,"MemoryAllocationFailed");
+      }
     SetQuantumScale(quantum_info,1.0);
     pixels=(unsigned char *) GetQuantumPixels(quantum_info);
     for (y=0; y < (ssize_t) image->rows; y++)
@@ -795,8 +805,7 @@ static Image *ReadMATImageV4(const ImageInfo *image_info,Image *image,
         else
           InsertComplexFloatRow(image,(float *) pixels,(int) y,0,0,exception);
       }
-    if (quantum_info != (QuantumInfo *) NULL)
-      quantum_info=DestroyQuantumInfo(quantum_info);
+    quantum_info=DestroyQuantumInfo(quantum_info);
     if (EOFBlob(image) != MagickFalse)
       {
         ThrowFileException(exception,CorruptImageError,"UnexpectedEndOfFile",
@@ -1230,6 +1239,9 @@ RestoreMSCWarning
       image->rows = temp;
       goto done_reading; /* !!!!!! BAD  !!!! */
     }
+    if ((image->columns > GetBlobSize(image)) ||
+        (image->rows > GetBlobSize(image)))
+      ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
     status=SetImageExtent(image,image->columns,image->rows,exception);
     if (status == MagickFalse)
       {

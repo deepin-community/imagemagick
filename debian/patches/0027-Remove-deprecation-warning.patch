@@ -1,0 +1,38 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Wed, 26 Jun 2024 18:34:48 +0000
+Subject: Remove deprecation warning
+
+For debian it is too early to warn user
+
+forwarded: not-needed
+---
+ MagickWand/deprecate.c  | 2 --
+ MagickWand/magick-cli.c | 2 --
+ 2 files changed, 4 deletions(-)
+
+Index: imagemagick/MagickWand/deprecate.c
+===================================================================
+--- imagemagick.orig/MagickWand/deprecate.c	2026-07-07 10:22:13.836781387 +0200
++++ imagemagick/MagickWand/deprecate.c	2026-07-07 10:22:13.833456766 +0200
+@@ -558,8 +558,6 @@
+   assert(exception != (ExceptionInfo *) NULL);
+   if (IsEventLogging() != MagickFalse)
+     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"...");
+-  (void) FormatLocaleFile(stderr,"WARNING: %s\n",
+-        "The convert command is deprecated in IMv7, use \"magick\" instead of \"convert\" or \"magick convert\"\n");
+   if (argc == 2)
+     {
+       option=argv[1];
+Index: imagemagick/MagickWand/magick-cli.c
+===================================================================
+--- imagemagick.orig/MagickWand/magick-cli.c	2026-07-07 10:22:13.836781387 +0200
++++ imagemagick/MagickWand/magick-cli.c	2026-07-07 10:22:13.833730911 +0200
+@@ -1319,8 +1319,6 @@
+   /* "convert" command - give a "deprecated" warning" */
+   if (len>=7 && LocaleCompare("convert",argv[0]+len-7) == 0) {
+     cli_wand->process_flags = ConvertCommandOptionFlags;
+-    (void) FormatLocaleFile(stderr,"WARNING: %s\n",
+-         "The convert command is deprecated in IMv7, use \"magick\"\n");
+   }
+ 
+   /* Special Case:  If command name ends with "script" implied "-script" */

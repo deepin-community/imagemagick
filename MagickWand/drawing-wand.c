@@ -225,11 +225,7 @@ static int MVGPrintf(DrawingWand *wand,const char *format,...)
     if (offset > 0)
       {
         va_start(argp,format);
-#if defined(MAGICKCORE_HAVE_VSNPRINTF)
         count=vsnprintf(wand->mvg+wand->mvg_length,(size_t) offset,format,argp);
-#else
-        count=vsprintf(wand->mvg+wand->mvg_length,format,argp);
-#endif
         va_end(argp);
       }
     if ((count < 0) || (count > (int) offset))
@@ -259,11 +255,7 @@ static int MVGAutoWrapPrintf(DrawingWand *wand,const char *format,...)
     argp;
 
   va_start(argp,format);
-#if defined(MAGICKCORE_HAVE_VSNPRINTF)
   count=vsnprintf(buffer,sizeof(buffer)-1,format,argp);
-#else
-  count=vsprintf(buffer,format,argp);
-#endif
   va_end(argp);
   buffer[sizeof(buffer)-1]='\0';
   if (count < 0)
@@ -485,8 +477,8 @@ WandExport DrawingWand *CloneDrawingWand(const DrawingWand *wand)
     (void) LogMagickEvent(WandEvent,GetMagickModule(),"%s",wand->name);
   clone_wand=(DrawingWand *) AcquireMagickMemory(sizeof(*clone_wand));
   if (clone_wand == (DrawingWand *) NULL)
-    ThrowWandFatalException(ResourceLimitFatalError,
-      "MemoryAllocationFailed",GetExceptionMessage(errno));
+    ThrowWandFatalException(ResourceLimitFatalError,"MemoryAllocationFailed",
+      (char *) NULL);
   (void) memset(clone_wand,0,sizeof(*clone_wand));
   clone_wand->id=AcquireWandId();
   (void) FormatLocaleString(clone_wand->name,MagickPathExtent,
@@ -505,7 +497,7 @@ WandExport DrawingWand *CloneDrawingWand(const DrawingWand *wand)
     wand->index+1UL,sizeof(*wand->graphic_context));
   if (clone_wand->graphic_context == (DrawInfo **) NULL)
     ThrowWandFatalException(ResourceLimitFatalError,"MemoryAllocationFailed",
-      GetExceptionMessage(errno));
+      (char *) NULL);
   for (i=0; i <= (ssize_t) wand->index; i++)
     clone_wand->graphic_context[i]=CloneDrawInfo((ImageInfo *) NULL,
       wand->graphic_context[i]);
@@ -6471,7 +6463,7 @@ WandExport MagickBooleanType DrawSetVectorGraphics(DrawingWand *wand,
                 CurrentContext->dash_pattern[j]=StringToDouble(token,
                   (char **) NULL);
               }
-              if ((x & 0x01) != 0)
+              if (((x & 0x01) != 0) && (j == x))
                 for ( ; j < (2*x); j++)
                   CurrentContext->dash_pattern[j]=
                     CurrentContext->dash_pattern[j-x];
@@ -6779,7 +6771,7 @@ WandExport DrawingWand *NewDrawingWand(void)
   wand=(DrawingWand *) AcquireMagickMemory(sizeof(*wand));
   if (wand == (DrawingWand *) NULL)
     ThrowWandFatalException(ResourceLimitFatalError,"MemoryAllocationFailed",
-      GetExceptionMessage(errno));
+      (char *) NULL);
   (void) memset(wand,0,sizeof(*wand));
   wand->id=AcquireWandId();
   (void) FormatLocaleString(wand->name,MagickPathExtent,"%s-%.20g",
@@ -6801,7 +6793,7 @@ WandExport DrawingWand *NewDrawingWand(void)
     *wand->graphic_context));
   if (wand->graphic_context == (DrawInfo **) NULL)
     ThrowWandFatalException(ResourceLimitFatalError,"MemoryAllocationFailed",
-      GetExceptionMessage(errno));
+      (char *) NULL);
   wand->filter_off=MagickTrue;
   wand->indent_depth=0;
   wand->path_operation=PathDefaultOperation;

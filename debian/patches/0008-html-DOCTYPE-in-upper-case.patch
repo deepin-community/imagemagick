@@ -1,0 +1,1480 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 29 Dec 2024 13:33:34 +0000
+Subject: html DOCTYPE in upper case
+
+find . -name '*.html' -exec sed -i 's,[!]doctype ,!DOCTYPE ,g' {} \;
+
+forwarded: not-needed
+---
+ www/advanced-linux-installation.html   | 2 +-
+ www/advanced-unix-installation.html    | 2 +-
+ www/advanced-windows-installation.html | 2 +-
+ www/animate.html                       | 2 +-
+ www/api/Image++.html                   | 2 +-
+ www/api/animate.html                   | 2 +-
+ www/api/annotate.html                  | 2 +-
+ www/api/attribute.html                 | 2 +-
+ www/api/blob.html                      | 2 +-
+ www/api/cache-view.html                | 2 +-
+ www/api/cache.html                     | 2 +-
+ www/api/channel.html                   | 2 +-
+ www/api/cipher.html                    | 2 +-
+ www/api/color.html                     | 2 +-
+ www/api/colormap.html                  | 2 +-
+ www/api/colorspace.html                | 2 +-
+ www/api/compare.html                   | 2 +-
+ www/api/composite.html                 | 2 +-
+ www/api/constitute.html                | 2 +-
+ www/api/decorate.html                  | 2 +-
+ www/api/deprecate.html                 | 2 +-
+ www/api/display.html                   | 2 +-
+ www/api/distort.html                   | 2 +-
+ www/api/draw.html                      | 2 +-
+ www/api/drawing-wand.html              | 2 +-
+ www/api/effect.html                    | 2 +-
+ www/api/enhance.html                   | 2 +-
+ www/api/exception.html                 | 2 +-
+ www/api/feature.html                   | 2 +-
+ www/api/fourier.html                   | 2 +-
+ www/api/fx.html                        | 2 +-
+ www/api/histogram.html                 | 2 +-
+ www/api/image-view.html                | 2 +-
+ www/api/image.html                     | 2 +-
+ www/api/layer.html                     | 2 +-
+ www/api/list.html                      | 2 +-
+ www/api/magick++-classes.html          | 2 +-
+ www/api/magick-deprecate.html          | 2 +-
+ www/api/magick-image.html              | 2 +-
+ www/api/magick-property.html           | 2 +-
+ www/api/magick-wand.html               | 2 +-
+ www/api/magick.html                    | 2 +-
+ www/api/memory.html                    | 2 +-
+ www/api/mime.html                      | 2 +-
+ www/api/module.html                    | 2 +-
+ www/api/mogrify.html                   | 2 +-
+ www/api/monitor.html                   | 2 +-
+ www/api/montage.html                   | 2 +-
+ www/api/morphology.html                | 2 +-
+ www/api/paint.html                     | 2 +-
+ www/api/pixel-iterator.html            | 2 +-
+ www/api/pixel-wand.html                | 2 +-
+ www/api/profile.html                   | 2 +-
+ www/api/property.html                  | 2 +-
+ www/api/quantize.html                  | 2 +-
+ www/api/registry.html                  | 2 +-
+ www/api/resize.html                    | 2 +-
+ www/api/resource.html                  | 2 +-
+ www/api/segment.html                   | 2 +-
+ www/api/shear.html                     | 2 +-
+ www/api/signature.html                 | 2 +-
+ www/api/statistic.html                 | 2 +-
+ www/api/stream.html                    | 2 +-
+ www/api/transform.html                 | 2 +-
+ www/api/version.html                   | 2 +-
+ www/api/vision.html                    | 2 +-
+ www/api/wand-view.html                 | 2 +-
+ www/architecture.html                  | 2 +-
+ www/changelog.html                     | 2 +-
+ www/cipher.html                        | 2 +-
+ www/cite.html                          | 2 +-
+ www/clahe.html                         | 2 +-
+ www/color.html                         | 2 +-
+ www/compose.html                       | 2 +-
+ www/conjure.html                       | 2 +-
+ www/connected-components.html          | 2 +-
+ www/contact.html                       | 2 +-
+ www/convert.html                       | 2 +-
+ www/defines.html                       | 2 +-
+ www/distribute-pixel-cache.html        | 2 +-
+ www/escape.html                        | 2 +-
+ www/fx.html                            | 2 +-
+ www/gradient.html                      | 2 +-
+ www/high-dynamic-range.html            | 2 +-
+ www/history.html                       | 2 +-
+ www/identify.html                      | 2 +-
+ www/import.html                        | 2 +-
+ www/links.html                         | 2 +-
+ www/magick++.html                      | 2 +-
+ www/magick-cache.html                  | 2 +-
+ www/magick-core.html                   | 2 +-
+ www/magick-script.html                 | 2 +-
+ www/magick-vector-graphics.html        | 2 +-
+ www/miff.html                          | 2 +-
+ www/mirror.html                        | 2 +-
+ www/montage.html                       | 2 +-
+ www/opencl.html                        | 2 +-
+ www/privacy-policy.html                | 2 +-
+ www/quantize.html                      | 2 +-
+ www/resources.html                     | 2 +-
+ www/search.html                        | 2 +-
+ www/sitemap.html                       | 2 +-
+ www/support.html                       | 2 +-
+ www/vpat.html                          | 2 +-
+ www/webp.html                          | 2 +-
+ 105 files changed, 105 insertions(+), 105 deletions(-)
+
+Index: imagemagick/www/advanced-linux-installation.html
+===================================================================
+--- imagemagick.orig/www/advanced-linux-installation.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/advanced-linux-installation.html	2026-07-07 10:22:10.287265627 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/advanced-unix-installation.html
+===================================================================
+--- imagemagick.orig/www/advanced-unix-installation.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/advanced-unix-installation.html	2026-07-07 10:22:10.287401801 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+Index: imagemagick/www/advanced-windows-installation.html
+===================================================================
+--- imagemagick.orig/www/advanced-windows-installation.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/advanced-windows-installation.html	2026-07-07 10:22:10.287494490 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/animate.html
+===================================================================
+--- imagemagick.orig/www/animate.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/animate.html	2026-07-07 10:22:10.287565068 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/api/Image++.html
+===================================================================
+--- imagemagick.orig/www/api/Image++.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/Image++.html	2026-07-07 10:22:10.287799136 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+Index: imagemagick/www/api/animate.html
+===================================================================
+--- imagemagick.orig/www/api/animate.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/animate.html	2026-07-07 10:22:10.288028421 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/annotate.html
+===================================================================
+--- imagemagick.orig/www/api/annotate.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/annotate.html	2026-07-07 10:22:10.288096592 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/attribute.html
+===================================================================
+--- imagemagick.orig/www/api/attribute.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/attribute.html	2026-07-07 10:22:10.288165836 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/blob.html
+===================================================================
+--- imagemagick.orig/www/api/blob.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/blob.html	2026-07-07 10:22:10.288236414 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/cache-view.html
+===================================================================
+--- imagemagick.orig/www/api/cache-view.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/cache-view.html	2026-07-07 10:22:10.288316210 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/cache.html
+===================================================================
+--- imagemagick.orig/www/api/cache.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/cache.html	2026-07-07 10:22:10.288397500 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/channel.html
+===================================================================
+--- imagemagick.orig/www/api/channel.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/channel.html	2026-07-07 10:22:10.288494041 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/cipher.html
+===================================================================
+--- imagemagick.orig/www/api/cipher.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/cipher.html	2026-07-07 10:22:10.288562185 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/color.html
+===================================================================
+--- imagemagick.orig/www/api/color.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/color.html	2026-07-07 10:22:10.288631601 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/colormap.html
+===================================================================
+--- imagemagick.orig/www/api/colormap.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/colormap.html	2026-07-07 10:22:10.288697011 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/colorspace.html
+===================================================================
+--- imagemagick.orig/www/api/colorspace.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/colorspace.html	2026-07-07 10:22:10.288781577 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/compare.html
+===================================================================
+--- imagemagick.orig/www/api/compare.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/compare.html	2026-07-07 10:22:10.288853344 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/composite.html
+===================================================================
+--- imagemagick.orig/www/api/composite.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/composite.html	2026-07-07 10:22:10.288909086 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/constitute.html
+===================================================================
+--- imagemagick.orig/www/api/constitute.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/constitute.html	2026-07-07 10:22:10.288965687 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/decorate.html
+===================================================================
+--- imagemagick.orig/www/api/decorate.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/decorate.html	2026-07-07 10:22:10.289024325 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/deprecate.html
+===================================================================
+--- imagemagick.orig/www/api/deprecate.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/deprecate.html	2026-07-07 10:22:10.289076846 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/display.html
+===================================================================
+--- imagemagick.orig/www/api/display.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/display.html	2026-07-07 10:22:10.289127345 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/distort.html
+===================================================================
+--- imagemagick.orig/www/api/distort.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/distort.html	2026-07-07 10:22:10.289180555 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/draw.html
+===================================================================
+--- imagemagick.orig/www/api/draw.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/draw.html	2026-07-07 10:22:10.289243475 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/drawing-wand.html
+===================================================================
+--- imagemagick.orig/www/api/drawing-wand.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/drawing-wand.html	2026-07-07 10:22:10.289465919 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/effect.html
+===================================================================
+--- imagemagick.orig/www/api/effect.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/effect.html	2026-07-07 10:22:10.289671182 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/enhance.html
+===================================================================
+--- imagemagick.orig/www/api/enhance.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/enhance.html	2026-07-07 10:22:10.289767942 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/exception.html
+===================================================================
+--- imagemagick.orig/www/api/exception.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/exception.html	2026-07-07 10:22:10.289854884 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/feature.html
+===================================================================
+--- imagemagick.orig/www/api/feature.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/feature.html	2026-07-07 10:22:10.289920718 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/fourier.html
+===================================================================
+--- imagemagick.orig/www/api/fourier.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/fourier.html	2026-07-07 10:22:10.289975363 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/fx.html
+===================================================================
+--- imagemagick.orig/www/api/fx.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/fx.html	2026-07-07 10:22:10.290026974 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/histogram.html
+===================================================================
+--- imagemagick.orig/www/api/histogram.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/histogram.html	2026-07-07 10:22:10.290082503 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/image-view.html
+===================================================================
+--- imagemagick.orig/www/api/image-view.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/image-view.html	2026-07-07 10:22:10.290151697 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/image.html
+===================================================================
+--- imagemagick.orig/www/api/image.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/image.html	2026-07-07 10:22:10.290244507 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/layer.html
+===================================================================
+--- imagemagick.orig/www/api/layer.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/layer.html	2026-07-07 10:22:10.290336063 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/list.html
+===================================================================
+--- imagemagick.orig/www/api/list.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/list.html	2026-07-07 10:22:10.290417081 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/magick++-classes.html
+===================================================================
+--- imagemagick.orig/www/api/magick++-classes.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/magick++-classes.html	2026-07-07 10:22:10.290490692 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+Index: imagemagick/www/api/magick-deprecate.html
+===================================================================
+--- imagemagick.orig/www/api/magick-deprecate.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/magick-deprecate.html	2026-07-07 10:22:10.290543409 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/magick-image.html
+===================================================================
+--- imagemagick.orig/www/api/magick-image.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/magick-image.html	2026-07-07 10:22:10.290935222 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/magick-property.html
+===================================================================
+--- imagemagick.orig/www/api/magick-property.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/magick-property.html	2026-07-07 10:22:10.291536997 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/magick-wand.html
+===================================================================
+--- imagemagick.orig/www/api/magick-wand.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/magick-wand.html	2026-07-07 10:22:10.291705836 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/magick.html
+===================================================================
+--- imagemagick.orig/www/api/magick.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/magick.html	2026-07-07 10:22:10.291802550 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/memory.html
+===================================================================
+--- imagemagick.orig/www/api/memory.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/memory.html	2026-07-07 10:22:10.291891693 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/mime.html
+===================================================================
+--- imagemagick.orig/www/api/mime.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/mime.html	2026-07-07 10:22:10.291991769 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/module.html
+===================================================================
+--- imagemagick.orig/www/api/module.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/module.html	2026-07-07 10:22:10.292083198 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/mogrify.html
+===================================================================
+--- imagemagick.orig/www/api/mogrify.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/mogrify.html	2026-07-07 10:22:10.292169600 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/monitor.html
+===================================================================
+--- imagemagick.orig/www/api/monitor.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/monitor.html	2026-07-07 10:22:10.292262663 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/montage.html
+===================================================================
+--- imagemagick.orig/www/api/montage.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/montage.html	2026-07-07 10:22:10.292351542 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/morphology.html
+===================================================================
+--- imagemagick.orig/www/api/morphology.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/morphology.html	2026-07-07 10:22:10.292444539 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/paint.html
+===================================================================
+--- imagemagick.orig/www/api/paint.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/paint.html	2026-07-07 10:22:10.292556423 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/pixel-iterator.html
+===================================================================
+--- imagemagick.orig/www/api/pixel-iterator.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/pixel-iterator.html	2026-07-07 10:22:10.292644603 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/pixel-wand.html
+===================================================================
+--- imagemagick.orig/www/api/pixel-wand.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/pixel-wand.html	2026-07-07 10:22:10.292764935 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/profile.html
+===================================================================
+--- imagemagick.orig/www/api/profile.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/profile.html	2026-07-07 10:22:10.292885309 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/property.html
+===================================================================
+--- imagemagick.orig/www/api/property.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/property.html	2026-07-07 10:22:10.292966215 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/quantize.html
+===================================================================
+--- imagemagick.orig/www/api/quantize.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/quantize.html	2026-07-07 10:22:10.293055333 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/registry.html
+===================================================================
+--- imagemagick.orig/www/api/registry.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/registry.html	2026-07-07 10:22:10.293142959 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/resize.html
+===================================================================
+--- imagemagick.orig/www/api/resize.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/resize.html	2026-07-07 10:22:10.293220723 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/resource.html
+===================================================================
+--- imagemagick.orig/www/api/resource.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/resource.html	2026-07-07 10:22:10.293302385 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/segment.html
+===================================================================
+--- imagemagick.orig/www/api/segment.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/segment.html	2026-07-07 10:22:10.293369838 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/shear.html
+===================================================================
+--- imagemagick.orig/www/api/shear.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/shear.html	2026-07-07 10:22:10.293442076 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/signature.html
+===================================================================
+--- imagemagick.orig/www/api/signature.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/signature.html	2026-07-07 10:22:10.293506265 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/statistic.html
+===================================================================
+--- imagemagick.orig/www/api/statistic.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/statistic.html	2026-07-07 10:22:10.293580563 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/stream.html
+===================================================================
+--- imagemagick.orig/www/api/stream.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/stream.html	2026-07-07 10:22:10.293653400 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/transform.html
+===================================================================
+--- imagemagick.orig/www/api/transform.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/transform.html	2026-07-07 10:22:10.293728838 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/version.html
+===================================================================
+--- imagemagick.orig/www/api/version.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/version.html	2026-07-07 10:22:10.293814796 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/vision.html
+===================================================================
+--- imagemagick.orig/www/api/vision.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/vision.html	2026-07-07 10:22:10.293879701 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/api/wand-view.html
+===================================================================
+--- imagemagick.orig/www/api/wand-view.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/api/wand-view.html	2026-07-07 10:22:10.293964452 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="../assets/color-modes.js" ></script>
+Index: imagemagick/www/architecture.html
+===================================================================
+--- imagemagick.orig/www/architecture.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/architecture.html	2026-07-07 10:22:10.294126272 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/changelog.html
+===================================================================
+--- imagemagick.orig/www/changelog.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/changelog.html	2026-07-07 10:22:10.294388649 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8"  />
+Index: imagemagick/www/cipher.html
+===================================================================
+--- imagemagick.orig/www/cipher.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/cipher.html	2026-07-07 10:22:10.294569382 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/cite.html
+===================================================================
+--- imagemagick.orig/www/cite.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/cite.html	2026-07-07 10:22:10.294636938 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/clahe.html
+===================================================================
+--- imagemagick.orig/www/clahe.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/clahe.html	2026-07-07 10:22:10.294705016 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/color.html
+===================================================================
+--- imagemagick.orig/www/color.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/color.html	2026-07-07 10:22:10.294883086 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/compose.html
+===================================================================
+--- imagemagick.orig/www/compose.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/compose.html	2026-07-07 10:22:10.295027578 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/conjure.html
+===================================================================
+--- imagemagick.orig/www/conjure.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/conjure.html	2026-07-07 10:22:10.295099422 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/connected-components.html
+===================================================================
+--- imagemagick.orig/www/connected-components.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/connected-components.html	2026-07-07 10:22:10.295177673 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/contact.html
+===================================================================
+--- imagemagick.orig/www/contact.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/contact.html	2026-07-07 10:22:10.295210291 +0200
+@@ -2,7 +2,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/convert.html
+===================================================================
+--- imagemagick.orig/www/convert.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/convert.html	2026-07-07 10:22:10.295262758 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/defines.html
+===================================================================
+--- imagemagick.orig/www/defines.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/defines.html	2026-07-07 10:22:10.295353890 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/distribute-pixel-cache.html
+===================================================================
+--- imagemagick.orig/www/distribute-pixel-cache.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/distribute-pixel-cache.html	2026-07-07 10:22:10.295425073 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/escape.html
+===================================================================
+--- imagemagick.orig/www/escape.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/escape.html	2026-07-07 10:22:10.295470070 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/fx.html
+===================================================================
+--- imagemagick.orig/www/fx.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/fx.html	2026-07-07 10:22:10.295528448 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/gradient.html
+===================================================================
+--- imagemagick.orig/www/gradient.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/gradient.html	2026-07-07 10:22:10.295576225 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/high-dynamic-range.html
+===================================================================
+--- imagemagick.orig/www/high-dynamic-range.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/high-dynamic-range.html	2026-07-07 10:22:10.295614302 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/history.html
+===================================================================
+--- imagemagick.orig/www/history.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/history.html	2026-07-07 10:22:10.295643819 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/identify.html
+===================================================================
+--- imagemagick.orig/www/identify.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/identify.html	2026-07-07 10:22:10.295680719 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/import.html
+===================================================================
+--- imagemagick.orig/www/import.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/import.html	2026-07-07 10:22:10.295725462 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/links.html
+===================================================================
+--- imagemagick.orig/www/links.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/links.html	2026-07-07 10:22:10.295767432 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/magick++.html
+===================================================================
+--- imagemagick.orig/www/magick++.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/magick++.html	2026-07-07 10:22:10.295800218 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/magick-cache.html
+===================================================================
+--- imagemagick.orig/www/magick-cache.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/magick-cache.html	2026-07-07 10:22:10.295837880 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/magick-core.html
+===================================================================
+--- imagemagick.orig/www/magick-core.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/magick-core.html	2026-07-07 10:22:10.295875665 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/magick-script.html
+===================================================================
+--- imagemagick.orig/www/magick-script.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/magick-script.html	2026-07-07 10:22:10.295964085 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/magick-vector-graphics.html
+===================================================================
+--- imagemagick.orig/www/magick-vector-graphics.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/magick-vector-graphics.html	2026-07-07 10:22:10.296035914 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/miff.html
+===================================================================
+--- imagemagick.orig/www/miff.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/miff.html	2026-07-07 10:22:10.296093431 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/mirror.html
+===================================================================
+--- imagemagick.orig/www/mirror.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/mirror.html	2026-07-07 10:22:10.296130485 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/montage.html
+===================================================================
+--- imagemagick.orig/www/montage.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/montage.html	2026-07-07 10:22:10.296169996 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/opencl.html
+===================================================================
+--- imagemagick.orig/www/opencl.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/opencl.html	2026-07-07 10:22:10.296211750 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/privacy-policy.html
+===================================================================
+--- imagemagick.orig/www/privacy-policy.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/privacy-policy.html	2026-07-07 10:22:10.296247090 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/quantize.html
+===================================================================
+--- imagemagick.orig/www/quantize.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/quantize.html	2026-07-07 10:22:10.296281447 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/resources.html
+===================================================================
+--- imagemagick.orig/www/resources.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/resources.html	2026-07-07 10:22:10.296324606 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/search.html
+===================================================================
+--- imagemagick.orig/www/search.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/search.html	2026-07-07 10:22:10.296364739 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/sitemap.html
+===================================================================
+--- imagemagick.orig/www/sitemap.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/sitemap.html	2026-07-07 10:22:10.296403193 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/support.html
+===================================================================
+--- imagemagick.orig/www/support.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/support.html	2026-07-07 10:22:10.296444843 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/vpat.html
+===================================================================
+--- imagemagick.orig/www/vpat.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/vpat.html	2026-07-07 10:22:10.296479075 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>
+Index: imagemagick/www/webp.html
+===================================================================
+--- imagemagick.orig/www/webp.html	2026-07-07 10:22:10.300383491 +0200
++++ imagemagick/www/webp.html	2026-07-07 10:22:10.296512283 +0200
+@@ -1,7 +1,7 @@
+ 
+ 
+ 
+-<!doctype html>
++<!DOCTYPE html>
+ <html lang="en" data-bs-theme="dark">
+ <head>
+   <script src="assets/color-modes.js" ></script>

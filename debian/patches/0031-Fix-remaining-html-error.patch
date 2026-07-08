@@ -56,8 +56,8 @@ forwarded: not-needed
 
 Index: imagemagick/www/Magick++/Montage.html
 ===================================================================
---- imagemagick.orig/www/Magick++/Montage.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/Magick++/Montage.html	2025-10-28 17:11:37.401791986 +0100
+--- imagemagick.orig/www/Magick++/Montage.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/Magick++/Montage.html	2026-07-07 10:22:15.026617992 +0200
 @@ -71,7 +71,7 @@
  <td>
  <p><font size="2">void</font></p></td>
@@ -96,8 +96,8 @@ Index: imagemagick/www/Magick++/Montage.html
  <tr>
 Index: imagemagick/www/advanced-linux-installation.html
 ===================================================================
---- imagemagick.orig/www/advanced-linux-installation.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/advanced-linux-installation.html	2025-10-28 17:11:37.405602013 +0100
+--- imagemagick.orig/www/advanced-linux-installation.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/advanced-linux-installation.html	2026-07-07 10:22:15.026803020 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -111,8 +111,8 @@ Index: imagemagick/www/advanced-linux-installation.html
    </nav>
 Index: imagemagick/www/advanced-unix-installation.html
 ===================================================================
---- imagemagick.orig/www/advanced-unix-installation.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/advanced-unix-installation.html	2025-10-28 17:11:37.405785150 +0100
+--- imagemagick.orig/www/advanced-unix-installation.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/advanced-unix-installation.html	2026-07-07 10:22:15.026932960 +0200
 @@ -66,15 +66,7 @@
  
          </li>
@@ -131,8 +131,8 @@ Index: imagemagick/www/advanced-unix-installation.html
  
 Index: imagemagick/www/advanced-windows-installation.html
 ===================================================================
---- imagemagick.orig/www/advanced-windows-installation.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/advanced-windows-installation.html	2025-10-28 17:11:37.405927769 +0100
+--- imagemagick.orig/www/advanced-windows-installation.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/advanced-windows-installation.html	2026-07-07 10:22:15.027033888 +0200
 @@ -115,15 +115,7 @@
  
          </li>
@@ -151,8 +151,8 @@ Index: imagemagick/www/advanced-windows-installation.html
  
 Index: imagemagick/www/animate.html
 ===================================================================
---- imagemagick.orig/www/animate.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/animate.html	2025-10-28 17:11:37.406047745 +0100
+--- imagemagick.orig/www/animate.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/animate.html	2026-07-07 10:22:15.027109337 +0200
 @@ -115,15 +115,7 @@
  
          </li>
@@ -171,8 +171,8 @@ Index: imagemagick/www/animate.html
  
 Index: imagemagick/www/api/channel.html
 ===================================================================
---- imagemagick.orig/www/api/channel.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/api/channel.html	2025-10-28 17:11:37.406175513 +0100
+--- imagemagick.orig/www/api/channel.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/api/channel.html	2026-07-07 10:22:15.027193514 +0200
 @@ -162,7 +162,7 @@
  <pre class="bg-light text-dark mx-4"><samp>    -channel-fx "red; green; blue"
  </samp></pre>
@@ -193,8 +193,8 @@ Index: imagemagick/www/api/channel.html
  </dd>
 Index: imagemagick/www/api/magick-image.html
 ===================================================================
---- imagemagick.orig/www/api/magick-image.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/api/magick-image.html	2025-10-28 17:11:37.406795331 +0100
+--- imagemagick.orig/www/api/magick-image.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/api/magick-image.html	2026-07-07 10:22:15.027608314 +0200
 @@ -1082,12 +1082,12 @@
  <pre class="bg-light text-dark mx-4"><samp>    -channel-fx "red; green; blue"
  </samp></pre>
@@ -212,8 +212,8 @@ Index: imagemagick/www/api/magick-image.html
  </dd>
 Index: imagemagick/www/architecture.html
 ===================================================================
---- imagemagick.orig/www/architecture.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/architecture.html	2025-10-28 17:11:37.407657013 +0100
+--- imagemagick.orig/www/architecture.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/architecture.html	2026-07-07 10:22:15.028072342 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -342,8 +342,8 @@ Index: imagemagick/www/architecture.html
            local_brightness.sum[i]+=pow(b,(double) i);
 Index: imagemagick/www/changelog.html
 ===================================================================
---- imagemagick.orig/www/changelog.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/changelog.html	2025-10-28 17:11:37.408075841 +0100
+--- imagemagick.orig/www/changelog.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/changelog.html	2026-07-07 10:22:15.028354739 +0200
 @@ -66,10 +66,6 @@
  
          </li>
@@ -374,8 +374,8 @@ Index: imagemagick/www/changelog.html
    <li> Revise DICOM window and rescale handling (reference    https://github.com/ImageMagick/ImageMagick/pull/484)</li>
 Index: imagemagick/www/cipher.html
 ===================================================================
---- imagemagick.orig/www/cipher.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/cipher.html	2025-10-28 17:11:37.408308823 +0100
+--- imagemagick.orig/www/cipher.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/cipher.html	2026-07-07 10:22:15.028529321 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -389,8 +389,8 @@ Index: imagemagick/www/cipher.html
    </nav>
 Index: imagemagick/www/clahe.html
 ===================================================================
---- imagemagick.orig/www/clahe.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/clahe.html	2025-10-28 17:11:37.408392261 +0100
+--- imagemagick.orig/www/clahe.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/clahe.html	2026-07-07 10:22:15.028601223 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -412,8 +412,8 @@ Index: imagemagick/www/clahe.html
  </ul>
 Index: imagemagick/www/color-thresholding.html
 ===================================================================
---- imagemagick.orig/www/color-thresholding.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/color-thresholding.html	2025-10-28 17:11:37.408484462 +0100
+--- imagemagick.orig/www/color-thresholding.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/color-thresholding.html	2026-07-07 10:22:15.028675699 +0200
 @@ -233,7 +233,7 @@
  
  <p>Now, pick two RGB colors: <samp>sRGB(159,150,0)</samp> and <samp>sRGB(205,100,45):</samp></p>
@@ -425,8 +425,8 @@ Index: imagemagick/www/color-thresholding.html
  
 Index: imagemagick/www/color.html
 ===================================================================
---- imagemagick.orig/www/color.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/color.html	2025-10-28 17:11:37.408725825 +0100
+--- imagemagick.orig/www/color.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/color.html	2026-07-07 10:22:15.028878782 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -440,8 +440,8 @@ Index: imagemagick/www/color.html
    </nav>
 Index: imagemagick/www/command-line-options.html
 ===================================================================
---- imagemagick.orig/www/command-line-options.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/command-line-options.html	2025-10-28 17:11:37.409563610 +0100
+--- imagemagick.orig/www/command-line-options.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/command-line-options.html	2026-07-07 10:22:15.029574965 +0200
 @@ -1384,14 +1384,14 @@
  '<samp>B</samp>', '<samp>A</samp>', '<samp>O</samp>', '<samp>C</samp>',
  '<samp>M</samp>', '<samp>Y</samp>', '<samp>K</samp>'.</p>
@@ -479,8 +479,8 @@ Index: imagemagick/www/command-line-options.html
    <h2><a class="anchor" id="virtual-pixel"></a>-virtual-pixel <var>method</var></h2>
 Index: imagemagick/www/command-line-processing.html
 ===================================================================
---- imagemagick.orig/www/command-line-processing.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/command-line-processing.html	2025-10-28 17:11:37.410159159 +0100
+--- imagemagick.orig/www/command-line-processing.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/command-line-processing.html	2026-07-07 10:22:15.030134482 +0200
 @@ -617,6 +617,7 @@
    <tr>
      <td><var>area</var>@</td>
@@ -491,8 +491,8 @@ Index: imagemagick/www/command-line-processing.html
      <td>Here x and y denotes an aspect ratio (e.g. 3:2 = 1.5).</td>
 Index: imagemagick/www/command-line-tools.html
 ===================================================================
---- imagemagick.orig/www/command-line-tools.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/command-line-tools.html	2025-10-28 17:11:37.410285735 +0100
+--- imagemagick.orig/www/command-line-tools.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/command-line-tools.html	2026-07-07 10:22:15.030247616 +0200
 @@ -235,7 +235,7 @@
    <dt class="col-md-4"><a class="anchor" id="stream"></a><a href="stream.html">magick stream</a></dt><dd class="col-md-8">a lightweight tool to stream one or more pixel components of the image or portion of the image to your choice of storage formats.  It writes the pixel components as they are read from the input image a row at a time making <samp>stream</samp> desirable when working with large images or when you require raw pixel components.</dd>
  </dl>
@@ -504,8 +504,8 @@ Index: imagemagick/www/command-line-tools.html
      <a aria-label="About ImageMagick" class="btn btn-outline-warning mt-3" href="../index.html">About ImageMagick</a>
 Index: imagemagick/www/compare.html
 ===================================================================
---- imagemagick.orig/www/compare.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/compare.html	2025-10-28 17:11:37.410365486 +0100
+--- imagemagick.orig/www/compare.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/compare.html	2026-07-07 10:22:15.030323837 +0200
 @@ -571,7 +571,6 @@
      <td><a href="command-line-options.html#write-mask">-write-mask <var>filename</var></a></td>
      <td>associate a write mask with the image</td>
@@ -516,8 +516,8 @@ Index: imagemagick/www/compare.html
  </div>
 Index: imagemagick/www/compose.html
 ===================================================================
---- imagemagick.orig/www/compose.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/compose.html	2025-10-28 17:11:37.410433213 +0100
+--- imagemagick.orig/www/compose.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/compose.html	2026-07-07 10:22:15.030415204 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -539,8 +539,8 @@ Index: imagemagick/www/compose.html
  <p>Typically these use the default 'Over' alpha blending when transparencies
 Index: imagemagick/www/contact.html
 ===================================================================
---- imagemagick.orig/www/contact.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/contact.html	2025-10-28 17:11:37.410496743 +0100
+--- imagemagick.orig/www/contact.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/contact.html	2026-07-07 10:22:15.030498693 +0200
 @@ -116,10 +116,6 @@
  
          </li>
@@ -554,8 +554,8 @@ Index: imagemagick/www/contact.html
    </nav>
 Index: imagemagick/www/convert.html
 ===================================================================
---- imagemagick.orig/www/convert.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/convert.html	2025-10-28 17:11:37.410568983 +0100
+--- imagemagick.orig/www/convert.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/convert.html	2026-07-07 10:22:15.030594364 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -569,8 +569,8 @@ Index: imagemagick/www/convert.html
    </nav>
 Index: imagemagick/www/convex-hull.html
 ===================================================================
---- imagemagick.orig/www/convex-hull.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/convex-hull.html	2025-10-28 17:11:37.410649574 +0100
+--- imagemagick.orig/www/convex-hull.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/convex-hull.html	2026-07-07 10:22:15.030699288 +0200
 @@ -257,7 +257,7 @@
  <ul><img class="img-fluid img-thumbnail" src="../images/convex-hull-barn-closure.jpg" alt="[Convex Hull Barn Closure]" width="250" height="250" name="convert-hull-barn-closure" /></ul>
  
@@ -582,8 +582,8 @@ Index: imagemagick/www/convex-hull.html
  
 Index: imagemagick/www/defines.html
 ===================================================================
---- imagemagick.orig/www/defines.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/defines.html	2025-10-28 17:11:37.410738645 +0100
+--- imagemagick.orig/www/defines.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/defines.html	2026-07-07 10:22:15.030818600 +0200
 @@ -169,7 +169,7 @@
  
  <table class="table table-sm table-hover table-striped table-responsive">
@@ -602,7 +602,7 @@ Index: imagemagick/www/defines.html
    </tr>
  
    <tr>
-@@ -1046,7 +1046,7 @@
+@@ -1061,7 +1061,7 @@
  
    <tr>
      <td>identify:convex-hull=<var>true</var></td>
@@ -613,8 +613,8 @@ Index: imagemagick/www/defines.html
    <tr>
 Index: imagemagick/www/distribute-pixel-cache.html
 ===================================================================
---- imagemagick.orig/www/distribute-pixel-cache.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/distribute-pixel-cache.html	2025-10-28 17:11:37.410840133 +0100
+--- imagemagick.orig/www/distribute-pixel-cache.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/distribute-pixel-cache.html	2026-07-07 10:22:15.030952830 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -628,8 +628,8 @@ Index: imagemagick/www/distribute-pixel-cache.html
    </nav>
 Index: imagemagick/www/escape.html
 ===================================================================
---- imagemagick.orig/www/escape.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/escape.html	2025-10-28 17:11:37.410907759 +0100
+--- imagemagick.orig/www/escape.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/escape.html	2026-07-07 10:22:15.031050209 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -643,8 +643,8 @@ Index: imagemagick/www/escape.html
    </nav>
 Index: imagemagick/www/formats.html
 ===================================================================
---- imagemagick.orig/www/formats.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/formats.html	2025-10-28 17:11:37.411049592 +0100
+--- imagemagick.orig/www/formats.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/formats.html	2026-07-07 10:22:15.031212085 +0200
 @@ -253,7 +253,7 @@
  B channels are stored with a 50% gray bias, to allow it to handle the
  negatives required by the format.</p>
@@ -656,8 +656,8 @@ Index: imagemagick/www/formats.html
  directly in LAB space, but ImageMagick permits it and generally returns
 Index: imagemagick/www/fx.html
 ===================================================================
---- imagemagick.orig/www/fx.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/fx.html	2025-10-28 17:11:37.411190913 +0100
+--- imagemagick.orig/www/fx.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/fx.html	2026-07-07 10:22:15.031376350 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -689,8 +689,8 @@ Index: imagemagick/www/fx.html
  
 Index: imagemagick/www/gradient.html
 ===================================================================
---- imagemagick.orig/www/gradient.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/gradient.html	2025-10-28 17:11:37.411271722 +0100
+--- imagemagick.orig/www/gradient.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/gradient.html	2026-07-07 10:22:15.031475159 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -704,8 +704,8 @@ Index: imagemagick/www/gradient.html
    </nav>
 Index: imagemagick/www/high-dynamic-range.html
 ===================================================================
---- imagemagick.orig/www/high-dynamic-range.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/high-dynamic-range.html	2025-10-28 17:11:37.411320559 +0100
+--- imagemagick.orig/www/high-dynamic-range.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/high-dynamic-range.html	2026-07-07 10:22:15.031540715 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -719,8 +719,8 @@ Index: imagemagick/www/high-dynamic-range.html
    </nav>
 Index: imagemagick/www/history.html
 ===================================================================
---- imagemagick.orig/www/history.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/history.html	2025-10-28 17:11:37.411363144 +0100
+--- imagemagick.orig/www/history.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/history.html	2026-07-07 10:22:15.031601672 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -734,8 +734,8 @@ Index: imagemagick/www/history.html
    </nav>
 Index: imagemagick/www/identify.html
 ===================================================================
---- imagemagick.orig/www/identify.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/identify.html	2025-10-28 17:11:37.411412677 +0100
+--- imagemagick.orig/www/identify.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/identify.html	2026-07-07 10:22:15.031668748 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -749,8 +749,8 @@ Index: imagemagick/www/identify.html
    </nav>
 Index: imagemagick/www/install-source.html
 ===================================================================
---- imagemagick.orig/www/install-source.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/install-source.html	2025-10-28 17:11:37.411473583 +0100
+--- imagemagick.orig/www/install-source.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/install-source.html	2026-07-07 10:22:15.031745035 +0200
 @@ -272,7 +272,7 @@
  <p>We recommend you first uninstall an existing ImageMagick, else you might be surprised that your <samp>magick</samp> commands go to the old version.</p>
  <p>Building ImageMagick source for Windows can be done with a modern version of Microsoft Visual Studio IDE.  Users have reported success with the Borland C++ compiler as well.  If you don't have a compiler you can still install a self-installing <a href="download.html">binary release</a>.</p>
@@ -771,8 +771,8 @@ Index: imagemagick/www/install-source.html
  <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary"><samp>validate
 Index: imagemagick/www/links.html
 ===================================================================
---- imagemagick.orig/www/links.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/links.html	2025-10-28 17:11:37.411526665 +0100
+--- imagemagick.orig/www/links.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/links.html	2026-07-07 10:22:15.031814768 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -786,8 +786,8 @@ Index: imagemagick/www/links.html
    </nav>
 Index: imagemagick/www/magick-cache.html
 ===================================================================
---- imagemagick.orig/www/magick-cache.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/magick-cache.html	2025-10-28 17:11:37.411575452 +0100
+--- imagemagick.orig/www/magick-cache.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/magick-cache.html	2026-07-07 10:22:15.031884689 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -817,8 +817,8 @@ Index: imagemagick/www/magick-cache.html
 +<!-- Magick Cache 1st March 2025 19:23 -->
 Index: imagemagick/www/magick-script.html
 ===================================================================
---- imagemagick.orig/www/magick-script.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/magick-script.html	2025-10-28 17:11:37.411657512 +0100
+--- imagemagick.orig/www/magick-script.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/magick-script.html	2026-07-07 10:22:15.031982795 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -848,8 +848,8 @@ Index: imagemagick/www/magick-script.html
 +<!-- Magick Cache 1st March 2025 19:18 -->
 Index: imagemagick/www/magick-vector-graphics.html
 ===================================================================
---- imagemagick.orig/www/magick-vector-graphics.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/magick-vector-graphics.html	2025-10-28 17:11:37.411763740 +0100
+--- imagemagick.orig/www/magick-vector-graphics.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/magick-vector-graphics.html	2026-07-07 10:22:15.032116996 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -863,8 +863,8 @@ Index: imagemagick/www/magick-vector-graphics.html
    </nav>
 Index: imagemagick/www/magick-wand.html
 ===================================================================
---- imagemagick.orig/www/magick-wand.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/magick-wand.html	2025-10-28 17:11:37.411846375 +0100
+--- imagemagick.orig/www/magick-wand.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/magick-wand.html	2026-07-07 10:22:15.032221623 +0200
 @@ -432,12 +432,12 @@
    pixels=GetWandViewPixels(contrast_view);
    for (x=0; x &lt; (ssize_t) extent.width; x++)
@@ -882,8 +882,8 @@ Index: imagemagick/www/magick-wand.html
  }
 Index: imagemagick/www/miff.html
 ===================================================================
---- imagemagick.orig/www/miff.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/miff.html	2025-10-28 17:11:37.411908669 +0100
+--- imagemagick.orig/www/miff.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/miff.html	2026-07-07 10:22:15.032295775 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -897,8 +897,8 @@ Index: imagemagick/www/miff.html
    </nav>
 Index: imagemagick/www/montage.html
 ===================================================================
---- imagemagick.orig/www/montage.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/montage.html	2025-10-28 17:11:37.411971484 +0100
+--- imagemagick.orig/www/montage.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/montage.html	2026-07-07 10:22:15.032389297 +0200
 @@ -175,7 +175,7 @@
  <p>You can find additional examples of using <samp>montage</samp> at <a href="https://usage.imagemagick.org/montage/">Examples of ImageMagick Usage</a> and <a href="../index.html">Examples of ImageMagick Usage</a>.</p>
  
@@ -910,8 +910,8 @@ Index: imagemagick/www/montage.html
  
 Index: imagemagick/www/multispectral-imagery.html
 ===================================================================
---- imagemagick.orig/www/multispectral-imagery.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/multispectral-imagery.html	2025-10-28 17:11:37.412043255 +0100
+--- imagemagick.orig/www/multispectral-imagery.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/multispectral-imagery.html	2026-07-07 10:22:15.032477059 +0200
 @@ -332,11 +332,11 @@
    Filesize: 306B
    Number pixels: 1
@@ -929,8 +929,8 @@ Index: imagemagick/www/multispectral-imagery.html
  <p>In this example, we blend two meta channels into a single alpha channel:</p>
 Index: imagemagick/www/news.html
 ===================================================================
---- imagemagick.orig/www/news.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/news.html	2025-10-28 17:11:37.412096874 +0100
+--- imagemagick.orig/www/news.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/news.html	2026-07-07 10:22:15.032548358 +0200
 @@ -200,7 +200,7 @@
  
  <p>The <samp>magick convert</samp> command is deprecated, use <samp>magick</samp> instead.  The deprecated command still works, however, it now posts a warning it is deprecated.</p>
@@ -959,8 +959,8 @@ Index: imagemagick/www/news.html
    <footer class="text-center pt-5 my-5 text-body-secondary border-top">
 Index: imagemagick/www/opencl.html
 ===================================================================
---- imagemagick.orig/www/opencl.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/opencl.html	2025-10-28 17:11:37.412151182 +0100
+--- imagemagick.orig/www/opencl.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/opencl.html	2026-07-07 10:22:15.032622230 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -974,8 +974,8 @@ Index: imagemagick/www/opencl.html
    </nav>
 Index: imagemagick/www/privacy-policy.html
 ===================================================================
---- imagemagick.orig/www/privacy-policy.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/privacy-policy.html	2025-10-28 17:11:37.412198040 +0100
+--- imagemagick.orig/www/privacy-policy.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/privacy-policy.html	2026-07-07 10:22:15.032685907 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -989,8 +989,8 @@ Index: imagemagick/www/privacy-policy.html
    </nav>
 Index: imagemagick/www/quantize.html
 ===================================================================
---- imagemagick.orig/www/quantize.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/quantize.html	2025-10-28 17:11:37.412239771 +0100
+--- imagemagick.orig/www/quantize.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/quantize.html	2026-07-07 10:22:15.032763223 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1004,8 +1004,8 @@ Index: imagemagick/www/quantize.html
    </nav>
 Index: imagemagick/www/search.html
 ===================================================================
---- imagemagick.orig/www/search.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/search.html	2025-10-28 17:11:37.412272451 +0100
+--- imagemagick.orig/www/search.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/search.html	2026-07-07 10:22:15.032830335 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1019,8 +1019,8 @@ Index: imagemagick/www/search.html
    </nav>
 Index: imagemagick/www/sitemap.html
 ===================================================================
---- imagemagick.orig/www/sitemap.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/sitemap.html	2025-10-28 17:11:37.412308195 +0100
+--- imagemagick.orig/www/sitemap.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/sitemap.html	2026-07-07 10:22:15.032893434 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1034,8 +1034,8 @@ Index: imagemagick/www/sitemap.html
    </nav>
 Index: imagemagick/www/support.html
 ===================================================================
---- imagemagick.orig/www/support.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/support.html	2025-10-28 17:11:37.412348712 +0100
+--- imagemagick.orig/www/support.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/support.html	2026-07-07 10:22:15.032963664 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1074,8 +1074,8 @@ Index: imagemagick/www/support.html
 +<!-- Magick Cache 1st March 2025 19:22 -->
 Index: imagemagick/www/vpat.html
 ===================================================================
---- imagemagick.orig/www/vpat.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/vpat.html	2025-10-28 17:11:37.412393541 +0100
+--- imagemagick.orig/www/vpat.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/vpat.html	2026-07-07 10:22:15.033040638 +0200
 @@ -115,10 +115,6 @@
  
          </li>
@@ -1089,8 +1089,8 @@ Index: imagemagick/www/vpat.html
    </nav>
 Index: imagemagick/www/webp.html
 ===================================================================
---- imagemagick.orig/www/webp.html	2025-10-28 17:11:37.413792072 +0100
-+++ imagemagick/www/webp.html	2025-10-28 17:11:37.412429124 +0100
+--- imagemagick.orig/www/webp.html	2026-07-07 10:22:15.037479057 +0200
++++ imagemagick/www/webp.html	2026-07-07 10:22:15.033096386 +0200
 @@ -115,10 +115,6 @@
  
          </li>

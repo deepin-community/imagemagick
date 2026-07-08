@@ -1,0 +1,50 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 1 Mar 2026 13:30:58 +0100
+Subject: Allow doxygen to be reproductible
+
+forwarded: not-needed
+---
+ config/Magick++.dox.in   | 2 +-
+ config/MagickCore.dox.in | 2 +-
+ config/MagickWand.dox.in | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+Index: imagemagick/config/Magick++.dox.in
+===================================================================
+--- imagemagick.orig/config/Magick++.dox.in	2026-07-07 10:22:09.464275518 +0200
++++ imagemagick/config/Magick++.dox.in	2026-07-07 10:22:09.461219630 +0200
+@@ -140,7 +140,7 @@
+ # shortest path that makes the file name unique will be used
+ # The default value is: YES.
+ 
+-FULL_PATH_NAMES        = YES
++FULL_PATH_NAMES        = NO
+ 
+ # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
+ # Stripping is only done if one of the specified strings matches the left-hand
+Index: imagemagick/config/MagickCore.dox.in
+===================================================================
+--- imagemagick.orig/config/MagickCore.dox.in	2026-07-07 10:22:09.464275518 +0200
++++ imagemagick/config/MagickCore.dox.in	2026-07-07 10:22:09.461452806 +0200
+@@ -140,7 +140,7 @@
+ # shortest path that makes the file name unique will be used
+ # The default value is: YES.
+ 
+-FULL_PATH_NAMES        = YES
++FULL_PATH_NAMES        = NO
+ 
+ # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
+ # Stripping is only done if one of the specified strings matches the left-hand
+Index: imagemagick/config/MagickWand.dox.in
+===================================================================
+--- imagemagick.orig/config/MagickWand.dox.in	2026-07-07 10:22:09.464275518 +0200
++++ imagemagick/config/MagickWand.dox.in	2026-07-07 10:22:09.461646191 +0200
+@@ -140,7 +140,7 @@
+ # shortest path that makes the file name unique will be used
+ # The default value is: YES.
+ 
+-FULL_PATH_NAMES        = YES
++FULL_PATH_NAMES        = NO
+ 
+ # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
+ # Stripping is only done if one of the specified strings matches the left-hand

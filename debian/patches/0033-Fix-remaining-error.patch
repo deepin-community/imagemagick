@@ -8,11 +8,11 @@ forwarded: not-needed
  www/Magick++/Geometry.html  | 6 +++---
  2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/www/Magick++/CoderInfo.html b/www/Magick++/CoderInfo.html
-index b539e76..7315c71 100644
---- a/www/Magick++/CoderInfo.html
-+++ b/www/Magick++/CoderInfo.html
-@@ -75,7 +75,7 @@ cout &lt;&lt; endl;
+Index: imagemagick/www/Magick++/CoderInfo.html
+===================================================================
+--- imagemagick.orig/www/Magick++/CoderInfo.html	2026-07-07 10:22:15.719457795 +0200
++++ imagemagick/www/Magick++/CoderInfo.html	2026-07-07 10:22:15.717094215 +0200
+@@ -75,7 +75,7 @@
          <tr>
            <td>
              <p>
@@ -21,7 +21,7 @@ index b539e76..7315c71 100644
              </p>
            </td>
            <td>
-@@ -87,7 +87,7 @@ cout &lt;&lt; endl;
+@@ -87,7 +87,7 @@
          <tr>
            <td>
              <p>
@@ -30,18 +30,18 @@ index b539e76..7315c71 100644
              </p>
            </td>
            <td>
-@@ -211,4 +211,4 @@ cout &lt;&lt; endl;
+@@ -211,4 +211,4 @@
    </div>
  </body>
  
 -</html>
 \ No newline at end of file
 +</html>
-diff --git a/www/Magick++/Geometry.html b/www/Magick++/Geometry.html
-index 9f0f7fe..fc5d1b6 100644
---- a/www/Magick++/Geometry.html
-+++ b/www/Magick++/Geometry.html
-@@ -518,7 +518,7 @@ table:
+Index: imagemagick/www/Magick++/Geometry.html
+===================================================================
+--- imagemagick.orig/www/Magick++/Geometry.html	2026-07-07 10:22:15.719457795 +0200
++++ imagemagick/www/Magick++/Geometry.html	2026-07-07 10:22:15.717196771 +0200
+@@ -518,7 +518,7 @@
  	</tr>
  	<tr>
  		<td width="44%">
@@ -50,7 +50,7 @@ index 9f0f7fe..fc5d1b6 100644
  		</td>
  		<td width="37%">
  			<p>Copy constructor</p>
-@@ -526,7 +526,7 @@ table:
+@@ -526,7 +526,7 @@
  	</tr>
  	<tr>
  		<td width="44%">
@@ -59,7 +59,7 @@ index 9f0f7fe..fc5d1b6 100644
  		</td>
  		<td width="37%">
  			<p>Construct geometry from C++ string</p>
-@@ -542,7 +542,7 @@ table:
+@@ -542,7 +542,7 @@
  	</tr>
  	<tr>
  		<td width="44%">

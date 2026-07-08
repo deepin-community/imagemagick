@@ -14,3 +14,7 @@ Tests: perlmagick-fonts-${IMVERSION}.${QUANTUMDEPTH}
 Depends: libimage-magick-${QUANTUMDEPTH}-perl, libmagickcore-${IMVERSION}.${QUANTUMDEPTH}-${CORESOVERSION}-extra, libaliased-perl, fonts-urw-base35, libarray-compare-perl, bash
 Restrictions: allow-stderr
 
+Tests: policy-${IMVERSION}.${QUANTUMDEPTH}
+Depends: @, curl, busybox, iproute2
+Restrictions: allow-stderr
+

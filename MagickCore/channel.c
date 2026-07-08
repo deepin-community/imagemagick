@@ -660,6 +660,8 @@ MagickExport Image *CombineImages(const Image *image,
   combine_view=DestroyCacheView(combine_view);
   if (status == MagickFalse)
     combine_image=DestroyImage(combine_image);
+  else
+    combine_image->type=UndefinedType;
   return(combine_image);
 }
 

@@ -92,6 +92,9 @@ struct _QuantumInfo
     meta_channel;
 };
 
+extern MagickExport MagickBooleanType
+  SetQuantumExtent(const Image *,QuantumInfo *);
+
 extern MagickPrivate void
   ResetQuantumState(QuantumInfo *);
 
@@ -109,6 +112,15 @@ static inline MagickSizeType GetQuantumRange(const size_t depth)
   max_depth=8*sizeof(MagickSizeType);
   return((MagickSizeType) ((one << (MagickMin(depth,max_depth)-1))+
     ((one << (MagickMin(depth,max_depth)-1))-1)));
+}
+
+static inline EndianType GetHostEndian(void)
+{
+  unsigned long
+    lsb_first;
+
+  lsb_first=1;
+  return((*(char *) &lsb_first) == 1 ? LSBEndian : MSBEndian);
 }
 
 static inline float HalfToSinglePrecision(const unsigned short half)

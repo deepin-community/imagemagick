@@ -185,18 +185,21 @@ static Image *ReadPGXImage(const ImageInfo *image_info,ExceptionInfo *exception)
     sans,endian,sign,&precision,sans,&width,sans,&height);
   if (count != 8)
     ThrowReaderException(CorruptImageError,"ImproperImageHeader");
+  if ((width <= 0) || (height <= 0) || (precision <= 0) || (precision > 64))
+    ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   image->depth=(size_t) precision;
   if (LocaleCompare(endian,"ML") == 0)
     image->endian=MSBEndian;
   image->columns=(size_t) width;
   image->rows=(size_t) height;
-  if ((image->columns == 0) || (image->rows == 0))
-    ThrowReaderException(CorruptImageError,"ImproperImageHeader");
   if (image_info->ping != MagickFalse)
     {
       (void) CloseBlob(image);
       return(GetFirstImageInList(image));
     }
+  if ((image->columns > GetBlobSize(image)) ||
+      (image->rows > GetBlobSize(image)))
+    ThrowReaderException(CorruptImageError,"InsufficientImageDataInFile");
   status=SetImageExtent(image,image->columns,image->rows,exception);
   if (status == MagickFalse)
     return(DestroyImageList(image));

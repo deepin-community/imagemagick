@@ -12,7 +12,10 @@
   before making use of ImageMagick is highly advised. You can find guidance on
   setting up this policy at https://imagemagick.org/script/security-policy.php,
   and it's important to verify your policy using the validation tool located
-  at https://imagemagick-secevaluator.doyensec.com/.
+  at https://imagemagick-secevaluator.doyensec.com/. We also strongly
+  recommend that all users validate their security assumptions by testing their   configurations after making any policy changes. This helps ensure that the 
+  intended restrictions are functioning as expected in their specific 
+  deployment environment.
 
 
   Limited ImageMagick security policy:
@@ -49,7 +52,7 @@
        cache memory. Images that exceed the area limit are cached to disk. -->
   <policy domain="resource" name="area" value="8KP"/>
   <!-- Set maximum amount of disk space in bytes permitted for use by the pixel
-       cache. When this limit is exceeded, the pixel cache is not be created
+       cache. When this limit is exceeded, the pixel cache is not created
        and an exception is thrown. -->
   <policy domain="resource" name="disk" value="2GiB"/>
   <!-- Set the maximum length of an image sequence.  When this limit is

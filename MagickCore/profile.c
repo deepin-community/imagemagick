@@ -92,6 +92,67 @@ static void
   WriteTo8BimProfile(Image *,const char*,const StringInfo *);
 
 /*
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%   A p p e n d I m a g e P r o f i l e P r o p e r t y                       %
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  AppendImageProfileProperty() appends a semicolon-delimited value to an image
+%  property when the image contains the requested profile.
+%
+%  The format of the AppendImageProfileProperty method is:
+%
+%      void AppendImageProfileProperty(Image *image,const char *profile,
+%        const char *property,const char *value,ExceptionInfo *exception)
+%
+%  A description of each parameter follows:
+%
+%    o image: the image.
+%
+%    o profile: the image profile name.
+%
+%    o property: the image property name.
+%
+%    o value: the property value to append.
+%
+%    o exception: return any errors or warnings in this structure.
+%
+*/
+MagickPrivate void AppendImageProfileProperty(Image *image,const char *profile,
+  const char *property,const char *value,ExceptionInfo *exception)
+{
+  char
+    *property_value;
+
+  const char
+    *current;
+
+  assert(image != (Image *) NULL);
+  assert(image->signature == MagickCoreSignature);
+  assert(profile != (const char *) NULL);
+  assert(property != (const char *) NULL);
+  assert(value != (const char *) NULL);
+  if (GetImageProfile(image,profile) == (const StringInfo *) NULL)
+    return;
+  current=GetImageProperty(image,property,exception);
+  if ((current == (const char *) NULL) || (*current == '\0'))
+    {
+      (void) SetImageProperty(image,property,value,exception);
+      return;
+    }
+  property_value=AcquireString(current);
+  (void) ConcatenateString(&property_value,";");
+  (void) ConcatenateString(&property_value,value);
+  (void) SetImageProperty(image,property,property_value,exception);
+  property_value=DestroyString(property_value);
+}
+
+/*
   Typedef declarations
 */
 struct _ProfileInfo
@@ -1294,7 +1355,7 @@ MagickExport MagickBooleanType ProfileImage(Image *image,const char *name,
                   target_info.type=(cmsUInt32Number) TYPE_XYZ_8;
 #elif (MAGICKCORE_QUANTUM_DEPTH == 16)
                 else
-                  source_info.type=(cmsUInt32Number) TYPE_XYZ_16;
+                  target_info.type=(cmsUInt32Number) TYPE_XYZ_16;
 #endif
                 break;
               }
@@ -1450,6 +1511,8 @@ MagickExport MagickBooleanType ProfileImage(Image *image,const char *name,
             if ((status != MagickFalse) &&
                 (cmsGetDeviceClass(source_info.profile) != cmsSigLinkClass))
               status=SetImageProfilePrivate(image,profile,exception);
+            else
+              profile=DestroyStringInfo(profile);
             if (target_info.profile != (cmsHPROFILE) NULL)
               (void) cmsCloseProfile(target_info.profile);
           }
@@ -1781,7 +1844,7 @@ static void GetProfilesFromResourceBlock(Image *image,
         /*
           Resolution.
         */
-        if (count < 10)
+        if (count < 16)
           break;
         p=ReadResourceLong(p,&resolution);
         image->resolution.x=((double) resolution)/65536.0;
