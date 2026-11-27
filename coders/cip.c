@@ -63,6 +63,7 @@
 #include "MagickCore/string_.h"
 #include "MagickCore/module.h"
 #include "MagickCore/utility.h"
+#include "MagickCore/xml-tree-private.h"
 
 /*
   Forward declarations.
@@ -161,7 +162,8 @@ static MagickBooleanType WriteCIPImage(const ImageInfo *image_info,Image *image,
   ExceptionInfo *exception)
 {
   char
-    buffer[MagickPathExtent];
+    buffer[MagickPathExtent],
+    *escaped;
 
   const char
     *value;
@@ -198,29 +200,27 @@ static MagickBooleanType WriteCIPImage(const ImageInfo *image_info,Image *image,
     return(status);
   (void) WriteBlobString(image,"<CiscoIPPhoneImage>\n");
   value=GetImageProperty(image,"label",exception);
-  if (value != (const char *) NULL)
-    (void) FormatLocaleString(buffer,MagickPathExtent,"<Title>%s</Title>\n",
-      value);
-  else
+  if (value == (const char *) NULL)
     {
-      char
-        basename[MagickPathExtent];
-
-      GetPathComponent(image->filename,BasePath,basename);
-      (void) FormatLocaleString(buffer,MagickPathExtent,"<Title>%s</Title>\n",
-        basename);
+      GetPathComponent(image->filename,BasePath,buffer);
+      value=buffer;
     }
+  escaped=SubstituteXMLEntities(value,MagickFalse);
+  (void) WriteBlobString(image,"<Title>");
+  if (escaped != (char*)NULL)
+    (void) WriteBlobString(image,escaped);
+  (void) WriteBlobString(image,"</Title>\n");
+  escaped=DestroyString(escaped);
+  (void) FormatLocaleString(buffer,MagickPathExtent,
+    "<LocationX>%.17g</LocationX>\n",(double) image->page.x);
   (void) WriteBlobString(image,buffer);
   (void) FormatLocaleString(buffer,MagickPathExtent,
-    "<LocationX>%.20g</LocationX>\n",(double) image->page.x);
+    "<LocationY>%.17g</LocationY>\n",(double) image->page.y);
   (void) WriteBlobString(image,buffer);
-  (void) FormatLocaleString(buffer,MagickPathExtent,
-    "<LocationY>%.20g</LocationY>\n",(double) image->page.y);
-  (void) WriteBlobString(image,buffer);
-  (void) FormatLocaleString(buffer,MagickPathExtent,"<Width>%.20g</Width>\n",
+  (void) FormatLocaleString(buffer,MagickPathExtent,"<Width>%.17g</Width>\n",
     (double) (image->columns+(image->columns % 2)));
   (void) WriteBlobString(image,buffer);
-  (void) FormatLocaleString(buffer,MagickPathExtent,"<Height>%.20g</Height>\n",
+  (void) FormatLocaleString(buffer,MagickPathExtent,"<Height>%.17g</Height>\n",
     (double) image->rows);
   (void) WriteBlobString(image,buffer);
   (void) FormatLocaleString(buffer,MagickPathExtent,"<Depth>2</Depth>\n");

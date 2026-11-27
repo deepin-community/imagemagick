@@ -206,6 +206,7 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
     Read TGA header information.
   */
   count=ReadBlob(image,1,&tga_info.id_length);
+  (void) memset(&tga_info,0,sizeof(tga_info));
   tga_info.colormap_type=(unsigned char) ReadBlobByte(image);
   tga_info.image_type=(TGAImageType) ReadBlobByte(image);
   if ((count != 1) ||
@@ -238,6 +239,8 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
   */
   image->columns=tga_info.width;
   image->rows=tga_info.height;
+  image->page.x=(ssize_t) tga_info.x_origin;
+  image->page.y=(ssize_t) tga_info.y_origin;
   if ((tga_info.image_type != TGAMonochrome) &&
       (tga_info.image_type != TGARLEMonochrome))
     {
@@ -630,7 +633,7 @@ static Image *ReadTGAImage(const ImageInfo *image_info,ExceptionInfo *exception)
             Optional extension.
           */
           char
-            buffer[325];
+            buffer[325] = { 0 };
 
           (void) ReadBlob(image,41,buffer);
           buffer[41]='\0';
@@ -880,7 +883,11 @@ static MagickBooleanType WriteTGAImage(const ImageInfo *image_info,Image *image,
   tga_info.colormap_length=0;
   tga_info.colormap_size=0;
   tga_info.x_origin=0;
+  if ((image->page.x > 0) && (image->page.x <= MAGICK_USHORT_MAX))
+    tga_info.x_origin=(unsigned short) image->page.x;
   tga_info.y_origin=0;
+  if ((image->page.y > 0) && (image->page.y <= MAGICK_USHORT_MAX))
+    tga_info.y_origin=(unsigned short) image->page.y;
   tga_info.width=(unsigned short) image->columns;
   tga_info.height=(unsigned short) image->rows;
   tga_info.bits_per_pixel=8;

@@ -1071,23 +1071,43 @@ static MagickBooleanType AllocFxRt (FxInfo * pfx, fxRtT * pfxrt)
   return MagickTrue;
 }
 
-static MagickBooleanType ExtendRPN (FxInfo * pfx)
+static MagickBooleanType ExtendRPN(FxInfo * pfx)
 {
-  pfx->numElements = (int) ceil (pfx->numElements * (1 + TableExtend));
-  pfx->Elements = (ElementT*) ResizeMagickMemory (pfx->Elements, (size_t) pfx->numElements * sizeof(ElementT));
-  if (!pfx->Elements) {
-    (void) ThrowMagickException (
-      pfx->exception, GetMagickModule(), ResourceLimitFatalError,
-      "Elements", "%i",
-      pfx->numElements);
-    return MagickFalse;
-  }
-  return MagickTrue;
+  ElementT
+    *new_elements;
+
+  int
+    element_count;
+
+  /*
+    Keep the original table and size intact unless growth succeeds.
+  */
+  element_count=(int) ceil(pfx->numElements*(1+TableExtend));
+  new_elements=(ElementT *) AcquireQuantumMemory((size_t) element_count,
+    sizeof(*new_elements));
+  if (new_elements == (ElementT *) NULL)
+    {
+      (void) ThrowMagickException(pfx->exception,GetMagickModule(),
+        ResourceLimitError,"MemoryAllocationFailed","`%s'","RPN table");
+      return(MagickFalse);
+    }
+  (void) memcpy(new_elements,pfx->Elements,(size_t) pfx->usedElements*
+    sizeof(*new_elements));
+   pfx->Elements=(ElementT *) RelinquishMagickMemory(pfx->Elements);
+   pfx->Elements=new_elements;
+   pfx->numElements=element_count;
+   if (!pfx->Elements)
+     {
+       (void) ThrowMagickException(pfx->exception,GetMagickModule(),
+         ResourceLimitFatalError,"Elements","%i",pfx->numElements);
+       return(MagickFalse);
+     }
+  return(MagickTrue);
 }
 
-static inline MagickBooleanType OprInPlace (int op)
+static inline MagickBooleanType OprInPlace(int op)
 {
-  return (op >= oAddEq && op <= oSubSub ? MagickTrue : MagickFalse);
+  return(op >= oAddEq && op <= oSubSub ? MagickTrue : MagickFalse);
 }
 
 static const char * OprStr (int oprNum)
@@ -1264,16 +1284,25 @@ static MagickBooleanType TokenMaybeUserSymbol (FxInfo * pfx)
   return MagickTrue;
 }
 
-static MagickBooleanType AddElement (FxInfo * pfx, fxFltType val, int oprNum)
+static MagickBooleanType AddElement(FxInfo * pfx,fxFltType val,int oprNum)
 {
   ElementT * pel;
 
   assert (oprNum <= rNull);
 
-  if (++pfx->usedElements >= pfx->numElements) {
-    if (!ExtendRPN (pfx)) return MagickFalse;
-  }
-
+  if (++pfx->usedElements >= pfx->numElements)
+    {
+      if (ExtendRPN(pfx) == MagickFalse)
+        {
+          pfx->usedElements--;
+          return(MagickFalse);
+        }
+    }
+  if (pfx->Elements == (ElementT *) NULL)
+    {
+      pfx->usedElements--;
+      return(MagickFalse);
+    }
   pel = &pfx->Elements[pfx->usedElements-1];
   pel->type = TypeOfOpr (oprNum);
   pel->val = val;
@@ -1515,7 +1544,7 @@ static PixelChannel GetChannelQualifier (FxInfo * pfx, int op)
 static ImgAttrE GetImgAttrToken (FxInfo * pfx)
 {
   ImgAttrE ia = aNull;
-  const char * iaStr;
+  const char * iaStr = "";
   for (ia = FirstImgAttr; ia < aNull; ia=(ImgAttrE) (ia+1)) {
     iaStr = ImgAttrs[ia-(int) FirstImgAttr].str;
     if (LocaleCompare (iaStr, pfx->token)==0) {
@@ -3274,7 +3303,7 @@ static inline fxFltType GetIntensity (FxInfo * pfx, ssize_t ImgNum, const fxFltT
 
   (void) GetPixelInfo (img, &pixelinf);
 
-  if (!InterpolatePixelInfo (img, pfx->Imgs[pfx->ImgNum].View, img->interpolate,
+  if (!InterpolatePixelInfo (img, pfx->Imgs[ImgNum].View, img->interpolate,
               (double) fx, (double) fy, &pixelinf, pfx->exception))
   {
     (void) ThrowMagickException (
@@ -4303,7 +4332,7 @@ static FxInfo *AcquireFxInfoPrivate (const Image * images, const char * expressi
         {
           ssize_t t2;
           for (t2 = t-1; t2 >= 0; t2--) {
-            DestroyFxRt (&pfx->fxrts[t]);
+            DestroyFxRt (&pfx->fxrts[t2]);
           }
         }
         pfx->fxrts = (fxRtT *) RelinquishMagickMemory (pfx->fxrts);

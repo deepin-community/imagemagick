@@ -1,0 +1,183 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 10 Oct 2026 22:46:37 +0200
+Subject: Fix col
+
+find . -type f -exec perl -0777 -pi -e 's/<col\b([^>]*?)(?<!\/)>/<col$1 \/>/g' {} \;
+
+forwarded: not-needed
+---
+ www/compare/index.html                |  4 ++--
+ www/conjure/index.html                | 10 +++++-----
+ www/escape/index.html                 |  4 ++--
+ www/identify/index.html               |  4 ++--
+ www/import/index.html                 |  4 ++--
+ www/magick-script/index.html          |  4 ++--
+ www/magick-vector-graphics/index.html |  4 ++--
+ www/mogrify/index.html                |  4 ++--
+ www/montage/index.html                |  4 ++--
+ www/webp/index.html                   |  4 ++--
+ 10 files changed, 23 insertions(+), 23 deletions(-)
+
+diff --git a/www/compare/index.html b/www/compare/index.html
+index fae841d..d553006 100644
+--- a/www/compare/index.html
++++ b/www/compare/index.html
+@@ -393,8 +393,8 @@ Channel maximum locations:
+     <div style="max-height:75svh; overflow-y:auto; overflow-x:hidden;" class="p-0">
+       <table class="table table-sm table-hover table-striped mb-0 align-middle">
+         <colgroup>
+-          <col style="width:30%">
+-          <col style="width:70%">
++          <col style="width:30%" />
++          <col style="width:70%" />
+         </colgroup>
+         <thead class="table-dark sticky-top">
+           <tr>
+diff --git a/www/conjure/index.html b/www/conjure/index.html
+index 087fa69..d81991f 100644
+--- a/www/conjure/index.html
++++ b/www/conjure/index.html
+@@ -385,8 +385,8 @@ msl:font-metrics.origin.y</code></pre>
+     <div style="max-height:75svh; overflow-y:auto; overflow-x:hidden;" class="p-0">
+       <table class="table table-sm table-hover table-striped mb-0 align-middle">
+         <colgroup>
+-          <col style="width:30%">
+-          <col style="width:70%">
++          <col style="width:30%" />
++          <col style="width:70%" />
+         </colgroup>
+         <thead class="table-dark sticky-top">
+           <tr>
+@@ -444,9 +444,9 @@ msl:font-metrics.origin.y</code></pre>
+     <div style="max-height:75svh; overflow-y:auto; overflow-x:hidden;" class="p-0">
+       <table class="table table-sm table-hover table-striped mb-0 align-middle">
+         <colgroup>
+-          <col style="width:25%">
+-          <col style="width:35%">
+-          <col style="width:40%">
++          <col style="width:25%" />
++          <col style="width:35%" />
++          <col style="width:40%" />
+         </colgroup>
+         <thead class="table-dark sticky-top">
+           <tr>
+diff --git a/www/escape/index.html b/www/escape/index.html
+index 41ee335..5003b22 100644
+--- a/www/escape/index.html
++++ b/www/escape/index.html
+@@ -332,8 +332,8 @@
+     <div style="max-height:75svh; overflow-y:auto; overflow-x:hidden;" class="p-0">
+       <table class="table table-hover table-striped mb-0 align-middle">
+         <colgroup>
+-          <col style="width:30%">
+-          <col style="width:70%">
++          <col style="width:30%" />
++          <col style="width:70%" />
+         </colgroup>
+         <tbody>
+           <tr>
+diff --git a/www/identify/index.html b/www/identify/index.html
+index 565dec0..3ba05dc 100644
+--- a/www/identify/index.html
++++ b/www/identify/index.html
+@@ -494,8 +494,8 @@
+     <div style="max-height:75svh; overflow-y:auto; overflow-x:hidden;">
+       <table class="table table-sm table-hover table-striped mb-0 align-middle">
+         <colgroup>
+-          <col style="width:30%">
+-          <col style="width:70%">
++          <col style="width:30%" />
++          <col style="width:70%" />
+         </colgroup>
+         <thead class="table-dark sticky-top">
+           <tr>
+diff --git a/www/import/index.html b/www/import/index.html
+index 5779466..05ede11 100644
+--- a/www/import/index.html
++++ b/www/import/index.html
+@@ -346,8 +346,8 @@
+     <div style="max-height:75svh; overflow-y:auto; overflow-x:hidden;" class="p-0">
+       <table class="table table-sm table-hover table-striped mb-0 align-middle">
+         <colgroup>
+-          <col style="width:30%">
+-          <col style="width:70%">
++          <col style="width:30%" />
++          <col style="width:70%" />
+         </colgroup>
+         <thead class="table-dark sticky-top">
+           <tr>
+diff --git a/www/magick-script/index.html b/www/magick-script/index.html
+index 74f7d2d..2e0fc0a 100644
+--- a/www/magick-script/index.html
++++ b/www/magick-script/index.html
+@@ -355,8 +355,8 @@
+   <div class="table-responsive rounded border border-secondary-subtle" style="max-height: 75svh; overflow-y: auto;">
+     <table class="table table-hover table-striped align-middle mb-0">
+       <colgroup>
+-        <col style="width: 35%;">
+-        <col style="width: 65%;">
++        <col style="width: 35%;" />
++        <col style="width: 65%;" />
+       </colgroup>
+       <thead class="table-dark sticky-top">
+         <tr>
+diff --git a/www/magick-vector-graphics/index.html b/www/magick-vector-graphics/index.html
+index c3b7cf6..2071ea1 100644
+--- a/www/magick-vector-graphics/index.html
++++ b/www/magick-vector-graphics/index.html
+@@ -581,8 +581,8 @@ clip-path url(#myClipPath)</code></pre>
+     <div style="max-height:75svh; overflow-y:auto; overflow-x:hidden;" class="p-0">
+       <table class="table table-sm table-hover table-striped mb-0 align-middle">
+         <colgroup>
+-          <col style="width: 35%;">
+-          <col style="width: 65%;">
++          <col style="width: 35%;" />
++          <col style="width: 65%;" />
+         </colgroup>
+         <thead class="table-dark sticky-top">
+           <tr>
+diff --git a/www/mogrify/index.html b/www/mogrify/index.html
+index 39e1025..4e49c73 100644
+--- a/www/mogrify/index.html
++++ b/www/mogrify/index.html
+@@ -384,8 +384,8 @@
+   <div class="table-responsive rounded border border-secondary-subtle" style="max-height: 75svh; overflow-y: auto;">
+     <table class="table table-hover table-striped align-middle mb-0">
+       <colgroup>
+-        <col style="width: 35%;">
+-        <col style="width: 65%;">
++        <col style="width: 35%;" />
++        <col style="width: 65%;" />
+       </colgroup>
+       <thead class="table-dark sticky-top">
+         <tr>
+diff --git a/www/montage/index.html b/www/montage/index.html
+index e615335..f5733cd 100644
+--- a/www/montage/index.html
++++ b/www/montage/index.html
+@@ -402,8 +402,8 @@
+   <div class="table-responsive rounded border border-secondary-subtle" style="max-height: 75svh; overflow-y: auto;">
+     <table class="table table-hover table-striped align-middle mb-0">
+       <colgroup>
+-        <col style="width: 35%;">
+-        <col style="width: 65%;">
++        <col style="width: 35%;" />
++        <col style="width: 65%;" />
+       </colgroup>
+       <thead class="table-dark sticky-top">
+         <tr>
+diff --git a/www/webp/index.html b/www/webp/index.html
+index 60348e3..277e931 100644
+--- a/www/webp/index.html
++++ b/www/webp/index.html
+@@ -288,8 +288,8 @@
+ <div style="max-height:75svh; overflow-y:auto; overflow-x:hidden;">
+ <table class="table table-sm table-hover table-striped">
+   <colgroup>
+-    <col style="width:30%">
+-    <col style="width:70%">
++    <col style="width:30%" />
++    <col style="width:70%" />
+   </colgroup>
+   <thead>
+   <tr>

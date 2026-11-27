@@ -297,7 +297,7 @@ static int ReadSingleWEBPImage(const ImageInfo *image_info,Image *image,
     }
   if (webp_status != VP8_STATUS_OK)
     return(webp_status);
-  if (IsWEBPImageLossless((unsigned char *) stream,length) != MagickFalse)
+  if (IsWEBPImageLossless((const unsigned char *) stream,length) != MagickFalse)
     image->quality=100;
   if (image_info->ping != MagickFalse)
     return(webp_status);
@@ -454,49 +454,51 @@ static int ReadAnimatedWEBPImage(const ImageInfo *image_info,Image *image,
     WebPMuxDelete(mux);
   }
   demux=WebPDemux(&data);
-  if (WebPDemuxGetFrame(demux,1,&iter))
+  if (!WebPDemuxGetFrame(demux,1,&iter))
     {
-      do
-      {
-        if (image_count != 0)
-          {
-            AcquireNextImage(image_info,image,exception);
-            if (GetNextImageInList(image) == (Image *) NULL)
-              break;
-            image=SyncNextImageInList(image);
-            CloneImageProperties(image,original_image);
-            image->page.x=(ssize_t) iter.x_offset;
-            image->page.y=(ssize_t) iter.y_offset;
-            webp_status=ReadSingleWEBPImage(image_info,image,
-              iter.fragment.bytes,iter.fragment.size,configure,exception,
-              MagickFalse);
-          }
-        else
-          {
-            image->page.x=(ssize_t) iter.x_offset;
-            image->page.y=(ssize_t) iter.y_offset;
-            webp_status=ReadSingleWEBPImage(image_info,image,
-              iter.fragment.bytes,iter.fragment.size,configure,exception,
-              MagickTrue);
-          }
-        if (webp_status != VP8_STATUS_OK)
-          break;
-        image->page.width=canvas_width;
-        image->page.height=canvas_height;
-        image->ticks_per_second=100;
-        image->delay=(size_t) round(iter.duration/10.0);
-        image->dispose=NoneDispose;
-        if (iter.dispose_method == WEBP_MUX_DISPOSE_BACKGROUND)
-          image->dispose=BackgroundDispose;
-        (void) SetImageProperty(image,"webp:mux-blend",
-          "AtopPreviousAlphaBlend",exception);
-        if (iter.blend_method == WEBP_MUX_BLEND)
-          (void) SetImageProperty(image,"webp:mux-blend",
-            "AtopBackgroundAlphaBlend",exception);
-        image_count++;
-      } while (WebPDemuxNextFrame(&iter));
-      WebPDemuxReleaseIterator(&iter);
+      WebPDemuxDelete(demux);
+      return(VP8_STATUS_NOT_ENOUGH_DATA);
     }
+  do
+  {
+    if (image_count != 0)
+      {
+        AcquireNextImage(image_info,image,exception);
+        if (GetNextImageInList(image) == (Image *) NULL)
+          break;
+        image=SyncNextImageInList(image);
+        CloneImageProperties(image,original_image);
+        image->page.x=(ssize_t) iter.x_offset;
+        image->page.y=(ssize_t) iter.y_offset;
+        webp_status=ReadSingleWEBPImage(image_info,image,
+          iter.fragment.bytes,iter.fragment.size,configure,exception,
+          MagickFalse);
+      }
+    else
+      {
+        image->page.x=(ssize_t) iter.x_offset;
+        image->page.y=(ssize_t) iter.y_offset;
+        webp_status=ReadSingleWEBPImage(image_info,image,
+          iter.fragment.bytes,iter.fragment.size,configure,exception,
+          MagickTrue);
+      }
+    if (webp_status != VP8_STATUS_OK)
+      break;
+    image->page.width=canvas_width;
+    image->page.height=canvas_height;
+    image->ticks_per_second=100;
+    image->delay=(size_t) round(iter.duration/10.0);
+    image->dispose=NoneDispose;
+    if (iter.dispose_method == WEBP_MUX_DISPOSE_BACKGROUND)
+      image->dispose=BackgroundDispose;
+    (void) SetImageProperty(image,"webp:mux-blend",
+      "AtopPreviousAlphaBlend",exception);
+    if (iter.blend_method == WEBP_MUX_BLEND)
+      (void) SetImageProperty(image,"webp:mux-blend",
+        "AtopBackgroundAlphaBlend",exception);
+    image_count++;
+  } while (WebPDemuxNextFrame(&iter));
+  WebPDemuxReleaseIterator(&iter);
   WebPDemuxDelete(demux);
   return(webp_status);
 }
@@ -559,7 +561,7 @@ static Image *ReadWEBPImage(const ImageInfo *image_info,
     }
   stream=(unsigned char *) NULL;
   if (WebPInitDecoderConfig(&configure) == 0)
-    ThrowReaderException(ResourceLimitError,"UnableToDecodeImageFile");
+    ThrowWEBPException(ResourceLimitError,"UnableToDecodeImageFile");
   webp_image->colorspace=MODE_RGBA;
   count=ReadBlob(image,12,header);
   if (count != 12)
@@ -989,10 +991,11 @@ static MagickBooleanType WriteAnimatedWEBPImage(const ImageInfo *image_info,
     if (memory_info != (MemoryInfo *) NULL)
       (void) AppendValueToLinkedList(memory_info_list,memory_info);
     WebPPictureFree(&picture);
-    effective_delta=(size_t) (frame->delay*1000*MagickSafeReciprocal(
-      (double) frame->ticks_per_second));
+    effective_delta=(size_t) CastDoubleToSizeT((double) frame->delay*1000.0*
+      MagickSafeReciprocal((double) frame->ticks_per_second));
     if (effective_delta < 10)
-      effective_delta=100; /* Consistent with gif2webp */
+      effective_delta=(image->delay == 0) && (image->previous != NULL) ? 
+        (image->previous->delay*1000/image->ticks_per_second) : 100;
     frame_timestamp+=effective_delta;
     frame=GetNextImageInList(frame);
   }

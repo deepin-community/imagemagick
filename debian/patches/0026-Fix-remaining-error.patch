@@ -1,0 +1,44 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 10 Oct 2026 23:02:38 +0200
+Subject: Fix remaining error
+
+forwarded: not-needed
+---
+ www/magick++/index.html | 2 +-
+ www/news/index.html     | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/www/magick++/index.html b/www/magick++/index.html
+index 89fea30..f49d9cc 100644
+--- a/www/magick++/index.html
++++ b/www/magick++/index.html
+@@ -310,7 +310,7 @@
+ <p class="text-center"><a href="#documentation">Documentation</a> • <a href="#get">Obtaining Magick++</a> • <a href="#install">Installation</a> • <a href="#bugs">Reporting Bugs</a></p>
+ 
+ <a class="anchor" id="intro"></a>
+-Magick++ is the object-oriented C++ API to the <a href="../index-2.html">ImageMagick</a> image-processing library.</p>
++Magick++ is the object-oriented C++ API to the <a href="../index-2.html">ImageMagick</a> image-processing library.
+ <p>Magick++ supports an object model which is inspired by <a href="../perl-magick/index.html">PerlMagick</a>.
+ Images support implicit reference counting so that copy constructors
+ and assignment incur almost no cost. The cost of actually copying an
+diff --git a/www/news/index.html b/www/news/index.html
+index f3d8bf7..1c4290c 100644
+--- a/www/news/index.html
++++ b/www/news/index.html
+@@ -228,7 +228,6 @@
+ <div class="alert alert-success" role="alert">
+   <h4 class="alert-heading">ImageMagick Security News</h4>
+ <p>Over the last several months, ImageMagick has delivered huge security improvements, fixing buffer overflows, policy bypasses, and injection risks.  The GitHub Advisory Database now lists dozens of closed advisories, reflecting the project’s strengthened defenses.</p>
+-<hr>
+ <p class="mb-0">
+   Reference: <a href="https://github.com/ImageMagick/ImageMagick/security/advisories" class="alert-link">
+     GitHub Closed Advisories
+@@ -237,7 +236,7 @@
+ </div>
+ <p>The <code>magick convert</code> command is deprecated, use <code>magick</code> instead.  The deprecated command still works, however, it now posts a warning it is deprecated.</p>
+ 
+-<p>Creating a security policy that fits your specific local environment before making use of ImageMagick is highly advised. You can find guidance on setting up this <a href="../security-policy/index.html">policy</a>. Also, it's important to verify your policy using the <a href="https://imagemagick-secevaluator.doyensec.com/">validation tool</a>.  As of ImageMagick version 7.1.1-16, you can choose and customize one of these <a href="../security-policy/index.html">security policies</a>: Open, Limited, Secure, and Websafe.<p>
++<p>Creating a security policy that fits your specific local environment before making use of ImageMagick is highly advised. You can find guidance on setting up this <a href="../security-policy/index.html">policy</a>. Also, it's important to verify your policy using the <a href="https://imagemagick-secevaluator.doyensec.com/">validation tool</a>.  As of ImageMagick version 7.1.1-16, you can choose and customize one of these <a href="../security-policy/index.html">security policies</a>: Open, Limited, Secure, and Websafe.</p>
+ 
+ <p>By default, ImageMagick supports up to 32 channels.  As of ImageMagick version 7.1.1-16, you can enable up to 64 channels by adding the <code>--enable-64bit-channel-masks</code> option to the Linux configure build script.  For Windows, just select the option from the configure application.</p>
+ 

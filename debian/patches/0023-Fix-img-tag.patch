@@ -1,0 +1,1390 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 10 Oct 2026 22:43:37 +0200
+Subject: Fix img tag
+
+find . -type f -exec perl -0777 -pi -e 's/<img\b([^>]*?)(?<!\/)>/<img$1 \/>/g' {} \;
+
+forwarded: not-needed
+---
+ www/command-line-processing/index.html         | 10 +++++-----
+ www/compare/index.html                         |  6 +++---
+ www/compose/index.html                         |  4 ++--
+ www/composite/index.html                       |  8 ++++----
+ www/conjure/index.html                         |  4 ++--
+ www/connected-components/index.html            |  4 ++--
+ www/content-provenance-authenticity/index.html |  4 ++--
+ www/convert/index.html                         |  4 ++--
+ www/convex-hull/index.html                     |  4 ++--
+ www/defines/index.html                         |  4 ++--
+ www/develop/index.html                         |  4 ++--
+ www/display/index.html                         |  4 ++--
+ www/distribute-pixel-cache/index.html          |  4 ++--
+ www/download/index.html                        |  4 ++--
+ www/escape/index.html                          |  4 ++--
+ www/examples/index.html                        |  4 ++--
+ www/export/index.html                          |  4 ++--
+ www/formats/index.html                         |  4 ++--
+ www/fx/index.html                              |  4 ++--
+ www/gradient/index.html                        |  4 ++--
+ www/high-dynamic-range/index.html              |  4 ++--
+ www/history/index.html                         |  4 ++--
+ www/identify/index.html                        |  4 ++--
+ www/import/index.html                          |  4 ++--
+ www/install-source/index.html                  |  4 ++--
+ www/jp2/index.html                             |  4 ++--
+ www/license/index.html                         |  4 ++--
+ www/links/index.html                           |  4 ++--
+ www/magick++/index.html                        |  4 ++--
+ www/magick-cache/index.html                    |  4 ++--
+ www/magick-core/index.html                     |  4 ++--
+ www/magick-script/index.html                   |  4 ++--
+ www/magick-vector-graphics/index.html          |  4 ++--
+ www/magick-wand/index.html                     |  4 ++--
+ www/magick/index.html                          | 10 +++++-----
+ www/miff/index.html                            |  4 ++--
+ www/mirror/index.html                          |  4 ++--
+ www/mogrify/index.html                         |  6 +++---
+ www/montage/index.html                         |  8 ++++----
+ www/motion-picture/index.html                  |  4 ++--
+ www/multispectral-imagery/index.html           |  4 ++--
+ www/news/index.html                            |  4 ++--
+ www/opencl/index.html                          |  4 ++--
+ www/openmp/index.html                          |  4 ++--
+ www/perl-magick/index.html                     |  4 ++--
+ www/porting/index.html                         |  4 ++--
+ www/privacy-policy/index.html                  |  4 ++--
+ www/quantize/index.html                        |  4 ++--
+ www/resources/index.html                       |  4 ++--
+ www/search/index4840.html                      |  4 ++--
+ www/security-policy/index.html                 |  4 ++--
+ www/sitemap/index.html                         |  4 ++--
+ www/stream/index.html                          |  4 ++--
+ www/support/index.html                         |  4 ++--
+ www/vpat/index.html                            |  4 ++--
+ www/webp/index.html                            |  4 ++--
+ 56 files changed, 124 insertions(+), 124 deletions(-)
+
+diff --git a/www/command-line-processing/index.html b/www/command-line-processing/index.html
+index dbcd132..a1400fa 100644
+--- a/www/command-line-processing/index.html
++++ b/www/command-line-processing/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -356,9 +356,9 @@
+     <div class="card im-card p-4 h-100">
+       <h6 class="fw-bold mb-3">2D Label to 3D Simulated Depth</h6>
+       <div class="d-flex align-items-center justify-content-center gap-3 bg-body-secondary p-3 rounded mb-3">
+-        <a href="../image/label.gif" target="_blank"><img src="../image/label.gif" width="78" height="53" alt="label" class="border rounded"></a>
++        <a href="../image/label.gif" target="_blank"><img src="../image/label.gif" width="78" height="53" alt="label" class="border rounded" /></a>
+         <i class="bi bi-arrow-right fs-4 text-primary"></i>
+-        <a href="../image/button.gif" target="_blank"><img src="../image/button.gif" width="78" height="53" alt="button" class="border rounded"></a>
++        <a href="../image/button.gif" target="_blank"><img src="../image/button.gif" width="78" height="53" alt="button" class="border rounded" /></a>
+       </div>
+       <p class="small text-body-secondary mb-0">Transform flat typography into rich, textured dimensional UI buttons using single-line execution.</p>
+     </div>
+@@ -368,7 +368,7 @@
+     <div class="card im-card p-4 h-100">
+       <h6 class="fw-bold mb-3">Dynamic Shaded Progress Cylinder</h6>
+       <div class="text-center bg-body-secondary p-2 rounded mb-3">
+-        <img src="../image/cylinder_shaded.png" alt="Shaded Cylinder" class="img-fluid rounded" style="max-height: 110px;">
++        <img src="../image/cylinder_shaded.png" alt="Shaded Cylinder" class="img-fluid rounded" style="max-height: 110px;" />
+       </div>
+       <p class="small text-body-secondary mb-0">Generate complex vector-like primitives, gradients, shadows, and labels programmatically.</p>
+     </div>
+@@ -575,7 +575,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/compare/index.html b/www/compare/index.html
+index 9708296..067fdef 100644
+--- a/www/compare/index.html
++++ b/www/compare/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -343,7 +343,7 @@ $ magick compare -compose src rose.jpg reconstruct.jpg difference.png</code></pr
+           <span class="small text-muted font-mono">reconstruct.jpg</span>
+         </div>
+         <div>
+-          <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="==>" class="opacity-75" />
++          <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="== />" class="opacity-75" />
+         </div>
+         <div class="text-center">
+           <a href="https://imagemagick.org/image/difference.png" target="_blank" class="d-block mb-1">
+@@ -645,7 +645,7 @@ Channel maximum locations:
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/compose/index.html b/www/compose/index.html
+index 04b02d8..541a79c 100644
+--- a/www/compose/index.html
++++ b/www/compose/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -866,7 +866,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/composite/index.html b/www/composite/index.html
+index 508a504..f2f6a9d 100644
+--- a/www/composite/index.html
++++ b/www/composite/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -351,7 +351,7 @@
+     <a href="https://imagemagick.org/image/smile.gif" class="text-decoration-none text-center"><img src="https://imagemagick.org/image/smile.gif" width="48" height="48" alt="smile" class="rounded border bg-white p-1" /><div class="small text-muted mt-1">smile.gif</div></a>
+     <img src="https://imagemagick.org/image/over.gif" width="56" height="46" alt="over" />
+     <a href="https://imagemagick.org/image/rose.jpg" class="text-decoration-none text-center"><img src="https://imagemagick.org/image/rose.jpg" width="70" height="46" alt="rose" class="rounded border" /><div class="small text-muted mt-1">rose:</div></a>
+-    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="==>" />
++    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="== />" />
+     <a href="https://imagemagick.org/image/rose-over.png" class="text-decoration-none text-center"><img src="https://imagemagick.org/image/rose-over.png" width="70" height="46" alt="rose" class="rounded border" /><div class="small text-muted mt-1">rose-over.png</div></a>
+   </div>
+   <p class="text-body-secondary mb-3">
+@@ -381,7 +381,7 @@
+     <a href="https://imagemagick.org/image/white-highlight.png" class="text-decoration-none text-center"><img src="https://imagemagick.org/image/white-highlight.png" width="70" height="70" alt="white highlight" class="rounded border bg-white p-1" /><div class="small text-muted mt-1">highlight</div></a>
+     <img src="https://imagemagick.org/image/atop.gif" width="56" height="70" alt="atop" />
+     <a href="https://imagemagick.org/image/red-circle.png" class="text-decoration-none text-center"><img src="https://imagemagick.org/image/red-circle.png" width="70" height="70" alt="red circle" class="rounded border bg-white p-1" /><div class="small text-muted mt-1">circle</div></a>
+-    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="==>" />
++    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="== />" />
+     <a href="https://imagemagick.org/image/red-ball.png" class="text-decoration-none text-center"><img src="https://imagemagick.org/image/red-ball.png" width="70" height="70" alt="red ball" class="rounded border bg-white p-1" /><div class="small text-muted mt-1">red-ball.png</div></a>
+   </div>
+   <p class="text-body-secondary mb-3">
+@@ -815,7 +815,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/conjure/index.html b/www/conjure/index.html
+index 66f3667..f14f79a 100644
+--- a/www/conjure/index.html
++++ b/www/conjure/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -1130,7 +1130,7 @@ msl:font-metrics.origin.y</code></pre>
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/connected-components/index.html b/www/connected-components/index.html
+index 6934b39..7f2b8c1 100644
+--- a/www/connected-components/index.html
++++ b/www/connected-components/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -488,7 +488,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/content-provenance-authenticity/index.html b/www/content-provenance-authenticity/index.html
+index 43928fc..b42a8b9 100644
+--- a/www/content-provenance-authenticity/index.html
++++ b/www/content-provenance-authenticity/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -344,7 +344,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/convert/index.html b/www/convert/index.html
+index d09584d..f3a519d 100644
+--- a/www/convert/index.html
++++ b/www/convert/index.html
+@@ -78,11 +78,11 @@
+       </div>
+ 
+       <a href="/" class="logo logo-img-1x">
+-        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMTZCRDY3REIzRjAxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMTZCRDY3RUIzRjAxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdCQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjdDQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+SM9MCAAAA+5JREFUeNrEV11Ik1EY3s4+ddOp29Q5b0opCgKFsoKoi5Kg6CIhuwi6zLJLoYLopq4qsKKgi4i6CYIoU/q5iDAKs6syoS76IRWtyJ+p7cdt7sf1PGOD+e0c3dygAx/67ZzzPM95/877GYdHRg3ZjMXFxepQKNS6sLCwJxqNNuFpiMfjVs4ZjUa/pmmjeD6VlJS8NpvNT4QQ7mxwjSsJiEQim/1+/9lgMHgIr5ohuxG1WCw9Vqv1clFR0dCqBODElV6v90ogEDjGdYbVjXhpaendioqK07CIR7ZAqE49PT09BPL2PMgTByQGsYiZlQD4uMXtdr+JxWINhgINYhGT2MsKgMrm2dnZXgRXhaHAg5jEJodUAHxux4LudHJE9RdEdA+i3Juz7bGHe4mhE9FNrgwBCLirMFV9Okh5eflFh8PR5nK5nDabrR2BNJlKO0T35+Li4n4+/J+/JQCxhmu5h3uJoXNHPbmWZAHMshWB8l5/ipqammaAf0zPDDx1ONV3vurdidqwAQL+pEc8sLcAe1CCvQ3YHxIW8Pl85xSWNC1hADDIv0rIE/o4J0k3kww4xSlwIhcq3EFFOm7KN/hUGOQkt0CFa5WpNJlMvxBEz/IVQAxg/ZRZl9wiHA63yDYieM7DnLP5CiAGsC7I5sgtYKJGWe2A8seFqgFJrJjEPY1Cn3pJ8/9W1e5VWsFDTEmFrBcoDhZJEQkXuhICMyKpjhahqN21hRYATKfUOlDmkygrR4o4C0VOLGJKrOITKB4jijzdXygBKixyC5TDQdnk/Pz8qRw6oOWGlsTKGOQW6OH6FBWsyePxdOXLTgxiyebILZCjz+GLgMIKnXNzc49YMlcRdHXcSwxFVgTInQhC9G33UhNoJLuqq6t345p9y3eUy8OTk5PjAHuI9uo4b07FBaOhsu0A4Unc+T1TU1Nj3KsSSE5yJ65jqF2DDd8QqWYmAZrIM2VlZTdnZmb6AbpdV9V6ec9znf5Q7HjYumdRE0JOp3MjitO4SFa+cZz8Umqe3TCbSLvdfkR/kWDdNQl5InuTcysOcpFT35ZrbBxx4p3JAHlZVVW1D/634VRt+FvLBgK/v5LV9WS+10xMTEwtRw7XvqOL+e2Q8V3AYIOIAXQ26/heWVnZCVfcyKHg2CBgTpmPmjYM8l24GyaUHyaIh7XwfR9ErE8qHoDfn2LTNAVC0HX6MFcBIP8Bi+6F6cdW/DICkANRfx99fEYFQ7Nph5i/uQiA214gno7K+guhaiKg9gC62+M8eR7XsBsYJ4ilam60Fb7r7uAj8wFyuwM1oIOWgfmDy6RXEEQzJMPe23DXrVS7rtyD3Df8z/FPgAEAzWU5Ku59ZAUAAAAASUVORK5CYII=">
++        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMTZCRDY3REIzRjAxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMTZCRDY3RUIzRjAxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdCQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjdDQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+SM9MCAAAA+5JREFUeNrEV11Ik1EY3s4+ddOp29Q5b0opCgKFsoKoi5Kg6CIhuwi6zLJLoYLopq4qsKKgi4i6CYIoU/q5iDAKs6syoS76IRWtyJ+p7cdt7sf1PGOD+e0c3dygAx/67ZzzPM95/877GYdHRg3ZjMXFxepQKNS6sLCwJxqNNuFpiMfjVs4ZjUa/pmmjeD6VlJS8NpvNT4QQ7mxwjSsJiEQim/1+/9lgMHgIr5ohuxG1WCw9Vqv1clFR0dCqBODElV6v90ogEDjGdYbVjXhpaendioqK07CIR7ZAqE49PT09BPL2PMgTByQGsYiZlQD4uMXtdr+JxWINhgINYhGT2MsKgMrm2dnZXgRXhaHAg5jEJodUAHxux4LudHJE9RdEdA+i3Juz7bGHe4mhE9FNrgwBCLirMFV9Okh5eflFh8PR5nK5nDabrR2BNJlKO0T35+Li4n4+/J+/JQCxhmu5h3uJoXNHPbmWZAHMshWB8l5/ipqammaAf0zPDDx1ONV3vurdidqwAQL+pEc8sLcAe1CCvQ3YHxIW8Pl85xSWNC1hADDIv0rIE/o4J0k3kww4xSlwIhcq3EFFOm7KN/hUGOQkt0CFa5WpNJlMvxBEz/IVQAxg/ZRZl9wiHA63yDYieM7DnLP5CiAGsC7I5sgtYKJGWe2A8seFqgFJrJjEPY1Cn3pJ8/9W1e5VWsFDTEmFrBcoDhZJEQkXuhICMyKpjhahqN21hRYATKfUOlDmkygrR4o4C0VOLGJKrOITKB4jijzdXygBKixyC5TDQdnk/Pz8qRw6oOWGlsTKGOQW6OH6FBWsyePxdOXLTgxiyebILZCjz+GLgMIKnXNzc49YMlcRdHXcSwxFVgTInQhC9G33UhNoJLuqq6t345p9y3eUy8OTk5PjAHuI9uo4b07FBaOhsu0A4Unc+T1TU1Nj3KsSSE5yJ65jqF2DDd8QqWYmAZrIM2VlZTdnZmb6AbpdV9V6ec9znf5Q7HjYumdRE0JOp3MjitO4SFa+cZz8Umqe3TCbSLvdfkR/kWDdNQl5InuTcysOcpFT35ZrbBxx4p3JAHlZVVW1D/634VRt+FvLBgK/v5LV9WS+10xMTEwtRw7XvqOL+e2Q8V3AYIOIAXQ26/heWVnZCVfcyKHg2CBgTpmPmjYM8l24GyaUHyaIh7XwfR9ErE8qHoDfn2LTNAVC0HX6MFcBIP8Bi+6F6cdW/DICkANRfx99fEYFQ7Nph5i/uQiA214gno7K+guhaiKg9gC62+M8eR7XsBsYJ4ilam60Fb7r7uAj8wFyuwM1oIOWgfmDy6RXEEQzJMPe23DXrVS7rtyD3Df8z/FPgAEAzWU5Ku59ZAUAAAAASUVORK5CYII=" />
+       </a>
+ 
+       <a href="/" class="logo logo-img-2x">
+-        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEQUM1QkUxRUI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEQUM1QkUxRkI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdGQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjgwQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+hfPRaQAAB6lJREFUeNrsW2mM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">
++        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEQUM1QkUxRUI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEQUM1QkUxRkI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdGQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjgwQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+hfPRaQAAB6lJREFUeNrsW2mM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" />
+       </a>
+     </div>
+   </body>
+diff --git a/www/convex-hull/index.html b/www/convex-hull/index.html
+index 625990d..3e6e7a2 100644
+--- a/www/convex-hull/index.html
++++ b/www/convex-hull/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -438,7 +438,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/defines/index.html b/www/defines/index.html
+index 513fef6..ac38390 100644
+--- a/www/defines/index.html
++++ b/www/defines/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -1104,7 +1104,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/develop/index.html b/www/develop/index.html
+index 50af20a..298c94d 100644
+--- a/www/develop/index.html
++++ b/www/develop/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -565,7 +565,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/display/index.html b/www/display/index.html
+index 1eb5e7c..057cae3 100644
+--- a/www/display/index.html
++++ b/www/display/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -826,7 +826,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/distribute-pixel-cache/index.html b/www/distribute-pixel-cache/index.html
+index 9068f62..27b1e8c 100644
+--- a/www/distribute-pixel-cache/index.html
++++ b/www/distribute-pixel-cache/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -411,7 +411,7 @@ $ magick -limit memory 1GiB -limit map 2GiB -limit disk 4GiB \
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/download/index.html b/www/download/index.html
+index a15c1f4..6a71e3c 100644
+--- a/www/download/index.html
++++ b/www/download/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -547,7 +547,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/escape/index.html b/www/escape/index.html
+index b09a75b..c25e8db 100644
+--- a/www/escape/index.html
++++ b/www/escape/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -763,7 +763,7 @@ Post ObjectData Descriptor Record
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/examples/index.html b/www/examples/index.html
+index 7b0fcfe..3c917b5 100644
+--- a/www/examples/index.html
++++ b/www/examples/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -341,7 +341,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/export/index.html b/www/export/index.html
+index e405fdc..321d6c6 100644
+--- a/www/export/index.html
++++ b/www/export/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -348,7 +348,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/formats/index.html b/www/formats/index.html
+index 0e768a9..b31d908 100644
+--- a/www/formats/index.html
++++ b/www/formats/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -745,7 +745,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/fx/index.html b/www/fx/index.html
+index bd02544..308a374 100644
+--- a/www/fx/index.html
++++ b/www/fx/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -736,7 +736,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/gradient/index.html b/www/gradient/index.html
+index 1e07113..9fd0928 100644
+--- a/www/gradient/index.html
++++ b/www/gradient/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -520,7 +520,7 @@ magick -size 256x128 -define gradient:radii=128,64 radial-gradient:black-white r
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/high-dynamic-range/index.html b/www/high-dynamic-range/index.html
+index eede75e..9977a95 100644
+--- a/www/high-dynamic-range/index.html
++++ b/www/high-dynamic-range/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -446,7 +446,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/history/index.html b/www/history/index.html
+index 6b5f28f..6ea81d6 100644
+--- a/www/history/index.html
++++ b/www/history/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -397,7 +397,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/identify/index.html b/www/identify/index.html
+index 4e6da55..d4aea99 100644
+--- a/www/identify/index.html
++++ b/www/identify/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -694,7 +694,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/import/index.html b/www/import/index.html
+index abd09d7..3d77a52 100644
+--- a/www/import/index.html
++++ b/www/import/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -618,7 +618,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/install-source/index.html b/www/install-source/index.html
+index c4c2786..cf452b5 100644
+--- a/www/install-source/index.html
++++ b/www/install-source/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -479,7 +479,7 @@ magick logo: image.jpg</code></pre>
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/jp2/index.html b/www/jp2/index.html
+index b108c73..8ca284c 100644
+--- a/www/jp2/index.html
++++ b/www/jp2/index.html
+@@ -300,7 +300,7 @@
+         <div class="col-lg-3 col-12 ps-lg-4 border-start d-flex flex-column align-items-center align-items-lg-start">
+           <div class="container text-center my-3">
+             <a href="../image/wizard.png" rel="noopener noreferrer" target="_blank">
+-              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264">
++              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264" />
+             </a>
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+@@ -327,7 +327,7 @@
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+          
+-        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
++        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png" /></a>
+          
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+diff --git a/www/license/index.html b/www/license/index.html
+index 5fee72c..c2b3367 100644
+--- a/www/license/index.html
++++ b/www/license/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -488,7 +488,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/links/index.html b/www/links/index.html
+index 24ee659..30e4226 100644
+--- a/www/links/index.html
++++ b/www/links/index.html
+@@ -297,7 +297,7 @@
+         <div class="col-lg-3 col-12 ps-lg-4 border-start d-flex flex-column align-items-center align-items-lg-start">
+           <div class="container text-center my-3">
+             <a href="../image/wizard.png" rel="noopener noreferrer" target="_blank">
+-              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264">
++              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264" />
+             </a>
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+@@ -324,7 +324,7 @@
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+          
+-        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
++        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png" /></a>
+          
+         <a href="index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+diff --git a/www/magick++/index.html b/www/magick++/index.html
+index 54c986f..9ffaccf 100644
+--- a/www/magick++/index.html
++++ b/www/magick++/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -421,7 +421,7 @@ int main(int argc,char **argv)
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/magick-cache/index.html b/www/magick-cache/index.html
+index ed7f6f5..300209f 100644
+--- a/www/magick-cache/index.html
++++ b/www/magick-cache/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -445,7 +445,7 @@ identified 1 resources</code></pre>
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/magick-core/index.html b/www/magick-core/index.html
+index 4f4e873..10bef63 100644
+--- a/www/magick-core/index.html
++++ b/www/magick-core/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -639,7 +639,7 @@ int main(int argc,char **argv)
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/magick-script/index.html b/www/magick-script/index.html
+index 3c7c3c7..fae05ff 100644
+--- a/www/magick-script/index.html
++++ b/www/magick-script/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -1330,7 +1330,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/magick-vector-graphics/index.html b/www/magick-vector-graphics/index.html
+index 989ee14..020a36b 100644
+--- a/www/magick-vector-graphics/index.html
++++ b/www/magick-vector-graphics/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -1092,7 +1092,7 @@ round</code></pre>
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/magick-wand/index.html b/www/magick-wand/index.html
+index 47d5555..24a4fbc 100644
+--- a/www/magick-wand/index.html
++++ b/www/magick-wand/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -663,7 +663,7 @@ int main(int argc,char **argv)
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/magick/index.html b/www/magick/index.html
+index 15c0354..29b75aa 100644
+--- a/www/magick/index.html
++++ b/www/magick/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -354,9 +354,9 @@
+           <h5 class="fw-bold mb-2">Resizing Images</h5>
+           <p class="small text-body-secondary mb-2">Reduce the image dimensions before saving to PNG format.</p>
+           <div class="d-flex align-items-center justify-content-center gap-3 my-3 p-2 bg-body-tertiary rounded border">
+-            <a href="https://imagemagick.org/image/rose.jpg" target="_blank"><img src="https://imagemagick.org/image/rose.jpg" width="70" height="46" alt="Rose Original" class="rounded shadow-sm"></a>
++            <a href="https://imagemagick.org/image/rose.jpg" target="_blank"><img src="https://imagemagick.org/image/rose.jpg" width="70" height="46" alt="Rose Original" class="rounded shadow-sm" /></a>
+             <i class="bi bi-arrow-right text-secondary fs-5"></i>
+-            <a href="https://imagemagick.org/image/rose.png" target="_blank"><img src="https://imagemagick.org/image/rose.png" width="35" height="23" alt="Rose Resized" class="rounded shadow-sm"></a>
++            <a href="https://imagemagick.org/image/rose.png" target="_blank"><img src="https://imagemagick.org/image/rose.png" width="35" height="23" alt="Rose Resized" class="rounded shadow-sm" /></a>
+           </div>
+           <div class="terminal-card mt-auto">
+             <div class="terminal-header">
+@@ -381,7 +381,7 @@
+           <p class="small text-body-secondary mb-3">Combine drawing, channels, blurring, and colors into a single pipeline.</p>
+           <div class="text-center my-3 p-3 bg-body-tertiary rounded border">
+             <a href="https://imagemagick.org/image/fuzzy-magick.png" target="_blank">
+-              <img src="https://imagemagick.org/image/fuzzy-magick.png" width="320" height="85" alt="Fuzzy Magick Text Effect" class="img-fluid rounded shadow-sm">
++              <img src="https://imagemagick.org/image/fuzzy-magick.png" width="320" height="85" alt="Fuzzy Magick Text Effect" class="img-fluid rounded shadow-sm" />
+             </a>
+           </div>
+           <div class="terminal-card">
+@@ -1473,7 +1473,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/miff/index.html b/www/miff/index.html
+index 0cab4eb..f188848 100644
+--- a/www/miff/index.html
++++ b/www/miff/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -507,7 +507,7 @@ copyright={© 1999 ImageMagick Studio LLC}
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/mirror/index.html b/www/mirror/index.html
+index d40133f..d14d5cb 100644
+--- a/www/mirror/index.html
++++ b/www/mirror/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -521,7 +521,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/mogrify/index.html b/www/mogrify/index.html
+index e20ac62..04e6a9d 100644
+--- a/www/mogrify/index.html
++++ b/www/mogrify/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -336,7 +336,7 @@
+     <a href="https://imagemagick.org/image/rose.jpg" class="d-inline-block">
+       <img src="https://imagemagick.org/image/rose.jpg" width="70" height="46" alt="rose" class="rounded shadow-sm" />
+     </a>
+-    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="==>" />
++    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="== />" />
+     <a href="https://imagemagick.org/image/rose.png" class="d-inline-block">
+       <img src="https://imagemagick.org/image/rose.png" width="35" height="23" alt="rose" class="rounded shadow-sm" />
+     </a>
+@@ -1387,7 +1387,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/montage/index.html b/www/montage/index.html
+index 4e2e684..b71c126 100644
+--- a/www/montage/index.html
++++ b/www/montage/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -339,7 +339,7 @@
+     <a href="https://imagemagick.org/image/red-ball.png" class="d-inline-block">
+       <img src="https://imagemagick.org/image/red-ball.png" width="70" height="70" alt="red ball" class="rounded shadow-sm" style="margin-top:2px; margin-bottom:2px;" />
+     </a>
+-    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="==>" style="margin-top:27px; margin-bottom:27px;" />
++    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="== />" style="margin-top:27px; margin-bottom:27px;" />
+     <a href="https://imagemagick.org/image/montage.jpg" class="d-inline-block">
+       <img src="https://imagemagick.org/image/montage.jpg" width="148" height="74" alt="montage" class="rounded shadow-sm" />
+     </a>
+@@ -363,7 +363,7 @@
+     <a href="https://imagemagick.org/image/red-ball.png" class="d-inline-block">
+       <img src="https://imagemagick.org/image/red-ball.png" width="70" height="70" alt="red ball" class="rounded shadow-sm" style="margin-top:19px; margin-bottom:19px;" />
+     </a>
+-    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="==>" style="margin-top:44px; margin-bottom:44px;" />
++    <img src="https://imagemagick.org/image/right.gif" width="20" height="20" alt="== />" style="margin-top:44px; margin-bottom:44px;" />
+     <a href="https://imagemagick.org/image/frame.jpg" class="d-inline-block">
+       <img src="https://imagemagick.org/image/frame.jpg" width="176" height="108" alt="frame" class="rounded shadow-sm" />
+     </a>
+@@ -845,7 +845,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/motion-picture/index.html b/www/motion-picture/index.html
+index 62b5d88..12aac20 100644
+--- a/www/motion-picture/index.html
++++ b/www/motion-picture/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -490,7 +490,7 @@ dpx:user.data</code></pre>
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/multispectral-imagery/index.html b/www/multispectral-imagery/index.html
+index 5511427..04e9b5e 100644
+--- a/www/multispectral-imagery/index.html
++++ b/www/multispectral-imagery/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -638,7 +638,7 @@ Image:
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/news/index.html b/www/news/index.html
+index 80ef5cf..302d9cf 100644
+--- a/www/news/index.html
++++ b/www/news/index.html
+@@ -280,7 +280,7 @@
+         <div class="col-lg-3 col-12 ps-lg-4 border-start d-flex flex-column align-items-center align-items-lg-start">
+           <div class="container text-center my-3">
+             <a href="../image/wizard.png" rel="noopener noreferrer" target="_blank">
+-              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264">
++              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264" />
+             </a>
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+@@ -307,7 +307,7 @@
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="index.html">News</a>
+          
+-        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
++        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png" /></a>
+          
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+diff --git a/www/opencl/index.html b/www/opencl/index.html
+index b615f2b..6c6b501 100644
+--- a/www/opencl/index.html
++++ b/www/opencl/index.html
+@@ -270,7 +270,7 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
+         <div class="col-lg-3 col-12 ps-lg-4 border-start d-flex flex-column align-items-center align-items-lg-start">
+           <div class="container text-center my-3">
+             <a href="../image/wizard.png" rel="noopener noreferrer" target="_blank">
+-              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264">
++              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264" />
+             </a>
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+@@ -297,7 +297,7 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+          
+-        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
++        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png" /></a>
+          
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+diff --git a/www/openmp/index.html b/www/openmp/index.html
+index 3d9a0f8..f542789 100644
+--- a/www/openmp/index.html
++++ b/www/openmp/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -394,7 +394,7 @@ Performance[8]: 40i 4.831ips 0.872e 15.680u 0:02.070</samp></pre>
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/perl-magick/index.html b/www/perl-magick/index.html
+index 4147e33..4afb474 100644
+--- a/www/perl-magick/index.html
++++ b/www/perl-magick/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -1482,7 +1482,7 @@ XServerWarning</code></pre>
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/porting/index.html b/www/porting/index.html
+index bb0b77e..f23efd9 100644
+--- a/www/porting/index.html
++++ b/www/porting/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -871,7 +871,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/privacy-policy/index.html b/www/privacy-policy/index.html
+index 904f52a..b999fe2 100644
+--- a/www/privacy-policy/index.html
++++ b/www/privacy-policy/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -340,7 +340,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/quantize/index.html b/www/quantize/index.html
+index f3cd8d3..07e1628 100644
+--- a/www/quantize/index.html
++++ b/www/quantize/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -522,7 +522,7 @@ while number of nodes with (n2 &gt; 0) &gt; required maximum number of colors
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/resources/index.html b/www/resources/index.html
+index 879feb0..8be532c 100644
+--- a/www/resources/index.html
++++ b/www/resources/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -754,7 +754,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/search/index4840.html b/www/search/index4840.html
+index a8a2f61..155f9f3 100644
+--- a/www/search/index4840.html
++++ b/www/search/index4840.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -319,7 +319,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/security-policy/index.html b/www/security-policy/index.html
+index 8d5c4f0..9ae5829 100644
+--- a/www/security-policy/index.html
++++ b/www/security-policy/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -500,7 +500,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/sitemap/index.html b/www/sitemap/index.html
+index 2039064..ca26fc9 100644
+--- a/www/sitemap/index.html
++++ b/www/sitemap/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -698,7 +698,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/stream/index.html b/www/stream/index.html
+index fcadb23..a108995 100644
+--- a/www/stream/index.html
++++ b/www/stream/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -537,7 +537,7 @@ $ magick stream -map i -storage-type double 'image.tif[100x100+30+40]' gray.raw<
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/support/index.html b/www/support/index.html
+index 3c1a0a2..e1c3d00 100644
+--- a/www/support/index.html
++++ b/www/support/index.html
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -473,7 +473,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+diff --git a/www/vpat/index.html b/www/vpat/index.html
+index 05baae3..0052f65 100644
+--- a/www/vpat/index.html
++++ b/www/vpat/index.html
+@@ -274,7 +274,7 @@
+         <div class="col-lg-3 col-12 ps-lg-4 border-start d-flex flex-column align-items-center align-items-lg-start">
+           <div class="container text-center my-3">
+             <a href="../image/wizard.png" rel="noopener noreferrer" target="_blank">
+-              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264">
++              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264" />
+             </a>
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+@@ -301,7 +301,7 @@
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+          
+-        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
++        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png" /></a>
+          
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+diff --git a/www/webp/index.html b/www/webp/index.html
+index 4ea7318..6bd8861 100644
+--- a/www/webp/index.html
++++ b/www/webp/index.html
+@@ -401,7 +401,7 @@
+         <div class="col-lg-3 col-12 ps-lg-4 border-start d-flex flex-column align-items-center align-items-lg-start">
+           <div class="container text-center my-3">
+             <a href="../image/wizard.png" rel="noopener noreferrer" target="_blank">
+-              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264">
++              <img alt="ImageMagick Wizard" class="img-fluid img-thumbnail" height="351" loading="lazy" src="../image/wizard.jpg" width="264" />
+             </a>
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+@@ -428,7 +428,7 @@
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+          
+-        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
++        <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png" /></a>
+          
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>

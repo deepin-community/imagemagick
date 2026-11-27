@@ -1,14 +1,15 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: ImageMagick
 Source: http://www.imagemagick.org/script/download.php
-Files-Excluded: images/donate.*
- 		images/networkredux.*
+Files-Excluded: www/image/donate.*
+ 		www/image/networkredux.*
  		www/api/Magick*/*
  		www/js/*.js
  		www/css/*.css
  		www/assets/*.js
 		www/assets/*.swp
- 		www/assets/*.css
+		www/assets/*.css
+		www/magick++/tutorial/*.pdf
                 PerlMagick/t/ttf/input.ttf
                 PerlMagick/demo/Generic.ttf
 		PerlMagick/Magick.xs

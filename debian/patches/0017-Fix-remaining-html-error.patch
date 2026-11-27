@@ -1,0 +1,378 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Wed, 12 Aug 2026 22:46:57 +0200
+Subject: Fix remaining html error
+
+forwarded: not-needed
+---
+ www/changelog/index.html            |  2 +-
+ www/color/index.html                |  1 -
+ www/command-line-options/index.html |  9 +++++----
+ www/jp2/index.html                  | 14 +++++++-------
+ www/links/index.html                | 14 +++++++-------
+ www/news/index.html                 | 14 +++++++-------
+ www/opencl/index.html               | 20 ++++++++++----------
+ www/vpat/index.html                 | 14 +++++++-------
+ www/webp/index.html                 | 16 ++++++++--------
+ 9 files changed, 52 insertions(+), 52 deletions(-)
+
+diff --git a/www/changelog/index.html b/www/changelog/index.html
+index f0a63a4..cfdf290 100644
+--- a/www/changelog/index.html
++++ b/www/changelog/index.html
+@@ -7777,7 +7777,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
+   <li>Added missing call to DestroyDisplay. <a href="https://github.com/ImageMagick/ImageMagick/commit/b38b91d035cd5524431563d91983dd803d1c7d2f"><code class="language-plaintext highlighter-rouge">b38b91d</code></a></li>
+   <li>Added .editorconfig. <a href="https://github.com/ImageMagick/ImageMagick/commit/558ff49afbde4c208cf380682772a09cd9ee6746"><code class="language-plaintext highlighter-rouge">558ff49</code></a></li>
+   <li>Upgrade solution instead. <a href="https://github.com/ImageMagick/ImageMagick/commit/a225f4c065bb9ed031777ea8f4893f991f01e37d"><code class="language-plaintext highlighter-rouge">a225f4c</code></a></li>
+-  <li>Fix typo - Rodidoux to Robidoux <a href="https://github.com/ImageMagick/ImageMagick/commit/f03ee363ed5a541383ee9f9dcda67a90c8aa7a24"><code class="language-plaintext highlighter-rouge">f03ee36</code></a></li>
++  <li>Fix typo - Rodidoux to Robidoux <a href="https://github.com/ImageMagick/ImageMagick/commit/f03ee363ed5a541383ee9f9dcda67a90c8aa7a24"><code class="language-plaintext highlighter-rouge">f03ee36</code></a></li>
+   <li>Update reference to ImageMagick-6 <a href="https://github.com/ImageMagick/ImageMagick/commit/4d65ee597fd05151a9e7d8467c1e17f87baaa273"><code class="language-plaintext highlighter-rouge">4d65ee5</code></a></li>
+   <li>cosmetic <a href="https://github.com/ImageMagick/ImageMagick/commit/8c6e77e03928ece193767f7ad9a1485b79578099"><code class="language-plaintext highlighter-rouge">8c6e77e</code></a></li>
+   <li>cosmetic <a href="https://github.com/ImageMagick/ImageMagick/commit/8dd4859aac64ca758e15ba20c9f9f2fc0c1e58f0"><code class="language-plaintext highlighter-rouge">8dd4859</code></a></li>
+diff --git a/www/color/index.html b/www/color/index.html
+index 7cd19f9..0ff7cd3 100644
+--- a/www/color/index.html
++++ b/www/color/index.html
+@@ -1,5 +1,4 @@
+ 
+-
+ <!DOCTYPE html>
+ <html lang="en" data-bs-theme="auto">
+ 
+diff --git a/www/command-line-options/index.html b/www/command-line-options/index.html
+index 732d365..fe8b041 100644
+--- a/www/command-line-options/index.html
++++ b/www/command-line-options/index.html
+@@ -1514,8 +1514,9 @@ abbreviated as a concatenation of the letters '<code>R</code>', '<code>G</code>'
+ '<code>2</code>' equals <code>Blue</code> or <code>Yellow</code> <br />
+ '<code>3</code>' equals <code>Black</code> <br />
+ '<code>4</code>' equals <code>Alpha</code> or <code>Opacity</code> <br />
+-'<code>5</code>' equals <code>Index</code></p>
++'<code>5</code>' equals <code>Index</code><br />
+ </ul>
++</p>
+ 
+ <p>For example, to only select the <code>Red</code> and <code>Blue</code> channels
+ you can use any of the following:</p>
+@@ -5030,11 +5031,11 @@ point that falls between two, or even four different colored pixels. </p>
+   <dt class="col-md-4">average16</dt>
+   <dd class="col-md-8">The average color of the surrounding sixteen pixels</dd>
+   <dt class="col-md-4">background</dt>
+-  <dd class="col-md-8">&nbsp;</dd>
++  <dd class="col-md-8"> </dd>
+   <dt class="col-md-4">bilinear</dt>
+   <dd class="col-md-8">A double linear interpolation of pixels (the default)</dd>
+   <dt class="col-md-4">blend</dt>
+-  <dd class="col-md-8">&nbsp;</dd>
++  <dd class="col-md-8"> </dd>
+   <dt class="col-md-4">catrom</dt>
+   <dd class="col-md-8">Fitted bicubic-spines of surrounding 16 pixels</dd>
+   <dt class="col-md-4">integer</dt>
+@@ -8199,7 +8200,7 @@ href="#stretch">-stretch</a>, and <a href="#style">-style</a>. </p>
+   <h2><a class="anchor" id="white-balance"></a>-white-balance</h2>
+ </div>
+ <p>Applies white balancing to an image according to a grayworld assumption in the LAB colorspace.</p>
+-<p>Use <code>-define white-balance:vibrance=<em>value&#123%}</em></code> to change the color vibrance of the a &amp; b channels.</p>
++<p>Use <code>-define white-balance:vibrance=<em>value</em></code> to change the color vibrance of the a &amp; b channels.</p>
+ 
+ <div class="option-heading">
+   <h2><a class="anchor" id="white-point"></a>-white-point <var>x,y</var></h2>
+diff --git a/www/jp2/index.html b/www/jp2/index.html
+index cda6552..a195989 100644
+--- a/www/jp2/index.html
++++ b/www/jp2/index.html
+@@ -133,8 +133,8 @@
+       }
+   </script>
+   <!-- Google Custom Search -->
+-  <script async src="https://localhost/cse.js?cx=8720b81722164487b"></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++  <script async="true" src="https://localhost/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+ </head>
+ 
+ <body>
+@@ -170,16 +170,16 @@
+       <div class="collapse navbar-collapse" id="magick-navbars">
+         <ul class="navbar-nav me-auto">
+           <li class="nav-item">
+-            <a class="nav-link "" href="../download/index.html">Download</a>
++            <a class="nav-link" href="../download/index.html">Download</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-tools/index.html">Tools</a>
++            <a class="nav-link" href="../command-line-tools/index.html">Tools</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-processing/index.html">CLI</a>
++            <a class="nav-link" href="../command-line-processing/index.html">CLI</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../develop/index.html">Develop</a>
++            <a class="nav-link" href="../develop/index.html">Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -188,7 +188,7 @@
+         <ul class="navbar-nav ms-auto">
+           <li class="nav-item ms-3">
+             <form class="d-flex form-inline" action="https://imagemagick.org/jp2/">
+-              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
++              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search" />
+               <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+             </form>
+           </li>
+diff --git a/www/links/index.html b/www/links/index.html
+index e44dc9e..f9ed9c0 100644
+--- a/www/links/index.html
++++ b/www/links/index.html
+@@ -133,8 +133,8 @@
+       }
+   </script>
+   <!-- Google Custom Search -->
+-  <script async src="https://localhost/cse.js?cx=8720b81722164487b"></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++  <script async="true" src="https://localhost/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+ </head>
+ 
+ <body>
+@@ -170,16 +170,16 @@
+       <div class="collapse navbar-collapse" id="magick-navbars">
+         <ul class="navbar-nav me-auto">
+           <li class="nav-item">
+-            <a class="nav-link "" href="../download/index.html">Download</a>
++            <a class="nav-link" href="../download/index.html">Download</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-tools/index.html">Tools</a>
++            <a class="nav-link" href="../command-line-tools/index.html">Tools</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-processing/index.html">CLI</a>
++            <a class="nav-link" href="../command-line-processing/index.html">CLI</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../develop/index.html">Develop</a>
++            <a class="nav-link" href="../develop/index.html">Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -188,7 +188,7 @@
+         <ul class="navbar-nav ms-auto">
+           <li class="nav-item ms-3">
+             <form class="d-flex form-inline" action="https://imagemagick.org/links/">
+-              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
++              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search" />
+               <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+             </form>
+           </li>
+diff --git a/www/news/index.html b/www/news/index.html
+index e7b2f42..5138f00 100644
+--- a/www/news/index.html
++++ b/www/news/index.html
+@@ -133,8 +133,8 @@
+       }
+   </script>
+   <!-- Google Custom Search -->
+-  <script async src="https://localhost/cse.js?cx=8720b81722164487b"></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++  <script async="true" src="https://localhost/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+ </head>
+ 
+ <body>
+@@ -170,16 +170,16 @@
+       <div class="collapse navbar-collapse" id="magick-navbars">
+         <ul class="navbar-nav me-auto">
+           <li class="nav-item">
+-            <a class="nav-link "" href="../download/index.html">Download</a>
++            <a class="nav-link" href="../download/index.html">Download</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-tools/index.html">Tools</a>
++            <a class="nav-link" href="../command-line-tools/index.html">Tools</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-processing/index.html">CLI</a>
++            <a class="nav-link" href="../command-line-processing/index.html">CLI</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../develop/index.html">Develop</a>
++            <a class="nav-link" href="../develop/index.html">Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -188,7 +188,7 @@
+         <ul class="navbar-nav ms-auto">
+           <li class="nav-item ms-3">
+             <form class="d-flex form-inline" action="https://imagemagick.org/news/">
+-              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
++              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search" />
+               <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+             </form>
+           </li>
+diff --git a/www/opencl/index.html b/www/opencl/index.html
+index f19f758..c59b6a8 100644
+--- a/www/opencl/index.html
++++ b/www/opencl/index.html
+@@ -133,8 +133,8 @@
+       }
+   </script>
+   <!-- Google Custom Search -->
+-  <script async src="https://localhost/cse.js?cx=8720b81722164487b"></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++  <script async="true" src="https://localhost/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+ </head>
+ 
+ <body>
+@@ -170,16 +170,16 @@
+       <div class="collapse navbar-collapse" id="magick-navbars">
+         <ul class="navbar-nav me-auto">
+           <li class="nav-item">
+-            <a class="nav-link "" href="../download/index.html">Download</a>
++            <a class="nav-link" href="../download/index.html">Download</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-tools/index.html">Tools</a>
++            <a class="nav-link" href="../command-line-tools/index.html">Tools</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-processing/index.html">CLI</a>
++            <a class="nav-link" href="../command-line-processing/index.html">CLI</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../develop/index.html">Develop</a>
++            <a class="nav-link" href="../develop/index.html">Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -188,7 +188,7 @@
+         <ul class="navbar-nav ms-auto">
+           <li class="nav-item ms-3">
+             <form class="d-flex form-inline" action="https://imagemagick.org/opencl/">
+-              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
++              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search" />
+               <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+             </form>
+           </li>
+@@ -232,9 +232,9 @@
+         </ul>
+     </li>
+     <li><strong>Compile-time flag:</strong> ImageMagick's OpenCL must be explicitly enabled when compiling. This is done by running <code>configure</code> with <code>--enable-opencl</code> flag set.</li>
+-    <li><strong>Check runtime support:</strong> to verify if OpenCL support is enabled, run <pre><samp>$ magick --version</code></pre>. The command output should read <code>Features: ... <strong>OpenCL</strong> ...</samp></li>
++    <li><strong>Check runtime support:</strong> to verify if OpenCL support is enabled, run <pre><samp>$ magick --version</samp></pre>. The command output should read <code>Features: ... <strong>OpenCL</strong> ...</code></li>
+     <li><strong>Runtime flag:</strong> OpenCL is disabled by default in runtime. To enable it use the environment variable <code>MAGICK_OCL_DEVICE=true</code>, e.g. <code>MAGICK_OCL_DEVICE=true magick &lt;options&gt;</code>. And to only enable a specific device use <code>MAGICK_OCL_DEVICE=GPU</code> or <code>MAGICK_OCL_DEVICE=CPU</code>.</li>
+-    <li><strong>Command line utility:</strong> for proper OpenCL support it's recommended to use <code>magick</code> utility over <code>convert</code>, <code>mogrify</samp> and others.</li>
++    <li><strong>Command line utility:</strong> for proper OpenCL support it's recommended to use <code>magick</code> utility over <code>convert</code>, <code>mogrify</code> and others.</li>
+     <li><strong>Image type:</strong> OpenCL acceleration only works on images without a color map. Use true color images instead.</li>
+     <li><strong>Operators:</strong> the following is a list of image operators that have been OpenCL accelerated.
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary">  blur
+@@ -255,7 +255,7 @@
+ 
+ <p>When some of the OpenCL accelerated operators are invoked for the first time and all the conditions above are met, ImageMagick conducts a series of tests to configure the OpenCL environment according to the system hardware; therefore, it is normal to experience a higher latency the first time you use an accelerated option.  The OpenCL kernels are embedded inside ImageMagick in source format.  During the initial setup, ImageMagick discovers all the available OpenCL devices and compiles the kernels for each of these targets.  ImageMagick also runs several performance tests internally to determine the preferred device to use.  The compiled kernel code and the performance test results are stored into the cache directory so that the data can be reused by subsequent invocations of the OpenCL path.  By default, the OpenCL cached data is stored in <code>$HOME/.cache/ImageMagick</code> on Linux and on MacOSX or in <code>%LOCALAPPDATA%\ImageMagick</code> on Windows. To run these tests for the first time, use the command below:</p>
+ <pre class="p-3 mb-2 text-body-secondary bg-body-tertiary cli"><code>MAGICK_OCL_DEVICE=true magick sample.jpg -blur 0x5 null:</code></pre>
+-<p>On Windows the <code>MAGICK_OCL_DEVICE=true<code> part should be removed and the command <code>set MAGICK_OCL_DEVICE=true</code> should be executed before executing the command above to enable OpenCL operations.</p>
++<p>On Windows the <code>MAGICK_OCL_DEVICE=true</code> part should be removed and the command <code>set MAGICK_OCL_DEVICE=true</code> should be executed before executing the command above to enable OpenCL operations.</p>
+ <p>To change the cache directory, set the MAGICK_OPENCL_CACHE_DIR environment variable.  ImageMagick is able to detect hardware changes, driver updates, and new kernel sources and re-run the setup and the calibration test.  You can also force ImageMagick to re-run the process by removing the content from the cache directory.</p>
+ <p>In addition to the environment variables mentioned above, ImageMagick provides a set of APIs that allow developers to gain more fine-grained control of the OpenCL acceleration. For example, use the <code>InitializeOpenCL()</code> function to initialize the OpenCL environment:</p>
+ 
+diff --git a/www/vpat/index.html b/www/vpat/index.html
+index 6e2e375..26963f1 100644
+--- a/www/vpat/index.html
++++ b/www/vpat/index.html
+@@ -133,8 +133,8 @@
+       }
+   </script>
+   <!-- Google Custom Search -->
+-  <script async src="https://localhost/cse.js?cx=8720b81722164487b"></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++  <script async="true" src="https://localhost/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+ </head>
+ 
+ <body>
+@@ -170,16 +170,16 @@
+       <div class="collapse navbar-collapse" id="magick-navbars">
+         <ul class="navbar-nav me-auto">
+           <li class="nav-item">
+-            <a class="nav-link "" href="../download/index.html">Download</a>
++            <a class="nav-link" href="../download/index.html">Download</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-tools/index.html">Tools</a>
++            <a class="nav-link" href="../command-line-tools/index.html">Tools</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-processing/index.html">CLI</a>
++            <a class="nav-link" href="../command-line-processing/index.html">CLI</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../develop/index.html">Develop</a>
++            <a class="nav-link" href="../develop/index.html">Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -188,7 +188,7 @@
+         <ul class="navbar-nav ms-auto">
+           <li class="nav-item ms-3">
+             <form class="d-flex form-inline" action="https://imagemagick.org/vpat/">
+-              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
++              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search" />
+               <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+             </form>
+           </li>
+diff --git a/www/webp/index.html b/www/webp/index.html
+index 63af404..4ed3f0a 100644
+--- a/www/webp/index.html
++++ b/www/webp/index.html
+@@ -133,8 +133,8 @@
+       }
+   </script>
+   <!-- Google Custom Search -->
+-  <script async src="https://localhost/cse.js?cx=8720b81722164487b"></script>
+-  <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++  <script async="true" src="https://localhost/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+ </head>
+ 
+ <body>
+@@ -170,16 +170,16 @@
+       <div class="collapse navbar-collapse" id="magick-navbars">
+         <ul class="navbar-nav me-auto">
+           <li class="nav-item">
+-            <a class="nav-link "" href="../download/index.html">Download</a>
++            <a class="nav-link" href="../download/index.html">Download</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-tools/index.html">Tools</a>
++            <a class="nav-link" href="../command-line-tools/index.html">Tools</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../command-line-processing/index.html">CLI</a>
++            <a class="nav-link" href="../command-line-processing/index.html">CLI</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link "" href="../develop/index.html">Develop</a>
++            <a class="nav-link" href="../develop/index.html">Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -188,7 +188,7 @@
+         <ul class="navbar-nav ms-auto">
+           <li class="nav-item ms-3">
+             <form class="d-flex form-inline" action="https://imagemagick.org/webp/">
+-              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search">
++              <input class="form-control me-2" type="text" name="q" placeholder="Search site..." aria-label="Search" />
+               <button class="btn btn-outline-warning" type="submit" name="sa">Search</button>
+             </form>
+           </li>
+@@ -221,7 +221,7 @@
+       <div class="row g-4">
+         <div class="col-lg-9 col-12">
+           <div>
+-<p class="lead">ImageMagick's WebP image format accepts a plethora of encoding options as detailed below. The default encoding options are:<p>
++<p class="lead">ImageMagick's WebP image format accepts a plethora of encoding options as detailed below. The default encoding options are:</p>
+ 
+ <ul class="small">
+   <li class="list-group-item"><code>quality = 75</code></li>

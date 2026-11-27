@@ -2435,7 +2435,7 @@ static MagickBooleanType ReadUncompressedRGBPixels(Image *image,
   GetMaskShiftAndMaxval(g_mask,&g_shift,&g_max);
   GetMaskShiftAndMaxval(b_mask,&b_shift,&b_max);
 
-  is_rgb=IsBitMask(dds_info->pixelformat,0x000000ff,0x0000ff00,0x00ff0000,0x0000000) ? MagickTrue : MagickFalse;
+  is_rgb=IsBitMask(dds_info->pixelformat,0x000000ff,0x0000ff00,0x00ff0000,0x00000000) ? MagickTrue : MagickFalse;
   for (y = 0; y < (ssize_t) image->rows; y++)
   {
     q=QueueAuthenticPixels(image,0,y,image->columns,1,exception);
@@ -2583,7 +2583,7 @@ static MagickBooleanType ReadUncompressedRGB(const ImageInfo *image_info,
     (void) SetImageType(image,GrayscaleType,exception);
   else if (dds_info->pixelformat.rgb_bitcount == 16 && !IsBitMask(
     dds_info->pixelformat,0xf800,0x07e0,0x001f,0x0000))
-    ThrowBinaryException(CorruptImageError,"ImageTypeNotSupported",
+    ThrowBinaryException(ImageError,"ImageTypeNotSupported",
       image->filename);
 
   if (ReadUncompressedRGBPixels(image,dds_info,exception) == MagickFalse)
@@ -2601,7 +2601,7 @@ static MagickBooleanType ReadUncompressedAlpha(const ImageInfo *image_info,
   ExceptionInfo *exception)
 {
   if (dds_info->pixelformat.rgb_bitcount != 8)
-    ThrowBinaryException(CorruptImageError,"ImageTypeNotSupported",
+    ThrowBinaryException(ImageError,"ImageTypeNotSupported",
       image->filename);
 
   if (ReadUncompressedAlphaPixels(image,dds_info,exception) == MagickFalse)
@@ -2674,7 +2674,7 @@ static MagickBooleanType ReadUncompressedRGBAPixels(Image *image,
   GetMaskShiftAndMaxval(g_mask,&g_shift,&g_max);
   GetMaskShiftAndMaxval(b_mask,&b_shift,&b_max);
 
-  is_rgba=IsBitMask(dds_info->pixelformat,0x000000ff,0x0000ff00,0x00ff0000,0xff00000) ? MagickTrue : MagickFalse;
+  is_rgba=IsBitMask(dds_info->pixelformat,0x000000ff,0x0000ff00,0x00ff0000,0xff000000) ? MagickTrue : MagickFalse;
   for (y = 0; y < (ssize_t) image->rows; y++)
   {
     q = QueueAuthenticPixels(image, 0, y, image->columns, 1,exception);
@@ -2926,7 +2926,7 @@ static Image *ReadDDSImage(const ImageInfo *image_info,ExceptionInfo *exception)
         {
           if (dds_info.extDimension != DDSEXT_DIMENSION_TEX2D)
             {
-              ThrowReaderException(CorruptImageError,"ImageTypeNotSupported");
+              ThrowReaderException(ImageError,"ImageTypeNotSupported");
             }
 
           switch (dds_info.extFormat)
@@ -3019,7 +3019,7 @@ static Image *ReadDDSImage(const ImageInfo *image_info,ExceptionInfo *exception)
             default:
             {
               /* Unknown format */
-              ThrowReaderException(CorruptImageError,"ImageTypeNotSupported");
+              ThrowReaderException(ImageError,"ImageTypeNotSupported");
             }
           }
 
@@ -3032,14 +3032,14 @@ static Image *ReadDDSImage(const ImageInfo *image_info,ExceptionInfo *exception)
         default:
         {
           /* Unknown FOURCC */
-          ThrowReaderException(CorruptImageError,"ImageTypeNotSupported");
+          ThrowReaderException(ImageError,"ImageTypeNotSupported");
         }
       }
     }
   else
     {
       /* Neither compressed nor uncompressed... thus unsupported */
-      ThrowReaderException(CorruptImageError,"ImageTypeNotSupported");
+      ThrowReaderException(ImageError,"ImageTypeNotSupported");
     }
   
   num_images = 1;

@@ -18,15 +18,13 @@
 #ifndef MAGICKCORE_IMAGE_PRIVATE_H
 #define MAGICKCORE_IMAGE_PRIVATE_H
 
+#include <limits.h>
+#include "MagickCore/pixel-accessor.h"
+#include "MagickCore/quantum-private.h"
+
 #if defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
 #endif
-
-#define MagickMax(x,y)  (((x) > (y)) ? (x) : (y))
-#define MagickMin(x,y)  (((x) < (y)) ? (x) : (y))
-
-#include "MagickCore/pixel-accessor.h"
-#include "MagickCore/quantum-private.h"
 
 #define BackgroundColor  "#ffffff"  /* white */
 #define BackgroundColorRGBA  QuantumRange,QuantumRange,QuantumRange,OpaqueAlpha
@@ -111,30 +109,6 @@ static inline ptrdiff_t CastDoubleToPtrdiffT(const double x)
       return(MAGICK_PTRDIFF_MAX);
     }
   return((ptrdiff_t) value);
-}
-
-static inline QuantumAny CastDoubleToQuantumAny(const double x)
-{
-  double
-    value;
-
-  if (IsNaN(x) != 0)
-    {
-      errno=ERANGE;
-      return(0);
-    }
-  value=(x < 0.0) ? ceil(x) : floor(x);
-  if (value < 0.0)
-    {
-      errno=ERANGE;
-      return(0);
-    }
-  if (value >= ((double) ((QuantumAny) ~0)))
-    {
-      errno=ERANGE;
-      return((QuantumAny) ~0);
-    }
-  return((QuantumAny) value);
 }
 
 static inline size_t CastDoubleToSizeT(const double x)
@@ -260,25 +234,6 @@ static inline unsigned short CastDoubleToUShort(const double x)
 static inline double DegreesToRadians(const double degrees)
 {
   return((double) (MagickPI*degrees/180.0));
-}
-
-static inline size_t GetImageChannels(const Image *image)
-{
-  ssize_t
-    i;
-
-  size_t
-    channels;
-
-  channels=0;
-  for (i=0; i < (ssize_t) GetPixelChannels(image); i++)
-  {
-    PixelChannel channel = GetPixelChannelChannel(image,i);
-    PixelTrait traits = GetPixelChannelTraits(image,channel);
-    if ((traits & UpdatePixelTrait) != 0)
-      channels++;
-  }
-  return(channels == 0 ? (size_t) 1 : channels);
 }
 
 static inline double RadiansToDegrees(const double radians)

@@ -10,11 +10,11 @@ Bug-debian: https://bugs.debian.org/983303
  configure.ac | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Index: imagemagick/configure.ac
-===================================================================
---- imagemagick.orig/configure.ac	2026-07-07 10:22:10.094096449 +0200
-+++ imagemagick/configure.ac	2026-07-07 10:22:10.091606436 +0200
-@@ -37,7 +37,7 @@
+diff --git a/configure.ac b/configure.ac
+index 0a02945..f8f32e0 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -37,7 +37,7 @@ m4_define([magick_git_revision],
            ]))
  m4_define([magick_release_date],
            m4_esyscmd([

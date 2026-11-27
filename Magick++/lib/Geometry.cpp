@@ -12,12 +12,6 @@
 #define MAGICK_PLUSPLUS_IMPLEMENTATION 1
 
 #include "Magick++/Include.h"
-#include <string>
-#include <ctype.h> // for isdigit
-#if !defined(MAGICKCORE_WINDOWS_SUPPORT)
-#include <strings.h>
-#endif
-
 #include "Magick++/Geometry.h"
 #include "Magick++/Exception.h"
 
@@ -279,13 +273,13 @@ Magick::Geometry::operator std::string() const
 
   if (_width)
     {
-      FormatLocaleString(buffer,MagickPathExtent,"%.20g",(double) _width);
+      FormatLocaleString(buffer,MagickPathExtent,"%.17g",(double) _width);
       geometry+=buffer;
     }
 
   if (_height)
     {
-      FormatLocaleString(buffer,MagickPathExtent,"%.20g",(double) _height);
+      FormatLocaleString(buffer,MagickPathExtent,"%.17g",(double) _height);
       geometry+='x';
       geometry+=buffer;
     }
@@ -295,13 +289,13 @@ Magick::Geometry::operator std::string() const
       if (_xOff >= 0)
         geometry+='+';
 
-      FormatLocaleString(buffer,MagickPathExtent,"%.20g",(double) _xOff);
+      FormatLocaleString(buffer,MagickPathExtent,"%.17g",(double) _xOff);
       geometry+=buffer;
 
       if (_yOff >= 0)
         geometry+='+';
 
-      FormatLocaleString(buffer,MagickPathExtent,"%.20g",(double) _yOff);
+      FormatLocaleString(buffer,MagickPathExtent,"%.17g",(double) _yOff);
       geometry+=buffer;
     }
 
@@ -681,7 +675,7 @@ Magick::Point::operator std::string() const
   else
     point+="+";
 
-  FormatLocaleString(buffer,MagickPathExtent,"%.20g",_x);
+  FormatLocaleString(buffer,MagickPathExtent,"%.17g",_x);
   point+=buffer;
 
   if (_y < 0.0)
@@ -689,7 +683,7 @@ Magick::Point::operator std::string() const
   else
     point+="x+";
 
-  FormatLocaleString(buffer,MagickPathExtent,"%.20g",(double) _y);
+  FormatLocaleString(buffer,MagickPathExtent,"%.17g",(double) _y);
   point+=buffer;
 
   return(point);

@@ -1,3 +1,184 @@
+imagemagick (8:7.1.2.35+dfsg1-2) unstable; urgency=high
+
+  * Use coder policy for URL to allow loading but deny read/write,
+    fixing rmagick and external user.
+
+ -- Bastien Roucariès <rouca@debian.org>  Mon, 09 Nov 2026 11:06:17 +0100
+
+imagemagick (8:7.1.2.35+dfsg1-1) unstable; urgency=high
+
+  * New upstream version
+  * Fix security issues:
+    GHSA-7f2w-c8wf-xvf8, GHSA-wvfx-g9wq-253w
+    GHSA-gr4q-6v79-qj3g, GHSA-pp97-v3gv-9vh4,
+    GHSA-pp97-v3gv-9vh4, GHSA-6xcw-8jvx-wh63,
+    GHSA-v86v-4xf8-xjq4, GHSA-v86v-4xf8-xjq4,
+    GHSA-3pf7-cjfr-3fpq, GHSA-2pc3-3339-3qc9,
+    GHSA-mf84-8w53-2f2c, GHSA-x3j8-cjwr-m4pv,
+    GHSA-m9p2-wqc3-mj22, GHSA-2h6m-67xh-cm4p,
+    GHSA-q66g-3m63-78mh (CVE-2026-123273),
+    GHSA-p58q-7cv7-7w3m,
+    GHSA-m2p5-qpx9-5mx6, GHSA-67p3-xhc7-g797,
+    GHSA-hg5r-hf2p-g9xq, GHSA-5jwm-r7f4-4m53,
+    GHSA-hpjv-7vmp-f58w ,GHSA-c764-55gw-gj6c,
+    GHSA-5v9f-r478-x7vx, GHSA-h9f8-qmvx-p39m
+
+ -- Bastien Roucariès <rouca@debian.org>  Thu, 05 Nov 2026 12:06:01 +0100
+
+imagemagick (8:7.1.2.34+dfsg1-1) unstable; urgency=high
+
+  * New upstream version
+  * Regression fix (Closes: #1151153)
+
+ -- Bastien Roucariès <rouca@debian.org>  Sat, 24 Oct 2026 10:55:01 +0200
+
+imagemagick (8:7.1.2.33+dfsg1-1) unstable; urgency=high
+
+  * New upstream version (Closes: #1150337, #1150802)
+  * Fix CVE-2026-102635:
+    ImageMagick contain uninitialized heap memory disclosure in the GIF
+    decoder's application extension handler in coders/gif.c. Attackers can
+    craft malicious GIF files that cause the number parser to read
+    uninitialized heap memory and store contents as image metadata,
+    disclosing sensitive heap information.
+  * Fix CVE-2026-105083:
+    A policy bypass vulnerability in LoadPolicyCache that
+    silently skips security policy rules when policy.xml uses an alternate
+    DOCTYPE. A valid DOCTYPE not ending in ']>' makes the parser consume
+    the rest of the file, so no policy rules are applied and restricted
+    operations become allowed.
+  * Fix CVE-2026-106564:
+    A crafted EXR image can cause the EXR decoder to write beyond a
+    heap buffer, causing the process to crash.
+  * Fix CVE-2026-106565:
+    A missing end-of-file check while reading bzip2-compressed image data can
+    cause an infinite loop and exhaust processing resources.
+  * Fix CVE-2026-106566:
+    Delegate symlink cleanup does not check the MAGICK_SHRED_PASSES environment
+    variable, allowing a local privileged workflow to overwrite a file with random data.
+  * Fix CVE-2026-106567:
+    A crafted PSD file can trigger an integer-conversion error in the PSD decoder on
+    32-bit builds, causing an infinite loop and denial of service.
+  * Fix CVE-2026-106568:
+    A crafted XMP profile embedded in an image can cause the profile parser
+    to enter an infinite loop, preventing image processing from completing.
+  * Fix CVE-2026-106569:
+    A missing validation and resource checks in the ASE decoder allow a
+    crafted ASE image to cause a crash or a long-running operation.
+  * Fix CVE-2026-106570:
+    An unauthenticated adjacent-network client can repeatedly connect to
+    the distributed pixel cache server and exhaust its available connections,
+    causing denial of service.
+  * Fix CVE-2026-109258:
+    An invalid memory free vulnerability in the fx operation that occurs
+    when initialization of an FX runtime entry fails. Attackers can trigger
+    the failed FX runtime initialization to cause an invalid free,
+    resulting in memory corruption and application crashes.
+  * Fix CVE-2026-109259:
+    An uninitialized memory read in the TGA image decoder that can
+    expose memory contents.
+  * Fix CVE-2026-109260:
+    A memory leak in the PNG encoder, which does not release
+    allocated memory when libpng initialization fails.
+  * Fix CVE-2026-109261:
+    A memory leak in the GIF encoder because allocated memory
+    is not released when color quantization fails during encoding.
+  * Fix CVE-2026-109262:
+    A memory leak in the SVG encoder (WriteSVGImage) that fails
+    to release allocated memory when handling crafted images.
+  * Fix CVE-2026-109263:
+    A memory leak in the YUV encoder, which fails to release allocated
+    memory when a specific operation fails.
+  * Fix CVE-2026-109264:
+    An uncontrolled recursion in the MVG decoder that can exhaust the program stack.
+  * Fix CVE-2026-109265:
+    A heap buffer over-read vulnerability that allows attackers to read beyond
+    allocated memory due to incorrect string termination in XMP profiles.
+  * Fix CVE-2026-109266:
+    An XML injection vulnerability in the CIP encoder, which does not properly escape
+    input-derived data when writing Cisco IP Phone XML output.
+  * Fix CVE-2026-109267:
+    A stack overflow in the MSL decoder caused by an incorrect depth check
+    that fails to limit recursion. Attackers can supply a set of crafted MSL
+    images that exhaust the stack when one of them is read, crashing the
+    process and causing a denial of service.
+  * Fix CVE-2026-109268:
+    An use after free vulnerability in the PDF writer when writing
+    CMYK images with JPEG2000 compression.
+  * Fix CVE-2026-109269:
+    An information disclosure vulnerability in the JPEG decoder, which performs
+    a read that exposes uninitialized memory when handling crafted input.
+  * Fix CVE-2026-109270:
+    A memory leak vulnerability in the -process option that allows attackers
+    to cause unreleased memory allocations by supplying certain arguments.
+  * Fix CVE-2026-109271:
+    A use after free vulnerability in the WBINFO decoder that occurs when a
+    memory allocation fails during image decoding.
+  * Fix CVE-2026-109272:
+    A NULL pointer dereference in the PostScript decoder that is triggered
+    when a policy limit is reached.
+  * Fix CVE-2026-109273:
+    An information disclosure vulnerability in the PostScript decoder,
+    which allocates a buffer one byte longer than the data it decoded.
+  * Fix CVE-2026-109274:
+    A time-of-check time-of-use symlink race vulnerability that allows attackers
+    to bypass the path security policy when executing a magick script.
+  * Fix CVE-2026-109275:
+    a code injection vulnerability in the MVG decoder when a PostScript renderer is used.
+  * Fix CVE-2026-109276:
+    An incomplete cleanup flaw in the JNG decoder that fails to remove temporary
+    files when processing crafted input.
+  * Fix CVE-2026-109277:
+    A policy bypass vulnerability in the -script operation due to missing checks
+    on file descriptor handling.
+  * Fix CVE-2026-109278:
+    A memory leak in the wavelet-denoise operation, which fails to release
+    allocated memory when a required resource cannot be acquired.
+  * Fix CVE-2026-109279:
+    A lack of proper synchronization when the security policy is accessed,
+    so simultaneous reads and writes of the policy by multiple threads
+    trigger a race condition that causes a heap buffer over-write.
+  * Fix CVE-2026-109280:
+    A use after free vulnerability in the -fx option that occurs when a memory
+    allocation fails during a specific operation.
+  * Fix CVE-2026-109281:
+    A heap buffer over-read in its handling of the -fx option, where a
+    certain -fx operation reads beyond the bounds of an allocated heap
+    buffer in specific situations.
+  * Fix CVE-2026-109282:
+    A type confusion flaw in the INFO, JSON and YAML encoders, where an internal
+    method receives a pointer of an unexpected type when writing an image
+    in a compressed format.
+
+ -- Bastien Roucariès <rouca@debian.org>  Tue, 13 Oct 2026 19:34:56 +0200
+
+imagemagick (8:7.1.2.31+dfsg1-1) unstable; urgency=high
+
+  * New upstream version (Closes: #1147176)
+  * Fix CVE-2026-86420:
+    ImageMagick fails to properly lower the memory budget
+    when an operation inside OpenPixelCache fails.
+  * Fix CVE-2026-86421:
+    A memory leak in the MSL image decoder. A crafted MSL image
+    triggers memory allocation without proper deallocation,
+    allowing an attacker to exhaust memory and cause a denial of service.
+  * Fix CVE-2026-86423:
+    a heap-use-after-free vulnerability in the GetList method of PerlMagick.
+  * Fix CVE-2026-86424:
+    A time-of-check-time-of-use (TOCTOU) vulnerability in the video
+    decoder that allows attackers to bypass path policy write restrictions via symlink swaps
+  * Fix CVE-2026-86425:
+    A heap-use-after-free vulnerability in the Layer method of PerlMagick.
+
+ -- Bastien Roucariès <rouca@debian.org>  Thu, 10 Sep 2026 21:38:59 +0200
+
+imagemagick (8:7.1.2.29+dfsg2-1) unstable; urgency=medium
+
+  * New upstream version
+  * Remove generated pdf from upstream
+
+ -- Bastien Roucariès <rouca@debian.org>  Thu, 13 Aug 2026 09:39:49 +0200
+
 imagemagick (8:7.1.2.27+dfsg1-1) unstable; urgency=high
 
   * New upstream version

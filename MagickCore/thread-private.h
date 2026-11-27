@@ -48,7 +48,7 @@ extern "C" {
 #endif
 
 static inline int GetMagickNumberThreads(const Image *source,
-  const Image *destination,const size_t chunk,const int factor)
+  const Image *destination,const size_t chunk,const double factor)
 {
   const CacheType
     destination_type = (CacheType) GetImagePixelCacheType(destination),
@@ -57,20 +57,18 @@ static inline int GetMagickNumberThreads(const Image *source,
   size_t
     max_threads = (size_t) GetMagickResourceLimit(ThreadResource),
     number_threads = 1UL,
-    workload_factor = 64UL << factor;
+    pixels_per_thread = CastDoubleToSizeT(262144.0*factor);
 
-  /*
-    Determine number of threads based on workload.
-  */
-  number_threads=(chunk <= workload_factor) ? 1UL :
-    (chunk >= (workload_factor << 6)) ? max_threads :
-    1UL+(chunk-workload_factor)*(max_threads-1L)/(((workload_factor << 6))-1L);
-  /*
-    Limit threads for non-memory or non-map cache sources/destinations.
-  */
+  if (pixels_per_thread != 0)
+    {
+      const size_t total_pixels = chunk*source->columns;
+      number_threads=(total_pixels < pixels_per_thread) ? 1UL :
+        MagickMin(max_threads,(total_pixels+pixels_per_thread-1)/
+        pixels_per_thread);
+    }
   if (((source_type != MemoryCache) && (source_type != MapCache)) ||
       ((destination_type != MemoryCache) && (destination_type != MapCache)))
-    number_threads=MagickMin(number_threads,4);
+    number_threads=MagickMin(number_threads,4UL);
   return((int) number_threads);
 }
 
@@ -183,7 +181,7 @@ static inline void SetOpenMPMaximumThreads(const int magick_unused(threads))
 #if defined(MAGICKCORE_OPENMP_SUPPORT)
 static inline void SetOpenMPMaxActiveLevels(const int value)
 {
-#if defined(MAGICKCORE_WINDOWS_SUPPORT)
+#if defined(MAGICKCORE_WINDOWS_SUPPORT) && !defined(__MINGW32__)
   omp_set_nested(value);
 #else
   omp_set_max_active_levels(value ? 2 : 1);

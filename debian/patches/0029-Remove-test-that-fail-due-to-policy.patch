@@ -1,0 +1,31 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 8 Nov 2026 01:46:21 +0100
+Subject: Remove test that fail due to policy
+
+forwarded: not-needed
+bug: https://github.com/ImageMagick/ImageMagick/issues/9098
+---
+ Magick++/tests/tests.tap | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Magick++/tests/tests.tap b/Magick++/tests/tests.tap
+index b5c15ff..d510853 100755
+--- a/Magick++/tests/tests.tap
++++ b/Magick++/tests/tests.tap
+@@ -8,14 +8,14 @@
+ #
+ subdir=Magick++/tests
+ . ./common.shi
+-echo "1..13"
++echo "1..12"
+ 
+ SRCDIR=${top_srcdir}/${subdir}/
+ export SRCDIR
+ 
+ cd ${subdir} || exit 1
+ 
+-for mytest in appendImages attributes averageImages coalesceImages coderInfo color colorHistogram exceptions geometry montageImages morphImages readWriteBlob readWriteImages
++for mytest in appendImages attributes averageImages coalesceImages color colorHistogram exceptions geometry montageImages morphImages readWriteBlob readWriteImages
+ do
+   ./${mytest} && echo "ok" || echo "not ok"
+ done

@@ -52,8 +52,7 @@
 #include "MagickCore/colorspace-private.h"
 #include "MagickCore/compress.h"
 #include "MagickCore/constitute.h"
-#include "MagickCore/delegate.h"
-#include "MagickCore/delegate-private.h"
+#include "MagickCore/constitute-private.h"
 #include "MagickCore/distort.h"
 #include "MagickCore/draw.h"
 #include "MagickCore/exception.h"
@@ -86,7 +85,6 @@
 #include "MagickCore/utility.h"
 #include "MagickCore/utility-private.h"
 #include "MagickCore/xml-tree-private.h"
-#include "coders/bytebuffer-private.h"
 #include "coders/coders-private.h"
 #include "coders/ghostscript-private.h"
 
@@ -300,7 +298,7 @@ static void ReadPDFInfo(const ImageInfo *image_info,Image *image,
           Note spot names.
         */
         (void) FormatLocaleString(property,MagickPathExtent,
-          "pdf:SpotColor-%.20g",(double) spotcolor++);
+          "pdf:SpotColor-%.17g",(double) spotcolor++);
         i=0;
         SkipMagickByteBuffer(&buffer,strlen(SpotColor)+1);
         for (c=ReadMagickByteBuffer(&buffer); c != EOF; c=ReadMagickByteBuffer(&buffer))
@@ -597,7 +595,7 @@ static Image *ReadPDFImage(const ImageInfo *image_info,ExceptionInfo *exception)
     (void) FormatLocaleString(density,MagickPathExtent,"2.0x2.0");
   else
     if ((image_info->page != (char *) NULL) || (fitPage != MagickFalse))
-      (void) FormatLocaleString(options,MagickPathExtent,"-g%.20gx%.20g ",
+      (void) FormatLocaleString(options,MagickPathExtent,"-g%.17gx%.17g ",
         (double) page.width,(double) page.height);
   option=GetImageOption(image_info,"pdf:printed");
   if (IsStringTrue(option) != MagickFalse)
@@ -639,8 +637,8 @@ static Image *ReadPDFImage(const ImageInfo *image_info,ExceptionInfo *exception)
       char
         pages[MagickPathExtent];
 
-      (void) FormatLocaleString(pages,MagickPathExtent,"-dFirstPage=%.20g "
-        "-dLastPage=%.20g",(double) read_info->scene+1,(double)
+      (void) FormatLocaleString(pages,MagickPathExtent,"-dFirstPage=%.17g "
+        "-dLastPage=%.17g",(double) read_info->scene+1,(double)
         (read_info->scene+read_info->number_scenes));
       (void) ConcatenateMagickString(options,pages,MagickPathExtent);
       read_info->number_scenes=0;
@@ -684,7 +682,7 @@ static Image *ReadPDFImage(const ImageInfo *image_info,ExceptionInfo *exception)
           break;
         read_info->blob=NULL;
         read_info->length=0;
-        next=ReadImage(read_info,exception);
+        next=ReadImageWithoutPostProcessing(read_info,exception);
         (void) RelinquishUniqueFileResource(read_info->filename);
         if (next == (Image *) NULL)
           break;
@@ -747,6 +745,8 @@ static Image *ReadPDFImage(const ImageInfo *image_info,ExceptionInfo *exception)
       /*
         Add place holder images to meet the subimage specification requirement.
       */
+      if (AcquireMagickResource(ListLengthResource,image_info->scene) == MagickFalse)
+        ThrowReaderException(ResourceLimitError,"ListLengthExceedsLimit");
       for (i=0; i < (ssize_t) image_info->scene; i++)
       {
         clone_image=CloneImage(pdf_image,1,1,MagickTrue,exception);
@@ -914,50 +914,6 @@ ModuleExport void UnregisterPDFImage(void)
 %    o exception: return any errors or warnings in this structure.
 %
 */
-
-static char *EscapeParenthesis(const char *source)
-{
-  char
-    *destination;
-
-  char
-    *q;
-
-  const char
-    *p;
-
-  size_t
-    length;
-
-  assert(source != (const char *) NULL);
-  length=0;
-  for (p=source; *p != '\0'; p++)
-  {
-    if ((*p == '\\') || (*p == '(') || (*p == ')'))
-      {
-        if (~length < 1)
-          ThrowFatalException(ResourceLimitFatalError,"UnableToEscapeString");
-        length++;
-      }
-    length++;
-  }
-  destination=(char *) NULL;
-  if (~length >= (MagickPathExtent-1))
-    destination=(char *) AcquireQuantumMemory(length+MagickPathExtent,
-      sizeof(*destination));
-  if (destination == (char *) NULL)
-    ThrowFatalException(ResourceLimitFatalError,"UnableToEscapeString");
-  *destination='\0';
-  q=destination;
-  for (p=source; *p != '\0'; p++)
-  {
-    if ((*p == '\\') || (*p == '(') || (*p == ')'))
-      *q++='\\';
-    *q++=(*p);
-  }
-  *q='\0';
-  return(destination);
-}
 
 static size_t UTF8ToUTF16(const unsigned char *utf8,wchar_t *utf16)
 {
@@ -1303,7 +1259,7 @@ static const char *GetPDFKeywords(const ImageInfo *image_info)
 }
 
 static void WritePDFValue(Image* image,const char *keyword,
-  const char *value,const MagickBooleanType is_pdfa)
+  const char *value,const MagickBooleanType is_pdfa,ExceptionInfo *exception)
 {
   char
     *escaped;
@@ -1321,7 +1277,7 @@ static void WritePDFValue(Image* image,const char *keyword,
     return;
   if (is_pdfa != MagickFalse)
     {
-      escaped=EscapeParenthesis(value);
+      escaped=EscapeParenthesis(value,MAGICK_SIZE_MAX,exception);
       (void) WriteBlobString(image,"/");
       (void) WriteBlobString(image,keyword);
       (void) WriteBlobString(image," (");
@@ -1539,8 +1495,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
     number_scenes,
     object,
     pages_id,
-    root_id,
-    text_size;
+    root_id;
 
   ssize_t
     count,
@@ -1632,19 +1587,19 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
   */
   xref[object++]=TellBlob(image);
   root_id=object;
-  (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+  (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
     object);
   (void) WriteBlobString(image,buffer);
   (void) WriteBlobString(image,"<<\n");
   if (is_pdfa == MagickFalse)
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Pages %.20g 0 R\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Pages %.17g 0 R\n",
       (double) object+1);
   else
     {
-      (void) FormatLocaleString(buffer,MagickPathExtent,"/Metadata %.20g 0 R\n",
+      (void) FormatLocaleString(buffer,MagickPathExtent,"/Metadata %.17g 0 R\n",
         (double) object+1);
       (void) WriteBlobString(image,buffer);
-      (void) FormatLocaleString(buffer,MagickPathExtent,"/Pages %.20g 0 R\n",
+      (void) FormatLocaleString(buffer,MagickPathExtent,"/Pages %.17g 0 R\n",
         (double) object+2);
     }
   (void) WriteBlobString(image,buffer);
@@ -1672,7 +1627,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
         Write XMP object.
       */
       xref[object++]=TellBlob(image);
-      (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+      (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
         object);
       (void) WriteBlobString(image,buffer);
       (void) WriteBlobString(image,"<<\n");
@@ -1692,7 +1647,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       title=DestroyString(title);
       creator=DestroyString(creator);
       keywords=DestroyString(keywords);
-      (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.20g\n",
+      (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.17g\n",
         (double) i);
       (void) WriteBlobString(image,buffer);
       (void) WriteBlobString(image,"/Type /Metadata\n");
@@ -1706,12 +1661,12 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
   */
   xref[object++]=TellBlob(image);
   pages_id=object;
-  (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+  (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
     object);
   (void) WriteBlobString(image,buffer);
   (void) WriteBlobString(image,"<<\n");
   (void) WriteBlobString(image,"/Type /Pages\n");
-  (void) FormatLocaleString(buffer,MagickPathExtent,"/Kids [ %.20g 0 R ",
+  (void) FormatLocaleString(buffer,MagickPathExtent,"/Kids [ %.17g 0 R ",
     (double) object+1);
   (void) WriteBlobString(image,buffer);
   count=(ssize_t) (pages_id+ObjectsPerImage+1);
@@ -1727,11 +1682,19 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       kid_image=image;
       for ( ; GetNextImageInList(kid_image) != (Image *) NULL; count+=ObjectsPerImage)
       {
+        CompressionType
+          kid_compression;
+
         page_count++;
+        kid_compression=kid_image->compression;
+        if (image_info->compression != UndefinedCompression)
+          kid_compression=image_info->compression;
         icc_profile=GetCompatibleColorProfile(kid_image);
-        if (icc_profile != (StringInfo *) NULL)
+        if ((icc_profile != (StringInfo *) NULL) &&
+            ((kid_compression != JPEG2000Compression) ||
+             (IssRGBCompatibleColorspace(kid_image->colorspace) != MagickFalse)))
           count+=2;
-        (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 R ",(double)
+        (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 R ",(double)
           count);
         (void) WriteBlobString(image,buffer);
         kid_image=GetNextImageInList(kid_image);
@@ -1742,7 +1705,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
         ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
     }
   (void) WriteBlobString(image,"]\n");
-  (void) FormatLocaleString(buffer,MagickPathExtent,"/Count %.20g\n",(double)
+  (void) FormatLocaleString(buffer,MagickPathExtent,"/Count %.17g\n",(double)
     page_count);
   (void) WriteBlobString(image,buffer);
   (void) WriteBlobString(image,">>\n");
@@ -1757,7 +1720,6 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
     MagickBooleanType
       thumbnail;
 
-    icc_profile=GetCompatibleColorProfile(image);
     compression=image->compression;
     if (image_info->compression != UndefinedCompression)
       compression=image_info->compression;
@@ -1818,7 +1780,8 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
     }
     if (compression == JPEG2000Compression)
       if (IssRGBCompatibleColorspace(image->colorspace) == MagickFalse)
-      (void) TransformImageColorspace(image,sRGBColorspace,exception);
+        (void) TransformImageColorspace(image,sRGBColorspace,exception);
+    icc_profile=GetCompatibleColorProfile(image);
     /*
       Scale relative to dots-per-inch.
     */
@@ -1850,14 +1813,14 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
         resolution.y=(double) ((size_t) (100.0*2.54*resolution.y+0.5)/100.0);
       }
     SetGeometry(image,&geometry);
-    (void) FormatLocaleString(temp,MagickPathExtent,"%.20gx%.20g",
+    (void) FormatLocaleString(temp,MagickPathExtent,"%.17gx%.17g",
       (double) image->columns,(double) image->rows);
     if (image_info->page != (char *) NULL)
       (void) CopyMagickString(temp,image_info->page,MagickPathExtent);
     else
       if ((image->page.width != 0) && (image->page.height != 0))
         (void) FormatLocaleString(temp,MagickPathExtent,
-          "%.20gx%.20g%+.20g%+.20g",(double) image->page.width,(double)
+          "%.17gx%.17g%+.20g%+.20g",(double) image->page.width,(double)
           image->page.height,(double) image->page.x,(double) image->page.y);
       else
         if ((image->gravity != UndefinedGravity) &&
@@ -1882,21 +1845,16 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
     pointsize=12.0;
     if (image_info->pointsize != 0.0)
       pointsize=image_info->pointsize;
-    text_size=0;
-    value=GetImageProperty(image,"label",exception);
-    if (value != (const char *) NULL)
-      text_size=(size_t) (MultilineCensus(value)*pointsize+12);
-    (void) text_size;
     /*
       Write Page object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"<<\n");
     (void) WriteBlobString(image,"/Type /Page\n");
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Parent %.20g 0 R\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Parent %.17g 0 R\n",
       (double) pages_id);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"/Resources <<\n");
@@ -1907,15 +1865,15 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
     if (labels != (char **) NULL)
       {
         (void) FormatLocaleString(buffer,MagickPathExtent,
-          "/Font << /F%.20g %.20g 0 R >>\n",(double) image->scene,(double)
+          "/Font << /F%.17g %.17g 0 R >>\n",(double) image->scene,(double)
           object+4);
         (void) WriteBlobString(image,buffer);
       }
     (void) FormatLocaleString(buffer,MagickPathExtent,
-      "/XObject << /Im%.20g %.20g 0 R >>\n",(double) image->scene,(double)
+      "/XObject << /Im%.17g %.17g 0 R >>\n",(double) image->scene,(double)
       object+5);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/ProcSet %.20g 0 R >>\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/ProcSet %.17g 0 R >>\n",
       (double) object+3);
     (void) WriteBlobString(image,buffer);
     (void) FormatLocaleString(buffer,MagickPathExtent,
@@ -1928,10 +1886,10 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       MagickSafeReciprocal(resolution.x),(double) (DefaultResolution*
       media_info.height*MagickSafeReciprocal(resolution.y)));
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Contents %.20g 0 R\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Contents %.17g 0 R\n",
       (double) object+1);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Thumb %.20g 0 R\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Thumb %.17g 0 R\n",
       (double) object+(icc_profile != (StringInfo *) NULL ? 10 : 8));
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,">>\n");
@@ -1940,11 +1898,11 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write Contents object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"<<\n");
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.20g 0 R\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.17g 0 R\n",
       (double) object+1);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,">>\n");
@@ -1954,25 +1912,29 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
     if (labels != (char **) NULL)
       for (i=0; labels[i] != (char *) NULL; i++)
       {
+        char
+          *escape;
+
         (void) WriteBlobString(image,"BT\n");
-        (void) FormatLocaleString(buffer,MagickPathExtent,"/F%.20g %g Tf\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"/F%.17g %g Tf\n",
           (double) image->scene,pointsize);
         (void) WriteBlobString(image,buffer);
-        (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g %.20g Td\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g %.17g Td\n",
           (double) geometry.x,(double) (geometry.y+(ssize_t) geometry.height+
           i*pointsize+12));
         (void) WriteBlobString(image,buffer);
-        (void) FormatLocaleString(buffer,MagickPathExtent,"(%s) Tj\n",
-           labels[i]);
+        escape=EscapeParenthesis(labels[i],MAGICK_SIZE_MAX,exception);
+        (void) FormatLocaleString(buffer,MagickPathExtent,"(%s) Tj\n",escape);
+        escape=DestroyString(escape);
         (void) WriteBlobString(image,buffer);
         (void) WriteBlobString(image,"ET\n");
         labels[i]=DestroyString(labels[i]);
       }
     (void) FormatLocaleString(buffer,MagickPathExtent,
-      "%g 0 0 %g %.20g %.20g cm\n",scale.x,scale.y,(double) geometry.x,
+      "%g 0 0 %g %.17g %.17g cm\n",scale.x,scale.y,(double) geometry.x,
       (double) geometry.y);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Im%.20g Do\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Im%.17g Do\n",(double)
       image->scene);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"Q\n");
@@ -1983,10 +1945,10 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write Length object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g\n",(double)
       offset);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"endobj\n");
@@ -1994,7 +1956,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write Procset object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
     if ((compression == FaxCompression) || (compression == Group4Compression))
@@ -2011,7 +1973,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write Font object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"<<\n");
@@ -2019,7 +1981,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       {
         (void) WriteBlobString(image,"/Type /Font\n");
         (void) WriteBlobString(image,"/Subtype /Type1\n");
-        (void) FormatLocaleString(buffer,MagickPathExtent,"/Name /F%.20g\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"/Name /F%.17g\n",
           (double) image->scene);
         (void) WriteBlobString(image,buffer);
         (void) WriteBlobString(image,"/BaseFont /Helvetica\n");
@@ -2032,13 +1994,13 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write XObject object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"<<\n");
     (void) WriteBlobString(image,"/Type /XObject\n");
     (void) WriteBlobString(image,"/Subtype /Image\n");
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Name /Im%.20g\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Name /Im%.17g\n",
       (double) image->scene);
     (void) WriteBlobString(image,buffer);
     switch (compression)
@@ -2087,7 +2049,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
           MagickPathExtent);
         (void) WriteBlobString(image,buffer);
         (void) FormatLocaleString(buffer,MagickPathExtent,"/DecodeParms [ << "
-          "/K %s /BlackIs1 false /Columns %.20g /Rows %.20g >> ]\n",CCITTParam,
+          "/K %s /BlackIs1 false /Columns %.17g /Rows %.17g >> ]\n",CCITTParam,
           (double) image->columns,(double) image->rows);
         break;
       }
@@ -2099,13 +2061,13 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       }
     }
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Width %.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Width %.17g\n",(double)
       image->columns);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Height %.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Height %.17g\n",(double)
       image->rows);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/ColorSpace %.20g 0 R\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/ColorSpace %.17g 0 R\n",
       (double) object+2);
     (void) WriteBlobString(image,buffer);
     (void) FormatLocaleString(buffer,MagickPathExtent,"/BitsPerComponent %d\n",
@@ -2114,11 +2076,11 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
     (void) WriteBlobString(image,buffer);
     if (image->alpha_trait != UndefinedPixelTrait)
       {
-        (void) FormatLocaleString(buffer,MagickPathExtent,"/SMask %.20g 0 R\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"/SMask %.17g 0 R\n",
           (double) object+(icc_profile != (StringInfo *) NULL ? 9 : 7));
         (void) WriteBlobString(image,buffer);
       }
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.20g 0 R\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.17g 0 R\n",
       (double) object+1);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,">>\n");
@@ -2467,10 +2429,10 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write Length object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g\n",(double)
       offset);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"endobj\n");
@@ -2478,7 +2440,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write Colorspace object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
     device="DeviceRGB";
@@ -2507,7 +2469,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
           (void) FormatLocaleString(buffer,MagickPathExtent,"/%s\n",device);
         else
           (void) FormatLocaleString(buffer,MagickPathExtent,
-            "[ /Indexed /%s %.20g %.20g 0 R ]\n",device,(double) image->colors-1,
+            "[ /Indexed /%s %.17g %.17g 0 R ]\n",device,(double) image->colors-1,
             (double) object+3);
         (void) WriteBlobString(image,buffer);
       }
@@ -2520,15 +2482,15 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
           Write ICC profile.
         */
         (void) FormatLocaleString(buffer,MagickPathExtent,
-          "[/ICCBased %.20g 0 R]\n",(double) object+1);
+          "[/ICCBased %.17g 0 R]\n",(double) object+1);
         (void) WriteBlobString(image,buffer);
         (void) WriteBlobString(image,"endobj\n");
         xref[object++]=TellBlob(image);
-        (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",
           (double) object);
         (void) WriteBlobString(image,buffer);
-        (void) FormatLocaleString(buffer,MagickPathExtent,"<<\n/N %.20g\n"
-          "/Filter /ASCII85Decode\n/Length %.20g 0 R\n/Alternate /%s\n>>\n"
+        (void) FormatLocaleString(buffer,MagickPathExtent,"<<\n/N %.17g\n"
+          "/Filter /ASCII85Decode\n/Length %.17g 0 R\n/Alternate /%s\n>>\n"
           "stream\n",(double) channels,(double) object+1,device);
         (void) WriteBlobString(image,buffer);
         offset=TellBlob(image);
@@ -2544,10 +2506,10 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
           Write Length object.
         */
         xref[object++]=TellBlob(image);
-        (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",
           (double) object);
         (void) WriteBlobString(image,buffer);
-        (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g\n",(double)
+        (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g\n",(double)
           offset);
         (void) WriteBlobString(image,buffer);
       }
@@ -2571,7 +2533,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
         return(MagickFalse);
       }
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"<<\n");
@@ -2621,7 +2583,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
           MagickPathExtent);
         (void) WriteBlobString(image,buffer);
         (void) FormatLocaleString(buffer,MagickPathExtent,"/DecodeParms [ "
-          "<< /K %s /BlackIs1 false /Columns %.20g /Rows %.20g >> ]\n",
+          "<< /K %s /BlackIs1 false /Columns %.17g /Rows %.17g >> ]\n",
           CCITTParam,(double) tile_image->columns,(double) tile_image->rows);
         break;
       }
@@ -2633,21 +2595,21 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       }
     }
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Width %.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Width %.17g\n",(double)
       tile_image->columns);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Height %.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Height %.17g\n",(double)
       tile_image->rows);
     (void) WriteBlobString(image,buffer);
     (void) FormatLocaleString(buffer,MagickPathExtent,
-      "/ColorSpace %.20g 0 R\n",(double) object-
+      "/ColorSpace %.17g 0 R\n",(double) object-
       (icc_profile != (StringInfo *) NULL ? 3 : 1));
     (void) WriteBlobString(image,buffer);
     (void) FormatLocaleString(buffer,MagickPathExtent,
       "/BitsPerComponent %d\n",(compression == FaxCompression) ||
       (compression == Group4Compression) ? 1 : 8);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.20g 0 R\n",
+    (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.17g 0 R\n",
       (double) object+1);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,">>\n");
@@ -2984,15 +2946,15 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write Length object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g\n",(double)
       offset);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"endobj\n");
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"<<\n");
@@ -3006,7 +2968,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
         */
         if (compression == NoCompression)
           (void) WriteBlobString(image,"/Filter [ /ASCII85Decode ]\n");
-        (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.20g 0 R\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.17g 0 R\n",
           (double) object+1);
         (void) WriteBlobString(image,buffer);
         (void) WriteBlobString(image,">>\n");
@@ -3043,10 +3005,10 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write Length object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g\n",(double)
       offset);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"endobj\n");
@@ -3054,7 +3016,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write softmask object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"<<\n");
@@ -3064,7 +3026,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       {
         (void) WriteBlobString(image,"/Type /XObject\n");
         (void) WriteBlobString(image,"/Subtype /Image\n");
-        (void) FormatLocaleString(buffer,MagickPathExtent,"/Name /Ma%.20g\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"/Name /Ma%.17g\n",
           (double) image->scene);
         (void) WriteBlobString(image,buffer);
         switch (compression)
@@ -3095,10 +3057,10 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
           }
         }
         (void) WriteBlobString(image,buffer);
-        (void) FormatLocaleString(buffer,MagickPathExtent,"/Width %.20g\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"/Width %.17g\n",
           (double) image->columns);
         (void) WriteBlobString(image,buffer);
-        (void) FormatLocaleString(buffer,MagickPathExtent,"/Height %.20g\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"/Height %.17g\n",
           (double) image->rows);
         (void) WriteBlobString(image,buffer);
         (void) WriteBlobString(image,"/ColorSpace /DeviceGray\n");
@@ -3106,7 +3068,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
           "/BitsPerComponent %d\n",(compression == FaxCompression) ||
           (compression == Group4Compression) ? 1 : 8);
         (void) WriteBlobString(image,buffer);
-        (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.20g 0 R\n",
+        (void) FormatLocaleString(buffer,MagickPathExtent,"/Length %.17g 0 R\n",
           (double) object+1);
         (void) WriteBlobString(image,buffer);
         (void) WriteBlobString(image,">>\n");
@@ -3194,10 +3156,10 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
       Write Length object.
     */
     xref[object++]=TellBlob(image);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
       object);
     (void) WriteBlobString(image,buffer);
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g\n",(double)
       offset);
     (void) WriteBlobString(image,buffer);
     (void) WriteBlobString(image,"endobj\n");
@@ -3213,16 +3175,16 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
   */
   xref[object++]=TellBlob(image);
   info_id=object;
-  (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g 0 obj\n",(double)
+  (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g 0 obj\n",(double)
     object);
   (void) WriteBlobString(image,buffer);
   (void) WriteBlobString(image,"<<\n");
-  WritePDFValue(image,"Title",GetPDFTitle(image_info,basename),is_pdfa);
-  WritePDFValue(image,"Author",GetPDFAuthor(image_info),is_pdfa);
-  WritePDFValue(image,"Creator",GetPDFCreator(image_info),is_pdfa);
-  WritePDFValue(image,"Producer",GetPDFProducer(image_info),is_pdfa);
-  WritePDFValue(image,"Subject",GetPDFSubject(image_info),is_pdfa);
-  WritePDFValue(image,"Keywords",GetPDFKeywords(image_info),is_pdfa);
+  WritePDFValue(image,"Title",GetPDFTitle(image_info,basename),is_pdfa,exception);
+  WritePDFValue(image,"Author",GetPDFAuthor(image_info),is_pdfa,exception);
+  WritePDFValue(image,"Creator",GetPDFCreator(image_info),is_pdfa,exception);
+  WritePDFValue(image,"Producer",GetPDFProducer(image_info),is_pdfa,exception);
+  WritePDFValue(image,"Subject",GetPDFSubject(image_info),is_pdfa,exception);
+  WritePDFValue(image,"Keywords",GetPDFKeywords(image_info),is_pdfa,exception);
   seconds=GetPdfCreationDate(image_info,image);
   GetMagickUTCTime(&seconds,&utc_time);
   (void) FormatLocaleString(temp,MagickPathExtent,"D:%04d%02d%02d%02d%02d%02d",
@@ -3245,7 +3207,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
   */
   offset=TellBlob(image)-xref[0]+((is_pdfa != MagickFalse) ? 6 : 0)+9;
   (void) WriteBlobString(image,"xref\n");
-  (void) FormatLocaleString(buffer,MagickPathExtent,"0 %.20g\n",(double)
+  (void) FormatLocaleString(buffer,MagickPathExtent,"0 %.17g\n",(double)
     object+1);
   (void) WriteBlobString(image,buffer);
   (void) WriteBlobString(image,"0000000000 65535 f \n");
@@ -3257,13 +3219,13 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
   }
   (void) WriteBlobString(image,"trailer\n");
   (void) WriteBlobString(image,"<<\n");
-  (void) FormatLocaleString(buffer,MagickPathExtent,"/Size %.20g\n",(double)
+  (void) FormatLocaleString(buffer,MagickPathExtent,"/Size %.17g\n",(double)
     object+1);
   (void) WriteBlobString(image,buffer);
-  (void) FormatLocaleString(buffer,MagickPathExtent,"/Info %.20g 0 R\n",(double)
+  (void) FormatLocaleString(buffer,MagickPathExtent,"/Info %.17g 0 R\n",(double)
     info_id);
   (void) WriteBlobString(image,buffer);
-  (void) FormatLocaleString(buffer,MagickPathExtent,"/Root %.20g 0 R\n",(double)
+  (void) FormatLocaleString(buffer,MagickPathExtent,"/Root %.17g 0 R\n",(double)
     root_id);
   (void) WriteBlobString(image,buffer);
   option=GetImageOption(image_info,"pdf:no-identifier");
@@ -3277,7 +3239,7 @@ static MagickBooleanType WritePDFImage(const ImageInfo *image_info,Image *image,
     }
   (void) WriteBlobString(image,">>\n");
   (void) WriteBlobString(image,"startxref\n");
-  (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g\n",(double) offset);
+  (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g\n",(double) offset);
   (void) WriteBlobString(image,buffer);
   (void) WriteBlobString(image,"%%EOF\n");
   xref=(MagickOffsetType *) RelinquishMagickMemory(xref);

@@ -1,0 +1,49 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Mon, 11 Jan 2021 22:42:36 +0000
+Subject: Finalize fixing error in html
+
+Forwarded: no
+---
+ www/api/index.html             | 2 +-
+ www/binary-releases/index.html | 2 +-
+ www/webp/index.html            | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/www/api/index.html b/www/api/index.html
+index 3c487b5..244cb4d 100644
+--- a/www/api/index.html
++++ b/www/api/index.html
+@@ -218,7 +218,7 @@
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script src="assets/magick.js" crossorigin="anonymous"></script>
++  <script src="assets/magick.js" crossorigin="anonymous" />
+   <script>window.jQuery || document.write('&lt;script src="assets/jquery.min.js">&lt;\/script>')</script>
+ </body>
+ </html>
+diff --git a/www/binary-releases/index.html b/www/binary-releases/index.html
+index 6119b51..8cc806a 100644
+--- a/www/binary-releases/index.html
++++ b/www/binary-releases/index.html
+@@ -488,7 +488,7 @@ objShell.Exec("convert ""e:/myimages/image.png"" ""e:/myimages/image.jpg""")
+   </footer>
+ 
+   <!-- Javascript assets -->
+-  <script src="assets/magick.js" crossorigin="anonymous"></script>
++  <script src="assets/magick.js" crossorigin="anonymous" />
+   <script>window.jQuery || document.write('&lt;script src="assets/jquery.min.js">&lt;\/script>')</script>
+ </body>
+ </html>
+diff --git a/www/webp/index.html b/www/webp/index.html
+index 81eff9a..8ab6454 100644
+--- a/www/webp/index.html
++++ b/www/webp/index.html
+@@ -393,6 +393,7 @@
+     <td>use-sharp-yuv=<var>value</var></td>
+     <td>if needed, use sharp (and slow) RGB->YUV conversion.</td>
+   </tr>
++</tbody>
+ </table></div>
+ </div>
+ 

@@ -561,6 +561,7 @@ libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-$
  IsCommandOption@Base 8:7.1.1.21
  IsEquivalentImage@Base 8:7.1.1.21
  IsEventLogging@Base 8:7.1.1.21
+ IsFileResourceIdentityValid@Base 8:7.1.2.29
  IsFuzzyEquivalencePixel@Base 8:7.1.1.21
  IsFuzzyEquivalencePixelInfo@Base 8:7.1.1.21
  IsGeometry@Base 8:7.1.1.21
@@ -577,6 +578,7 @@ libMagickCore-${IMVERSION}.${UCQUANTUMDEPTH}.so.${CORESOVERSION} libmagickcore-$
  IsOptionMember@Base 8:7.1.1.21
  IsPaletteImage@Base 8:7.1.1.21
  IsPathAccessible@Base 8:7.1.1.21
+ IsPathAuthorized@Base 8:7.1.2.29
  IsRightsAuthorized@Base 8:7.1.1.21
  IsRightsAuthorizedByName@Base 8:7.1.2.26
  IsSceneGeometry@Base 8:7.1.1.21

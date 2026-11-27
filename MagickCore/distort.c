@@ -443,7 +443,7 @@ static double *GenerateCoefficients(const Image *image,
           (((number_arguments-1) % cp_size) != 0)) 
         {
           (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
-                 "InvalidArgument", "%s : 'require at least %.20g CPs'",
+                 "InvalidArgument", "%s : 'require at least %.17g CPs'",
                  "Polynomial", (double) i);
           return((double *) NULL);
         }
@@ -522,7 +522,7 @@ static double *GenerateCoefficients(const Image *image,
       if ( number_arguments%cp_size != 0 ||
            number_arguments < cp_size ) {
         (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
-               "InvalidArgument", "%s : 'require at least %.20g CPs'",
+               "InvalidArgument", "%s : 'require at least %.17g CPs'",
                "Affine", 1.0);
         coeff=(double *) RelinquishMagickMemory(coeff);
         return((double *) NULL);
@@ -634,10 +634,10 @@ static double *GenerateCoefficients(const Image *image,
         coefficients to 4 (S, R, Tx, Ty) with Sy=Sx and Ry = -Rx so that one has
         only scale, rotation and translation. No skew.
       */
-      if (((number_arguments % cp_size) != 0) || (number_arguments < cp_size))
+      if (((number_arguments % cp_size) != 0) || (number_arguments < (2*cp_size)))
         {
           (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
-            "InvalidArgument", "%s : 'require at least %.20g CPs'",
+            "InvalidArgument", "%s : 'require at least %.17g CPs'",
             CommandOptionToMnemonic(MagickDistortOptions,*method),2.0);
           coeff=(double *) RelinquishMagickMemory(coeff);
           return((double *) NULL);
@@ -880,7 +880,7 @@ static double *GenerateCoefficients(const Image *image,
       if ( number_arguments%cp_size != 0 ||
            number_arguments < cp_size*4 ) {
         (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
-              "InvalidArgument", "%s : 'require at least %.20g CPs'",
+              "InvalidArgument", "%s : 'require at least %.17g CPs'",
               CommandOptionToMnemonic(MagickDistortOptions, *method), 4.0);
         coeff=(double *) RelinquishMagickMemory(coeff);
         return((double *) NULL);
@@ -998,7 +998,7 @@ static double *GenerateCoefficients(const Image *image,
       if ( number_arguments%cp_size != 0 ||
            number_arguments < cp_size*4 ) {
         (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
-              "InvalidArgument", "%s : 'require at least %.20g CPs'",
+              "InvalidArgument", "%s : 'require at least %.17g CPs'",
               CommandOptionToMnemonic(MagickDistortOptions, *method), 4.0);
         coeff=(double *) RelinquishMagickMemory(coeff);
         return((double *) NULL);
@@ -2072,7 +2072,7 @@ MagickExport Image *DistortImage(const Image *image, DistortMethod method,
     /* Set destination image size and virtual offset */
     if ( bestfit || viewport_given ) {
       (void) FormatLocaleString(image_gen,MagickPathExtent,
-        "  -size %.20gx%.20g -page %+.20g%+.20g xc: +insert \\\n",
+        "  -size %.17gx%.17g -page %+.20g%+.20g xc: +insert \\\n",
         (double) geometry.width,(double) geometry.height,(double) geometry.x,
         (double) geometry.y);
       lookup="v.p{xx-v.page.x-0.5,yy-v.page.y-0.5}";
@@ -2275,7 +2275,7 @@ MagickExport Image *DistortImage(const Image *image, DistortMethod method,
         (void) FormatLocaleFile(stderr,"Arc Distort, Internal Coefficients:\n");
         for (i=0; i < 5; i++)
           (void) FormatLocaleFile(stderr,
-            "  c%.20g = %+lf\n",(double) i,coeff[i]);
+            "  c%.17g = %+lf\n",(double) i,coeff[i]);
         (void) FormatLocaleFile(stderr,"Arc Distort, FX Equivalent:\n");
         (void) FormatLocaleFile(stderr,"%s", image_gen);
         (void) FormatLocaleFile(stderr,"  -fx 'ii=i+page.x; jj=j+page.y;\n");
@@ -2293,7 +2293,7 @@ MagickExport Image *DistortImage(const Image *image, DistortMethod method,
       {
         (void) FormatLocaleFile(stderr,"Polar Distort, Internal Coefficients\n");
         for (i=0; i < 8; i++)
-          (void) FormatLocaleFile(stderr,"  c%.20g = %+lf\n",(double) i,
+          (void) FormatLocaleFile(stderr,"  c%.17g = %+lf\n",(double) i,
             coeff[i]);
         (void) FormatLocaleFile(stderr,"Polar Distort, FX Equivalent:\n");
         (void) FormatLocaleFile(stderr,"%s", image_gen);
@@ -2314,7 +2314,7 @@ MagickExport Image *DistortImage(const Image *image, DistortMethod method,
         (void) FormatLocaleFile(stderr,
           "DePolar Distort, Internal Coefficients\n");
         for (i=0; i < 8; i++)
-          (void) FormatLocaleFile(stderr,"  c%.20g = %+lf\n",(double) i,
+          (void) FormatLocaleFile(stderr,"  c%.17g = %+lf\n",(double) i,
             coeff[i]);
         (void) FormatLocaleFile(stderr,"DePolar Distort, FX Equivalent:\n");
         (void) FormatLocaleFile(stderr,"%s", image_gen);
@@ -3191,10 +3191,14 @@ MagickExport Image *SparseColorImage(const Image *image,
 
   sparse_image=CloneImage(image,0,0,MagickTrue,exception);
   if (sparse_image == (Image *) NULL)
-    return((Image *) NULL);
+    {
+      coeff=(double *) RelinquishMagickMemory(coeff);
+      return((Image *) NULL);
+    }
   if (SetImageStorageClass(sparse_image,DirectClass,exception) == MagickFalse)
     { /* if image is ColorMapped - change it to DirectClass */
       sparse_image=DestroyImage(sparse_image);
+      coeff=(double *) RelinquishMagickMemory(coeff);
       return((Image *) NULL);
     }
   if (IsGrayColorspace(sparse_image->colorspace) != MagickFalse)

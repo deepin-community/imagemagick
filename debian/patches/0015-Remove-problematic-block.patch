@@ -1,0 +1,44 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sun, 17 Aug 2025 18:40:43 +0200
+Subject: Remove problematic block
+
+find . -name '*.html' -exec perl -0777 -i -pe 's|\n?<form .*</form>\n?||gs' {} \;
+---
+ www/api/index.html             | 6 +-----
+ www/binary-releases/index.html | 6 +-----
+ 2 files changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/www/api/index.html b/www/api/index.html
+index 16df3eb..e01c670 100644
+--- a/www/api/index.html
++++ b/www/api/index.html
+@@ -66,11 +66,7 @@
+       </li>
+     </ul>
+     </div>
+-    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
+-      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+-    </form>
+-  </nav>
++      </nav>
+   <main class="container">
+     <div class="magick-template">
+ <div class="magick-header">
+diff --git a/www/binary-releases/index.html b/www/binary-releases/index.html
+index db81a45..11c35a2 100644
+--- a/www/binary-releases/index.html
++++ b/www/binary-releases/index.html
+@@ -61,11 +61,7 @@
+       </li>
+     </ul>
+     </div>
+-    <form class="form-inline my-2 my-lg-0" action="https://legacy.imagemagick.org/script/search.php">
+-      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search" aria-label="Search" />
+-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sa">Search</button>
+-    </form>
+-  </nav>
++      </nav>
+   </header>
+   <main class="container">
+     <div class="magick-template">

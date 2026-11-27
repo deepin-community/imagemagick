@@ -4,13 +4,13 @@ Subject: Remove unreproductible configure.xml variable
 
 forwarded: not-needed
 ---
- config/configure.xml.in | 9 ---------
- 1 file changed, 9 deletions(-)
+ config/configure.xml.in | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-Index: imagemagick/config/configure.xml.in
-===================================================================
---- imagemagick.orig/config/configure.xml.in	2026-07-07 10:22:09.568352604 +0200
-+++ imagemagick/config/configure.xml.in	2026-07-07 10:22:09.565810596 +0200
+diff --git a/config/configure.xml.in b/config/configure.xml.in
+index 2311099..5022de4 100644
+--- a/config/configure.xml.in
++++ b/config/configure.xml.in
 @@ -11,33 +11,23 @@
  -->
  <configuremap>

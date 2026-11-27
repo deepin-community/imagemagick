@@ -217,6 +217,8 @@ static Image *ReadMTVImage(const ImageInfo *image_info,ExceptionInfo *exception)
     if (ReadBlobString(image,buffer) == (char *) NULL)
       break;
     count=(ssize_t) MagickSscanf(buffer,"%lu %lu\n",&columns,&rows);
+    if (count == 1)
+      ThrowReaderException(CorruptImageError,"ImproperImageHeader");
     if (count > 0)
       {
         /*
@@ -385,7 +387,7 @@ static MagickBooleanType WriteMTVImage(const ImageInfo *image_info,Image *image,
     /*
       Initialize raster file header.
     */
-    (void) FormatLocaleString(buffer,MagickPathExtent,"%.20g %.20g\n",(double)
+    (void) FormatLocaleString(buffer,MagickPathExtent,"%.17g %.17g\n",(double)
       image->columns,(double) image->rows);
     (void) WriteBlobString(image,buffer);
     for (y=0; y < (ssize_t) image->rows; y++)

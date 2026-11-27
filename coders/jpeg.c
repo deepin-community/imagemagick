@@ -56,6 +56,7 @@
 #include "MagickCore/colorspace.h"
 #include "MagickCore/colorspace-private.h"
 #include "MagickCore/constitute.h"
+#include "MagickCore/constitute-private.h"
 #include "MagickCore/exception.h"
 #include "MagickCore/exception-private.h"
 #include "MagickCore/geometry.h"
@@ -405,7 +406,7 @@ static MagickBooleanType IsUltraHDRJPEGAutoRoutingEnabled(
     return(MagickFalse);
   if (IsRightsAuthorized(CoderPolicyDomain,rights,"UHDR") == MagickFalse)
     return(MagickFalse);
-  if (IsRightsAuthorized(ModulePolicyDomain,rights,"UHDr") == MagickFalse)
+  if (IsRightsAuthorized(ModulePolicyDomain,rights,"UHDR") == MagickFalse)
     return(MagickFalse);
   return(MagickTrue);
 }
@@ -439,7 +440,7 @@ static Image *ReadUltraHDRJPEGImage(const ImageInfo *image_info,
   uhdr_info=CloneImageInfo(image_info);
   SetUltraHDRCoderFilename(uhdr_info,image_info->filename);
   (void) SetImageOption(uhdr_info,"jpeg:detect-uhdr","false");
-  images=ReadImage(uhdr_info,exception);
+  images=ReadImageWithoutPostProcessing(uhdr_info,exception);
   uhdr_info=DestroyImageInfo(uhdr_info);
   return(images);
 }
@@ -739,7 +740,7 @@ static MagickBooleanType ReadProfilePayload(j_decompress_ptr jpeg_info,
   *p='\0';
   if (image->debug != MagickFalse)
     (void) LogMagickEvent(CoderEvent,GetMagickModule(),
-      "Profile[%.20g]: %.20g bytes",(double) index,(double) length);
+      "Profile[%.17g]: %.17g bytes",(double) index,(double) length);
   return(MagickTrue);
 }
 
@@ -1322,7 +1323,7 @@ static void JPEGSetImageQuality(const struct jpeg_decompress_struct *jpeg_info,
             image->quality=(size_t) i+1;
           if (image->debug != MagickFalse)
             (void) LogMagickEvent(CoderEvent,GetMagickModule(),
-              "Quality: %.20g (%s)",(double) i+1,(qvalue <= hash[i]) &&
+              "Quality: %.17g (%s)",(double) i+1,(qvalue <= hash[i]) &&
               (sum <= sums[i]) ? "exact" : "approximate");
           break;
         }
@@ -1371,7 +1372,7 @@ static void JPEGSetImageQuality(const struct jpeg_decompress_struct *jpeg_info,
               image->quality=(size_t) i+1;
             if (image->debug != MagickFalse)
               (void) LogMagickEvent(CoderEvent,GetMagickModule(),
-                "Quality: %.20g (%s)",(double) i+1,(qvalue <= hash[i]) &&
+                "Quality: %.17g (%s)",(double) i+1,(qvalue <= hash[i]) &&
                 (sum <= sums[i]) ? "exact" : "approximate");
             break;
           }
@@ -1424,17 +1425,25 @@ static void JPEGSetImageSamplingFactor(const struct jpeg_decompress_struct *jpeg
     }
     default:
     {
+      size_t
+        length;
+
+      ssize_t
+        i;
+
       (void) LogMagickEvent(CoderEvent,GetMagickModule(),"Colorspace: %d",
         jpeg_info->out_color_space);
-      (void) FormatLocaleString(sampling_factor,MagickPathExtent,
-        "%dx%d,%dx%d,%dx%d,%dx%d",jpeg_info->comp_info[0].h_samp_factor,
-        jpeg_info->comp_info[0].v_samp_factor,
-        jpeg_info->comp_info[1].h_samp_factor,
-        jpeg_info->comp_info[1].v_samp_factor,
-        jpeg_info->comp_info[2].h_samp_factor,
-        jpeg_info->comp_info[2].v_samp_factor,
-        jpeg_info->comp_info[3].h_samp_factor,
-        jpeg_info->comp_info[3].v_samp_factor);
+      (void) FormatLocaleString(sampling_factor,MagickPathExtent,"%dx%d",
+        jpeg_info->comp_info[0].h_samp_factor,
+        jpeg_info->comp_info[0].v_samp_factor);
+      length=strlen(sampling_factor);
+      for (i=1; (i < (ssize_t) jpeg_info->num_components) && (length < MagickPathExtent); i++)
+      {
+        (void) FormatLocaleString(sampling_factor+length,MagickPathExtent-
+          length,",%dx%d",jpeg_info->comp_info[i].h_samp_factor,
+          jpeg_info->comp_info[i].v_samp_factor);
+         length+=strlen(sampling_factor+length);
+      }
       break;
     }
   }
@@ -1619,7 +1628,11 @@ static Image *ReadOneJPEGImage(const ImageInfo *image_info,
         MagickFalse))
     {
       const char
+        *comment,
         *sampling_factor;
+
+      const StringInfo
+        *profile;
 
       ExceptionInfo
         *uhdr_exception;
@@ -1652,11 +1665,17 @@ static Image *ReadOneJPEGImage(const ImageInfo *image_info,
             uhdr_image->quality=image->quality;
           uhdr_image->resolution=image->resolution;
           uhdr_image->units=image->units;
+          profile=GetImageProfile(image,"iptc");
+          if (profile != (const StringInfo *) NULL)
+            (void) SetImageProfile(uhdr_image,"iptc",profile,uhdr_exception);
           sampling_factor=GetImageProperty(image,"jpeg:sampling-factor",
             exception);
           if (sampling_factor != (const char *) NULL)
             (void) SetImageProperty(uhdr_image,"jpeg:sampling-factor",
               sampling_factor,exception);
+          comment=GetImageProperty(image,"comment",exception);
+          if (comment != (const char *) NULL)
+            (void) SetImageProperty(uhdr_image,"comment",comment,exception);
           InheritException(exception,uhdr_exception);
           uhdr_exception=DestroyExceptionInfo(uhdr_exception);
           client_info=JPEGCleanup(jpeg_info,client_info);
@@ -1730,7 +1749,7 @@ static Image *ReadOneJPEGImage(const ImageInfo *image_info,
       jpeg_calc_output_dimensions(jpeg_info);
       if (image->debug != MagickFalse)
         (void) LogMagickEvent(CoderEvent,GetMagickModule(),
-          "Scale factor: %.20g",(double) scale_factor);
+          "Scale factor: %.17g",(double) scale_factor);
     }
 #if (JPEG_LIB_VERSION >= 61) && defined(D_PROGRESSIVE_SUPPORTED)
 #if !defined(LIBJPEG_TURBO_VERSION_NUMBER) && defined(D_LOSSLESS_SUPPORTED)
@@ -1870,7 +1889,7 @@ static Image *ReadOneJPEGImage(const ImageInfo *image_info,
     }
   JPEGSetImageQuality(jpeg_info,image);
   JPEGSetImageSamplingFactor(jpeg_info,image,exception);
-  (void) FormatLocaleString(value,MagickPathExtent,"%.20g",(double)
+  (void) FormatLocaleString(value,MagickPathExtent,"%.17g",(double)
     jpeg_info->out_color_space);
   (void) SetImageProperty(image,"jpeg:colorspace",value,exception);
 #if defined(D_ARITH_CODING_SUPPORTED)
@@ -1897,7 +1916,7 @@ static Image *ReadOneJPEGImage(const ImageInfo *image_info,
       (jpeg_info->output_components != 4))
     {
       client_info=JPEGCleanup(jpeg_info,client_info);
-      ThrowReaderException(CorruptImageError,"ImageTypeNotSupported");
+      ThrowReaderException(ImageError,"ImageTypeNotSupported");
     }
   bytes_per_pixel=((size_t) jpeg_info->data_precision+7)/8;
   memory_info=AcquireVirtualMemory((size_t) image->columns,
@@ -2595,8 +2614,12 @@ static QuantizationTable *GetQuantizationTable(const char *filename,
   table->levels=(unsigned int *) AcquireQuantumMemory(length,
     sizeof(*table->levels));
   if (table->levels == (unsigned int *) NULL)
-    ThrowFatalException(ResourceLimitFatalError,
-      "UnableToAcquireQuantizationTable");
+    {
+      quantization_tables=DestroyXMLTree(quantization_tables);
+      table=DestroyQuantizationTable(table);
+      xml=DestroyString(xml);
+      return(table);
+    }
   for (i=0; i < (ssize_t) (table->width*table->height); i++)
   {
     table->levels[i]=(unsigned int) (InterpretLocaleValue(content,&p)/
@@ -2785,7 +2808,7 @@ static void WriteProfiles(j_compress_ptr jpeg_info,Image *image,
       }
     if (image->debug != MagickFalse)
       (void) LogMagickEvent(CoderEvent,GetMagickModule(),
-        "%s profile: %.20g bytes",name,(double) GetStringInfoLength(profile));
+        "%s profile: %.17g bytes",name,(double) GetStringInfoLength(profile));
     name=GetNextImageProfile(image);
   }
   custom_profile=DestroyStringInfo(custom_profile);
@@ -2826,7 +2849,7 @@ static char **SamplingFactorToList(const char *text)
   textlist=(char **) AcquireQuantumMemory((size_t) MAX_COMPONENTS,
     sizeof(*textlist));
   if (textlist == (char **) NULL)
-    ThrowFatalException(ResourceLimitFatalError,"UnableToConvertText");
+    return((char **) NULL);
   p=text;
   for (i=0; i < (ssize_t) MAX_COMPONENTS; i++)
   {
@@ -2836,7 +2859,15 @@ static char **SamplingFactorToList(const char *text)
     textlist[i]=(char *) AcquireQuantumMemory((size_t) (q-p)+MagickPathExtent,
       sizeof(*textlist[i]));
     if (textlist[i] == (char *) NULL)
-      ThrowFatalException(ResourceLimitFatalError,"UnableToConvertText");
+      {
+        ssize_t
+          j;
+
+        for (j=0; j < i; j++)
+          textlist[j]=DestroyString(textlist[j]);
+        textlist=(char **) RelinquishMagickMemory(textlist);
+        return(textlist);
+      }
     (void) CopyMagickString(textlist[i],p,(size_t) (q-p+1));
     if (*q == '\r')
       q++;
@@ -3045,7 +3076,7 @@ static MagickBooleanType WriteJPEGImage_(const ImageInfo *image_info,
     jpeg_set_colorspace(jpeg_info,JCS_YCCK);
   if (image->debug != MagickFalse)
     (void) LogMagickEvent(CoderEvent,GetMagickModule(),
-      "Image resolution: %.20g,%.20g",image->resolution.x,image->resolution.y);
+      "Image resolution: %.17g,%.17g",image->resolution.x,image->resolution.y);
   if ((image->resolution.x > 0) && (image->resolution.x < (double) SHRT_MAX) &&
       (image->resolution.y > 0) && (image->resolution.y < (double) SHRT_MAX))
     {
@@ -3155,7 +3186,7 @@ static MagickBooleanType WriteJPEGImage_(const ImageInfo *image_info,
       if (image->quality != UndefinedCompressionQuality)
         quality=(int) image->quality;
       if (image->debug != MagickFalse)
-        (void) LogMagickEvent(CoderEvent,GetMagickModule(),"Quality: %.20g",
+        (void) LogMagickEvent(CoderEvent,GetMagickModule(),"Quality: %.17g",
           (double) image->quality);
     }
   else
@@ -3405,11 +3436,11 @@ static MagickBooleanType WriteJPEGImage_(const ImageInfo *image_info,
       else
         (void) LogMagickEvent(CoderEvent,GetMagickModule(),
           "Storage class: DirectClass");
-      (void) LogMagickEvent(CoderEvent,GetMagickModule(),"Depth: %.20g",
+      (void) LogMagickEvent(CoderEvent,GetMagickModule(),"Depth: %.17g",
         (double) image->depth);
       if (image->colors != 0)
         (void) LogMagickEvent(CoderEvent,GetMagickModule(),
-          "Number of colors: %.20g",(double) image->colors);
+          "Number of colors: %.17g",(double) image->colors);
       else
         (void) LogMagickEvent(CoderEvent,GetMagickModule(),
           "Number of colors: unspecified");

@@ -246,6 +246,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
   double
     dissimilarity_threshold = DefaultDissimilarityThreshold,
     distortion = 0.0,
+    normal_scale = 1.0,
     scale = (double) QuantumRange,
     similarity_metric = 0.0,
     similarity_threshold = DefaultSimilarityThreshold;
@@ -1178,10 +1179,19 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
       similarity_image=SimilarityImage(image,reconstruct_image,metric,
         similarity_threshold,&offset,&similarity_metric,exception);
       if (similarity_image == (Image *) NULL)
-        return(MagickFalse);
-      if (similarity_metric >= dissimilarity_threshold)
-        (void) ThrowMagickException(exception,GetMagickModule(),ImageWarning,
-          "ImagesTooDissimilar","`%s'",image->filename);
+        {
+          DestroyCompare();
+          return(MagickFalse);
+        }
+      if (((metric == NormalizedCrossCorrelationErrorMetric) ||
+           (metric == UndefinedErrorMetric) ||
+           (metric == PeakSignalToNoiseRatioErrorMetric) ||
+           (metric == StructuralSimilarityErrorMetric) ||
+           (metric == StructuralDissimilarityErrorMetric)) ?
+          (similarity_metric < dissimilarity_threshold) :
+          (similarity_metric >= dissimilarity_threshold))
+       (void) ThrowMagickException(exception,GetMagickModule(),ImageWarning,
+         "ImagesTooDissimilar","`%s'",image->filename);
     }
   if (similarity_image == (Image *) NULL)
     difference_image=CompareImages(image,reconstruct_image,metric,&distortion,
@@ -1245,11 +1255,6 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
   {
     case AbsoluteErrorMetric:
     {
-      scale=1.0;
-      break;
-    }
-    case PixelDifferenceCountErrorMetric:
-    {
       size_t
         columns,
         rows;
@@ -1311,6 +1316,12 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
       scale=MagickSafePSNRRecipicol(10.0);
       break;
     }
+    case PixelDifferenceCountErrorMetric:
+    {
+      scale=1.0;
+      normal_scale=1.0/(double) image->columns/(double) image->rows;
+      break;
+    }
     default:
       break;
   }
@@ -1329,13 +1340,6 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
         {
           switch (metric)
           {
-            case AbsoluteErrorMetric:
-            case PixelDifferenceCountErrorMetric:
-            {
-              (void) FormatLocaleFile(stderr,"%.*g (%.*g)",GetMagickPrecision(),
-                (scale*distortion),GetMagickPrecision(),distortion);
-              break;
-            }
             case MeanErrorPerPixelErrorMetric:
             {
               if (subimage_search == MagickFalse)
@@ -1351,12 +1355,12 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
             default:
             {
               (void) FormatLocaleFile(stderr,"%.*g (%.*g)",GetMagickPrecision(),
-                scale*distortion,GetMagickPrecision(),distortion);
+                scale*distortion,GetMagickPrecision(),normal_scale*distortion);
               break;
             }
           }
           if (subimage_search != MagickFalse)
-            (void) FormatLocaleFile(stderr," @ %.20g,%.20g [%.*g]",
+            (void) FormatLocaleFile(stderr," @ %.17g,%.17g [%.*g]",
               (double) offset.x,(double) offset.y,GetMagickPrecision(),
               similarity_metric);
         }
@@ -1370,7 +1374,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
           (void) FormatLocaleFile(stderr,"Image: %s\n",image->filename);
           if ((reconstruct_image->columns != image->columns) ||
               (reconstruct_image->rows != image->rows))
-            (void) FormatLocaleFile(stderr,"Offset: %.20g,%.20g\n",(double)
+            (void) FormatLocaleFile(stderr,"Offset: %.17g,%.17g\n",(double)
               difference_image->page.x,(double) difference_image->page.y);
           (void) FormatLocaleFile(stderr,"  Channel distortion: %s\n",
             CommandOptionToMnemonic(MagickMetricOptions,(ssize_t) metric));
@@ -1390,21 +1394,20 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
                   (void) FormatLocaleFile(stderr,"    red: %.*g (%.*g)\n",
                     GetMagickPrecision(),scale*
                     channel_distortion[RedPixelChannel],GetMagickPrecision(),
-                    channel_distortion[RedPixelChannel]);
+                    normal_scale*channel_distortion[RedPixelChannel]);
                   (void) FormatLocaleFile(stderr,"    green: %.*g (%.*g)\n",
                     GetMagickPrecision(),scale*
                     channel_distortion[GreenPixelChannel],GetMagickPrecision(),
-                    channel_distortion[GreenPixelChannel]);
+                    normal_scale*channel_distortion[GreenPixelChannel]);
                   (void) FormatLocaleFile(stderr,"    blue: %.*g (%.*g)\n",
                     GetMagickPrecision(),scale*
                     channel_distortion[BluePixelChannel],GetMagickPrecision(),
-                    channel_distortion[BluePixelChannel]);
+                    normal_scale*channel_distortion[BluePixelChannel]);
                   if (image->alpha_trait != UndefinedPixelTrait)
                     (void) FormatLocaleFile(stderr,"    alpha: %.*g (%.*g)\n",
                       GetMagickPrecision(),scale*
-                      channel_distortion[AlphaPixelChannel],
-                      GetMagickPrecision(),
-                      channel_distortion[AlphaPixelChannel]);
+                      channel_distortion[AlphaPixelChannel],GetMagickPrecision(),
+                      normal_scale*channel_distortion[AlphaPixelChannel]);
                   break;
                 }
                 case CMYKColorspace:
@@ -1412,26 +1415,26 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
                   (void) FormatLocaleFile(stderr,"    cyan: %.*g (%.*g)\n",
                     GetMagickPrecision(),scale*
                     channel_distortion[CyanPixelChannel],GetMagickPrecision(),
-                    channel_distortion[CyanPixelChannel]);
+                    normal_scale*channel_distortion[CyanPixelChannel]);
                   (void) FormatLocaleFile(stderr,"    magenta: %.*g (%.*g)\n",
                     GetMagickPrecision(),scale*
                     channel_distortion[MagentaPixelChannel],
                     GetMagickPrecision(),
-                    channel_distortion[MagentaPixelChannel]);
+                    normal_scale*channel_distortion[MagentaPixelChannel]);
                   (void) FormatLocaleFile(stderr,"    yellow: %.*g (%.*g)\n",
                     GetMagickPrecision(),scale*
                     channel_distortion[YellowPixelChannel],GetMagickPrecision(),
-                    channel_distortion[YellowPixelChannel]);
+                    normal_scale*channel_distortion[YellowPixelChannel]);
                   (void) FormatLocaleFile(stderr,"    black: %.*g (%.*g)\n",
                     GetMagickPrecision(),scale*
                     channel_distortion[BlackPixelChannel],GetMagickPrecision(),
-                    channel_distortion[BlackPixelChannel]);
+                    normal_scale*channel_distortion[BlackPixelChannel]);
                   if (image->alpha_trait != UndefinedPixelTrait)
                     (void) FormatLocaleFile(stderr,"    alpha: %.*g (%.*g)\n",
                       GetMagickPrecision(),scale*
                       channel_distortion[AlphaPixelChannel],
                       GetMagickPrecision(),
-                      channel_distortion[AlphaPixelChannel]);
+                      normal_scale*channel_distortion[AlphaPixelChannel]);
                   break;
                 }
                 case LinearGRAYColorspace:
@@ -1440,22 +1443,21 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
                   (void) FormatLocaleFile(stderr,"    gray: %.*g (%.*g)\n",
                     GetMagickPrecision(),scale*
                     channel_distortion[GrayPixelChannel],GetMagickPrecision(),
-                    channel_distortion[GrayPixelChannel]);
+                    normal_scale*channel_distortion[GrayPixelChannel]);
                   if (image->alpha_trait != UndefinedPixelTrait)
                     (void) FormatLocaleFile(stderr,"    alpha: %.*g (%.*g)\n",
                       GetMagickPrecision(),scale*
                       channel_distortion[AlphaPixelChannel],
                       GetMagickPrecision(),
-                      channel_distortion[AlphaPixelChannel]);
+                      normal_scale*channel_distortion[AlphaPixelChannel]);
                   break;
                 }
               }
               (void) FormatLocaleFile(stderr,"    all: %.*g (%.*g)\n",
                 GetMagickPrecision(),scale*channel_distortion[MaxPixelChannels],
-                GetMagickPrecision(),channel_distortion[MaxPixelChannels]);
+                GetMagickPrecision(),normal_scale*channel_distortion[MaxPixelChannels]);
               break;
             }
-            case AbsoluteErrorMetric:
             case DotProductCorrelationErrorMetric:
             case NormalizedCrossCorrelationErrorMetric:
             case PeakSignalToNoiseRatioErrorMetric:
@@ -1524,6 +1526,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
                 GetMagickPrecision(),image->error.normalized_maximum_error);
               break;
             }
+            case AbsoluteErrorMetric:
             case PixelDifferenceCountErrorMetric:
             {
               switch (image->colorspace)
@@ -1590,7 +1593,7 @@ WandExport MagickBooleanType CompareImagesCommand(ImageInfo *image_info,
             channel_distortion);
           if (subimage_search != MagickFalse)
             {
-              (void) FormatLocaleFile(stderr,"   Offset: %.20g,%.20g\n",
+              (void) FormatLocaleFile(stderr,"   Offset: %.17g,%.17g\n",
                 (double) difference_image->page.x,(double)
                 difference_image->page.y);
               (void) FormatLocaleFile(stderr,"   Similarity metric: %*g\n",

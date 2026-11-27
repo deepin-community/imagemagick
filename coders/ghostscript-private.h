@@ -16,6 +16,9 @@
 #ifndef MAGICK_GHOSTSCRIPT_BUFFER_PRIVATE_H
 #define MAGICK_GHOSTSCRIPT_BUFFER_PRIVATE_H
 
+#include "MagickCore/delegate.h"
+#include "MagickCore/delegate-private.h"
+#include "MagickCore/exception-private.h"
 #include "MagickCore/profile-private.h"
 #include "coders/bytebuffer-private.h"
 
@@ -54,8 +57,8 @@ static double GhostscriptVersion(const GhostInfo *ghost_info)
   if ((ghost_info->revision)(&revision,(int) sizeof(revision)) != 0)
     return(0.0);
   if (revision.revision > 1000)
-    return(revision.revision/1000.0);
-  return(revision.revision/100.0);
+    return((double) revision.revision/1000.0);
+  return((double) revision.revision/100.0);
 }
 #endif
 
@@ -201,7 +204,7 @@ static inline MagickBooleanType InvokeGhostscriptDelegate(
 #endif
 }
 
-static MagickBooleanType IsGhostscriptRendered(const char *path)
+static inline MagickBooleanType IsGhostscriptRendered(const char *path)
 {
   MagickBooleanType
     status;
@@ -273,6 +276,59 @@ static inline void ReadGhostScriptXMPProfile(MagickByteBuffer *buffer,
       }
   }
   SetStringInfoLength(*profile,(size_t) count);
+  /* ReadPDFImage() scans the profile as a C string. */
+  GetStringInfoDatum(*profile)[count]='\0';
+}
+
+static inline char *EscapeParenthesis(const char *source,
+  const size_t max_length,ExceptionInfo *exception)
+{
+  char
+    *destination;
+
+  char
+    *q;
+
+  const char
+    *end,
+    *p;
+
+  size_t
+    length;
+
+  assert(source != (const char *) NULL);
+  length=0;
+  end=source;
+  for (p=source; *p != '\0'; p++)
+  {
+    size_t
+      count;
+
+    count=((*p == '\\') || (*p == '(') || (*p == ')')) ? 2 : 1;
+    if ((~length < count) || ((length+count) > max_length))
+      break;
+    length+=count;
+    end=p+1;
+  }
+  if (*end != '\0')
+    (void) ThrowMagickException(exception,GetMagickModule(),CoderWarning,
+      "LabelTruncated","`%g'",(double) max_length);
+  destination=(char *) NULL;
+  if (~length >= (MagickPathExtent-1))
+    destination=(char *) AcquireQuantumMemory(length+MagickPathExtent,
+      sizeof(*destination));
+  if (destination == (char *) NULL)
+    ThrowFatalException(ResourceLimitFatalError,"UnableToEscapeString");
+  *destination='\0';
+  q=destination;
+  for (p=source; p < end; p++)
+  {
+    if ((*p == '\\') || (*p == '(') || (*p == ')'))
+      *q++='\\';
+    *q++=(*p);
+  }
+  *q='\0';
+  return(destination);
 }
 
 #endif
