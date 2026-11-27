@@ -605,8 +605,8 @@ static void SyncResolutionFromProperties(Image *image,
     }
 }
 
-MagickExport Image *ReadImage(const ImageInfo *image_info,
-  ExceptionInfo *exception)
+static Image *ReadImageInternal(const ImageInfo *image_info,
+  const MagickBooleanType postprocess,ExceptionInfo *exception)
 {
   char
     filename[MagickPathExtent],
@@ -723,7 +723,7 @@ MagickExport Image *ReadImage(const ImageInfo *image_info,
       */
       if (GetMagickDecoderThreadSupport(magick_info) == MagickFalse)
         LockSemaphoreInfo(magick_info->semaphore);
-      status=IsCoderAuthorized(magick_info->magick_module,read_info->magick,
+      status=IsCoderAuthorized(magick_info->magick_module,magick_info->name,
         ReadPolicyRights,exception);
       image=(Image *) NULL;
       if (status != MagickFalse)
@@ -785,7 +785,7 @@ MagickExport Image *ReadImage(const ImageInfo *image_info,
       */
       if (GetMagickDecoderThreadSupport(magick_info) == MagickFalse)
         LockSemaphoreInfo(magick_info->semaphore);
-      status=IsCoderAuthorized(magick_info->magick_module,read_info->magick,
+      status=IsCoderAuthorized(magick_info->magick_module,magick_info->name,
         ReadPolicyRights,exception);
       image=(Image *) NULL;
       if (status != MagickFalse)
@@ -822,7 +822,8 @@ MagickExport Image *ReadImage(const ImageInfo *image_info,
           }
       }
     }
-  if ((IsSceneGeometry(read_info->scenes,MagickFalse) != MagickFalse) &&
+  if ((postprocess != MagickFalse) &&
+      (IsSceneGeometry(read_info->scenes,MagickFalse) != MagickFalse) &&
       (GetImageListLength(image) != 1))
     {
       Image
@@ -860,6 +861,11 @@ MagickExport Image *ReadImage(const ImageInfo *image_info,
       next->magick_columns=next->columns;
     if (next->magick_rows == 0)
       next->magick_rows=next->rows;
+    if (postprocess == MagickFalse)
+      {
+        image=next;
+        continue;
+      }
     (void) GetImageProperty(next,"exif:*",exception);
     (void) GetImageProperty(next,"icc:*",exception);
     (void) GetImageProperty(next,"iptc:*",exception);
@@ -984,6 +990,47 @@ MagickExport Image *ReadImage(const ImageInfo *image_info,
   if (GetBlobError(image) != MagickFalse)
     ThrowReaderException(CorruptImageError,"UnableToReadImageData");
   return(GetFirstImageInList(image));
+}
+
+MagickExport Image *ReadImage(const ImageInfo *image_info,
+  ExceptionInfo *exception)
+{
+  return(ReadImageInternal(image_info,MagickTrue,exception));
+}
+
+/*
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%   R e a d I m a g e W i t h o u t P o s t P r o c e s s i n g               %
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  ReadImageWithoutPostProcessing() reads an intermediate image with format
+%  and source-dimension bookkeeping, leaving scene selection and final
+%  post-processing to the enclosing ReadImage() call.  On failure, a NULL
+%  image is returned and exception describes the reason for the failure.
+%
+%  The format of the ReadImageWithoutPostProcessing method is:
+%
+%      Image *ReadImageWithoutPostProcessing(const ImageInfo *image_info,
+%        ExceptionInfo *exception)
+%
+%  A description of each parameter follows:
+%
+%    o image_info: Read the image defined by the file or filename members of
+%      this structure.
+%
+%    o exception: return any errors or warnings in this structure.
+%
+*/
+MagickExport Image *ReadImageWithoutPostProcessing(const ImageInfo *image_info,
+  ExceptionInfo *exception)
+{
+  return(ReadImageInternal(image_info,MagickFalse,exception));
 }
 
 /*
@@ -1112,23 +1159,71 @@ MagickExport Image *ReadImages(ImageInfo *image_info,const char *filename,
 %    o exception: return any errors or warnings in this structure.
 %
 */
+
+static MagickBooleanType GetImplicitDataImageType(const char *data_url,
+  char *magick,ExceptionInfo *exception)
+{
+  char
+    *plus;
+
+  const char
+    *p,
+    *type,
+    *slash;
+
+  const MagickInfo
+    *magick_info;
+
+  size_t
+    offset;
+
+  if (data_url == (const char *) NULL)
+    return(MagickFalse);
+  if (strncmp(data_url,"data:",5) != 0)
+    return(MagickFalse);
+  type=data_url+5;
+  p=type;
+  while ((*p != '\0') && (*p != ';') && (*p != ','))
+    p++;
+  if (p == type)
+    return(MagickFalse);
+  slash=(const char *) memchr(type,'/',(size_t) (p-type));
+  if ((slash == (const char *) NULL) || ((slash+1) >= p))
+    return(MagickFalse);
+  offset=(size_t) (p-(slash+1));
+  if (offset >= MagickPathExtent)
+    return(MagickFalse);
+  (void) memcpy(magick,slash+1,offset);
+  magick[offset]='\0';
+  plus=strchr(magick,'+');
+  if (plus != (char *) NULL)
+    *plus='\0';
+  if (LocaleNCompare(magick,"x-",2) == 0)
+    (void) memmove(magick,magick+2,strlen(magick+2)+1);
+  magick_info=GetMagickInfo(magick,exception);
+  if ((magick_info == (const MagickInfo *) NULL) ||
+      (magick_info->format_type == ImplicitFormatType))
+    return(MagickFalse);
+  return(MagickTrue);
+}
+
 MagickExport Image *ReadInlineImage(const ImageInfo *image_info,
   const char *content,ExceptionInfo *exception)
 {
+  const char
+    *p;
+
   Image
-    *image;
+    *image = (Image *) NULL;
 
   ImageInfo
     *read_info;
 
-  unsigned char
-    *blob;
-
   size_t
     length;
 
-  const char
-    *p;
+  unsigned char
+    *blob;
 
   /*
     Skip over header (e.g. data:image/gif;base64,).
@@ -1147,26 +1242,11 @@ MagickExport Image *ReadInlineImage(const ImageInfo *image_info,
   (void) SetImageInfoProgressMonitor(read_info,(MagickProgressMonitor) NULL,
     (void *) NULL);
   *read_info->filename='\0';
-  *read_info->magick='\0';
-  for (p=content; (*p != '/') && (*p != '\0'); p++) ;
-  if (*p != '\0')
+  if (GetImplicitDataImageType(content,read_info->magick,exception) == MagickFalse)
     {
-      char
-        *q;
-
-      ssize_t
-        i;
-
-      /*
-        Extract media type.
-      */
-      if (LocaleNCompare(++p,"x-",2) == 0)
-        p+=(ptrdiff_t) 2;
-      (void) CopyMagickString(read_info->filename,"data.",MagickPathExtent);
-      q=read_info->filename+5;
-      for (i=0; (*p != ';') && (*p != '\0') && (i < (MagickPathExtent-6)); i++)
-        *q++=(*p++);
-      *q++='\0';
+      blob=(unsigned char *) RelinquishMagickMemory(blob);
+      read_info=DestroyImageInfo(read_info);
+      ThrowReaderException(ImageError,"ImageTypeNotSupported");
     }
   image=BlobToImage(read_info,blob,length,exception);
   blob=(unsigned char *) RelinquishMagickMemory(blob);
@@ -1338,7 +1418,7 @@ MagickExport MagickBooleanType WriteImage(const ImageInfo *image_info,
       */
       if (GetMagickEncoderThreadSupport(magick_info) == MagickFalse)
         LockSemaphoreInfo(magick_info->semaphore);
-      status=IsCoderAuthorized(magick_info->magick_module,write_info->magick,
+      status=IsCoderAuthorized(magick_info->magick_module,magick_info->name,
         WritePolicyRights,exception);
       if (status != MagickFalse)
         status=encoder(write_info,image,exception);
@@ -1410,7 +1490,7 @@ MagickExport MagickBooleanType WriteImage(const ImageInfo *image_info,
               */
               if (GetMagickEncoderThreadSupport(magick_info) == MagickFalse)
                 LockSemaphoreInfo(magick_info->semaphore);
-              status=IsCoderAuthorized(magick_info->magick_module,write_info->magick,
+              status=IsCoderAuthorized(magick_info->magick_module,magick_info->name,
                 WritePolicyRights,exception);
               if (status != MagickFalse)
                 status=encoder(write_info,image,exception);
@@ -1563,6 +1643,8 @@ MagickExport MagickBooleanType WriteImages(const ImageInfo *image_info,
       progress_monitor=SetImageProgressMonitor(p,(MagickProgressMonitor) NULL,
         p->client_data);
     status&=(MagickStatusType) WriteImage(write_info,p,exception);
+    if (write_info->blob != (void *) NULL)
+      SyncBlobStream(write_info,p,images);
     if (number_images != 1)
       (void) SetImageProgressMonitor(p,progress_monitor,p->client_data);
     if (write_info->adjoin != MagickFalse)

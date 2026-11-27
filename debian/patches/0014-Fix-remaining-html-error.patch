@@ -1,0 +1,36 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 29 Mar 2025 18:20:14 +0000
+Subject: Fix remaining html error
+
+forwarded: not-needed
+---
+ www/command-line-options/index.html | 2 +-
+ www/news/index.html                 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/www/command-line-options/index.html b/www/command-line-options/index.html
+index d97a12d..732d365 100644
+--- a/www/command-line-options/index.html
++++ b/www/command-line-options/index.html
+@@ -3751,7 +3751,7 @@ image is centered on an 800x600 black canvas: </p>
+   -gravity center -extent 800x600 -quality 92 output.jpg
+ </samp></pre>
+ 
+-<p>The command can also be used with a ratio. If the image is not already at that ratio, it will be cropped to fit it. The <a href="#gravity">-gravity</a> setting has the expected effects.
++<p>The command can also be used with a ratio. If the image is not already at that ratio, it will be cropped to fit it. The <a href="#gravity">-gravity</a> setting has the expected effects.</p>
+ 
+ <p>The following command crops a JPEG image so that it has a 4:3 ratio:</p>
+ 
+diff --git a/www/news/index.html b/www/news/index.html
+index 934e3d6..7357ccb 100644
+--- a/www/news/index.html
++++ b/www/news/index.html
+@@ -254,7 +254,7 @@
+ 
+ <h4>Related Software</h4>
+ <p>The <a href="https://github.com/ImageMagick/MagickCache/">MagickCache</a> provides methods and tools to cache images, image sequences, video, audio or metadata in a local folder. Any content is memory-mapped for efficient retrieval. Additional efficiencies are possible by retrieving a portion of an image. Content can persist or you can assign a time-to-live (TTL) to automatically expire content when the TTL is exceeded. MagickCache supports virtually unlimited content upwards of billions of images making it suitable as a web image service.
+-
++</p>
+ 
+ <h4>ImageMagick Development</h4>
+ <p>The ImageMagick development process ensures a stable API and <a href="https://abi-laboratory.pro/tracker/timeline/imagemagick/">ABI</a>. Before each ImageMagick release, we perform a comprehensive security assessment that includes <a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">memory error</a>, <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizer">thread data race</a> detection, and continuous <a href="https://github.com/google/oss-fuzz">fuzzing</a> to detect and prevent security vulnerabilities.</p>

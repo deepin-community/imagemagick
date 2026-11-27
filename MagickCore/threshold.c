@@ -1677,7 +1677,7 @@ static ThresholdMap *GetThresholdMapFile(const char *xml,const char *filename,
     if ((map->levels[i] < 0) || (map->levels[i] > map->divisor))
       {
         (void) ThrowMagickException(exception,GetMagickModule(),OptionError,
-          "XmlInvalidContent", "<level> %.20g out of range, map \"%s\"",
+          "XmlInvalidContent", "<level> %.17g out of range, map \"%s\"",
           (double) map->levels[i],map_id);
         thresholds=DestroyXMLTree(thresholds);
         map=DestroyThresholdMap(map);
@@ -1969,7 +1969,10 @@ MagickExport MagickBooleanType OrderedDitherImage(Image *image,
     if (fabs(levels[i]) >= 1)
       levels[i]-=1.0;
   if (SetImageStorageClass(image,DirectClass,exception) == MagickFalse)
-    return(MagickFalse);
+    {
+      map=DestroyThresholdMap(map);
+      return(MagickFalse);
+    }
   status=MagickTrue;
   progress=0;
   image_view=AcquireAuthenticCacheView(image,exception);

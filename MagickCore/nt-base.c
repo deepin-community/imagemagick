@@ -74,7 +74,7 @@
 #define MAP_FAILED      ((void *)(LONG_PTR)-1)
 #endif
 #define MaxWideByteExtent  100
-
+
 /*
   Typedef declarations.
 */
@@ -2371,7 +2371,7 @@ MagickExport int NTRemoveWide(const char *path)
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  NTRenameWide() renames a file.
+%  NTRenameWide() renames a file, replacing an existing destination file.
 %
 %  The format of the NTRenameWide method is:
 %
@@ -2402,7 +2402,8 @@ MagickExport int NTRenameWide(const char* source, const char* destination)
       source_wide=(wchar_t *) RelinquishMagickMemory(source_wide);
       return(-1);
     }
-  status=_wrename(source_wide,destination_wide);
+  status=MoveFileExW(source_wide,destination_wide,MOVEFILE_REPLACE_EXISTING) ?
+    0 : -1;
   destination_wide=(wchar_t *) RelinquishMagickMemory(destination_wide);
   source_wide=(wchar_t *) RelinquishMagickMemory(source_wide);
   return(status);
@@ -2638,8 +2639,35 @@ MagickExport int NTSetFileTimestamp(const char *path, struct stat *attributes)
 %    o attributes: the file attributes.
 %
 */
+
+static inline _ino_t MapFileIndexToIno(uint64_t fileIndex)
+{
+  fileIndex^=fileIndex >> 33;
+  fileIndex*=0xff51afd7ed558ccdULL;
+  fileIndex^=fileIndex >> 33;
+  fileIndex*=0xc4ceb9fe1a85ec53ULL;
+  fileIndex^=fileIndex >> 33;
+  return((_ino_t) fileIndex);
+}
+
 MagickExport int NTStatWide(const char *path,struct stat *attributes)
 {
+#ifndef S_IFDIR
+  #define S_IFDIR 0040000 /* directory */
+#endif
+#ifndef S_IFREG
+  #define S_IFREG 0100000 /* regular file */
+#endif
+#ifndef S_IRUSR
+  #define S_IRUSR 0000400 /* owner has read permission */
+#endif
+#ifndef S_IWUSR
+  #define S_IWUSR 0000200 /* owner has write permission */
+#endif
+#ifndef S_IXUSR
+  #define S_IXUSR 0000100 /* owner has execute/search permission */
+#endif
+
   int
     status;
 
@@ -2650,6 +2678,36 @@ MagickExport int NTStatWide(const char *path,struct stat *attributes)
   if (path_wide == (WCHAR *) NULL)
     return(-1);
   status=wstat(path_wide,attributes);
+  if (status == 0)
+    {
+      HANDLE handle = CreateFileW(path_wide,FILE_READ_ATTRIBUTES,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,NULL,
+        OPEN_EXISTING,FILE_FLAG_BACKUP_SEMANTICS,NULL);
+      if (handle != INVALID_HANDLE_VALUE)
+        {
+          BY_HANDLE_FILE_INFORMATION
+            file_info;
+
+          /*
+            POSIX emulation of Windows file attributes.
+          */
+          if (GetFileInformationByHandle(handle,&file_info) != 0)
+            {
+              attributes->st_dev=(dev_t) file_info.dwVolumeSerialNumber;
+              attributes->st_ino=MapFileIndexToIno((((uint64_t)
+                file_info.nFileIndexHigh) << 32) | (uint64_t)
+                file_info.nFileIndexLow);
+              attributes->st_mode=0;
+              if ((file_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
+                attributes->st_mode|=S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR;
+              else
+                attributes->st_mode|=S_IFREG | S_IRUSR | S_IWUSR;
+              if ((file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY) != 0)
+                attributes->st_mode&=~S_IWUSR;
+            }
+          CloseHandle(handle);
+        }
+  }
   path_wide=(WCHAR *) RelinquishMagickMemory(path_wide);
   return(status);
 }

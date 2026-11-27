@@ -1,0 +1,1198 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 10 Oct 2026 22:45:36 +0200
+Subject: Fix async
+
+find . -type f -exec perl -0777 -pi -e 's/<script async /<script async="true" /g' {} \;
+
+forwarded: not-needed
+---
+ www/compare/index.html                         | 4 ++--
+ www/compose/index.html                         | 4 ++--
+ www/composite/index.html                       | 4 ++--
+ www/conjure/index.html                         | 4 ++--
+ www/connected-components/index.html            | 4 ++--
+ www/content-provenance-authenticity/index.html | 4 ++--
+ www/convex-hull/index.html                     | 4 ++--
+ www/defines/index.html                         | 4 ++--
+ www/develop/index.html                         | 4 ++--
+ www/display/index.html                         | 4 ++--
+ www/distribute-pixel-cache/index.html          | 4 ++--
+ www/download/index.html                        | 4 ++--
+ www/escape/index.html                          | 4 ++--
+ www/examples/index.html                        | 4 ++--
+ www/export/index.html                          | 4 ++--
+ www/formats/index.html                         | 4 ++--
+ www/fx/index.html                              | 4 ++--
+ www/gradient/index.html                        | 4 ++--
+ www/high-dynamic-range/index.html              | 4 ++--
+ www/history/index.html                         | 4 ++--
+ www/identify/index.html                        | 4 ++--
+ www/import/index.html                          | 4 ++--
+ www/install-source/index.html                  | 4 ++--
+ www/jp2/index.html                             | 2 +-
+ www/license/index.html                         | 4 ++--
+ www/links/index.html                           | 2 +-
+ www/magick++/index.html                        | 4 ++--
+ www/magick-cache/index.html                    | 4 ++--
+ www/magick-core/index.html                     | 4 ++--
+ www/magick-script/index.html                   | 4 ++--
+ www/magick-vector-graphics/index.html          | 4 ++--
+ www/magick-wand/index.html                     | 4 ++--
+ www/magick/index.html                          | 4 ++--
+ www/miff/index.html                            | 4 ++--
+ www/mirror/index.html                          | 4 ++--
+ www/mogrify/index.html                         | 4 ++--
+ www/montage/index.html                         | 4 ++--
+ www/motion-picture/index.html                  | 4 ++--
+ www/multispectral-imagery/index.html           | 4 ++--
+ www/news/index.html                            | 2 +-
+ www/opencl/index.html                          | 2 +-
+ www/openmp/index.html                          | 4 ++--
+ www/perl-magick/index.html                     | 4 ++--
+ www/porting/index.html                         | 4 ++--
+ www/privacy-policy/index.html                  | 4 ++--
+ www/quantize/index.html                        | 4 ++--
+ www/resources/index.html                       | 4 ++--
+ www/search/index4840.html                      | 4 ++--
+ www/security-policy/index.html                 | 4 ++--
+ www/sitemap/index.html                         | 4 ++--
+ www/stream/index.html                          | 4 ++--
+ www/support/index.html                         | 4 ++--
+ www/vpat/index.html                            | 2 +-
+ www/webp/index.html                            | 2 +-
+ 54 files changed, 102 insertions(+), 102 deletions(-)
+
+diff --git a/www/compare/index.html b/www/compare/index.html
+index 067fdef..fae841d 100644
+--- a/www/compare/index.html
++++ b/www/compare/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -654,7 +654,7 @@ Channel maximum locations:
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/compose/index.html b/www/compose/index.html
+index 541a79c..8e82082 100644
+--- a/www/compose/index.html
++++ b/www/compose/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -875,7 +875,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/composite/index.html b/www/composite/index.html
+index f2f6a9d..a24736f 100644
+--- a/www/composite/index.html
++++ b/www/composite/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -824,7 +824,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/conjure/index.html b/www/conjure/index.html
+index f14f79a..087fa69 100644
+--- a/www/conjure/index.html
++++ b/www/conjure/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -1139,7 +1139,7 @@ msl:font-metrics.origin.y</code></pre>
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/connected-components/index.html b/www/connected-components/index.html
+index 7f2b8c1..ef696fa 100644
+--- a/www/connected-components/index.html
++++ b/www/connected-components/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -497,7 +497,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/content-provenance-authenticity/index.html b/www/content-provenance-authenticity/index.html
+index b42a8b9..ae53c5d 100644
+--- a/www/content-provenance-authenticity/index.html
++++ b/www/content-provenance-authenticity/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -353,7 +353,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/convex-hull/index.html b/www/convex-hull/index.html
+index 3e6e7a2..b1165c2 100644
+--- a/www/convex-hull/index.html
++++ b/www/convex-hull/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -447,7 +447,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/defines/index.html b/www/defines/index.html
+index ac38390..a239784 100644
+--- a/www/defines/index.html
++++ b/www/defines/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -1113,7 +1113,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/develop/index.html b/www/develop/index.html
+index 298c94d..0bbdc39 100644
+--- a/www/develop/index.html
++++ b/www/develop/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -574,7 +574,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/display/index.html b/www/display/index.html
+index 057cae3..5b92f0c 100644
+--- a/www/display/index.html
++++ b/www/display/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -835,7 +835,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/distribute-pixel-cache/index.html b/www/distribute-pixel-cache/index.html
+index 27b1e8c..01b3c30 100644
+--- a/www/distribute-pixel-cache/index.html
++++ b/www/distribute-pixel-cache/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -420,7 +420,7 @@ $ magick -limit memory 1GiB -limit map 2GiB -limit disk 4GiB \
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/download/index.html b/www/download/index.html
+index 6a71e3c..a65c8de 100644
+--- a/www/download/index.html
++++ b/www/download/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -556,7 +556,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/escape/index.html b/www/escape/index.html
+index c25e8db..41ee335 100644
+--- a/www/escape/index.html
++++ b/www/escape/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -772,7 +772,7 @@ Post ObjectData Descriptor Record
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/examples/index.html b/www/examples/index.html
+index 3c917b5..4115a86 100644
+--- a/www/examples/index.html
++++ b/www/examples/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -350,7 +350,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/export/index.html b/www/export/index.html
+index 321d6c6..16d3fd5 100644
+--- a/www/export/index.html
++++ b/www/export/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -357,7 +357,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/formats/index.html b/www/formats/index.html
+index b31d908..6ab03cb 100644
+--- a/www/formats/index.html
++++ b/www/formats/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -754,7 +754,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/fx/index.html b/www/fx/index.html
+index 308a374..f5632e4 100644
+--- a/www/fx/index.html
++++ b/www/fx/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -745,7 +745,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/gradient/index.html b/www/gradient/index.html
+index 9fd0928..e4f8121 100644
+--- a/www/gradient/index.html
++++ b/www/gradient/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -529,7 +529,7 @@ magick -size 256x128 -define gradient:radii=128,64 radial-gradient:black-white r
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/high-dynamic-range/index.html b/www/high-dynamic-range/index.html
+index 9977a95..2784a69 100644
+--- a/www/high-dynamic-range/index.html
++++ b/www/high-dynamic-range/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -455,7 +455,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/history/index.html b/www/history/index.html
+index 6ea81d6..8c8d454 100644
+--- a/www/history/index.html
++++ b/www/history/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -406,7 +406,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/identify/index.html b/www/identify/index.html
+index d4aea99..565dec0 100644
+--- a/www/identify/index.html
++++ b/www/identify/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -703,7 +703,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/import/index.html b/www/import/index.html
+index 3d77a52..5779466 100644
+--- a/www/import/index.html
++++ b/www/import/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -627,7 +627,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/install-source/index.html b/www/install-source/index.html
+index cf452b5..7bc25e6 100644
+--- a/www/install-source/index.html
++++ b/www/install-source/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -488,7 +488,7 @@ magick logo: image.jpg</code></pre>
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/jp2/index.html b/www/jp2/index.html
+index 8ca284c..3abbf7d 100644
+--- a/www/jp2/index.html
++++ b/www/jp2/index.html
+@@ -305,7 +305,7 @@
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+           <div class="container text-center my-3">
+-            <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
++            <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
+               crossorigin="anonymous"></script>
+             <!-- Banner Ad -->
+             <ins class="adsbygoogle"
+diff --git a/www/license/index.html b/www/license/index.html
+index c2b3367..5045e88 100644
+--- a/www/license/index.html
++++ b/www/license/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -497,7 +497,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/links/index.html b/www/links/index.html
+index 30e4226..beea706 100644
+--- a/www/links/index.html
++++ b/www/links/index.html
+@@ -302,7 +302,7 @@
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+           <div class="container text-center my-3">
+-            <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
++            <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
+               crossorigin="anonymous"></script>
+             <!-- Banner Ad -->
+             <ins class="adsbygoogle"
+diff --git a/www/magick++/index.html b/www/magick++/index.html
+index 9ffaccf..89fea30 100644
+--- a/www/magick++/index.html
++++ b/www/magick++/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -430,7 +430,7 @@ int main(int argc,char **argv)
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/magick-cache/index.html b/www/magick-cache/index.html
+index 300209f..e886bd4 100644
+--- a/www/magick-cache/index.html
++++ b/www/magick-cache/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -454,7 +454,7 @@ identified 1 resources</code></pre>
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/magick-core/index.html b/www/magick-core/index.html
+index 10bef63..ec93c6a 100644
+--- a/www/magick-core/index.html
++++ b/www/magick-core/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -648,7 +648,7 @@ int main(int argc,char **argv)
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/magick-script/index.html b/www/magick-script/index.html
+index fae05ff..74f7d2d 100644
+--- a/www/magick-script/index.html
++++ b/www/magick-script/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -1339,7 +1339,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/magick-vector-graphics/index.html b/www/magick-vector-graphics/index.html
+index 020a36b..c3b7cf6 100644
+--- a/www/magick-vector-graphics/index.html
++++ b/www/magick-vector-graphics/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -1101,7 +1101,7 @@ round</code></pre>
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/magick-wand/index.html b/www/magick-wand/index.html
+index 24a4fbc..fb7a16d 100644
+--- a/www/magick-wand/index.html
++++ b/www/magick-wand/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -672,7 +672,7 @@ int main(int argc,char **argv)
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/magick/index.html b/www/magick/index.html
+index 29b75aa..511c171 100644
+--- a/www/magick/index.html
++++ b/www/magick/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -1482,7 +1482,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/miff/index.html b/www/miff/index.html
+index f188848..ce64e4a 100644
+--- a/www/miff/index.html
++++ b/www/miff/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -516,7 +516,7 @@ copyright={© 1999 ImageMagick Studio LLC}
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/mirror/index.html b/www/mirror/index.html
+index d14d5cb..3903517 100644
+--- a/www/mirror/index.html
++++ b/www/mirror/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -530,7 +530,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/mogrify/index.html b/www/mogrify/index.html
+index 04e6a9d..39e1025 100644
+--- a/www/mogrify/index.html
++++ b/www/mogrify/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -1396,7 +1396,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/montage/index.html b/www/montage/index.html
+index b71c126..e615335 100644
+--- a/www/montage/index.html
++++ b/www/montage/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -854,7 +854,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/motion-picture/index.html b/www/motion-picture/index.html
+index 12aac20..35a1a74 100644
+--- a/www/motion-picture/index.html
++++ b/www/motion-picture/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -499,7 +499,7 @@ dpx:user.data</code></pre>
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/multispectral-imagery/index.html b/www/multispectral-imagery/index.html
+index 04e9b5e..2c81c34 100644
+--- a/www/multispectral-imagery/index.html
++++ b/www/multispectral-imagery/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -647,7 +647,7 @@ Image:
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/news/index.html b/www/news/index.html
+index 302d9cf..f3d8bf7 100644
+--- a/www/news/index.html
++++ b/www/news/index.html
+@@ -285,7 +285,7 @@
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+           <div class="container text-center my-3">
+-            <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
++            <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
+               crossorigin="anonymous"></script>
+             <!-- Banner Ad -->
+             <ins class="adsbygoogle"
+diff --git a/www/opencl/index.html b/www/opencl/index.html
+index 6c6b501..f73c719 100644
+--- a/www/opencl/index.html
++++ b/www/opencl/index.html
+@@ -275,7 +275,7 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+           <div class="container text-center my-3">
+-            <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
++            <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
+               crossorigin="anonymous"></script>
+             <!-- Banner Ad -->
+             <ins class="adsbygoogle"
+diff --git a/www/openmp/index.html b/www/openmp/index.html
+index f542789..185e370 100644
+--- a/www/openmp/index.html
++++ b/www/openmp/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -403,7 +403,7 @@ Performance[8]: 40i 4.831ips 0.872e 15.680u 0:02.070</samp></pre>
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/perl-magick/index.html b/www/perl-magick/index.html
+index 4afb474..8e8f8a8 100644
+--- a/www/perl-magick/index.html
++++ b/www/perl-magick/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -1491,7 +1491,7 @@ XServerWarning</code></pre>
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/porting/index.html b/www/porting/index.html
+index f23efd9..438a00a 100644
+--- a/www/porting/index.html
++++ b/www/porting/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -880,7 +880,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/privacy-policy/index.html b/www/privacy-policy/index.html
+index b999fe2..284e75a 100644
+--- a/www/privacy-policy/index.html
++++ b/www/privacy-policy/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -349,7 +349,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/quantize/index.html b/www/quantize/index.html
+index 07e1628..498794e 100644
+--- a/www/quantize/index.html
++++ b/www/quantize/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -531,7 +531,7 @@ while number of nodes with (n2 &gt; 0) &gt; required maximum number of colors
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/resources/index.html b/www/resources/index.html
+index 8be532c..f76be87 100644
+--- a/www/resources/index.html
++++ b/www/resources/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -763,7 +763,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/search/index4840.html b/www/search/index4840.html
+index 155f9f3..4677ba6 100644
+--- a/www/search/index4840.html
++++ b/www/search/index4840.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -328,7 +328,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/security-policy/index.html b/www/security-policy/index.html
+index 9ae5829..929fc29 100644
+--- a/www/security-policy/index.html
++++ b/www/security-policy/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -509,7 +509,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/sitemap/index.html b/www/sitemap/index.html
+index ca26fc9..ab809d8 100644
+--- a/www/sitemap/index.html
++++ b/www/sitemap/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -707,7 +707,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/stream/index.html b/www/stream/index.html
+index a108995..190a741 100644
+--- a/www/stream/index.html
++++ b/www/stream/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -546,7 +546,7 @@ $ magick stream -map i -storage-type double 'image.tif[100x100+30+40]' gray.raw<
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/support/index.html b/www/support/index.html
+index e1c3d00..5e99c67 100644
+--- a/www/support/index.html
++++ b/www/support/index.html
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  <script async="true" src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -482,7 +482,7 @@
+ 
+             <!-- Banner Ad Container -->
+             <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
++              <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3129977114552745"
+diff --git a/www/vpat/index.html b/www/vpat/index.html
+index 0052f65..8ef778c 100644
+--- a/www/vpat/index.html
++++ b/www/vpat/index.html
+@@ -279,7 +279,7 @@
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+           <div class="container text-center my-3">
+-            <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
++            <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
+               crossorigin="anonymous"></script>
+             <!-- Banner Ad -->
+             <ins class="adsbygoogle"
+diff --git a/www/webp/index.html b/www/webp/index.html
+index 6bd8861..60348e3 100644
+--- a/www/webp/index.html
++++ b/www/webp/index.html
+@@ -406,7 +406,7 @@
+             <p class="mt-2"><iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border:0 !important; width:107px !important; height:35px !important;"></iframe></p>
+           </div>
+           <div class="container text-center my-3">
+-            <script async src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
++            <script async="true" src="https://localhost/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745"
+               crossorigin="anonymous"></script>
+             <!-- Banner Ad -->
+             <ins class="adsbygoogle"

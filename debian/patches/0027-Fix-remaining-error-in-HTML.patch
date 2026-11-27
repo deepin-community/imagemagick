@@ -1,0 +1,3220 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Wed, 4 Nov 2026 23:39:45 +0100
+Subject: Fix remaining error in HTML
+
+forwarded: not-needed
+---
+ www/animate/index.html                         |  72 ++++++------------
+ www/architecture/index.html                    |  83 ++++++++------------
+ www/changelog/index.html                       |  14 ++--
+ www/cipher/index.html                          |  14 ++--
+ www/cite/index.html                            |  14 ++--
+ www/clahe/index.html                           |  14 ++--
+ www/color-management/index.html                |  14 ++--
+ www/color-thresholding/index.html              |  14 ++--
+ www/color/index.html                           |  14 ++--
+ www/command-line-options/index.html            |  14 ++--
+ www/command-line-processing/index.html         |  16 ++--
+ www/command-line-tools/index.html              |  14 ++--
+ www/compare/index.html                         |   6 +-
+ www/compose/index.html                         |  22 +++---
+ www/composite/index.html                       |   6 +-
+ www/conjure/index.html                         |   6 +-
+ www/connected-components/index.html            |   6 +-
+ www/content-provenance-authenticity/index.html |   6 +-
+ www/convert/index.html                         |   2 +-
+ www/convex-hull/index.html                     |   6 +-
+ www/defines/index.html                         |  10 +--
+ www/develop/index.html                         |   6 +-
+ www/display/index.html                         |   6 +-
+ www/distribute-pixel-cache/index.html          |   6 +-
+ www/download/index.html                        |  10 +--
+ www/escape/index.html                          |   6 +-
+ www/examples/index.html                        |   6 +-
+ www/export/index.html                          |   6 +-
+ www/formats/index.html                         |  10 +--
+ www/fx/index.html                              |  42 +++++------
+ www/gradient/index.html                        |   6 +-
+ www/high-dynamic-range/index.html              |  10 +--
+ www/history/index.html                         |   8 +-
+ www/identify/index.html                        |  12 +--
+ www/import/index.html                          |   6 +-
+ www/index-2.html                               |  10 +--
+ www/install-source/index.html                  |   6 +-
+ www/license/index.html                         |   6 +-
+ www/magick++/index.html                        |   6 +-
+ www/magick-cache/index.html                    |   6 +-
+ www/magick-core/index.html                     |   6 +-
+ www/magick-script/index.html                   |  10 +--
+ www/magick-vector-graphics/index.html          |   6 +-
+ www/magick-wand/index.html                     |   6 +-
+ www/magick/index.html                          |  20 ++---
+ www/miff/index.html                            |   6 +-
+ www/mirror/index.html                          |   6 +-
+ www/mogrify/index.html                         |   6 +-
+ www/montage/index.html                         |   6 +-
+ www/motion-picture/index.html                  |   6 +-
+ www/multispectral-imagery/index.html           |   6 +-
+ www/openmp/index.html                          |   6 +-
+ www/perl-magick/index.html                     |   6 +-
+ www/porting/index.html                         | 100 ++++++++++++-------------
+ www/privacy-policy/index.html                  |   6 +-
+ www/quantize/index.html                        |   6 +-
+ www/resources/index.html                       |  70 ++++++++---------
+ www/search/index4840.html                      |   6 +-
+ www/security-policy/index.html                 |  16 ++--
+ www/sitemap/index.html                         |   6 +-
+ www/stream/index.html                          |   6 +-
+ www/support/index.html                         |   6 +-
+ 62 files changed, 409 insertions(+), 450 deletions(-)
+
+diff --git a/www/animate/index.html b/www/animate/index.html
+index 0150fec..f7be524 100644
+--- a/www/animate/index.html
++++ b/www/animate/index.html
+@@ -7,23 +7,23 @@
+ <!-- Mirrored from https://imagemagick.org/animate/ by HTTrack Website Copier/3.x [XR&CO], Sun, 25 Oct 2026 15:23:31 GMT -->
+ <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+ <head>
+-  <meta charset="utf-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
++  <meta charset="utf-8" />
++  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Animate</title>
+-  <meta name="description" content="Animate an image sequence on any X server with ImageMagick command line tools.">
+-  <link rel="canonical" href="index.html">
+-  <meta name="robots" content="index, follow">
+-  <meta name="theme-color" content="#0d1117">
++  <meta name="description" content="Animate an image sequence on any X server with ImageMagick command line tools." />
++  <link rel="canonical" href="index.html" />
++  <meta name="robots" content="index, follow" />
++  <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true" />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -157,11 +157,11 @@
+   </style>
+ 
+   <!-- Open Graph -->
+-  <meta property="og:title" content="ImageMagick | Command-line Tools: Animate">
+-  <meta property="og:description" content="Animate an image sequence on any X server with ImageMagick command line tools.">
+-  <meta property="og:image" content="../image/logo.png">
+-  <meta property="og:url" content="index.html">
+-  <meta property="og:type" content="website">
++  <meta property="og:title" content="ImageMagick | Command-line Tools: Animate" />
++  <meta property="og:description" content="Animate an image sequence on any X server with ImageMagick command line tools." />
++  <meta property="og:image" content="../image/logo.png" />
++  <meta property="og:url" content="index.html" />
++  <meta property="og:type" content="website" />
+ 
+   <!-- JSON-LD Structured Data -->
+   <script type="application/ld+json">
+@@ -183,7 +183,6 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
+ </head>
+ 
+ <body>
+@@ -201,7 +200,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -220,7 +219,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -229,12 +228,6 @@
+ 
+         <div class="d-flex align-items-center gap-2">
+           <!-- Search Trigger Modal / Input -->
+-          <form class="d-flex" action="https://imagemagick.org/animate/index.html" role="search">
+-            <div class="input-group input-group-sm">
+-              <input class="form-control bg-body-tertiary border-secondary-subtle" type="search" placeholder="Search site..." name="q" aria-label="Search">
+-              <button class="btn btn-outline-warning" type="submit" name="sa"><i class="bi bi-search"></i></button>
+-            </div>
+-          </form>
+ 
+           <!-- Theme Dropdown -->
+           <div class="dropdown">
+@@ -380,10 +373,6 @@
+       <a href="#options" class="text-body-tertiary text-decoration-none"><i class="bi bi-link-45deg fs-4"></i></a>
+     </div>
+     <!-- Live Search Filter for Options -->
+-    <div class="input-group input-group-sm style-search" style="max-width: 280px;">
+-      <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-filter text-secondary"></i></span>
+-      <input type="text" id="optionSearch" class="form-control border-start-0 bg-body-tertiary" placeholder="Filter options..." onkeyup="filterOptions()">
+-    </div>
+   </div>
+   <p class="text-body-secondary">
+     The <code>animate</code> command recognizes the following command-line options. Select any option link for detailed descriptions.
+@@ -746,7 +735,7 @@
+     const filter = input.value.toLowerCase();
+     const table = document.getElementById('optionsTable');
+     const tr = table.getElementsByTagName('tr');
+-    for (let i = 1; i < tr.length; i++) {
++    for (let i = 1; i &lt; tr.length; i++) {
+       const tdOption = tr[i].getElementsByTagName('td')[0];
+       const tdDesc = tr[i].getElementsByTagName('td')[1];
+       if (tdOption || tdDesc) {
+@@ -770,26 +759,13 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+               </div>
+             </div>
+ 
+-            <!-- Banner Ad Container -->
+-            <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+-              <ins class="adsbygoogle"
+-                   style="display:block"
+-                   data-ad-client="ca-pub-3129977114552745"
+-                   data-ad-slot="1083537442"
+-                   data-ad-format="auto"
+-                   data-full-width-responsive="true"></ins>
+-              <script>
+-                   (adsbygoogle = window.adsbygoogle || []).push({});
+-              </script>
+-            </div>
+ 
+             <!-- Quick Links Navigation -->
+             <div class="card im-card p-3 mb-4">
+@@ -820,7 +796,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/architecture/index.html b/www/architecture/index.html
+index 5991dae..d365344 100644
+--- a/www/architecture/index.html
++++ b/www/architecture/index.html
+@@ -8,23 +8,23 @@
+ <!-- Mirrored from https://imagemagick.org/architecture/ by HTTrack Website Copier/3.x [XR&CO], Sun, 25 Oct 2026 15:23:25 GMT -->
+ <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+ <head>
+-  <meta charset="utf-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
++  <meta charset="utf-8" />
++  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Architecture</title>
+-  <meta name="description" content="Discover the architecture of ImageMagick, including its pixel cache, image properties, profiles, threading, distributed processing, and custom coders/filters. Learn how ImageMagick efficiently manages pixels, metadata, and large images across heterogeneous platforms for powerful image conversion, editing, and composition.">
+-  <link rel="canonical" href="index.html">
+-  <meta name="robots" content="index, follow">
+-  <meta name="theme-color" content="#0d1117">
++  <meta name="description" content="Discover the architecture of ImageMagick, including its pixel cache, image properties, profiles, threading, distributed processing, and custom coders/filters. Learn how ImageMagick efficiently manages pixels, metadata, and large images across heterogeneous platforms for powerful image conversion, editing, and composition." />
++  <link rel="canonical" href="index.html" />
++  <meta name="robots" content="index, follow" />
++  <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true" />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+@@ -125,7 +125,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -158,11 +158,11 @@
+   </style>
+ 
+   <!-- Open Graph -->
+-  <meta property="og:title" content="ImageMagick | Architecture">
+-  <meta property="og:description" content="Discover the architecture of ImageMagick, including its pixel cache, image properties, profiles, threading, distributed processing, and custom coders/filters. Learn how ImageMagick efficiently manages pixels, metadata, and large images across heterogeneous platforms for powerful image conversion, editing, and composition.">
+-  <meta property="og:image" content="../image/logo.png">
+-  <meta property="og:url" content="index.html">
+-  <meta property="og:type" content="website">
++  <meta property="og:title" content="ImageMagick | Architecture" />
++  <meta property="og:description" content="Discover the architecture of ImageMagick, including its pixel cache, image properties, profiles, threading, distributed processing, and custom coders/filters. Learn how ImageMagick efficiently manages pixels, metadata, and large images across heterogeneous platforms for powerful image conversion, editing, and composition." />
++  <meta property="og:image" content="../image/logo.png" />
++  <meta property="og:url" content="index.html" />
++  <meta property="og:type" content="website" />
+ 
+   <!-- JSON-LD Structured Data -->
+   <script type="application/ld+json">
+@@ -184,7 +184,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -202,7 +202,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -221,7 +221,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -230,12 +230,6 @@
+ 
+         <div class="d-flex align-items-center gap-2">
+           <!-- Search Trigger Modal / Input -->
+-          <form class="d-flex" action="https://imagemagick.org/architecture/index.html" role="search">
+-            <div class="input-group input-group-sm">
+-              <input class="form-control bg-body-tertiary border-secondary-subtle" type="search" placeholder="Search site..." name="q" aria-label="Search">
+-              <button class="btn btn-outline-warning" type="submit" name="sa"><i class="bi bi-search"></i></button>
+-            </div>
+-          </form>
+ 
+           <!-- Theme Dropdown -->
+           <div class="dropdown">
+@@ -313,7 +307,7 @@
+     <div class="col-12">
+       <div class="d-flex flex-wrap justify-content-center gap-2 p-2 bg-body-tertiary rounded-3 border">
+         <a href="#cache" class="btn btn-sm btn-outline-secondary border-0">Pixel Cache</a>
+-        <a href="#properties" class="btn btn-sm btn-outline-secondary border-0">Properties & Profiles</a>
++        <a href="#properties" class="btn btn-sm btn-outline-secondary border-0">Properties &amp; Profiles</a>
+         <a href="#multispectral" class="btn btn-sm btn-outline-secondary border-0">Multispectral</a>
+         <a href="#tera-pixel" class="btn btn-sm btn-outline-secondary border-0">Large Images</a>
+         <a href="#stream" class="btn btn-sm btn-outline-secondary border-0">Streaming</a>
+@@ -413,9 +407,9 @@
+           <p class="small text-body-secondary mb-2">Create canvas to background color:</p>
+           <div class="terminal-card">
+             <div class="p-2 text-light font-mono small">
+-              image=AllocateImage(image_info);<br>
+-              SetImageExtent(image,640,480);<br>
+-              QueryMagickColor("red",...);<br>
++              image=AllocateImage(image_info);<br />
++              SetImageExtent(image,640,480);<br />
++              QueryMagickColor("red",...);<br />
+               SetImageBackgroundColor(image);
+             </div>
+           </div>
+@@ -427,7 +421,7 @@
+           <p class="small text-body-secondary mb-2">Create from a JPEG on disk:</p>
+           <div class="terminal-card">
+             <div class="p-2 text-light font-mono small">
+-              strcpy(image_info-&gt;filename,"image.jpg");<br>
++              strcpy(image_info-&gt;filename,"image.jpg");<br />
+               image=ReadImage(image_info,exception);
+             </div>
+           </div>
+@@ -458,7 +452,7 @@
+         <span class="small text-secondary font-mono ms-2">identify-version.sh</span>
+       </div>
+       <div class="p-3 text-light font-mono small">
+-        <span class="text-success">$</span> identify -version<br>
++        <span class="text-success">$</span> identify -version<br />
+         Version: ImageMagick 7.1.2-34 2026-10-14 Q16-HDRI https://imagemagick.org
+       </div>
+     </div>
+@@ -483,7 +477,7 @@
+       <div class="p-3 text-light font-mono small overflow-auto" style="max-height: 75svh;">
+         <pre class="overflow-auto p-3 mb-2 text-body-secondary bg-body-tertiary" style="max-height:75svh;"><code>const Quantum *p;
+ Quantum *q;
+-ssize_t x, y;<br>
++ssize_t x, y;<br />
+ destination=CloneImage(source,source-&gt;columns,source-&gt;rows,MagickTrue,exception);
+ for (y=0; y &lt; (ssize_t) source-&gt;rows; y++)
+ {
+@@ -592,7 +586,7 @@ if (y &lt; (ssize_t) source->rows)
+       </p>
+       <div class="terminal-card mb-3">
+         <div class="p-3 text-light font-mono small">
+-          SetImageProperty(image,"comment","This space for rent");<br>
++          SetImageProperty(image,"comment","This space for rent");<br />
+           comment=GetImageProperty(image,"comment");
+         </div>
+       </div>
+@@ -730,7 +724,7 @@ if (y &lt; (ssize_t) source->rows)
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -738,18 +732,7 @@ if (y &lt; (ssize_t) source->rows)
+             </div>
+ 
+             <!-- Banner Ad Container -->
+-            <div class="text-center p-2 mv-4 rounded border border-secondary-subtle bg-body-tertiary">
+-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3129977114552745" crossorigin="anonymous"></script>
+-              <ins class="adsbygoogle"
+-                   style="display:block"
+-                   data-ad-client="ca-pub-3129977114552745"
+-                   data-ad-slot="1083537442"
+-                   data-ad-format="auto"
+-                   data-full-width-responsive="true"></ins>
+-              <script>
+-                   (adsbygoogle = window.adsbygoogle || []).push({});
+-              </script>
+-            </div>
++           
+ 
+             <!-- Quick Links Navigation -->
+             <div class="card im-card p-3 mb-4">
+@@ -780,7 +763,7 @@ if (y &lt; (ssize_t) source->rows)
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/changelog/index.html b/www/changelog/index.html
+index cfdf290..c6cfd96 100644
+--- a/www/changelog/index.html
++++ b/www/changelog/index.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -7989,7 +7989,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -8039,7 +8039,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/cipher/index.html b/www/cipher/index.html
+index 31310b2..29f323b 100644
+--- a/www/cipher/index.html
++++ b/www/cipher/index.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -414,7 +414,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -464,7 +464,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/cite/index.html b/www/cite/index.html
+index 1ef34f1..70f92f9 100644
+--- a/www/cite/index.html
++++ b/www/cite/index.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -376,7 +376,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -426,7 +426,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/clahe/index.html b/www/clahe/index.html
+index 0278556..ef9179a 100644
+--- a/www/clahe/index.html
++++ b/www/clahe/index.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -410,7 +410,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -460,7 +460,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/color-management/index.html b/www/color-management/index.html
+index d78e035..a80ebe8 100644
+--- a/www/color-management/index.html
++++ b/www/color-management/index.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -434,7 +434,7 @@ $ magick myimage_channels_*.png -set colorspace HSL -combine -colorspace RGB -se
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -484,7 +484,7 @@ $ magick myimage_channels_*.png -set colorspace HSL -combine -colorspace RGB -se
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/color-thresholding/index.html b/www/color-thresholding/index.html
+index 932b369..9bf392c 100644
+--- a/www/color-thresholding/index.html
++++ b/www/color-thresholding/index.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -425,7 +425,7 @@ $ magick xc:"sRGB(205,100,45)" -colorspace gray txt:
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -475,7 +475,7 @@ $ magick xc:"sRGB(205,100,45)" -colorspace gray txt:
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/color/index.html b/www/color/index.html
+index 0ff7cd3..2e0faae 100644
+--- a/www/color/index.html
++++ b/www/color/index.html
+@@ -19,7 +19,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -123,7 +123,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -182,7 +182,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -200,7 +200,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -219,7 +219,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -5875,7 +5875,7 @@ device-cmyk(0.11, 0.48, 0.83, 0.00)</code></pre>
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -5925,7 +5925,7 @@ device-cmyk(0.11, 0.48, 0.83, 0.00)</code></pre>
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/command-line-options/index.html b/www/command-line-options/index.html
+index f33de13..5bdd5c1 100644
+--- a/www/command-line-options/index.html
++++ b/www/command-line-options/index.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -220,7 +220,7 @@
+             <a class="nav-link active" href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -8321,7 +8321,7 @@ but with strict boolean masking. </p>
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -8371,7 +8371,7 @@ but with strict boolean masking. </p>
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/command-line-processing/index.html b/www/command-line-processing/index.html
+index a1400fa..40a5b26 100644
+--- a/www/command-line-processing/index.html
++++ b/www/command-line-processing/index.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -220,7 +220,7 @@
+             <a class="nav-link active" href="index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -337,9 +337,9 @@
+     <p class="text-body-secondary mb-3">Or scale into complex multi-step processing pipelines with a plethora of options:</p>
+     
+     <div class="bg-dark text-light p-3 rounded font-mono small mb-4 overflow-x-auto">
+-      $ magick label.gif -alpha Set \<br>
+-        \( +clone -shade 110x90 -normalize -negate +clone -compose Plus -composite \) \<br>
+-        \( -clone 0 -shade 110x50 -normalize -channel BG -fx 0 +channel -alpha Off \) \<br>
++      $ magick label.gif -alpha Set \<br />
++        \( +clone -shade 110x90 -normalize -negate +clone -compose Plus -composite \) \<br />
++        \( -clone 0 -shade 110x50 -normalize -channel BG -fx 0 +channel -alpha Off \) \<br />
+         -delete 0 +swap -compose Multiply -composite button.gif
+     </div>
+ 
+@@ -625,7 +625,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/command-line-tools/index.html b/www/command-line-tools/index.html
+index acc0891..e9bf8ac 100644
+--- a/www/command-line-tools/index.html
++++ b/www/command-line-tools/index.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -201,7 +201,7 @@
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top im-navbar">
+     <div class="container-xl">
+       <a class="navbar-brand im-brand" href="../index-2.html">
+-        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top">
++        <img src="../image/wand.png" alt="Wand Icon" width="24" height="24" class="d-inline-block align-text-top" />
+         ImageMagick
+       </a>
+       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#imNavbar" aria-controls="imNavbar" aria-expanded="false" aria-label="Toggle navigation">
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -486,7 +486,7 @@
+             <!-- Sponsor Card -->
+             <div class="card im-card mb-4 overflow-hidden border-0 bg-gradient bg-primary bg-opacity-10">
+               <div class="card-body p-4 text-center">
+-                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;">
++                <img src="../image/wizard.jpg" alt="ImageMagick Wizard" class="rounded shadow mb-3 img-fluid" style="max-height: 200px;" />
+                 <h5 class="fw-bold">Support Open Source</h5>
+                 <p class="small text-body-secondary mb-3">Help maintain and sustain ImageMagick development.</p>
+                 <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="114" class="border-0"></iframe>
+@@ -536,7 +536,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/compare/index.html b/www/compare/index.html
+index d553006..07c887a 100644
+--- a/www/compare/index.html
++++ b/www/compare/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -695,7 +695,7 @@ Channel maximum locations:
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/compose/index.html b/www/compose/index.html
+index 8e82082..8922b82 100644
+--- a/www/compose/index.html
++++ b/www/compose/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -815,11 +815,11 @@
+         <tbody class="font-mono small">
+           <tr>
+             <td><code class="fw-semibold">dissolve</code></td>
+-            <td class="font-sans">Arguments: <var>src_percent</var>[x<br><var>dst_percent</var>]. Dissolves source image by percentage before overlaying.</td>
++            <td class="font-sans">Arguments: <var>src_percent</var>[x<br /><var>dst_percent</var>]. Dissolves source image by percentage before overlaying.</td>
+           </tr>
+           <tr>
+             <td><code class="fw-semibold">blend</code></td>
+-            <td class="font-sans">Arguments: <var>src_percent</var>[x<br><var>dst_percent</var>]. Averages images together according to percentages and transparency.</td>
++            <td class="font-sans">Arguments: <var>src_percent</var>[x<br /><var>dst_percent</var>]. Averages images together according to percentages and transparency.</td>
+           </tr>
+           <tr>
+             <td><code class="fw-semibold">mathematics</code></td>
+@@ -827,27 +827,27 @@
+           </tr>
+           <tr>
+             <td><code class="fw-semibold">modulate</code></td>
+-            <td class="font-sans">Arguments: <var>brightness</var>[x<br><var>saturation</var>]. Takes grayscale image/mask to modify destination brightness/saturation.</td>
++            <td class="font-sans">Arguments: <var>brightness</var>[x<br /><var>saturation</var>]. Takes grayscale image/mask to modify destination brightness/saturation.</td>
+           </tr>
+           <tr>
+             <td><code class="fw-semibold">displace</code></td>
+-            <td class="font-sans">Arguments: <var>X-scale</var>[x<br><var>Y-scale</var>][!][%]. Uses overlay as relative displacement map (lens distortion).</td>
++            <td class="font-sans">Arguments: <var>X-scale</var>[x<br /><var>Y-scale</var>][!][%]. Uses overlay as relative displacement map (lens distortion).</td>
+           </tr>
+           <tr>
+             <td><code class="fw-semibold">distort</code></td>
+-            <td class="font-sans">Arguments: <var>X-scale</var>[x<br><var>Y-scale</var>[+<br><var>X-center</var>+<br><var>Y-center</var>]]][!][%]. Uses absolute coordinates relative to overlay center.</td>
++            <td class="font-sans">Arguments: <var>X-scale</var>[x<br /><var>Y-scale</var>[+<br /><var>X-center</var>+<br /><var>Y-center</var>]]][!][%]. Uses absolute coordinates relative to overlay center.</td>
+           </tr>
+           <tr>
+             <td><code class="fw-semibold">blur</code></td>
+-            <td class="font-sans">Arguments: <br><var>Width</var>[x<var>Height</var>[+<var>Angle</var>][+<var>Angle2</var>]]. Variable-blur mapping composition via EWA ellipse.</td>
++            <td class="font-sans">Arguments: <br /><var>Width</var>[x<var>Height</var>[+<var>Angle</var>][+<var>Angle2</var>]]. Variable-blur mapping composition via EWA ellipse.</td>
+           </tr>
+           <tr>
+             <td><code class="fw-semibold">seamless-blend</code></td>
+-            <td class="font-sans">Arguments: <var>max-iterations</var>x<br><var>distortion</var>. Seamlessly inserts overlay onto background using a mask (best with HDRI).</td>
++            <td class="font-sans">Arguments: <var>max-iterations</var>x<br /><var>distortion</var>. Seamlessly inserts overlay onto background using a mask (best with HDRI).</td>
+           </tr>
+           <tr>
+             <td><code class="fw-semibold">saliency-blend</code></td>
+-            <td class="font-sans">Arguments: <var>max-iterations</var>x<br><var>distortion</var>. Merges images based on which has most detail at each pixel (requires mask).</td>
++            <td class="font-sans">Arguments: <var>max-iterations</var>x<br /><var>distortion</var>. Merges images based on which has most detail at each pixel (requires mask).</td>
+           </tr>
+         </tbody>
+       </table>
+@@ -916,7 +916,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/composite/index.html b/www/composite/index.html
+index a24736f..682c532 100644
+--- a/www/composite/index.html
++++ b/www/composite/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -865,7 +865,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/conjure/index.html b/www/conjure/index.html
+index d81991f..7cd1035 100644
+--- a/www/conjure/index.html
++++ b/www/conjure/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -1180,7 +1180,7 @@ msl:font-metrics.origin.y</code></pre>
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/connected-components/index.html b/www/connected-components/index.html
+index ef696fa..cfdd1a5 100644
+--- a/www/connected-components/index.html
++++ b/www/connected-components/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -538,7 +538,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/content-provenance-authenticity/index.html b/www/content-provenance-authenticity/index.html
+index ae53c5d..b5a2273 100644
+--- a/www/content-provenance-authenticity/index.html
++++ b/www/content-provenance-authenticity/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -394,7 +394,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/convert/index.html b/www/convert/index.html
+index f3a519d..06c44c9 100644
+--- a/www/convert/index.html
++++ b/www/convert/index.html
+@@ -62,7 +62,7 @@
+ 
+       <p>
+         If this is your site, make sure that the filename case matches the URL
+-        as well as any file permissions.<br>
++        as well as any file permissions.<br />
+         For root URLs (like <code>http://example.com/</code>) you must provide an
+         <code>index.html</code> file.
+       </p>
+diff --git a/www/convex-hull/index.html b/www/convex-hull/index.html
+index b1165c2..270bef2 100644
+--- a/www/convex-hull/index.html
++++ b/www/convex-hull/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -488,7 +488,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/defines/index.html b/www/defines/index.html
+index a239784..26a327c 100644
+--- a/www/defines/index.html
++++ b/www/defines/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -351,7 +351,7 @@
+           <span class="small text-secondary font-mono ms-2">example-define.sh</span>
+         </div>
+         <div class="p-3 text-light font-mono small">
+-          <span class="text-success">$</span> magick bilevel.tif -define ps:imagemask eps3:stencil.ps<br>
++          <span class="text-success">$</span> magick bilevel.tif -define ps:imagemask eps3:stencil.ps<br />
+           <span class="text-success">$</span> magick arrow.tga -set colorspace:auto-grayscale=off myArrow.tga
+         </div>
+       </div>
+@@ -365,7 +365,7 @@
+           <span class="small text-secondary font-mono ms-2">registry-define.sh</span>
+         </div>
+         <div class="p-3 text-light font-mono small">
+-          <span class="text-secondary"># Set temporary work path in registry</span><br>
++          <span class="text-secondary"># Set temporary work path in registry</span><br />
+           <span class="text-success">$</span> magick -define registry:temporary-path=/data/tmp input.png output.png
+         </div>
+       </div>
+@@ -1154,7 +1154,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/develop/index.html b/www/develop/index.html
+index 0bbdc39..984ff70 100644
+--- a/www/develop/index.html
++++ b/www/develop/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link active" href="index.html">API & Develop</a>
++            <a class="nav-link active" href="index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -615,7 +615,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="index.html">APIs & Libraries</a></li>
++            <li><a href="index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/display/index.html b/www/display/index.html
+index 5b92f0c..7bb74ac 100644
+--- a/www/display/index.html
++++ b/www/display/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -876,7 +876,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/distribute-pixel-cache/index.html b/www/distribute-pixel-cache/index.html
+index 01b3c30..45af457 100644
+--- a/www/distribute-pixel-cache/index.html
++++ b/www/distribute-pixel-cache/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -461,7 +461,7 @@ $ magick -limit memory 1GiB -limit map 2GiB -limit disk 4GiB \
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/download/index.html b/www/download/index.html
+index a65c8de..da47ee0 100644
+--- a/www/download/index.html
++++ b/www/download/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -388,7 +388,7 @@
+   <div class="card im-card p-4 mb-3">
+     <h6 class="fw-bold mb-2">Standard Installation</h6>
+     <div class="bg-dark text-light p-3 rounded mb-3 font-mono small">
+-      $ brew install imagemagick<br>
++      $ brew install imagemagick<br />
+       $ brew install ghostscript
+     </div>
+ 
+@@ -530,7 +530,7 @@
+   <div class="card im-card p-4">
+     <h6 class="fw-bold mb-2">Verify Installation</h6>
+     <div class="bg-dark text-light p-3 rounded font-mono small mb-3">
+-      $ magick logo: logo.gif<br>
++      $ magick logo: logo.gif<br />
+       $ magick identify logo.gif
+     </div>
+     <p class="small text-body-secondary mb-0">
+@@ -597,7 +597,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/escape/index.html b/www/escape/index.html
+index 5003b22..403b7ac 100644
+--- a/www/escape/index.html
++++ b/www/escape/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -813,7 +813,7 @@ Post ObjectData Descriptor Record
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/examples/index.html b/www/examples/index.html
+index 4115a86..435ec83 100644
+--- a/www/examples/index.html
++++ b/www/examples/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -391,7 +391,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/export/index.html b/www/export/index.html
+index 16d3fd5..47a609c 100644
+--- a/www/export/index.html
++++ b/www/export/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -398,7 +398,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/formats/index.html b/www/formats/index.html
+index 6ab03cb..8434797 100644
+--- a/www/formats/index.html
++++ b/www/formats/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -350,12 +350,12 @@
+   <div class="row g-3 mb-4">
+     <div class="col-md-6">
+       <div class="card im-card p-3 bg-dark text-light font-mono small h-100">
+-        $ magick identify -verbose image.jpg<br>...<br>Colorspace: sRGB
++        $ magick identify -verbose image.jpg<br />...<br />Colorspace: sRGB
+       </div>
+     </div>
+     <div class="col-md-6">
+       <div class="card im-card p-3 bg-dark text-light font-mono small h-100">
+-        $ magick image.jpg -print "%[colorspace]\n" null:<br>sRGB
++        $ magick image.jpg -print "%[colorspace]\n" null:<br />sRGB
+       </div>
+     </div>
+   </div>
+@@ -795,7 +795,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/fx/index.html b/www/fx/index.html
+index f5632e4..d5f0240 100644
+--- a/www/fx/index.html
++++ b/www/fx/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -450,9 +450,9 @@
+           <div class="accordion-body bg-body-tertiary">
+             <p class="small text-body-secondary">Inject custom statistical Gaussian noise into an image pipeline:</p>
+             <div class="bg-dark text-light rounded p-3 font-mono border border-secondary border-opacity-25">
+-              <span class="text-secondary">$</span> magick photo.jpg -fx 'iso=32; rone=rand(); rtwo=rand(); \<br>
+-                myn=sqrt(-2*ln(rone))*cos(2*Pi*rtwo); myntwo=sqrt(-2*ln(rtwo))* \<br>
+-                cos(2*Pi*rone); pnoise=sqrt(p)*myn*sqrt(iso)* \<br>
++              <span class="text-secondary">$</span> magick photo.jpg -fx 'iso=32; rone=rand(); rtwo=rand(); \<br />
++                myn=sqrt(-2*ln(rone))*cos(2*Pi*rtwo); myntwo=sqrt(-2*ln(rtwo))* \<br />
++                cos(2*Pi*rone); pnoise=sqrt(p)*myn*sqrt(iso)* \<br />
+                 channel(4.28,3.86,6.68)/255; max(0,p+pnoise)' noisy.png
+             </div>
+           </div>
+@@ -469,18 +469,18 @@
+           <div class="accordion-body bg-body-tertiary">
+             <p class="small text-body-secondary">Leverage iterative <code class="font-mono">for()</code> loops to map complex polynomial fractal calculations into color lookup tables (CLUT):</p>
+             <div class="bg-dark text-light rounded p-3 mb-3 font-mono border border-secondary border-opacity-25">
+-              <span class="text-secondary">$</span> magick -size 400x400 xc:gray -fx " \<br>
+-                Xi=2.4*i/w-1.2; \<br>
+-                Yj=2.4*j/h-1.2; \<br>
+-                for (pixel=0.0, (hypot(Xi,Yj) &lt; 2.0) &amp;&amp; (pixel &lt; 1.0), \<br>
+-                  delta=Xi^2-Yj^2; \<br>
+-                  Yj=2.0*Xi*Yj+0.2; \<br>
+-                  Xi=delta+0.4; \<br>
+-                  pixel+=0.00390625 \<br>
+-                ); \<br>
+-                pixel == 1.0 ? 0.0 : pixel" \<br>
+-                \( -size 1x1 xc:white xc:red xc:orange xc:yellow xc:green1 xc:cyan xc:blue \<br>
+-                   xc:blueviolet xc:white -reverse +append -filter Cubic -resize 1024x1! \) \<br>
++              <span class="text-secondary">$</span> magick -size 400x400 xc:gray -fx " \<br />
++                Xi=2.4*i/w-1.2; \<br />
++                Yj=2.4*j/h-1.2; \<br />
++                for (pixel=0.0, (hypot(Xi,Yj) &lt; 2.0) &amp;&amp; (pixel &lt; 1.0), \<br />
++                  delta=Xi^2-Yj^2; \<br />
++                  Yj=2.0*Xi*Yj+0.2; \<br />
++                  Xi=delta+0.4; \<br />
++                  pixel+=0.00390625 \<br />
++                ); \<br />
++                pixel == 1.0 ? 0.0 : pixel" \<br />
++                \( -size 1x1 xc:white xc:red xc:orange xc:yellow xc:green1 xc:cyan xc:blue \<br />
++                   xc:blueviolet xc:white -reverse +append -filter Cubic -resize 1024x1! \) \<br />
+                 -clut -rotate -90 julia-set.png
+             </div>
+             <div class="text-center">
+@@ -500,9 +500,9 @@
+           <div class="accordion-body bg-body-tertiary">
+             <p class="small text-body-secondary">Use the <code class="font-mono">debug()</code> statement inside FX loops to calculate math output directly to standard output:</p>
+             <div class="bg-dark text-light rounded p-3 font-mono border border-secondary border-opacity-25">
+-              <span class="text-secondary">$</span> magick xc:gray -fx " \<br>
+-                for (prime=2, prime &lt; 30, composite=0; \<br>
+-                  for (nn=2, nn &lt; (prime/2+1), if ((prime % nn) == 0, composite++, ); nn++); \<br>
++              <span class="text-secondary">$</span> magick xc:gray -fx " \<br />
++                for (prime=2, prime &lt; 30, composite=0; \<br />
++                  for (nn=2, nn &lt; (prime/2+1), if ((prime % nn) == 0, composite++, ); nn++); \<br />
+                     if (composite &lt;= 0, debug(prime), ); prime++)" null:
+             </div>
+           </div>
+@@ -786,7 +786,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/gradient/index.html b/www/gradient/index.html
+index e4f8121..fca0e58 100644
+--- a/www/gradient/index.html
++++ b/www/gradient/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -570,7 +570,7 @@ magick -size 256x128 -define gradient:radii=128,64 radial-gradient:black-white r
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/high-dynamic-range/index.html b/www/high-dynamic-range/index.html
+index 2784a69..8f11555 100644
+--- a/www/high-dynamic-range/index.html
++++ b/www/high-dynamic-range/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -412,7 +412,7 @@
+           <span class="small text-secondary font-mono ms-2">verify-hdri.sh</span>
+         </div>
+         <div class="p-3 text-light font-mono small">
+-          <span class="text-success">$</span> magick identify -version<br>
++          <span class="text-success">$</span> magick identify -version<br />
+           Features: HDRI
+         </div>
+       </div>
+@@ -430,7 +430,7 @@
+           <span class="small text-secondary font-mono ms-2">gain-map.sh</span>
+         </div>
+         <div class="p-3 text-light font-mono small">
+-          <span class="text-success">$</span> magick -define uhdr:hdr-color-gamut=bt709 -define uhdr:hdr-color-transfer=hlg \<br>
++          <span class="text-success">$</span> magick -define uhdr:hdr-color-gamut=bt709 -define uhdr:hdr-color-transfer=hlg \<br />
+             \( img_sdr.tif -depth 8 \)  \( img_hdr.tif -depth 16 \) uhdr:ultrahdr.jpg
+         </div>
+       </div>
+@@ -496,7 +496,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/history/index.html b/www/history/index.html
+index 8c8d454..3113d49 100644
+--- a/www/history/index.html
++++ b/www/history/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -381,7 +381,7 @@
+     <div class="card border-0 bg-body-tertiary shadow-sm mt-4">
+       <div class="card-body">
+         <p class="mb-0 fw-medium">
+-          Cristy<br>
++          Cristy<br />
+           <span class="text-muted small">Principal ImageMagick Architect</span>
+         </p>
+       </div>
+@@ -447,7 +447,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/identify/index.html b/www/identify/index.html
+index 3ba05dc..08ec1e5 100644
+--- a/www/identify/index.html
++++ b/www/identify/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -347,7 +347,7 @@
+       <span class="small text-secondary font-mono ms-2">bash</span>
+     </div>
+     <div class="p-3 text-light font-mono small overflow-x-auto">
+-      <samp>$ magick identify rose.jpg<br>rose.jpg JPEG 70x46 70x46+0+0 8-bit sRGB 2.36KB 0.000u 0:00.000</samp>
++      <samp>$ magick identify rose.jpg<br />rose.jpg JPEG 70x46 70x46+0+0 8-bit sRGB 2.36KB 0.000u 0:00.000</samp>
+     </div>
+   </div>
+   <p class="text-body-secondary mb-2">By default, <code>$ magick identify</code> provides the following output format:</p>
+@@ -451,13 +451,13 @@
+   <p class="text-body-secondary mb-2">To get the print size in inches of an image at 72 DPI, use:</p>
+   <div class="terminal-card mb-4">
+     <div class="p-3 text-light font-mono small overflow-x-auto">
+-      <samp>$ magick identify -format "%[fx:w/72] by %[fx:h/72] inches" document.png<br>8.5 x 11 inches</samp>
++      <samp>$ magick identify -format "%[fx:w/72] by %[fx:h/72] inches" document.png<br />8.5 x 11 inches</samp>
+     </div>
+   </div>
+   <p class="text-body-secondary mb-2">The depth and dimensions of a raw image must be specified on the command line:</p>
+   <div class="terminal-card mb-4">
+     <div class="p-3 text-light font-mono small overflow-x-auto">
+-      <samp>$ magick identify -depth 8 -size 640x480 image.raw<br>image.raw RGB 640x480 sRGB 9kb 0.000u 0:01</samp>
++      <samp>$ magick identify -depth 8 -size 640x480 image.raw<br />image.raw RGB 640x480 sRGB 9kb 0.000u 0:01</samp>
+     </div>
+   </div>
+   <p class="text-body-secondary mb-2">Here we display the image texture features, moments, perceptual hash, and the number of unique colors in the image:</p>
+@@ -744,7 +744,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/import/index.html b/www/import/index.html
+index 05ede11..6f24603 100644
+--- a/www/import/index.html
++++ b/www/import/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -668,7 +668,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/index-2.html b/www/index-2.html
+index 54f30c2..becfe24 100644
+--- a/www/index-2.html
++++ b/www/index-2.html
+@@ -20,7 +20,7 @@
+   
+   <!-- Fonts & Icons -->
+   <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="true">
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -183,7 +183,7 @@
+     }
+   }
+   </script>
+-  <script async src="https://cse.google.com/cse.js?cx=8720b81722164487b"></script>
++  
+ </head>
+ 
+ <body>
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="develop/index.html">API & Develop</a>
++            <a class="nav-link " href="develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -570,7 +570,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="download/index.html">Download</a></li>
+             <li><a href="command-line-tools/index.html">Tools</a></li>
+-            <li><a href="develop/index.html">APIs & Libraries</a></li>
++            <li><a href="develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/install-source/index.html b/www/install-source/index.html
+index 7bc25e6..24a24de 100644
+--- a/www/install-source/index.html
++++ b/www/install-source/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -529,7 +529,7 @@ magick logo: image.jpg</code></pre>
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/license/index.html b/www/license/index.html
+index 5045e88..539e8c8 100644
+--- a/www/license/index.html
++++ b/www/license/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -538,7 +538,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/magick++/index.html b/www/magick++/index.html
+index f49d9cc..fd6e575 100644
+--- a/www/magick++/index.html
++++ b/www/magick++/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -471,7 +471,7 @@ int main(int argc,char **argv)
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/magick-cache/index.html b/www/magick-cache/index.html
+index e886bd4..a876e76 100644
+--- a/www/magick-cache/index.html
++++ b/www/magick-cache/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -495,7 +495,7 @@ identified 1 resources</code></pre>
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/magick-core/index.html b/www/magick-core/index.html
+index ec93c6a..16942cf 100644
+--- a/www/magick-core/index.html
++++ b/www/magick-core/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -689,7 +689,7 @@ int main(int argc,char **argv)
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/magick-script/index.html b/www/magick-script/index.html
+index 2e0fc0a..2b82196 100644
+--- a/www/magick-script/index.html
++++ b/www/magick-script/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -321,7 +321,7 @@
+       <span class="small text-secondary font-mono ms-2">script.ms</span>
+     </div>
+     <div class="p-3 text-light font-mono small overflow-x-auto">
+-      <code>#!/bin/env magick-script<br>
++      <code>#!/bin/env magick-script<br />
+ -size 100x100 xc:red ( rose: -rotate -90 ) +append  -write show:</code>
+     </div>
+   </div>
+@@ -335,7 +335,7 @@
+       <span class="small text-secondary font-mono ms-2">command.sh</span>
+     </div>
+     <div class="p-3 text-light font-mono small overflow-x-auto">
+-      <code>#!/bin/magick -script<br>
++      <code>#!/bin/magick -script<br />
+ -size 100x100 xc:red ( rose: -rotate -90 ) +append  -write show:</code>
+     </div>
+   </div>
+@@ -1380,7 +1380,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/magick-vector-graphics/index.html b/www/magick-vector-graphics/index.html
+index 2071ea1..978e269 100644
+--- a/www/magick-vector-graphics/index.html
++++ b/www/magick-vector-graphics/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -1142,7 +1142,7 @@ round</code></pre>
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/magick-wand/index.html b/www/magick-wand/index.html
+index fb7a16d..56c1d06 100644
+--- a/www/magick-wand/index.html
++++ b/www/magick-wand/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -713,7 +713,7 @@ int main(int argc,char **argv)
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/magick/index.html b/www/magick/index.html
+index 511c171..14c4cd4 100644
+--- a/www/magick/index.html
++++ b/www/magick/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -392,8 +392,8 @@
+               <span class="small text-secondary font-mono ms-2">text-effects.sh</span>
+             </div>
+             <div class="p-3 text-light font-mono small overflow-x-auto">
+-              <span class="text-success">$</span> magick -size 320x85 canvas:none -font Bookman-DemiItalic -pointsize 72 \<br>
+-                -draw "text 25,60 'Magick'" -channel RGBA -blur 0x6 -fill darkred -stroke magenta \<br>
++              <span class="text-success">$</span> magick -size 320x85 canvas:none -font Bookman-DemiItalic -pointsize 72 \<br />
++                -draw "text 25,60 'Magick'" -channel RGBA -blur 0x6 -fill darkred -stroke magenta \<br />
+                 -draw "text 20,55 'Magick'" fuzzy-magick.png
+             </div>
+           </div>
+@@ -415,8 +415,8 @@
+               <span class="small text-secondary font-mono ms-2">high-quality-resize.sh</span>
+             </div>
+             <div class="p-3 text-light font-mono small overflow-x-auto">
+-              <span class="text-success">$</span> magick input.png -colorspace RGB +sigmoidal-contrast 11.6933 \<br>
+-                -define filter:filter=Sinc -define filter:window=Jinc -define filter:lobes=3 \<br>
++              <span class="text-success">$</span> magick input.png -colorspace RGB +sigmoidal-contrast 11.6933 \<br />
++                -define filter:filter=Sinc -define filter:window=Jinc -define filter:lobes=3 \<br />
+                 -resize 400% -sigmoidal-contrast 11.6933 -colorspace sRGB output.png
+             </div>
+           </div>
+@@ -443,9 +443,9 @@
+             <span class="small text-secondary font-mono ms-2">symlink.sh</span>
+           </div>
+           <div class="p-3 text-light font-mono small">
+-            <span class="text-secondary"># Equivalent invocations:</span><br>
+-            <span class="text-success">$</span> ln -s magick identify<br>
+-            <span class="text-success">$</span> identify rose.jpg rose.png<br>
++            <span class="text-secondary"># Equivalent invocations:</span><br />
++            <span class="text-success">$</span> ln -s magick identify<br />
++            <span class="text-success">$</span> identify rose.jpg rose.png<br />
+             <span class="text-success">$</span> magick identify rose.jpg rose.png
+           </div>
+         </div>
+@@ -1523,7 +1523,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/miff/index.html b/www/miff/index.html
+index ce64e4a..cb9f305 100644
+--- a/www/miff/index.html
++++ b/www/miff/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -557,7 +557,7 @@ copyright={© 1999 ImageMagick Studio LLC}
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/mirror/index.html b/www/mirror/index.html
+index 3903517..4593043 100644
+--- a/www/mirror/index.html
++++ b/www/mirror/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -571,7 +571,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/mogrify/index.html b/www/mogrify/index.html
+index 4e49c73..28e9868 100644
+--- a/www/mogrify/index.html
++++ b/www/mogrify/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -1437,7 +1437,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/montage/index.html b/www/montage/index.html
+index f5733cd..bc0d2da 100644
+--- a/www/montage/index.html
++++ b/www/montage/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -895,7 +895,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/motion-picture/index.html b/www/motion-picture/index.html
+index 35a1a74..583fb98 100644
+--- a/www/motion-picture/index.html
++++ b/www/motion-picture/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -540,7 +540,7 @@ dpx:user.data</code></pre>
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/multispectral-imagery/index.html b/www/multispectral-imagery/index.html
+index 2c81c34..522d5c2 100644
+--- a/www/multispectral-imagery/index.html
++++ b/www/multispectral-imagery/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -688,7 +688,7 @@ Image:
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/openmp/index.html b/www/openmp/index.html
+index 185e370..51dde9b 100644
+--- a/www/openmp/index.html
++++ b/www/openmp/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -444,7 +444,7 @@ Performance[8]: 40i 4.831ips 0.872e 15.680u 0:02.070</samp></pre>
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/perl-magick/index.html b/www/perl-magick/index.html
+index 8e8f8a8..a5131ce 100644
+--- a/www/perl-magick/index.html
++++ b/www/perl-magick/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link active" href="../develop/index.html">API & Develop</a>
++            <a class="nav-link active" href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -1532,7 +1532,7 @@ XServerWarning</code></pre>
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/porting/index.html b/www/porting/index.html
+index 438a00a..df66ec3 100644
+--- a/www/porting/index.html
++++ b/www/porting/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -408,9 +408,9 @@
+       <pre class="overflow-auto p-3 mb-2 text-body-secondary bg-body-tertiary" style="max-height:75svh;"><code>for (y=0; y &lt; (ssize_t) image->rows; y++)
+ {
+   IndexPacket
+-    *indexes;<br>
++    *indexes;<br />
+   PixelPacket
+-    *q;<br>
++    *q;<br />
+   q=GetCacheViewAuthenticPixels(image_view,0,y,image->columns,1,exception);
+   if (q == (PixelPacket *) NULL)
+     {
+@@ -453,7 +453,7 @@
+       <pre class="overflow-auto p-3 mb-2 text-body-secondary bg-body-tertiary" style="max-height:75svh;"><code>for (y=0; y &lt; (ssize_t) image->rows; y++)
+ {
+   Quantum
+-    *q;<br>
++    *q;<br />
+   q=GetCacheViewAuthenticPixels(image_view,0,y,image->columns,1,exception);
+   if (q == (Quantum *) NULL)
+     {
+@@ -491,10 +491,10 @@
+         <span class="small text-secondary font-mono ms-2">im7-optimized-loop.c</span>
+       </div>
+       <div class="p-3 text-light font-mono small overflow-auto" style="max-height: 75svh;">
+-        <pre class="overflow-auto p-3 mb-2 text-body-secondary bg-body-tertiary" style="max-height:75svh;"><code>for (y=0; y &lt; (ssize_t) image->rows; y++)<br>
++        <pre class="overflow-auto p-3 mb-2 text-body-secondary bg-body-tertiary" style="max-height:75svh;"><code>for (y=0; y &lt; (ssize_t) image->rows; y++)<br />
+ {
+   Quantum
+-    *q;<br>
++    *q;<br />
+   q=GetCacheViewAuthenticPixels(image_view,0,y,image->columns,1,exception);
+   if (q == (Quantum *) NULL)
+     {
+@@ -504,7 +504,7 @@
+   for (x = 0; x &lt; (ssize_t) image->columns; x++)
+   {
+     ssize_t
+-      i;<br>
++      i;<br />
+     if (GetPixelWriteMask(image,q) &lt;= (QuantumRange/2))
+       {
+         q+=GetPixelChannels(image);
+@@ -538,25 +538,25 @@
+ 
+     <div class="terminal-card mb-4">
+       <div class="p-3 text-light font-mono small">
+-        GetPixela()                  SetPixela()<br>
+-        GetPixelAlpha()              SetPixelAlpha()<br>
+-        GetPixelb()                  SetPixelb()<br>
+-        GetPixelBlack()              SetPixelBlack()<br>
+-        GetPixelBlue()               SetPixelBlue()<br>
+-        GetPixelCb()                 SetPixelCb()<br>
+-        GetPixelCr()                 SetPixelCr()<br>
+-        GetPixelCyan()               SetPixelCyan()<br>
+-        GetPixelGray()               SetPixelGray()<br>
+-        GetPixelGreen()              SetPixelGreen()<br>
+-        GetPixelIndex()              SetPixelIndex()<br>
+-        GetPixelL()                  SetPixelL()<br>
+-        GetPixelMagenta()            SetPixelMagenta()<br>
+-        GetPixelReadMask()           SetPixelReadMask()<br>
+-        GetPixelWriteMask()          SetPixelWriteMask()<br>
+-        GetPixelMetacontentExtent()  SetPixelMetacontentExtent()<br>
+-        GetPixelOpacity()            SetPixelOpacity()<br>
+-        GetPixelRed()                SetPixelRed()<br>
+-        GetPixelYellow()             SetPixelYellow()<br>
++        GetPixela()                  SetPixela()<br />
++        GetPixelAlpha()              SetPixelAlpha()<br />
++        GetPixelb()                  SetPixelb()<br />
++        GetPixelBlack()              SetPixelBlack()<br />
++        GetPixelBlue()               SetPixelBlue()<br />
++        GetPixelCb()                 SetPixelCb()<br />
++        GetPixelCr()                 SetPixelCr()<br />
++        GetPixelCyan()               SetPixelCyan()<br />
++        GetPixelGray()               SetPixelGray()<br />
++        GetPixelGreen()              SetPixelGreen()<br />
++        GetPixelIndex()              SetPixelIndex()<br />
++        GetPixelL()                  SetPixelL()<br />
++        GetPixelMagenta()            SetPixelMagenta()<br />
++        GetPixelReadMask()           SetPixelReadMask()<br />
++        GetPixelWriteMask()          SetPixelWriteMask()<br />
++        GetPixelMetacontentExtent()  SetPixelMetacontentExtent()<br />
++        GetPixelOpacity()            SetPixelOpacity()<br />
++        GetPixelRed()                SetPixelRed()<br />
++        GetPixelYellow()             SetPixelYellow()<br />
+         GetPixelY()                  SetPixelY()
+       </div>
+     </div>
+@@ -579,18 +579,18 @@
+     <p class="text-body-secondary mb-3">We provide these methods to set and get pixel traits:</p>
+     <div class="terminal-card mb-3">
+       <div class="p-3 text-light font-mono small">
+-        GetPixelAlphaTraits()    SetPixelAlphaTraits()<br>
+-        GetPixelBlackTraits()    SetPixelBlackTraits()<br>
+-        GetPixelBlueTraits()     SetPixelBlueTraits()<br>
+-        GetPixelCbTraits()       SetPixelCbTraits()<br>
+-        GetPixelChannelTraits()  SetPixelChannelTraits()<br>
+-        GetPixelCrTraits()       SetPixelCrTraits()<br>
+-        GetPixelGrayTraits()     SetPixelGrayTraits()<br>
+-        GetPixelGreenTraits()    SetPixelGreenTraits()<br>
+-        GetPixelIndexTraits()    SetPixelIndexTraits()<br>
+-        GetPixelMagentaTraits()  SetPixelMagentaTraits()<br>
+-        GetPixelRedTraits()      SetPixelRedTraits()<br>
+-        GetPixelYellowTraits()   SetPixelYellowTraits()<br>
++        GetPixelAlphaTraits()    SetPixelAlphaTraits()<br />
++        GetPixelBlackTraits()    SetPixelBlackTraits()<br />
++        GetPixelBlueTraits()     SetPixelBlueTraits()<br />
++        GetPixelCbTraits()       SetPixelCbTraits()<br />
++        GetPixelChannelTraits()  SetPixelChannelTraits()<br />
++        GetPixelCrTraits()       SetPixelCrTraits()<br />
++        GetPixelGrayTraits()     SetPixelGrayTraits()<br />
++        GetPixelGreenTraits()    SetPixelGreenTraits()<br />
++        GetPixelIndexTraits()    SetPixelIndexTraits()<br />
++        GetPixelMagentaTraits()  SetPixelMagentaTraits()<br />
++        GetPixelRedTraits()      SetPixelRedTraits()<br />
++        GetPixelYellowTraits()   SetPixelYellowTraits()<br />
+         GetPixelYTraits()        SetPixelYTraits()
+       </div>
+     </div>
+@@ -606,8 +606,8 @@
+     <p class="text-body-secondary mb-3">we use:</p>
+     <div class="terminal-card mb-4">
+       <div class="p-3 text-light font-mono small">
+-        channel_mask=SetImageChannelMask(image,channel);<br>
+-        NegateImage(image,exception);<br>
++        channel_mask=SetImageChannelMask(image,channel);<br />
++        NegateImage(image,exception);<br />
+         (void) SetImageChannelMask(image,channel_mask);
+       </div>
+     </div>
+@@ -623,11 +623,11 @@
+     </p>
+     <div class="terminal-card">
+       <div class="p-3 text-light font-mono small">
+-        SetImageMetacontentExtent()<br>
+-        GetImageMetacontentExtent()<br>
+-        GetVirtualMetacontent()<br>
+-        GetAuthenticMetacontent()<br>
+-        GetCacheViewAuthenticMetacontent()<br>
++        SetImageMetacontentExtent()<br />
++        GetImageMetacontentExtent()<br />
++        GetVirtualMetacontent()<br />
++        GetAuthenticMetacontent()<br />
++        GetCacheViewAuthenticMetacontent()<br />
+         GetCacheViewVirtualMetacontent()
+       </div>
+     </div>
+@@ -725,7 +725,7 @@
+         <h6 class="fw-semibold text-body mb-2">Magick++ API:</h6>
+         <ul class="list-unstyled d-flex flex-column gap-2 small text-body-secondary mb-0">
+           <li><i class="bi bi-check2 text-success me-1"></i> Channel-aware algorithms.</li>
+-          <li><i class="bi bi-check2 text-success me-1"></i> Example construct to avoid operating on alpha channel: <br><code>image.negateChannel(Magick::ChannelType(Magick::CompositeChannels ^ Magick::AlphaChannel));</code></li>
++          <li><i class="bi bi-check2 text-success me-1"></i> Example construct to avoid operating on alpha channel: <br /><code>image.negateChannel(Magick::ChannelType(Magick::CompositeChannels ^ Magick::AlphaChannel));</code></li>
+         </ul>
+       </div>
+     </div>
+@@ -741,7 +741,7 @@
+         </p>
+         <div class="terminal-card">
+           <div class="p-3 text-light font-mono small">
+-            #include &lt;MagickCore/MagickCore.h&gt;<br>
++            #include &lt;MagickCore/MagickCore.h&gt;<br />
+             #include &lt;MagickWand/MagickWand.h&gt;
+           </div>
+         </div>
+@@ -753,7 +753,7 @@
+         <p class="small text-body-secondary mb-3">All deprecated features from v6 are removed, including <code>Magick-config</code> and <code>Wand-config</code>. Use instead:</p>
+         <div class="terminal-card mb-3">
+           <div class="p-3 text-light font-mono small">
+-            MagickCore-config<br>
++            MagickCore-config<br />
+             MagickWand-config
+           </div>
+         </div>
+@@ -921,7 +921,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/privacy-policy/index.html b/www/privacy-policy/index.html
+index 284e75a..0106a21 100644
+--- a/www/privacy-policy/index.html
++++ b/www/privacy-policy/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -390,7 +390,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/quantize/index.html b/www/quantize/index.html
+index 498794e..e10951b 100644
+--- a/www/quantize/index.html
++++ b/www/quantize/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -572,7 +572,7 @@ while number of nodes with (n2 &gt; 0) &gt; required maximum number of colors
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/resources/index.html b/www/resources/index.html
+index f76be87..0ebbb27 100644
+--- a/www/resources/index.html
++++ b/www/resources/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -505,34 +505,34 @@
+         Under Linux and Unix operating systems, ImageMagick searches directories in this order:
+       </p>
+       <div class="p-3 bg-body rounded border font-mono small mb-3">
+-        $MAGICK_CONFIGURE_PATH<br>
+-        $PREFIX/etc/ImageMagick-7<br>
+-        $PREFIX/share/ImageMagick-7<br>
+-        $XDG_CACHE_HOME/ImageMagick<br>
+-        $HOME/.config/ImageMagick<br>
++        $MAGICK_CONFIGURE_PATH<br />
++        $PREFIX/etc/ImageMagick-7<br />
++        $PREFIX/share/ImageMagick-7<br />
++        $XDG_CACHE_HOME/ImageMagick<br />
++        $HOME/.config/ImageMagick<br />
+         &lt;<var>client path</var>&gt;/etc/ImageMagick
+       </div>
+       <p class="small text-body-secondary mb-3">
+         For Linux pre-compiled uninstalled binary distributions:
+       </p>
+       <div class="p-3 bg-body rounded border font-mono small mb-3">
+-        $MAGICK_CONFIGURE_PATH<br>
+-        $MAGICK_HOME/etc/ImageMagick-7<br>
+-        $MAGICK_HOME/share/ImageMagick-7<br>
+-        $PREFIX/share/ImageMagick-7<br>
+-        $XDG_CACHE_HOME/ImageMagick<br>
+-        $HOME/.config/ImageMagick/<br>
+-        &lt;<var>client path</var>&gt;/etc/ImageMagick<br>
++        $MAGICK_CONFIGURE_PATH<br />
++        $MAGICK_HOME/etc/ImageMagick-7<br />
++        $MAGICK_HOME/share/ImageMagick-7<br />
++        $PREFIX/share/ImageMagick-7<br />
++        $XDG_CACHE_HOME/ImageMagick<br />
++        $HOME/.config/ImageMagick/<br />
++        &lt;<var>client path</var>&gt;/etc/ImageMagick<br />
+         &lt;<var>current directory</var>&gt;
+       </div>
+       <p class="small text-body-secondary mb-3">
+         Under Windows:
+       </p>
+       <div class="p-3 bg-body rounded border font-mono small mb-3">
+-        $MAGICK_CONFIGURE_PATH<br>
+-        &lt;<var>windows registry</var>&gt;<br>
+-        $PREFIX/config<br>
+-        $USERPROFILE/.config/ImageMagick<br>
++        $MAGICK_CONFIGURE_PATH<br />
++        &lt;<var>windows registry</var>&gt;<br />
++        $PREFIX/config<br />
++        $USERPROFILE/.config/ImageMagick<br />
+         &lt;<var>client path</var>&gt;
+       </div>
+       <p class="small text-body-secondary mb-0">
+@@ -556,11 +556,11 @@
+             An image coder (encoder/decoder) manages a specific format (PNG, GIF, JPEG). Search order:
+           </p>
+           <div class="p-3 bg-body-tertiary rounded border font-mono small">
+-            $MAGICK_HOME/lib/ImageMagick-7.1.2/modules-Q16/coders<br>
+-            &lt;<var>client path</var>&gt;/../lib/ImageMagick-7.1.2/modules-Q16/coders<br>
+-            $MAGICK_HOME/share/ImageMagick-7.1.2/modules-Q16/coders<br>
+-            $XDG_CACHE_HOME/ImageMagick<br>
+-            $HOME/.config/ImageMagick<br>
++            $MAGICK_HOME/lib/ImageMagick-7.1.2/modules-Q16/coders<br />
++            &lt;<var>client path</var>&gt;/../lib/ImageMagick-7.1.2/modules-Q16/coders<br />
++            $MAGICK_HOME/share/ImageMagick-7.1.2/modules-Q16/coders<br />
++            $XDG_CACHE_HOME/ImageMagick<br />
++            $HOME/.config/ImageMagick<br />
+             &lt;<var>client path</var>&gt;/lib/ImageMagick-7.1.2/modules-Q16/coders
+           </div>
+         </div>
+@@ -572,11 +572,11 @@
+             Custom image processing algorithm modules. Search order:
+           </p>
+           <div class="p-3 bg-body-tertiary rounded border font-mono small">
+-            $MAGICK_HOME/lib/ImageMagick-7.1.2/modules-Q16/filters<br>
+-            &lt;<var>client path</var>&gt;/../lib/ImageMagick-7.1.2/modules-Q16/filters<br>
+-            $MAGICK_HOME/share/ImageMagick-7.1.2/modules-Q16/filters<br>
+-            $XDG_CACHE_HOME/ImageMagick<br>
+-            $HOME/.config/ImageMagick<br>
++            $MAGICK_HOME/lib/ImageMagick-7.1.2/modules-Q16/filters<br />
++            &lt;<var>client path</var>&gt;/../lib/ImageMagick-7.1.2/modules-Q16/filters<br />
++            $MAGICK_HOME/share/ImageMagick-7.1.2/modules-Q16/filters<br />
++            $XDG_CACHE_HOME/ImageMagick<br />
++            $HOME/.config/ImageMagick<br />
+             &lt;<var>client path</var>&gt;/lib/ImageMagick-7.1.2/modules-Q16/filters
+           </div>
+         </div>
+@@ -595,12 +595,12 @@
+         ImageMagick loads raw TrueType and Postscript font files, searching for <a href="#type.xml">type.xml</a> in this order:
+       </p>
+       <div class="p-3 bg-body-tertiary rounded border font-mono small">
+-        $MAGICK_CONFIGURE_PATH<br>
+-        $MAGICK_HOME/etc/ImageMagick-7.1.2<br>
+-        $MAGICK_HOME/share/ImageMagick-7.1.2<br>
+-        $XDG_CACHE_HOME/ImageMagick<br>
+-        $HOME/.config/ImageMagick<br>
+-        &lt;<var>client path</var>&gt;/etc/ImageMagick<br>
++        $MAGICK_CONFIGURE_PATH<br />
++        $MAGICK_HOME/etc/ImageMagick-7.1.2<br />
++        $MAGICK_HOME/share/ImageMagick-7.1.2<br />
++        $XDG_CACHE_HOME/ImageMagick<br />
++        $HOME/.config/ImageMagick<br />
++        &lt;<var>client path</var>&gt;/etc/ImageMagick<br />
+         $MAGICK_FONT_PATH
+       </div>
+     </div>
+@@ -804,7 +804,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/search/index4840.html b/www/search/index4840.html
+index 4677ba6..a10c04e 100644
+--- a/www/search/index4840.html
++++ b/www/search/index4840.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -369,7 +369,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/security-policy/index.html b/www/security-policy/index.html
+index 929fc29..14a6ff8 100644
+--- a/www/security-policy/index.html
++++ b/www/security-policy/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -446,16 +446,16 @@
+   <p>When restricting coders like HTTPS, attempting an unauthorized operation returns an error:</p>
+   <div class="card terminal-card mb-3">
+     <div class="p-3 bg-body font-mono small text-secondary">
+-      $ magick https://imagemagick.org/image/wizard.png wizard.jpg<br>
+-      magick: attempt to perform an operation not allowed by the security policy `HTTPS'<br>
++      $ magick https://imagemagick.org/image/wizard.png wizard.jpg<br />
++      magick: attempt to perform an operation not allowed by the security policy `HTTPS'<br />
+       magick: no images defined `wizard.jpg'
+     </div>
+   </div>
+   <p>You can also use anonymous memory mapping and buffer shredding to enhance data hygiene:</p>
+   <div class="card terminal-card mb-3">
+     <div class="p-3 bg-body font-mono small">
+-      &lt;policy domain="system" name="memory-map" value="anonymous"/&gt;<br>
+-      &lt;policy domain="cache" name="memory-map" value="anonymous"/&gt;<br>
++      &lt;policy domain="system" name="memory-map" value="anonymous"/&gt;<br />
++      &lt;policy domain="cache" name="memory-map" value="anonymous"/&gt;<br />
+       &lt;policy domain="system" name="shred" value="1"/&gt;
+     </div>
+   </div>
+@@ -477,7 +477,7 @@
+   <p>For embedded builds that prohibit external configuration files, you can embed policies directly into the source module <code>MagickCore/policy-private.h</code> before compilation:</p>
+   <div class="card terminal-card mb-3">
+     <div class="p-3 bg-body font-mono small">
+-      static const char *ZeroConfigurationPolicy = \<br>
++      static const char *ZeroConfigurationPolicy = \<br />
+       "&lt;policymap&gt; &lt;policy domain=\"module\" rights=\"none\" pattern=\"MVG\"/&gt; &lt;/policymap&gt;";
+     </div>
+   </div>
+@@ -550,7 +550,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/sitemap/index.html b/www/sitemap/index.html
+index ab809d8..7cbd6df 100644
+--- a/www/sitemap/index.html
++++ b/www/sitemap/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -748,7 +748,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/stream/index.html b/www/stream/index.html
+index 190a741..8e1eb6b 100644
+--- a/www/stream/index.html
++++ b/www/stream/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link active" href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -587,7 +587,7 @@ $ magick stream -map i -storage-type double 'image.tif[100x100+30+40]' gray.raw<
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>
+diff --git a/www/support/index.html b/www/support/index.html
+index 5e99c67..5ac2838 100644
+--- a/www/support/index.html
++++ b/www/support/index.html
+@@ -124,7 +124,7 @@
+       border-radius: 50%;
+     }
+ 
+-    /* Cards & Container */
++    /* Cards &amp; Container */
+     .im-card {
+       border: 1px solid var(--bs-border-color-translucent);
+       border-radius: 0.75rem;
+@@ -220,7 +220,7 @@
+             <a class="nav-link " href="../command-line-processing/index.html">CLI Usage</a>
+           </li>
+           <li class="nav-item">
+-            <a class="nav-link " href="../develop/index.html">API & Develop</a>
++            <a class="nav-link " href="../develop/index.html">API &amp; Develop</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+@@ -523,7 +523,7 @@
+           <ul class="list-unstyled small d-flex flex-column gap-2">
+             <li><a href="../download/index.html">Download</a></li>
+             <li><a href="../command-line-tools/index.html">Tools</a></li>
+-            <li><a href="../develop/index.html">APIs & Libraries</a></li>
++            <li><a href="../develop/index.html">APIs &amp; Libraries</a></li>
+             <li><a href="../sitemap/index.html">Sitemap</a></li>
+           </ul>
+         </div>

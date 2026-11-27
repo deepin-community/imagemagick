@@ -44,6 +44,7 @@
 #include "MagickCore/color.h"
 #include "MagickCore/color-private.h"
 #include "MagickCore/constitute.h"
+#include "MagickCore/constitute-private.h"
 #include "MagickCore/exception.h"
 #include "MagickCore/exception-private.h"
 #include "MagickCore/image.h"
@@ -197,7 +198,7 @@ static Image *ReadWMFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   file=(FILE *) NULL;
   unique_file=AcquireUniqueFileResource(filename);
   if (unique_file != -1)
-    file=fdopen(unique_file,"wb");
+    file=fdopen(unique_file,"rb+");
   if ((unique_file == -1) || (file == (FILE *) NULL))
     {
       ipa_device_close(wmf_info);
@@ -213,7 +214,8 @@ static Image *ReadWMFImage(const ImageInfo *image_info,ExceptionInfo *exception)
       wmf_api_destroy(wmf_info);
       ThrowReaderException(DelegateError,"FailedToRenderFile");
     }
-  (void) fclose(file);
+  if (fseek(file,0,SEEK_SET) != 0)
+    ThrowImageException(FileOpenError,"UnableToCreateTemporaryFile");
   wmf_api_destroy(wmf_info);
   (void) CloseBlob(image);
   image=DestroyImage(image);
@@ -221,10 +223,11 @@ static Image *ReadWMFImage(const ImageInfo *image_info,ExceptionInfo *exception)
     Read EPS image.
   */
   read_info=CloneImageInfo(image_info);
+  read_info->file=file;
   SetImageInfoBlob(read_info,(void *) NULL,0);
   (void) FormatLocaleString(read_info->filename,MagickPathExtent,"eps:%s",
     filename);
-  image=ReadImage(read_info,exception);
+  image=ReadImageWithoutPostProcessing(read_info,exception);
   read_info=DestroyImageInfo(read_info);
   if (image != (Image *) NULL)
     {

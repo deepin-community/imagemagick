@@ -479,8 +479,9 @@ endif
 # test suite
 override_dh_auto_test-arch_native_has_fpu_testsuite_quantum.%:
 	unset DISPLAY; unset SOURCE_DATE_EPOCH; \
+	MAGICK_CONFIGURE_PATH="$(CURDIR)/debian/buildconfig/"; \
 	if ! dh_auto_test --builddirectory="debian/build-quantum-$*"; then \
-		find "debian/build-quantum-$*/tests" -name *.log -exec cat {} ; false ;\
+		find "debian/build-quantum-$*/tests" -name *.log -exec cat {} \; ; false ;\
 	fi;
 	touch $@
 
@@ -673,7 +674,6 @@ override_dh_auto_install-indep:
 	dh_auto_install --builddirectory="$(CURDIR)/debian/build-quantum-indep" \
 			--destdir="$(CURDIR)/debian/tmp-indep" \
 			--  install-configlibDATA install-configshareDATA \
-			    install-data-html \
 			    install-MagickCoreincHEADERS install-MagickWandincHEADERS install-magickppincHEADERS install-magickpptopincHEADERS \
 			    install-man1 \
 			    V=1;\
@@ -681,11 +681,13 @@ override_dh_auto_install-indep:
 	cd "$(CURDIR)/debian/build-quantum-indep" && \
 		make  DESTDIR=$(CURDIR)/debian/tmp-indep \
 			    install-configlibDATA install-configshareDATA \
-			    install-data-html \
 			    install-MagickCoreincHEADERS install-MagickWandincHEADERS install-magickppincHEADERS install-magickpptopincHEADERS \
 			    install-man1 \
 			    V=1 ;\
 	fi;
+	
+	mkdir -p "$(CURDIR)/debian/tmp-indep/$(DOC_PKG_PATH)"
+	rsync -av $(CURDIR)/www/ "$(CURDIR)/debian/tmp-indep/$(DOC_PKG_PATH)"
 	rsync -av $(CURDIR)/debian/build-quantum-indep/www/api $(CURDIR)/debian/tmp-indep/$(DOC_PKG_PATH)/www/
 
 	# Use x-terminal emulator for editing (Bug #132947) TODO: proper patch please
@@ -717,10 +719,6 @@ override_dh_auto_install-indep:
 	     -type f -and -name '*.html' -and -not -empty -print0 \
 	     | xargs -r -0 -n 1 "$(CURDIR)/debian/scripts/removeprivacybreach" "$(CURDIR)/debian/scripts/removeprivacybreach.xslt"
 
-	# add link
-	ln -s ../assets $(CURDIR)/debian/tmp-indep/$(DOC_PKG_PATH)/www/api/assets
-	# workarround #978138
-	ln -s . $(CURDIR)/debian/tmp-indep/$(DOC_PKG_PATH)/www/www
 
 # install quantum package
 override_dh_install-arch_quantum.%:
@@ -909,6 +907,6 @@ override_dh_clean: $(foreach Q,$(QUANTUMDEPTH),override_dh_clean_quantum.$Q) ove
 #########################
 
 maint-html-is-sane:
-	cd www && find $(CURDIR) -maxdepth 2 \
+	cd www && find $(CURDIR) -maxdepth 3 \
 		-type f -and -name '*.html' -and -not -empty -print0 \
 		| xargs -r -0 -t xmllint --noout --nonet

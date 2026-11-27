@@ -215,6 +215,7 @@ MagickExport void ConformPixelInfo(Image *image,const PixelInfo *source,
   assert(image->signature == MagickCoreSignature);
   assert(destination != (const PixelInfo *) NULL);
   *destination=(*source);
+  ConformPixelInfoColorspace(image,destination,exception);
   if (image->colorspace == CMYKColorspace)
     {
       if (IssRGBCompatibleColorspace(destination->colorspace) != MagickFalse)
@@ -4279,7 +4280,10 @@ MagickExport MagickBooleanType ImportImagePixels(Image *image,const ssize_t x,
     }
   }
   if (SetImageStorageClass(image,DirectClass,exception) == MagickFalse)
-    return(MagickFalse);
+    {
+      quantum_map=(QuantumType *) RelinquishMagickMemory(quantum_map);
+      return(MagickFalse);
+    }
   /*
     Transfer the pixels from the pixel data to the image.
   */
@@ -6286,7 +6290,7 @@ static void LogPixelChannels(const Image *image)
     }
     if (image->colorspace ==  UndefinedColorspace)
       {
-        (void) FormatLocaleString(channel_name,MagickPathExtent,"%.20g",
+        (void) FormatLocaleString(channel_name,MagickPathExtent,"%.17g",
           (double) channel);
         name=(const char *) channel_name;
       }
@@ -6300,7 +6304,7 @@ static void LogPixelChannels(const Image *image)
     if (*traits == '\0')
       (void) ConcatenateMagickString(traits,"undefined,",MagickPathExtent);
     traits[strlen(traits)-1]='\0';
-    (void) LogMagickEvent(PixelEvent,GetMagickModule(),"  %.20g: %s (%s)",
+    (void) LogMagickEvent(PixelEvent,GetMagickModule(),"  %.17g: %s (%s)",
       (double) i,name,traits);
   }
 }

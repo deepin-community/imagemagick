@@ -509,7 +509,7 @@ static inline void ConvertHWBToRGB(const double hue,const double whiteness,
       return;
     }
   i=CastDoubleToSsizeT(floor(6.0*hue));
-  f=6.0*hue-i;
+  f=6.0*hue-(double) i;
   if ((i & 0x01) != 0)
     f=1.0-f;
   n=whiteness+f*(v-whiteness);  /* linear interpolation */
@@ -1898,6 +1898,7 @@ static inline MagickBooleanType IsYCbCrCompatibleColorspace(
 }
 
 extern MagickPrivate void
+  ConformPixelInfoColorspace(const Image *,PixelInfo *,ExceptionInfo *),
   ConvertGenericToRGB(const ColorspaceType,const double,const double,
     const double,const double,const IlluminantType,double *,double *,double *),
   ConvertRGBToGeneric(const ColorspaceType,const double,const double,

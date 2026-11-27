@@ -1,0 +1,1743 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 10 Oct 2026 22:42:45 +0200
+Subject: fix link tag
+
+find . -type f -exec perl -0777 -pi -e 's/<link\b([^>]*?)(?<!\/)>/<link$1 \/>/g' {} \;
+
+forwarded: not-needed
+---
+ www/compare/index.html                         | 16 ++++++++--------
+ www/compose/index.html                         | 16 ++++++++--------
+ www/composite/index.html                       | 16 ++++++++--------
+ www/conjure/index.html                         | 16 ++++++++--------
+ www/connected-components/index.html            | 16 ++++++++--------
+ www/content-provenance-authenticity/index.html | 16 ++++++++--------
+ www/convex-hull/index.html                     | 16 ++++++++--------
+ www/defines/index.html                         | 16 ++++++++--------
+ www/develop/index.html                         | 16 ++++++++--------
+ www/display/index.html                         | 16 ++++++++--------
+ www/distribute-pixel-cache/index.html          | 16 ++++++++--------
+ www/download/index.html                        | 16 ++++++++--------
+ www/escape/index.html                          | 16 ++++++++--------
+ www/examples/index.html                        | 16 ++++++++--------
+ www/export/index.html                          | 16 ++++++++--------
+ www/formats/index.html                         | 16 ++++++++--------
+ www/fx/index.html                              | 16 ++++++++--------
+ www/gradient/index.html                        | 16 ++++++++--------
+ www/high-dynamic-range/index.html              | 16 ++++++++--------
+ www/history/index.html                         | 16 ++++++++--------
+ www/identify/index.html                        | 16 ++++++++--------
+ www/import/index.html                          | 16 ++++++++--------
+ www/install-source/index.html                  | 16 ++++++++--------
+ www/jp2/index.html                             | 12 ++++++------
+ www/license/index.html                         | 16 ++++++++--------
+ www/links/index.html                           | 12 ++++++------
+ www/magick++/index.html                        | 16 ++++++++--------
+ www/magick-cache/index.html                    | 16 ++++++++--------
+ www/magick-core/index.html                     | 16 ++++++++--------
+ www/magick-script/index.html                   | 16 ++++++++--------
+ www/magick-vector-graphics/index.html          | 16 ++++++++--------
+ www/magick-wand/index.html                     | 16 ++++++++--------
+ www/magick/index.html                          | 16 ++++++++--------
+ www/miff/index.html                            | 16 ++++++++--------
+ www/mirror/index.html                          | 16 ++++++++--------
+ www/mogrify/index.html                         | 16 ++++++++--------
+ www/montage/index.html                         | 16 ++++++++--------
+ www/motion-picture/index.html                  | 16 ++++++++--------
+ www/multispectral-imagery/index.html           | 16 ++++++++--------
+ www/news/index.html                            | 14 +++++++-------
+ www/opencl/index.html                          | 12 ++++++------
+ www/openmp/index.html                          | 16 ++++++++--------
+ www/perl-magick/index.html                     | 16 ++++++++--------
+ www/porting/index.html                         | 16 ++++++++--------
+ www/privacy-policy/index.html                  | 16 ++++++++--------
+ www/quantize/index.html                        | 16 ++++++++--------
+ www/resources/index.html                       | 16 ++++++++--------
+ www/search/index4840.html                      | 16 ++++++++--------
+ www/security-policy/index.html                 | 16 ++++++++--------
+ www/sitemap/index.html                         | 16 ++++++++--------
+ www/stream/index.html                          | 16 ++++++++--------
+ www/support/index.html                         | 16 ++++++++--------
+ www/vpat/index.html                            | 12 ++++++------
+ www/webp/index.html                            | 12 ++++++------
+ 54 files changed, 421 insertions(+), 421 deletions(-)
+
+diff --git a/www/compare/index.html b/www/compare/index.html
+index 09a23fb..9708296 100644
+--- a/www/compare/index.html
++++ b/www/compare/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Compare</title>
+   <meta name="description" content="Learn how to use ImageMagick’s Compare tool to visually and mathematically analyze differences between images. Explore example commands, metrics like RMSE and PSNR, and advanced options including subimage search and FFTW acceleration." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/compose/index.html b/www/compose/index.html
+index ea4d29e..04b02d8 100644
+--- a/www/compose/index.html
++++ b/www/compose/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Alpha Compositing</title>
+   <meta name="description" content="Complete guide to ImageMagick's -compose operators: Porter–Duff alpha blending, mathematical, lighting, and SVG 1.2 blend modes, with CLI examples." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/composite/index.html b/www/composite/index.html
+index 240e3cb..508a504 100644
+--- a/www/composite/index.html
++++ b/www/composite/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Composite</title>
+   <meta name="description" content="Use ImageMagick’s Composite tool to overlay, blend, and seamlessly merge images. Explore example commands, advanced options like masks and seamless blending, and learn how to create rich visual compositions." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/conjure/index.html b/www/conjure/index.html
+index 1d825f5..66f3667 100644
+--- a/www/conjure/index.html
++++ b/www/conjure/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Conjure</title>
+   <meta name="description" content="Learn how to use ImageMagick’s conjure program to run custom image processing workflows using XML-based Magick Scripting Language (MSL) scripts." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/connected-components/index.html b/www/connected-components/index.html
+index 4be4359..6934b39 100644
+--- a/www/connected-components/index.html
++++ b/www/connected-components/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Connected Components Labeling</title>
+   <meta name="description" content="Learn how to use ImageMagick's connected components labeling to detect, segment, measure, and filter object regions in images." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/content-provenance-authenticity/index.html b/www/content-provenance-authenticity/index.html
+index 025df28..43928fc 100644
+--- a/www/content-provenance-authenticity/index.html
++++ b/www/content-provenance-authenticity/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Content Provenance and Authenticity</title>
+   <meta name="description" content="Content Provenance and Authenticity (C2PA) is an open standard that provides a framework for embedding secure, tamper-evident metadata into digital media to prove its origin, authenticity, and any edits made" />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/convex-hull/index.html b/www/convex-hull/index.html
+index dff9cfd..625990d 100644
+--- a/www/convex-hull/index.html
++++ b/www/convex-hull/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Convex Hull</title>
+   <meta name="description" content="Learn how ImageMagick computes convex hulls, minimum bounding boxes, and automatically unrotates images using image geometry properties." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/defines/index.html b/www/defines/index.html
+index b86069d..513fef6 100644
+--- a/www/defines/index.html
++++ b/www/defines/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Defines</title>
+   <meta name="description" content="Maximize image processing with the -define command-line option, tailor coders/decoders, and control operations with precision for optimal results." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/develop/index.html b/www/develop/index.html
+index c062f27..50af20a 100644
+--- a/www/develop/index.html
++++ b/www/develop/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Develop & Language APIs</title>
+   <meta name="description" content="Explore ImageMagick development resources with bindings for C, C++, Python, PHP, .NET, Node.js, and more. Integrate image processing directly into your applications." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/display/index.html b/www/display/index.html
+index cf5648a..1eb5e7c 100644
+--- a/www/display/index.html
++++ b/www/display/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Display</title>
+   <meta name="description" content="Use ImageMagick’s display program to showcase images or sequences on any X server. Explore example usages, terminal commands, and an interactive option summary." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/distribute-pixel-cache/index.html b/www/distribute-pixel-cache/index.html
+index d4059e4..9068f62 100644
+--- a/www/distribute-pixel-cache/index.html
++++ b/www/distribute-pixel-cache/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Distributed Pixel Cache</title>
+   <meta name="description" content="Learn how ImageMagick leverages a distributed pixel cache to offload memory and disk requirements across remote servers for processing large images and sequences." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/download/index.html b/www/download/index.html
+index 68d7366..a15c1f4 100644
+--- a/www/download/index.html
++++ b/www/download/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Download</title>
+   <meta name="description" content="Download ImageMagick for Linux, macOS, and Windows. Access ready-to-run binaries, portable builds, or source code to convert, edit, and compose images." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/escape/index.html b/www/escape/index.html
+index 94cf4bd..b09a75b 100644
+--- a/www/escape/index.html
++++ b/www/escape/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Format and Print Image Properties</title>
+   <meta name="description" content="Learn how to access and print image metadata, attributes, properties, artifacts, and options using percent escapes in ImageMagick." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/examples/index.html b/www/examples/index.html
+index 73545aa..7b0fcfe 100644
+--- a/www/examples/index.html
++++ b/www/examples/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Examples of ImageMagick Usage</title>
+   <meta name="description" content="Discover practical ImageMagick command‑line examples for converting, editing, composing, and transforming images. Learn real‑world usage patterns with scripts and demonstrations covering formats, effects, and automation." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/export/index.html b/www/export/index.html
+index afeb01d..e405fdc 100644
+--- a/www/export/index.html
++++ b/www/export/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Export Classification</title>
+   <meta name="description" content="ImageMagick software distribution is classified as ECCN 5D002." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/formats/index.html b/www/formats/index.html
+index c87debd..0e768a9 100644
+--- a/www/formats/index.html
++++ b/www/formats/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Image Formats</title>
+   <meta name="description" content="Explore all supported image formats, pseudo formats, built-in images, patterns, and embedded profiles in ImageMagick." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/fx/index.html b/www/fx/index.html
+index 7af59b7..bd02544 100644
+--- a/www/fx/index.html
++++ b/www/fx/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | The FX Special Effects Image Operator</title>
+   <meta name="description" content="Explore ImageMagick’s FX special effects operator, a powerful pixel-level expression language for image manipulation. Learn how to apply mathematical formulas to transform, distort, composite, and analyze images with flexible scripting examples and advanced functions." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/gradient/index.html b/www/gradient/index.html
+index 3153c88..1e07113 100644
+--- a/www/gradient/index.html
++++ b/www/gradient/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Image Gradients</title>
+   <meta name="description" content="Create smooth color transitions with ImageMagick gradients. Learn how to generate linear, radial, and custom gradients for backgrounds, overlays, and image effects with precise control." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/high-dynamic-range/index.html b/www/high-dynamic-range/index.html
+index 0c3b896..eede75e 100644
+--- a/www/high-dynamic-range/index.html
++++ b/www/high-dynamic-range/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | High Dynamic-Range Images</title>
+   <meta name="description" content="Learn how ImageMagick supports High Dynamic-Range Imaging (HDRI) with floating-point color spaces, wide gamut rendering, tone-mapping, and formats like OpenEXR. Discover how HDRI enables vivid colors, deep contrast, and accurate brightness across SDR and HDR displays." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/history/index.html b/www/history/index.html
+index 32ad1ba..6b5f28f 100644
+--- a/www/history/index.html
++++ b/www/history/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | History</title>
+   <meta name="description" content="ImageMagick, born in 1990, has evolved into a powerful open-source software suite for creating, editing, composing, or converting raster images." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/identify/index.html b/www/identify/index.html
+index 387f2de..4e6da55 100644
+--- a/www/identify/index.html
++++ b/www/identify/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Identify</title>
+   <meta name="description" content="Use ImageMagick’s Identify tool to examine image format, dimensions, colorspace, metadata, and integrity. Learn verbose options, advanced features, and example commands for detailed analysis." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/import/index.html b/www/import/index.html
+index 48e1299..abd09d7 100644
+--- a/www/import/index.html
++++ b/www/import/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Import</title>
+   <meta name="description" content="Learn how to use ImageMagick’s import program to capture an X server screen, windows, or screen regions and save them directly to files or the clipboard." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/install-source/index.html b/www/install-source/index.html
+index 77f90ad..c4c2786 100644
+--- a/www/install-source/index.html
++++ b/www/install-source/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Install from Source</title>
+   <meta name="description" content="Learn how to install ImageMagick from source on Linux, macOS, FreeBSD, Solaris, or Windows. Step-by-step instructions for compiling, configuring, and verifying your build, with guidance on optional libraries, advanced installation, and troubleshooting." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/jp2/index.html b/www/jp2/index.html
+index 1d800c9..b108c73 100644
+--- a/www/jp2/index.html
++++ b/www/jp2/index.html
+@@ -13,12 +13,12 @@
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#000000" />
+   <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+-  <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+-  <link rel="preconnect" href="https://localhost/">
+-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
++  <link rel="preconnect" href="https://cdn.jsdelivr.net/" />
++  <link rel="preconnect" href="https://localhost/" />
++  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+   <!-- Accessibility Enhancement -->
+   <style>
+     html {
+diff --git a/www/license/index.html b/www/license/index.html
+index 0f80a03..5fee72c 100644
+--- a/www/license/index.html
++++ b/www/license/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | License</title>
+   <meta name="description" content="Discover the ImageMagick License: free, open-source terms for use, reproduction, and distribution. Learn how to apply the license and attribution requirements." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/links/index.html b/www/links/index.html
+index 220981a..24ee659 100644
+--- a/www/links/index.html
++++ b/www/links/index.html
+@@ -13,12 +13,12 @@
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#000000" />
+   <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+-  <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+-  <link rel="preconnect" href="https://localhost/">
+-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
++  <link rel="preconnect" href="https://cdn.jsdelivr.net/" />
++  <link rel="preconnect" href="https://localhost/" />
++  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+   <!-- Accessibility Enhancement -->
+   <style>
+     html {
+diff --git a/www/magick++/index.html b/www/magick++/index.html
+index 518f0af..54c986f 100644
+--- a/www/magick++/index.html
++++ b/www/magick++/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Magick++, C++ API</title>
+   <meta name="description" content="Explore ImageMagick’s Magick++ API, a modern C++ interface for image processing. Learn how to read, write, manipulate, and analyze images with object‑oriented simplicity and cross‑platform support." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/magick-cache/index.html b/www/magick-cache/index.html
+index 8fcfa45..ed7f6f5 100644
+--- a/www/magick-cache/index.html
++++ b/www/magick-cache/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | MagickCache: an Efficient Image Cache</title>
+   <meta name="description" content="Understand ImageMagick’s cache architecture for efficient pixel storage and retrieval. Learn how memory, disk, and distributed caches optimize performance, reduce I/O overhead, and accelerate image processing workflows." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/magick-core/index.html b/www/magick-core/index.html
+index 49080d4..4f4e873 100644
+--- a/www/magick-core/index.html
++++ b/www/magick-core/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | MagickCore, Low-level C API</title>
+   <meta name="description" content="Explore ImageMagick’s MagickCore API, a powerful C library for image processing. Learn functions for reading, writing, transforming, and analyzing images with cross‑platform support and advanced features." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/magick-script/index.html b/www/magick-script/index.html
+index 1fa154a..3c7c3c7 100644
+--- a/www/magick-script/index.html
++++ b/www/magick-script/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Magick-script</title>
+   <meta name="description" content="Use the magick-script scripting language to convert, resize, blur, crop, and manipulate images using ImageMagick command scripts." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/magick-vector-graphics/index.html b/www/magick-vector-graphics/index.html
+index eba34c5..989ee14 100644
+--- a/www/magick-vector-graphics/index.html
++++ b/www/magick-vector-graphics/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Magick Vector Graphics</title>
+   <meta name="description" content="Explore Magick Vector Graphics (MVG) in ImageMagick — a modular language for creating 2D vector and mixed raster graphics. Learn syntax, drawing primitives, and how to render shapes, paths, and text from MVG, SVG, or program interfaces." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/magick-wand/index.html b/www/magick-wand/index.html
+index 87ddbb4..47d5555 100644
+--- a/www/magick-wand/index.html
++++ b/www/magick-wand/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | MagickWand, C API</title>
+   <meta name="description" content="Discover ImageMagick’s MagickWand API, a simplified C interface for image processing. Learn functions for creating, editing, and converting images with cross-platform support and powerful features." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/magick/index.html b/www/magick/index.html
+index 09d0b7e..15c0354 100644
+--- a/www/magick/index.html
++++ b/www/magick/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Magick</title>
+   <meta name="description" content="Powerful image manipulation with ImageMagick’s magick command-line tool. Convert, resize, crop, blur, sharpen, annotate, and transform images across formats with ease. Explore examples, options, and advanced features for professional-quality results." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/miff/index.html b/www/miff/index.html
+index fcacf73..0cab4eb 100644
+--- a/www/miff/index.html
++++ b/www/miff/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Magick Image File Format</title>
+   <meta name="description" content="Discover the Magick Image File Format (MIFF) used by ImageMagick to store image data, attributes, and comments. Learn its structure, portability, and how MIFF supports efficient image manipulation across platforms." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/mirror/index.html b/www/mirror/index.html
+index e289cf2..d40133f 100644
+--- a/www/mirror/index.html
++++ b/www/mirror/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Mirror</title>
+   <meta name="description" content="ImageMagick source and binary distributions are available from a variety of mirrors around the world." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/mogrify/index.html b/www/mogrify/index.html
+index de4517d..e20ac62 100644
+--- a/www/mogrify/index.html
++++ b/www/mogrify/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Mogrify</title>
+   <meta name="description" content="Use the magick mogrify program to resize, blur, crop, and batch-process images with ImageMagick." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/montage/index.html b/www/montage/index.html
+index 11bf724..4e2e684 100644
+--- a/www/montage/index.html
++++ b/www/montage/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Montage</title>
+   <meta name="description" content="Use the montage program to create composite images by tiling, bordering, framing, and combining separate images." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/motion-picture/index.html b/www/motion-picture/index.html
+index 9ca1e8d..62b5d88 100644
+--- a/www/motion-picture/index.html
++++ b/www/motion-picture/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Motion Picture Digital Images</title>
+   <meta name="description" content="Learn how ImageMagick supports motion picture workflows with DPX, Cineon, and other film formats. Explore tools for reading, writing, and processing high‑resolution frames used in professional cinema production." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/multispectral-imagery/index.html b/www/multispectral-imagery/index.html
+index 340e2fb..5511427 100644
+--- a/www/multispectral-imagery/index.html
++++ b/www/multispectral-imagery/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Multispectral Imagery</title>
+   <meta name="description" content="Learn about multispectral imagery support in ImageMagick, capturing wider wavelengths from ultraviolet to infrared, handling meta channels, and processing multi-band images." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/news/index.html b/www/news/index.html
+index 5e3157b..80ef5cf 100644
+--- a/www/news/index.html
++++ b/www/news/index.html
+@@ -9,16 +9,16 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | News</title>
+   <meta name="description" content="Stay updated with the latest ImageMagick news, including major security improvements, feature enhancements, and development updates. Learn about new release notes, security policies, multispectral image support, and performance optimizations. Explore contributions from the community, related tools like MagickCache, and guidance for configuring builds across platforms." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#000000" />
+   <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+-  <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+-  <link rel="preconnect" href="https://localhost/">
+-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
++  <link rel="preconnect" href="https://cdn.jsdelivr.net/" />
++  <link rel="preconnect" href="https://localhost/" />
++  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+   <!-- Accessibility Enhancement -->
+   <style>
+     html {
+diff --git a/www/opencl/index.html b/www/opencl/index.html
+index 4aac29a..b615f2b 100644
+--- a/www/opencl/index.html
++++ b/www/opencl/index.html
+@@ -13,12 +13,12 @@
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#000000" />
+   <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+-  <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+-  <link rel="preconnect" href="https://localhost/">
+-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
++  <link rel="preconnect" href="https://cdn.jsdelivr.net/" />
++  <link rel="preconnect" href="https://localhost/" />
++  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+   <!-- Accessibility Enhancement -->
+   <style>
+     html {
+diff --git a/www/openmp/index.html b/www/openmp/index.html
+index 8385e88..3d9a0f8 100644
+--- a/www/openmp/index.html
++++ b/www/openmp/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Parallel Execution with OpenMP</title>
+   <meta name="description" content="Discover how ImageMagick leverages OpenMP for parallel execution, enabling faster image processing across multicore systems. Learn how threading boosts performance, how to benchmark efficiency, and how to configure builds with or without OpenMP support." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/perl-magick/index.html b/www/perl-magick/index.html
+index ecc1e36..4147e33 100644
+--- a/www/perl-magick/index.html
++++ b/www/perl-magick/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | PerlMagick, Perl API</title>
+   <meta name="description" content="Use PerlMagick to read, manipulate, or write an image or image sequence from within a Perl script." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/porting/index.html b/www/porting/index.html
+index 2b7d1b3..bb0b77e 100644
+--- a/www/porting/index.html
++++ b/www/porting/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Porting to ImageMagick Version 7</title>
+   <meta name="description" content="Learn how ImageMagick version 7 differs from previous versions, including enhanced multi-channel pixel support, default HDRI, major command-line interface updates, and migration guides for MagickCore and MagickWand APIs." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/privacy-policy/index.html b/www/privacy-policy/index.html
+index 3ea2626..904f52a 100644
+--- a/www/privacy-policy/index.html
++++ b/www/privacy-policy/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Privacy Policy</title>
+   <meta name="description" content="ImageMagick does not collect any personal identifier information (PII)." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/quantize/index.html b/www/quantize/index.html
+index 6d46d7f..f3cd8d3 100644
+--- a/www/quantize/index.html
++++ b/www/quantize/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Color Reduction Utilizing Adaptive Spatial Subdivision</title>
+   <meta name="description" content="Detailed guide on how ImageMagick performs color reduction using adaptive spatial subdivision, classification, reduction, assignment phases, and error measurement." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/resources/index.html b/www/resources/index.html
+index 862b546..879feb0 100644
+--- a/www/resources/index.html
++++ b/www/resources/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Resources</title>
+   <meta name="description" content="Learn about ImageMagick resources including configuration files, modules, fonts, and environment variables. Understand how XML files map formats, colors, delegates, locales, logging, and MIME types to support image processing." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/search/index4840.html b/www/search/index4840.html
+index b70b6c6..a8a2f61 100644
+--- a/www/search/index4840.html
++++ b/www/search/index4840.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Search</title>
+   <meta name="description" content="" />
+-  <link rel="canonical" href="https://imagemagick.org/search/">
++  <link rel="canonical" href="https://imagemagick.org/search/" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/security-policy/index.html b/www/security-policy/index.html
+index ddd7c42..8d5c4f0 100644
+--- a/www/security-policy/index.html
++++ b/www/security-policy/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Security Policy</title>
+   <meta name="description" content="Learn how to configure and enforce ImageMagick’s security policy to balance functionality with protection. Explore open, limited, secure, and websafe options, along with resource limits, coder restrictions, and best practices for securing containers, servers, and web applications." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/sitemap/index.html b/www/sitemap/index.html
+index f326575..2039064 100644
+--- a/www/sitemap/index.html
++++ b/www/sitemap/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Sitemap</title>
+   <meta name="description" content="Explore the ImageMagick sitemap for quick access to downloads, installation guides, command-line tools, APIs, supported formats, tutorials, and community support. Navigate directly to resources for creating, editing, and converting images across 200+ formats." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/stream/index.html b/www/stream/index.html
+index 3175b82..fcadb23 100644
+--- a/www/stream/index.html
++++ b/www/stream/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Command-line Tools: Stream</title>
+   <meta name="description" content="Stream one or more pixel components of the image or portion of the image to your choice of storage formats" />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/support/index.html b/www/support/index.html
+index 9e513c4..3c1a0a2 100644
+--- a/www/support/index.html
++++ b/www/support/index.html
+@@ -11,19 +11,19 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Sponsor ImageMagick Development</title>
+   <meta name="description" content="Support ImageMagick development by sponsoring, contributing code, or donating resources. Help maintain one of the most comprehensive free image processing suites used worldwide in web, publishing, and film industries." />
+-  <link rel="canonical" href="index.html">
++  <link rel="canonical" href="index.html" />
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#0d1117" />
+   
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
+   
+   <!-- Fonts & Icons -->
+-  <link rel="preconnect" href="https://fonts.googleapis.com/">
+-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
++  <link rel="preconnect" href="https://fonts.googleapis.com/" />
++  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
++  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+ 
+   <style>
+     :root {
+diff --git a/www/vpat/index.html b/www/vpat/index.html
+index 6b73e4c..05baae3 100644
+--- a/www/vpat/index.html
++++ b/www/vpat/index.html
+@@ -13,12 +13,12 @@
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#000000" />
+   <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+-  <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+-  <link rel="preconnect" href="https://localhost/">
+-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
++  <link rel="preconnect" href="https://cdn.jsdelivr.net/" />
++  <link rel="preconnect" href="https://localhost/" />
++  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+   <!-- Accessibility Enhancement -->
+   <style>
+     html {
+diff --git a/www/webp/index.html b/www/webp/index.html
+index 0ea06e8..4ea7318 100644
+--- a/www/webp/index.html
++++ b/www/webp/index.html
+@@ -13,12 +13,12 @@
+   <meta name="robots" content="index, follow" />
+   <meta name="theme-color" content="#000000" />
+   <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+-  <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+-  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+-  <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+-  <link rel="preconnect" href="https://localhost/">
+-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous">
+-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
++  <link rel="shortcut icon" href="../image/wand.png" type="image/png" />
++  <link rel="apple-touch-icon" href="../image/wand.png" type="image/png" />
++  <link rel="preconnect" href="https://cdn.jsdelivr.net/" />
++  <link rel="preconnect" href="https://localhost/" />
++  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" as="style" crossorigin="anonymous" />
++  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+   <!-- Accessibility Enhancement -->
+   <style>
+     html {

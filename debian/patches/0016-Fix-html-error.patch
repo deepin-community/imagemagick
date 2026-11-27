@@ -1,0 +1,292 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Wed, 12 Aug 2026 18:23:09 +0200
+Subject: Fix html error
+
+forwarded: not-needed
+---
+ www/jp2/index.html    | 20 ++++++++++----------
+ www/links/index.html  | 20 ++++++++++----------
+ www/news/index.html   |  6 +++---
+ www/opencl/index.html | 20 ++++++++++----------
+ www/vpat/index.html   | 20 ++++++++++----------
+ www/webp/index.html   | 20 ++++++++++----------
+ 6 files changed, 53 insertions(+), 53 deletions(-)
+
+diff --git a/www/jp2/index.html b/www/jp2/index.html
+index 0be9885..cda6552 100644
+--- a/www/jp2/index.html
++++ b/www/jp2/index.html
+@@ -5,14 +5,14 @@
+ 
+ 
+ <head>
+-  <meta charset="utf-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
++  <meta charset="utf-8" />
++  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | JP2 Encoding Options</title>
+-  <meta name="description" content="">
+-  <link rel="canonical" href="index.html">
+-  <meta name="robots" content="index, follow">
+-  <meta name="theme-color" content="#000000">
+-  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4">
++  <meta name="description" content="" />
++  <link rel="canonical" href="index.html" />
++  <meta name="robots" content="index, follow" />
++  <meta name="theme-color" content="#000000" />
++  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+   <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+   <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+   <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+@@ -331,12 +331,12 @@
+         &nbsp;
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+-        <br>
++        <br />
+         <a href="../support/index.html">Sponsor</a> •
+         <a href="../cite/index.html">Cite</a> •
+         <a href="http://pgp.mit.edu/pks/lookup?op=get&amp;search=0x89AB63D48277377A">Public Key</a> •
+         <a href="https://github.com/ImageMagick/ImageMagick/discussions">Contact Us</a>
+-        <br>
++        <br />
+         <a href="https://github.com/imagemagick/imagemagick" rel="noopener noreferrer" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 499.36" width="2%" height="2%" role="img" focusable="false">
+             <title>GitHub</title>
+             <path fill="currentColor" fill-rule="evenodd" d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" />
+@@ -345,7 +345,7 @@
+             <title>Twitter</title>
+             <path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66" />
+           </svg></a>
+-        <br>
++        <br />
+         <small>Copyright © 1999 ImageMagick Studio LLC</small>
+       </div>
+     </footer>
+diff --git a/www/links/index.html b/www/links/index.html
+index 3c07075..e44dc9e 100644
+--- a/www/links/index.html
++++ b/www/links/index.html
+@@ -5,14 +5,14 @@
+ 
+ 
+ <head>
+-  <meta charset="utf-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
++  <meta charset="utf-8" />
++  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Related Web Sites</title>
+-  <meta name="description" content="">
+-  <link rel="canonical" href="index.html">
+-  <meta name="robots" content="index, follow">
+-  <meta name="theme-color" content="#000000">
+-  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4">
++  <meta name="description" content="" />
++  <link rel="canonical" href="index.html" />
++  <meta name="robots" content="index, follow" />
++  <meta name="theme-color" content="#000000" />
++  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+   <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+   <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+   <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+@@ -328,12 +328,12 @@
+         &nbsp;
+         <a href="index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+-        <br>
++        <br />
+         <a href="../support/index.html">Sponsor</a> •
+         <a href="../cite/index.html">Cite</a> •
+         <a href="http://pgp.mit.edu/pks/lookup?op=get&amp;search=0x89AB63D48277377A">Public Key</a> •
+         <a href="https://github.com/ImageMagick/ImageMagick/discussions">Contact Us</a>
+-        <br>
++        <br />
+         <a href="https://github.com/imagemagick/imagemagick" rel="noopener noreferrer" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 499.36" width="2%" height="2%" role="img" focusable="false">
+             <title>GitHub</title>
+             <path fill="currentColor" fill-rule="evenodd" d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" />
+@@ -342,7 +342,7 @@
+             <title>Twitter</title>
+             <path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66" />
+           </svg></a>
+-        <br>
++        <br />
+         <small>Copyright © 1999 ImageMagick Studio LLC</small>
+       </div>
+     </footer>
+diff --git a/www/news/index.html b/www/news/index.html
+index 7357ccb..e7b2f42 100644
+--- a/www/news/index.html
++++ b/www/news/index.html
+@@ -311,12 +311,12 @@
+         &nbsp;
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+-        <br>
++        <br />
+         <a href="../support/index.html">Sponsor</a> •
+         <a href="../cite/index.html">Cite</a> •
+         <a href="http://pgp.mit.edu/pks/lookup?op=get&amp;search=0x89AB63D48277377A">Public Key</a> •
+         <a href="https://github.com/ImageMagick/ImageMagick/discussions">Contact Us</a>
+-        <br>
++        <br />
+         <a href="https://github.com/imagemagick/imagemagick" rel="noopener noreferrer" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 499.36" width="2%" height="2%" role="img" focusable="false">
+             <title>GitHub</title>
+             <path fill="currentColor" fill-rule="evenodd" d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" />
+@@ -325,7 +325,7 @@
+             <title>Twitter</title>
+             <path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66" />
+           </svg></a>
+-        <br>
++        <br />
+         <small>Copyright © 1999 ImageMagick Studio LLC</small>
+       </div>
+     </footer>
+diff --git a/www/opencl/index.html b/www/opencl/index.html
+index e4c463b..f19f758 100644
+--- a/www/opencl/index.html
++++ b/www/opencl/index.html
+@@ -5,14 +5,14 @@
+ 
+ 
+ <head>
+-  <meta charset="utf-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
++  <meta charset="utf-8" />
++  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Parallel Execution with OpenCL</title>
+-  <meta name="description" content="">
+-  <link rel="canonical" href="index.html">
+-  <meta name="robots" content="index, follow">
+-  <meta name="theme-color" content="#000000">
+-  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4">
++  <meta name="description" content="" />
++  <link rel="canonical" href="index.html" />
++  <meta name="robots" content="index, follow" />
++  <meta name="theme-color" content="#000000" />
++  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+   <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+   <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+   <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+@@ -301,12 +301,12 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
+         &nbsp;
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+-        <br>
++        <br />
+         <a href="../support/index.html">Sponsor</a> •
+         <a href="../cite/index.html">Cite</a> •
+         <a href="http://pgp.mit.edu/pks/lookup?op=get&amp;search=0x89AB63D48277377A">Public Key</a> •
+         <a href="https://github.com/ImageMagick/ImageMagick/discussions">Contact Us</a>
+-        <br>
++        <br />
+         <a href="https://github.com/imagemagick/imagemagick" rel="noopener noreferrer" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 499.36" width="2%" height="2%" role="img" focusable="false">
+             <title>GitHub</title>
+             <path fill="currentColor" fill-rule="evenodd" d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" />
+@@ -315,7 +315,7 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
+             <title>Twitter</title>
+             <path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66" />
+           </svg></a>
+-        <br>
++        <br />
+         <small>Copyright © 1999 ImageMagick Studio LLC</small>
+       </div>
+     </footer>
+diff --git a/www/vpat/index.html b/www/vpat/index.html
+index bd876aa..6e2e375 100644
+--- a/www/vpat/index.html
++++ b/www/vpat/index.html
+@@ -5,14 +5,14 @@
+ 
+ 
+ <head>
+-  <meta charset="utf-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
++  <meta charset="utf-8" />
++  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | Voluntary Product Accessibility Template</title>
+-  <meta name="description" content="">
+-  <link rel="canonical" href="index.html">
+-  <meta name="robots" content="index, follow">
+-  <meta name="theme-color" content="#000000">
+-  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4">
++  <meta name="description" content="" />
++  <link rel="canonical" href="index.html" />
++  <meta name="robots" content="index, follow" />
++  <meta name="theme-color" content="#000000" />
++  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+   <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+   <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+   <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+@@ -305,12 +305,12 @@
+         &nbsp;
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+-        <br>
++        <br />
+         <a href="../support/index.html">Sponsor</a> •
+         <a href="../cite/index.html">Cite</a> •
+         <a href="http://pgp.mit.edu/pks/lookup?op=get&amp;search=0x89AB63D48277377A">Public Key</a> •
+         <a href="https://github.com/ImageMagick/ImageMagick/discussions">Contact Us</a>
+-        <br>
++        <br />
+         <a href="https://github.com/imagemagick/imagemagick" rel="noopener noreferrer" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 499.36" width="2%" height="2%" role="img" focusable="false">
+             <title>GitHub</title>
+             <path fill="currentColor" fill-rule="evenodd" d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" />
+@@ -319,7 +319,7 @@
+             <title>Twitter</title>
+             <path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66" />
+           </svg></a>
+-        <br>
++        <br />
+         <small>Copyright © 1999 ImageMagick Studio LLC</small>
+       </div>
+     </footer>
+diff --git a/www/webp/index.html b/www/webp/index.html
+index 8ab6454..63af404 100644
+--- a/www/webp/index.html
++++ b/www/webp/index.html
+@@ -5,14 +5,14 @@
+ 
+ 
+ <head>
+-  <meta charset="utf-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
++  <meta charset="utf-8" />
++  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+   <title>ImageMagick | WebP Encoding Options</title>
+-  <meta name="description" content="">
+-  <link rel="canonical" href="index.html">
+-  <meta name="robots" content="index, follow">
+-  <meta name="theme-color" content="#000000">
+-  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4">
++  <meta name="description" content="" />
++  <link rel="canonical" href="index.html" />
++  <meta name="robots" content="index, follow" />
++  <meta name="theme-color" content="#000000" />
++  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+   <link rel="shortcut icon" href="../image/wand.png" type="image/png">
+   <link rel="apple-touch-icon" href="../image/wand.png" type="image/png">
+   <link rel="preconnect" href="https://cdn.jsdelivr.net/">
+@@ -432,12 +432,12 @@
+         &nbsp;
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+-        <br>
++        <br />
+         <a href="../support/index.html">Sponsor</a> •
+         <a href="../cite/index.html">Cite</a> •
+         <a href="http://pgp.mit.edu/pks/lookup?op=get&amp;search=0x89AB63D48277377A">Public Key</a> •
+         <a href="https://github.com/ImageMagick/ImageMagick/discussions">Contact Us</a>
+-        <br>
++        <br />
+         <a href="https://github.com/imagemagick/imagemagick" rel="noopener noreferrer" target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 499.36" width="2%" height="2%" role="img" focusable="false">
+             <title>GitHub</title>
+             <path fill="currentColor" fill-rule="evenodd" d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" />
+@@ -446,7 +446,7 @@
+             <title>Twitter</title>
+             <path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66" />
+           </svg></a>
+-        <br>
++        <br />
+         <small>Copyright © 1999 ImageMagick Studio LLC</small>
+       </div>
+     </footer>

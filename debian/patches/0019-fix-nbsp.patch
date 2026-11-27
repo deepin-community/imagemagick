@@ -1,0 +1,314 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 10 Oct 2026 22:27:50 +0200
+Subject: fix nbsp
+
+find . -type 'f' -exec sed -i 's/&nbsp;/ /g' {} \;
+
+forwarded; not-needed
+---
+ www/escape/index.html             |  2 +-
+ www/fx/index.html                 | 36 ++++++++++-----------
+ www/high-dynamic-range/index.html |  2 +-
+ www/jp2/index.html                |  4 +--
+ www/links/index.html              |  4 +--
+ www/magick/index.html             |  8 ++---
+ www/news/index.html               |  4 +--
+ www/opencl/index.html             |  4 +--
+ www/porting/index.html            | 66 +++++++++++++++++++--------------------
+ www/vpat/index.html               |  4 +--
+ www/webp/index.html               |  4 +--
+ 11 files changed, 69 insertions(+), 69 deletions(-)
+
+diff --git a/www/escape/index.html b/www/escape/index.html
+index 4e7c567..a9decd4 100644
+--- a/www/escape/index.html
++++ b/www/escape/index.html
+@@ -486,7 +486,7 @@ MIFF:bird.miff 512x480</code></pre>
+           <tr><td class="ps-3 font-mono fw-bold">%[channels]</td><td>colorspace mnemonic followed by total number of channels and meta channels, e.g., <code>cmyka 8.3</code> indicates a CMYK image with alpha channel for a total of 8 channels and 3 meta channels.</td></tr>
+           <tr><td class="ps-3 font-mono fw-bold">%[colors]</td><td>Number of unique colors in the image (as of IM 7.0.3.8)</td></tr>
+           <tr><td class="ps-3 font-mono fw-bold">%[colorspace]</td><td>colorspace of Image Data (excluding transparency)</td></tr>
+-          <tr><td class="ps-3 font-mono fw-bold">%[compose]</td><td>&nbsp;</td></tr>
++          <tr><td class="ps-3 font-mono fw-bold">%[compose]</td><td> </td></tr>
+           <tr><td class="ps-3 font-mono fw-bold">%[compression]</td><td>image compression type</td></tr>
+           <tr><td class="ps-3 font-mono fw-bold"><a href="../convex-hull/index.html" class="text-decoration-none">%[convex-hull]</a></td><td>points that form a convex hull around the foreground object. Use <code><a href="../command-line-options/index.html#define">-define</a> convex-hull:background-color=<em>color</em></code> to identify the image background color. Use <code><a href="../command-line-options/index.html#fuzz">-fuzz</a></code> to allow for a non-uniform background color.</td></tr>
+           <tr><td class="ps-3 font-mono fw-bold"><a href="../convex-hull/index.html" class="text-decoration-none">%[convex-hull:extreme-points]</a></td><td>return the top, right, bottom, and left extreme points of the convex hull.</td></tr>
+diff --git a/www/fx/index.html b/www/fx/index.html
+index 5b5ba86..c3a4280 100644
+--- a/www/fx/index.html
++++ b/www/fx/index.html
+@@ -451,9 +451,9 @@
+             <p class="small text-body-secondary">Inject custom statistical Gaussian noise into an image pipeline:</p>
+             <div class="bg-dark text-light rounded p-3 font-mono border border-secondary border-opacity-25">
+               <span class="text-secondary">$</span> magick photo.jpg -fx 'iso=32; rone=rand(); rtwo=rand(); \<br>
+-              &nbsp;&nbsp;myn=sqrt(-2*ln(rone))*cos(2*Pi*rtwo); myntwo=sqrt(-2*ln(rtwo))* \<br>
+-              &nbsp;&nbsp;cos(2*Pi*rone); pnoise=sqrt(p)*myn*sqrt(iso)* \<br>
+-              &nbsp;&nbsp;channel(4.28,3.86,6.68)/255; max(0,p+pnoise)' noisy.png
++                myn=sqrt(-2*ln(rone))*cos(2*Pi*rtwo); myntwo=sqrt(-2*ln(rtwo))* \<br>
++                cos(2*Pi*rone); pnoise=sqrt(p)*myn*sqrt(iso)* \<br>
++                channel(4.28,3.86,6.68)/255; max(0,p+pnoise)' noisy.png
+             </div>
+           </div>
+         </div>
+@@ -470,18 +470,18 @@
+             <p class="small text-body-secondary">Leverage iterative <code class="font-mono">for()</code> loops to map complex polynomial fractal calculations into color lookup tables (CLUT):</p>
+             <div class="bg-dark text-light rounded p-3 mb-3 font-mono border border-secondary border-opacity-25">
+               <span class="text-secondary">$</span> magick -size 400x400 xc:gray -fx " \<br>
+-              &nbsp;&nbsp;Xi=2.4*i/w-1.2; \<br>
+-              &nbsp;&nbsp;Yj=2.4*j/h-1.2; \<br>
+-              &nbsp;&nbsp;for (pixel=0.0, (hypot(Xi,Yj) &lt; 2.0) &amp;&amp; (pixel &lt; 1.0), \<br>
+-              &nbsp;&nbsp;&nbsp;&nbsp;delta=Xi^2-Yj^2; \<br>
+-              &nbsp;&nbsp;&nbsp;&nbsp;Yj=2.0*Xi*Yj+0.2; \<br>
+-              &nbsp;&nbsp;&nbsp;&nbsp;Xi=delta+0.4; \<br>
+-              &nbsp;&nbsp;&nbsp;&nbsp;pixel+=0.00390625 \<br>
+-              &nbsp;&nbsp;); \<br>
+-              &nbsp;&nbsp;pixel == 1.0 ? 0.0 : pixel" \<br>
+-              &nbsp;&nbsp;\( -size 1x1 xc:white xc:red xc:orange xc:yellow xc:green1 xc:cyan xc:blue \<br>
+-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xc:blueviolet xc:white -reverse +append -filter Cubic -resize 1024x1! \) \<br>
+-              &nbsp;&nbsp;-clut -rotate -90 julia-set.png
++                Xi=2.4*i/w-1.2; \<br>
++                Yj=2.4*j/h-1.2; \<br>
++                for (pixel=0.0, (hypot(Xi,Yj) &lt; 2.0) &amp;&amp; (pixel &lt; 1.0), \<br>
++                  delta=Xi^2-Yj^2; \<br>
++                  Yj=2.0*Xi*Yj+0.2; \<br>
++                  Xi=delta+0.4; \<br>
++                  pixel+=0.00390625 \<br>
++                ); \<br>
++                pixel == 1.0 ? 0.0 : pixel" \<br>
++                \( -size 1x1 xc:white xc:red xc:orange xc:yellow xc:green1 xc:cyan xc:blue \<br>
++                   xc:blueviolet xc:white -reverse +append -filter Cubic -resize 1024x1! \) \<br>
++                -clut -rotate -90 julia-set.png
+             </div>
+             <div class="text-center">
+               <img src="https://imagemagick.org/image/julia-set.png" class="img-thumbnail" width="160" height="160" alt="Julia Fractals" />
+@@ -501,9 +501,9 @@
+             <p class="small text-body-secondary">Use the <code class="font-mono">debug()</code> statement inside FX loops to calculate math output directly to standard output:</p>
+             <div class="bg-dark text-light rounded p-3 font-mono border border-secondary border-opacity-25">
+               <span class="text-secondary">$</span> magick xc:gray -fx " \<br>
+-              &nbsp;&nbsp;for (prime=2, prime &lt; 30, composite=0; \<br>
+-              &nbsp;&nbsp;&nbsp;&nbsp;for (nn=2, nn &lt; (prime/2+1), if ((prime % nn) == 0, composite++, ); nn++); \<br>
+-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (composite &lt;= 0, debug(prime), ); prime++)" null:
++                for (prime=2, prime &lt; 30, composite=0; \<br>
++                  for (nn=2, nn &lt; (prime/2+1), if ((prime % nn) == 0, composite++, ); nn++); \<br>
++                    if (composite &lt;= 0, debug(prime), ); prime++)" null:
+             </div>
+           </div>
+         </div>
+diff --git a/www/high-dynamic-range/index.html b/www/high-dynamic-range/index.html
+index 430dcec..f8da760 100644
+--- a/www/high-dynamic-range/index.html
++++ b/www/high-dynamic-range/index.html
+@@ -431,7 +431,7 @@
+         </div>
+         <div class="p-3 text-light font-mono small">
+           <span class="text-success">$</span> magick -define uhdr:hdr-color-gamut=bt709 -define uhdr:hdr-color-transfer=hlg \<br>
+-          &nbsp;&nbsp;\( img_sdr.tif -depth 8 \) &nbsp;\( img_hdr.tif -depth 16 \) uhdr:ultrahdr.jpg
++            \( img_sdr.tif -depth 8 \)  \( img_hdr.tif -depth 16 \) uhdr:ultrahdr.jpg
+         </div>
+       </div>
+     </div>
+diff --git a/www/jp2/index.html b/www/jp2/index.html
+index a195989..92d1640 100644
+--- a/www/jp2/index.html
++++ b/www/jp2/index.html
+@@ -326,9 +326,9 @@
+       <div class="container-fluid">
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+-        &nbsp;
++         
+         <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
+-        &nbsp;
++         
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+         <br />
+diff --git a/www/links/index.html b/www/links/index.html
+index f9ed9c0..ad3ab43 100644
+--- a/www/links/index.html
++++ b/www/links/index.html
+@@ -323,9 +323,9 @@
+       <div class="container-fluid">
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+-        &nbsp;
++         
+         <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
+-        &nbsp;
++         
+         <a href="index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+         <br />
+diff --git a/www/magick/index.html b/www/magick/index.html
+index 8ecc41b..fc94545 100644
+--- a/www/magick/index.html
++++ b/www/magick/index.html
+@@ -393,8 +393,8 @@
+             </div>
+             <div class="p-3 text-light font-mono small overflow-x-auto">
+               <span class="text-success">$</span> magick -size 320x85 canvas:none -font Bookman-DemiItalic -pointsize 72 \<br>
+-              &nbsp;&nbsp;-draw "text 25,60 'Magick'" -channel RGBA -blur 0x6 -fill darkred -stroke magenta \<br>
+-              &nbsp;&nbsp;-draw "text 20,55 'Magick'" fuzzy-magick.png
++                -draw "text 25,60 'Magick'" -channel RGBA -blur 0x6 -fill darkred -stroke magenta \<br>
++                -draw "text 20,55 'Magick'" fuzzy-magick.png
+             </div>
+           </div>
+         </div>
+@@ -416,8 +416,8 @@
+             </div>
+             <div class="p-3 text-light font-mono small overflow-x-auto">
+               <span class="text-success">$</span> magick input.png -colorspace RGB +sigmoidal-contrast 11.6933 \<br>
+-              &nbsp;&nbsp;-define filter:filter=Sinc -define filter:window=Jinc -define filter:lobes=3 \<br>
+-              &nbsp;&nbsp;-resize 400% -sigmoidal-contrast 11.6933 -colorspace sRGB output.png
++                -define filter:filter=Sinc -define filter:window=Jinc -define filter:lobes=3 \<br>
++                -resize 400% -sigmoidal-contrast 11.6933 -colorspace sRGB output.png
+             </div>
+           </div>
+         </div>
+diff --git a/www/news/index.html b/www/news/index.html
+index 5138f00..de5cc3e 100644
+--- a/www/news/index.html
++++ b/www/news/index.html
+@@ -306,9 +306,9 @@
+       <div class="container-fluid">
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="index.html">News</a>
+-        &nbsp;
++         
+         <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
+-        &nbsp;
++         
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+         <br />
+diff --git a/www/opencl/index.html b/www/opencl/index.html
+index c59b6a8..cf204b7 100644
+--- a/www/opencl/index.html
++++ b/www/opencl/index.html
+@@ -296,9 +296,9 @@ if (InitializeOpenCL(clEnv,exception) == MagickFalse)
+       <div class="container-fluid">
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+-        &nbsp;
++         
+         <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
+-        &nbsp;
++         
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+         <br />
+diff --git a/www/porting/index.html b/www/porting/index.html
+index eec8f86..72173e7 100644
+--- a/www/porting/index.html
++++ b/www/porting/index.html
+@@ -538,26 +538,26 @@
+ 
+     <div class="terminal-card mb-4">
+       <div class="p-3 text-light font-mono small">
+-        GetPixela() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixela()<br>
+-        GetPixelAlpha() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelAlpha()<br>
+-        GetPixelb() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelb()<br>
+-        GetPixelBlack() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelBlack()<br>
+-        GetPixelBlue() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelBlue()<br>
+-        GetPixelCb() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelCb()<br>
+-        GetPixelCr() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelCr()<br>
+-        GetPixelCyan() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelCyan()<br>
+-        GetPixelGray() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelGray()<br>
+-        GetPixelGreen() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelGreen()<br>
+-        GetPixelIndex() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelIndex()<br>
+-        GetPixelL() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelL()<br>
+-        GetPixelMagenta() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelMagenta()<br>
+-        GetPixelReadMask() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelReadMask()<br>
+-        GetPixelWriteMask() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelWriteMask()<br>
+-        GetPixelMetacontentExtent() &nbsp;SetPixelMetacontentExtent()<br>
+-        GetPixelOpacity() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelOpacity()<br>
+-        GetPixelRed() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelRed()<br>
+-        GetPixelYellow() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelYellow()<br>
+-        GetPixelY() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelY()
++        GetPixela()                  SetPixela()<br>
++        GetPixelAlpha()              SetPixelAlpha()<br>
++        GetPixelb()                  SetPixelb()<br>
++        GetPixelBlack()              SetPixelBlack()<br>
++        GetPixelBlue()               SetPixelBlue()<br>
++        GetPixelCb()                 SetPixelCb()<br>
++        GetPixelCr()                 SetPixelCr()<br>
++        GetPixelCyan()               SetPixelCyan()<br>
++        GetPixelGray()               SetPixelGray()<br>
++        GetPixelGreen()              SetPixelGreen()<br>
++        GetPixelIndex()              SetPixelIndex()<br>
++        GetPixelL()                  SetPixelL()<br>
++        GetPixelMagenta()            SetPixelMagenta()<br>
++        GetPixelReadMask()           SetPixelReadMask()<br>
++        GetPixelWriteMask()          SetPixelWriteMask()<br>
++        GetPixelMetacontentExtent()  SetPixelMetacontentExtent()<br>
++        GetPixelOpacity()            SetPixelOpacity()<br>
++        GetPixelRed()                SetPixelRed()<br>
++        GetPixelYellow()             SetPixelYellow()<br>
++        GetPixelY()                  SetPixelY()
+       </div>
+     </div>
+     <p class="text-body-secondary mb-4">You can find these accessors defined in the header file, <code>MagickCore/pixel-accessor.h</code></p>
+@@ -579,19 +579,19 @@
+     <p class="text-body-secondary mb-3">We provide these methods to set and get pixel traits:</p>
+     <div class="terminal-card mb-3">
+       <div class="p-3 text-light font-mono small">
+-        GetPixelAlphaTraits() &nbsp;&nbsp;&nbsp;SetPixelAlphaTraits()<br>
+-        GetPixelBlackTraits() &nbsp;&nbsp;&nbsp;SetPixelBlackTraits()<br>
+-        GetPixelBlueTraits() &nbsp;&nbsp;&nbsp;&nbsp;SetPixelBlueTraits()<br>
+-        GetPixelCbTraits() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelCbTraits()<br>
+-        GetPixelChannelTraits() &nbsp;SetPixelChannelTraits()<br>
+-        GetPixelCrTraits() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelCrTraits()<br>
+-        GetPixelGrayTraits() &nbsp;&nbsp;&nbsp;&nbsp;SetPixelGrayTraits()<br>
+-        GetPixelGreenTraits() &nbsp;&nbsp;&nbsp;SetPixelGreenTraits()<br>
+-        GetPixelIndexTraits() &nbsp;&nbsp;&nbsp;SetPixelIndexTraits()<br>
+-        GetPixelMagentaTraits() &nbsp;SetPixelMagentaTraits()<br>
+-        GetPixelRedTraits() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelRedTraits()<br>
+-        GetPixelYellowTraits() &nbsp;&nbsp;SetPixelYellowTraits()<br>
+-        GetPixelYTraits() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPixelYTraits()
++        GetPixelAlphaTraits()    SetPixelAlphaTraits()<br>
++        GetPixelBlackTraits()    SetPixelBlackTraits()<br>
++        GetPixelBlueTraits()     SetPixelBlueTraits()<br>
++        GetPixelCbTraits()       SetPixelCbTraits()<br>
++        GetPixelChannelTraits()  SetPixelChannelTraits()<br>
++        GetPixelCrTraits()       SetPixelCrTraits()<br>
++        GetPixelGrayTraits()     SetPixelGrayTraits()<br>
++        GetPixelGreenTraits()    SetPixelGreenTraits()<br>
++        GetPixelIndexTraits()    SetPixelIndexTraits()<br>
++        GetPixelMagentaTraits()  SetPixelMagentaTraits()<br>
++        GetPixelRedTraits()      SetPixelRedTraits()<br>
++        GetPixelYellowTraits()   SetPixelYellowTraits()<br>
++        GetPixelYTraits()        SetPixelYTraits()
+       </div>
+     </div>
+     <p class="text-body-secondary mb-3">For convenience you can set the active trait for a set of pixel channels with a channel mask and this method:</p>
+diff --git a/www/vpat/index.html b/www/vpat/index.html
+index 26963f1..ab6d540 100644
+--- a/www/vpat/index.html
++++ b/www/vpat/index.html
+@@ -300,9 +300,9 @@
+       <div class="container-fluid">
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+-        &nbsp;
++         
+         <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
+-        &nbsp;
++         
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+         <br />
+diff --git a/www/webp/index.html b/www/webp/index.html
+index 4ed3f0a..ffb497c 100644
+--- a/www/webp/index.html
++++ b/www/webp/index.html
+@@ -427,9 +427,9 @@
+       <div class="container-fluid">
+         <a href="../security-policy/index.html">Security</a> •
+         <a href="../news/index.html">News</a>
+-        &nbsp;
++         
+         <a href="#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../image/wand.png"></a>
+-        &nbsp;
++         
+         <a href="../links/index.html">Related</a> •
+         <a href="../sitemap/index.html">Sitemap</a>
+         <br />

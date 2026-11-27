@@ -50,6 +50,7 @@
 #include "MagickCore/colorspace.h"
 #include "MagickCore/colorspace-private.h"
 #include "MagickCore/constitute.h"
+#include "MagickCore/constitute-private.h"
 #include "MagickCore/delegate.h"
 #include "MagickCore/delegate-private.h"
 #include "MagickCore/draw.h"
@@ -273,7 +274,7 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
   if (image_info->ping != MagickFalse)
     (void) FormatLocaleString(density,MagickPathExtent,"2.0x2.0");
   else
-    (void) FormatLocaleString(options,MagickPathExtent,"-g%.20gx%.20g ",
+    (void) FormatLocaleString(options,MagickPathExtent,"-g%.17gx%.17g ",
       (double) page.width,(double) page.height);
   read_info=CloneImageInfo(image_info);
   *read_info->magick='\0';
@@ -282,8 +283,8 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
       char
         pages[MagickPathExtent];
 
-      (void) FormatLocaleString(pages,MagickPathExtent,"-dFirstPage=%.20g "
-        "-dLastPage=%.20g ",(double) read_info->scene+1,(double)
+      (void) FormatLocaleString(pages,MagickPathExtent,"-dFirstPage=%.17g "
+        "-dLastPage=%.17g ",(double) read_info->scene+1,(double)
         (read_info->scene+read_info->number_scenes));
       (void) ConcatenateMagickString(options,pages,MagickPathExtent);
       read_info->number_scenes=0;
@@ -325,7 +326,7 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
         break;
       read_info->blob=NULL;
       read_info->length=0;
-      next=ReadImage(read_info,exception);
+      next=ReadImageWithoutPostProcessing(read_info,exception);
       (void) RelinquishUniqueFileResource(read_info->filename);
       if (next == (Image *) NULL)
         break;
@@ -361,6 +362,8 @@ static Image *ReadXPSImage(const ImageInfo *image_info,ExceptionInfo *exception)
       /*
         Add place holder images to meet the subimage specification requirement.
       */
+      if (AcquireMagickResource(ListLengthResource,image_info->scene) == MagickFalse)
+        ThrowReaderException(ResourceLimitError,"ListLengthExceedsLimit");
       for (i=0; i < (ssize_t) image_info->scene; i++)
       {
         clone_image=CloneImage(postscript_image,1,1,MagickTrue,exception);

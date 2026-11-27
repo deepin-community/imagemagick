@@ -1,8 +1,11 @@
 #!/bin/sh
 
 CONVERT=convert-im${IMVERSION}.${QUANTUMDEPTH}
+MAGICK=magick-im${IMVERSION}.${QUANTUMDEPTH}
 
 set -e
 $CONVERT rose: png:/dev/null
 $CONVERT rose: jpeg:/dev/null
 $CONVERT rose: bmp:/dev/null
+$CONVERT rose: png:$AUTOPKGTEST_TMP/rose.png
+$MAGICK mogrify -background 'rgb(255,255,255)' -alpha Background "$AUTOPKGTEST_TMP/rose.png"

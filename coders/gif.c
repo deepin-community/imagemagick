@@ -665,7 +665,7 @@ static MagickBooleanType EncodeImage(const ImageInfo *image_info,Image *image,
       break;
     if (y == 0)
       {
-        waiting_code=(short) GetPixelIndex(image,p);
+        waiting_code=(short) (((size_t) GetPixelIndex(image,p)) & 0xff);
         p+=(ptrdiff_t) GetPixelChannels(image);
       }
     for (x=(ssize_t) (y == 0 ? 1 : 0); x < (ssize_t) image->columns; x++)
@@ -678,8 +678,8 @@ static MagickBooleanType EncodeImage(const ImageInfo *image_info,Image *image,
       index=(Quantum) ((size_t) GetPixelIndex(image,p) & 0xff);
       p+=(ptrdiff_t) GetPixelChannels(image);
       k=(ssize_t) (((size_t) index << (MaxGIFBits-8))+(size_t) waiting_code);
-      if (k >= MaxHashTable)
-        k-=MaxHashTable;
+      if (k >= 0)
+        k%=MaxHashTable;
       if (k < 0)
         continue;
       if (hash_code[k] > 0)
@@ -888,6 +888,8 @@ static ssize_t ReadBlobBlock(Image *image,unsigned char *data)
   count=ReadBlob(image,1,&block_count);
   if (count != 1)
     return(0);
+  if (block_count == 0)
+    return(0);
   count=ReadBlob(image,(size_t) block_count,data);
   if (count != (ssize_t) block_count)
     return(0);
@@ -989,7 +991,8 @@ static Image *ReadGIFImage(const ImageInfo *image_info,ExceptionInfo *exception)
     global_colors,
     image_count,
     local_colors,
-    one;
+    one,
+    remaining_profiles;
 
   ssize_t
     count,
@@ -1052,6 +1055,7 @@ static Image *ReadGIFImage(const ImageInfo *image_info,ExceptionInfo *exception)
   duration=0;
   opacity=(-1);
   image_count=0;
+  remaining_profiles=GetMaxProfileCount();
   for ( ; ; )
   {
     count=ReadBlob(image,1,&c);
@@ -1165,7 +1169,7 @@ static Image *ReadGIFImage(const ImageInfo *image_info,ExceptionInfo *exception)
                 else
                   (void) FormatLocaleString(name,sizeof(name),"gif:%.11s",
                     buffer);
-                reserved_length=255;
+                reserved_length=256;
                 info=(unsigned char *) AcquireQuantumMemory((size_t)
                   reserved_length,sizeof(*info));
                 if (info == (unsigned char *) NULL)
@@ -1191,9 +1195,17 @@ static Image *ReadGIFImage(const ImageInfo *image_info,ExceptionInfo *exception)
                         }
                     }
                 }
+                if (info_length == 0)
+                  {
+                    info=(unsigned char*) RelinquishMagickMemory(info);
+                    break;
+                  }
                 if (magick != MagickFalse)
-                  meta_image->gamma=StringToDouble((char *) info+6,
+                  {
+                    info[info_length]='\0';
+                    meta_image->gamma=StringToDouble((char *) info+6,
                       (char **) NULL);
+                  }
                 else
                   {
                     StringInfo
@@ -1201,10 +1213,17 @@ static Image *ReadGIFImage(const ImageInfo *image_info,ExceptionInfo *exception)
 
                     (void) LogMagickEvent(CoderEvent,GetMagickModule(),
                       "      profile name=%s",name);
-                    profile=BlobToProfileStringInfo(name,info,(size_t) info_length,
-                      exception);
+                    profile=BlobToProfileStringInfo(name,info,(size_t)
+                      info_length,exception);
                     if (profile != (StringInfo *) NULL)
                       {
+                        if (remaining_profiles == 0)
+                          {
+                            info=(unsigned char *) RelinquishMagickMemory(info);
+                            ThrowGIFException(ResourceLimitError,
+                              "MaximumProfilesExceeded");
+                          }
+                        remaining_profiles--;
                         if (profiles == (LinkedListInfo *) NULL)
                           profiles=NewLinkedList(0);
                         (void) AppendValueToLinkedList(profiles,profile);
@@ -1650,7 +1669,13 @@ static MagickBooleanType WriteGIFImage(const ImageInfo *image_info,Image *image,
           }
       }
     if ((image->storage_class == DirectClass) || (image->colors > 256))
-      ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
+      {
+        global_colormap=(unsigned char *) RelinquishMagickMemory(
+          global_colormap);
+        colormap=(unsigned char *) RelinquishMagickMemory(colormap);
+        write_info=DestroyImageInfo(write_info);
+        ThrowWriterException(ResourceLimitError,"MemoryAllocationFailed");
+      }
     for (bits_per_pixel=1; bits_per_pixel < 8; bits_per_pixel++)
       if ((one << bits_per_pixel) >= image->colors)
         break;

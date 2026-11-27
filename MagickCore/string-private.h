@@ -25,21 +25,25 @@
 extern "C" {
 #endif
 
-/* Custom implementation so we can use sscanf without defining _CRT_SECURE_NO_WARNINGS */
-static inline int MagickSscanf(const char* buffer,const char* format, ...)
+static inline int MagickSscanf(const char *buffer,const char *format,...)
 {
   int
     ret;
 
   va_list
     args;
+
+  /*
+    Custom implementation so we can use sscanf without defining
+    _CRT_SECURE_NO_WARNINGS.
+  */
   va_start(args,format);
-#if _MSC_VER
+#if defined(_MSC_VER)
   #pragma warning(push)
   #pragma warning(disable:4996)
 #endif
   ret=vsscanf(buffer,format,args);
-#if _MSC_VER
+#if defined(_MSC_VER)
   #pragma warning(pop)
 #endif
   va_end(args);

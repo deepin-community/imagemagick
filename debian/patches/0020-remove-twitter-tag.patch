@@ -1,0 +1,172 @@
+From: =?utf-8?q?Bastien_Roucari=C3=A8s?= <rouca@debian.org>
+Date: Sat, 10 Oct 2026 22:41:03 +0200
+Subject: remove twitter tag
+
+find . -type f -exec perl -pi -e 's/^.*name="twitter:.*$\n?//g' {} \;
+
+forwarded: not-needed
+---
+ www/jp2/index.html    | 14 +++++++-------
+ www/links/index.html  | 14 +++++++-------
+ www/news/index.html   | 14 +++++++-------
+ www/opencl/index.html | 14 +++++++-------
+ www/vpat/index.html   | 14 +++++++-------
+ www/webp/index.html   | 14 +++++++-------
+ 6 files changed, 42 insertions(+), 42 deletions(-)
+
+diff --git a/www/jp2/index.html b/www/jp2/index.html
+index 92d1640..f17becf 100644
+--- a/www/jp2/index.html
++++ b/www/jp2/index.html
+@@ -78,14 +78,14 @@
+   <meta property="og:site_name" content="ImageMagick">
+   <meta property="og:locale" content="en_us">
+   <!-- Twitter Card Meta Tags -->
+-  <meta name="twitter:card" content="summary_large_image">
++
+   $site=strtolower("ImageMagick");
+-  <meta name="twitter:site" content="@imagemagick">
+-  <meta name="twitter:creator" content="@imagemagick">
+-  <meta name="twitter:title" content="ImageMagick | JP2 Encoding Options">
+-  <meta name="twitter:description" content="$this->description">
+-  <meta name="twitter:image" content="../image/logo.png">
+-  <meta name="twitter:image:alt" content="ImageMagick logo and tag line">
++
++
++
++
++
++
+   <!-- JSON-LD Structured Data -->
+   <script type="application/ld+json">
+       {
+diff --git a/www/links/index.html b/www/links/index.html
+index ad3ab43..660f09f 100644
+--- a/www/links/index.html
++++ b/www/links/index.html
+@@ -78,14 +78,14 @@
+   <meta property="og:site_name" content="ImageMagick">
+   <meta property="og:locale" content="en_us">
+   <!-- Twitter Card Meta Tags -->
+-  <meta name="twitter:card" content="summary_large_image">
++
+   $site=strtolower("ImageMagick");
+-  <meta name="twitter:site" content="@imagemagick">
+-  <meta name="twitter:creator" content="@imagemagick">
+-  <meta name="twitter:title" content="ImageMagick | Related Web Sites">
+-  <meta name="twitter:description" content="$this->description">
+-  <meta name="twitter:image" content="../image/logo.png">
+-  <meta name="twitter:image:alt" content="ImageMagick logo and tag line">
++
++
++
++
++
++
+   <!-- JSON-LD Structured Data -->
+   <script type="application/ld+json">
+       {
+diff --git a/www/news/index.html b/www/news/index.html
+index de5cc3e..f1c3b48 100644
+--- a/www/news/index.html
++++ b/www/news/index.html
+@@ -78,14 +78,14 @@
+   <meta property="og:site_name" content="ImageMagick">
+   <meta property="og:locale" content="en_us">
+   <!-- Twitter Card Meta Tags -->
+-  <meta name="twitter:card" content="summary_large_image">
++
+   $site=strtolower("ImageMagick");
+-  <meta name="twitter:site" content="@imagemagick">
+-  <meta name="twitter:creator" content="@imagemagick">
+-  <meta name="twitter:title" content="ImageMagick | News">
+-  <meta name="twitter:description" content="$this->description">
+-  <meta name="twitter:image" content="../image/logo.png">
+-  <meta name="twitter:image:alt" content="ImageMagick logo and tag line">
++
++
++
++
++
++
+   <!-- JSON-LD Structured Data -->
+   <script type="application/ld+json">
+       {
+diff --git a/www/opencl/index.html b/www/opencl/index.html
+index cf204b7..00670f7 100644
+--- a/www/opencl/index.html
++++ b/www/opencl/index.html
+@@ -78,14 +78,14 @@
+   <meta property="og:site_name" content="ImageMagick">
+   <meta property="og:locale" content="en_us">
+   <!-- Twitter Card Meta Tags -->
+-  <meta name="twitter:card" content="summary_large_image">
++
+   $site=strtolower("ImageMagick");
+-  <meta name="twitter:site" content="@imagemagick">
+-  <meta name="twitter:creator" content="@imagemagick">
+-  <meta name="twitter:title" content="ImageMagick | Parallel Execution with OpenCL">
+-  <meta name="twitter:description" content="$this->description">
+-  <meta name="twitter:image" content="../image/logo.png">
+-  <meta name="twitter:image:alt" content="ImageMagick logo and tag line">
++
++
++
++
++
++
+   <!-- JSON-LD Structured Data -->
+   <script type="application/ld+json">
+       {
+diff --git a/www/vpat/index.html b/www/vpat/index.html
+index ab6d540..7768e30 100644
+--- a/www/vpat/index.html
++++ b/www/vpat/index.html
+@@ -78,14 +78,14 @@
+   <meta property="og:site_name" content="ImageMagick">
+   <meta property="og:locale" content="en_us">
+   <!-- Twitter Card Meta Tags -->
+-  <meta name="twitter:card" content="summary_large_image">
++
+   $site=strtolower("ImageMagick");
+-  <meta name="twitter:site" content="@imagemagick">
+-  <meta name="twitter:creator" content="@imagemagick">
+-  <meta name="twitter:title" content="ImageMagick | Voluntary Product Accessibility Template">
+-  <meta name="twitter:description" content="$this->description">
+-  <meta name="twitter:image" content="../image/logo.png">
+-  <meta name="twitter:image:alt" content="ImageMagick logo and tag line">
++
++
++
++
++
++
+   <!-- JSON-LD Structured Data -->
+   <script type="application/ld+json">
+       {
+diff --git a/www/webp/index.html b/www/webp/index.html
+index ffb497c..7dfd72c 100644
+--- a/www/webp/index.html
++++ b/www/webp/index.html
+@@ -78,14 +78,14 @@
+   <meta property="og:site_name" content="ImageMagick">
+   <meta property="og:locale" content="en_us">
+   <!-- Twitter Card Meta Tags -->
+-  <meta name="twitter:card" content="summary_large_image">
++
+   $site=strtolower("ImageMagick");
+-  <meta name="twitter:site" content="@imagemagick">
+-  <meta name="twitter:creator" content="@imagemagick">
+-  <meta name="twitter:title" content="ImageMagick | WebP Encoding Options">
+-  <meta name="twitter:description" content="$this->description">
+-  <meta name="twitter:image" content="../image/logo.png">
+-  <meta name="twitter:image:alt" content="ImageMagick logo and tag line">
++
++
++
++
++
++
+   <!-- JSON-LD Structured Data -->
+   <script type="application/ld+json">
+       {

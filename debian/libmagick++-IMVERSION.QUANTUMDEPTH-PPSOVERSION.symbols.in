@@ -1877,6 +1877,7 @@ libMagick++-${IMVERSION}.${UCQUANTUMDEPTH}.so.${PPSOVERSION} libmagick++-${IMVER
  (optional|c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&)@Base" 8:7.1.1.21
  (optional|c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > Magick::SecurityPolicy::toString<int>(int const&)@Base" 8:7.1.1.21
  (optional|c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > Magick::SecurityPolicy::toString<unsigned long long>(unsigned long long const&)@Base" 8:7.1.1.33
+ (optional|c++)"std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&)@Base" 8:7.1.2.29
  (optional|c++)"std::_Vector_base<double, std::allocator<double> >::~_Vector_base()@Base" 8:7.1.1.33
  (optional|c++)"std::_Vector_base<Magick::PathArcArgs, std::allocator<Magick::PathArcArgs> >::~_Vector_base()@Base" 8:7.1.1.21
  (optional|c++)"std::_Vector_base<Magick::PathCurvetoArgs, std::allocator<Magick::PathCurvetoArgs> >::~_Vector_base()@Base" 8:7.1.1.21

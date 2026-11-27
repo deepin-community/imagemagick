@@ -83,6 +83,7 @@
 #include "MagickCore/utility-private.h"
 #include "MagickCore/xwindow.h"
 #include "MagickCore/xwindow-private.h"
+#include "coders/ghostscript-private.h"
 #if defined(MAGICKCORE_FREETYPE_DELEGATE)
 #if defined(__MINGW32__)
 #  undef interface
@@ -337,8 +338,8 @@ MagickExport MagickBooleanType AnnotateImage(Image *image,
     /*
       Position text relative to image.
     */
-    annotate_info->affine.tx=geometry_info.xi-image->page.x;
-    annotate_info->affine.ty=geometry_info.psi-image->page.y;
+    annotate_info->affine.tx=geometry_info.xi-(double) image->page.x;
+    annotate_info->affine.ty=geometry_info.psi-(double) image->page.y;
     (void) CloneString(&annotate->text,textlist[i]);
     if ((metrics.width == 0) || (annotate->gravity != NorthWestGravity))
       (void) GetTypeMetrics(image,annotate,&metrics,exception);
@@ -1154,6 +1155,34 @@ static MagickBooleanType RenderType(Image *image,const DrawInfo *draw_info,
 #if defined(MAGICKCORE_FREETYPE_DELEGATE)
 
 #if defined(MAGICKCORE_RAQM_DELEGATE)
+static MagickBooleanType ContainsRaqmParagraphSeparator(const unsigned char *p,
+  const size_t length)
+{
+  size_t 
+    i;
+
+  if ((p == (const unsigned char*) NULL) || (length == 0))
+    return(MagickFalse);
+
+  for (i = 0; i < length; i++)
+  {
+    /* LF or CR */
+    if ((p[i] == '\n') || (p[i] == '\r'))
+      return(MagickTrue);
+
+    /* UTF-8 NEL U+0085 => C2 85 */
+    if ((p[i] == 0xC2) && (i + 1 < length) && (p[i + 1] == 0x85))
+      return(MagickTrue);
+
+    /* UTF-8 LS/PS U+2028/U+2029 => E2 80 A8/A9 */
+    if ((p[i] == 0xE2) && (i + 2 < length) && (p[i + 1] == 0x80) &&
+        ((p[i + 2] == 0xA8) || (p[i + 2] == 0xA9)))
+      return(MagickTrue);
+  }
+
+  return(MagickFalse);
+}
+
 static size_t ComplexRaqmTextLayout(const Image *image,
   const DrawInfo *draw_info,const char *text,const size_t length,
   const FT_Face face,GraphemeInfo **grapheme,ExceptionInfo *exception)
@@ -1239,7 +1268,9 @@ static size_t ComplexRaqmTextLayout(const Image *image,
 cleanup:
   raqm_destroy(rq);
   return(extent);
-#else
+}
+#endif
+
 static size_t ComplexTextLayout(const DrawInfo *draw_info,const char *text,
   const size_t length,const FT_Face face,const FT_Int32 flags,
   GraphemeInfo **grapheme)
@@ -1291,7 +1322,6 @@ static size_t ComplexTextLayout(const DrawInfo *draw_info,const char *text,
     last_glyph=(*grapheme)[i].index;
   }
   return((size_t) i);
-#endif
 }
 
 static void FreetypeCloseStream(FT_Stream stream)
@@ -1411,26 +1441,35 @@ static inline const char *FreetypeErrorMessage(
 #endif
 }
 
-static void *FreetypeAlloc(FT_Memory magick_unused(memory),long size)
+static void *FreetypeAlloc(FT_Memory magick_unused(memory),long extent)
 {
   magick_unreferenced(memory);
-  if (size < 0)
+  if (extent <= 0)
     return((void *) NULL);
-  if ((size_t) size > GetMaxMemoryRequest())
-    return((void *) NULL);
-  return(AcquireMagickMemory((size_t) size));
+  return(AcquireQuantumMemory((size_t) extent,1));
 }
 
-static void *FreetypeRealloc(FT_Memory magick_unused(memory),
-  long magick_unused(cur_size),long size,void *block)
+static void *FreetypeRealloc(FT_Memory magick_unused(memory),long length,
+  long extent,void *block)
 {
+  void
+    *cloned_block,
+    *new_block;
+
   magick_unreferenced(memory);
-  magick_unreferenced(cur_size);
-  if (size < 0)
+  if (extent <= 0)
+    return(RelinquishMagickMemory(block));
+  if (block == (void *) NULL)
+    return(AcquireQuantumMemory((size_t) extent,1));
+  cloned_block=AcquireQuantumMemory((size_t) length,1);
+  if (cloned_block == (void *) NULL)
     return((void *) NULL);
-  if ((size_t) size > GetMaxMemoryRequest())
+  (void) memcpy(cloned_block,block,(size_t) length);
+  new_block=ResizeQuantumMemory(cloned_block,(size_t) extent,1);
+  if (new_block == (void *) NULL)
     return((void *) NULL);
-  return(ResizeMagickMemory(block,(size_t) size));
+  block=RelinquishMagickMemory(block);
+  return(new_block);
 }
 
 static void FreetypeFree(FT_Memory magick_unused(memory),void *block)
@@ -1444,9 +1483,7 @@ static FT_Memory FreetypeAcquireMemoryManager(void)
   FT_Memory
     memory;
 
-  memory=(FT_Memory) AcquireMagickMemory(sizeof(*memory));
-  if (memory == (FT_Memory) NULL)
-    return(memory);
+  memory=(FT_Memory) AcquireCriticalMemory(sizeof(*memory));
   memset(memory,0,sizeof(*memory));
   memory->alloc=(&FreetypeAlloc);
   memory->realloc=(&FreetypeRealloc);
@@ -1471,8 +1508,10 @@ static FT_Error FreetypeInit(FT_Memory memory,FT_Library *alibrary)
   if (ft_status != 0)
     RelinquishMagickMemory(memory);
   else
-    FT_Add_Default_Modules(*alibrary);
-  FT_Set_Default_Properties(*alibrary);
+    {
+      FT_Add_Default_Modules(*alibrary);
+      FT_Set_Default_Properties(*alibrary);
+    }
   return(ft_status);
 }
 
@@ -1857,12 +1896,14 @@ static MagickBooleanType RenderFreetype(Image *image,const DrawInfo *draw_info,
         p=(char *) utf8;
     }
   grapheme=(GraphemeInfo *) NULL;
+  length=strlen(p);
 #if defined(MAGICKCORE_RAQM_DELEGATE)
-  length=ComplexRaqmTextLayout(image,draw_info,p,strlen(p),face,&grapheme,
-    exception);
-#else
-  length=ComplexTextLayout(draw_info,p,strlen(p),face,flags,&grapheme);
+  if (ContainsRaqmParagraphSeparator((const unsigned char *) p,length) == MagickFalse)
+    length=ComplexRaqmTextLayout(image,draw_info,p,length,face,&grapheme,
+      exception);
+  else
 #endif
+  length=ComplexTextLayout(draw_info,p,length,face,flags,&grapheme);
   missing_glyph_id=FT_Get_Char_Index(face,' ');
   code=0;
   last_character=(ssize_t) length-1;
@@ -2161,48 +2202,20 @@ static MagickBooleanType RenderFreetype(Image *image,const DrawInfo *draw_info,
 %
 */
 
-static char *EscapeParenthesis(const char *source)
+static MagickBooleanType IsValidPostscriptFontname(const char *font)
 {
-  char
-    *destination;
-
-  char
-    *q;
-
-  const char
+  const unsigned char
     *p;
 
-  size_t
-    length;
-
-  assert(source != (const char *) NULL);
-  length=0;
-  for (p=source; *p != '\0'; p++)
+  if ((font == (const char *) NULL) || (*font == '\0'))
+    return(MagickFalse);
+  for (p=(const unsigned char *) font; *p != '\0'; p++)
   {
-    if ((*p == '\\') || (*p == '(') || (*p == ')'))
-      {
-        if (~length < 1)
-          ThrowFatalException(ResourceLimitFatalError,"UnableToEscapeString");
-        length++;
-      }
-    length++;
+    if ((isalnum(*p) != 0) || (*p == '-') || (*p == '_') || (*p == '.'))
+      continue;
+    return(MagickFalse);
   }
-  destination=(char *) NULL;
-  if (~length >= (MagickPathExtent-1))
-    destination=(char *) AcquireQuantumMemory(length+MagickPathExtent,
-      sizeof(*destination));
-  if (destination == (char *) NULL)
-    ThrowFatalException(ResourceLimitFatalError,"UnableToEscapeString");
-  *destination='\0';
-  q=destination;
-  for (p=source; *p != '\0'; p++)
-  {
-    if ((*p == '\\') || (*p == '(') || (*p == ')'))
-      *q++='\\';
-    *q++=(*p);
-  }
-  *q='\0';
-  return(destination);
+  return(MagickTrue);
 }
 
 static MagickBooleanType RenderPostscript(Image *image,
@@ -2293,8 +2306,7 @@ static MagickBooleanType RenderPostscript(Image *image,
     extent.x/2.0,extent.y/2.0);
   (void) FormatLocaleFile(file,"%g %g scale\n",draw_info->pointsize,
     draw_info->pointsize);
-  if ((draw_info->font == (char *) NULL) || (*draw_info->font == '\0') ||
-      (strchr(draw_info->font,'/') != (char *) NULL))
+  if (IsValidPostscriptFontname(draw_info->font) == MagickFalse)
     (void) FormatLocaleFile(file,
       "/Times-Roman-ISO dup /Times-Roman ReencodeType findfont setfont\n");
   else
@@ -2304,7 +2316,7 @@ static MagickBooleanType RenderPostscript(Image *image,
   (void) FormatLocaleFile(file,"[%g %g %g %g 0 0] concat\n",
     draw_info->affine.sx,-draw_info->affine.rx,-draw_info->affine.ry,
     draw_info->affine.sy);
-  text=EscapeParenthesis(draw_info->text);
+  text=EscapeParenthesis(draw_info->text,MAGICK_SIZE_MAX,exception);
   if (identity == MagickFalse)
     (void) FormatLocaleFile(file,"(%s) stringwidth pop -0.5 mul -0.5 rmoveto\n",
       text);
@@ -2312,7 +2324,7 @@ static MagickBooleanType RenderPostscript(Image *image,
   text=DestroyString(text);
   (void) FormatLocaleFile(file,"showpage\n");
   (void) fclose(file);
-  (void) FormatLocaleString(geometry,MagickPathExtent,"%.20gx%.20g+0+0!",
+  (void) FormatLocaleString(geometry,MagickPathExtent,"%.17gx%.17g+0+0!",
     floor(extent.x+0.5),floor(extent.y+0.5));
   annotate_info=AcquireImageInfo();
   (void) FormatLocaleString(annotate_info->filename,MagickPathExtent,"ps:%s",
@@ -2358,7 +2370,7 @@ static MagickBooleanType RenderPostscript(Image *image,
       crop_info.y=CastDoubleToSsizeT(ceil((resolution.y/DefaultResolution)*
         extent.y/8.0-0.5));
       (void) FormatLocaleString(geometry,MagickPathExtent,
-        "%.20gx%.20g%+.20g%+.20g",(double) crop_info.width,(double)
+        "%.17gx%.17g%+.20g%+.20g",(double) crop_info.width,(double)
         crop_info.height,(double) crop_info.x,(double) crop_info.y);
       (void) TransformImage(&annotate_image,geometry,(char *) NULL,exception);
     }

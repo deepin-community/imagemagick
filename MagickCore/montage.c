@@ -112,7 +112,7 @@ MagickExport MontageInfo *CloneMontageInfo(const ImageInfo *image_info,
   if (montage_info == (MontageInfo *) NULL)
     return(clone_info);
   if (montage_info->geometry != (char *) NULL)
-    clone_info->geometry=AcquireString(montage_info->geometry);
+    (void) CloneString(&clone_info->geometry,montage_info->geometry);
   if (montage_info->tile != (char *) NULL)
     clone_info->tile=AcquireString(montage_info->tile);
   if (montage_info->title != (char *) NULL)
@@ -122,7 +122,7 @@ MagickExport MontageInfo *CloneMontageInfo(const ImageInfo *image_info,
   if (montage_info->texture != (char *) NULL)
     clone_info->texture=AcquireString(montage_info->texture);
   if (montage_info->font != (char *) NULL)
-    clone_info->font=AcquireString(montage_info->font);
+    (void) CloneString(&clone_info->font,montage_info->font);
   clone_info->pointsize=montage_info->pointsize;
   clone_info->border_width=montage_info->border_width;
   clone_info->shadow=montage_info->shadow;
@@ -533,7 +533,7 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
   draw_info->stroke=montage_info->stroke;
   draw_info->fill=montage_info->fill;
   draw_info->text=AcquireString("");
-  (void) GetTypeMetrics(image_list[0],draw_info,&metrics,exception);
+  (void) memset(&metrics,0,sizeof(metrics));
   texture=NewImageList();
   if (montage_info->texture != (char *) NULL)
     {
@@ -546,10 +546,6 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
   */
   title=InterpretImageProperties(clone_info,image_list[0],montage_info->title,
     exception);
-  title_offset=0;
-  if (montage_info->title != (char *) NULL)
-    title_offset=(size_t) (2*(metrics.ascent-metrics.descent)*
-      MultilineCensus(title)+2*extract_info.y);
   number_lines=0;
   for (i=0; i < (ssize_t) number_images; i++)
   {
@@ -559,6 +555,12 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
     if (MultilineCensus(value) > number_lines)
       number_lines=MultilineCensus(value);
   }
+  if ((montage_info->title != (char *) NULL) || (number_lines != 0))
+    (void) GetTypeMetrics(image_list[0],draw_info,&metrics,exception);
+  title_offset=0;
+  if (montage_info->title != (char *) NULL)
+    title_offset=(size_t) (2*(metrics.ascent-metrics.descent)*
+      MultilineCensus(title)+2*extract_info.y);
   /*
     Allocate next structure.
   */
@@ -654,7 +656,7 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
         &sans,&sans);
     y_offset+=(ssize_t) title_offset;
     (void) FormatLocaleString(montage->montage,MagickPathExtent,
-      "%.20gx%.20g%+.20g%+.20g",(double) ((ssize_t) extract_info.width+
+      "%.17gx%.17g%+.20g%+.20g",(double) ((ssize_t) extract_info.width+
       (extract_info.x+(ssize_t) border_width)*2),(double) ((ssize_t)
       extract_info.height+(extract_info.y+(ssize_t) border_width)*2+(double)
       ((metrics.ascent-metrics.descent+4)*number_lines+
@@ -694,7 +696,7 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
         (void) GetTypeMetrics(image_list[0],draw_clone_info,&tile_metrics,
           exception);
         (void) FormatLocaleString(tile_geometry,MagickPathExtent,
-          "%.20gx%.20g%+.20g%+.20g",(double) montage->columns,(double)
+          "%.17gx%.17g%+.20g%+.20g",(double) montage->columns,(double)
           (tile_metrics.ascent-tile_metrics.descent),0.0,
           (double) extract_info.y+4);
         (void) CloneString(&draw_clone_info->geometry,tile_geometry);
@@ -771,7 +773,7 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
       if (image->gravity != UndefinedGravity)
         tile_image->gravity=image->gravity;
       (void) FormatLocaleString(tile_geometry,MagickPathExtent,
-        "%.20gx%.20g+0+0",(double) image->columns,(double) image->rows);
+        "%.17gx%.17g+0+0",(double) image->columns,(double) image->rows);
       flags=ParseGravityGeometry(tile_image,tile_geometry,&geometry,exception);
       x=geometry.x+(ssize_t) border_width;
       y=geometry.y+(ssize_t) border_width;
@@ -835,7 +837,7 @@ MagickExport Image *MontageImageList(const ImageInfo *image_info,
                 Annotate composite tile with label.
               */
               (void) FormatLocaleString(tile_geometry,MagickPathExtent,
-                "%.20gx%.20g%+.20g%+.20g",(double) ((montage_info->frame ?
+                "%.17gx%.17g%+.20g%+.20g",(double) ((montage_info->frame ?
                 image->columns : width)-2*border_width),(double)
                 (metrics.ascent-metrics.descent+4)*MultilineCensus(value),
                 (double) (x_offset+(ssize_t) border_width),(double)

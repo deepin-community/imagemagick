@@ -89,6 +89,7 @@
 #include "MagickCore/memory_.h"
 #include "MagickCore/memory-private.h"
 #include "MagickCore/policy.h"
+#include "MagickCore/policy-private.h"
 #include "MagickCore/resource_.h"
 #include "MagickCore/semaphore.h"
 #include "MagickCore/string_.h"
@@ -608,9 +609,6 @@ MagickExport void *AcquireCriticalMemory(const size_t size)
 #define STDERR_FILENO 2
 #endif
 
-  int
-    status;
-
   static const char fatal_message[] =
     "ImageMagick: fatal error: unable to acquire critical memory\n";
 
@@ -623,8 +621,7 @@ MagickExport void *AcquireCriticalMemory(const size_t size)
   memory=AcquireMagickMemory(size);
   if (memory != (void *) NULL)
     return(memory);
-  status=write(STDERR_FILENO,fatal_message,sizeof(fatal_message)-1);
-  (void) status;
+  (void) MagickWrite(STDERR_FILENO,fatal_message,sizeof(fatal_message)-1);
   MagickCoreTerminus();
   _exit(EXIT_FAILURE);
 }
@@ -1682,24 +1679,7 @@ MagickPrivate MagickBooleanType ShredMagickMemory(void *memory,
   if ((memory == NULL) || (length == 0))
     return(MagickFalse);
   if (passes == -1)
-    {
-      char
-        *property;
-
-      passes=0;
-      property=GetEnvironmentValue("MAGICK_SHRED_PASSES");
-      if (property != (char *) NULL)
-        {
-          passes=(ssize_t) StringToInteger(property);
-          property=DestroyString(property);
-        }
-      property=GetPolicyValue("system:shred");
-      if (property != (char *) NULL)
-        {
-          passes=(ssize_t) StringToInteger(property);
-          property=DestroyString(property);
-        }
-    }
+    passes=GetShredPasses();
   if (passes == 0)
     return(MagickTrue);
   /*

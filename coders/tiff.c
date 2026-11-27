@@ -55,6 +55,7 @@
 #include "MagickCore/colorspace.h"
 #include "MagickCore/colorspace-private.h"
 #include "MagickCore/constitute.h"
+#include "MagickCore/constitute-private.h"
 #include "MagickCore/enhance.h"
 #include "MagickCore/exception.h"
 #include "MagickCore/exception-private.h"
@@ -106,9 +107,6 @@
 # endif
 # if !defined(TIFFTAG_OPIIMAGEID)
 #  define TIFFTAG_OPIIMAGEID  32781
-# endif
-# if defined(COMPRESSION_ZSTD) && defined(MAGICKCORE_ZSTD_DELEGATE)
-#   include <zstd.h>
 # endif
 
 #if (TIFFLIB_VERSION >= 20201219)
@@ -1141,8 +1139,8 @@ static void TIFFReadPhotoshopLayers(const ImageInfo *image_info,Image *image,
 }
 #endif
 
-static Image *ReadTIFFImage(const ImageInfo *image_info,
-  ExceptionInfo *exception)
+static Image *ReadTIFFImageInternal(const ImageInfo *image_info,
+  MagickBooleanType *is_dng,ExceptionInfo *exception)
 {
 #define ThrowTIFFException(severity,message) \
 { \
@@ -1262,33 +1260,7 @@ static Image *ReadTIFFImage(const ImageInfo *image_info,
       return((Image *) NULL);
     }
   if (TIFFGetField(tiff,TIFFTAG_DNGVERSION,&dng_version) == 1)
-    {
-      Image
-        *dng_image = (Image *) NULL;
-
-      /*
-        Redirect to DNG image reader.
-      */
-      ImageInfo *read_info = CloneImageInfo(image_info);
-      (void) CopyMagickString(read_info->magick,"DNG",MagickPathExtent);
-      TIFFClose(tiff);
-      if (*read_info->filename != '\0')
-        dng_image=ReadImage(read_info,exception);
-      else
-        {
-          status=OpenBlob(image_info,image,ReadBinaryBlobMode,exception);
-          if (status != MagickFalse)
-            {
-              status=ImageToFile(image,read_info->filename,exception);
-              if (status != MagickFalse)
-                dng_image=ReadImage(read_info,exception);
-              (void) RelinquishUniqueFileResource(read_info->filename);
-            }
-        }
-      read_info=DestroyImageInfo(read_info);
-      image=DestroyImageList(image);
-      return(dng_image);
-    }
+    *is_dng=MagickTrue;
   if (image_info->number_scenes != 0)
     {
       /*
@@ -1436,7 +1408,7 @@ static Image *ReadTIFFImage(const ImageInfo *image_info,
     image->rows=(size_t) height;
     image->depth=(size_t) bits_per_sample;
     if (image->debug != MagickFalse)
-      (void) LogMagickEvent(CoderEvent,GetMagickModule(),"Image depth: %.20g",
+      (void) LogMagickEvent(CoderEvent,GetMagickModule(),"Image depth: %.17g",
         (double) image->depth);
     image->endian=MSBEndian;
     if (endian == FILLORDER_LSB2MSB)
@@ -1458,10 +1430,6 @@ static Image *ReadTIFFImage(const ImageInfo *image_info,
       (void) SetImageColorspace(image,CMYKColorspace,exception);
     if (photometric == PHOTOMETRIC_CIELAB)
       (void) SetImageColorspace(image,LabColorspace,exception);
-    if ((photometric == PHOTOMETRIC_YCBCR) &&
-        (compress_tag != COMPRESSION_OJPEG) &&
-        (compress_tag != COMPRESSION_JPEG))
-      (void) SetImageColorspace(image,YCbCrColorspace,exception);
     TIFFGetProfiles(tiff,image,exception);
     status=TIFFGetProperties(tiff,image,exception);
     if (status == MagickFalse)
@@ -1761,15 +1729,15 @@ static Image *ReadTIFFImage(const ImageInfo *image_info,
         method=ReadTileMethod;
       }
     if ((photometric == PHOTOMETRIC_LOGLUV) ||
+        (photometric == PHOTOMETRIC_YCBCR) ||
         (compress_tag == COMPRESSION_CCITTFAX3))
       method=ReadGenericMethod;
     if (image->compression == JPEGCompression)
       {
         if (photometric == PHOTOMETRIC_SEPARATED)
-          method=GetJPEGMethod(image,tiff,photometric,bits_per_sample);
+          method=GetJPEGMethod(image,tiff,bits_per_sample,samples_per_pixel);
         else if ((method != ReadStripMethod) ||
-                 (compress_tag == COMPRESSION_OJPEG) ||
-                 (photometric == PHOTOMETRIC_YCBCR))
+                 (compress_tag == COMPRESSION_OJPEG))
           method=ReadGenericMethod;
       }
 #if defined(WORDS_BIGENDIAN)
@@ -1794,7 +1762,8 @@ static Image *ReadTIFFImage(const ImageInfo *image_info,
     image_quantum_type=GrayQuantum;
     if (image->storage_class == PseudoClass)
       image_quantum_type=IndexQuantum;
-    if (image->number_meta_channels != 0)
+    if ((image->number_meta_channels != 0) &&
+        (image->storage_class != PseudoClass))
       {
         image_quantum_type=MultispectralQuantum;
         (void) SetQuantumPad(image,quantum_info,0);
@@ -2299,6 +2268,67 @@ static Image *ReadTIFFImage(const ImageInfo *image_info,
   if (status == MagickFalse)
     return(DestroyImageList(image));
   return(GetFirstImageInList(image));
+}
+
+static Image *ReadTIFFImage(const ImageInfo *image_info,
+  ExceptionInfo *exception)
+{
+  ExceptionInfo
+    *dng_exception;
+
+  Image
+    *dng_image = (Image *) NULL,
+    *image;
+
+  ImageInfo
+    *read_info;
+
+  MagickBooleanType
+    is_dng = MagickFalse,
+    status;
+
+  /*
+    Read the image as TIFF and remember whether it has a DNGVersion tag.
+  */
+  image=ReadTIFFImageInternal(image_info,&is_dng,exception);
+  if ((image == (Image *) NULL) || (is_dng == MagickFalse) ||
+      (image_info->affirm != MagickFalse) ||
+      (GetMagickInfo("DNG",exception) == (const MagickInfo *) NULL))
+    return(image);
+  /*
+    Try the DNG image reader and only use its result when it succeeds.
+  */
+  dng_exception=AcquireExceptionInfo();
+  read_info=CloneImageInfo(image_info);
+  (void) CopyMagickString(read_info->magick,"DNG",MagickPathExtent);
+  if (*read_info->filename != '\0')
+    dng_image=ReadImageWithoutPostProcessing(read_info,dng_exception);
+  else
+    {
+      Image
+        *blob_image;
+
+      blob_image=AcquireImage(image_info,dng_exception);
+      status=OpenBlob(image_info,blob_image,ReadBinaryBlobMode,dng_exception);
+      if (status != MagickFalse)
+        {
+          status=ImageToFile(blob_image,read_info->filename,dng_exception);
+          (void) CloseBlob(blob_image);
+          if (status != MagickFalse)
+            dng_image=ReadImageWithoutPostProcessing(read_info,dng_exception);
+          (void) RelinquishUniqueFileResource(read_info->filename);
+        }
+      blob_image=DestroyImage(blob_image);
+    }
+  read_info=DestroyImageInfo(read_info);
+  if (dng_image != (Image *) NULL)
+    {
+      image=DestroyImageList(image);
+      InheritException(exception,dng_exception);
+      image=dng_image;
+    }
+  dng_exception=DestroyExceptionInfo(dng_exception);
+  return(image);
 }
 #endif
 
@@ -2884,7 +2914,7 @@ static MagickBooleanType WritePTIFImage(const ImageInfo *image_info,
     Image
       *clone_image;
 
-    ssize_t
+    size_t
       i;
 
     clone_image=CloneImage(next,0,0,MagickFalse,exception);
@@ -2899,7 +2929,7 @@ static MagickBooleanType WritePTIFImage(const ImageInfo *image_info,
     resolution=next->resolution;
     for (i=0; (columns > min_base) && (rows > min_base); i++)
     {
-      if (i > (ssize_t) max_levels)
+      if (i > max_levels)
         break;
       columns/=2;
       rows/=2;
@@ -2925,7 +2955,7 @@ static MagickBooleanType WritePTIFImage(const ImageInfo *image_info,
       images=GetFirstImageInList(images);
       write_info=CloneImageInfo(image_info);
       write_info->adjoin=MagickTrue;
-      (void) CopyMagickString(write_info->magick,"TIFF",MagickPathExtent);
+      (void) CopyMagickString(write_info->magick,"PTIF",MagickPathExtent);
       (void) CopyMagickString(images->magick,"TIFF",MagickPathExtent);
       status=WriteTIFFImage(write_info,images,exception);
       images=DestroyImageList(images);
@@ -3442,7 +3472,7 @@ static void TIFFSetProperties(TIFF *tiff,const MagickBooleanType adjoin,
   value=GetImageProperty(image,"comment",exception);
   if (value != (const char *) NULL)
     (void) TIFFSetField(tiff,TIFFTAG_IMAGEDESCRIPTION,value);
-  value=GetImageArtifact(image,"tiff:subfiletype");
+  value=GetImageProperty(image,"tiff:subfiletype",exception);
   if (value != (const char *) NULL)
     {
       if (LocaleCompare(value,"REDUCEDIMAGE") == 0)
@@ -3609,13 +3639,16 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
       case FaxCompression:
       case Group4Compression:
       {
-        if (IsImageMonochrome(image) == MagickFalse)
-          {
-            if (IsImageGray(image) == MagickFalse)
-              (void) SetImageType(image,BilevelType,exception);
-            else
-              (void) SetImageDepth(image,1,exception);
-          }
+        if (image->alpha_trait != UndefinedPixelTrait)
+          (void) SetImageType(image,BilevelType,exception);
+        else
+          if (IsImageMonochrome(image) == MagickFalse)
+            {
+              if (IsImageGray(image) == MagickFalse)
+                (void) SetImageType(image,BilevelType,exception);
+              else
+                (void) SetImageDepth(image,1,exception);
+            }
         image->depth=1;
         image->number_meta_channels=0;
         break;
@@ -3712,6 +3745,13 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
         compress_tag=COMPRESSION_PACKBITS;
         break;
       }
+#if defined(COMPRESSION_WEBP)
+      case WebPCompression:
+      {
+        compress_tag=COMPRESSION_WEBP;
+        break;
+      }
+#endif
       case ZipCompression:
       {
         compress_tag=COMPRESSION_ADOBE_DEFLATE;
@@ -3987,13 +4027,15 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
       }
       case COMPRESSION_CCITTFAX4:
         break;
-#if defined(LERC_SUPPORT) && defined(COMPRESSION_LERC)
+#if defined(COMPRESSION_LERC)
       case COMPRESSION_LERC:
         break;
 #endif
-#if defined(LZMA_SUPPORT) && defined(COMPRESSION_LZMA)
+#if defined(COMPRESSION_LZMA)
       case COMPRESSION_LZMA:
       {
+        (void) TIFFGetFieldDefaulted(tiff,TIFFTAG_BITSPERSAMPLE,
+          &bits_per_sample,sans);
         if (((photometric == PHOTOMETRIC_RGB) ||
              (photometric == PHOTOMETRIC_SEPARATED) ||
              (photometric == PHOTOMETRIC_MINISBLACK)) &&
@@ -4016,7 +4058,7 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
           predictor=PREDICTOR_HORIZONTAL;
         break;
       }
-#if defined(WEBP_SUPPORT) && defined(COMPRESSION_WEBP)
+#if defined(COMPRESSION_WEBP)
       case COMPRESSION_WEBP:
       {
         (void) TIFFGetFieldDefaulted(tiff,TIFFTAG_BITSPERSAMPLE,
@@ -4026,13 +4068,14 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
              (photometric == PHOTOMETRIC_MINISBLACK)) &&
             ((bits_per_sample == 8) || (bits_per_sample == 16)))
           predictor=PREDICTOR_HORIZONTAL;
-        (void) TIFFSetField(tiff,TIFFTAG_WEBP_LEVEL,image_info->quality);
+        if (image_info->quality != UndefinedCompressionQuality)
+          (void) TIFFSetField(tiff,TIFFTAG_WEBP_LEVEL,(uint32) image_info->quality);
         if (image_info->quality >= 100)
-          (void) TIFFSetField(tiff,TIFFTAG_WEBP_LOSSLESS,1);
+          (void) TIFFSetField(tiff,TIFFTAG_WEBP_LOSSLESS,(uint32) 1);
         break;
       }
 #endif
-#if defined(ZSTD_SUPPORT) && defined(COMPRESSION_ZSTD)
+#if defined(COMPRESSION_ZSTD)
       case COMPRESSION_ZSTD:
       {
         (void) TIFFGetFieldDefaulted(tiff,TIFFTAG_BITSPERSAMPLE,
@@ -4141,8 +4184,10 @@ static MagickBooleanType WriteTIFFImage(const ImageInfo *image_info,
       pages=(uint16) number_scenes;
       if ((LocaleCompare(image_info->magick,"PTIF") != 0) &&
           (adjoin != MagickFalse) && (pages > 1))
-        (void) TIFFSetField(tiff,TIFFTAG_SUBFILETYPE,FILETYPE_PAGE);
-      (void) TIFFSetField(tiff,TIFFTAG_PAGENUMBER,page,pages);
+        {
+          (void) TIFFSetField(tiff,TIFFTAG_SUBFILETYPE,FILETYPE_PAGE);
+          (void) TIFFSetField(tiff,TIFFTAG_PAGENUMBER,page,pages);
+        }
     }
     (void) TIFFSetProperties(tiff,adjoin,image,exception);
     /*

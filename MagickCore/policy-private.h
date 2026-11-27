@@ -22,9 +22,12 @@
 extern "C" {
 #endif
 
+#include "MagickCore/quantum-private.h"
+#include "MagickCore/resource-private.h"
+#include "MagickCore/string-private.h"
 #include "MagickCore/utility-private.h"
 
-#if MAGICKCORE_ZERO_CONFIGURATION_SUPPORT
+#if defined(MAGICKCORE_ZERO_CONFIGURATION_SUPPORT)
 /*
   Zero configuration security policy.  Discussion @
   https://imagemagick.org/script/security-policy.php.
@@ -35,20 +38,43 @@ static const char
 </policymap>";
 #endif
 
+extern MagickExport MagickBooleanType
+  IsPathAuthorized(const PolicyRights,const char *);
+
 extern MagickPrivate MagickBooleanType
   PolicyComponentGenesis(void);
 
 extern MagickPrivate void
   PolicyComponentTerminus(void);
 
-static inline MagickBooleanType IsPathAuthorized(const PolicyRights rights,
-  const char *filename)
+static inline ssize_t GetShredPasses(void)
 {
-  MagickBooleanType status =
-   ((IsRightsAuthorized(PathPolicyDomain,rights,filename) != MagickFalse) &&
-   ((IsRightsAuthorizedByName(SystemPolicyDomain,"symlink",rights,"follow") != MagickFalse) ||
-    (is_symlink_utf8(filename) == MagickFalse))) ? MagickTrue : MagickFalse;
-  return(status);
+  char
+    *option;
+
+  ssize_t
+    policy_passes = 0,
+    env_passes = 0,
+    passes;
+
+  option=GetPolicyValue("system:shred");
+  if (option != (char *) NULL)
+    {
+      policy_passes=(ssize_t) StringToLong(option);
+      option=DestroyString(option);
+      if (policy_passes < 0)
+        return(0);
+    }
+  option=GetEnvironmentValue("MAGICK_SHRED_PASSES");
+  if (option != (char *) NULL)
+    {
+      env_passes=(ssize_t) StringToLong(option);
+      option=DestroyString(option);
+      if (env_passes < 0)
+        return(0);
+    }
+  passes=MagickMax(policy_passes,env_passes);
+  return(passes);
 }
 
 #if defined(__cplusplus) || defined(c_plusplus)

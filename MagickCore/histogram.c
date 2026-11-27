@@ -853,8 +853,8 @@ MagickExport MagickBooleanType IsHistogramImage(const Image *image,
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%  IsPaletteImage() returns MagickTrue if the image is PseudoClass and has 256
-%  unique colors or less.
+%  IsPaletteImage() returns MagickTrue if the image is PseudoClass and has
+%  MaxColormapSize unique colors or less.
 %
 %  The format of the IsPaletteImage method is:
 %
@@ -873,7 +873,7 @@ MagickExport MagickBooleanType IsPaletteImage(const Image *image)
     (void) LogMagickEvent(TraceEvent,GetMagickModule(),"%s",image->filename);
   if (image->storage_class != PseudoClass)
     return(MagickFalse);
-  return((image->colors <= 256) ? MagickTrue : MagickFalse);
+  return((image->colors <= MaxColormapSize) ? MagickTrue : MagickFalse);
 }
 
 /*
@@ -1231,10 +1231,14 @@ MagickExport Image *UniqueImageColors(const Image *image,
     return((Image *) NULL);
   unique_image=CloneImage(image,cube_info->colors,1,MagickTrue,exception);
   if (unique_image == (Image *) NULL)
-    return(unique_image);
+    {
+      cube_info=DestroyHCubeInfo(image,cube_info);
+      return(unique_image);
+    }
   if (SetImageStorageClass(unique_image,DirectClass,exception) == MagickFalse)
     {
       unique_image=DestroyImage(unique_image);
+      cube_info=DestroyHCubeInfo(image,cube_info);
       return((Image *) NULL);
     }
   unique_view=AcquireAuthenticCacheView(unique_image,exception);
